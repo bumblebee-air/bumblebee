@@ -22,6 +22,7 @@ Route::get('/', function () {
 
 Route::get('customer/register/{code}', 'CustomersController@getCustomerRegister');
 Route::post('customer/register', 'CustomersController@postCustomerRegister');
+Route::get('customer/health-check', 'CustomersController@getHealthCheck');
 Route::get('vehicle-lookup/{vehicle_reg}', 'LookUpController@getVehicleDetails');
 Route::get('test-sms', 'CustomersController@getSendTestSMS');
 

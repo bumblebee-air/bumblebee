@@ -17,6 +17,9 @@ class ComposerServiceProvider extends ServiceProvider
         View::composer(
             'templates.main', 'App\Http\ViewComposers\MainComposer'
         );
+        View::composer(
+            'templates.aviva', 'App\Http\ViewComposers\MainComposer'
+        );
     }
 
     /**

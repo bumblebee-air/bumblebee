@@ -54,9 +54,10 @@ class CustomersController extends Controller
             'mileage' => $request->get('mileage'),
             'vehicle_reg' => $request->get('vehicle_reg')
         ]);
-
+        //Login the user
+        Auth::loginUsingId($user->id);
         //$request->session()->flash('message','Registration successful');
-        return redirect()->back()->with('success','Registration successful');
+        return redirect()->to('customer/health-check')->with('success','Registration successful');
     }
 
     public function getCustomerLogin(){
@@ -72,10 +73,13 @@ class CustomersController extends Controller
         $user = User::where('phone','=',$request->phone)->frist();
         if(password_verify($request->password, $user->password)){
             Auth::loginUsingId($user->id);
-            dd('Login successful');
+            return redirect()->to('customer/health-check');
         }
-        $request->session()->flash('message', 'Phone or password is not correct');
-        return redirect()->back();
+        return redirect()->back()->with('error','Phone or password is incorrect');
+    }
+
+    public function getHealthCheck(){
+        return view('customer.health_check');
     }
 
     public function getSendTestSMS(){

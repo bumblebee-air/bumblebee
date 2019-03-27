@@ -5,3 +5,26 @@ body {
 nav.navbar {
     margin-bottom: 20px;
 }
+
+.navbar-aviva {
+    background-color:#ffd900;
+}
+
+.navbar-aviva .navbar-nav .active > .nav-link,
+.navbar-aviva .navbar-nav .nav-link.active,
+.navbar-aviva .navbar-nav .nav-link.show,
+.navbar-aviva .navbar-nav .show > .nav-link {
+    color: rgba(255,255,255,0.9);
+}
+
+.btn-aviva {
+    color: #00479d;
+    background-color: #ffd900;
+    border-color: #ffd900;
+}
+.btn-aviva:hover,
+.btn-aviva:active {
+    color: #ffd900;
+    background-color: #00479d;
+    border-color: #00479d;
+}

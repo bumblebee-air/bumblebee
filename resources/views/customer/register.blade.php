@@ -1,4 +1,4 @@
-@extends('templates.main')
+@extends('templates.aviva')
 
 @section('page-styles')
     <style>
@@ -8,14 +8,14 @@
         }
 
         body {
-            background: #007bff;
-            background: linear-gradient(to right, #0062E6, #33AEFF);
+            background: #eee;
+            /*background: linear-gradient(to right, #0062E6, #33AEFF);*/
         }
 
         .card-signin {
             border: 0;
             border-radius: 1rem;
-            box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
+            /*box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);*/
         }
 
         .card-signin .card-title {
@@ -33,10 +33,10 @@
         }
 
         .form-signin .btn {
-            font-size: 80%;
+            /*font-size: 90%;*/
             border-radius: 5rem;
-            letter-spacing: .1rem;
-            font-weight: bold;
+            /*letter-spacing: .1rem;*/
+            font-weight: 700;
             padding: 1rem;
             transition: all 0.2s;
         }
@@ -116,46 +116,48 @@
 @endsection
 @section('page-content')
     <div class="row">
-        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-            <div class="card card-signin my-5">
-                <div class="card-body">
-                    @if($invitation != null)
-                    <h5 class="card-title text-center">Hey {{$invitation->name}}! Please verify the details below so we can get your Bumblebee IoT device setup</h5>
-                    <form class="form-signin" method="POST" action="{{url('customer/register')}}">
-                        {{csrf_field()}}
-                        <input type="hidden" name="invitation" value="{{$invitation->id}}">
+        @if($invitation != null)
+            <img src="{{asset('images/customer-registration-top.png')}}" style="display: block; max-width: 100%;">
+            <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                <div class="card card-signin my-1">
+                    <div class="card-body">
+                        <p class="text-center" style="font-size: 18px">Hi {{$invitation->name}}! Nice to meet you</p>
+                        <p class="text-center" style="font-size: 18px">I'm Bumblebee, I'll need you to input three things so I can customise myself for you and your car</p>
+                        <form class="form-signin" method="POST" action="{{url('customer/register')}}">
+                            {{csrf_field()}}
+                            <input type="hidden" name="invitation" value="{{$invitation->id}}">
 
-                        <div class="form-label-group">
-                            <input id="mileage" class="form-control" name="mileage" placeholder="Mileage" required autofocus>
-                            <label for="mileage">Mileage</label>
-                        </div>
+                            <div class="form-label-group">
+                                <input id="mileage" class="form-control" name="mileage" placeholder="Mileage" required autofocus>
+                                <label for="mileage">Mileage</label>
+                            </div>
 
-                        <div class="form-label-group">
-                            <input id="vehicle-reg" class="form-control" name="vehicle_reg" placeholder="Vehicle Reg" required>
-                            <label for="vehicle-reg">Vehicle Reg</label>
-                        </div>
+                            <div class="form-label-group">
+                                <input id="vehicle-reg" class="form-control" name="vehicle_reg" placeholder="Vehicle Reg" required>
+                                <label for="vehicle-reg">Vehicle Reg</label>
+                            </div>
 
-                        <div class="form-label-group">
-                            <input type="password" id="password" class="form-control" name="password" placeholder="Password" required>
-                            <label for="password">Password</label>
-                        </div>
+                            <div class="form-label-group">
+                                <input type="password" id="password" class="form-control" name="password" placeholder="Password" required>
+                                <label for="password">Password</label>
+                            </div>
 
-                        <div class="form-label-group">
-                            <input type="password" id="password-confirmation" class="form-control" name="password_confirmation" placeholder="Confirm Password" required>
-                            <label for="password-confirmation">Confirm Password</label>
-                        </div>
+                            <div class="form-label-group">
+                                <input type="password" id="password-confirmation" class="form-control" name="password_confirmation" placeholder="Confirm Password" required>
+                                <label for="password-confirmation">Confirm Password</label>
+                            </div>
 
-                        <!--<div class="custom-control custom-checkbox mb-3">
-                            <input type="checkbox" class="custom-control-input" id="customCheck1">
-                            <label class="custom-control-label" for="customCheck1">Remember password</label>
-                        </div>-->
-                        <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Register</button>
-                    </form>
-                    @else
-                        <h2>The invitation code is invalid, please contact the call centre.</h2>
-                    @endif
+                            <!--<div class="custom-control custom-checkbox mb-3">
+                                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                <label class="custom-control-label" for="customCheck1">Remember password</label>
+                            </div>-->
+                            <button class="btn btn-lg btn-aviva btn-block text-uppercase" type="submit">Next</button>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        @else
+            <h2>The invitation code is invalid, please contact the call centre.</h2>
+        @endif
     </div>
 @endsection

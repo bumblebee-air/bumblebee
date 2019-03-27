@@ -44,7 +44,11 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        dd($request, $user);
+        $user_role = $user->user_role;
+        if($user_role == 'insurance'){
+            return redirect()->intended('insurance/dashboard');
+        }
+        return redirect()->intended('/');
     }
 
 }

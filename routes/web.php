@@ -10,16 +10,20 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('register/{user_type?}', 'Auth\RegisterController@getRegister');
+Route::post('register', 'Auth\RegisterController@postRegister');
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('login', 'Auth\LoginController@login');
+Route::get('logout', 'Auth\LoginController@logout');
 
 Route::get('/', function () {
     return view('home');
 });
-Route::get('company/register');
-Route::get('register/{user_type?}', 'Auth\RegisterController@getRegister');
-Route::post('register', 'Auth\RegisterController@postRegister');
-Route::get('login', 'Auth\LoginController@showLoginForm');
-Route::post('login', 'Auth\LoginController@login');
-Route::get('logout', 'Auth\LoginController@logout');
-Route::get('customer/{company}/register', 'CustomersController@getCustomerRegister');
+
+Route::get('customer/register/{code}', 'CustomersController@getCustomerRegister');
+Route::post('customer/register', 'CustomersController@postCustomerRegister');
 Route::get('vehicle-lookup/{vehicle_reg}', 'LookUpController@getVehicleDetails');
 Route::get('test-sms', 'CustomersController@getSendTestSMS');
+
+Route::get('insurance/dashboard', 'InsuranceController@getInsuranceDashboard');
+Route::post('insurance/send-invitation', 'InsuranceController@sendCustomerInvitation');

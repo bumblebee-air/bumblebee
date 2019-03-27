@@ -29,15 +29,15 @@
             <form method="POST" action="{{url('insurance/send-invitation')}}">
                 {{ csrf_field() }}
                 <div class="form-label-group">
-                    <input id="name" class="form-control" name="name" placeholder="Name">
                     <label for="name">Name</label>
+                    <input id="name" class="form-control" name="name">
                 </div>
 
                 <div class="form-label-group">
-                    <input id="phone" class="form-control" name="email" placeholder="Phone" required>
                     <label for="phone">Phone</label>
+                    <input id="phone" class="form-control" name="phone" required>
                 </div>
-
+                <br/>
                 <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Send</button>
             </form>
         </div>

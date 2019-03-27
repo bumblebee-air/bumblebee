@@ -7,6 +7,7 @@
  */
 
 namespace App\Http\Controllers;
+use App\CustomerInvitation;
 use App\Profile;
 use App\User;
 use Illuminate\Http\Request;
@@ -20,32 +21,42 @@ class CustomersController extends Controller
 
     }
 
-    public function getCustomerRegister($company){
-        return view('customer.register');
+    public function getCustomerRegister($code){
+        $customer_invitation = CustomerInvitation::where('code',$code)->first();
+        return view('customer.register', ['invitation'=>$customer_invitation]);
     }
 
     public function postCustomerRegister(Request $request){
+        $invitation = CustomerInvitation::find($request->get('invitation'))->first();
+        if(!$invitation){
+            return redirect()->back()->with('error','This invitation code is invalid!');
+        }
+        $request->merge([
+            'name'=>$invitation->name,
+            'phone'=>$invitation->phone
+        ]);
         $this->validate($request,[
             'vehicle_reg' => 'required|string|max:255',
-            'phone' => ['required|string|max:255', Rule::notIn('users')->where('role','customer')],
+            'phone' => ['required','string','max:255', Rule::unique('users')->where('user_role','customer')],
             'password' => 'required|string|min:6|confirmed',
         ]);
 
         //$this->guard()->login($user);
         $user = User::create([
-            'name' => '',
-            'phone' => $request->phone,
-            'password' => bcrypt($request->password)
+            'name' => $request->get('name'),
+            'phone' => $request->get('phone'),
+            'password' => bcrypt($request->get('password')),
+            'user_role' => 'customer'
         ]);
 
         $profile = Profile::create([
             'user_id' => $user->id,
-            'mileage' => $request->mileage,
-            'vehicle_reg' => $request->vehicle_reg
+            'mileage' => $request->get('mileage'),
+            'vehicle_reg' => $request->get('vehicle_reg')
         ]);
 
-        $request->session()->flash('message','Registration successful');
-
+        //$request->session()->flash('message','Registration successful');
+        return redirect()->back()->with('success','Registration successful');
     }
 
     public function getCustomerLogin(){
@@ -54,7 +65,7 @@ class CustomersController extends Controller
 
     public function postCustomerLogin(Request $request){
         $this->validate($request,[
-            'phone' => ['required|string', Rule::In('users')->where('role','customer')],
+            'phone' => 'required|string',
             'password' => 'required|string',
         ]);
 

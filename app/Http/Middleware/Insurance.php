@@ -3,24 +3,22 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
 
-class RedirectIfAuthenticated
+class Insurance
 {
     /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
-     * @param  string|null  $guard
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = null)
+    public function handle($request, Closure $next)
     {
-        if (Auth::guard($guard)->check()) {
-            return redirect('/');
+        $current_user = $request->user();
+        if($current_user->user_role != 'insurance'){
+            return redirect()->back()->with('error', 'You aren\'t allowed to view this resource!');
         }
-
         return $next($request);
     }
 }

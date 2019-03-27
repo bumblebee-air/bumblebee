@@ -119,27 +119,41 @@
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
             <div class="card card-signin my-5">
                 <div class="card-body">
-                    <h5 class="card-title text-center">Hey ! Please verify the details below so we can get your Bumblebee IoT device setup</h5>
-                    <form class="form-signin">
+                    @if($invitation != null)
+                    <h5 class="card-title text-center">Hey {{$invitation->name}}! Please verify the details below so we can get your Bumblebee IoT device setup</h5>
+                    <form class="form-signin" method="POST" action="{{url('customer/register')}}">
+                        {{csrf_field()}}
+                        <input type="hidden" name="invitation" value="{{$invitation->id}}">
+
                         <div class="form-label-group">
-                            <input id="vehicle-reg" class="form-control" placeholder="Vehicle Reg" required autofocus>
+                            <input id="mileage" class="form-control" name="mileage" placeholder="Mileage" required autofocus>
+                            <label for="mileage">Mileage</label>
+                        </div>
+
+                        <div class="form-label-group">
+                            <input id="vehicle-reg" class="form-control" name="vehicle_reg" placeholder="Vehicle Reg" required>
                             <label for="vehicle-reg">Vehicle Reg</label>
                         </div>
 
                         <div class="form-label-group">
-                            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-                            <label for="inputPassword">Password</label>
+                            <input type="password" id="password" class="form-control" name="password" placeholder="Password" required>
+                            <label for="password">Password</label>
                         </div>
 
-                        <div class="custom-control custom-checkbox mb-3">
+                        <div class="form-label-group">
+                            <input type="password" id="password-confirmation" class="form-control" name="password_confirmation" placeholder="Confirm Password" required>
+                            <label for="password-confirmation">Confirm Password</label>
+                        </div>
+
+                        <!--<div class="custom-control custom-checkbox mb-3">
                             <input type="checkbox" class="custom-control-input" id="customCheck1">
                             <label class="custom-control-label" for="customCheck1">Remember password</label>
-                        </div>
-                        <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
-                        <hr class="my-4">
-                        <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i class="fab fa-google mr-2"></i> Sign in with Google</button>
-                        <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit"><i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook</button>
+                        </div>-->
+                        <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Register</button>
                     </form>
+                    @else
+                        <h2>The invitation code is invalid, please contact the call centre.</h2>
+                    @endif
                 </div>
             </div>
         </div>

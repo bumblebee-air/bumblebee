@@ -17,6 +17,7 @@ class CreateCustomerInvitationsTable extends Migration
             $table->increments('id');
             $table->string('phone',255);
             $table->string('name', 255)->nullable();
+            $table->string('code', 255);
             $table->integer('sms_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->boolean('is_registered')->default(0);

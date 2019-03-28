@@ -15,6 +15,7 @@
         .card-signin {
             border: 0;
             border-radius: 1rem;
+            background: #eee;
             /*box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);*/
         }
 
@@ -26,6 +27,7 @@
 
         .card-signin .card-body {
             padding: 2rem;
+            color: #00479d;
         }
 
         .form-signin {
@@ -117,7 +119,9 @@
 @section('page-content')
     <div class="row">
         @if($invitation != null)
-            <img src="{{asset('images/customer-registration-top.png')}}" style="display: block; max-width: 100%;">
+            <div class="col-12">
+                <img src="{{asset('images/customer-registration-top.png')}}" style="display: block; max-width: 100%;" alt="Bumblebee customer registration">
+            </div>
             <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
                 <div class="card card-signin my-1">
                     <div class="card-body">

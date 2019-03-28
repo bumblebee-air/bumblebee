@@ -14,7 +14,7 @@ nav.navbar {
 .navbar-aviva .navbar-nav .nav-link.active,
 .navbar-aviva .navbar-nav .nav-link.show,
 .navbar-aviva .navbar-nav .show > .nav-link {
-    color: rgba(255,255,255,0.9);
+    color: #00479d;
 }
 
 .btn-aviva {

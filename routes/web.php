@@ -22,9 +22,18 @@ Route::get('/', function () {
 
 Route::get('customer/register/{code}', 'CustomersController@getCustomerRegister');
 Route::post('customer/register', 'CustomersController@postCustomerRegister');
+Route::get('customer/login', 'CustomersController@getCustomerLogin');
+Route::post('customer/login', 'CustomersController@postCustomerLogin');
 Route::get('customer/health-check', 'CustomersController@getHealthCheck');
 Route::get('vehicle-lookup/{vehicle_reg}', 'LookUpController@getVehicleDetails');
 Route::get('test-sms', 'CustomersController@getSendTestSMS');
 
 Route::get('insurance/dashboard', 'InsuranceController@getInsuranceDashboard');
 Route::post('insurance/send-invitation', 'InsuranceController@sendCustomerInvitation');
+
+Route::get('support-customer', function () {
+    return view('support');
+});
+Route::get('socket-test', function () {
+    return view('socket_test');
+});

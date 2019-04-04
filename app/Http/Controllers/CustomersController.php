@@ -61,7 +61,7 @@ class CustomersController extends Controller
     }
 
     public function getCustomerLogin(){
-
+        return view('auth.customer_login');
     }
 
     public function postCustomerLogin(Request $request){
@@ -70,9 +70,12 @@ class CustomersController extends Controller
             'password' => 'required|string',
         ]);
 
-        $user = User::where('phone','=',$request->phone)->frist();
+        $user = User::where('phone','=',$request->phone)->first();
+        if(!$user){
+            redirect()->back()->with('error','Phone or password is incorrect');
+        }
         if(password_verify($request->password, $user->password)){
-            Auth::loginUsingId($user->id);
+            Auth::login($user, $request->get('remember_me'));
             return redirect()->to('customer/health-check');
         }
         return redirect()->back()->with('error','Phone or password is incorrect');

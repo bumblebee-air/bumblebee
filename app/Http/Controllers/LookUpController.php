@@ -10,7 +10,7 @@ use Auth;
 class LookUpController extends Controller
 {
     public function getVehicleDetails($vehicle_reg){
-        $url = 'https://api.autodata-group.com/docs/v1/vehicles?id='.$vehicle_reg.'&method=uk_vrm&country-code=gb&api_key=19243ffqqcioyjfakpxfbtvn';
+        $url = 'https://api.autodata-group.com/docs/v1/vehicles?id='.$vehicle_reg.'&method=ie_vrm&country-code=gb&api_key=19243ffqqcioyjfakpxfbtvn';
         $curl = curl_init();
         curl_setopt_array($curl, array(
             // CURLOPT_SSL_VERIFYPEER => false,
@@ -21,8 +21,26 @@ class LookUpController extends Controller
             // CURLOPT_POST => 1,
         ));
         $resp = curl_exec($curl);
+        $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        if ($status != 200) {
+            \Log::error('Autodata vehicle info retrieval failed',[
+                'Response'=>$resp,
+                'Curl error'=>curl_error($curl),
+                'Curl error no.'=>curl_errno($curl)]);
+            return response()->json([
+                'error' => 1,
+                'error_bag' => ['response'=>$resp,
+                    'error'=>curl_error($curl),
+                    'error_no'=>curl_errno($curl)],
+                'vehicle' => null
+            ]);
+            //die("Error: call to URL $url failed with status $status, response $resp, curl_error " . curl_error($curl) . ", curl_errno " . curl_errno($curl));
+        }
         curl_close($curl);
-
-        return $resp;
+        $the_vehicle = json_decode($resp);
+        return response()->json([
+            'error' => 0,
+            'vehicle' => $the_vehicle->data[0]
+        ]);
     }
 }

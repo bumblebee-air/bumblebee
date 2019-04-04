@@ -140,6 +140,8 @@
                                 <input id="vehicle-reg" class="form-control" name="vehicle_reg" placeholder="Vehicle Reg" required>
                                 <label for="vehicle-reg">Vehicle Reg</label>
                             </div>
+                            <div class="form-label-group" id="vehicle-form" style="margin: 0px !important;">
+                            </div>
 
                             <div class="form-label-group">
                                 <input type="password" id="password" class="form-control" name="password" placeholder="Password" required>
@@ -164,4 +166,114 @@
             <h2>The invitation code is invalid, please contact the call centre.</h2>
         @endif
     </div>
+@endsection
+
+@section('page-scripts')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            function vehicleInfoItem(label, value, name) {
+                let html = '<div class="row vehicle-info" style="margin-bottom: 0">' +
+                    '<label class="col-sm-5 control-label">' + label +
+                    '</label><div class="col-sm-7">' +
+                    '<div class="form-control-static">' + value +
+                    '</div><input name="' + name + '" type="hidden" value="' + value + '"/></div>' +
+                    '</div>';
+                return html
+            }
+
+            $('#vehicle-reg').change(function () {
+                let reg = $('#vehicle-reg').val();
+                reg = reg.trim();
+                if(reg!='') {
+                    $.ajax({
+                        url: '{{url('vehicle-lookup')}}/' + reg,
+                        async: true,
+                        dataType: "json"
+                    }).done(function (response) {
+                        console.log(response);
+                        if (response.error == '10') {
+                            $('.vehicle-info').remove();
+                            $('#vehicle-form').after('<div class="form-group vehicle-info"><div>' +
+                                '<label class="orange-header control-label">' +
+                                '<i class="fa fa-times"></i> No data available for this vehicle' +
+                                '</label>' +
+                                '</div></div>');
+                        } else {
+                            if (response.error == '100' || response.error == '101' || response.error == '102' || response.error == '103' || response.error == '104' || response.error == '105') {
+                                $('.vehicle-info').remove();
+                                $('#vehicle-form').after('<div class="form-group vehicle-info"><div>' +
+                                    '<label class="orange-header control-label">' +
+                                    '<i class="fa fa-times"></i> Could not retrieve vehicle info' +
+                                    '</label>' +
+                                    '</div></div>');
+                            } else {
+                                if (response.error == 1) {
+                                    $('.vehicle-info').remove();
+                                    $('#vehicle-form').after('<div class="form-group vehicle-info"><div>' +
+                                        '<label class="orange-header control-label">' +
+                                        'Error: ' + response.error_bag['response'] + '<br/>' + response.error_bag['error'] +
+                                        '</label>' +
+                                        '</div></div>');
+                                    $('#vehicle-form').after('<div class="form-group vehicle-info"><div>' +
+                                        '<label class="orange-header control-label">' +
+                                        '<i class="fa fa-times"></i> Could not retrieve vehicle info</label>' +
+                                        '</div></div>');
+                                } else {
+                                    var vehicle = response.vehicle;
+                                    var make = vehicle.manufacturer;
+                                    var model = vehicle.model;
+                                    var version = vehicle.version;
+                                    var engineSize = vehicle.engineSize;
+                                    var fuel = vehicle.fuel;
+                                    var transmission = vehicle.transmission;
+                                    var colour = vehicle.colour;
+                                    if (make === '' || make == null)
+                                        make = '-';
+                                    if (model === '' || model == null)
+                                        model = '-';
+                                    if (version === '' || version == null)
+                                        version = '-';
+                                    if (engineSize === '' || engineSize == null)
+                                        engineSize = '-';
+                                    if (fuel === '' || fuel == null)
+                                        fuel = '-';
+                                    if (transmission === '' || transmission == null)
+                                        transmission = '-';
+                                    if (colour === '' || colour == null)
+                                        colour = '-';
+                                    $('.vehicle-info').remove();
+                                    $('#vehicle-form').after('<div style="margin-bottom: 10px"></div>');
+                                    $('#vehicle-form').after(vehicleInfoItem('Colour', colour, 'colour'));
+                                    $('#vehicle-form').after(vehicleInfoItem('Transmission', transmission, 'transmission'));
+                                    $('#vehicle-form').after(vehicleInfoItem('Fuel', fuel, 'fuel'));
+                                    $('#vehicle-form').after(vehicleInfoItem('Engine Size', engineSize, 'engine-size'));
+                                    $('#vehicle-form').after(vehicleInfoItem('Version', version, 'version'));
+                                    $('#vehicle-form').after(vehicleInfoItem('Model', model, 'model'));
+                                    $('#vehicle-form').after(vehicleInfoItem('Make', make, 'make'));
+
+                                    $('#vehicle-form').after('<div class="form-group vehicle-info" style="margin-bottom: 0">' +
+                                        '<h4 class="orange-header" style="font-weight: 400">Vehicle Details</h4>' +
+                                        '</div>');
+                                }
+                            }
+                        }
+                    }).fail(function (response) {
+                        console.log(response);
+                        $('.vehicle-info').remove();
+                        $('#vehicle-form').after('<div class="form-group vehicle-info"><div>' +
+                            '<label class="orange-header control-label">' +
+                            '<i class="fa fa-times"></i> Could not retrieve vehicle info</label>' +
+                            '</div></div>');
+                    });
+                    $('.vehicle-info').remove();
+                    $('#vehicle-form').after('<div class="form-group vehicle-info">' +
+                        '<div><label class="orange-header control-label">' +
+                        '<i class="fa fa-sync fa-spin"></i> Retrieving vehicle information</label></div>' +
+                        '</div>');
+                } else {
+                    $('.vehicle-info').remove();
+                }
+            });
+        });
+    </script>
 @endsection

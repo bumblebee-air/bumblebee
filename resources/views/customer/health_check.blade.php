@@ -26,7 +26,7 @@
     <div class="row align-items-center">
         <div class="col-sm">
 
-            <header class="masthead text-center text-white d-flex" style="height: 300px; min-height: 300px;">
+            <header class="masthead text-center d-flex" style="height: 300px; min-height: 300px;">
                 <div class="container my-auto">
                     <div class="row">
                         <div class="col-lg-10 mx-auto">
@@ -62,6 +62,14 @@
                                 <p></p>
                             </div>
                         </div>
+                        <div class="col-sm">
+                            <div id="customer-support">
+                                <p id="support-code"></p>
+                                <div id="chat-area">
+                                    <span id="chat-area-end" style="display: none"></span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -70,8 +78,10 @@
 @endsection
 @section('page-scripts')
     <script src="{{asset('js/raphael-2.1.4.min.js')}}"></script>
-    <script src="{{asset('js/justgage.js')}}%}"></script>
-    <script type="text/javascript">
+    <script src="{{asset('js/justgage.js')}}"></script>
+    <script src="{{asset('js/socket.io.js')}}"></script>
+
+<script type="text/javascript">
         let found_services_string = '';
         let bth_btn = document.getElementById('bth-btn');
         let status_p = $('div#bth-status p');
@@ -96,14 +106,14 @@
         let rpmMax = 6000;
         let rpmDefault = 0;
 
-        let gauge = new JustGage({
+        /*let gauge = new JustGage({
             id: "gauge",
             value: rpmDefault,
             min: rpmMin,
             max: rpmMax,
             title: "Engine RPM",
             animationSpeed: 60,
-        });
+        });*/
 
         bth_btn.addEventListener('click', function(event) {
             navigator.bluetooth.requestDevice({
@@ -297,11 +307,12 @@
                                 } else if (status_action == 'overwrite') {
                                     status_p.html('DTC read: ' + formatted_dtc);
                                 }
-                                $.ajax({
-                                    url: '{{url('save_obd')}}',
+                                emitToRoom('Found DTC: '+formatted_dtc);
+                                /*$.ajax({
+                                    url: '{url('save_obd')}}',
                                     data: {
                                         res: formatted_dtc,
-                                        csrfmiddlewaretoken: '{{ csrf_token() }}'
+                                        csrfmiddlewaretoken: '{ csrf_token() }}'
                                     },
                                     dataType: 'json',
                                     method: 'POST',
@@ -309,9 +320,9 @@
                                         console.log('OBD result '+ formatted_dtc +' saved successfully!');
                                     },
                                     error: function (XMLHttpRequest, textStatus, errorThrown) {
-                                        alert("Unable to save OBD result!<br/>"+"Status: " + textStatus + "<br/>" + "Error: " + errorThrown);
+                                        console.log("Unable to save OBD result!<br/>"+"Status: " + textStatus + "<br/>" + "Error: " + errorThrown);
                                     }
-                                });
+                                });*/
                                 dtc_response = dtc_response.substr(4);
                             }
                         } else {
@@ -452,16 +463,16 @@
         function sendDTCCommand(){
             let cmd = '03';
             sendCommand(cmd,'DTC (General 03)')
-                .then(_ => {
-                    return _sleep(100);
-                })
-                .then(_ => {
-                    cmd = '07';
-                    return sendCommand(cmd,'DTC (Last/Current cycle 07)');
-                })
-                .then(_ => {
+            .then(_ => {
+                return _sleep(100);
+            })
+            .then(_ => {
+                cmd = '07';
+                return sendCommand(cmd,'DTC (Last/Current cycle 07)');
+            })
+            .then(_ => {
 
-                })
+            })
         }
 
         function sendVINCommand(){
@@ -636,5 +647,36 @@
                 let the_res = (Math.random()*100)+1;
             });*/
         });
+    </script>
+    <!-- Socket script -->
+    <script type="text/javascript">
+        let room = '';
+        let socket = io('https://cartowans.westeurope.cloudapp.azure.com:4000');
+        $(document).ready(function() {
+            for(let i=0;i<6;i++){
+                var random = getRandomIntegerDigit();
+                room += random.toString();
+            }
+            console.log(room);
+            $('#support-code').append('Your support code is '+room);
+            //Join the randomly generated room name
+            socket.emit('join room', room);
+
+            socket.on('new message', function(data){
+                console.log('message received!');
+                console.log(data);
+                $('#chat-area-end').before('<p>'+data+'</p>');
+            });
+        });
+
+        function emitToRoom(data){
+            if(room!=null){
+                socket.emit('customer emit', {'room': room, 'message': data});
+            }
+        }
+
+        function getRandomIntegerDigit(max=9, min=0){
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
     </script>
 @endsection

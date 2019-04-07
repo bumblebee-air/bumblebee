@@ -171,13 +171,15 @@
 @section('page-scripts')
     <script type="text/javascript">
         $(document).ready(function() {
-            function vehicleInfoItem(label, value, name) {
-                let html = '<div class="row vehicle-info" style="margin-bottom: 0">' +
-                    '<label class="col-sm-5 control-label">' + label +
-                    '</label><div class="col-sm-7">' +
-                    '<div class="form-control-static">' + value +
-                    '</div><input name="' + name + '" type="hidden" value="' + value + '"/></div>' +
-                    '</div>';
+            function vehicleInfoItem(label, value, name, hidden=false) {
+                let html = '<div class="row vehicle-info" style="margin-bottom: 0">';
+                if(!hidden)
+                    html +='<label class="col-sm-5 control-label">' + label +'</label>' +
+                    '<div class="col-sm-7">' +
+                    '<div class="form-control-static">' + value + '</div>';
+                html += '<input name="' + name + '" type="hidden" value="' + value + '"/>';
+                if(!hidden)
+                    html += '</div> </div>';
                 return html
             }
 
@@ -227,6 +229,7 @@
                                     var fuel = vehicle.fuel;
                                     var transmission = vehicle.transmission;
                                     var colour = vehicle.colour;
+                                    var external_id = vehicle.mid;
                                     if (make === '' || make == null)
                                         make = '-';
                                     if (model === '' || model == null)
@@ -241,8 +244,11 @@
                                         transmission = '-';
                                     if (colour === '' || colour == null)
                                         colour = '-';
+                                    if (external_id === '' || external_id == null)
+                                        external_id = '-';
                                     $('.vehicle-info').remove();
                                     $('#vehicle-form').after('<div style="margin-bottom: 10px"></div>');
+                                    $('#vehicle-form').after(vehicleInfoItem('External ID', external_id, 'external_id', true));
                                     $('#vehicle-form').after(vehicleInfoItem('Colour', colour, 'colour'));
                                     $('#vehicle-form').after(vehicleInfoItem('Transmission', transmission, 'transmission'));
                                     $('#vehicle-form').after(vehicleInfoItem('Fuel', fuel, 'fuel'));

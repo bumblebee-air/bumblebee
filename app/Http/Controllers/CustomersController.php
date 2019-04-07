@@ -52,7 +52,13 @@ class CustomersController extends Controller
         $profile = Profile::create([
             'user_id' => $user->id,
             'mileage' => $request->get('mileage'),
-            'vehicle_reg' => $request->get('vehicle_reg')
+            'vehicle_reg' => $request->get('vehicle_reg'),
+            'vehicle_make' => $request->get('make'),
+            'vehicle_model' => $request->get('model'),
+            'vehicle_version' => $request->get('version'),
+            'vehicle_fuel' => $request->get('fuel'),
+            'vehicle_colour' => $request->get('colour'),
+            'vehicle_external_id' => $request->get('external_id'),
         ]);
         //Login the user
         Auth::loginUsingId($user->id);

@@ -43,4 +43,8 @@ class LookUpController extends Controller
             'vehicle' => $the_vehicle->data[0]
         ]);
     }
+
+    public function getDtcInformation($dtc){
+
+    }
 }

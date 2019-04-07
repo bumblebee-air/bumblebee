@@ -27,7 +27,7 @@ class CustomersController extends Controller
     }
 
     public function postCustomerRegister(Request $request){
-        $invitation = CustomerInvitation::find($request->get('invitation'))->first();
+        $invitation = CustomerInvitation::find($request->get('invitation'));
         if(!$invitation){
             return redirect()->back()->with('error','This invitation code is invalid!');
         }

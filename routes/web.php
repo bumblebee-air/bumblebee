@@ -26,6 +26,7 @@ Route::get('customer/login', 'CustomersController@getCustomerLogin');
 Route::post('customer/login', 'CustomersController@postCustomerLogin');
 Route::get('customer/health-check', 'CustomersController@getHealthCheck');
 Route::get('vehicle-lookup/{vehicle_reg}', 'LookUpController@getVehicleDetails');
+Route::post('get-dtc-info', 'LookUpController@getDtcInformation');
 Route::get('test-sms', 'CustomersController@getSendTestSMS');
 
 Route::get('insurance/dashboard', 'InsuranceController@getInsuranceDashboard');

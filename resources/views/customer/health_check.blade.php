@@ -60,6 +60,7 @@
                             <div id="dtc-status" style="display: none">
                                 <h4>DTC value</h4>
                                 <p></p>
+                                <span id="dtc-info"></span>
                             </div>
                         </div>
                         <div class="col-sm">
@@ -323,6 +324,31 @@
                                         console.log("Unable to save OBD result!<br/>"+"Status: " + textStatus + "<br/>" + "Error: " + errorThrown);
                                     }
                                 });*/
+                                $.ajax({
+                                    url: '{{url('get-dtc-info')}}',
+                                    data: {
+                                        dtc: formatted_dtc,
+                                        csrfmiddlewaretoken: '{{ csrf_token() }}'
+                                    },
+                                    dataType: 'json',
+                                    method: 'POST',
+                                    success: function (data) {
+                                        console.log('DTC '+formatted_dtc+' info retrieved successfully');
+                                        var faults_desc = '<h4>Detected fault locations</h4>';
+                                        data.forEach(function(fault,index){
+                                            console.log(fault);
+                                            faults_desc += '<h5>'+fault.description+'</h5>'+
+                                               '<span style="font-weight: bold">System:</span> '+fault.system+
+                                               '<h5>Probable causes</h5>';
+                                            fault.probable_causes.forEach(function(cause,index){
+                                               faults_desc += '<span style="font-weight: bold">'+cause.description+'</span>';
+                                            });
+                                        });
+                                    },
+                                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                        console.log("Unable to retrieve DTC information!<br/>"+"Status: " + textStatus + "<br/>" + "Error: " + errorThrown);
+                                    }
+                                });
                                 dtc_response = dtc_response.substr(4);
                             }
                         } else {

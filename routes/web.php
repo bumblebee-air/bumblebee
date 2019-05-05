@@ -35,6 +35,9 @@ Route::post('insurance/send-invitation', 'InsuranceController@sendCustomerInvita
 Route::get('support-customer', function () {
     return view('support');
 });
+Route::get('obd-admin', function () {
+    return view('obd_general');
+});
 Route::get('socket-test', function () {
     return view('socket_test');
 });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Profile;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Auth;
@@ -89,5 +90,20 @@ class LookUpController extends Controller
             'error' => 0,
             'dtc_info' => $faults
         ]);
+    }
+
+    public function testSoap(){
+        $options = ['trace'=>true, 'exceptions'=>true, 'location'=>'https://ecars.esb.ie/externalIncoming/services/',
+            'uri'=> 'StationInfoService',
+            'login' => 'cartow_user', 'password' => 'gHJS632pofn831fvQ'];
+        $soap = new \SoapClient(null, $options);
+        try {
+            $current_time = Carbon::now()->setTimezone('UTC');
+            $params = ['Timestamp' => $current_time->toDateTimeString()];
+            dd($soap->__soapCall('GetChargingStationInfo', $params));
+        } catch (\Exception $e){
+            dd($soap->__getLastResponse());
+        }
+        //$data = $soap->GetChargingStationInfo($params);
     }
 }

@@ -81,7 +81,7 @@
     <script src="{{asset('js/raphael-2.1.4.min.js')}}"></script>
     <script src="{{asset('js/justgage.js')}}"></script>
     <script src="{{asset('js/socket.io.js')}}"></script>
-
+    <script src="https://media.twiliocdn.com/sdk/js/chat/v3.2/twilio-chat.min.js"></script>
 <script type="text/javascript">
         let found_services_string = '';
         let bth_btn = document.getElementById('bth-btn');

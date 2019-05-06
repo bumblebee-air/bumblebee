@@ -86,7 +86,7 @@
 @endsection
 @section('page-scripts')
     <script src="{{asset('js/raphael-2.1.4.min.js')}}"></script>
-    <script src="{{asset('js/justgage.js')}}%}"></script>
+    <script src="{{asset('js/justgage.js')}}"></script>
     <script type="text/javascript">
         let found_services_string = '';
         let bth_btn = document.getElementById('bth-btn');

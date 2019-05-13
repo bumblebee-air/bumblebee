@@ -32,6 +32,11 @@ Route::get('test-sms', 'CustomersController@getSendTestSMS');
 Route::get('insurance/dashboard', 'InsuranceController@getInsuranceDashboard');
 Route::post('insurance/send-invitation', 'InsuranceController@sendCustomerInvitation');
 
+Route::get('fleet/add', 'FleetController@getAddFleet');
+Route::post('fleet/add', 'FleetController@postAddFleet');
+Route::get('fleets/view', 'FleetController@viewFleets');
+Route::get('fleet/view/{id}', 'FleetController@viewFleet');
+
 Route::get('support-customer', function () {
     return view('support');
 });

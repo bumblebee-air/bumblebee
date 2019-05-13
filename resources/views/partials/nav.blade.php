@@ -1,7 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light static-top">
     <div class="container">
         <a class="navbar-brand" href="{{url('/')}}">
-            <img src="{{asset('images/aviva-logo.png')}}" alt="Bumblebee-Aviva">
+            <img src="{{asset('images/bumblebee_logo.png')}}" alt="Bumblebee"
+                style="max-width: 100%; max-height: 30px">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

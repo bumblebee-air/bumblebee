@@ -41,6 +41,7 @@
         $(document).ready(function() {
             let room = '{{$room}}';
             let socket = io('https://cartowans.westeurope.cloudapp.azure.com:4000');
+            socket.emit('join room', room);
 
             $('form#customer-chat').submit(function(e){
                 e.preventDefault(); // prevents page reloading
@@ -56,7 +57,7 @@
                 $('#customer-emit-end').before('<p style="font-weight: bold;">'+data+'</p>');
             });
 
-            socket.on('new message', function(data){
+            socket.on('chat message', function(data){
                 console.log('message received!');
                 console.log(data);
                 $('#chat-area-end').before('<p>'+data+'</p>');

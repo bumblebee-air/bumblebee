@@ -1,4 +1,4 @@
-@extends('templates.main')
+@extends('templates.aviva')
 
 @section('page-styles')
 @endsection
@@ -57,7 +57,7 @@
                 $('#customer-emit-end').before('<p style="font-weight: bold;">'+data+'</p>');
             });
 
-            socket.on('chat message', function(data){
+            socket.on('new message', function(data){
                 console.log('message received!');
                 console.log(data);
                 $('#chat-area-end').before('<p>'+data+'</p>');

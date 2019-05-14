@@ -91,6 +91,10 @@ class CustomersController extends Controller
         return view('customer.health_check');
     }
 
+    public function getHealthCheckWithSupport($room){
+        return view('health_check_with_support', compact('room'));
+    }
+
     public function getSendTestSMS(){
         $sid    = env('TWILIO_SID', '');
         $token  = env('TWILIO_AUTH', '');

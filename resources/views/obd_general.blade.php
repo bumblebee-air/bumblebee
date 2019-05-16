@@ -319,11 +319,11 @@
                                 } else if (status_action == 'overwrite') {
                                     status_p.html('DTC read: ' + formatted_dtc);
                                 }
-                                $.ajax({
-                                    url: '{{url('save_obd')}}',
+                                /*$.ajax({
+                                    url: '{url('save_obd')}}',
                                     data: {
                                         res: formatted_dtc,
-                                        csrfmiddlewaretoken: '{{ csrf_token() }}'
+                                        csrfmiddlewaretoken: '{ csrf_token() }}'
                                     },
                                     dataType: 'json',
                                     method: 'POST',
@@ -333,7 +333,7 @@
                                     error: function (XMLHttpRequest, textStatus, errorThrown) {
                                         alert("Unable to save OBD result!<br/>"+"Status: " + textStatus + "<br/>" + "Error: " + errorThrown);
                                     }
-                                });
+                                });*/
                                 dtc_response = dtc_response.substr(4);
                             }
                         } else {

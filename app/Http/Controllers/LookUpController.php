@@ -57,7 +57,7 @@ class LookUpController extends Controller
             ]);
         }
         $user_profile = $current_user->profile;
-        $mid = $user_profile->external_id;
+        $mid = $user_profile->vehicle_external_id;
         $url = 'https://api.autodata-group.com/docs/v1/vehicles/'.$mid.'/dtc/'.$dtc.'&country-code=gb&api_key=19243ffqqcioyjfakpxfbtvn';
         $curl = curl_init();
         curl_setopt_array($curl, array(

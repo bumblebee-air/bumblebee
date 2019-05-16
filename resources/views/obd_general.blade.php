@@ -54,6 +54,8 @@
                                 <button type="button" class="btn btn-primary" id="rpm-start-btn">Start RPM</button>
                                 <button type="button" class="btn btn-primary" id="rpm-stop-btn" style="display: none">Stop RPM</button>
                                 <button type="button" class="btn btn-secondary" id="dtc-btn">Get DTC</button>
+                                <button type="button" class="btn btn-info" id="dtc-btn-cont">Continuous DTC</button>
+                                <button type="button" class="btn btn-warning" id="clear-dtc-btn">Clear DTC</button>
                                 <button type="button" class="btn btn-secondary" id="vin-btn">Get VIN</button>
                                 <br/>
                                 <div class="form-row">
@@ -100,6 +102,8 @@
         let obd_command_interval = false;
         let rpm_interval = false;
         let get_dtc = false;
+        let get_dtc_cont = false;
+        let dtc_cont_interval = null;
         let eolChar = "\r";
         let encoder = new TextEncoder('UTF-8');
         let decoder = new TextDecoder('UTF-8');
@@ -231,6 +235,8 @@
                 obd_command_interval = false;
                 rpm_interval = false;
                 get_dtc = false;
+                get_dtc_cont = false;
+                clearDTCCont();
                 $('#command-buttons').hide();
                 $('#rpm-status').hide();
             }
@@ -466,7 +472,7 @@
         }
 
         function sendDTCCommand(){
-            let cmd = '03';
+            /*let cmd = '03';
             sendCommand(cmd,'DTC (General 03)')
                 .then(_ => {
                     return _sleep(100);
@@ -477,7 +483,9 @@
                 })
                 .then(_ => {
 
-                })
+                })*/
+            let cmd = '07';
+            sendCommand(cmd,'DTC (Last/Current cycle 07)');
         }
 
         function sendVINCommand(){
@@ -578,6 +586,16 @@
                 gauge.refresh(value);
             }
         }
+
+        function clearDTCCont(){
+            if(get_dtc_cont===true) {
+                clearInterval(dtc_cont_interval);
+                status_p = $('div#bth-status p');
+                status_action = 'append';
+                status_p.html('Stopped getting continuous DTC <br/>');
+            }
+        }
+
         $(document).ready(function(){
             /*let rand_num = null;
             setInterval(function(){
@@ -587,6 +605,7 @@
             $('#rpm-start-btn').on('click', function(){
                 $('#dtc-status').hide();
                 get_dtc = false;
+                clearDTCCont();
                 rpm_interval = true;
                 $('#rpm-status').show();
                 $(this).hide();
@@ -604,13 +623,12 @@
             $('#dtc-btn').on('click', function(){
                 rpm_interval = false;
                 get_dtc = true;
+                clearDTCCont();
                 $('#rpm-status').hide();
                 $('#rpm-start-btn').show();
                 $('#rpm-stop-btn').hide();
                 $('#dtc-status').show();
                 let cmd =  'ATH1';
-                status_p = $('div#bth-status p');
-                status_action = 'append';
                 /*elm_initialized = false;
                 sendCommand(cmd,'ATH1 (Headers on)')
                 .then(_ => {
@@ -631,6 +649,7 @@
             $('#vin-btn').on('click', function(){
                 rpm_interval = false;
                 get_dtc = false;
+                clearDTCCont();
                 $('#rpm-status').hide();
                 $('#rpm-start-btn').show();
                 $('#rpm-stop-btn').hide();
@@ -642,6 +661,8 @@
             });
             $('#send-custom-command').on('click', function(){
                 rpm_interval = false;
+                get_dtc = false;
+                clearDTCCont();
                 $('#rpm-status').hide();
                 $('#rpm-stop-btn').hide();
                 $('#rpm-start-btn').show();
@@ -651,6 +672,46 @@
             /*$('#obd-save-btn').on('click', function(){
                 let the_res = (Math.random()*100)+1;
             });*/
+            $('#dtc-btn-cont').on('click', function(){
+                rpm_interval = false;
+                get_dtc = true;
+                clearDTCCont();
+                $('#rpm-status').hide();
+                $('#rpm-start-btn').show();
+                $('#rpm-stop-btn').hide();
+                $('#dtc-status').show();
+                status_p = $('div#bth-status p');
+                status_action = 'append';
+                status_p.html('Getting continuous DTC... <br/>');
+                getContinuousDtc();
+            });
+
+            function getContinuousDtc(){
+                get_dtc_cont = true;
+                dtc_cont_interval = setInterval(sendDTCCommand, 1000);
+            }
+
+            $('#clear-dtc-btn').on('click', function() {
+                let was_dtc_cont = false;
+                if(get_dtc_cont===true){
+                    was_dtc_cont = true;
+                    get_dtc_cont = false;
+                    clearDTCCont();
+                }
+                sendClearDTCCommand().then(_=>{
+                    return _sleep(1000);
+                }).then(_=>{
+                    if(was_dtc_cont===true){
+                        get_dtc_cont = true;
+                        dtc_cont_interval = setInterval(sendDTCCommand, 1000);
+                    }
+                });
+            });
+
+            function sendClearDTCCommand(){
+                let cmd = '04';
+                sendCommand(cmd,'Clear DTC 04');
+            }
         });
     </script>
 @endsection

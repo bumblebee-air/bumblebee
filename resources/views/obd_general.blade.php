@@ -681,7 +681,7 @@
                 $('#rpm-stop-btn').hide();
                 $('#dtc-status').show();
                 status_p = $('div#bth-status p');
-                status_action = 'append';
+                status_action = 'overwrite';
                 status_p.html('Getting continuous DTC... <br/>');
                 getContinuousDtc();
             });
@@ -710,7 +710,9 @@
 
             function sendClearDTCCommand(){
                 let cmd = '04';
-                sendCommand(cmd,'Clear DTC 04');
+                return sendCommand(cmd,'Clear DTC 04').then(_=>{
+
+                });
             }
         });
     </script>

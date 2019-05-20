@@ -45,6 +45,7 @@
                         <div class="col-sm">
                             <h1>OBD connection</h1>
 
+                            <canvas id="dtc-chart" width="500px" height="200px" style="display: none"></canvas>
                             <div id="bth-status">
                                 <p></p>
                                 <button type="button" id="bth-btn" class="btn btn-lg btn-primary">Connect to OBD</button>
@@ -87,8 +88,9 @@
     </div>
 @endsection
 @section('page-scripts')
-    <script src="{{asset('js/raphael-2.1.4.min.js')}}"></script>
-    <script src="{{asset('js/justgage.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/raphael-2.1.4.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/justgage.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/smoothie-charts.js')}}"></script>
     <script type="text/javascript">
         let found_services_string = '';
         let bth_btn = document.getElementById('bth-btn');
@@ -124,6 +126,16 @@
             title: "Engine RPM",
             animationSpeed: 60,
         });
+
+        //DTC status chart
+        let smoothie = new SmoothieChart({
+            labels: { fillStyle:'rgb(123, 123, 255)'}
+        });
+        let dtc_interval = null;
+        smoothie.streamTo(document.getElementById("dtc-chart"), 300);
+        let dtc_line = new TimeSeries();
+        smoothie.addTimeSeries(dtc_line,
+            { strokeStyle:'rgb(0, 123, 255)', fillStyle:'rgba(0, 123, 255, 0.4)', lineWidth:2 });
 
         bth_btn.addEventListener('click', function(event) {
             navigator.bluetooth.requestDevice({
@@ -336,12 +348,16 @@
                                 });*/
                                 dtc_response = dtc_response.substr(4);
                             }
+                            //display for chart
+                            dtc_line.append(new Date().getTime(), 1);
                         } else {
                             if (status_action == 'append') {
                                 status_p.append('No DTC found!<br/>');
                             } else if (status_action == 'overwrite') {
                                 status_p.html('No DTC found!');
                             }
+                            //display for chart
+                            dtc_line.append(new Date().getTime(), 0);
                         }
                     }
                 } else {
@@ -589,7 +605,8 @@
 
         function clearDTCCont(){
             if(get_dtc_cont===true) {
-                clearInterval(dtc_cont_interval);
+                //clearInterval(dtc_cont_interval);
+                dtc_cont_interval = false;
                 status_p = $('div#bth-status p');
                 status_action = 'append';
                 status_p.html('Stopped getting continuous DTC <br/>');
@@ -597,6 +614,17 @@
         }
 
         $(document).ready(function(){
+            /*function startSmoothie(){
+                $('canvas#dtc-chart').show();
+                dtc_interval = setInterval(function() {
+                    dtc_line.append(new Date().getTime(), Math.round(Math.random()));
+                }, 300);
+            }
+            function stopSmoothie(){
+                clearInterval(dtc_interval);
+                dtc_line.data = [];
+                $('canvas#dtc-chart').hide();
+            }*/
             /*let rand_num = null;
             setInterval(function(){
                 rand_num = Math.floor(Math.random()*6000);
@@ -688,7 +716,28 @@
 
             function getContinuousDtc(){
                 get_dtc_cont = true;
-                dtc_cont_interval = setInterval(sendDTCCommand, 1000);
+                $('canvas#dtc-chart').show();
+                /*dtc_interval = setInterval(function() {
+                    dtc_line.append(new Date().getTime(), Math.round(Math.random()));
+                }, 300);*/
+                dtc_cont_interval = true;
+                getContinuousDtcInterval();
+                /*clearInterval(dtc_interval);
+                dtc_line.data = [];
+                $('canvas#dtc-chart').hide();*/
+            }
+
+            function getContinuousDtcInterval(){
+                if(dtc_cont_interval==true){
+                    let cmd = '07';
+                    sendCommand(cmd,'DTC (07)')
+                      .then(_ => {
+                          return _sleep(300);
+                      })
+                      .then(
+                          getContinuousDtcInterval
+                      )
+                }
             }
 
             $('#clear-dtc-btn').on('click', function() {
@@ -699,11 +748,13 @@
                     clearDTCCont();
                 }
                 sendClearDTCCommand().then(_=>{
-                    return _sleep(1000);
+                    return _sleep(300);
                 }).then(_=>{
                     if(was_dtc_cont===true){
                         get_dtc_cont = true;
-                        dtc_cont_interval = setInterval(sendDTCCommand, 1000);
+                        dtc_cont_interval = true;
+                        getContinuousDtcInterval();
+                        //dtc_cont_interval = setInterval(sendDTCCommand, 1000);
                     }
                 });
             });

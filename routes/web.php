@@ -28,8 +28,9 @@ Route::get('customer/health-check', 'CustomersController@getHealthCheck');
 Route::get('vehicle-lookup/{vehicle_reg}', 'LookUpController@getVehicleDetails');
 Route::post('get-dtc-info', 'LookUpController@getDtcInformation');
 Route::get('health-check/{room}', 'CustomersController@getHealthCheckWithSupport');
+Route::post('send/health-check', 'CompanyController@sendSupportForHealthCheck');
 Route::get('support/health-check/{room}', 'CompanyController@getSupportForHealthCheck');
-Route::get('health-check/send/{id}', 'CompanyController@getSupportForHealthCheck');
+//Route::get('health-check/send/{id}', 'CompanyController@getSupportForHealthCheck');
 Route::get('test-sms', 'CustomersController@getSendTestSMS');
 
 Route::get('insurance/dashboard', 'InsuranceController@getInsuranceDashboard');

@@ -16,6 +16,15 @@
                 </li>
                 @if($user!=null)
                     <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="fleetsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Fleets
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="fleetsDropdown">
+                            <a class="nav-link" href="{{url('fleet/add')}}">Add Fleet</a>
+                            <a class="nav-link" href="{{url('fleets/view')}}">View Fleets</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{$user->name}}
                         </a>

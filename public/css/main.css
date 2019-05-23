@@ -17,6 +17,10 @@ nav.navbar {
     color: #00479d;
 }
 
+.btn {
+    border-radius: 25px;
+}
+
 .btn-aviva {
     color: #00479d;
     background-color: #ffd900;

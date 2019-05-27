@@ -1,17 +1,7 @@
 @extends('templates.aviva')
 
 @section('page-styles')
-  <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
-  <style type="text/css">
-    @import "@material/list/mdc-list";
-    @import "@material/menu-surface/mdc-menu-surface";
-    @import "@material/menu/mdc-menu";
-    @import "@material/select/mdc-select";
-
-    .demo-width-class {
-      width: 400px;
-    }
-  </style>
+    <link href="{{asset('css/chat.css')}}" rel="stylesheet">
 @endsection
 @section('page-content')
     <div class="row align-items-center">
@@ -24,14 +14,13 @@
                 <form id="customer-chat" method="POST">
                     {{ csrf_field() }}
                     <!--<h3>Send a message to the driver</h3>-->
-                    <div style="background-color: #e3e3e3" id="chat-area">
+                    <div style="/*background-color: #e3e3e3*/margin-bottom: 20px;" id="chat-area chat">
                         <span id="chat-area-end" style="display: none"></span>
                     </div>
                     <div class="form-label-group">
                         <label for="message">Message</label>
                         <input id="message" class="form-control" name="message" autocomplete="off">
                     </div>
-                    <br/>
                     <!--<section>
                         <div id="messages"></div>
                         <input id="chat-input" type="text" class="form-control" placeholder="say anything" autofocus/>
@@ -40,8 +29,8 @@
                 </form>
               </div>
               <div class="card-footer text-right">
-                  <button class="btn text-uppercase" style="background-color: #ebbd1d; color: #FFF;
-                      padding-left: 30px; padding-right: 30px;" type="submit">Send</button>
+                  <button class="btn text-uppercase" id="chat-send" style="background-color: #ebbd1d; color: #FFF;
+                      padding-left: 30px; padding-right: 30px;" type="button">Send</button>
               </div>
           </div>
         </div>
@@ -83,12 +72,14 @@
             let socket = io('https://cartowans.westeurope.cloudapp.azure.com:4000');
             socket.emit('join room', room);
 
-            $('form#customer-chat').submit(function(e){
-                e.preventDefault(); // prevents page reloading
+            $('button#chat-send').on('click', function(){
+                //e.preventDefault(); // prevents page reloading
                 let the_message = $('#message');
-                socket.emit('chat message', {'room': room, 'message': the_message.val()});
-                the_message.val('');
-                return false;
+                if(the_message.val().trim()!=='') {
+                    socket.emit('chat message', {'room': room, 'message': the_message.val()});
+                    the_message.val('');
+                }
+                //return false;
             });
 
             socket.on('customer emit', function(data){
@@ -103,7 +94,7 @@
             socket.on('new message', function(data){
                 console.log('message received!');
                 console.log(data);
-                $('#chat-area-end').before('<p>'+data+'</p>');
+                $('#chat-area-end').before('<div class="chat-bubble tri-right btm-left-in round"><div class="inner left"><p>'+data+'</p></div></div>');
             });
 
             $('#check-dtc').on('click', function() {

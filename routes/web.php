@@ -41,6 +41,14 @@ Route::post('fleet/add', 'FleetController@postAddFleet');
 Route::get('fleets/view', 'FleetController@viewFleets');
 Route::get('fleet/view/{id}', 'FleetController@viewFleet');
 
+Route::get('obd/add','AdminController@getAddObd');
+Route::post('obd/add','AdminController@postAddObd');
+Route::get('vehicle/add','AdminController@getAddVehicle');
+Route::post('vehicle/add','AdminController@postAddVehicle');
+Route::get('obd-to-vehicle/add','AdminController@getAddObdToVehicle');
+Route::post('obd-to-vehicle/add','AdminController@postAddObdToVehicle');
+Route::get('vehicle-by-obd', 'LookUpController@getVehicleByObd');
+
 Route::get('support-customer', function () {
     return view('support');
 });

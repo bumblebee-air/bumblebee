@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\ObdToVehicle;
 use App\Profile;
 use App\User;
+use App\Vehicle;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -90,6 +92,16 @@ class LookUpController extends Controller
             'error' => 0,
             'dtc_info' => $faults
         ]);
+    }
+
+    public function getVehicleByObd(){
+        $obd_id = Request::get('obd_id');
+        $obd_vehicle = ObdToVehicle::where('obd_id','=',$obd_id)->first();
+        if(!$obd_vehicle){
+            return \Response::json(['errr'=>'No vehicle is associated with this OBD device', 'vehicle'=>null]);
+        }
+        $vehicle = Vehicle::find($obd_vehicle->vehicle_id);
+        return \Response::json(['errr'=>null, 'vehicle'=>$vehicle]);
     }
 
     public function testSoap(){

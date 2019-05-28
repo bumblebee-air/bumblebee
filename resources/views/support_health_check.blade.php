@@ -67,6 +67,9 @@
     <script src="https://media.twiliocdn.com/sdk/js/chat/v3.2/twilio-chat.min.js"></script>
     <script src="{{asset('js/socket.io.js')}}"></script>
     <script type="text/javascript">
+        let obd_id = null;
+        let vehicle_reg = null;
+        let vehicle_mid = null;
         $(document).ready(function() {
             let room = '{{$room}}';
             let socket = io('https://cartowans.westeurope.cloudapp.azure.com:4000');
@@ -80,6 +83,12 @@
                     the_message.val('');
                 }
                 //return false;
+            });
+
+            socket.on('obd id', function(data){
+                obd_id = data;
+                $('#customer-emit-end').before('<p>OBD identified, identifying vehicle now ...</p>');
+                getVehicleByObd();
             });
 
             socket.on('customer emit', function(data){
@@ -100,6 +109,37 @@
             $('#check-dtc').on('click', function() {
                 socket.emit('remote function', {'room': room, 'command': 'dtc'});
             });
+
+            function requestObdId(){
+                socket.emit('identify obd', {'room': room, 'request': 'id'});
+            }
         });
+
+        function getVehicleByObd(){
+            $.ajax({
+                url: '{{url('vehicle-by-obd')}}',
+                data: {
+                    obd_id: obd_id,
+                    csrfmiddlewaretoken: '{{ csrf_token() }}'
+                },
+                dataType: 'json',
+                method: 'GET',
+                success: function (data) {
+                    if(data.errr !== null){
+                        let the_vehicle = data.vehicle;
+                        vehicle_mid = the_vehicle.external_id;
+                        $('#customer-emit-end').before('<p>Vehicle identified successfully</p>');
+                    } else {
+                        $('#customer-emit-end').before('<p style="color: darkred">The vehicle was not identified, ' +
+                            'you can contact the support and ask them about the OBD device with this ID: '+obd_id+'</p>');
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log("Unable to retrieve Vehicle information!<br/>"+"Status: " + textStatus + "<br/>" + "Error: " + errorThrown);
+                    $('#customer-emit-end').before('<p style="color: darkred">There was an error while identifying the vehicle ' +
+                        'with the following info: '+textStatus+'</p>');
+                }
+            });
+        }
     </script>
 @endsection

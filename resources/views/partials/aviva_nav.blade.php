@@ -16,6 +16,16 @@
                 </li>
                 @if($user!=null)
                     <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="obdDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            OBD & Vehicles
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="obdDropdown">
+                            <a class="nav-link" href="{{url('obd/add')}}">Add OBD</a>
+                            <a class="nav-link" href="{{url('vehicle/add')}}">Add Vehicle</a>
+                            <a class="nav-link" href="{{url('obd-to-vehicle/add')}}">Add OBD-Vehicle connection</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="fleetsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Fleets
                         </a>

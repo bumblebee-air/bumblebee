@@ -165,6 +165,7 @@
                 })
                 .then(_ => {
                     console.log('ELM adapter initialized');
+                    identifyObd();
                 })
                 /*.then(value => {
                     console.log(value);
@@ -684,12 +685,21 @@
                     $('#dtc-btn').click();
                 }
             });
+
+            socket.on('identify obd', function(data){
+                console.log('OBD identification request, sending ID: '+obd_device.id);
+                identifyObd();
+            });
         });
 
         function emitToRoom(data){
             if(room!=null){
                 socket.emit('customer emit', {'room': room, 'message': data});
             }
+        }
+
+        function identifyObd(){
+            socket.emit('obd id', {'room': room, 'the_id': obd_device.id});
         }
 
         $('form#customer-chat').submit(function(e){

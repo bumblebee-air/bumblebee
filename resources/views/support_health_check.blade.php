@@ -70,10 +70,20 @@
         let obd_id = null;
         let vehicle_reg = null;
         let vehicle_mid = null;
+        let room = '{{$room}}';
+        let socket = io('https://cartowans.westeurope.cloudapp.azure.com:4000');
         $(document).ready(function() {
-            let room = '{{$room}}';
-            let socket = io('https://cartowans.westeurope.cloudapp.azure.com:4000');
             socket.emit('join room', room);
+
+            $('form#customer-chat').submit(function(e){
+                e.preventDefault(); // prevents page reloading
+                let the_message = $('#message');
+                if(the_message.val().trim()!=='') {
+                    socket.emit('chat message', {'room': room, 'message': the_message.val()});
+                    the_message.val('');
+                }
+                return false;
+            });
 
             $('button#chat-send').on('click', function(){
                 //e.preventDefault(); // prevents page reloading

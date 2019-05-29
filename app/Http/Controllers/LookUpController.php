@@ -94,8 +94,8 @@ class LookUpController extends Controller
         ]);
     }
 
-    public function getVehicleByObd(){
-        $obd_id = Request::get('obd_id');
+    public function getVehicleByObd(Request $request){
+        $obd_id = $request->get('obd_id');
         $obd_vehicle = ObdToVehicle::where('obd_id','=',$obd_id)->first();
         if(!$obd_vehicle){
             return \Response::json(['errr'=>'No vehicle is associated with this OBD device', 'vehicle'=>null]);

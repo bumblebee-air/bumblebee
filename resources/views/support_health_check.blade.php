@@ -133,7 +133,7 @@
                     csrfmiddlewaretoken: '{{ csrf_token() }}'
                 },
                 dataType: 'json',
-                method: 'GET',
+                method: 'POST',
                 success: function (data) {
                     if(data.errr !== null){
                         let the_vehicle = data.vehicle;

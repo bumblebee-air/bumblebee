@@ -47,7 +47,7 @@ Route::get('vehicle/add','AdminController@getAddVehicle');
 Route::post('vehicle/add','AdminController@postAddVehicle');
 Route::get('obd-to-vehicle/add','AdminController@getAddObdToVehicle');
 Route::post('obd-to-vehicle/add','AdminController@postAddObdToVehicle');
-Route::get('vehicle-by-obd', 'LookUpController@getVehicleByObd');
+Route::post('vehicle-by-obd', 'LookUpController@postGetVehicleByObd');
 
 Route::get('support-customer', function () {
     return view('support');

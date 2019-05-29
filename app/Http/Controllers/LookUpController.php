@@ -94,7 +94,7 @@ class LookUpController extends Controller
         ]);
     }
 
-    public function getVehicleByObd(Request $request){
+    public function postGetVehicleByObd(Request $request){
         $obd_id = $request->get('obd_id');
         $obd_vehicle = ObdToVehicle::where('obd_id','=',$obd_id)->first();
         if(!$obd_vehicle){

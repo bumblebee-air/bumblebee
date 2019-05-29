@@ -17,3 +17,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::post('twilio-token', 'TwilioTokenController@generate');
+Route::post('vehicle-by-obd', 'LookUpController@postGetVehicleByObd');

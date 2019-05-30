@@ -127,7 +127,7 @@
 
         function getVehicleByObd(){
             $.ajax({
-                url: '{{url('vehicle-by-obd')}}',
+                url: '{{url('api/vehicle-by-obd')}}',
                 data: {
                     obd_id: obd_id,
                     csrfmiddlewaretoken: '{{ csrf_token() }}'

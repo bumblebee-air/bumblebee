@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\OBD;
 use App\ObdToVehicle;
 use App\Profile;
 use App\User;
@@ -96,7 +97,11 @@ class LookUpController extends Controller
 
     public function postGetVehicleByObd(Request $request){
         $obd_id = $request->get('obd_id');
-        $obd_vehicle = ObdToVehicle::where('obd_id','=',$obd_id)->first();
+        $the_obd = OBD::where('the_id','=',$obd_id)->first();
+        if(!$the_obd){
+            return \Response::json(['errr'=>'This OBD device is not registered on the system', 'vehicle'=>null]);
+        }
+        $obd_vehicle = ObdToVehicle::where('obd_id','=',$the_obd->id)->first();
         if(!$obd_vehicle){
             return \Response::json(['errr'=>'No vehicle is associated with this OBD device', 'vehicle'=>null]);
         }

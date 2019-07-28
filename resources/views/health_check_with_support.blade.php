@@ -335,6 +335,7 @@
                                                faults_desc += '<span style="font-weight: bold">'+cause.description+'</span>';
                                             });
                                         });
+                                        $('#dtc-info').html(faults_desc);
                                     },
                                     error: function (XMLHttpRequest, textStatus, errorThrown) {
                                         console.log("Unable to retrieve DTC information!<br/>"+"Status: " + textStatus + "<br/>" + "Error: " + errorThrown);

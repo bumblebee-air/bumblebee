@@ -72,6 +72,7 @@
         let car_lat = 53.349536;
         let car_lon = -6.260135;
         let infowindow = null;
+        let current_vehicle = null;
 
         function getVehicleSpecs() {
             let reg = $.trim($('#vehicle-reg').val());
@@ -160,10 +161,58 @@
             }).done(function (response) {
                 console.log('Success!');
                 console.log(response);
+                if (response.error !== 0) {
+                    jQuery('.vehicle-info').remove();
+                    jQuery('#vehicle-specs').html('<div class="form-group vehicle-info">' +
+                        '<i class="fa fa-times orange-header"></i> No data available for this vehicle' +
+                        '</div>');
+                } else {
+                    let vehicle = response.vehicle;
+                    current_vehicle = vehicle;
+                    let make = vehicle.manufacturer;
+                    let model = vehicle.model;
+                    let version = vehicle.subbody;
+                    let engineSize = vehicle.kw;
+                    let fuel = vehicle.fuel;
+                    let transmission = vehicle.tuning;
+                    let colour = null;
+                    if (make === '' || make == null)
+                        make = '-';
+                    if (model === '' || model == null)
+                        model = '-';
+                    if (version === '' || version == null)
+                        version = '-';
+                    if (engineSize === '' || engineSize == null)
+                        engineSize = '-';
+                    if (fuel === '' || fuel == null)
+                        fuel = '-';
+                    if (transmission === '' || transmission == null)
+                        transmission = '-';
+                    if (colour === '' || colour == null)
+                        colour = '-';
+                    jQuery('.vehicle-info').remove();
+                    jQuery('#vehicle-specs').html('<div class="vehicle-info">' +
+                        '<label id="vehicle-make" class="orange-header">Make</label>' + '&nbsp;&nbsp;' +make + '<br/>' +
+                        '<label id="vehicle-model" class="orange-header">Model</label>' + '&nbsp;&nbsp;' +model + '<br/>' +
+                        '<label id="vehicle-version" class="orange-header">Version</label>' + '&nbsp;&nbsp;' +version + '<br/>' +
+                        '<label id="vehicle-colour" class="orange-header">Colour</label>' + '&nbsp;&nbsp;' +colour + '<br/>' +
+                        '<label id="vehicle-fuel" class="orange-header">Fuel</label>' + '&nbsp;&nbsp;' +fuel + '<br/>' +
+                        '<label id="vehicle-transmission" class="orange-header">Transmission</label>' + '&nbsp;&nbsp;' +transmission + '<br/>' +
+                        '<label id="vehicle-engine-size" class="orange-header">Engine Size</label>' + '&nbsp;&nbsp;' +engineSize +
+                        '</div>');
+                }
             }).fail(function (response) {
                 console.log('Failed!');
                 console.log(response);
+                jQuery('.vehicle-info').remove();
+                jQuery('#vehicle-specs').html('<div class="form-group vehicle-info">' +
+                    '<i class="fa fa-times orange-header"></i> Could not retrieve vehicle info</label>' +
+                    '</div>');
             });
+            jQuery('.vehicle-info').remove();
+            jQuery('#vehicle-specs').html('<div class="form-group vehicle-info">' +
+                '<i class="fa fa-sync fa-spin orange-header"></i> Retrieving vehicle information</label>' +
+                '</div>');
         }
 
         function getCoordinates(){
@@ -230,8 +279,11 @@
                 let road_name = $('#road').val();
                 let vehicle_reg = $('#vehicle-reg').val();
                 if(road_name!='' && vehicle_reg!='') {
+                    let vehicle_make = current_vehicle.manufacturer;
+                    let vehicle_model = current_vehicle.model;
                     let contentString = '<p style="font-weight: 400; font-size: 16px">' +
-                        vehicle_reg + ', ' + road_name + ', ' + '50kmph' + '</p>';
+                        road_name + ', speed limit: ' + '50kmph' + '<br/>' +
+                        vehicle_make + ' ' + vehicle_model + ', current speed: ' + '35kmph' + '</p>';
                     if (infowindow != null) {
                         infowindow.close();
                         infowindow = null;

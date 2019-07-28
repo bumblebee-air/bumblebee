@@ -27,6 +27,7 @@ Route::post('customer/login', 'CustomersController@postCustomerLogin');
 Route::get('customer/health-check', 'CustomersController@getHealthCheck');
 Route::get('vehicle-lookup/{vehicle_reg}', 'LookUpController@getVehicleDetails');
 Route::post('get-dtc-info', 'LookUpController@getDtcInformation');
+Route::post('get-dtc-info-static-mid', 'LookUpController@getDtcInformationStaticMid');
 Route::get('health-check/{room}', 'CustomersController@getHealthCheckWithSupport');
 Route::post('send/health-check', 'CompanyController@sendSupportForHealthCheck');
 Route::get('support/health-check/{room}', 'CompanyController@getSupportForHealthCheck');
@@ -43,10 +44,19 @@ Route::get('fleet/view/{id}', 'FleetController@viewFleet');
 
 Route::get('obd/add','AdminController@getAddObd');
 Route::post('obd/add','AdminController@postAddObd');
+Route::get('obd/edit/{id}','AdminController@getEditObd');
+Route::post('obd/edit','AdminController@postEditObd');
+Route::get('obd/list','AdminController@getListObd');
 Route::get('vehicle/add','AdminController@getAddVehicle');
 Route::post('vehicle/add','AdminController@postAddVehicle');
+Route::get('vehicle/edit/{id}','AdminController@getEditVehicle');
+Route::post('vehicle/edit','AdminController@postEditVehicle');
+Route::get('vehicle/list','AdminController@getListVehicle');
 Route::get('obd-to-vehicle/add','AdminController@getAddObdToVehicle');
 Route::post('obd-to-vehicle/add','AdminController@postAddObdToVehicle');
+Route::get('obd-to-vehicle/edit/{id}','AdminController@getEditObdToVehicle');
+Route::post('obd-to-vehicle/edit','AdminController@postEditObdToVehicle');
+Route::get('obd-to-vehicle/list','AdminController@getListObdToVehicle');
 
 Route::get('support-customer', function () {
     return view('support');

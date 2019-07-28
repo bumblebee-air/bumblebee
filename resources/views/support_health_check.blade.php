@@ -14,7 +14,7 @@
                 <form id="customer-chat" method="POST">
                     {{ csrf_field() }}
                     <!--<h3>Send a message to the driver</h3>-->
-                    <div style="/*background-color: #e3e3e3*/margin-bottom: 20px;" id="chat-area chat">
+                    <div style="/*background-color: #e3e3e3*/margin-bottom: 20px; height: 200px; overflow: auto;" id="chat-area" class="chat-area chat">
                         <span id="chat-area-end" style="display: none"></span>
                     </div>
                     <div class="form-label-group">
@@ -30,7 +30,7 @@
               </div>
               <div class="card-footer text-right">
                   <button class="btn text-uppercase" id="chat-send" style="background-color: #ebbd1d; color: #FFF;
-                      padding-left: 30px; padding-right: 30px;" type="button">Send</button>
+                      padding-left: 30px; padding-right: 30px;" type="button" disabled="disabled">Send</button>
               </div>
           </div>
         </div>
@@ -71,26 +71,53 @@
         let vehicle_reg = null;
         let vehicle_mid = null;
         let room = '{{$room}}';
+        let socket_connected = false;
         let socket = io('https://cartowans.westeurope.cloudapp.azure.com:4000');
-        $(document).ready(function() {
+        socket.on('connect', () => {
+            console.log('socket is connected!');
             socket.emit('join room', room);
+            socket_connected = true;
+            $('#chat-area-end').before('<p>You are connected!</p>');
+            $('#chat-send').removeAttr('disabled');
+        });
+
+        socket.on('disconnect', (reason) => {
+            console.log('socket disconnected for reason: '+reason);
+            socket_connected = false;
+            $('#chat-area-end').before('<p>You are disconnected!</p>');
+            $('#chat-send').attr('disabled','disabled');
+        });
+
+        socket.on('reconnect', (attemptNumber) => {
+            console.log('socket has reconnected!');
+        });
+
+        $(document).ready(function() {
 
             $('form#customer-chat').submit(function(e){
                 e.preventDefault(); // prevents page reloading
-                let the_message = $('#message');
-                if(the_message.val().trim()!=='') {
-                    socket.emit('chat message', {'room': room, 'message': the_message.val()});
-                    the_message.val('');
+                if(socket_connected) {
+                    let the_message = $('#message');
+                    let message_content = the_message.val();
+                    if (the_message.val().trim() !== '') {
+                        socket.emit('chat message', {'room': room, 'message': message_content});
+                        the_message.val('');
+                    }
+                    $('#chat-area-end').before('<div class="chat-bubble tri-right btm-right-in round"><div class="inner right"><p>'+message_content+'</p></div></div>');
                 }
                 return false;
             });
 
             $('button#chat-send').on('click', function(){
                 //e.preventDefault(); // prevents page reloading
-                let the_message = $('#message');
-                if(the_message.val().trim()!=='') {
-                    socket.emit('chat message', {'room': room, 'message': the_message.val()});
-                    the_message.val('');
+                if(socket_connected) {
+                    let the_message = $('#message');
+                    let message_content = the_message.val();
+                    if (the_message.val().trim() !== '') {
+                        socket.emit('chat message', {'room': room, 'message': message_content});
+                        the_message.val('');
+                    }
+                    $('#chat-area-end').before('<div class="chat-bubble tri-right btm-right-in round"><div class="inner right"><p>'+message_content+'</p></div></div>');
                 }
                 //return false;
             });
@@ -114,14 +141,19 @@
                 console.log('message received!');
                 console.log(data);
                 $('#chat-area-end').before('<div class="chat-bubble tri-right btm-left-in round"><div class="inner left"><p>'+data+'</p></div></div>');
+                scrollChat();
             });
 
             $('#check-dtc').on('click', function() {
-                socket.emit('remote function', {'room': room, 'command': 'dtc'});
+                if(socket_connected) {
+                    socket.emit('remote function', {'room': room, 'command': 'dtc'});
+                }
             });
 
             function requestObdId(){
-                socket.emit('identify obd', {'room': room, 'request': 'id'});
+                if(socket_connected) {
+                    socket.emit('identify obd', {'room': room, 'request': 'id'});
+                }
             }
         });
 
@@ -150,6 +182,11 @@
                         'with the following info: '+textStatus+'</p>');
                 }
             });
+        }
+
+        function scrollChat(){
+            $('#chat-area').animate({
+                scrollTop: $('#chat-area').get(0).scrollHeight}, 1000);
         }
     </script>
 @endsection

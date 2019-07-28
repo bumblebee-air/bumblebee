@@ -316,7 +316,7 @@
                                     }
                                 });*/
                                 $.ajax({
-                                    url: '{{url('get-dtc-info')}}',
+                                    url: '{{url('get-dtc-info-static-mid')}}',
                                     data: {
                                         dtc: formatted_dtc,
                                         csrfmiddlewaretoken: '{{ csrf_token() }}'

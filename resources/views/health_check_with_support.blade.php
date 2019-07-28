@@ -315,11 +315,15 @@
                                         console.log("Unable to save OBD result!<br/>"+"Status: " + textStatus + "<br/>" + "Error: " + errorThrown);
                                     }
                                 });*/
+                                var csrf_token = '{{ csrf_token() }}';
                                 $.ajax({
                                     url: '{{url('get-dtc-info-static-mid')}}',
+                                    headers: {
+                                        'X-CSRF-TOKEN': csrf_token
+                                    },
                                     data: {
                                         dtc: formatted_dtc,
-                                        csrfmiddlewaretoken: '{{ csrf_token() }}'
+                                        csrfmiddlewaretoken: csrf_token
                                     },
                                     dataType: 'json',
                                     method: 'POST',

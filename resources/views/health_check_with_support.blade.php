@@ -330,7 +330,8 @@
                                     success: function (data) {
                                         console.log('DTC '+formatted_dtc+' info retrieved successfully');
                                         var faults_desc = '<h4>Detected fault locations</h4>';
-                                        data.forEach(function(fault,index){
+                                        var dtc_info = data.dtc_info;
+                                        dtc_info.forEach(function(fault,index){
                                             console.log(fault);
                                             faults_desc += '<h5>'+fault.description+'</h5>'+
                                                '<span style="font-weight: bold">System:</span> '+fault.system+

@@ -172,7 +172,7 @@
                     let make = vehicle.manufacturer;
                     let model = vehicle.model;
                     let version = vehicle.subbody;
-                    let engineSize = vehicle.kw;
+                    let engineSize = vehicle.litres;
                     let fuel = vehicle.fuel;
                     let transmission = vehicle.tuning;
                     let colour = null;
@@ -282,8 +282,8 @@
                     let vehicle_make = current_vehicle.manufacturer;
                     let vehicle_model = current_vehicle.model;
                     let contentString = '<p style="font-weight: 400; font-size: 16px">' +
-                        road_name + ', speed limit: ' + '50kmph' + '<br/>' +
-                        vehicle_make + ' ' + vehicle_model + ', current speed: ' + '35kmph' + '</p>';
+                        road_name + ', speed limit: ' + '<span style="color: #1e7e34">50kmph</span>' + '<br/>' +
+                        vehicle_make + ' ' + vehicle_model + ', current speed: ' + '<span style="color: #005cbf">35kmph</span>' + '</p>';
                     if (infowindow != null) {
                         infowindow.close();
                         infowindow = null;

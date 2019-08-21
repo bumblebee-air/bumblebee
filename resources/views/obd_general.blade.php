@@ -57,6 +57,8 @@
                                 <button type="button" class="btn btn-secondary" id="dtc-btn">Get DTC</button>
                                 <button type="button" class="btn btn-info" id="dtc-btn-cont">Continuous DTC</button>
                                 <button type="button" class="btn btn-warning" id="clear-dtc-btn">Clear DTC</button>
+                                <button type="button" class="btn btn-primary" id="speed-start-btn">Start speed test</button>
+                                <button type="button" class="btn btn-primary" id="speed-stop-btn" style="display: none">Stop speed test</button>
                                 <button type="button" class="btn btn-secondary" id="vin-btn">Get VIN</button>
                                 <br/>
                                 <div class="form-row">
@@ -75,6 +77,11 @@
                                 <h4>RPM value</h4>
                                 <p></p>
                                 <div id="gauge" style="width: 500px; height: 500px;"></div>
+                            </div>
+                            <div id="speed-status" style="display: none">
+                                <h4>Speed readings</h4>
+                                <p></p>
+                                <div id="speed-gauge" style="width: 500px; height: 500px;"></div>
                             </div>
                             <div id="dtc-status" style="display: none">
                                 <h4>DTC value</h4>
@@ -103,6 +110,7 @@
         let obd_write = null;
         let obd_command_interval = false;
         let rpm_interval = false;
+        let speed_interval = false;
         let get_dtc = false;
         let get_dtc_cont = false;
         let dtc_cont_interval = null;
@@ -113,17 +121,30 @@
         let readCharacteristic = '0000fff1-0000-1000-8000-00805f9b34fb';
         let writeCharacteristic = '0000fff2-0000-1000-8000-00805f9b34fb';
         let elm_initialized = false;
+        let speed_readings = [];
+        let speed_readings_string = null;
 
         let rpmMin = 0;
         let rpmMax = 6000;
         let rpmDefault = 0;
-
         let gauge = new JustGage({
             id: "gauge",
             value: rpmDefault,
             min: rpmMin,
             max: rpmMax,
             title: "Engine RPM",
+            animationSpeed: 60,
+        });
+
+        let speedMin = 0;
+        let speedMax = 255;
+        let speedDefault = 0;
+        let speed_gauge = new JustGage({
+            id: "speed-gauge",
+            value: speedDefault,
+            min: speedMin,
+            max: speedMax,
+            title: "Vehicle speed",
             animationSpeed: 60,
         });
 
@@ -360,6 +381,23 @@
                             dtc_line.append(new Date().getTime(), 0);
                         }
                     }
+                } else if(speed_interval) {
+                    if (decodedValue.startsWith("4")) {
+                        readable_value = convertValue(decodedValue);
+                        console.log('Speed reading: '+readable_value);
+                        if(speed_readings.length >= 10){
+                            speed_readings.shift();
+                        }
+                        changeSpeedGauge(readable_value);
+                        speed_readings.push(readable_value);
+                        speed_readings_string = speed_readings.toString();
+                        status_p.html(speed_readings_string);
+                    } else if (decodedValue.startsWith('7E8')) {
+                        readable_value = convertValue(decodedValue);
+                        console.log('Unrecognizable speed response: '+readable_value);
+                    } else {
+                        console.log('unknown byte size: ' + decodedValue);
+                    }
                 } else {
                     if (decodedValue.startsWith("4")) {
                         readable_value = convertValue(decodedValue);
@@ -408,6 +446,23 @@
                 })
                 .then(
                     sendRPMCommand
+                )
+        }
+
+        function sendSpeedCommand(){
+            if(speed_interval){
+                speedCommandInterval();
+            }
+        }
+
+        function speedCommandInterval(){
+            let cmd = '01 0d';
+            sendCommand(cmd,'Speed')
+                .then(_ => {
+                    return _sleep(500);
+                })
+                .then(
+                    sendSpeedCommand
                 )
         }
 
@@ -603,6 +658,12 @@
             }
         }
 
+        function changeSpeedGauge(value) {
+            if(speed_gauge) {
+                speed_gauge.refresh(value);
+            }
+        }
+
         function clearDTCCont(){
             if(get_dtc_cont===true) {
                 //clearInterval(dtc_cont_interval);
@@ -673,6 +734,24 @@
                 status_action = 'append';
                 status_p.html('Getting DTC... <br/>');
                 sendDTCCommand();
+            });
+            $('#speed-start-btn').on('click', function(){
+                $('#dtc-status').hide();
+                get_dtc = false;
+                clearDTCCont();
+                speed_interval = true;
+                $('#speed-status').show();
+                $(this).hide();
+                $('#speed-stop-btn').show();
+                status_p = $('div#speed-status p');
+                status_action = 'overwrite';
+                sendSpeedCommand();
+            });
+            $('#speed-stop-btn').on('click', function(){
+                speed_interval = false;
+                $('#speed-status').hide();
+                $(this).hide();
+                $('#speed-start-btn').show();
             });
             $('#vin-btn').on('click', function(){
                 rpm_interval = false;

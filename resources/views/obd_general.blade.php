@@ -383,8 +383,9 @@
                     }
                 } else if(speed_interval) {
                     if (decodedValue.startsWith("4")) {
+                        console.log('Speed before convert: '+decodedValue);
                         readable_value = convertValue(decodedValue);
-                        console.log('Speed reading: '+readable_value);
+                        console.log('Speed after convert: '+readable_value);
                         if(speed_readings.length >= 10){
                             speed_readings.shift();
                         }

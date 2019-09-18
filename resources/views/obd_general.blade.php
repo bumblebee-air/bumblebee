@@ -384,7 +384,7 @@
                 } else if(speed_interval) {
                     if (decodedValue.startsWith("4")) {
                         console.log('Speed before convert: '+decodedValue);
-                        readable_value = convertValue(decodedValue);
+                        readable_value = convertSpeed(decodedValue);
                         console.log('Speed after convert: '+readable_value);
                         if(speed_readings.length >= 10){
                             speed_readings.shift();
@@ -394,7 +394,7 @@
                         speed_readings_string = speed_readings.toString();
                         status_p.html(speed_readings_string);
                     } else if (decodedValue.startsWith('7E8')) {
-                        readable_value = convertValue(decodedValue);
+                        readable_value = convertSpeed(decodedValue);
                         console.log('Unrecognizable speed response: '+readable_value);
                     } else {
                         console.log('unknown byte size: ' + decodedValue);
@@ -651,6 +651,15 @@
                 hexString = hexString.substr(0,4);
             }
             return parseInt(hexString, 16) / 4;
+        }
+
+        function convertSpeed(decodedValue) {
+            let hexString = decodedValue.replace(/\s/g, "").substr(4);
+
+            if (hexString.length > 4){
+                hexString = hexString.substr(0,4);
+            }
+            return parseInt(hexString, 16);
         }
 
         function changeGauge(value) {

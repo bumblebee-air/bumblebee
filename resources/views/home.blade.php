@@ -58,6 +58,11 @@
                         </div>
                     </div>
                 </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <a href="{{asset('record-audio')}}" class="btn btn-lg btn-primary">Record Audio</a>
+                    </div>
+                </div>
             </form>
         </div>
         <div class="col-sm">

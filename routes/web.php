@@ -58,6 +58,9 @@ Route::get('obd-to-vehicle/edit/{id}','AdminController@getEditObdToVehicle');
 Route::post('obd-to-vehicle/edit','AdminController@postEditObdToVehicle');
 Route::get('obd-to-vehicle/list','AdminController@getListObdToVehicle');
 
+//Route for record audio
+Route::get('record-audio','AudioController@index');
+Route::post('upload-record-file', 'AudioController@save_recorded_audio');
 Route::get('support-customer', function () {
     return view('support');
 });

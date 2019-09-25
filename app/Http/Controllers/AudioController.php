@@ -13,7 +13,8 @@ class AudioController extends Controller
 
     public function index() {
         $user = null;
-        return view('record_audio', ['user'=> $user]);
+        $api_key = env('API_KEY');
+        return view('record_audio', ['user'=> $user, 'api_key'=> $api_key]);
     }
 
     public function save_recorded_audio(Request $request) {
@@ -31,7 +32,7 @@ class AudioController extends Controller
             $this->uploadOne($audio_file, $folder, 'public', $name);
             // Set user profile image path in database to filePath
 
-            $apiKey = 'AIzaSyDfeMWmjHL-LtsyOcrmGaQZf7kMywy4Pqw';
+            $apiKey = env('API_KEY');
             $audioFile = Storage::disk('public')->path('uploads/audio_files/') .$name.'.mp3';
             // $audioFile = Storage::disk('public')->path('uploads/audio_files/') .'test_1569301996.mp3';
             $url="https://speech.googleapis.com/v1p1beta1/speech:recognize?key=".$apiKey;

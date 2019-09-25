@@ -17,12 +17,16 @@
             <canvas class="centered-canvas" id="visualizer" width="400" height="400"></canvas>
             <div>
                 <button id="start_button" onclick="startButton(event);" class="centered">
-                    <img src="{{asset('images/microphone.png')}}" id="microphone" class="centered"/>
+                    <img src="{{asset('images/microphone.png')}}" id="microphone" class="centered" title="Record Audio" />
                 </button>
             </div>
             <div id="auth" class="centered-auth">
                 <img id="loading-image" style="display:none" src="{{asset('images/loading.gif')}}" alt="Loading..." />
-                <div id="transcript" style="display: block"></div>
+                <div class="container">
+                  <div class="col-sm-12 col-md-12 col-xs-12">
+                    <div id="transcript" style="display: block"></div>
+                  </div>
+                </div>
             </div>
             <form class="form_save_audio" method="POST" action="{{url('upload-record-file')}}" style="display:none" id="audio_file_save_form">
                 {{ csrf_field() }}
@@ -178,7 +182,7 @@ const persistFile = (blob) => {
 
   /* code for convert the audio to base64 and direct call google api - Start */
   var reader = new FileReader();
-  var api_key = 'AIzaSyDfeMWmjHL-LtsyOcrmGaQZf7kMywy4Pqw';
+  var api_key = "{{$api_key}}";
   var config = {};
   reader.readAsDataURL(blob); 
   reader.onloadend = function() {
@@ -248,8 +252,6 @@ const persistFile = (blob) => {
   
 }
   $(document).ready(function() {
-      
-
   });
 
 </script>

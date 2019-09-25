@@ -108,6 +108,7 @@ const startRecording = () => {
     console.log('getUserMedia');
     recordingStream = stream;
 
+    var AudioContext = window.AudioContext || window.webkitAudioContext; 
     const audioContext = new AudioContext();
     const audioSource = audioContext.createMediaStreamSource(stream);
 

@@ -110,4 +110,25 @@ class CustomersController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
+
+    public function postSendTestWhatsapp(Request $request){
+        $customer_name = $request->get('customer_name');
+        $customer_phone = $request->get('customer_phone');
+        $supplier = $request->get('supplier');
+        $tracking_link = 'https://cartow.spiressl.com';
+        $sid    = env('TWILIO_SID', '');
+        $token  = env('TWILIO_AUTH', '');
+        try {
+            $twilio = new Client($sid, $token);
+            $message = $twilio->messages->create("whatsapp:".$customer_phone,
+                ["from" => "whatsapp:+447445341335",
+                    "body" => "Hi $customer_name, your roadside assistance from $supplier is on its way to you, you can track it here $tracking_link."]
+            );
+            dd($message);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+        return redirect()->back()->with('message','Whatsapp message sent successfully!');
+    }
 }

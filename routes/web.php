@@ -33,6 +33,7 @@ Route::post('send/health-check', 'CompanyController@sendSupportForHealthCheck');
 Route::get('support/health-check/{room}', 'CompanyController@getSupportForHealthCheck');
 //Route::get('health-check/send/{id}', 'CompanyController@getSupportForHealthCheck');
 Route::get('test-sms', 'CustomersController@getSendTestSMS');
+Route::post('test-whatsapp', 'CustomersController@postSendTestWhatsapp');
 
 Route::get('insurance/dashboard', 'InsuranceController@getInsuranceDashboard');
 Route::post('insurance/send-invitation', 'InsuranceController@sendCustomerInvitation');
@@ -57,6 +58,8 @@ Route::post('obd-to-vehicle/add','AdminController@postAddObdToVehicle');
 Route::get('obd-to-vehicle/edit/{id}','AdminController@getEditObdToVehicle');
 Route::post('obd-to-vehicle/edit','AdminController@postEditObdToVehicle');
 Route::get('obd-to-vehicle/list','AdminController@getListObdToVehicle');
+Route::get('admin/customer-register','AdminController@getCustomerRegister');
+Route::post('admin/customer-register','AdminController@postCustomerRegister');
 
 Route::get('support-customer', function () {
     return view('support');

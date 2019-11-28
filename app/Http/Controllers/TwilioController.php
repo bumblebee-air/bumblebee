@@ -25,8 +25,16 @@ class TwilioController extends Controller
         $whats->save();
         $sid    = env('TWILIO_SID', '');
         $token  = env('TWILIO_AUTH', '');
+        $body = "Hi there, your number is $customer_phone and you said: $message_body";
+        if(str_contains(strtolower($message_body),'yes')){
+            $code = '';
+            for ($i = 0; $i<6; $i++) {
+                $code .= mt_rand(0,9);
+            }
+            $health_check_url = url('health-check/'.$code);
+            $body = "Super! Your authorization pin code is $code and you're using an encrypted secure socket layer to connect here $health_check_url";
+        }
         try {
-            $body = "Hi there, your number is $customer_phone and you said: $message_body";
             $twilio = new Client($sid, $token);
             $message = $twilio->messages->create($from,
                 ["from" => "whatsapp:+447445341335",
@@ -45,7 +53,7 @@ class TwilioController extends Controller
             $xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><Response><Message><Body>there was an error while processing the message</Body></Message></Response>');
             return Response::make($xml->asXML(),500,[]);
         }
-        $xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><Response><Message><Body>message received successfully</Body></Message></Response>');
+        $xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><Response/>');
         return Response::make($xml->asXML(),200,[]);
     }
 

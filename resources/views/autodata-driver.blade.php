@@ -116,10 +116,10 @@
         }
 
         .main-title {
-            color: #FF6602;
+            color: #FF2E1B;
         }
         .sub-title {
-            color: #FF2E1B;
+            color: #FF6602;
         }
         .sub-sub-title {
             color: #FF9203;
@@ -309,11 +309,11 @@
                         tyres_text += '<h1 class="main-title">'+item.group_name+'</h1>';
                         item.items.forEach(function(an_item,the_index){
                             tyres_text += '<h2 class="sub-title">'+an_item.description+'</h2>'+
-                                '<h3 class="sub-sub-title">'+an_item.value+'</h3>';
+                                '<h4>'+an_item.value+'</h4>';
                             if(an_item.note != null) {
-                                tyres_text += '<h3 class="sub-sub-title">Notes: </h3>'
+                                tyres_text += '<h4 class="sub-sub-title">Notes: </h4>';
                                 notes_array[an_item.note].notes.forEach(function (item, index) {
-                                    tyres_text += '<h4>' + item + '</h4>';
+                                    tyres_text += '<h5>' + item + '</h5>';
                                 });
                             }
                         });

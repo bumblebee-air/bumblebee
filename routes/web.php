@@ -32,6 +32,7 @@ Route::get('health-check/{room}', 'CustomersController@getHealthCheckWithSupport
 Route::post('send/health-check', 'CompanyController@sendSupportForHealthCheck');
 Route::get('support/health-check/{room}', 'CompanyController@getSupportForHealthCheck');
 //Route::get('health-check/send/{id}', 'CompanyController@getSupportForHealthCheck');
+Route::post('customer/request-recovery', 'CustomersController@postSendRecoveryRequest');
 Route::get('test-sms', 'CustomersController@getSendTestSMS');
 Route::post('test-whatsapp', 'CustomersController@postSendTestWhatsapp');
 
@@ -66,6 +67,9 @@ Route::get('support-customer', function () {
 });
 Route::get('obd-admin', function () {
     return view('obd_general');
+});
+Route::get('autodata-driver', function () {
+    return view('autodata-driver');
 });
 Route::get('test-soap','LookUpController@testSoap');
 Route::get('socket-test', function () {

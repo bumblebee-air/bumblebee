@@ -95,6 +95,10 @@ class CustomersController extends Controller
         return view('health_check_with_support', compact('room'));
     }
 
+    public function postSendRecoveryRequest(Request $request){
+        $fault_desc = json_decode($request->get('fault_desc'));
+    }
+
     public function getSendTestSMS(){
         $sid    = env('TWILIO_SID', '');
         $token  = env('TWILIO_AUTH', '');

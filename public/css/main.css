@@ -17,6 +17,17 @@ nav.navbar {
     color: #00479d;
 }
 
+.navbar-rrra {
+    background-color:#FF6602;
+}
+
+.navbar-rrra .navbar-nav .active > .nav-link,
+.navbar-rrra .navbar-nav .nav-link.active,
+.navbar-rrra .navbar-nav .nav-link.show,
+.navbar-rrra .navbar-nav .show > .nav-link {
+    color: #FFF;
+}
+
 .btn {
     border-radius: 25px;
 }

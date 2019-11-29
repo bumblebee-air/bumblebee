@@ -28,7 +28,7 @@
                             <div id="bth-status">
                                 <p></p>
                                 <button type="button" id="bth-btn" class="btn btn-lg btn-primary">Connect to the car</button>
-                                <button type="button" id="tst-btn" class="btn btn-lg btn-primary" onclick="simulateDtc()">Test test</button>
+                                <!--<button type="button" id="tst-btn" class="btn btn-lg btn-primary" onclick="simulateDtc()">Test test</button>-->
                             </div>
                             <br/>
                             <div id="command-buttons" style="display: none">
@@ -42,13 +42,13 @@
                                 <h4>DTC value</h4>
                                 <p></p>
                                 <span id="dtc-info"></span>
-                                <form class="form" method="POST" action="{{url('customer/request-recovery')}}">
+                                <!--<form class="form" method="POST" action="{{url('customer/request-recovery')}}">
                                     <h4>Request vehicle recovery?</h4>
                                     <h5>The fault information will be sent in the recovery request</h5>
                                     {{csrf_field()}}
                                     <input type="hidden" id="fault_desc" name="fault_desc" required/>
                                     <button type="submit" class="btn btn-primary">Submit request</button>
-                                </form>
+                                </form>-->
                             </div>
                         </div>
                         <div class="col-sm">
@@ -690,9 +690,7 @@
                 let the_res = (Math.random()*100)+1;
             });*/
         });
-    </script>
-    <!-- Socket script -->
-    <script type="text/javascript">
+        <!-- Socket script -->
         let room = '{{$room}}';
         let socket = io('https://cartowans.westeurope.cloudapp.azure.com:4000');
         $(document).ready(function() {

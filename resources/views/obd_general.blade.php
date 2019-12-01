@@ -113,7 +113,7 @@
         let rpm_interval = false;
         let speed_interval = false;
         let speed_interval_value = 1;
-        let crash_speed_threshold = 20;
+        let crash_speed_threshold = 10;
         let get_dtc = false;
         let get_dtc_cont = false;
         let dtc_cont_interval = null;
@@ -466,7 +466,7 @@
             let cmd = '01 0d';
             sendCommand(cmd,'Speed')
                 .then(_ => {
-                    return _sleep(speed_interval_value);
+                    return _sleep(speed_interval_value*1000);
                 })
                 .then(
                     sendSpeedCommand

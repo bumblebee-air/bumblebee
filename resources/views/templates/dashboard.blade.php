@@ -8,22 +8,23 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>RRR - Autodata</title>
+    <title>Bumblebee</title>
 
     <!-- Styles -->
     <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('css/fontawesome/all.css')}}" rel="stylesheet">
     <link href="{{asset('css/main.css')}}" rel="stylesheet">
-    <link href="{{asset('css/material-kit.min.css')}}" rel="stylesheet">
+    <link href="{{asset('css/material-dashboard.min.css')}}" rel="stylesheet">
     @yield('page-styles')
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Raleway:100,600|Roboto+Slab:400,700|Material+Icons" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
 </head>
 
 <body>
 
 <!-- Navigation -->
-@include('partials.rrra_nav')
+
 
 <!-- Page Content -->
 <div class="container">
@@ -35,9 +36,6 @@
 <!-- Scripts -->
 <script src="{{asset('js/jquery.min.js')}}"></script>
 <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
-<script src="{{asset('js/popper.min.js')}}"></script>
-<script src="{{asset('js/bootstrap-material-design.min.js')}}"></script>
-<script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
 @yield('page-scripts')
 </body>
 </html>

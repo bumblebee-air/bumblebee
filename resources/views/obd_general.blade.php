@@ -394,7 +394,7 @@
                         }
                         changeSpeedGauge(readable_value);
                         speed_readings.push(readable_value);
-                        if((speed_readings[speed_readings.length-1] - readable_value) >= crash_speed_threshold){
+                        if((parseInt(speed_readings[speed_readings.length-2]) - parseInt(speed_readings[speed_readings.length-1])) >= crash_speed_threshold){
                             $('#crash-report').after('<p style="color:red">Crash detected! latest speed values: '+speed_readings.toString()+'</p>');
                         }
                         speed_readings_string = speed_readings.toString();

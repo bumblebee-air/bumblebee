@@ -124,9 +124,6 @@
         .sub-sub-title {
             color: #FF9203;
         }
-        #tyres-section ul {
-            padding-left:0;
-        }
     </style>
 @endsection
 @section('page-content')
@@ -149,9 +146,46 @@
                 </div>
             </div>
             <h3>Powered by</h3>
-            <img class="img-responsive" src="{{asset('images/autodata-logo.svg')}}"/>
+            <img class="img-fluid" src="{{asset('images/autodata-logo.svg')}}"/>
         </div>
+    </div>
+    <div class="row">
         <div id="tyres-section">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div id="accordion" role="tablist" aria-multiselectable="true" class="card-collapse">
+                <div class="card">
+                    <div class="card-header" role="tab" id="headingOne">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-controls="collapseOne">
+                            Collapsible Group Item #1
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </a>
+                    </div>
+
+                    <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="card-body">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header" role="tab" id="headingTwo">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-controls="collapseTwo">
+                            Collapsible Group Item #2
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </a>
+                    </div>
+
+                    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                        <div class="card-body">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
@@ -304,98 +338,160 @@
                         images_array[item.id] = item.graphic.url;
                     });
                     console.log(notes_array);
-                    let technical_info = tyres_info.technical_information;
-                    technical_info.forEach(function(item,index){
-                        tyres_text += '<h1 class="main-title">'+item.group_name+'</h1>';
-                        item.items.forEach(function(an_item,the_index){
-                            tyres_text += '<h2 class="sub-title">'+an_item.description+'</h2>'+
-                                '<h4>'+an_item.value+'</h4>';
-                            if(an_item.note != null) {
-                                tyres_text += '<h4 class="sub-sub-title">Notes: </h4>';
-                                notes_array[an_item.note].notes.forEach(function (item, index) {
-                                    tyres_text += '<h5>' + item + '</h5>';
-                                });
+                    let pressure_variants = tyres_info.pressure_variants;
+                    tyres_text += '<h1 class="main-title">Tyre pressures</h1>';
+                    pressure_variants.forEach(function(item,index){
+                        tyres_text += '<h2 class="sub-title">'+item.variant_description+' ('+item.year_range.year_range+')</h2>'+
+                            'Show tyre pressure in ' +
+                            '<select class="selectpicker" id="pressure-select-'+index+'" onchange="changePressure('+index+',$(this).val())">' +
+                            '<option value="bar">Bar</option>' +
+                            '<option value="psi">Psi</option>' +
+                            '</select>'+
+                            '<table id="pressures-'+index+'" class="table table-bordered">'+
+                            '<thead>'+
+                            '<tr><td rowspan="2">Rim size</td><td rowspan="2">Tyre size</td><td rowspan="2">Model</td><td colspan="2">Unladen</td><td colspan="2">Laden</td></tr>' +
+                            '<tr><td>Front</td><td>Rear</td><td>Front</td><td>Rear</td></tr>'+
+                            '</thead>'+
+                            '<tbody>';
+                        item.pressures.forEach(function(pressure,the_index){
+                            let pressure_description = pressure.description;
+                            if(pressure.additional_description != null && pressure.additional_description != ''){
+                                pressure_description += ' ('+pressure.additional_description+')';
                             }
+                            tyres_text += '<tr>'+
+                                '<td>'+pressure.rim_size+'</td>'+
+                                '<td>'+pressure.tyre_size+'</td>'+
+                                '<td>'+pressure_description+'</td>'+
+                                '<td><span class="pressure-bar">'+pressure.unladen.front.bar+'</span>'+'<span class="pressure-psi" style="display: none">'+pressure.unladen.front.psi+'</span></td>'+
+                                '<td><span class="pressure-bar">'+pressure.unladen.rear.bar+'</span>'+'<span class="pressure-psi" style="display: none">'+pressure.unladen.rear.psi+'</span></td>'+
+                                '<td><span class="pressure-bar">'+pressure.laden.front.bar+'</span>'+'<span class="pressure-psi" style="display: none">'+pressure.laden.front.psi+'</span></td>'+
+                                '<td><span class="pressure-bar">'+pressure.laden.rear.bar+'</span>'+'<span class="pressure-psi" style="display: none">'+pressure.laden.rear.psi+'</span></td>'+
+                                '</tr>';
                         });
+                        tyres_text += '</tbody></table>';
                     });
                     tyres_text += '<br/>';
                     let jacking_points =tyres_info.illustrations.jacking_points[0];
-                    tyres_text += '<h1 class="main-title">Jacking points</h1>';
-                    tyres_text += '<img class="img-responsive" src="'+images_array[jacking_points.value]+'"/>';
-                    tyres_text += '<br/>';
-                    let pressure_variants = tyres_info.pressure_variants;
-                    tyres_text += '<h1 class="main-title">Pressure variants</h1>';
-                    pressure_variants.forEach(function(item,index){
-                        tyres_text += '<h2 class="sub-title">'+item.variant_description+' ('+item.year_range.year_range+')</h2>'+'<div class="row">';
-                        item.pressures.forEach(function(pressure,the_index){
-                            tyres_text += '<div class="col">'+'<h3 class="sub-sub-title">'+pressure.description+'</h3>'+
-                                '<h4>Rim size: '+pressure.rim_size+'</h4>'+
-                                '<h4>Tyre size: '+pressure.tyre_size+'</h4>'+
-                                '<h4>Unladen:</h4><ul>'+
-                                '<li>Front<ul>'+'<li>Bar: '+pressure.unladen.front.bar+'</li>'+'<li>Psi: '+pressure.unladen.front.psi+'</li>'+'</ul>'+
-                                '<li>Rear<ul>'+'<li>Bar: '+pressure.unladen.rear.bar+'</li>'+'<li>Psi: '+pressure.unladen.rear.psi+'</li>'+'</ul>'+
-                                '</ul>'+'<h4>Laden:</h4><ul>'+
-                                '<li>Front<ul>'+'<li>Bar: '+pressure.laden.front.bar+'</li>'+'<li>Psi: '+pressure.laden.front.psi+'</li>'+'</ul>'+
-                                '<li>Rear<ul>'+'<li>Bar: '+pressure.laden.rear.bar+'</li>'+'<li>Psi: '+pressure.laden.rear.psi+'</li>'+'</ul>'+
-                                '</ul>'+'</div>';
+                    tyres_text += '<div class="card"><div class="card-body"><h2 class="card-title main-title">Jacking points</h2>';
+                    tyres_text += '<img class="img-fluid" src="'+images_array[jacking_points.value]+'"/>';
+                    tyres_text += '</div></div><br/>';
+                    let technical_info = tyres_info.technical_information;
+                    tyres_text += '<div class="card"><div class="card-body">';
+                    technical_info.forEach(function(item,index){
+                        tyres_text += '<h2 class="card-title main-title">'+item.group_name+'</h2>';
+                        item.items.forEach(function(an_item,the_index){
+                            tyres_text += '<h2 class="card-subtitle sub-title">'+an_item.description+'</h2>'+
+                                '<h3>'+an_item.value+'</h3>';
+                            if(an_item.note != null) {
+                                tyres_text += ' <i class="material-icons" style="cursor: pointer;" onclick="$(\'#technical-notes-'+index+'\').toggle();">info</i>'+
+                                    '<div id="technical-notes-'+index+'" style="display: none">';
+                                notes_array[an_item.note].notes.forEach(function (item, index) {
+                                    tyres_text += '<h5>' + item + '</h5>';
+                                });
+                                tyres_text += '</div>';
+                            }
                         });
-                        tyres_text += '</div>';
                     });
-                    tyres_text += '<br/>';
+                    tyres_text += '</div></div><br/>';
                     let tyre_pressure_monitoring_systems = tyres_info.tyre_pressure_monitoring_systems;
-                    tyres_text += '<h1 class="main-title">Tyre pressure monitoring systems</h1>';
+                    tyres_text += '<div class="card"><div class="card-body"><h2 class="card-title main-title">Tyre pressure monitoring system</h2>';
                     tyre_pressure_monitoring_systems.forEach(function(item,index){
                         tyres_text += '<h2 class="sub-title">'+item.variant_description+'</h2>'+
-                            '<h3 class="sub-sub-title">General Information</h3>'+
-                            '<h5>'+item.general_information+'</h5>'+
-                            '<h3 class="sub-sub-title">Special tools</h3>';
+                            '<div id="accordion-pressure-system-'+index+'" role="tablist" aria-multiselectable="true" class="card-collapse">' +
+                            '<div class="card">' +
+                            '<div class="card-header" role="tab" id="heading-pressure-system-'+index+'-info">' +
+                            '<a data-toggle="collapse" data-parent="#accordion-pressure-system-'+index+'" href="#collapse-pressure-system-'+index+'-info" aria-controls="collapse-pressure-system-'+index+'-info">' +
+                            'General Information ' + '<i class="material-icons">keyboard_arrow_down</i>' +
+                            '</a>' + '</div>' +
+                            '<div id="collapse-pressure-system-'+index+'-info" class="collapse" role="tabpanel" aria-labelledby="heading-pressure-system-'+index+'-info">' +
+                            '<div class="card-body">' +
+                            item.general_information +
+                            '</div>' + '</div>' + '</div>'+
+                            '<div class="card">' +
+                            '<div class="card-header" role="tab" id="heading-pressure-system-'+index+'-tools">' +
+                            '<a data-toggle="collapse" data-parent="#accordion-pressure-system-'+index+'" href="#collapse-pressure-system-'+index+'-tools" aria-controls="collapse-pressure-system-'+index+'-tools">' +
+                            'Special tools ' + '<i class="material-icons">keyboard_arrow_down</i>' +
+                            '</a>' + '</div>' +
+                            '<div id="collapse-pressure-system-'+index+'-tools" class="collapse" role="tabpanel" aria-labelledby="heading-pressure-system-'+index+'-tools">' +
+                            '<div class="card-body"> <ul>';
                         item.special_tools.forEach(function(tool,the_index){
-                            tyres_text += '<h5>'+tool.tool_name+'</h5>';
+                            tyres_text += '<li>'+tool.tool_name+'</li>';
                         });
+                        tyres_text += '</ul> </div>' + '</div>' + '</div>';
+
                         let system_operation = item.system_operation.value;
-                        tyres_text += '<h3 class="sub-sub-title">Operations</h3>';
+                        tyres_text += '<div class="card">' +
+                            '<div class="card-header" role="tab" id="heading-pressure-system-'+index+'-operation">' +
+                            '<a data-toggle="collapse" data-parent="#accordion-pressure-system-'+index+'" href="#collapse-pressure-system-'+index+'-operation" aria-controls="collapse-pressure-system-'+index+'-operation">' +
+                            'System Operations ' + '<i class="material-icons">keyboard_arrow_down</i>' +
+                            '</a>' + '</div>' +
+                            '<div id="collapse-pressure-system-'+index+'-operation" class="collapse" role="tabpanel" aria-labelledby="heading-pressure-system-'+index+'-operation">' +
+                            '<div class="card-body"> <ul>';
                         system_operation.forEach(function(operation,the_index){
-                            tyres_text += '<h4 class="sub-sub-title">'+(the_index+1)+'</h4>';
+                            tyres_text += '<li>';
                             operation.value.forEach(function(operation_item,a_index){
                                 if(operation_item.type == 'text'){
                                     tyres_text += '<p>'+operation_item.value+'</p>';
                                 } else if(operation_item.type == 'image'){
-                                    tyres_text += '<img class="img-responsive" src="'+images_array[operation_item.value]+'"/>';
+                                    tyres_text += '<img class="img-fluid" src="'+images_array[operation_item.value]+'"/>';
                                 }
                             });
+                            tyres_text += '</li>';
                         });
+                        tyres_text += '</ul> </div>' + '</div>' + '</div>';
+
                         let procedure_groups = item.procedure_groups;
-                        tyres_text += '<h3 class="sub-sub-title">Procedures</h3>';
-                        procedure_groups.forEach(function(procedure_group,index){
-                            tyres_text += '<h4>'+procedure_group.title+'</h4>';
+                        //tyres_text += '<h3 class="sub-sub-title">Procedures</h3>';
+                        procedure_groups.forEach(function(procedure_group,the_index){
+                            tyres_text += '<div class="card">' +
+                                '<div class="card-header" role="tab" id="heading-pressure-system-'+index+'-procedure-'+the_index+'">' +
+                                '<a data-toggle="collapse" data-parent="#accordion-pressure-system-'+index+'" href="#collapse-pressure-system-'+index+'-procedure-'+the_index+'" aria-controls="collapse-pressure-system-'+index+'-procedure-'+the_index+'">' +
+                                procedure_group.title + '<i class="material-icons">keyboard_arrow_down</i>' +
+                                '</a>' + '</div>' +
+                                '<div id="collapse-pressure-system-'+index+'-procedure-'+the_index+'" class="collapse" role="tabpanel" aria-labelledby="heading-pressure-system-'+index+'-procedure-'+the_index+'">' +
+                                '<div class="card-body"> <ul>';
                             procedure_group.procedures.forEach(function(procedure,the_index){
-                                tyres_text += '<h5>'+procedure.title+'</h5>';
+                                tyres_text += '<h5 class="card-title">'+procedure.title+'</h5> <ul>';
                                 procedure.steps.forEach(function(step,a_index){
                                     let the_step = step.value;
                                     let step_text = '';
                                     if(the_step.type == 'text'){
                                         step_text = the_step.value;
                                     } else if(the_step.type == 'image'){
-                                        step_text = '<img class="img-responsive" src="'+images_array[the_step.value]+'"/>'
+                                        step_text = '<img class="img-fluid" src="'+images_array[the_step.value]+'"/>'
                                     } else if(the_step.type == 'compound_text'){
                                         the_step.value.forEach(function(sub_step,b_index){
                                             if(sub_step.type == 'text'){
                                                 step_text += sub_step.value;
                                             } else if(sub_step.type == 'image'){
-                                                step_text += '<img class="img-responsive" src="'+images_array[sub_step.value]+'"/>'
+                                                step_text += '<img class="img-fluid" src="'+images_array[sub_step.value]+'"/>'
                                             }
                                         });
                                     }
-                                    tyres_text += '<p>'+(a_index+1)+') '+step_text+'</p>';
+                                    tyres_text += '<li>'+step_text+'</li>';
                                 });
+                                tyres_text += '</ul>';
                             });
+                            tyres_text += '</div> </div> </div>';
                         });
                     });
-                    tyres_text += '<br/>';
 
                     $('#tyres-section').html(tyres_text);
+
+                    $('.selectpicker').selectpicker();
                 }
             });
+        }
+
+        function changePressure(index,val){
+            var pressure_show = 'bar';
+            var pressure_hide = 'psi';
+            if(val=='psi'){
+                pressure_show = 'psi';
+                pressure_hide = 'bar';
+            }
+            $('#pressures-'+index+' .pressure-'+pressure_show).show();
+            $('#pressures-'+index+' .pressure-'+pressure_hide).hide();
         }
     </script>
 @endsection

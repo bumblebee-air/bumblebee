@@ -125,6 +125,7 @@
             color: #FF9203;
         }
     </style>
+    <link href="{{asset('css/ekko-lightbox.css')}}" type="text/css" rel="stylesheet" />
 @endsection
 @section('page-content')
     <div class="row">
@@ -153,44 +154,18 @@
         <div id="tyres-section">
         </div>
     </div>
-    <div class="row">
+    <!--<div class="row">
         <div class="col">
-            <div id="accordion" role="tablist" aria-multiselectable="true" class="card-collapse">
-                <div class="card">
-                    <div class="card-header" role="tab" id="headingOne">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-controls="collapseOne">
-                            Collapsible Group Item #1
-                            <i class="material-icons">keyboard_arrow_down</i>
-                        </a>
-                    </div>
-
-                    <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-                        <div class="card-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header" role="tab" id="headingTwo">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-controls="collapseTwo">
-                            Collapsible Group Item #2
-                            <i class="material-icons">keyboard_arrow_down</i>
-                        </a>
-                    </div>
-
-                    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
-                        <div class="card-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <a href="#" id="shogunfang" data-image-id="160413" data-image-reference="2">Two</a>
+            <a href="https://unsplash.it/600.jpg?image=250" data-toggle="lightbox" data-title="A random title">
+                <img src="https://unsplash.it/600.jpg?image=250" class="img-fluid">
+            </a>
         </div>
-    </div>
+    </div>-->
 @endsection
 
 @section('page-scripts')
+    <script src="{{asset('js/ekko-lightbox.min.js')}}" type="text/javascript"></script>
     <script type="text/javascript">
         let mid = null;
         $(document).ready(function() {
@@ -335,7 +310,8 @@
                     let the_images = tyres_info.__images;
                     let images_array = [];
                     the_images.forEach(function(item,index){
-                        images_array[item.id] = item.graphic.url;
+                        //images_array[item.id] = item.graphic.url;
+                        images_array.push({'id':item.id,'url':item.graphic.url});
                     });
                     console.log(notes_array);
                     let pressure_variants = tyres_info.pressure_variants;
@@ -371,9 +347,13 @@
                         tyres_text += '</tbody></table>';
                     });
                     tyres_text += '<br/>';
-                    let jacking_points =tyres_info.illustrations.jacking_points[0];
+                    let jacking_points_image_id =tyres_info.illustrations.jacking_points[0].value;
+                    var jacking_points = images_array.filter(obj => {
+                        return obj.id === jacking_points_image_id
+                    });
+                    jacking_points = jacking_points[0];
                     tyres_text += '<div class="card"><div class="card-body"><h2 class="card-title main-title">Jacking points</h2>';
-                    tyres_text += '<img class="img-fluid" src="'+images_array[jacking_points.value]+'"/>';
+                    tyres_text += '<img class="img-fluid" src="'+jacking_points.url+'"/>';
                     tyres_text += '</div></div><br/>';
                     let technical_info = tyres_info.technical_information;
                     tyres_text += '<div class="card"><div class="card-body">';
@@ -428,15 +408,15 @@
                             '<div id="collapse-pressure-system-'+index+'-operation" class="collapse" role="tabpanel" aria-labelledby="heading-pressure-system-'+index+'-operation">' +
                             '<div class="card-body"> <ul>';
                         system_operation.forEach(function(operation,the_index){
-                            tyres_text += '<li>';
+                            tyres_text += '<li> <p>';
                             operation.value.forEach(function(operation_item,a_index){
                                 if(operation_item.type == 'text'){
-                                    tyres_text += '<p>'+operation_item.value+'</p>';
+                                    tyres_text += +operation_item.value+' ';
                                 } else if(operation_item.type == 'image'){
-                                    tyres_text += '<img class="img-fluid" src="'+images_array[operation_item.value]+'"/>';
+                                    tyres_text += '<a href="#" class="tyres-image-link" data-image-id="'+operation_item.value+'" data-image-reference="'+operation_item.reference+'">( '+operation_item.reference+' )</a> ';
                                 }
                             });
-                            tyres_text += '</li>';
+                            tyres_text += '</p> </li>';
                         });
                         tyres_text += '</ul> </div>' + '</div>' + '</div>';
 
@@ -458,13 +438,13 @@
                                     if(the_step.type == 'text'){
                                         step_text = the_step.value;
                                     } else if(the_step.type == 'image'){
-                                        step_text = '<img class="img-fluid" src="'+images_array[the_step.value]+'"/>'
+                                        step_text += '<a href="#" class="tyres-image-link" data-image-id="'+the_step.value+'" data-image-reference="'+the_step.reference+'">( '+the_step.reference+' )</a> ';
                                     } else if(the_step.type == 'compound_text'){
                                         the_step.value.forEach(function(sub_step,b_index){
                                             if(sub_step.type == 'text'){
                                                 step_text += sub_step.value;
                                             } else if(sub_step.type == 'image'){
-                                                step_text += '<img class="img-fluid" src="'+images_array[sub_step.value]+'"/>'
+                                                step_text += '<a href="#" class="tyres-image-link" data-image-id="'+sub_step.value+'" data-image-reference="'+sub_step.reference+'">( '+sub_step.reference+' )</a> ';
                                             }
                                         });
                                     }
@@ -476,7 +456,25 @@
                         });
                     });
 
+                    tyres_text += '<div class="row">';
+                    images_array.forEach(function(image, index) {
+                        tyres_text += '<div class="col-3"><a href="'+image.url+'" id="'+image.id+'" data-toggle="lightbox" data-title="Fig. '+image.id+'" class="tyres-image">' +
+                            '<img src="'+image.url+'" class="img-fluid" alt="Fig. '+image.id+'">' +
+                            '</a></div>';
+                    });
+                    tyres_text += '</>';
+
                     $('#tyres-section').html(tyres_text);
+
+                    $('.tyres-image').on('click', function(event) {
+                        event.preventDefault();
+                        $(this).ekkoLightbox();
+                    });
+                    $('.tyres-image-link').on('click',function(e) {
+                        e.preventDefault();
+                        $('#'+($(this).data('image-id'))).click();
+                        //console.log($(this).data('image-reference'));
+                    });
 
                     $('.selectpicker').selectpicker();
                 }

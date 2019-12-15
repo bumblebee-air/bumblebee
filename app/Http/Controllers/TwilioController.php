@@ -15,13 +15,37 @@ class TwilioController extends Controller
         $from = $request->get('From');
         $message_body = $request->get('Body');
         $customer_phone = explode(':',$from)[1];
+        $number_of_media = $request->get('NumMedia');
+        $media_types = null;
+        $media_urls = null;
         //\Log::debug('Sid: '.$message_sid.', From: '.$from.', Body: '.$message_body);
+        if($message_body==null){
+            $message_body = '';
+        }
+        if(intval($number_of_media) > 0){
+            $media_types = '';
+            $media_urls = '';
+            $number_of_media = intval($number_of_media);
+            for($i=0;$i<$number_of_media;$i++){
+                $content_type = $request->get('MediaContentType'.strval($i));
+                $media_url = $request->get('MediaUrl'.strval($i));
+                $media_types .= $content_type;
+                $media_urls .= $media_url;
+                if($i != $number_of_media-1){
+                    $media_types .= ',';
+                    $media_urls .= ',';
+                }
+            }
+        }
         $whats = new WhatsappMessage();
         $whats->message = $message_body;
         $whats->from = $customer_phone;
         $whats->to = 'Bumblebee ('.'+447445341335'.')';
         $whats->status = 'received';
         $whats->external_id = $message_sid;
+        $whats->num_of_media = $number_of_media;
+        $whats->media_types = $media_types;
+        $whats->media_urls = $media_urls;
         $whats->save();
         $sid    = env('TWILIO_SID', '');
         $token  = env('TWILIO_AUTH', '');

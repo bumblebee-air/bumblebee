@@ -46,6 +46,16 @@ class TwilioController extends Controller
         $whats->num_of_media = $number_of_media;
         $whats->media_types = $media_types;
         $whats->media_urls = $media_urls;
+        //Check if it is a location message
+        $lat = $request->get('Latitude');
+        $lon = $request->get('Longitude');
+        if($lat!=null && $lon!=null){
+            $address = $request->get('Address');
+            $address_label = $request->get('Label');
+            $whats->lat = $lat;
+            $whats->lon = $lon;
+            $whats->address = $address.' ('.$address_label.')';
+        }
         $whats->save();
         $sid    = env('TWILIO_SID', '');
         $token  = env('TWILIO_AUTH', '');

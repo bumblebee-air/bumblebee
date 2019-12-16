@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\WhatsappMessage;
 use Illuminate\Http\Request;
 use Twilio\Rest\Client;
@@ -15,6 +16,11 @@ class TwilioController extends Controller
         $from = $request->get('From');
         $message_body = $request->get('Body');
         $customer_phone = explode(':',$from)[1];
+        $user_id = null;
+        $the_user = User::where('phone','=',$customer_phone)->first();
+        if($the_user){
+            $user_id = $the_user->id;
+        }
         $number_of_media = $request->get('NumMedia');
         $media_types = null;
         $media_urls = null;
@@ -42,6 +48,7 @@ class TwilioController extends Controller
         $whats->from = $customer_phone;
         $whats->to = 'Bumblebee ('.'+447445341335'.')';
         $whats->status = 'received';
+        $whats->user_id = $user_id;
         $whats->external_id = $message_sid;
         $whats->num_of_media = $number_of_media;
         $whats->media_types = $media_types;
@@ -79,6 +86,7 @@ class TwilioController extends Controller
             $whats->message = $body;
             $whats->from = 'Bumblebee ('.'+447445341335'.')';
             $whats->to = $customer_phone;
+            $whats->user_id = $user_id;
             $whats->status = $message->status;
             $whats->external_id = $message->sid;
             $whats->save();

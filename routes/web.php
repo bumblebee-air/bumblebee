@@ -62,6 +62,8 @@ Route::get('obd-to-vehicle/list','AdminController@getListObdToVehicle');
 Route::get('admin/customer-register','AdminController@getCustomerRegister');
 Route::post('admin/customer-register','AdminController@postCustomerRegister');
 
+Route::get('whatsapp-conversations','DashboardController@getWhatsappConversations');
+Route::get('whatsapp-conversation/{user_id}','DashboardController@getWhatsappConversation');
 Route::get('dashboard', function () {
     return view('admin.dashboard');
 });

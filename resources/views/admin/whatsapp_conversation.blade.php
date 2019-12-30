@@ -68,8 +68,27 @@
                     let messages_string = '<ul class="whatsapp-chat" id="chat-page-'+page+'">';
                     messages.forEach(function(item,index){
                         let chat_panel = '';
-                        let chat_body = '<div class="whatsapp-chat-panel"> <div class="whatsapp-chat-body"><p>' +
-                            item.message + '</p></div>';
+                        let chat_body = '<div class="whatsapp-chat-panel"> <div class="whatsapp-chat-body">';
+                        if(item.num_of_media != null && parseInt(item.num_of_media)>0){
+                            chat_body += '<div class="row">';
+                            let media_types_array = item.media_types.split(',');
+                            let media_array = item.media_urls.split(',');
+                            let image_media_types = ['image/jpeg','image/jpg','image/png','image/bmp','image/tiff','image/gif'];
+                            let audio_media_types = ['audio/ogg','audio/mpeg','audio/wav'];
+                            for(let i=0; i<parseInt(item.num_of_media); i++){
+                                if(image_media_types.includes(media_types_array[i])){
+                                    chat_body += '<div class="col-6">';
+                                    chat_body += '<a href="'+media_array[i]+'" target="_blank"><img class="img-fluid img-thumbnail" src="'+media_array[i]+'" /></a>';
+                                    chat_body += '</div>';
+                                } else if (audio_media_types.includes(media_types_array[i])){
+                                    chat_body += '<div class="col-12">';
+                                    chat_body += '<audio controls src="'+media_array[i]+'" type="'+media_types_array[i]+'">Your browser doesn\'t support audio</audio>';
+                                    chat_body += '</div>';
+                                }
+                            }
+                            chat_body += '</div>';
+                        }
+                        chat_body += '<p>' +item.message + '</p></div>';
                         if(item.from==customer_phone){
                             chat_panel += '<li class="whatsapp-chat-inverted">';
                             chat_panel += chat_body;
@@ -89,17 +108,15 @@
                         messages_string += chat_panel;
                     });
                     messages_string += '</ul>';
-                    if(is_more===true){
-                        let load_more_string = '<div id="load-more">' +
-                            '<button class="btn btn-primary">Load previous messages</button>' +
-                            '</div>';
-                        messages_string  = load_more_string + messages_string;
-                    }
                     $('#chat-page-'+prev.toString()).before(messages_string);
                     if(page===1){
                         $('#chat-page-'+prev.toString()).html('');
                     }
                     if(is_more===true){
+                        let load_more_string = '<div id="load-more">' +
+                            '<button class="btn btn-primary">Load previous messages</button>' +
+                            '</div>';
+                        $('#load-more').html(load_more_string);
                         $('#load-more button').on('click', function(ev){
                             ev.preventDefault();
                             $('#load-more').html('<h5 class="card-title"><i class="fa fa-spin fa-sync"></i> Loading messages</h5>');
@@ -123,7 +140,7 @@
                 $('#conversations-group .list-group-item').removeClass('active');
                 $(this).addClass('active');
                 $('#conversation-area #conversation-header').html('<i class="fab fa-whatsapp"></i> ' + user_name);
-                $('#conversation-area #conversation-body').html('<div id="chat-page-0"><h5 class="card-title"><i class="fa fa-spin fa-sync"></i> Loading conversation</h5></div>');
+                $('#conversation-area #conversation-body').html('<div id="load-more"></div> <div id="chat-page-0"><h5 class="card-title"><i class="fa fa-spin fa-sync"></i> Loading conversation</h5></div>');
             });
         });
     </script>

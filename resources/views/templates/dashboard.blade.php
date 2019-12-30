@@ -27,10 +27,12 @@
 
 
 <!-- Page Content -->
-<div class="container">
+<div class="wrapper">
     @include('partials.flash')
-
-    @yield('page-content')
+    @include('partials.admin_sidebar')
+    <div class="main-panel">
+        @yield('page-content')
+    </div>
 </div>
 
 <!-- Scripts -->

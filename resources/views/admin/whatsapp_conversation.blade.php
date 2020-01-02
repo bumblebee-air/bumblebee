@@ -17,6 +17,13 @@
         #conversation-area #conversation-body {
             max-height: 400px;
             overflow-y: auto;
+            background-color: #ece5dd;
+        }
+        #load-more {
+            text-align: center;
+        }
+        .status-tick {
+            width: 15px;
         }
     </style>
 @endsection
@@ -87,22 +94,29 @@
                                 }
                             }
                             chat_body += '</div>';
+                        } else if(item.address != null && item.address != ''){
+                            chat_body += '<p>' + item.address + ' <a href="https://maps.google.com/maps?q='+item.lat+','+item.lon+'" target="_blank">' +
+                                'Click here to open in maps</a> </p>';
                         }
                         chat_body += '<p>' +item.message + '</p></div>';
                         if(item.from==customer_phone){
                             chat_panel += '<li class="whatsapp-chat-inverted">';
                             chat_panel += chat_body;
-                            chat_panel += '<h6>' + item.from + '</h6>';
+                            //chat_panel += '<h6>' + item.from + '</h6>';
+                            let chat_time = new moment(item.created_at);
+                            chat_panel += '<h6> <span style="float:right">' + chat_time.format('D/M HH:mm') + '</span> </h6>';
                         } else {
                             chat_panel += '<li>';
                             chat_panel += chat_body;
                             let message_status = '';
                             if(item.status == 'read'){
-                                message_status = '(Read)';
+                                message_status = '<img src="{{asset('images/double-tick-blue.svg')}}" class="status-tick" alt="(Read)"/>';
                             } else {
-                                message_status = '(Unread)';
+                                message_status = message_status = '<img src="{{asset('images/double-tick-grey.svg')}}" class="status-tick" alt="(Unead)"/>';
                             }
-                            chat_panel += '<h6>' + item.from + '<span style="float:right">' +message_status + '</span></h6>';
+                            //chat_panel += '<h6>' + item.from + '<span style="float:right">' +message_status + '</span></h6>';
+                            let chat_time = new moment(item.created_at);
+                            chat_panel += '<h6> <span style="float:right">' + chat_time.format('D/M HH:mm') + ' ' + message_status + '</span></h6>';
                         }
                         chat_panel += '</div></li>';
                         messages_string += chat_panel;
@@ -114,7 +128,7 @@
                     }
                     if(is_more===true){
                         let load_more_string = '<div id="load-more">' +
-                            '<button class="btn btn-primary">Load previous messages</button>' +
+                            '<button class="btn btn-info">Load previous messages</button>' +
                             '</div>';
                         $('#load-more').html(load_more_string);
                         $('#load-more button').on('click', function(ev){

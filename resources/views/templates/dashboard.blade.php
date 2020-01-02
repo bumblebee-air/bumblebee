@@ -38,6 +38,8 @@
 <!-- Scripts -->
 <script src="{{asset('js/jquery.min.js')}}"></script>
 <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('js/moment.min.js')}}"></script>
+<script src="{{asset('js/moment-timezone.min.js')}}"></script>
 @yield('page-scripts')
 </body>
 </html>

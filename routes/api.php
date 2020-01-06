@@ -20,5 +20,7 @@ Route::post('twilio-token', 'TwilioTokenController@generate');
 Route::post('vehicle-by-obd', 'LookUpController@postGetVehicleByObd');
 Route::post('check-obd-vehicle-connection', 'LookUpController@checkObdToVehicleConnection');
 Route::post('get-tyres-info', 'LookUpController@getTyresInformation');
+Route::post('get-batteries-info', 'LookUpController@getBatteriesInformation');
+Route::post('get-battery-info', 'LookUpController@getBatteryInformation');
 Route::post('whatsapp-message', 'TwilioController@whatsappMessage');
 Route::post('whatsapp-status', 'TwilioController@whatsappStatus');

@@ -111,4 +111,30 @@ class TwilioController extends Controller
         $xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><Response/>');
         return Response::make($xml->asXML(),200,[]);
     }
+
+    public function sendMessageToCustomer(Request $request){
+        $customer_id = $request->get('customer_id');
+        $message_body = $request->get('message_body');
+        $the_user = User::find($customer_id);
+        if(!$the_user){
+            return json_encode(['error'=>1, 'message'=>'No user was found with this ID']);
+        }
+        $customer_phone = $the_user->phone;
+        $sid    = env('TWILIO_SID', '');
+        $token  = env('TWILIO_AUTH', '');
+        $twilio = new Client($sid, $token);
+        $message = $twilio->messages->create($customer_phone,
+            ["from" => "whatsapp:+447445341335",
+                "body" => $message_body]
+        );
+        $whats = new WhatsappMessage();
+        $whats->message = $message_body;
+        $whats->from = 'Bumblebee ('.'+447445341335'.')';
+        $whats->to = $customer_phone;
+        $whats->user_id = $customer_id;
+        $whats->status = $message->status;
+        $whats->external_id = $message->sid;
+        $whats->save();
+
+    }
 }

@@ -151,6 +151,10 @@
         </div>
     </div>
     <div class="row">
+        <div id="batteries-section">
+        </div>
+    </div>
+    <div class="row">
         <div id="tyres-section">
         </div>
     </div>
@@ -260,6 +264,7 @@
                                         '<h4 class="orange-header" style="font-weight: 400">Vehicle Details</h4>' +
                                         '</div>');
                                     getTyreDetails();
+                                    getBatteryDetails();
                                 }
                             }
                         }
@@ -490,6 +495,157 @@
             }
             $('#pressures-'+index+' .pressure-'+pressure_show).show();
             $('#pressures-'+index+' .pressure-'+pressure_hide).hide();
+        }
+
+        function getBatteryDetails(){
+            $.ajax({
+                url: '{{url('api/get-batteries-info')}}',
+                data: {
+                    mid: mid,
+                    csrfmiddlewaretoken: '{{ csrf_token() }}'
+                },
+                dataType: 'json',
+                method: 'POST',
+                success: function (data) {
+                    let batteries_info = data.batteries_info;
+                    let batteries_text = '<h1 class="main-title">Battery replacements</h1>';
+                    batteries_info.forEach(function(battery, index){
+                        let battery_description = 'Main';
+                        if(battery.battery_replacement_description != ''){
+                            battery_description = battery.battery_replacement_description;
+                        }
+                        batteries_text +=
+                        '<div id="accordion-battery-'+index+'" role="tablist" aria-multiselectable="true" class="card-collapse">' +
+                        '<div class="card">' +
+                        '<div class="card-header" role="tab" id="heading-battery-'+index+'-info">' +
+                        '<a data-toggle="collapse" data-parent="#accordion-battery-'+index+'" href="#collapse-battery-'+index+'-info" aria-controls="collapse-battery-'+index+'-info">' +
+                            battery_description + '<i class="material-icons">keyboard_arrow_down</i>' +
+                        '</a>' + '</div>' +
+                        '<div id="collapse-battery-'+index+'-info" class="collapse" role="tabpanel" aria-labelledby="heading-battery-'+index+'-info">' +
+                        '<div id="battery-'+index+'-info-area" class="card-body">' +
+                            battery.battery_replacement_id +
+                        '</div>' + '</div>' + '</div>';
+                    });
+                    $('#batteries-section').html(batteries_text);
+                    batteries_info.forEach(function(battery, index){
+                        getSingleBatteryDetails(battery.battery_replacement_id,index);
+                    });
+                }
+            });
+        }
+
+        function getSingleBatteryDetails(battery_id,battery_index){
+            $.ajax({
+                url: '{{url('api/get-battery-info')}}',
+                data: {
+                    mid: mid,
+                    variant_id: battery_id,
+                    csrfmiddlewaretoken: '{{ csrf_token() }}'
+                },
+                dataType: 'json',
+                method: 'POST',
+                success: function (data) {
+                    let battery_info = data.battery_info;
+                    console.log(battery_info);
+                    let battery_text = '';
+                    let the_images = battery_info.__images;
+                    let images_array = [];
+                    the_images.forEach(function(item,index){
+                        //images_array[item.id] = item.graphic.url;
+                        images_array.push({'id':item.id,'url':item.graphic.url});
+                    });
+                    let battery_location =battery_info.battery_location.value[0];
+                    if(battery_location.type == 'compound_text'){
+                        battery_location = battery_location.value;
+                    }
+                    battery_text += '<div id="accordion-battery-'+battery_index+'-location" role="tablist" aria-multiselectable="true" class="card-collapse">' +
+                    '<div class="card">' +
+                    '<div class="card-header" role="tab" id="heading-battery-'+battery_index+'-location">' +
+                    '<a data-toggle="collapse" data-parent="#accordion-battery-'+battery_index+'-location" href="#collapse-battery-'+battery_index+'-location" aria-controls="collapse-battery-'+battery_index+'-location">' +
+                    'Battery location' + '<i class="material-icons">keyboard_arrow_down</i>' +
+                    '</a>' + '</div>' +
+                    '<div id="collapse-battery-'+battery_index+'-location" class="collapse" role="tabpanel" aria-labelledby="heading-battery-'+battery_index+'-location">' +
+                    '<div id="battery-'+battery_index+'-info-area" class="card-body">';
+                    battery_location.forEach(function (batt_img_sect, ind) {
+                        if (batt_img_sect.type == 'image') {
+                            let battery_location_image_id = batt_img_sect.value;
+                            var battery_location = images_array.filter(obj => {
+                                return obj.id === battery_location_image_id
+                            });
+                            battery_location = battery_location[0];
+                            //battery_text += '<div class="card"><div class="card-body"><h2 class="card-title main-title">Battery location</h2>';
+                            battery_text += '<img class="img-fluid" src="' + battery_location.url + '"/>';
+                            //battery_text += '</div></div><br/>';
+                        }
+                    });
+                    battery_text += '</div>' + '</div>' + '</div>';
+                    let general_info = battery_info.general_information;
+                    if(general_info!=null) {
+                        battery_text += '<div id="accordion-battery-' + battery_index + '-general-info" role="tablist" aria-multiselectable="true" class="card-collapse">' +
+                            '<div class="card">' +
+                            '<div class="card-header" role="tab" id="heading-battery-' + battery_index + '-general-info">' +
+                            '<a data-toggle="collapse" data-parent="#accordion-battery-' + battery_index + '-general-info" href="#collapse-battery-' + battery_index + '-general-info" aria-controls="collapse-battery-' + battery_index + '-general-info">' +
+                            'General information' + '<i class="material-icons">keyboard_arrow_down</i>' +
+                            '</a>' + '</div>' +
+                            '<div id="collapse-battery-' + battery_index + '-general-info" class="collapse" role="tabpanel" aria-labelledby="heading-battery-' + battery_index + '-general-info">' +
+                            '<div id="battery-' + battery_index + '-info-area" class="card-body">';
+                        general_info.value.forEach(function (step, ind) {
+                            if (step.type == 'compound_text') {
+                                let step_text = processCompoundText(step.value, true);
+                                battery_text += step_text;
+                            } else if (step.type == 'text') {
+                                battery_text += '<p>'+step.value+'</p>';
+                            }
+                        });
+                        if(general_info.warnings != null && general_info.warnings.length > 0){
+                            console.log(general_info.warnings);
+                        }
+                        battery_text += '</div>' + '</div>' + '</div>';
+                    }
+                    let precautions = battery_info.precautions;
+                    if(precautions!=null) {
+                        battery_text += '<div id="accordion-battery-' + battery_index + '-precautions" role="tablist" aria-multiselectable="true" class="card-collapse">' +
+                            '<div class="card">' +
+                            '<div class="card-header" role="tab" id="heading-battery-' + battery_index + '-precautions">' +
+                            '<a data-toggle="collapse" data-parent="#accordion-battery-' + battery_index + '-precautions" href="#collapse-battery-' + battery_index + '-precautions" aria-controls="collapse-battery-' + battery_index + '-precautions">' +
+                            'Precautions' + '<i class="material-icons">keyboard_arrow_down</i>' +
+                            '</a>' + '</div>' +
+                            '<div id="collapse-battery-' + battery_index + '-precautions" class="collapse" role="tabpanel" aria-labelledby="heading-battery-' + battery_index + '-precautions">' +
+                            '<div id="battery-' + battery_index + '-info-area" class="card-body">';
+                        precautions.value.forEach(function (step, ind) {
+                            if (step.type == 'compound_text') {
+                                let step_text = processCompoundText(step.value, true);
+                                battery_text += step_text;
+                            } else if (step.type == 'text') {
+                                battery_text += '<p>'+step.value+'</p>';
+                            }
+                        });
+                        battery_text += '</div>' + '</div>' + '</div>';
+                    }
+                    $('#battery-'+battery_index+'-info-area').html(battery_text);
+                }
+            });
+        }
+
+        function processCompoundText(text_arr, new_lines=false){
+            let step_text = '';
+            text_arr.forEach(function(step,index){
+                if(new_lines){
+                    step_text += '<p>';
+                }
+                if(step.type == 'text'){
+                    step_text += step.value;
+                } else if(step.type == 'image'){
+                    step_text += '<a href="#" class="tyres-image-link" data-image-id="'+step.value+'" data-image-reference="'+step.reference+'">( '+step.reference+' )</a> ';
+                } else if(step.type == 'compound_text'){
+                    let sub_step_text = processCompoundText(step.value, new_lines);
+                    step_text += sub_step_text;
+                }
+                if(new_lines){
+                    step_text += '</p>';
+                }
+            });
+            return step_text;
         }
     </script>
 @endsection

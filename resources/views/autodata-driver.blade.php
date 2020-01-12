@@ -124,6 +124,15 @@
         .sub-sub-title {
             color: #FF9203;
         }
+        #batteries-section,
+        #tyres-section {
+            background-color: #fff;
+            border-radius: 20px;
+            margin-top: 20px;
+        }
+        #batteries-section .card {
+            padding: 0 20px 20px 20px;
+        }
     </style>
     <link href="{{asset('css/ekko-lightbox.css')}}" type="text/css" rel="stylesheet" />
 @endsection
@@ -151,11 +160,11 @@
         </div>
     </div>
     <div class="row">
-        <div id="batteries-section">
+        <div id="batteries-section" class="col">
         </div>
     </div>
     <div class="row">
-        <div id="tyres-section">
+        <div id="tyres-section" class="col">
         </div>
     </div>
     <!--<div class="row">
@@ -263,8 +272,17 @@
                                     $('#vehicle-form').after('<div class="form-group vehicle-info" style="margin-bottom: 0">' +
                                         '<h4 class="orange-header" style="font-weight: 400">Vehicle Details</h4>' +
                                         '</div>');
-                                    getTyreDetails();
-                                    getBatteryDetails();
+                                    //Rereieve tyre pressures and battery replacements information
+                                    $('#tyres-section').html('<div class="form-group vehicle-info">' +
+                                        '<div><label class="orange-header control-label">' +
+                                        '<i class="fa fa-sync fa-spin"></i> Retrieving tyres information</label></div>' +
+                                        '</div>');
+                                    setTimeout(getTyreDetails,1000);
+                                    $('#batteries-section').html('<div class="form-group vehicle-info">' +
+                                        '<div><label class="orange-header control-label">' +
+                                        '<i class="fa fa-sync fa-spin"></i> Retrieving batteries information</label></div>' +
+                                        '</div>');
+                                    setTimeout(getBatteryDetails,3000);
                                 }
                             }
                         }
@@ -528,7 +546,7 @@
                     });
                     $('#batteries-section').html(batteries_text);
                     batteries_info.forEach(function(battery, index){
-                        getSingleBatteryDetails(battery.battery_replacement_id,index);
+                        setTimeout(getSingleBatteryDetails(battery.battery_replacement_id,index) , 1000);
                     });
                 }
             });
@@ -565,7 +583,7 @@
                     'Battery location' + '<i class="material-icons">keyboard_arrow_down</i>' +
                     '</a>' + '</div>' +
                     '<div id="collapse-battery-'+battery_index+'-location" class="collapse" role="tabpanel" aria-labelledby="heading-battery-'+battery_index+'-location">' +
-                    '<div id="battery-'+battery_index+'-info-area" class="card-body">';
+                    '<div id="battery-'+battery_index+'-location-area" class="card-body">';
                     battery_location.forEach(function (batt_img_sect, ind) {
                         if (batt_img_sect.type == 'image') {
                             let battery_location_image_id = batt_img_sect.value;
@@ -588,7 +606,7 @@
                             'General information' + '<i class="material-icons">keyboard_arrow_down</i>' +
                             '</a>' + '</div>' +
                             '<div id="collapse-battery-' + battery_index + '-general-info" class="collapse" role="tabpanel" aria-labelledby="heading-battery-' + battery_index + '-general-info">' +
-                            '<div id="battery-' + battery_index + '-info-area" class="card-body">';
+                            '<div id="battery-' + battery_index + '-general-info-area" class="card-body">';
                         general_info.value.forEach(function (step, ind) {
                             if (step.type == 'compound_text') {
                                 let step_text = processCompoundText(step.value, true);
@@ -621,6 +639,39 @@
                             }
                         });
                         battery_text += '</div>' + '</div>' + '</div>';
+                    }
+                    let procedures = battery_info.procedures;
+                    if(procedures!=null){
+                        procedures.forEach(function(procedure, ind){
+                            battery_text += '<div id="accordion-battery-' + battery_index + '-procedure-' + ind + '" role="tablist" aria-multiselectable="true" class="card-collapse">' +
+                                '<div class="card">' +
+                                '<div class="card-header" role="tab" id="heading-battery-' + battery_index + '-procedure-' + ind + '">' +
+                                '<a data-toggle="collapse" data-parent="#accordion-battery-' + battery_index + '-procedure-' + ind + '" href="#collapse-battery-' + battery_index + '-procedure-' + ind + '" aria-controls="collapse-battery-' + battery_index + '-procedure-' + ind + '">' +
+                                procedure.title + '<i class="material-icons">keyboard_arrow_down</i>' +
+                                '</a>' + '</div>' +
+                                '<div id="collapse-battery-' + battery_index + '-procedure-' + ind + '" class="collapse" role="tabpanel" aria-labelledby="heading-battery-' + battery_index + '-procedure-' + ind + '">' +
+                                '<div id="battery-' + battery_index + '-procedure-' + ind + '-area" class="card-body">';
+                            procedure.steps.forEach(function(step, step_ind){
+                                let step_val = step.value;
+                                if (step.kind == 'step') {
+                                    if(step_val.type=='text') {
+                                        battery_text += '<p>'+step_val.value+'</p>';
+                                    } else {
+                                        console.log('UNKNOWN BATTERY PROCEDURE STEP VALUE!:');
+                                        console.log(step);
+                                    }
+                                } else if (step.kind == 'note') {
+                                    if(step_val.type=='text') {
+                                        battery_text += '<div class="alert alert-warning" role="alert">' +
+                                            step_val.value + '</div>';
+                                    } else {
+                                        console.log('UNKNOWN BATTERY PROCEDURE NOTE VALUE!:');
+                                        console.log(step);
+                                    }
+                                }
+                            });
+                            battery_text += '</div>' + '</div>' + '</div>';
+                        });
                     }
                     $('#battery-'+battery_index+'-info-area').html(battery_text);
                 }

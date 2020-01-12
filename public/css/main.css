@@ -17,8 +17,8 @@ nav.navbar {
     color: #00479d;
 }
 
-.navbar-rrra {
-    background-color:#FF6602;
+nav.navbar.navbar-rrra {
+    background-color:#FF6602 !important;
 }
 
 .navbar-rrra .navbar-nav .active > .nav-link,

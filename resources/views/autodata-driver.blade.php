@@ -2,21 +2,21 @@
 
 @section('page-styles')
     <style>
-        :root {
-            --input-padding-x: 1.5rem;
-            --input-padding-y: .75rem;
-        }
-
         body {
             background: #eee;
             /*background: linear-gradient(to right, #0062E6, #33AEFF);*/
+        }
+
+        /*:root {
+            --input-padding-x: 1.5rem;
+            --input-padding-y: .75rem;
         }
 
         .card-signin {
             border: 0;
             border-radius: 1rem;
             background: #eee;
-            /*box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);*/
+            /*box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
         }
 
         .card-signin .card-title {
@@ -35,13 +35,13 @@
         }
 
         .form-signin .btn {
-            /*font-size: 90%;*/
+            /*font-size: 90%;
             border-radius: 5rem;
-            /*letter-spacing: .1rem;*/
+            /*letter-spacing: .1rem;
             font-weight: 700;
             padding: 1rem;
             transition: all 0.2s;
-        }
+        }*/
 
         .form-label-group {
             position: relative;
@@ -124,14 +124,29 @@
         .sub-sub-title {
             color: #FF9203;
         }
+        .btn.btn-rrra {
+            background-color: #FF2E1B;
+            border-color: #FF2E1B;
+        }
+        .btn.btn-rrra:hover, .btn.btn-rrra:active,
+        .btn.btn-rrra:focus {
+            background-color: #F7220E;
+            border-color: #F7220E;
+        }
         #batteries-section,
         #tyres-section {
             background-color: #fff;
             border-radius: 20px;
             margin-top: 20px;
         }
-        #batteries-section .card {
-            padding: 0 20px 20px 20px;
+        #batteries-section .card .card-header,
+        #tyres-section .card .card-header {
+            padding: 15px;
+        }
+        #batteries-section .card .card-body,
+        #tyres-section .card .card-body {
+            padding-right: 15px;
+            padding-left: 15px;
         }
     </style>
     <link href="{{asset('css/ekko-lightbox.css')}}" type="text/css" rel="stylesheet" />
@@ -139,24 +154,28 @@
 @section('page-content')
     <div class="row">
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-            <div class="card card-signin my-1">
+            <div class="card">
                 <div class="card-body">
-                    <div class="form-signin">
+                    <div class="form">
                         {{csrf_field()}}
 
-                        <div class="form-label-group">
-                            <input id="vehicle-reg" class="form-control" name="vehicle_reg" placeholder="Vehicle Reg" required>
-                            <label for="vehicle-reg">Vehicle Reg</label>
+                        <div class="form-group bmd-form-group">
+                            <label class="bmd-label-floating" for="vehicle-reg">Vehicle Reg</label>
+                            <input id="vehicle-reg" class="form-control" name="vehicle_reg" required>
                         </div>
-                        <div class="form-label-group" id="vehicle-form" style="margin: 0px !important;">
+                        <div class="form-group" id="vehicle-form" style="margin: 0px !important;">
                         </div>
 
-                        <button class="btn btn-lg btn-primary btn-block text-uppercase" id="vehicle-check" role="button">Submit</button>
+                        <button class="btn btn-lg btn-rrra btn-block btn-round text-uppercase" id="vehicle-check" role="button">Submit</button>
                     </div>
                 </div>
             </div>
-            <h3>Powered by</h3>
-            <img class="img-fluid" src="{{asset('images/autodata-logo.svg')}}"/>
+            <div class="row justify-content-center">
+                <div class="col-sm-8 align-self-center" style="text-align: center">
+                    <h4>Powered by</h4>
+                    <img class="img-fluid" src="{{asset('images/autodata-logo.svg')}}"/>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">
@@ -342,11 +361,11 @@
                     pressure_variants.forEach(function(item,index){
                         tyres_text += '<h2 class="sub-title">'+item.variant_description+' ('+item.year_range.year_range+')</h2>'+
                             'Show tyre pressure in ' +
-                            '<select class="selectpicker" id="pressure-select-'+index+'" onchange="changePressure('+index+',$(this).val())">' +
+                            '<select class="selectpicker" data-style="select-with-transition" id="pressure-select-'+index+'" onchange="changePressure('+index+',$(this).val())">' +
                             '<option value="bar">Bar</option>' +
                             '<option value="psi">Psi</option>' +
                             '</select>'+
-                            '<table id="pressures-'+index+'" class="table table-bordered">'+
+                            '<div class="table-responsive"><table id="pressures-'+index+'" class="table table-bordered">'+
                             '<thead>'+
                             '<tr><td rowspan="2">Rim size</td><td rowspan="2">Tyre size</td><td rowspan="2">Model</td><td colspan="2">Unladen</td><td colspan="2">Laden</td></tr>' +
                             '<tr><td>Front</td><td>Rear</td><td>Front</td><td>Rear</td></tr>'+
@@ -367,7 +386,7 @@
                                 '<td><span class="pressure-bar">'+pressure.laden.rear.bar+'</span>'+'<span class="pressure-psi" style="display: none">'+pressure.laden.rear.psi+'</span></td>'+
                                 '</tr>';
                         });
-                        tyres_text += '</tbody></table>';
+                        tyres_text += '</tbody></table></div>';
                     });
                     tyres_text += '<br/>';
                     let jacking_points_image_id =tyres_info.illustrations.jacking_points[0].value;
@@ -432,13 +451,21 @@
                             '<div class="card-body"> <ul>';
                         system_operation.forEach(function(operation,the_index){
                             tyres_text += '<li> <p>';
-                            operation.value.forEach(function(operation_item,a_index){
+                            if(operation.type == 'compound_text'){
+                                let operation_text = processCompoundText(operation.value);
+                                tyres_text += operation_text;
+                            } else if(operation.type == 'text'){
+                                tyres_text += operation.value + ' ';
+                            } else if(operation.type == 'image'){
+                                tyres_text += '<a href="#" class="tyres-image-link" data-image-id="'+operation.value+'" data-image-reference="'+operation.reference+'">( '+operation.reference+' )</a> ';
+                            }
+                            /*operation.value.forEach(function(operation_item,a_index){
                                 if(operation_item.type == 'text'){
-                                    tyres_text += +operation_item.value+' ';
+                                    tyres_text += operation_item.value + ' ';
                                 } else if(operation_item.type == 'image'){
                                     tyres_text += '<a href="#" class="tyres-image-link" data-image-id="'+operation_item.value+'" data-image-reference="'+operation_item.reference+'">( '+operation_item.reference+' )</a> ';
                                 }
-                            });
+                            });*/
                             tyres_text += '</p> </li>';
                         });
                         tyres_text += '</ul> </div>' + '</div>' + '</div>';

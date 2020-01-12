@@ -38,6 +38,8 @@
 <script src="{{asset('js/popper.min.js')}}"></script>
 <script src="{{asset('js/bootstrap-material-design.min.js')}}"></script>
 <script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
+<script src="{{asset('js/moment.min.js')}}"></script>
+<script src="{{asset('js/material-kit.min.js')}}"></script>
 @yield('page-scripts')
 </body>
 </html>

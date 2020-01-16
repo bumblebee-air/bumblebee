@@ -73,7 +73,10 @@ Route::get('support-customer', function () {
 Route::get('obd-admin', function () {
     return view('obd_general');
 });
-Route::get('autodata-driver', function () {
+/*Route::get('autodata-driver', function () {
+    return view('autodata-driver');
+});*/
+Route::get('tyres-batteries', function () {
     return view('autodata-driver');
 });
 Route::get('test-soap','LookUpController@testSoap');

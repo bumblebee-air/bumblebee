@@ -144,6 +144,10 @@
             background-color: #fff;
             border-radius: 20px;
         }
+        #batteries-section .card,
+        #tyres-section .card {
+            margin: 5px;
+        }
         #batteries-section .card .card-header,
         #tyres-section .card .card-header {
             padding: 15px;
@@ -152,6 +156,7 @@
         #tyres-section .card .card-body {
             padding-right: 15px;
             padding-left: 15px;
+            padding-bottom: 15px;
         }
     </style>
     <link href="{{asset('css/ekko-lightbox.css')}}" type="text/css" rel="stylesheet" />
@@ -191,6 +196,7 @@
         <div id="tyres-section" class="col">
         </div>
     </div>
+    <br/>
     <!--<div class="row">
         <div class="col">
             <a href="#" id="shogunfang" data-image-id="160413" data-image-reference="2">Two</a>
@@ -299,15 +305,16 @@
                                     $('#vehicle-form').after(vehicleInfoItem('Make', make, 'make'));*/
                                     $('#vehicle-form').after('<p><span style="text-align:center">'+make+' '+model+'</span></p>');
 
-                                    $('#vehicle-form').after('<div class="form-group vehicle-info" style="margin-bottom: 0">' +
+                                    /*$('#vehicle-form').after('<div class="form-group vehicle-info" style="margin-bottom: 0">' +
                                         '<h4 class="orange-header" style="font-weight: 400">Vehicle Details</h4>' +
-                                        '</div>');
+                                        '</div>');*/
                                     //Fixed scrolling vehicle info bar
                                     $('nav.navbar').after('<div id="fixed-vehicle-info-bar" ' +
                                         'style="position:fixed;top:70px;background-color:#F7F7F7; width: 100%; text-align: center;' +
                                             'box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3); z-index: 999;">' +
-                                        '<h4>' + make + '  ' + model + '(' + reg + ')' + '</h4>' +
+                                        '<h4>' + make + '  ' + model + '&nbsp;&nbsp;(' + reg + ')' + '</h4>' +
                                         '</div>');
+                                    //'<i class="fas fa-arrow-alt-circle-up" style="cursor: pointer" onclick="scrollToTheTop()"></i></span>'
                                     //Retrieve tyre pressures and battery replacements information
                                     $('#tyres-section').html('<div class="form-group vehicle-info">' +
                                         '<div><label class="orange-header control-label">' +
@@ -934,6 +941,11 @@
             });
             tyres_text += '</div>' + '</div>' + '</div>' + '</div>';
             return tyres_text;
+        }
+
+        function scrollToTheTop(){
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
         }
     </script>
 @endsection

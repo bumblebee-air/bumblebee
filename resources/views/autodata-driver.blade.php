@@ -161,6 +161,9 @@
         #vehicle-reg-container .form-control-feedback {
             top: 0;
         }
+        #vehicle-reg-container.has-success input {
+            color: #4caf50;
+        }
     </style>
     <link href="{{asset('css/ekko-lightbox.css')}}" type="text/css" rel="stylesheet" />
 @endsection
@@ -184,8 +187,8 @@
                 </div>
             </div>
             <div class="row justify-content-center">
-                <div class="col-sm-6 col-6 align-self-center" style="text-align: center">
-                    <h4>Powered by</h4>
+                <div class="col-sm-4 col-4 align-self-center" style="text-align: center">
+                    <h6>Powered by</h6>
                     <img class="img-fluid" src="{{asset('images/autodata-logo.svg')}}" alt="Autodata"/>
                 </div>
             </div>

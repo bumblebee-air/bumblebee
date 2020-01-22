@@ -158,6 +158,9 @@
             padding-left: 15px;
             padding-bottom: 15px;
         }
+        #vehicle-reg-container .form-control-feedback {
+            top: 0;
+        }
     </style>
     <link href="{{asset('css/ekko-lightbox.css')}}" type="text/css" rel="stylesheet" />
 @endsection
@@ -169,7 +172,7 @@
                     <div class="form">
                         {{csrf_field()}}
 
-                        <div class="form-group" style="padding-top:0">
+                        <div id="vehicle-reg-container" class="form-group" style="padding-top:0">
                             <!--bmd-form-group<label class="bmd-label-floating" for="vehicle-reg">Vehicle Reg</label>-->
                             <input id="vehicle-reg" class="form-control" name="vehicle_reg" placeholder="Enter a Vehicle Registration" required>
                         </div>
@@ -257,11 +260,13 @@
                             } else {
                                 if (response.error == 1) {
                                     $('.vehicle-info').remove();
-                                    $('#vehicle-form').after('<div class="form-group vehicle-info"><div>' +
+                                    /*$('#vehicle-form').after('<div class="form-group vehicle-info"><div>' +
                                         '<label class="orange-header control-label">' +
                                         'Error: ' + response.error_bag['response'] + '<br/>' + response.error_bag['error'] +
                                         '</label>' +
-                                        '</div></div>');
+                                        '</div></div>');*/
+                                    console.log(response.error_bag['response']);
+                                    console.log(response.error_bag['error']);
                                     $('#vehicle-form').after('<div class="form-group vehicle-info"><div>' +
                                         '<label class="orange-header control-label">' +
                                         '<i class="fa fa-times"></i> Could not retrieve vehicle info</label>' +
@@ -303,11 +308,13 @@
                                     //$('#vehicle-form').after(vehicleInfoItem('Version', version, 'version'));
                                     $('#vehicle-form').after(vehicleInfoItem('Model', model, 'model'));
                                     $('#vehicle-form').after(vehicleInfoItem('Make', make, 'make'));*/
-                                    $('#vehicle-form').after('<p><span style="text-align:center">'+make+' '+model+'</span></p>');
+                                    //$('#vehicle-form').after('<p><span style="text-align:center">'+make+' '+model+'</span></p>');
 
                                     /*$('#vehicle-form').after('<div class="form-group vehicle-info" style="margin-bottom: 0">' +
                                         '<h4 class="orange-header" style="font-weight: 400">Vehicle Details</h4>' +
                                         '</div>');*/
+                                    $('#vehicle-reg-container').addClass('has-success');
+                                    $('#vehicle-reg').after('<span class="material-icons form-control-feedback">done</span>');
                                     //Fixed scrolling vehicle info bar
                                     $('nav.navbar').after('<div id="fixed-vehicle-info-bar" ' +
                                         'style="position:fixed;top:70px;background-color:#F7F7F7; width: 100%; text-align: center;' +
@@ -337,12 +344,15 @@
                             '<i class="fa fa-times"></i> Could not retrieve vehicle info</label>' +
                             '</div></div>');
                     });
+                    $('#tyres-section').html('');
+                    $('#batteries-section').html('');
                     $('.vehicle-info').remove();
                     $('#vehicle-form').after('<div class="form-group vehicle-info">' +
                         '<div><label class="orange-header control-label">' +
                         '<i class="fa fa-sync fa-spin"></i> Retrieving vehicle information</label></div>' +
                         '</div>');
                     $('#fixed-vehicle-info-bar').remove();
+                    $('#vehicle-reg-container').removeClass('has-success').removeClass('has-danger');
                 }
                 /* else {
                     $('.vehicle-info').remove();
@@ -428,7 +438,7 @@
                         });
                         tyres_text += '</tbody></table></div>';
                     });
-                    tyres_text += '</div></div</div></div></div>';
+                    tyres_text += '</div></div></div></div>';
                     let jacking_points_images =tyres_info.illustrations.jacking_points;
                     if(jacking_points_images!=null) {
                         let jacking_points_html = '<div class="row">';
@@ -563,6 +573,7 @@
                             });
                             tyres_text += '</div> </div> </div>';
                         });
+                        tyres_text += '</div>';
                     });
 
                     tyres_text += '<div class="row">';
@@ -621,22 +632,33 @@
                         '</a>' + '</div>' +
                         '<div id="collapse-battery-replacements" class="collapse" role="tabpanel" aria-labelledby="heading-battery-replacements">' +
                         '<div id="battery-replacements-area" class="card-body">';
+                    let only_one = false;
+                    if(batteries_info.length == 1){
+                        only_one = true;
+                    }
                     batteries_info.forEach(function(battery, index){
                         let battery_description = 'Main';
                         if(battery.battery_replacement_description != ''){
                             battery_description = battery.battery_replacement_description;
                         }
-                        batteries_text +=
-                        '<div id="accordion-battery-'+index+'" role="tablist" aria-multiselectable="true" class="card-collapse">' +
-                        '<div class="card">' +
-                        '<div class="card-header" role="tab" id="heading-battery-'+index+'-info">' +
-                        '<a data-toggle="collapse" data-parent="#accordion-battery-'+index+'" href="#collapse-battery-'+index+'-info" aria-controls="collapse-battery-'+index+'-info">' +
-                            battery_description + '<i class="material-icons">keyboard_arrow_down</i>' +
-                        '</a>' + '</div>' +
-                        '<div id="collapse-battery-'+index+'-info" class="collapse" role="tabpanel" aria-labelledby="heading-battery-'+index+'-info">' +
-                        '<div id="battery-'+index+'-info-area" class="card-body">' +
-                            battery.battery_replacement_id +
-                        '</div>' + '</div>' + '</div>';
+                        if(only_one){
+                            batteries_text +=
+                                '<div id="battery-' + index + '-info-area">' +
+                                battery.battery_replacement_id +
+                                '</div>';
+                        } else {
+                            batteries_text +=
+                                '<div id="accordion-battery-' + index + '" role="tablist" aria-multiselectable="true" class="card-collapse">' +
+                                '<div class="card">' +
+                                '<div class="card-header" role="tab" id="heading-battery-' + index + '-info">' +
+                                '<a data-toggle="collapse" data-parent="#accordion-battery-' + index + '" href="#collapse-battery-' + index + '-info" aria-controls="collapse-battery-' + index + '-info">' +
+                                battery_description + '<i class="material-icons">keyboard_arrow_down</i>' +
+                                '</a>' + '</div>' +
+                                '<div id="collapse-battery-' + index + '-info" class="collapse" role="tabpanel" aria-labelledby="heading-battery-' + index + '-info">' +
+                                '<div id="battery-' + index + '-info-area" class="card-body">' +
+                                battery.battery_replacement_id +
+                                '</div>' + '</div>' + '</div>' + '</div>';
+                        }
                     });
                     batteries_text += '</div> </div> </div> </div>';
                     $('#batteries-section').html(batteries_text);
@@ -693,7 +715,7 @@
                                 //battery_text += '</div></div><br/>';
                             }
                         });
-                        battery_text += '</div>' + '</div>' + '</div>';
+                        battery_text += '</div>' + '</div>' + '</div>' + '</div>';
                     }
                     let general_info = battery_info.general_information;
                     if(general_info!=null) {
@@ -716,7 +738,7 @@
                         if(general_info.warnings != null && general_info.warnings.length > 0){
                             console.log(general_info.warnings);
                         }
-                        battery_text += '</div>' + '</div>' + '</div>';
+                        battery_text += '</div>' + '</div>' + '</div>' + '</div>';
                     }
                     let precautions = battery_info.precautions;
                     if(precautions!=null) {
@@ -736,7 +758,7 @@
                                 battery_text += '<p>'+step.value+'</p>';
                             }
                         });
-                        battery_text += '</div>' + '</div>' + '</div>';
+                        battery_text += '</div>' + '</div>' + '</div>' + '</div>';
                     }
                     let procedures = battery_info.procedures;
                     if(procedures!=null){

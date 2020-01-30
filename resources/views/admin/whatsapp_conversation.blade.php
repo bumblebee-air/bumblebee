@@ -19,11 +19,32 @@
             overflow-y: auto;
             background-color: #ece5dd;
         }
+        #conversation-area #conversation-form-container form {
+            width: 100%;
+        }
+        #conversation-form-container #conversation-form .btn-primary {
+            background-color: #64b968;
+        }
+        #conversation-form-container #conversation-form .btn-primary:hover,
+        #conversation-form-container #conversation-form .btn-primary:active {
+            background-color: #4b914f;
+        }
+        #conversation-form-container #conversation-form .form-control,
+        #conversation-form-container #conversation-form .is-focused .form-control{
+            background-image: linear-gradient(0deg,#64b968 2px,rgba(156,39,176,0) 0),linear-gradient(0deg,#d2d2d2 1px,hsla(0,0%,82%,0) 0);
+        }
         #load-more {
             text-align: center;
         }
         .status-tick {
             width: 15px;
+        }
+        span.remove-attachment {
+            cursor: pointer;
+        }
+        span.remove-attachment:hover,
+        span.remove-attachment:active {
+            color: red;
         }
     </style>
 @endsection
@@ -53,6 +74,8 @@
                         <h5 class="card-title">Select a customer to display the conversation here</h5>
                         <!--<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>-->
                     </div>
+                    <div id="conversation-form-container">
+                    </div>
                 </div>
             </div>
         </div>
@@ -72,6 +95,7 @@
                     let prev = page-1;
                     let messages = res.messages.data.reverse();
                     let is_more = res.more;
+                    let time_window = res.time_window;
                     let messages_string = '<ul class="whatsapp-chat" id="chat-page-'+page+'">';
                     messages.forEach(function(item,index){
                         let chat_panel = '';
@@ -140,6 +164,42 @@
                     } else {
                         $('#load-more').html('<h5 class="card-title">You\'ve reached the beginning of the conversation</h5>');
                     }
+                    if(time_window === true){
+                        let conv_form_check = document.getElementById('conversation-form');
+                        if(conv_form_check==null) {
+                            let csrf_field = '{{csrf_field()}}';
+                            let form_action = '{{url('whatsapp/customer/send')}}';
+                            let form_html = '<form id="conversation-form" enctype="multipart/form-data" action="' + form_action + '" method="post">' +
+                                csrf_field +
+                                '<input type="hidden" name="customer_id" value="' + user_id + '"/>' +
+                                '<input type="file" id="attachment" name="attachment" style="display:none"/>' +
+                                '<p id="attachment-info" style="display: none"></p>' +
+                                '<div class="form-group">' + '<div class="input-group">' +
+                                '<input type="text" class="form-control" placeholder="Write your message" id="message-body" name="message_body">' +
+                                '<span class="input-group-btn" style="padding-right: 0">' +
+                                '<button type="button" class="btn btn-fab btn-round btn-info" onclick="$(\'#attachment\').click();">' +
+                                '<i class="material-icons">attach_file</i>' +
+                                '</button> </span>' +
+                                '<span class="input-group-btn">' +
+                                '<button type="button" class="btn btn-fab btn-round btn-primary" onclick="submitConversationForm();">' +
+                                '<i class="material-icons">send</i>' +
+                                '</button> </span>' +
+                                '</div> </div>' +
+                                '</form>';
+                            $('#conversation-form-container').html(form_html).addClass('card-footer');
+                            $("#conversation-form").on('submit', function (e) {
+                                e.preventDefault();
+                                submitConversationForm();
+                            });
+                            $('#attachment').on('change',function(){
+                                $('#attachment-info').html(this.files[0].name + '&nbsp;&nbsp;' +
+                                    '<span title="Remove file" onclick="resetAttachmentField();" class="remove-attachment"><i class="far fa-times-circle"></i></span>');
+                                $('#attachment-info').show();
+                            });
+                        }
+                    } else {
+                        $('#conversation-form-container').html('<h4>The 24hr time window to chat with this customer has finished</h4>').removeClass('card-footer');
+                    }
                 }
             });
         }
@@ -155,7 +215,59 @@
                 $(this).addClass('active');
                 $('#conversation-area #conversation-header').html('<i class="fab fa-whatsapp"></i> ' + user_name);
                 $('#conversation-area #conversation-body').html('<div id="load-more"></div> <div id="chat-page-0"><h5 class="card-title"><i class="fa fa-spin fa-sync"></i> Loading conversation</h5></div>');
+                $('#conversation-area #conversation-form-container').html('').removeClass('card-footer');
             });
         });
+
+        function submitConversationForm() {
+            let the_form = $("#conversation-form");
+            let the_data = new FormData(the_form[0]);
+            let message_field = $('#message-body');
+            let attachment_field = $('#attachment');
+            if((message_field.val()==null || message_field.val()=='') &&
+                (attachment_field.val()==null || attachment_field.val()=='')){
+                return false;
+            }
+            message_field.attr('disabled','disabled');
+            message_field.parent().parent().before('<div id="sending-indicator"><i class="fas fa-sync fa-spin"></i> <p>Sending message</p></div>');
+            $('#sending-status').remove();
+            $.ajax({
+                url: the_form.attr('action'),
+                type: "POST",
+                enctype: 'multipart/form-data',
+                processData: false,  // Important!
+                contentType: false,
+                cache: false,
+                data: the_data,
+                success: function(result){
+                    let res = JSON.parse(result);
+                    if(res.fault===0) {
+                        message_field.val('');
+                        resetAttachmentField();
+                        message_field.parent().parent().before('<div id="sending-status" style="color: forestgreen"><i class="fas fa-check"></i> <span>'+res.message+'</span></div>');
+                    } else {
+                        message_field.parent().parent().before('<div id="sending-status" style="color: red"><i class="fas fa-times"></i> <span>'+res.message+'</span></div>');
+                    }
+                },
+                error: function(XMLHttpRequest, text_status, error_thrown){
+                    console.log('ERROR!');
+                    console.log(XMLHttpRequest);
+                    console.log('Text status: ');
+                    console.log(text_status);
+                    console.log('Error thrown');
+                    console.log(error_thrown);
+                    message_field.parent().parent().before('<div id="sending-status" style="color: red"><i class="fas fa-times"></i> <span>'+text_status+': '+error_thrown+'</span></div>');
+                },
+                complete: function(data, status){
+                    message_field.removeAttr('disabled');
+                    $('#sending-indicator').remove();
+                }
+            });
+        }
+        function resetAttachmentField(){
+            $('#attachment').val('');
+            $('#attachment-info').html('');
+            $('#attachment-info').hide();
+        }
     </script>
 @endsection

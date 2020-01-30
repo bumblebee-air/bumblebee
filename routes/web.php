@@ -64,6 +64,7 @@ Route::post('admin/customer-register','AdminController@postCustomerRegister');
 
 Route::get('whatsapp-conversations','DashboardController@getWhatsappConversations');
 Route::get('whatsapp-conversation/{user_id}','DashboardController@getWhatsappConversation');
+Route::post('whatsapp/customer/send','DashboardController@sendMessageToCustomer');
 Route::get('dashboard', function () {
     return view('admin.dashboard');
 });

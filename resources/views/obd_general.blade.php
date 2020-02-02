@@ -81,6 +81,7 @@
                             <div id="speed-status" style="display: none">
                                 <h4>Speed readings</h4>
                                 <p></p>
+                                <span id="crash-report"></span>
                                 <div id="speed-gauge" style="width: 500px; height: 500px;"></div>
                             </div>
                             <div id="dtc-status" style="display: none">
@@ -111,6 +112,8 @@
         let obd_command_interval = false;
         let rpm_interval = false;
         let speed_interval = false;
+        let speed_interval_value = 1;
+        let crash_speed_threshold = 10;
         let get_dtc = false;
         let get_dtc_cont = false;
         let dtc_cont_interval = null;
@@ -391,6 +394,9 @@
                         }
                         changeSpeedGauge(readable_value);
                         speed_readings.push(readable_value);
+                        if((parseInt(speed_readings[speed_readings.length-2]) - parseInt(speed_readings[speed_readings.length-1])) >= crash_speed_threshold){
+                            $('#crash-report').after('<p style="color:red">Crash detected! latest speed values: '+speed_readings.toString()+'</p>');
+                        }
                         speed_readings_string = speed_readings.toString();
                         status_p.html(speed_readings_string);
                     } else if (decodedValue.startsWith('7E8')) {
@@ -452,15 +458,15 @@
 
         function sendSpeedCommand(){
             if(speed_interval){
-                speedCommandInterval();
+                speedCommandInterval(speed_interval_value);
             }
         }
 
-        function speedCommandInterval(){
+        function speedCommandInterval(speed_interval_value){
             let cmd = '01 0d';
             sendCommand(cmd,'Speed')
                 .then(_ => {
-                    return _sleep(500);
+                    return _sleep(speed_interval_value*1000);
                 })
                 .then(
                     sendSpeedCommand

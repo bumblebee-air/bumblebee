@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 use App\OBD;
 use App\ObdToVehicle;
+use App\Profile;
+use App\User;
 use App\Vehicle;
 use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Validation\Rule;
 use Twilio\Rest\Client;
 
 class AdminController extends Controller
@@ -152,5 +155,56 @@ class AdminController extends Controller
         $obd_to_vehicles = ObdToVehicle::with(['vehicle','obd'])->paginate(5);
         //dd($obd_to_vehicles);
         return view('admin.obd_to_vehicle_list', compact('obd_to_vehicles'));
+    }
+
+    public function getCustomerRegister(){
+        return view('admin.customer_register');
+    }
+
+    public function postCustomerRegister(Request $request){
+        //dd($request);
+        $this->validate($request,[
+            'vehicle_reg' => 'required|string|max:255',
+            'phone' => ['required','string','max:255', Rule::unique('users')->where('user_role','customer')],
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        $name = $request->get('name');
+        $phone = $request->get('phone');
+        $user = User::create([
+            'name' => $name,
+            'phone' => $phone,
+            'password' => bcrypt($request->get('password')),
+            'user_role' => 'customer'
+        ]);
+
+        $profile = Profile::create([
+            'user_id' => $user->id,
+            'mileage' => '',
+            'vehicle_reg' => $request->get('vehicle_reg'),
+            'vehicle_make' => $request->get('make'),
+            'vehicle_model' => $request->get('model'),
+            'vehicle_version' => $request->get('version'),
+            'vehicle_fuel' => $request->get('fuel'),
+            'vehicle_colour' => $request->get('colour'),
+            'vehicle_external_id' => $request->get('external_id'),
+        ]);
+
+        $sid    = env('TWILIO_SID', '');
+        $token  = env('TWILIO_AUTH', '');
+        $twilio_number = env('TWILIO_NUMBER', '+447445341335');
+        try {
+            $twilio = new Client($sid, $token);
+            $message = $twilio->messages->create("whatsapp:".$phone,
+                ["from" => "whatsapp:+447445341335",
+                    "body" => "Hi $name, I'm Bumblebee AIR! Add my number $twilio_number to your Contact List and you can Chat or Send a Voice message on WhatsApp anytime you need help with your vehicle. \n\nWould you like to run a vehicle health check now?"]
+            );
+            //dd($message);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+
+        return redirect()->back()->with('success','Customer added successfully');
     }
 }

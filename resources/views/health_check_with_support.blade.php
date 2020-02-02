@@ -28,6 +28,7 @@
                             <div id="bth-status">
                                 <p></p>
                                 <button type="button" id="bth-btn" class="btn btn-lg btn-primary">Connect to the car</button>
+                                <!--<button type="button" id="tst-btn" class="btn btn-lg btn-primary" onclick="simulateDtc()">Test test</button>-->
                             </div>
                             <br/>
                             <div id="command-buttons" style="display: none">
@@ -41,6 +42,13 @@
                                 <h4>DTC value</h4>
                                 <p></p>
                                 <span id="dtc-info"></span>
+                                <!--<form class="form" method="POST" action="{{url('customer/request-recovery')}}">
+                                    <h4>Request vehicle recovery?</h4>
+                                    <h5>The fault information will be sent in the recovery request</h5>
+                                    {{csrf_field()}}
+                                    <input type="hidden" id="fault_desc" name="fault_desc" required/>
+                                    <button type="submit" class="btn btn-primary">Submit request</button>
+                                </form>-->
                             </div>
                         </div>
                         <div class="col-sm">
@@ -92,6 +100,7 @@
         let readCharacteristic = '0000fff1-0000-1000-8000-00805f9b34fb';
         let writeCharacteristic = '0000fff2-0000-1000-8000-00805f9b34fb';
         let elm_initialized = false;
+        let faults_array = [];
 
         let rpmMin = 0;
         let rpmMax = 6000;
@@ -255,6 +264,7 @@
                         let the_dtc = null;
                         let first_bit = null;
                         let formatted_dtc = null;
+                        faults_array = [];
                         if(dtc_count>0) {
                             dtc_response = dtc_response.substr(2);
                             for (let i = 0; i < dtc_count; i++) {
@@ -333,12 +343,20 @@
                                         var dtc_info = data.dtc_info;
                                         dtc_info.forEach(function(fault,index){
                                             console.log(fault);
+                                            let the_fault = [];
+                                            the_fault['description'] = fault.description;
                                             faults_desc += '<h5>'+fault.description+'</h5>'+
-                                               '<span style="font-weight: bold">System:</span> '+fault.system+
-                                               '<h5>Probable causes</h5>';
+                                                '<span style="font-weight: bold">System:</span> '+fault.system+
+                                                '<h5>Probable causes</h5>'+
+                                                '<ul>';
+                                            let causes_array = [];
                                             fault.probable_causes.forEach(function(cause,index){
-                                               faults_desc += '<span style="font-weight: bold">'+cause.description+'</span>';
+                                                causes_array.push(cause.description);
+                                                faults_desc += '<li><span style="font-weight: bold">'+cause.description+'</span></li>';
                                             });
+                                            faults_desc += '</ul>';
+                                            the_fault['causes'] = causes_array;
+                                            faults_array.push(the_fault);
                                         });
                                         $('#dtc-info').html(faults_desc);
                                     },
@@ -672,9 +690,7 @@
                 let the_res = (Math.random()*100)+1;
             });*/
         });
-    </script>
-    <!-- Socket script -->
-    <script type="text/javascript">
+        <!-- Socket script -->
         let room = '{{$room}}';
         let socket = io('https://cartowans.westeurope.cloudapp.azure.com:4000');
         $(document).ready(function() {
@@ -715,5 +731,51 @@
             the_message.val('');
             return false;
         });
+
+        function simulateDtc(){
+            $('#dtc-status').show();
+            var formatted_dtc = 'P0135';
+            var csrf_token = '{{ csrf_token() }}';
+            $.ajax({
+                url: '{{url('get-dtc-info-static-mid')}}',
+                headers: {
+                    'X-CSRF-TOKEN': csrf_token
+                },
+                data: {
+                    dtc: formatted_dtc,
+                    csrfmiddlewaretoken: csrf_token
+                },
+                dataType: 'json',
+                method: 'POST',
+                success: function (data) {
+                    console.log('DTC '+formatted_dtc+' info retrieved successfully');
+                    var faults_desc = '<h4>Detected fault locations</h4>';
+                    var dtc_info = data.dtc_info;
+                    dtc_info.forEach(function(fault,index){
+                        console.log(fault);
+                        let the_fault = {};
+                        the_fault['description'] = fault.description;
+                        faults_desc += '<h5>'+fault.description+'</h5>'+
+                            '<span style="font-weight: bold">System:</span> '+fault.system+
+                            '<h5>Probable causes</h5>'+
+                            '<ul>';
+                        let causes_array = [];
+                        fault.probable_causes.forEach(function(cause,index){
+                            causes_array.push(cause.description);
+                            faults_desc += '<li><span style="font-weight: bold">'+cause.description+'</span></li>';
+                        });
+                        faults_desc += '</ul>';
+                        the_fault['causes'] = causes_array;
+                        faults_array.push(the_fault);
+                    });
+                    $('#dtc-info').html(faults_desc);
+                    console.log(faults_array);
+                    $('#fault_desc').val(JSON.stringify(faults_array));
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log("Unable to retrieve DTC information!<br/>"+"Status: " + textStatus + "<br/>" + "Error: " + errorThrown);
+                }
+            });
+        }
     </script>
 @endsection

@@ -1,0 +1,193 @@
+.whatsapp-chat {
+    list-style: none;
+    padding: 0;
+    position: relative;
+    margin-top: 10px;
+}
+
+/*.whatsapp-chat:before {
+    top: 50px;
+    bottom: 0;
+    position: absolute;
+    content: " ";
+    width: 3px;
+    background-color: #E5E5E5;
+    left: 50%;
+    margin-left: -1px;
+}*/
+
+.whatsapp-chat h6 {
+    color: #333333;
+    font-weight: 400;
+    margin: 10px 0px 0px;
+}
+
+.whatsapp-chat.whatsapp-chat-simple {
+    margin-top: 30px;
+    padding: 0 0 20px;
+}
+
+.whatsapp-chat.whatsapp-chat-simple:before {
+    left: 5%;
+    background-color: #E5E5E5;
+}
+
+.whatsapp-chat.whatsapp-chat-simple>li>.whatsapp-chat-panel {
+    width: 86%;
+}
+
+.whatsapp-chat.whatsapp-chat-simple>li>.whatsapp-chat-badge {
+    left: 5%;
+}
+
+.whatsapp-chat>li {
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.whatsapp-chat>li:before,
+.whatsapp-chat>li:after {
+    content: " ";
+    display: table;
+}
+
+.whatsapp-chat>li:after {
+    clear: both;
+}
+
+.whatsapp-chat>li>.whatsapp-chat-panel {
+    width: 75%;
+    float: right;
+    padding: 20px;
+    margin-bottom: 5px;
+    position: relative;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+    border-radius: 6px;
+    color: #000;
+    /*background: #fff;*/
+    background-color: #d6ffc5;
+}
+
+.whatsapp-chat>li>.whatsapp-chat-panel:before {
+    position: absolute;
+    top: 26px;
+    right: -15px;
+    display: inline-block;
+    border-top: 15px solid transparent;
+    border-left: 15px solid #d6ffc5;
+    border-right: 0 solid #d6ffc5;
+    border-bottom: 15px solid transparent;
+    content: " ";
+}
+
+.whatsapp-chat>li>.whatsapp-chat-panel:after {
+    position: absolute;
+    top: 27px;
+    right: -14px;
+    display: inline-block;
+    border-top: 14px solid transparent;
+    border-left: 14px solid #d6ffc5;
+    border-right: 0 solid #d6ffc5;
+    border-bottom: 14px solid transparent;
+    content: " ";
+}
+
+.whatsapp-chat>li>.whatsapp-chat-badge {
+    color: #fff;
+    width: 50px;
+    height: 50px;
+    line-height: 51px;
+    font-size: 1.4em;
+    text-align: center;
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    margin-left: -24px;
+    z-index: 100;
+    border-top-right-radius: 50%;
+    border-top-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    border-bottom-left-radius: 50%;
+}
+
+.whatsapp-chat>li>.whatsapp-chat-badge.primary {
+    background-color: #9c27b0;
+    box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(156, 39, 176, 0.4);
+}
+
+.whatsapp-chat>li>.whatsapp-chat-badge.success {
+    background-color: #4caf50;
+    box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(76, 175, 80, 0.4);
+}
+
+.whatsapp-chat>li>.whatsapp-chat-badge.warning {
+    background-color: #ff9800;
+    box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(255, 152, 0, 0.4);
+}
+
+.whatsapp-chat>li>.whatsapp-chat-badge.info {
+    background-color: #00bcd4;
+    box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(0, 188, 212, 0.4);
+    padding: 0;
+}
+
+.whatsapp-chat>li>.whatsapp-chat-badge.danger {
+    background-color: #f44336;
+    box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(244, 67, 54, 0.4);
+}
+
+.whatsapp-chat>li>.whatsapp-chat-badge [class^="ti-"],
+.whatsapp-chat>li>.whatsapp-chat-badge [class*=" ti-"],
+.whatsapp-chat>li>.whatsapp-chat-badge [class="material-icons"] {
+    line-height: inherit;
+}
+
+.whatsapp-chat>li.whatsapp-chat-inverted>.whatsapp-chat-panel {
+    float: left;
+    background-color: #fff;
+}
+
+.whatsapp-chat>li.whatsapp-chat-inverted>.whatsapp-chat-panel:before {
+    border-left-width: 0;
+    border-right-width: 15px;
+    left: -15px;
+    right: auto;
+    border-left-color: #e4e4e4;
+    border-right-color: #e4e4e4;
+}
+
+.whatsapp-chat>li.whatsapp-chat-inverted>.whatsapp-chat-panel:after {
+    border-left-width: 0;
+    border-right-width: 14px;
+    left: -14px;
+    right: auto;
+    border-left-color: #fff;
+    border-right-color: #fff;
+}
+
+.whatsapp-chat-heading {
+    margin-bottom: 15px;
+}
+
+.whatsapp-chat-title {
+    margin-top: 0;
+    color: inherit;
+}
+
+.whatsapp-chat-body hr {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.whatsapp-chat-body .btn {
+    margin-bottom: 0;
+}
+
+.whatsapp-chat-body>p,
+.whatsapp-chat-body>ul {
+    margin-bottom: 0;
+}
+
+.whatsapp-chat-body>p+p {
+    margin-top: 5px;
+}

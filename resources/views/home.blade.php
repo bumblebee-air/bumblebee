@@ -69,6 +69,51 @@
             <div id="map" style="width: 100%; height: 500px;"></div>
         </div>
     </div>
+    <div class="row align-items-center">
+        <div class="col-sm">
+            <!--<button type="button" id="test-whatsapp" class="btn btn-lg btn-primary"
+                data-toggle="modal" data-target="#whatsapp-form">Test Whatsapp</button>-->
+            <!-- Whatsapp modal -->
+            <!--<div class="modal fade" id="whatsapp-form" role="dialog" >
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title orange-header" id="cc-comment-title">Test sending Whatsapp template</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form form-horizontal" method="post" action="{{url('test-whatsapp')}}"
+                                  style="border: none">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <div class="form-group">
+                                    <label for="customer-name" class="col-sm-4 col-xs-12 control-label">Customer name</label>
+                                    <div class="col-sm-8 col-xs-12">
+                                        <input id="customer-name" name="customer_name" class="form-control" required/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="customer-phone" class="col-sm-4 col-xs-12 control-label">Customer phone</label>
+                                    <div class="col-sm-8 col-xs-12">
+                                        <input id="customer-phone" name="customer_phone" class="form-control" required/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="supplier" class="col-sm-4 col-xs-12 control-label">Supplier</label>
+                                    <div class="col-sm-8 col-xs-12">
+                                        <select id="supplier" name="supplier" class="form-control" required>
+                                            <option value="CarTow.ie">CarTow.ie</option>
+                                            <option value="Abo Ghaly motors">Abo Ghaly motors</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary" type="submit">Send Whatsapp template</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+        </div>
+    </div>
 @endsection
 @section('page-scripts')
     <script type="text/javascript">

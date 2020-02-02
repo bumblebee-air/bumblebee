@@ -32,7 +32,9 @@ Route::get('health-check/{room}', 'CustomersController@getHealthCheckWithSupport
 Route::post('send/health-check', 'CompanyController@sendSupportForHealthCheck');
 Route::get('support/health-check/{room}', 'CompanyController@getSupportForHealthCheck');
 //Route::get('health-check/send/{id}', 'CompanyController@getSupportForHealthCheck');
+Route::post('customer/request-recovery', 'CustomersController@postSendRecoveryRequest');
 Route::get('test-sms', 'CustomersController@getSendTestSMS');
+Route::post('test-whatsapp', 'CustomersController@postSendTestWhatsapp');
 
 Route::get('insurance/dashboard', 'InsuranceController@getInsuranceDashboard');
 Route::post('insurance/send-invitation', 'InsuranceController@sendCustomerInvitation');
@@ -57,15 +59,29 @@ Route::post('obd-to-vehicle/add','AdminController@postAddObdToVehicle');
 Route::get('obd-to-vehicle/edit/{id}','AdminController@getEditObdToVehicle');
 Route::post('obd-to-vehicle/edit','AdminController@postEditObdToVehicle');
 Route::get('obd-to-vehicle/list','AdminController@getListObdToVehicle');
-
+Route::get('admin/customer-register','AdminController@getCustomerRegister');
+Route::post('admin/customer-register','AdminController@postCustomerRegister');
+Route::get('whatsapp-conversations','DashboardController@getWhatsappConversations');
+Route::get('whatsapp-conversation/{user_id}','DashboardController@getWhatsappConversation');
+Route::post('whatsapp/customer/send','DashboardController@sendMessageToCustomer');
+Route::get('dashboard', function () {
+    return view('admin.dashboard');
+});
 //Route for record audio
 Route::get('record-audio','AudioController@index');
 Route::post('upload-record-file', 'AudioController@save_recorded_audio');
+
 Route::get('support-customer', function () {
     return view('support');
 });
 Route::get('obd-admin', function () {
     return view('obd_general');
+});
+/*Route::get('autodata-driver', function () {
+    return view('autodata-driver');
+});*/
+Route::get('tyres-batteries', function () {
+    return view('autodata-driver');
 });
 Route::get('test-soap','LookUpController@testSoap');
 Route::get('socket-test', function () {

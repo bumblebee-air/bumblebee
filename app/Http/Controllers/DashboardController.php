@@ -75,7 +75,7 @@ class DashboardController extends Controller
         $sid    = env('TWILIO_SID', '');
         $token  = env('TWILIO_AUTH', '');
         $twilio = new Client($sid, $token);
-        if($attachments != null && (typeof($attachments)=='object' || (typeof($attachments)=='array' && sizeof($attachments) >= 1))) {
+        if($attachments != null && (gettype($attachments)=='object' || (gettype($attachments)=='array' && sizeof($attachments) >= 1))) {
             if(sizeof($attachments)==1){
                 $attachment = $attachments;
                 $imageName = $customer_id . '_' . time() . '.' . $attachment->getClientOriginalExtension();

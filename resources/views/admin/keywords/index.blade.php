@@ -41,9 +41,9 @@
               <div class="table-responsive">
                 <table class="table">
                   <thead>
-                    <th>Keyword/Phrase</th>
-                    <th>Weight</th>
-                    <th>Action</th>
+                    <th style="width: 40%">Keyword/Phrase</th>
+                    <th style="width: 30%">Weight</th>
+                    <th style="width: 30%">Action</th>
                   </thead>
 
                   <tbody>

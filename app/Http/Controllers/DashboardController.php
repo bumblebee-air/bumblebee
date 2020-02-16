@@ -42,7 +42,10 @@ class DashboardController extends Controller
             return redirect()->back()->withErrors('No user was found with this ID!');
         }
         $phone_number = $user->phone;
-        $whatsapp_messages = WhatsappMessage::where('to','=',$phone_number)
+        $whatsapp_messages = WhatsappMessage::with(['audio_transcript'=>function($q){
+            $q->where('message_type','=','whatsapp');
+        }])
+            ->where('to','=',$phone_number)
             ->orWhere('from','=',$phone_number)->orderBy('id', 'desc')->simplePaginate(5);
         $has_more = $whatsapp_messages->hasMorePages();
         $latest_customer_message = WhatsappMessage::where('from','=',$phone_number)->orderBy('id', 'desc')->limit(1)->first();

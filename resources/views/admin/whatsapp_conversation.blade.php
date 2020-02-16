@@ -49,6 +49,7 @@
     </style>
 @endsection
 @section('page-content')
+    <input type="hidden" name="view_csrf_token" value="{{csrf_token()}}"/>
     <div class="content">
         <div class="container-fluid">
             <div class="row card-group">
@@ -114,6 +115,16 @@
                                 } else if (audio_media_types.includes(media_types_array[i])){
                                     chat_body += '<div class="col-12">';
                                     chat_body += '<audio controls src="'+media_array[i]+'" type="'+media_types_array[i]+'">Your browser doesn\'t support audio</audio>';
+                                    let the_audio_transcript = item.audio_transcript;
+                                    chat_body += '<div id="audio-transcript-container-'+item.id+'">';
+                                    if(the_audio_transcript!=null){
+                                        chat_body += '<button class="btn btn-link" onclick="$(\'#audio-transcript-'+item.id+'\').toggle(); $(this).toggle();">Show transcript</button>' +
+                                            '<p id="audio-transcript-'+item.id+'" style="display: none">'+the_audio_transcript.transcript+'</p>';
+                                    } else {
+                                        chat_body += '<button class="btn btn-info" onclick="translateAudioFile(\'' + media_array[i] + '\',\'' + media_types_array[i] + '\',\'' + user_id + '\',\'' + item.id + '\')">Translate audio</button>' +
+                                        '<span id="audio-transcript-indicator-'+item.id+'"></span>';
+                                    }
+                                    chat_body += '</div>';
                                     chat_body += '</div>';
                                 }
                             }
@@ -268,6 +279,44 @@
             $('#attachment').val('');
             $('#attachment-info').html('');
             $('#attachment-info').hide();
+        }
+
+        function translateAudioFile(file_url, file_type, user_id, message_id) {
+            let audio_transcript_container = $('#audio-transcript-container-'+message_id);
+            let audio_transcript_indicator = $('#audio-transcript-indicator-'+message_id);
+            audio_transcript_indicator.html('<i class="fas fa-spin fa-sync"></i> Retrieving audio transcript')
+            let the_data = {
+                'audio_file_url': file_url,
+                'audio_file_type': file_type,
+                'user_id': user_id,
+                'message_id': message_id
+            };
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="view_csrf_token"]').val()
+                },
+                url: '{{url('translate-audio-url')}}',
+                type: "POST",
+                data: the_data,
+                success: function(result) {
+                    let res = JSON.parse(result);
+                    if(res.success != 1){
+                        audio_transcript_indicator.html('<i class="fas fa-cross"></i> Audio transcript failed with error: '+
+                            res.message);
+                    } else {
+                        audio_transcript_container.html('<p id="audio-transcript-'+message_id+'">'+
+                            res.transcript+'</p>');
+                    }
+                },
+                error: function(XMLHttpRequest, text_status, error_thrown) {
+                    console.log('ERROR!');
+                    console.log(XMLHttpRequest);
+                    console.log('Text status: ');
+                    console.log(text_status);
+                    console.log('Error thrown');
+                    console.log(error_thrown);
+                }
+            });
         }
     </script>
 @endsection

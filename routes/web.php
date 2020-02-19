@@ -73,6 +73,13 @@ Route::get('keywords/add', 'KeywordsController@addKeyword');
 Route::post('keywords/remove-audio', 'KeywordsController@removeAudio');
 Route::get('keywords/delete/{keyword}', 'KeywordsController@destroy');
 
+Route::get('responses', 'ResponseController@index')->name('responses');
+Route::post('response', 'ResponseController@store');
+Route::get('response/create', 'ResponseController@create');
+Route::get('response/edit/{response}', 'ResponseController@edit');
+Route::put('response/{response}', 'ResponseController@update');
+Route::get('response/delete/{response}', 'ResponseController@destroy');
+
 Route::get('dashboard', function () {
     return view('admin.dashboard');
 });

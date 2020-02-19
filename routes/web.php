@@ -61,7 +61,6 @@ Route::post('obd-to-vehicle/edit','AdminController@postEditObdToVehicle');
 Route::get('obd-to-vehicle/list','AdminController@getListObdToVehicle');
 Route::get('admin/customer-register','AdminController@getCustomerRegister');
 Route::post('admin/customer-register','AdminController@postCustomerRegister');
-
 Route::get('whatsapp-conversations','DashboardController@getWhatsappConversations');
 Route::get('whatsapp-conversation/{user_id}','DashboardController@getWhatsappConversation');
 Route::post('whatsapp/customer/send','DashboardController@sendMessageToCustomer');
@@ -77,6 +76,11 @@ Route::get('keywords/delete/{keyword}', 'KeywordsController@destroy');
 Route::get('dashboard', function () {
     return view('admin.dashboard');
 });
+//Route for record audio
+Route::get('record-audio','AudioController@index');
+Route::post('upload-record-file', 'AudioController@save_recorded_audio');
+Route::post('translate-audio-url', 'AudioController@saveAndTranslateAudioFile');
+
 Route::get('support-customer', function () {
     return view('support');
 });

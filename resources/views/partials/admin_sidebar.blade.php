@@ -85,6 +85,18 @@
                     <p>Whatsapp</p>
                 </a>
             </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="{{url('keywords')}}">
+                    <i class="material-icons">label</i>
+                    <p>Keywords</p>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="{{url('responses')}}">
+                    <i class="material-icons">audiotrack</i>
+                    <p>Response</p>
+                </a>
+            </li>
         </ul>
     </div>
 </div>

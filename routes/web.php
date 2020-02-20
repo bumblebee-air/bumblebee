@@ -64,6 +64,22 @@ Route::post('admin/customer-register','AdminController@postCustomerRegister');
 Route::get('whatsapp-conversations','DashboardController@getWhatsappConversations');
 Route::get('whatsapp-conversation/{user_id}','DashboardController@getWhatsappConversation');
 Route::post('whatsapp/customer/send','DashboardController@sendMessageToCustomer');
+
+Route::get('keywords', 'KeywordsController@index')->name('keywords');
+Route::post('keywords', 'KeywordsController@store');
+Route::put('keywords/{keyword}','KeywordsController@update');
+Route::get('keywords/edit/{keyword}', 'KeywordsController@edit');
+Route::get('keywords/add', 'KeywordsController@addKeyword');
+Route::post('keywords/remove-audio', 'KeywordsController@removeAudio');
+Route::get('keywords/delete/{keyword}', 'KeywordsController@destroy');
+
+Route::get('responses', 'ResponseController@index')->name('responses');
+Route::post('response', 'ResponseController@store');
+Route::get('response/create', 'ResponseController@create');
+Route::get('response/edit/{response}', 'ResponseController@edit');
+Route::put('response/{response}', 'ResponseController@update');
+Route::get('response/delete/{response}', 'ResponseController@destroy');
+
 Route::get('dashboard', function () {
     return view('admin.dashboard');
 });

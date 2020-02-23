@@ -95,6 +95,7 @@ class TwilioController extends Controller
             $xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><Response><Message><Body>there was an error while processing the message</Body></Message></Response>');
             return Response::make($xml->asXML(),500,[]);
         }
+        $this->checkForwardWhatsappData($request->all(),'message');
         $xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><Response/>');
         return Response::make($xml->asXML(),200,[]);
     }
@@ -108,6 +109,7 @@ class TwilioController extends Controller
             $whats->status = $request->get('MessageStatus');
             $whats->save();
         }
+        $this->checkForwardWhatsappData($request->all(),'status');
         $xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><Response/>');
         return Response::make($xml->asXML(),200,[]);
     }
@@ -136,5 +138,32 @@ class TwilioController extends Controller
         $whats->external_id = $message->sid;
         $whats->save();
 
+    }
+
+    public function checkForwardWhatsappData($data, $type){
+        try{
+            $whatsapp_forward_url = env('WHATSAPP_FORWARD_URL');
+            if($whatsapp_forward_url!=null && $whatsapp_forward_url!=''){
+                $route_uri = \Request::route()->uri();
+                $whatsapp_forward_url .= '/'.$route_uri;
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $whatsapp_forward_url);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+                curl_setopt($ch, CURLOPT_FAILONERROR, true);
+                $response = curl_exec($ch);
+                $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                if($status !== 200) {
+                    \Log::info('Whatsapp '.$type.' forwarding failed!');
+                    \Log::error(curl_error($ch));
+                } else {
+                    \Log::info('Whatsapp '.$type.' forwarded successfully to the url: '.
+                        $whatsapp_forward_url);
+                }
+                curl_close($ch);
+            }
+        } catch(\Exception $exception){
+            \Log::error($exception->getMessage(), $exception->getTrace());
+        }
     }
 }

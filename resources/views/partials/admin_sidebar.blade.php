@@ -80,6 +80,30 @@
                 </div>
             </li>-->
             <li class="nav-item ">
+                <a class="nav-link" data-toggle="collapse" href="#prototypes">
+                    <i class="fas fa-puzzle-piece"></i>
+                    <p> Prototypes
+                        <b class="caret"></b>
+                    </p>
+                </a>
+                <div class="collapse" id="prototypes">
+                    <ul class="nav">
+                        <li class="nav-item ">
+                            <a class="nav-link" href="{{url('tyres-batteries')}}">
+                                <i class="fas fa-car-battery"></i>
+                                <p>Autodata tyres & batteries</p>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" href="{{url('obd-admin')}}">
+                                <i class="fas fa-car"></i>
+                                <p>Vehicle check & speed</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item ">
                 <a class="nav-link" href="{{url('whatsapp-conversations')}}">
                     <i class="fab fa-whatsapp"></i>
                     <p>Whatsapp</p>

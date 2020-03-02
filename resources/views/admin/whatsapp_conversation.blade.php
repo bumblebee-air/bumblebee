@@ -3,6 +3,13 @@
 @section('page-styles')
     <link rel="stylesheet" href="{{asset('css/whatsapp-chat.css')}}"/>
     <style>
+        #whatsAppKeywordModalLabel{
+            font-weight: 400;
+        }
+        #whatsAppKeywordModal ul.keyword-container li.matched-keyword{
+            padding-top: 0;
+            font-size: 14px;
+        }
         #conversations-group .list-group-item.active{
             /*background-color: #219631;
             border-color: #219631;*/
@@ -86,6 +93,32 @@
             </div>
         </div>
     </div>
+
+    <!-- Keyword Modal -->
+    <div class="modal fade" id="whatsAppKeywordModal" tabindex="-1" role="dialog" aria-labelledby="whatsAppKeywordModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="whatsAppKeywordModalLabel">
+                Matched Keywords</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+        <ul class="list-group keyword-container">
+            <div style="padding: 0 1.25rem 10px 1.25rem; font-weight:400;" class="d-flex justify-content-between align-items-center">
+                Name
+                <span>Weight</span>
+            </div>
+            </ul>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        </div>
+    </div>
+    </div>
 @endsection
 
 @section('page-scripts')
@@ -99,6 +132,19 @@
                     let res = JSON.parse(result);
                     //console.log(res);
                     let prev = page-1;
+
+                    if($('.matchedKeywordCount').length === 0)
+                    {
+                        $('#conversation-area #conversation-header').append('<span style="margin-left:5px;cursor:pointer;" class="badge badge-danger matchedKeywordCount" data-toggle="tooltip" onClick="openKeywordModal('+res.countMatchedKeywords+')" data-title="'+ res.countMatchedKeywords +' keywords matched!">' + res.countMatchedKeywords + '</span>');
+                        $('#whatsAppKeywordModal ul.keyword-container li.matched-keyword').remove();
+                        if(res.countMatchedKeywords > 0)
+                        {
+                            res.matchedKeywords.forEach(keyword => {
+                                $('#whatsAppKeywordModal ul.keyword-container').append('<li class="matched-keyword list-group-item d-flex justify-content-between align-items-center">'+ keyword.keyword +'<span class="badge badge-primary badge-pill">'+ keyword.weight +'</span></li>');
+                            });
+                        }
+                    }
+
                     let messages = res.messages.data.reverse();
                     let is_more = res.more;
                     let time_window = res.time_window;
@@ -330,6 +376,13 @@
                     console.log(error_thrown);
                 }
             });
+        }
+
+        function openKeywordModal(keywordCount) {
+            if(parseInt(keywordCount))
+            {
+                $("#whatsAppKeywordModal").modal('show');
+            }
         }
 
         //Audio recording

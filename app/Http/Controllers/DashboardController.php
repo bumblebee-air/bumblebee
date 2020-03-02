@@ -19,6 +19,9 @@ class DashboardController extends Controller
             ->select(\DB::raw('MAX(`id`) as id'))->get();
         foreach($grouped_conversations as $index=>$conv){
             $whatsapp_message = WhatsappMessage::find($conv->id);
+            $unread_messages_count = WhatsappMessage::where('user_id','=',$whatsapp_message->user_id)
+                ->where('status','=','received')
+                ->where('read_status','=',0)->count();
             $the_user = User::find($whatsapp_message->user_id);
             if($the_user){
                 $the_name = $the_user->name;
@@ -29,7 +32,8 @@ class DashboardController extends Controller
             }
             $whatsapp_message->name = $the_name;
             $whatsapp_message->phone = $the_phone;
-            $conversations[] = $whatsapp_message;
+            $conversations[] = ['message'=>$whatsapp_message,
+                'unread_count'=>$unread_messages_count];
         }
         //dd($conversations);
         return view('admin.whatsapp_conversation',['conversations'=>$conversations]);
@@ -44,9 +48,20 @@ class DashboardController extends Controller
         $phone_number = $user->phone;
         $whatsapp_messages = WhatsappMessage::with(['audio_transcript'=>function($q){
             $q->where('message_type','=','whatsapp');
-        }])
-            ->where('to','=',$phone_number)
-            ->orWhere('from','=',$phone_number)->orderBy('id', 'desc')->simplePaginate(5);
+        }])->where('user_id','=',$user_id)
+            ->orderBy('id', 'desc')->simplePaginate(5);
+        /*->where('to','=',$phone_number)
+        ->orWhere('from','=',$phone_number)*/
+        foreach($whatsapp_messages as $message){
+            if($message->read_status!=1) {
+                $message->read_status = 1;
+                $message->save();
+            }
+        }
+        $unread_messages_count = WhatsappMessage::where('user_id','=',$user_id)
+            ->where('status','=','received')
+            ->where('read_status','=',0)->count();
+
         $has_more = $whatsapp_messages->hasMorePages();
         $latest_customer_message = WhatsappMessage::where('from','=',$phone_number)->orderBy('id', 'desc')->limit(1)->first();
         $message_time_window = false;
@@ -58,7 +73,8 @@ class DashboardController extends Controller
         }
         if($is_json){
             return json_encode(['messages'=>$whatsapp_messages,'more'=>$has_more,
-                'phone'=>$phone_number,'time_window'=>$message_time_window]);
+                'phone'=>$phone_number,'time_window'=>$message_time_window,
+                'unread_count'=>$unread_messages_count]);
         }
         dd('well');
     }

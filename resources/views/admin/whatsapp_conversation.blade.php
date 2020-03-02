@@ -57,12 +57,17 @@
                     <div id="conversations-group" class="list-group list-group-flush">
                         @foreach($conversations as $conversation)
                             <button type="button" class="list-group-item list-group-item-action rounded-0"
-                                    data-user-id="{{$conversation->user_id}}"
-                                    data-user-name="{{$conversation->name}}"
-                                    data-user-phone="{{$conversation->phone}}">
-                                {{$conversation->name}}
+                                    data-user-id="{{$conversation['message']->user_id}}"
+                                    data-user-name="{{$conversation['message']->name}}"
+                                    data-user-phone="{{$conversation['message']->phone}}">
+                                {{$conversation['message']->name}}
+                                <span id="user-{{$conversation['message']->user_id}}-badge"
+                                    class="badge badge-pill badge-success float-right"
+                                    @if($conversation['unread_count']<=0)
+                                        style="display: none"
+                                    @endif >{{$conversation['unread_count']}}</span>
                                 <br/>
-                                {{$conversation->message}}
+                                {{$conversation['message']->message}}
                             </button>
                         @endforeach
                     </div>
@@ -97,6 +102,7 @@
                     let messages = res.messages.data.reverse();
                     let is_more = res.more;
                     let time_window = res.time_window;
+                    let unread_count = res.unread_count;
                     let messages_string = '<ul class="whatsapp-chat" id="chat-page-'+page+'">';
                     messages.forEach(function(item,index){
                         let chat_panel = '';
@@ -211,6 +217,13 @@
                     } else {
                         $('#conversation-form-container').html('<h4>The 24hr time window to chat with this customer has finished</h4>').removeClass('card-footer');
                     }
+                    //update unread messages count
+                    let user_badge = $('#user-' + user_id + '-badge');
+                    if(unread_count>0) {
+                        user_badge.html(unread_count);
+                    } else {
+                        user_badge.hide();
+                    }
                 }
             });
         }
@@ -318,5 +331,84 @@
                 }
             });
         }
+
+        //Audio recording
+        // Track audio recording state and objects
+        /*let recording = false;
+        let recordingStream = null;
+        let webAudioRecorder = null;
+        function toggleRecording(){
+            console.log('toggle recording');
+            if (recording){
+                stopRecording();
+            } else {
+                startRecording();
+            }
+        }
+        function startRecording() {
+            console.log('Start Recording');
+            //$('#transcript').text('');
+            console.log(navigator);
+            // Start microphone access
+            // https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
+            navigator.mediaDevices.getUserMedia({audio: true, video:false}).then(function(stream) {
+                console.log('getUserMedia');
+                recordingStream = stream;
+
+                var AudioContext = window.AudioContext || window.webkitAudioContext;
+                const audioContext = new AudioContext();
+                const audioSource = audioContext.createMediaStreamSource(stream);
+
+                // Load the worker for the OGG encoder
+                // https://github.com/higuma/web-audio-recorder-js
+                webAudioRecorder = new WebAudioRecorder(audioSource, {
+                    workerDir: 'js/web_audio_js/',
+                    encoding: 'mp3',
+                    onEncoderLoading: (recorder, encoding) => {
+                        console.log('onEncoderLoading');
+                    },
+                    onEncoderLoaded: (recorder, encoding) => {
+                        console.log('onEncoderLoaded');
+                    },
+                    onEncodingProgress: (recorder, progress) => {
+                        console.log('onEncodingProgress: ' + progress);
+                    },
+                    onComplete: (recorder, blob) => {
+                        console.log('onComplete');
+                        $('#start_button').prop('disabled', true);
+                        $('#loading-image').show();
+                        persistFile(blob);
+                    }
+                });
+
+                webAudioRecorder.setOptions({
+                    timeLimit: 58, // max number of seconds for recording
+                    encodeAfterRecord: true, // encode the audio data after recording
+                    ogg: {
+                        bitRate: 160 // 160 Hz bitrate
+                    }
+                });
+
+                // Visualize the audio data
+                analyser = audioContext.createAnalyser();
+                analyser.fftSize = 1024;
+                bufferSize = analyser.frequencyBinCount;
+                audioData = new Uint8Array(bufferSize);
+
+                // Start the recording process
+                webAudioRecorder.startRecording();
+                audioSource.connect(analyser);
+                requestAnimationFrame(animationStep);
+                recording = true;
+                document.getElementById('microphone').src = MICROPHONE_RECORDING_IMAGE;
+
+                console.log('startRecording');
+            }).catch((err) => {
+                console.log('getUserMedia error: ' +  JSON.stringify(err));
+                recording = false;
+                document.getElementById('microphone').src = MICROPHONE_IMAGE;
+                alert(err.message);
+            });
+        }*/
     </script>
 @endsection

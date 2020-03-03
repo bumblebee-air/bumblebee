@@ -150,15 +150,6 @@
                                 <div class="person-name">
                                     <i class="fab fa-whatsapp"></i> Whatsapp
                                 </div>
-                                <div class="search">
-                                    <a href="#" class="search-in-conversation">
-                                        <i class="material-icons">search</i>
-                                    </a>
-                                    <div class="search-wrapper">
-                                        <i class="material-icons">search</i>
-                                        <input type="search" placeholder="Search this conversation">
-                                    </div>
-                                </div>
                             </div>
                             <div id="conversation-body" class="card-body">
                                 <h5 class="card-title">Select a customer to display the conversation here</h5>
@@ -356,14 +347,6 @@
 
         $(document).ready(function(){
 
-            $('.search-in-conversation').click(function() {
-                if(!$('#conversation-header div.search').hasClass('search-open')){
-                    $(this).parents('.search').addClass('search-open');
-                } else {
-                    $(this).parents('.search').removeClass('search-open');
-                }
-            });
-
             $('#conversations-group .conversation').on('click', function (e) {
                 $('li.list-group-item-action').removeClass('active');
                 $(this).parents('li').addClass('active');
@@ -374,7 +357,7 @@
                 loadConversationMessages(user_id, 1);
                 $('#conversations-group .list-group-item').removeClass('active');
                 $(this).addClass('active');
-                $('#conversation-area #conversation-header').html('<div class="person-name"><i class="fab fa-whatsapp"></i> '+ user_name + '</div><div class="search"><a href="#"><i class="material-icons">search</i></a><div class="search-wrapper"><i class="material-icons">search</i><input type="search" placeholder="Search this conversation"></div></div>');
+                $('#conversation-area #conversation-header').html('<div class="person-name"><i class="fab fa-whatsapp"></i> '+ user_name + '</div><div class="search"><a href="#" onClick="openSearchBox(this)"><i class="material-icons">search</i></a><div class="search-wrapper"><i class="material-icons">search</i><input type="search" placeholder="Search this conversation"></div></div>');
 
                 $('#conversation-area #conversation-body').html('<div id="load-more"></div> <div id="chat-page-0"><h5 class="card-title"><i class="fa fa-spin fa-sync"></i> Loading conversation</h5></div>');
                 $('#conversation-area #conversation-form-container').html('').removeClass('card-footer');
@@ -475,6 +458,15 @@
             if(parseInt(keywordCount))
             {
                 $("#whatsAppKeywordModal").modal('show');
+            }
+        }
+
+        function openSearchBox(obj)
+        {
+            if(!$(obj).parents('div.search').hasClass('search-open')){
+                $(obj).parents('.search').addClass('search-open');
+            } else {
+                $(obj).parents('.search').removeClass('search-open');
             }
         }
 

@@ -2,7 +2,11 @@
 
 @section('page-styles')
     <link rel="stylesheet" href="{{asset('css/whatsapp-chat.css')}}"/>
+    <link rel="stylesheet" href="{{asset('css/whatsapp.css')}}"/>
     <style>
+        .main-panel>.content{
+            margin-top: 0px;
+        }
         #whatsAppKeywordModalLabel{
             font-weight: 400;
         }
@@ -22,9 +26,11 @@
             font-weight: 500;
         }
         #conversation-area #conversation-body {
-            max-height: 400px;
+            min-height: 400px;
+            height: calc(100vh - 300px);
             overflow-y: auto;
             background-color: #ece5dd;
+            padding: 20px 40px 10px;
         }
         #conversation-area #conversation-form-container form {
             width: 100%;
@@ -59,35 +65,107 @@
     <input type="hidden" name="view_csrf_token" value="{{csrf_token()}}"/>
     <div class="content">
         <div class="container-fluid">
-            <div class="row card-group">
-                <div class="card col-4 px-0">
-                    <div id="conversations-group" class="list-group list-group-flush">
-                        @foreach($conversations as $conversation)
-                            <button type="button" class="list-group-item list-group-item-action rounded-0"
-                                    data-user-id="{{$conversation['message']->user_id}}"
-                                    data-user-name="{{$conversation['message']->name}}"
-                                    data-user-phone="{{$conversation['message']->phone}}">
-                                {{$conversation['message']->name}}
-                                <span id="user-{{$conversation['message']->user_id}}-badge"
-                                    class="badge badge-pill badge-success float-right"
-                                    @if($conversation['unread_count']<=0)
-                                        style="display: none"
-                                    @endif >{{$conversation['unread_count']}}</span>
-                                <br/>
-                                {{$conversation['message']->message}}
-                            </button>
-                        @endforeach
+            <div class="row">
+                <div class="col-12">
+                    <div class="app-icon">
+                        <a href="#">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                        whatsapp
                     </div>
                 </div>
-                <div id="conversation-area" class="card col-8 px-0">
-                    <div id="conversation-header" class="card-header">
-                        <i class="fab fa-whatsapp"></i> Whatsapp
+            </div>
+            <div class="row conversation-blog">
+                <div class="col-12 conversation-wrapper">
+                    <div class="conversation-tab">
+                        <ul>
+                            <li class="active">
+                                <a href="#">Carjo</a>
+                            </li>
+                            <li>
+                                <a href="#">emergency response</a>
+                            </li>
+                            <li>
+                                <a href="#">intelligent protection</a>
+                            </li>
+                            <li>
+                                <a href="#">rescue management</a>
+                            </li>
+                        </ul>
                     </div>
-                    <div id="conversation-body" class="card-body">
-                        <h5 class="card-title">Select a customer to display the conversation here</h5>
-                        <!--<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>-->
+                    <div class="chat-issue-list">
+                            <ul>
+                                <li>
+                                    <a class="red" href="#">Critical
+                                        <span>(4)</span>
+                                    </a>
+                                </li> 
+                                <li>
+                                    <a class="yellow" href="#">Major
+                                        <span>(2)</span>
+                                    </a>
+                                </li> 
+                                <li>
+                                    <a class="green" href="#">Minor
+                                        <span>(1)</span>
+                                    </a>
+                                </li> 
+                            </ul>
                     </div>
-                    <div id="conversation-form-container">
+                </div>
+                <div class="col-12">
+                    <div class="row person-chat-wrapper">
+                        <div class="col-4 px-0">
+                            <div class="left-searchbar">
+                                <div class="search-wrapper">
+                                    <i class="material-icons">search</i>
+                                    <input type="search" placeholder="Search or start conversation">
+                                </div>
+                            </div>
+                            <ul id="conversations-group" class="list-group list-group-flush user-list">
+                                @foreach($conversations as $conversation)
+                                <li class="list-group-item-action">
+                                    <a class="conversation" href="#" data-user-id="{{$conversation['message']->user_id}}"
+                                            data-user-name="{{$conversation['message']->name}}"
+                                            data-user-phone="{{$conversation['message']->phone}}">
+                                        <img src="{{ asset('images/user.png') }}" />
+                                        <span class="user-info"> 
+                                            <span class="user-name">
+                                                {{$conversation['message']->name}}
+                                            </span>
+                                            <span class="user-detail">
+                                                <span class="time">10:00 am</span>
+                                                <span class="total-msg" @if($conversation['unread_count']<=0)
+                                                style="display: none"
+                                            @endif>{{$conversation['unread_count']}}<span>
+                                            </span>
+                                        </span>
+                                    </a>
+                                </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        <div id="conversation-area" class="col-8 px-0">
+                            <div id="conversation-header" class="person-header">
+                                <div class="person-name">
+                                    <i class="fab fa-whatsapp"></i> Whatsapp
+                                </div>
+                                <div class="search">
+                                    <a href="#" class="search-in-conversation">
+                                        <i class="material-icons">search</i>
+                                    </a>
+                                    <div class="search-wrapper">
+                                        <i class="material-icons">search</i>
+                                        <input type="search" placeholder="Search this conversation">
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="conversation-body" class="card-body">
+                                <h5 class="card-title">Select a customer to display the conversation here</h5>
+                            </div>
+                            <div id="conversation-form-container" class="chat-footer" style="display: none;">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -135,7 +213,7 @@
 
                     if($('.matchedKeywordCount').length === 0)
                     {
-                        $('#conversation-area #conversation-header').append('<span style="margin-left:5px;cursor:pointer;" class="badge badge-danger matchedKeywordCount" data-toggle="tooltip" onClick="openKeywordModal('+res.countMatchedKeywords+')" data-title="'+ res.countMatchedKeywords +' keywords matched!">' + res.countMatchedKeywords + '</span>');
+                        $('#conversation-area #conversation-header .person-name').append('<span style="margin-left:5px;cursor:pointer;" class="badge badge-danger matchedKeywordCount" data-toggle="tooltip" onClick="openKeywordModal('+res.countMatchedKeywords+')" data-title="'+ res.countMatchedKeywords +' keywords matched!">' + res.countMatchedKeywords + '</span>');
                         $('#whatsAppKeywordModal ul.keyword-container li.matched-keyword').remove();
                         if(res.countMatchedKeywords > 0)
                         {
@@ -186,7 +264,10 @@
                                 'Click here to open in maps</a> </p>';
                         }
                         chat_body += '<p>' +item.message + '</p></div>';
+                        console.log("imtem from", item.from)
+                            console.log("customer phone ", customer_phone);
                         if(item.from==customer_phone){
+                            
                             chat_panel += '<li class="whatsapp-chat-inverted">';
                             chat_panel += chat_body;
                             //chat_panel += '<h6>' + item.from + '</h6>';
@@ -237,17 +318,16 @@
                                 '<input type="hidden" name="customer_id" value="' + user_id + '"/>' +
                                 '<input type="file" id="attachment" name="attachment" style="display:none"/>' +
                                 '<p id="attachment-info" style="display: none"></p>' +
-                                '<div class="form-group">' + '<div class="input-group">' +
-                                '<input type="text" class="form-control" placeholder="Write your message" id="message-body" name="message_body">' +
+                                '' + '<div class="input-group">' +
+                                '<input type="text" placeholder="Write your message" id="message-body" name="message_body">' +
                                 '<span class="input-group-btn" style="padding-right: 0">' +
-                                '<button type="button" class="btn btn-fab btn-round btn-info" onclick="$(\'#attachment\').click();">' +
-                                '<i class="material-icons">attach_file</i>' +
-                                '</button> </span>' +
+                                '<a class="attach-file" onclick="$(\'#attachment\').click();"><i class="material-icons">attach_file</i></a></span>' +
                                 '<span class="input-group-btn">' +
-                                '<button type="button" class="btn btn-fab btn-round btn-primary" onclick="submitConversationForm();">' +
+                                '<a class="btn btn-fab btn-round btn-primary" onclick="submitConversationForm();">' +
                                 '<i class="material-icons">send</i>' +
-                                '</button> </span>' +
-                                '</div> </div>' +
+                                '</a> </span>' +
+                                '<a href="#" class="key-voice"><span class="material-icons">keyboard_voice</span></a>' +
+                                '</div>' +
                                 '</form>';
                             $('#conversation-form-container').html(form_html).addClass('card-footer');
                             $("#conversation-form").on('submit', function (e) {
@@ -275,7 +355,18 @@
         }
 
         $(document).ready(function(){
-            $('#conversations-group button').on('click', function (e) {
+
+            $('.search-in-conversation').click(function() {
+                if(!$('#conversation-header div.search').hasClass('search-open')){
+                    $(this).parents('.search').addClass('search-open');
+                } else {
+                    $(this).parents('.search').removeClass('search-open');
+                }
+            });
+
+            $('#conversations-group .conversation').on('click', function (e) {
+                $('li.list-group-item-action').removeClass('active');
+                $(this).parents('li').addClass('active');
                 e.preventDefault();
                 let user_id = $(this).data('user-id');
                 let user_name = $(this).data('user-name');
@@ -283,9 +374,11 @@
                 loadConversationMessages(user_id, 1);
                 $('#conversations-group .list-group-item').removeClass('active');
                 $(this).addClass('active');
-                $('#conversation-area #conversation-header').html('<i class="fab fa-whatsapp"></i> ' + user_name);
+                $('#conversation-area #conversation-header').html('<div class="person-name"><i class="fab fa-whatsapp"></i> '+ user_name + '</div><div class="search"><a href="#"><i class="material-icons">search</i></a><div class="search-wrapper"><i class="material-icons">search</i><input type="search" placeholder="Search this conversation"></div></div>');
+
                 $('#conversation-area #conversation-body').html('<div id="load-more"></div> <div id="chat-page-0"><h5 class="card-title"><i class="fa fa-spin fa-sync"></i> Loading conversation</h5></div>');
                 $('#conversation-area #conversation-form-container').html('').removeClass('card-footer');
+                $('#conversation-form-container').show();
             });
         });
 

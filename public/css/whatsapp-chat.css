@@ -19,7 +19,7 @@
 .whatsapp-chat h6 {
     position: absolute;
     right: 20px;
-    bottom: 10px;
+    bottom: 5px;
     color: #333333;
     font-weight: 400;
     margin: 10px 0px 0px;
@@ -74,7 +74,8 @@
 
 .whatsapp-chat>li>.whatsapp-chat-panel:before {
     position: absolute;
-    top: 26px;
+    /*top: 26px;*/
+    top: 5px;
     right: -15px;
     display: inline-block;
     border-top: 15px solid transparent;
@@ -86,7 +87,8 @@
 
 .whatsapp-chat>li>.whatsapp-chat-panel:after {
     position: absolute;
-    top: 27px;
+    /*top: 27px;*/
+    top: 6px;
     right: -14px;
     display: inline-block;
     border-top: 14px solid transparent;

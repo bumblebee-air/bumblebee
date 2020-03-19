@@ -33,6 +33,7 @@ class DashboardController extends Controller
             }
             $whatsapp_message->name = $the_name;
             $whatsapp_message->phone = $the_phone;
+            $whatsapp_message->time = Carbon::parse($whatsapp_message->created_at)->format('H:i');
             $conversations[] = ['message'=>$whatsapp_message,
                 'unread_count'=>$unread_messages_count];
         }

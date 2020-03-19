@@ -121,6 +121,12 @@
                     <p>Response</p>
                 </a>
             </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="{{url('conversation-categories')}}">
+                    <i class="material-icons">category</i>
+                    <p>Conversation Categories</p>
+                </a>
+            </li>
         </ul>
     </div>
 </div>

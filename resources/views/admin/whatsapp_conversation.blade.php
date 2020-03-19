@@ -65,16 +65,6 @@
     <input type="hidden" name="view_csrf_token" value="{{csrf_token()}}"/>
     <div class="content">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    <div class="app-icon">
-                        <a href="#">
-                            <i class="material-icons">more_vert</i>
-                        </a>
-                        whatsapp
-                    </div>
-                </div>
-            </div>
             <div class="row conversation-blog">
                 <div class="col-12 conversation-wrapper">
                     <div class="conversation-tab">
@@ -128,16 +118,17 @@
                                     <a class="conversation" href="#" data-user-id="{{$conversation['message']->user_id}}"
                                             data-user-name="{{$conversation['message']->name}}"
                                             data-user-phone="{{$conversation['message']->phone}}">
-                                        <img src="{{ asset('images/user.png') }}" />
+                                        <!--<img src="{asset('images/user.png')}" />-->
                                         <span class="user-info"> 
                                             <span class="user-name">
                                                 {{$conversation['message']->name}}
                                             </span>
                                             <span class="user-detail">
-                                                <span class="time">10:00 am</span>
-                                                <span class="total-msg" @if($conversation['unread_count']<=0)
-                                                style="display: none"
-                                            @endif>{{$conversation['unread_count']}}<span>
+                                                <span class="time">{{$conversation['message']->time}}</span>
+                                                <span class="total-msg" id="user-{{$conversation['message']->user_id}}-badge"
+                                                @if($conversation['unread_count']<=0)
+                                                    style="display: none"
+                                                @endif >{{$conversation['unread_count']}}<span>
                                             </span>
                                         </span>
                                     </a>
@@ -204,7 +195,7 @@
 
                     if($('.matchedKeywordCount').length === 0)
                     {
-                        $('#conversation-area #conversation-header .person-name').append('<span style="margin-left:5px;cursor:pointer;" class="badge badge-danger matchedKeywordCount" data-toggle="tooltip" onClick="openKeywordModal('+res.countMatchedKeywords+')" data-title="'+ res.countMatchedKeywords +' keywords matched!">' + res.countMatchedKeywords + '</span>');
+                        $('#conversation-area #conversation-header .person-name').append('<span style="margin-left:5px;cursor:pointer;" class="badge badge-danger badge-pill matchedKeywordCount" data-toggle="tooltip" onClick="openKeywordModal('+res.countMatchedKeywords+')" data-title="'+ res.countMatchedKeywords +' keywords matched!">' + res.countMatchedKeywords + '</span>');
                         $('#whatsAppKeywordModal ul.keyword-container li.matched-keyword').remove();
                         if(res.countMatchedKeywords > 0)
                         {

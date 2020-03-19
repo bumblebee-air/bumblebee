@@ -114,7 +114,7 @@
   height: 100%;
   z-index: 1;
   position: relative;
-  box-shadow: 3px 1px 10px 0px rgba(0,0,0,0.55);
+  /*box-shadow: 3px 1px 10px 0px rgba(0,0,0,0.55);*/
 }
 .left-searchbar {
   padding: 15px;
@@ -138,6 +138,12 @@
   height: 45px;
   border-radius: 8px;
   padding: 5px 10px 5px 50px;
+}
+
+.search-wrapper input::placeholder,
+.search-wrapper input::-moz-placeholder,
+.search-wrapper input::-webkit-input-placeholder {
+  line-height: 2.3;
 }
 
 .user-list .list-group-item-action {
@@ -181,7 +187,7 @@
 .user-list .user-detail .time {
   font-size: 12px;
   line-height: 15px;
-  margin-bottom: 8px;
+  /*margin-bottom: 8px;*/
   color:#898787;
 }
 .user-list .list-group-item-action.active .user-detail .time {
@@ -261,7 +267,7 @@
   align-items: flex-end;
   padding: 15px;
   background: #fff;
-  margin-left: 10px;
+  /*margin-left: 10px;*/
 }
 .chat-footer form {
   margin-bottom: 0;

@@ -80,6 +80,13 @@ Route::get('response/edit/{response}', 'ResponseController@edit');
 Route::put('response/{response}', 'ResponseController@update');
 Route::get('response/delete/{response}', 'ResponseController@destroy');
 
+Route::get('conversation-categories', 'ConversationsController@getConversationCategoriesIndex');
+Route::get('conversation-category/add', 'ConversationsController@getConversationCategoryAdd');
+Route::post('conversation-category/add', 'ConversationsController@postConversationCategoryAdd');
+Route::get('conversation-category/edit/{id}', 'ConversationsController@getConversationCategoryEdit');
+Route::post('conversation-category/edit', 'ConversationsController@postConversationCategoryEdit');
+Route::any('conversation-category/delete/{id}', 'ConversationsController@anyConversationCategoryDelete');
+
 Route::get('dashboard', function () {
     return view('admin.dashboard');
 });

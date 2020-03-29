@@ -122,10 +122,28 @@
                 </a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="{{url('conversation-categories')}}">
-                    <i class="material-icons">category</i>
-                    <p>Conversation Categories</p>
+                <a class="nav-link" data-toggle="collapse" href="#conversations">
+                    <i class="fas fa-comments"></i>
+                    <p> Conversations
+                        <b class="caret"></b>
+                    </p>
                 </a>
+                <div class="collapse" id="conversations">
+                    <ul class="nav">
+                        <li class="nav-item ">
+                            <a class="nav-link" href="{{url('clients')}}">
+                                <i class="material-icons">home_work</i>
+                                <p>Clients</p>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" href="{{url('conversation-categories')}}">
+                                <i class="material-icons">category</i>
+                                <p>Conversation Categories</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </li>
         </ul>
     </div>

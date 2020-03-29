@@ -19,34 +19,21 @@
       <div class="card ">
         <div class="card-header card-header-rose card-header-icon">
           <div class="card-icon">
-            <i class="material-icons">category</i>
+            <i class="material-icons">home_work</i>
           </div>
-          <h4 class="card-title">Edit Conversation Category</h4>
+          <h4 class="card-title">Add Client</h4>
         </div>
-        <form action="{{url('conversation-category/edit')}}" method="post">
+        <form action="{{url('client/add')}}" method="post">
           <div class="card-body">
             {{ csrf_field() }}
-            <input type="hidden" name="id" value="{{$category->id}}"/>
             <div class="form-group bmd-form-group">
               <label for="name">Name*</label>
-              <input id="name" name="name" type="text" class="form-control"
-                 value="{{$category->name}}" required>
-            </div>
-            <div class="form-group bmd-form-group">
-              <label for="client">Client</label>
-              <select id="client" name="client_id" class="form-control selectpicker">
-                <option value="">Select client</option>
-                @foreach($clients as $client)
-                  <option value="{{$client->id}}"
-                  @if($category->client_id == $client->id) selected @endif
-                  >{{$client->name}}</option>
-                @endforeach
-              </select>
+              <input id="name" name="name" type="text" class="form-control" required>
             </div>
           </div>
           <div class="card-btns" style="padding: 20px;">
             <button type="submit" class="btn btn-fill btn-rose">Save</button>
-            <a href="{{ url('conversation-categories') }}" class="btn">Cancel</a>
+            <a href="{{ url('clients') }}" class="btn">Cancel</a>
           </div>
         </form>
       </div>
@@ -58,6 +45,5 @@
 @section('page-scripts')
 <script src="{{ asset('js/bootstrap-selectpicker.js') }}"></script>
 <script type="text/javascript">
-
 </script>
 @endsection

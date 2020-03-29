@@ -87,6 +87,13 @@ Route::get('conversation-category/edit/{id}', 'ConversationsController@getConver
 Route::post('conversation-category/edit', 'ConversationsController@postConversationCategoryEdit');
 Route::any('conversation-category/delete/{id}', 'ConversationsController@anyConversationCategoryDelete');
 
+Route::get('clients', 'ConversationsController@getClientsIndex');
+Route::get('client/add', 'ConversationsController@getClientAdd');
+Route::post('client/add', 'ConversationsController@postClientAdd');
+Route::get('client/edit/{id}', 'ConversationsController@getClientEdit');
+Route::post('client/edit', 'ConversationsController@postClientEdit');
+Route::any('client/delete/{id}', 'ConversationsController@anyClientDelete');
+
 Route::get('dashboard', function () {
     return view('admin.dashboard');
 });

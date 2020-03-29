@@ -30,6 +30,15 @@
               <label for="name">Name*</label>
               <input id="name" name="name" type="text" class="form-control" required>
             </div>
+            <div class="form-group bmd-form-group">
+              <label for="client">Client</label>
+              <select id="client" name="client_id" class="form-control selectpicker">
+                <option value="">Select client</option>
+                @foreach($clients as $client)
+                  <option value="{{$client->id}}">{{$client->name}}</option>
+                @endforeach
+              </select>
+            </div>
           </div>
           <div class="card-btns" style="padding: 20px;">
             <button type="submit" class="btn btn-fill btn-rose">Save</button>

@@ -21,9 +21,9 @@
           <div class="card-icon">
             <i class="material-icons">category</i>
           </div>
-          <h4 class="card-title">Add Category</h4>
+          <h4 class="card-title">Add Service Type</h4>
         </div>
-        <form action="{{url('conversation-category/add')}}" method="post">
+        <form action="{{url('service-type/add')}}" method="post">
           <div class="card-body">
             {{ csrf_field() }}
             <div class="form-group bmd-form-group">
@@ -42,7 +42,7 @@
           </div>
           <div class="card-btns" style="padding: 20px;">
             <button type="submit" class="btn btn-fill btn-rose">Save</button>
-            <a href="{{ url('conversation-categories') }}" class="btn">Cancel</a>
+            <a href="{{ url('service-types') }}" class="btn">Cancel</a>
           </div>
         </form>
       </div>

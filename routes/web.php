@@ -80,12 +80,12 @@ Route::get('response/edit/{response}', 'ResponseController@edit');
 Route::put('response/{response}', 'ResponseController@update');
 Route::get('response/delete/{response}', 'ResponseController@destroy');
 
-Route::get('conversation-categories', 'ConversationsController@getConversationCategoriesIndex');
-Route::get('conversation-category/add', 'ConversationsController@getConversationCategoryAdd');
-Route::post('conversation-category/add', 'ConversationsController@postConversationCategoryAdd');
-Route::get('conversation-category/edit/{id}', 'ConversationsController@getConversationCategoryEdit');
-Route::post('conversation-category/edit', 'ConversationsController@postConversationCategoryEdit');
-Route::any('conversation-category/delete/{id}', 'ConversationsController@anyConversationCategoryDelete');
+Route::get('service-types', 'ConversationsController@getServiceTypesIndex');
+Route::get('service-type/add', 'ConversationsController@getServiceTypeAdd');
+Route::post('service-type/add', 'ConversationsController@postServiceTypeAdd');
+Route::get('service-type/edit/{id}', 'ConversationsController@getServiceTypeEdit');
+Route::post('service-type/edit', 'ConversationsController@postServiceTypeEdit');
+Route::any('service-type/delete/{id}', 'ConversationsController@anyServiceTypeDelete');
 
 Route::get('clients', 'ConversationsController@getClientsIndex');
 Route::get('client/add', 'ConversationsController@getClientAdd');

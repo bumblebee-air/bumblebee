@@ -32,11 +32,11 @@
               <div class="card-icon">
                 <i class="material-icons">category</i>
               </div>
-              <h4 class="card-title ">Conversation Categories</h4>
+              <h4 class="card-title ">Service Types</h4>
             </div>
             <div class="card-body">
               <div class="float-right">
-                <a class="btn btn-success btn-sm" href="{{ url('conversation-category/add') }}">Add New</a>
+                <a class="btn btn-success btn-sm" href="{{ url('service-type/add') }}">Add New</a>
               </div>
               <div class="table-responsive">
                 <table class="table">
@@ -45,15 +45,15 @@
                   </thead>
 
                   <tbody>
-                    @if(count($categories))
-                    @foreach($categories as $category)
+                    @if(count($service_types))
+                    @foreach($service_types as $service_type)
                     <tr>
                       <td>
-                        {{$category->name}}
+                        {{$service_type->name}}
                       </td>
                       <td>
-                        <a class="btn btn-sm btn btn-info" href="{{ url('conversation-category/edit/'.$category->id) }}">Edit</a>
-                        <a class="btn btn-sm btn btn-danger" deleteLink="{{ url('conversation-category/delete/'.$category->id) }}" href="#" onclick="confirmDelete(this)">Delete</a>
+                        <a class="btn btn-sm btn btn-info" href="{{ url('service-type/edit/'.$service_type->id) }}">Edit</a>
+                        <a class="btn btn-sm btn btn-danger" deleteLink="{{ url('service-type/delete/'.$service_type->id) }}" href="#" onclick="confirmDelete(this)">Delete</a>
                       </td>
 
                     </tr>
@@ -66,7 +66,7 @@
                   </tbody>
                 </table>
                 <nav aria-label="pagination" class="float-right">
-                  {{$categories->links('vendor.pagination.bootstrap-4')}}
+                  {{$service_types->links('vendor.pagination.bootstrap-4')}}
                 </nav>
               </div>
             </div>

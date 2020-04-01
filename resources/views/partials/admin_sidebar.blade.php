@@ -137,9 +137,9 @@
                             </a>
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link" href="{{url('conversation-categories')}}">
+                            <a class="nav-link" href="{{url('service-types')}}">
                                 <i class="material-icons">category</i>
-                                <p>Conversation Categories</p>
+                                <p>Service Types</p>
                             </a>
                         </li>
                     </ul>

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Client;
-use App\ConversationCategory;
+use App\ServiceType;
 use Illuminate\Http\Request;
 use Session;
 
@@ -13,64 +13,64 @@ class ConversationsController extends Controller
         //$this->middleware('auth');
     }
 
-    public function getConversationCategoriesIndex(){
-        $conversation_categories = ConversationCategory::paginate(10);;
-        return view('admin.conversation-categories.index',
-            ['categories'=>$conversation_categories]);
+    public function getServiceTypesIndex(){
+        $service_types = ServiceType::paginate(10);;
+        return view('admin.service-types.index',
+            ['service_types'=>$service_types]);
     }
 
-    public function getConversationCategoryAdd(){
+    public function getServiceTypeAdd(){
         $clients = Client::all();
-        return view('admin.conversation-categories.add',
+        return view('admin.service-types.add',
             compact('clients'));
     }
 
-    public function postConversationCategoryAdd(Request $request){
+    public function postServiceTypeAdd(Request $request){
         $name = $request->get('name');
         $client_id = $request->get('client_id');
-        $conversation_category = new ConversationCategory();
-        $conversation_category->name = $name;
-        $conversation_category->client_id = $client_id;
-        $conversation_category->save();
-        Session::flash('success', 'The category was added successfully!');
-        return redirect()->to('conversation-categories');
+        $service_type = new ServiceType();
+        $service_type->name = $name;
+        $service_type->client_id = $client_id;
+        $service_type->save();
+        Session::flash('success', 'The service type was added successfully!');
+        return redirect()->to('service-types');
     }
 
-    public function getConversationCategoryEdit($id){
-        $conversation_category = ConversationCategory::find($id);
+    public function getServiceTypeEdit($id){
+        $service_type = ServiceType::find($id);
         $clients = Client::all();
-        if(!$conversation_category){
-            Session::flash('error','No category was found with this ID!');
+        if(!$service_type){
+            Session::flash('error','No service type was found with this ID!');
         }
-        return view('admin.conversation-categories.edit',
-            ['category'=>$conversation_category,'clients'=>$clients]);
+        return view('admin.service-types.edit',
+            ['serviceType'=>$service_type,'clients'=>$clients]);
     }
 
-    public function postConversationCategoryEdit(Request $request){
+    public function postServiceTypeEdit(Request $request){
         $id = $request->get('id');
         $name = $request->get('name');
         $client_id = $request->get('client_id');
-        $conversation_category = ConversationCategory::find($id);
-        if(!$conversation_category){
-            Session::flash('error','No category was found with this ID!');
+        $service_type = ServiceType::find($id);
+        if(!$service_type){
+            Session::flash('error','No service type was found with this ID!');
         }
-        $conversation_category->name = $name;
-        $conversation_category->client_id = $client_id;
-        $conversation_category->save();
-        Session::flash('success', 'The category was edited successfully!');
-        return redirect()->to('conversation-categories');
+        $service_type->name = $name;
+        $service_type->client_id = $client_id;
+        $service_type->save();
+        Session::flash('success', 'The service type was edited successfully!');
+        return redirect()->to('service-types');
     }
 
-    public function anyConversationCategoryDelete(Request $request, $id){
+    public function anyServiceTypeDelete(Request $request, $id){
         //$id = $request->get('id');
-        $conversation_category = ConversationCategory::find($id);
-        if(!$conversation_category){
-            Session::flash('error','No category was found with this ID!');
+        $service_type = ServiceType::find($id);
+        if(!$service_type){
+            Session::flash('error','No service type was found with this ID!');
         }
-        $name = $conversation_category->name;
-        $conversation_category->delete();
-        Session::flash('success', 'The category '.$name.' was deleted successfully!');
-        return redirect()->to('conversation-categories');
+        $name = $service_type->name;
+        $service_type->delete();
+        Session::flash('success', 'The service type '.$name.' was deleted successfully!');
+        return redirect()->to('service-types');
     }
 
     public function getClientsIndex(){

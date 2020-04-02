@@ -53,7 +53,7 @@ class DashboardController extends Controller
         $matchedKeywords = [];
         if($page == 1)
         {
-            $keywords = Keyword::get();
+            $keywords = Keyword::select('id', 'keyword', 'weight')->get();
 
             if(!empty($keywords))
             {

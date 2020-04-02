@@ -142,6 +142,12 @@
                                 <p>Service Types</p>
                             </a>
                         </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" href="{{url('support-types')}}">
+                                <i class="material-icons">contact_support</i>
+                                <p>Support Types</p>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </li>

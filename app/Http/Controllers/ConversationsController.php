@@ -14,7 +14,7 @@ class ConversationsController extends Controller
     }
 
     public function getServiceTypesIndex(){
-        $service_types = ServiceType::paginate(10);;
+        $service_types = ServiceType::paginate(10);
         return view('admin.service-types.index',
             ['service_types'=>$service_types]);
     }

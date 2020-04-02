@@ -87,6 +87,13 @@ Route::get('service-type/edit/{id}', 'ConversationsController@getServiceTypeEdit
 Route::post('service-type/edit', 'ConversationsController@postServiceTypeEdit');
 Route::any('service-type/delete/{id}', 'ConversationsController@anyServiceTypeDelete');
 
+Route::get('support-types', 'SupportController@index');
+Route::get('support-type/add', 'SupportController@addSupportType');
+Route::post('support-type', 'SupportController@store');
+Route::put('support-type/{supportType}','SupportController@update');
+Route::get('support-type/edit/{supportType}', 'SupportController@edit');
+Route::get('support-type/delete/{supportType}', 'SupportController@destroy');
+
 Route::get('clients', 'ConversationsController@getClientsIndex');
 Route::get('client/add', 'ConversationsController@getClientAdd');
 Route::post('client/add', 'ConversationsController@postClientAdd');

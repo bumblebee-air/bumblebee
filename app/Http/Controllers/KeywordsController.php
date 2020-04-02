@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Keyword;
+use App\SupportType;
 use Validator;
 use Redirect;
 use Input;
@@ -13,13 +14,17 @@ class KeywordsController extends Controller
 {
     public function index()
     {
-        $keywords = Keyword::paginate(5);
+        $keywords = Keyword::with('supportType')->paginate(5);
         return view('admin.keywords.index', ['keywords' => $keywords]);
     }
 
     public function addKeyword()
     {
-        return view('admin.keywords.add');
+        $supportTypes = SupportType::select('id', 'name')->get();
+
+        return view('admin.keywords.add', [
+            'supportTypes' => $supportTypes
+        ]);
     }
 
     public function removeAudio(Request $request)
@@ -50,6 +55,7 @@ class KeywordsController extends Controller
         $keyword = new Keyword();
         $keyword->keyword = $request->keyword;
         $keyword->weight = $request->weight;
+        $keyword->support_type_id = $request->support_type;
         $keyword->audio = !empty($audioPath) ? $audioPath : null;
         $keyword->save();
 
@@ -60,8 +66,11 @@ class KeywordsController extends Controller
 
     public function edit(Keyword $keyword)
     {
+        $supportTypes = SupportType::select('id', 'name')->get();
+
         return view('admin.keywords.edit', [
-            'keyword' => $keyword
+            'keyword' => $keyword,
+            'supportTypes' => $supportTypes
         ]);
     }
 
@@ -89,6 +98,7 @@ class KeywordsController extends Controller
         }
         $keyword->keyword = $request->keyword;
         $keyword->weight = $request->weight;
+        $keyword->support_type_id = $request->support_type;
         $keyword->update();
 
         Session::flash('success', 'Keyword was updated successfully!');
@@ -105,7 +115,7 @@ class KeywordsController extends Controller
 
         Session::flash('success', 'Keyword was deleted successfully!');
 
-        return Redirect::route('keywords');
+        return redirect()->back();
     }
 
     private function validateForm($request)

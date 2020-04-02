@@ -41,9 +41,10 @@
               <div class="table-responsive">
                 <table class="table">
                   <thead>
-                    <th style="width: 40%">Keyword/Phrase</th>
-                    <th style="width: 30%">Weight</th>
-                    <th style="width: 30%">Action</th>
+                    <th style="width: 25%">Keyword/Phrase</th>
+                    <th style="width: 25%">Weight</th>
+                    <th style="width: 25%">Support Type</th>
+                    <th style="width: 25%">Action</th>
                   </thead>
 
                   <tbody>
@@ -68,9 +69,9 @@
                           </div>
                         </div>
                       </td>
+                      <td>{{ $keyword->supportType ? $keyword->supportType->name : '' }}</td>
                       <td><a class="btn btn-sm btn btn-info" href="{{ url('keywords/edit/'.$keyword->id) }}">Edit</a>
                         <a class="btn btn-sm btn btn-danger" deleteLink="{{ url('keywords/delete/'.$keyword->id) }}" href="#" onclick="confirmDelete(this)">Delete</a></td>
-
                     </tr>
                     @endforeach
                     @else

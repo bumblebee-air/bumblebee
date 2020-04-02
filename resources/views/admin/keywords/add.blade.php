@@ -54,6 +54,16 @@
               <input class="file-upload" name="audio" type="file" accept="audio/*" />
             </div>
 
+            <div class="form-group bmd-form-group">
+              <label for="supportType">Support Type</label>
+              <select id="supportType" name="support_type" class="form-control selectpicker">
+                <option value="">Select Support Type</option>
+                @foreach($supportTypes as $supportType)
+                <option value="{{$supportType->id}}">{{$supportType->name}}</option>
+                @endforeach
+              </select>
+            </div>
+
           </div>
           <div class="card-btns">
             <button type="submit" class="btn btn-fill btn-rose">Add</button>
@@ -68,6 +78,7 @@
 
 @section('page-scripts')
 <script src="{{asset('js/nouislider.min.js')}}"></script>
+<script src="{{ asset('js/bootstrap-selectpicker.js') }}"></script>
 <script type="text/javascript">
   // slider
   let slider = document.getElementById('sliderRegular');

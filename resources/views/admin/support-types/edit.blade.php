@@ -37,7 +37,7 @@
                             <select id="serviceType" name="service_type" class="form-control selectpicker">
                                 <option value="">Select Service Type</option>
                                 @foreach($serviceTypes as $serviceType)
-                                <option value="{{$serviceType->id}}" @if(!empty($supportType->serviceType) &&$supportType->serviceType->id == $serviceType->id) selected @endif
+                                <option value="{{$serviceType->id}}" @if(!empty($supportType->service_type_id) && $supportType->service_type_id == $serviceType->id) selected @endif
                                     >{{$serviceType->name}}</option>
                                 @endforeach
                             </select>

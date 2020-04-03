@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Keyword;
 use App\User;
 use App\WhatsappMessage;
 use Illuminate\Http\Request;
@@ -28,6 +29,24 @@ class TwilioController extends Controller
         if($message_body==null){
             $message_body = '';
         }
+
+        // get matching keywords
+        if(!empty($message_body))
+        {
+            $matchedKeywords = [];
+            $keywords = Keyword::select('id', 'keyword', 'audio')->get();
+            foreach($keywords as $key=> $keyword)
+            {
+                if ((strpos(strtolower($message_body), strtolower($keyword->keyword)) !== false) && !empty($keyword->audio)) {
+                    $matchedKeywords[] = [
+                        'id' => $keyword->id,
+                        'keyword' => $keyword->keyword,
+                        'audio' => $keyword->audio
+                    ];
+                }
+            }
+        }
+
         if(intval($number_of_media) > 0){
             $media_types = '';
             $media_urls = '';
@@ -94,6 +113,35 @@ class TwilioController extends Controller
             \Log::error($e->getMessage());
             $xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><Response><Message><Body>there was an error while processing the message</Body></Message></Response>');
             return Response::make($xml->asXML(),500,[]);
+        }
+
+        // send keyword's audio file to sender
+        if(!empty($matchedKeywords))
+        {
+            foreach($matchedKeywords as $keyword)
+            {
+                $twilio = new Client($sid, $token);
+                $message = $twilio->messages->create(
+                    $from,
+                    [
+                        "from" => "whatsapp:+447445341335",
+                        "body" => "Matched Keyword: " . $keyword['keyword'],
+                        'mediaUrl' => url('') . '/' . $keyword['audio']
+                    ]
+                );
+
+                $whats = new WhatsappMessage();
+                $whats->message = "Matched Keyword: " . $keyword['keyword'];
+                $whats->from = 'Bumblebee ('.'+447445341335'.')';
+                $whats->to = $customer_phone;
+                $whats->user_id = $user_id;
+                $whats->num_of_media = 1;
+                $whats->media_types = 'audio/ogg';
+                $whats->media_urls = url('') . '/' . $keyword['audio'];
+                $whats->status = $message->status;
+                $whats->external_id = $message->sid;
+                $whats->save();
+            }
         }
         $this->checkForwardWhatsappData($request->all(),'message');
         $xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><Response/>');

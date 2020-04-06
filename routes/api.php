@@ -24,3 +24,5 @@ Route::post('get-batteries-info', 'LookUpController@getBatteriesInformation');
 Route::post('get-battery-info', 'LookUpController@getBatteryInformation');
 Route::post('whatsapp-message', 'TwilioController@whatsappMessage');
 Route::post('whatsapp-status', 'TwilioController@whatsappStatus');
+
+Route::post('customer-identification', 'SecurityController@customerIdentification');

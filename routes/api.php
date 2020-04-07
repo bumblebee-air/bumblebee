@@ -26,3 +26,5 @@ Route::post('whatsapp-message', 'TwilioController@whatsappMessage');
 Route::post('whatsapp-status', 'TwilioController@whatsappStatus');
 
 Route::post('customer-identification', 'SecurityController@customerIdentification');
+Route::post('dtc-info', 'LookUpController@getDtcInfo');
+Route::post('crash-report', 'CrashReportController@crashReport');

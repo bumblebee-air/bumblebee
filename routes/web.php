@@ -125,3 +125,8 @@ Route::get('test-soap','LookUpController@testSoap');
 Route::get('socket-test', function () {
     return view('socket_test');
 });
+
+
+// Customer
+Route::get('create-customer', 'AdminController@createCustomer');
+Route::post('customer', 'AdminController@storeCustomer');

@@ -110,6 +110,12 @@
                 </a>
             </li>
             <li class="nav-item ">
+                <a class="nav-link" href="{{url('create-customer')}}">
+                <i class="material-icons">account_box</i>
+                    <p>Customer</p>
+                </a>
+            </li>
+            <li class="nav-item ">
                 <a class="nav-link" href="{{url('keywords')}}">
                     <i class="material-icons">label</i>
                     <p>Keywords</p>

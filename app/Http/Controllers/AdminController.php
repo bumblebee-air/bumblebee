@@ -246,7 +246,7 @@ class AdminController extends Controller
         $rules = [
             'phone_number' => 'required|unique:users,phone',
             'sending_channel' => 'required',
-            'email' => 'nullable|required_if:sending_channel,==,email',
+            'email' => 'nullable|required_if:sending_channel,==,email|unique:users,email',
         ];
 
         $messages = [
@@ -256,17 +256,19 @@ class AdminController extends Controller
 
         $this->validate($request, $rules, $messages);
 
+        // create unique registration link for customer
+        $code = $this->generateUniqueCustomerCode($request->phone_number);
+
         $user = new User();
         $user->phone = $request->phone_number;
         $user->email = $request->email;
         $user->name = $request->first_name . ' ' . $request->last_name;
         $user->user_role = 'customer';
+        $user->invitation_code = $code;
         $user->password = bcrypt('password');
         $user->save();
 
-        // create unique registration link for customer
-        $code = $this->generateUniqueCustomerCode($request->phone_number);
-        $message = 'Hi dear customer, you can register your account from this link. ' . url('create-customer') . '/' . $code;
+        $message = 'Hi dear customer, you can register your account from this link. ' . url('customer-register') . '/' . $code;
 
         // send registration link to customer
         if ($request->sending_channel === 'email') {
@@ -289,7 +291,7 @@ class AdminController extends Controller
 
         Session::flash('success', 'Customer was added and registration link sent successfully!');
 
-        return redirect()->back();
+    return redirect()->back();
     }
 
     /**

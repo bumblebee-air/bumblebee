@@ -162,7 +162,7 @@
             <li class="nav-item ">
                 <a class="nav-link" href="{{url('whatsapp-templates')}}">
                     <i class="material-icons">assignment</i>
-                    <p>Whatsapp Templates</p>
+                    <p>WhatsApp Templates</p>
                 </a>
             </li>
             @endif

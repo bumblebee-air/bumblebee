@@ -135,3 +135,11 @@ Route::get('customer-register/{code}', 'CustomersController@customerRegister');
 Route::post('complete-registration/{code}', 'CustomersController@completeRegistration');
 
 Route::get('client/dashboard', 'ClientController@dashboard');
+
+// whatsapp template
+Route::get('whatsapp-templates', 'WhatsappTemplateController@index')->name('whatsapp-templates');
+Route::get('whatsapp-template/create', 'WhatsappTemplateController@create');
+Route::post('whatsapp-template', 'WhatsappTemplateController@store');
+Route::get('whatsapp-template/edit/{template}', 'WhatsappTemplateController@edit');
+Route::put('whatsapp-template/update/{template}', 'WhatsappTemplateController@update');
+Route::get('whatsapp-template/delete/{template}', 'WhatsappTemplateController@delete');

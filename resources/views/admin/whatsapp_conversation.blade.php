@@ -68,7 +68,7 @@
             <div class="row conversation-blog">
                 <div class="col-12 conversation-wrapper">
                     <div class="conversation-tab">
-                        <ul>
+                        <!--<ul>
                             <li class="active">
                                 <a href="#">Carjo</a>
                             </li>
@@ -81,7 +81,13 @@
                             <li>
                                 <a href="#">rescue management</a>
                             </li>
-                        </ul>
+                        </ul>-->
+                        <select id="clients-select" class="form-control selectpicker">
+                            <option value="">Select client</option>
+                            @foreach($the_clients as $client)
+                                <option value="{{$client->id}}">{{$client->name}}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="chat-issue-list">
                             <ul>
@@ -182,6 +188,7 @@
 @endsection
 
 @section('page-scripts')
+    <script src="{{ asset('js/bootstrap-selectpicker.js') }}"></script>
     <script type="text/javascript">
         let customer_phone = null;
 

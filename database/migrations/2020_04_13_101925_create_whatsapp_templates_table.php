@@ -15,7 +15,8 @@ class CreateWhatsappTemplatesTable extends Migration
     {
         Schema::create('whatsapp_templates', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('client_id');
+            $table->integer('client_id')->unsigned();
+            $table->integer('service_type_id')->unsigned();
             $table->string('name', 255);
             $table->text('template_text');
             $table->string('status', 255);

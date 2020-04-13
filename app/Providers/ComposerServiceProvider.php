@@ -20,6 +20,7 @@ class ComposerServiceProvider extends ServiceProvider
         View::composer(
             'templates.aviva', 'App\Http\ViewComposers\MainComposer'
         );
+        View::composer('partials.admin_sidebar', 'App\Http\ViewComposers\SideNavComposer');
     }
 
     /**

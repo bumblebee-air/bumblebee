@@ -6,6 +6,7 @@ use App\User;
 use App\Keyword;
 use App\WhatsappMessage;
 use Carbon\Carbon;
+use App\Client as BumblebeeClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Twilio\Rest\Client;
@@ -14,6 +15,10 @@ use Response;
 
 class DashboardController extends Controller
 {
+    public function __construct(){
+        //$this->middleware('auth');
+    }
+
     public function getWhatsappConversations(){
         $conversations = [];
         $grouped_conversations = WhatsappMessage::groupBy('user_id')
@@ -38,7 +43,9 @@ class DashboardController extends Controller
                 'unread_count'=>$unread_messages_count];
         }
         //dd($conversations);
-        return view('admin.whatsapp_conversation',['conversations'=>$conversations]);
+        $the_clients = BumblebeeClient::all();
+        return view('admin.whatsapp_conversation',['conversations'=>$conversations,
+            'the_clients'=>$the_clients]);
     }
 
     public function getWhatsappConversation($user_id){

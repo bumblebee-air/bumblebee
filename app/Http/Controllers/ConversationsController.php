@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 class ConversationsController extends Controller
 {
     public function __construct(){
-        //$this->middleware('auth');
+        $this->middleware('auth');
     }
 
     public function getServiceTypesIndex(){
@@ -89,6 +89,10 @@ class ConversationsController extends Controller
         $name = $request->get('name');
         $userName = $request->get('user_name');
         $email = $request->get('email');
+        $sector = $request->file('sector');
+        $logo = $request->file('logo');
+        $nav_highlight_color = $request->get('nav_highlight_color');
+        $nav_background = $request->file('nav_background');
 
         $rules = [
             'name' => 'required',
@@ -116,6 +120,26 @@ class ConversationsController extends Controller
         $client = new Client();
         $client->user_id = $user->id;
         $client->name = $name;
+        $client->sector = $sector;
+
+        if($logo != null) {
+            $logo_extension = $logo->getClientOriginalExtension();
+            $file_name = 'client_'.$client->id.'_logo.'.$logo_extension;
+            $folder = '/uploads/client-uploads/';
+            $file_path = $folder . $file_name;
+            $logo->move(public_path().$folder, $file_name);
+            $client->logo = $file_path;
+        }
+        if($nav_background != null) {
+            $nav_background_extension = $nav_background->getClientOriginalExtension();
+            $file_name = 'client_'.$client->id.'_nav_background_.'.$nav_background_extension;
+            $folder = '/uploads/client-uploads/';
+            $file_path = $folder . $file_name;
+            $nav_background->move(public_path().$folder, $file_name);
+            $client->nav_background_image = $file_path;
+        }
+        $client->nav_highlight_color = $nav_highlight_color;
+
         $client->save();
 
         // send registration mail to user
@@ -147,7 +171,10 @@ class ConversationsController extends Controller
         $name = $request->get('name');
         $userName = $request->get('user_name');
         $email = $request->get('email');
-        
+        $sector = $request->file('sector');
+        $logo = $request->file('logo');
+        $nav_highlight_color = $request->get('nav_highlight_color');
+        $nav_background = $request->file('nav_background');
         $client = Client::find($id);
 
         $user = $client->user;
@@ -197,8 +224,27 @@ class ConversationsController extends Controller
                 });
             }
 
+            if($logo != null) {
+                $logo_extension = $logo->getClientOriginalExtension();
+                $file_name = 'client_'.$client->id.'_logo.'.$logo_extension;
+                $folder = '/uploads/client-uploads/';
+                $file_path = $folder . $file_name;
+                $logo->move(public_path().$folder, $file_name);
+                $client->logo = $file_path;
+            }
+            if($nav_background != null) {
+                $nav_background_extension = $nav_background->getClientOriginalExtension();
+                $file_name = 'client_'.$client->id.'_nav_background_.'.$nav_background_extension;
+                $folder = '/uploads/client-uploads/';
+                $file_path = $folder . $file_name;
+                $nav_background->move(public_path().$folder, $file_name);
+                $client->nav_background_image = $file_path;
+            }
+            $client->nav_highlight_color = $nav_highlight_color;
+
             $client->user_id = $user->id;
             $client->name = $name;
+            $client->sector = $sector;
             $client->save();
 
             Session::flash('success', 'The client was edited successfully!');

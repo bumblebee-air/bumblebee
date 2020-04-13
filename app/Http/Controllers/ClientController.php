@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
-    public function dashboard()
-    {
+    public function __construct(){
+        $this->middleware('auth');
+    }
+
+    public function dashboard(){
         return view('admin.clients.dashboard');
     }
 }

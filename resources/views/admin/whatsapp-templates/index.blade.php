@@ -42,7 +42,7 @@
                                     </thead>
 
                                     <tbody>
-                                        @if(count($templates))
+                                        @if($templates && count($templates))
                                         @foreach($templates as $template)
                                         <tr>
                                             <td>
@@ -66,7 +66,7 @@
                                     </tbody>
                                 </table>
                                 <nav aria-label="pagination" class="float-right">
-                                    {{$templates->links('vendor.pagination.bootstrap-4')}}
+                                    {{ !empty($templates) ? $templates->links('vendor.pagination.bootstrap-4') : ''}}
                                 </nav>
                             </div>
                         </div>

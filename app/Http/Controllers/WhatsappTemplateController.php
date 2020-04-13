@@ -18,7 +18,11 @@ class WhatsappTemplateController extends Controller
     public function index()
     {
         $client = Client::where('user_id', \Auth::user()->id)->first();
-        $templates = WhatsappTemplate::where('client_id', $client->id)->paginate(10);
+
+        $templates = null;
+        if (!empty($client)) {
+            $templates = WhatsappTemplate::where('client_id', $client->id)->paginate(10);
+        }
 
         return view('admin.whatsapp-templates.index', [
             'templates' => $templates

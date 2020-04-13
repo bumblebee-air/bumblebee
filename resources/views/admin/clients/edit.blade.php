@@ -32,6 +32,15 @@
               <input id="name" name="name" type="text" class="form-control"
                  value="{{$client->name}}" required>
             </div>
+            <div class="form-group bmd-form-group">
+              <label for="user_name">User Name*</label>
+              <input id="user_name" name="user_name" type="text" class="form-control" value="{{ !empty($user) ? $user->name : '' }}" placeholder="Enter user name" required >
+            </div>
+
+            <div class="form-group bmd-form-group">
+              <label for="email">Email*</label>
+              <input id="email" name="email" type="text" class="form-control" value="{{ !empty($user) ? $user->email : '' }}" placeholder="Enter email address" required >
+            </div>
           </div>
           <div class="card-btns" style="padding: 20px;">
             <button type="submit" class="btn btn-fill btn-rose">Save</button>

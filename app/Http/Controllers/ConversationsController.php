@@ -6,6 +6,8 @@ use App\Client;
 use App\ServiceType;
 use Illuminate\Http\Request;
 use Session;
+use App\User;
+use Illuminate\Support\Str;
 
 class ConversationsController extends Controller
 {
@@ -74,7 +76,7 @@ class ConversationsController extends Controller
     }
 
     public function getClientsIndex(){
-        $clients = Client::paginate(10);;
+        $clients = Client::with('user')->paginate(10);;
         return view('admin.clients.index',
             ['clients'=>$clients]);
     }
@@ -85,32 +87,125 @@ class ConversationsController extends Controller
 
     public function postClientAdd(Request $request){
         $name = $request->get('name');
+        $userName = $request->get('user_name');
+        $email = $request->get('email');
+
+        $rules = [
+            'name' => 'required',
+            'user_name' => 'required',
+            'email' => 'required|unique:users,email',
+        ];
+
+        $messages = [
+            'required_if' => 'The :attribute field is required.',
+            'unique' => 'The :attribute is already exist.'
+        ];
+
+        $this->validate($request, $rules, $messages);
+
+        //generate unique password
+        $password = Str::random(6);
+
+        $user = new User();
+        $user->email = $request->email;
+        $user->user_role = 'client';
+        $user->name = $userName;
+        $user->password = bcrypt($password);
+        $user->save();
+
         $client = new Client();
+        $client->user_id = $user->id;
         $client->name = $name;
         $client->save();
+
+        // send registration mail to user
+        \Mail::send([], [], function ($message) use($email, $userName, $password) {
+        $message->to($email)
+            ->subject('Registration')
+            ->setBody("Hi {$userName}, you have been registered on Bumblebee and here are your login credentials:<br/><br/> <strong>Email:</strong> {$email}<br/> <strong>Password</strong>: {$password}", 'text/html');
+        });
+
         Session::flash('success', 'The client was added successfully!');
         return redirect()->to('clients');
     }
 
     public function getClientEdit($id){
+        
         $client = Client::find($id);
+
+        $user = $client->user;
+        
         if(!$client){
             Session::flash('error','No client was found with this ID!');
         }
         return view('admin.clients.edit',
-            ['client'=>$client]);
+            ['client'=>$client, 'user' => $user]);
     }
 
     public function postClientEdit(Request $request){
         $id = $request->get('id');
         $name = $request->get('name');
+        $userName = $request->get('user_name');
+        $email = $request->get('email');
+        
         $client = Client::find($id);
-        if(!$client){
+
+        $user = $client->user;
+
+        if(!empty($client)){
+
+            $rules = [
+                'name' => 'required',
+                'user_name' => 'required',
+                'email' => 'required|unique:users,email',
+            ];
+
+            $messages = [
+                'required_if' => 'The :attribute field is required.',
+                'unique' => 'The :attribute is already exist.'
+            ];
+
+            if(!empty($user))
+            {
+                $rules['email'] = 'required|unique:users,email,'. $user->id;
+            }
+            
+            // validate the data
+            $this->validate($request, $rules, $messages);
+
+            if(!empty($user))
+            {
+                $user->email = $email;
+                $user->name = $userName;
+                $user->save();
+            } else {
+                //generate unique password
+                $password = Str::random(6);
+
+                $user = new User();
+                $user->email = $email;
+                $user->user_role = 'client';
+                $user->name = $userName;
+                $user->password = bcrypt($password);
+                $user->save();
+
+                // send registration mail to user
+                \Mail::send([], [], function ($message) use($email, $userName, $password) {
+                    $message->to($email)
+                        ->subject('Registration')
+                        ->setBody("Hi {$userName}, you have been registered on Bumblebee and here are your login credentials:<br/><br/> <strong>Email:</strong> {$email}<br/> <strong>Password</strong>: {$password}", 'text/html');
+                });
+            }
+
+            $client->user_id = $user->id;
+            $client->name = $name;
+            $client->save();
+
+            Session::flash('success', 'The client was edited successfully!');
+        } else {
             Session::flash('error','No client was found with this ID!');
         }
-        $client->name = $name;
-        $client->save();
-        Session::flash('success', 'The client was edited successfully!');
+        
         return redirect()->to('clients');
     }
 

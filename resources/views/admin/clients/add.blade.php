@@ -28,7 +28,16 @@
             {{ csrf_field() }}
             <div class="form-group bmd-form-group">
               <label for="name">Name*</label>
-              <input id="name" name="name" type="text" class="form-control" required>
+              <input id="name" name="name" type="text" class="form-control" value="{{ old('name') }}" placeholder="Enter client name" required>
+            </div>
+            <div class="form-group bmd-form-group">
+              <label for="user_name">User Name*</label>
+              <input id="user_name" name="user_name" value="{{ old('user_name') }}" type="text" class="form-control" placeholder="Enter user name" required>
+            </div>
+
+            <div class="form-group bmd-form-group">
+              <label for="email">Email*</label>
+              <input id="email" name="email" type="text" value="{{ old('email') }}"  class="form-control" placeholder="Enter email address" required>
             </div>
           </div>
           <div class="card-btns" style="padding: 20px;">

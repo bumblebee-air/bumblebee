@@ -41,7 +41,9 @@
               <div class="table-responsive">
                 <table class="table">
                   <thead>
-                    <th style="width: 40%">Name</th>
+                    <th>Name</th>
+                    <th>User name</th>
+                    <th>Email</th>
                   </thead>
 
                   <tbody>
@@ -51,6 +53,8 @@
                       <td>
                         {{$client->name}}
                       </td>
+                      <td>{{ !empty($client->user) ? $client->user->name : '' }}</td>
+                      <td>{{ !empty($client->user) ? $client->user->email : '' }}</td>
                       <td>
                         <a class="btn btn-sm btn btn-info" href="{{ url('client/edit/'.$client->id) }}">Edit</a>
                         <a class="btn btn-sm btn btn-danger" deleteLink="{{ url('client/delete/'.$client->id) }}" href="#" onclick="confirmDelete(this)">Delete</a>

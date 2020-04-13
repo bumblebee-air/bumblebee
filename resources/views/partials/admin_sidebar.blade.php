@@ -79,7 +79,15 @@
                     </ul>
                 </div>
             </li>-->
-            @if(!empty(Auth::user()) && Auth::user()->user_role !== 'client')
+            @if(!empty(Auth::user()) && Auth::user()->user_role == 'client')
+                <li class="nav-item ">
+                    <a class="nav-link" href="{{url('whatsapp-templates')}}">
+                        <i class="material-icons">assignment</i>
+                        <p>WhatsApp Templates</p>
+                    </a>
+                </li>
+            @else
+            
             <li class="nav-item ">
                 <a class="nav-link" data-toggle="collapse" href="#prototypes">
                     <i class="fas fa-puzzle-piece"></i>
@@ -157,13 +165,6 @@
                         </li>
                     </ul>
                 </div>
-            </li>
-            @else
-            <li class="nav-item ">
-                <a class="nav-link" href="{{url('whatsapp-templates')}}">
-                    <i class="material-icons">assignment</i>
-                    <p>WhatsApp Templates</p>
-                </a>
             </li>
             @endif
         </ul>

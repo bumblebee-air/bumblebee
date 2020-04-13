@@ -10,6 +10,11 @@ use Session;
 
 class WhatsappTemplateController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $client = Client::where('user_id', \Auth::user()->id)->first();

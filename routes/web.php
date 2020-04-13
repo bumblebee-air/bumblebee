@@ -133,3 +133,5 @@ Route::post('customer', 'AdminController@storeCustomer');
 
 Route::get('customer-register/{code}', 'CustomersController@customerRegister');
 Route::post('complete-registration/{code}', 'CustomersController@completeRegistration');
+
+Route::get('client/dashboard', 'ClientController@dashboard');

@@ -70,6 +70,7 @@ class SecurityController extends Controller
             ];
             return response()->json($response)->setStatusCode(422);
         }
+        $customer_name = $customer->name;
         //Generate random security pin for customer
         $code = '';
         for ($i = 0; $i<6; $i++) {
@@ -84,7 +85,8 @@ class SecurityController extends Controller
         try {
             $sid    = env('TWILIO_SID', '');
             $token  = env('TWILIO_AUTH', '');
-            $body = "Hi, your security pin is $code";
+            $body = "Hi $customer_name, your Bumblebee AIR pin code is $code. You can use it to log in the app.";
+            //"Hi, your security pin is $code"
             $twilio = new Client($sid, $token);
             $message = $twilio->messages->create('whatsapp:'.$customer_phone,
                 ["from" => "whatsapp:+447445341335",

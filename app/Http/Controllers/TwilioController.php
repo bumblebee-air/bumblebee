@@ -231,7 +231,7 @@ class TwilioController extends Controller
     <Say voice="woman" language="en-gb">This is Bumblebee AIR testing Twilio voice. This is a recorded message.</Say>
 <Response/>');
         return Response::make($xml->asXML(),200,[]);*/
-        $response = new VoiceResponse;
+        $response = new VoiceResponse();
         $response->say(
             "This is Bumblebee AIR testing Twilio voice. This is a recorded message.",
             array("voice" => "woman", "language"=>"en-gb")

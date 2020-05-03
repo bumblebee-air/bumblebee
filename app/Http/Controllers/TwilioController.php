@@ -222,4 +222,13 @@ class TwilioController extends Controller
         $string = preg_replace('/ss+/i', '', $string);
         $string = trim($string); // trim the string
     }
+
+    public function emergencyCallTwiml(Request $request){
+        \Log::debug(implode(' || ',$request->all()));
+        $xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+    <Say voice="woman" language="en-gb">This is Bumblebee AIR testing Twilio voice. This is a recorded message.</Say>
+<Response/>');
+        return Response::make($xml->asXML(),200,[]);
+    }
 }

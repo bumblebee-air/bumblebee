@@ -101,6 +101,8 @@ Route::get('client/edit/{id}', 'ConversationsController@getClientEdit');
 Route::post('client/edit', 'ConversationsController@postClientEdit');
 Route::any('client/delete/{id}', 'ConversationsController@anyClientDelete');
 
+Route::get('users', 'UserController@usersIndex');
+
 Route::get('dashboard', function () {
     return view('admin.dashboard');
 });
@@ -143,3 +145,6 @@ Route::post('whatsapp-template', 'WhatsappTemplateController@store');
 Route::get('whatsapp-template/edit/{template}', 'WhatsappTemplateController@edit');
 Route::put('whatsapp-template/update/{template}', 'WhatsappTemplateController@update');
 Route::get('whatsapp-template/delete/{template}', 'WhatsappTemplateController@delete');
+
+Route::get('test-call', 'TestController@getTestCall');
+Route::post('test-call', 'TestController@postTestCall');

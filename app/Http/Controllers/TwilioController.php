@@ -7,6 +7,7 @@ use App\User;
 use App\WhatsappMessage;
 use Illuminate\Http\Request;
 use Twilio\Rest\Client;
+use Twilio\TwiML\VoiceResponse;
 use SimpleXMLElement;
 use Response;
 
@@ -225,10 +226,16 @@ class TwilioController extends Controller
 
     public function emergencyCallTwiml(Request $request){
         \Log::debug(implode(' || ',$request->all()));
-        $xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?>
+        /*$xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?>
 <Response>
     <Say voice="woman" language="en-gb">This is Bumblebee AIR testing Twilio voice. This is a recorded message.</Say>
 <Response/>');
-        return Response::make($xml->asXML(),200,[]);
+        return Response::make($xml->asXML(),200,[]);*/
+        $response = new VoiceResponse;
+        $response->say(
+            "This is Bumblebee AIR testing Twilio voice. This is a recorded message.",
+            array("voice" => "woman", "language"=>"en-gb")
+        );
+        echo $response;
     }
 }

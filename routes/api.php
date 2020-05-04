@@ -28,5 +28,5 @@ Route::post('whatsapp-status', 'TwilioController@whatsappStatus');
 Route::post('generate-security-pin', 'SecurityController@generateCustomerPin');
 Route::post('customer-identification', 'SecurityController@customerIdentification');
 Route::post('dtc-info', 'LookUpController@getDtcInfo');
-Route::post('crash-report', 'CrashReportController@crashReport');
+Route::post('crash-report', 'EmergencyController@crashReport');
 Route::post('emergency-call-twiml', 'TwilioController@emergencyCallTwiml');

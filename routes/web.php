@@ -146,5 +146,10 @@ Route::get('whatsapp-template/edit/{template}', 'WhatsappTemplateController@edit
 Route::put('whatsapp-template/update/{template}', 'WhatsappTemplateController@update');
 Route::get('whatsapp-template/delete/{template}', 'WhatsappTemplateController@delete');
 
+//Emergency settings
+Route::get('emergency-settings/pin', 'EmergencyController@getEmergencySettingsPin');
+Route::post('emergency-settings/pin', 'EmergencyController@postEmergencySettingsPin');
+Route::post('emergency-settings', 'EmergencyController@postEmergencySettings');
+
 Route::get('test-call', 'TestController@getTestCall');
 Route::post('test-call', 'TestController@postTestCall');

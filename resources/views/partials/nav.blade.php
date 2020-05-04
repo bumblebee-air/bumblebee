@@ -23,6 +23,10 @@
                             <a class="nav-link" href="{{url('logout')}}">Logout</a>
                         </div>
                     </li>
+                @else
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{url('login')}}">Login</a>
+                    </li>
                 @endif
             </ul>
         </div>

@@ -15,11 +15,10 @@ class ComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer(
-            'templates.main', 'App\Http\ViewComposers\MainComposer'
+            ['templates.main','templates.aviva','templates.auth'],
+            'App\Http\ViewComposers\MainComposer'
         );
-        View::composer(
-            'templates.aviva', 'App\Http\ViewComposers\MainComposer'
-        );
+        View::composer('partials.admin_sidebar', 'App\Http\ViewComposers\SideNavComposer');
     }
 
     /**

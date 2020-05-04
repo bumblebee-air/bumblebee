@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Auth;
 use Twilio\Rest\Client;
+use Session;
 
 class CustomersController extends Controller
 {
@@ -134,5 +135,87 @@ class CustomersController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
         return redirect()->back()->with('message','Whatsapp message sent successfully!');
+    }
+
+    public function customerRegister(Request $request, $code)
+    {
+        $user = User::where('invitation_code', $code)->first();
+        
+        if(!empty($user))
+        {
+            if(!empty($user->name))
+            {
+                $userNameArr = explode(' ', $user->name);
+                if(count($userNameArr) > 1)
+                {
+                    $user->last_name = end($userNameArr);
+                    array_pop($userNameArr);
+                }
+
+                $user->first_name = trim(implode(' ', $userNameArr), ' ');
+            }
+
+            $communicationMethods = [
+                'whatsapp' => 'WhatsApp for Business',
+                'sms' => 'SMS',
+                'email' => 'Email',
+                'phone_call' => 'Phone Call'
+            ];
+    
+            return view('customer.customer-register', [
+                'user' => $user,
+                'code' => $code,
+                'communication_methods' => $communicationMethods
+            ]);
+        } else {
+            abort(404, 'The resource you are looking for could not be found');
+        }
+    }
+
+    public function completeRegistration(Request $request, $code)
+    {
+        $user = User::where('invitation_code', $code)->first();
+
+        if(!empty($user))
+        {
+            $rules = [
+                'phone_number' => 'required|unique:users,phone,'. $user->id,
+                'email' => 'required|unique:users,email,'. $user->id,
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'password' => 'required|min:6',
+                'address' => 'required',
+                'communication_method' => 'required',
+            ];
+    
+            $messages = [
+                'unique' => 'The :attribute is already exist.'
+            ];
+    
+            $this->validate($request, $rules, $messages);
+
+            $user->name = $request->first_name . ' ' . $request->last_name;
+            $user->phone = $request->phone_number;
+            $user->email = $request->email;
+            $user->password = bcrypt($request->password);
+            $user->invitation_code = null;
+            $user->save();
+
+            $profile = new Profile();
+            $profile->user_id = $user->id;
+            $profile->address = $request->address;
+            $profile->lat = $request->lat;
+            $profile->lon = $request->lon;
+            $profile->vat_number = $request->vat;
+            $profile->communication_method = $request->communication_method;
+            $profile->notes = $request->notes;
+            $profile->save();
+
+            Session::flash('success', 'Registration completed successfully!');
+
+            return redirect('/');
+        } else {
+            abort(404, 'The resource you are looking for could not be found');
+        }
     }
 }

@@ -80,6 +80,29 @@ Route::get('response/edit/{response}', 'ResponseController@edit');
 Route::put('response/{response}', 'ResponseController@update');
 Route::get('response/delete/{response}', 'ResponseController@destroy');
 
+Route::get('service-types', 'ConversationsController@getServiceTypesIndex');
+Route::get('service-type/add', 'ConversationsController@getServiceTypeAdd');
+Route::post('service-type/add', 'ConversationsController@postServiceTypeAdd');
+Route::get('service-type/edit/{id}', 'ConversationsController@getServiceTypeEdit');
+Route::post('service-type/edit', 'ConversationsController@postServiceTypeEdit');
+Route::any('service-type/delete/{id}', 'ConversationsController@anyServiceTypeDelete');
+
+Route::get('support-types', 'SupportController@index');
+Route::get('support-type/add', 'SupportController@addSupportType');
+Route::post('support-type', 'SupportController@store');
+Route::put('support-type/{supportType}','SupportController@update');
+Route::get('support-type/edit/{supportType}', 'SupportController@edit');
+Route::get('support-type/delete/{supportType}', 'SupportController@destroy');
+
+Route::get('clients', 'ConversationsController@getClientsIndex');
+Route::get('client/add', 'ConversationsController@getClientAdd');
+Route::post('client/add', 'ConversationsController@postClientAdd');
+Route::get('client/edit/{id}', 'ConversationsController@getClientEdit');
+Route::post('client/edit', 'ConversationsController@postClientEdit');
+Route::any('client/delete/{id}', 'ConversationsController@anyClientDelete');
+
+Route::get('users', 'UserController@usersIndex');
+
 Route::get('dashboard', function () {
     return view('admin.dashboard');
 });
@@ -104,3 +127,24 @@ Route::get('test-soap','LookUpController@testSoap');
 Route::get('socket-test', function () {
     return view('socket_test');
 });
+
+
+// Customer
+Route::get('create-customer', 'AdminController@createCustomer');
+Route::post('customer', 'AdminController@storeCustomer');
+
+Route::get('customer-register/{code}', 'CustomersController@customerRegister');
+Route::post('complete-registration/{code}', 'CustomersController@completeRegistration');
+
+Route::get('client/dashboard', 'ClientController@dashboard');
+
+// whatsapp template
+Route::get('whatsapp-templates', 'WhatsappTemplateController@index')->name('whatsapp-templates');
+Route::get('whatsapp-template/create', 'WhatsappTemplateController@create');
+Route::post('whatsapp-template', 'WhatsappTemplateController@store');
+Route::get('whatsapp-template/edit/{template}', 'WhatsappTemplateController@edit');
+Route::put('whatsapp-template/update/{template}', 'WhatsappTemplateController@update');
+Route::get('whatsapp-template/delete/{template}', 'WhatsappTemplateController@delete');
+
+Route::get('test-call', 'TestController@getTestCall');
+Route::post('test-call', 'TestController@postTestCall');

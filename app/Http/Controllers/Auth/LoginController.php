@@ -47,6 +47,8 @@ class LoginController extends Controller
         $user_role = $user->user_role;
         if($user_role == 'insurance'){
             return redirect()->intended('insurance/dashboard');
+        } elseif($user_role == 'client'){
+            return redirect()->intended('client/dashboard');
         }
         return redirect()->intended('/');
     }

@@ -14,7 +14,7 @@ class Keyword extends Model
      *
      * @var array
      */
-    protected $fillable = ['keyword', 'weight', 'audio'];
+    protected $fillable = ['keyword', 'weight', 'audio', 'support_type_id'];
 
     /**
      * Mapping with Elastic search service.
@@ -42,5 +42,10 @@ class Keyword extends Model
     public function getIndexName()
     {
         return 'keywords';
+    }
+
+    public function supportType()
+    {
+        return $this->hasOne('App\SupportType', 'id', 'support_type_id');
     }
 }

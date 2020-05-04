@@ -24,3 +24,9 @@ Route::post('get-batteries-info', 'LookUpController@getBatteriesInformation');
 Route::post('get-battery-info', 'LookUpController@getBatteryInformation');
 Route::post('whatsapp-message', 'TwilioController@whatsappMessage');
 Route::post('whatsapp-status', 'TwilioController@whatsappStatus');
+
+Route::post('generate-security-pin', 'SecurityController@generateCustomerPin');
+Route::post('customer-identification', 'SecurityController@customerIdentification');
+Route::post('dtc-info', 'LookUpController@getDtcInfo');
+Route::post('crash-report', 'CrashReportController@crashReport');
+Route::post('emergency-call-twiml', 'TwilioController@emergencyCallTwiml');

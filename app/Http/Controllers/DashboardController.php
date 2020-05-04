@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Keyword;
 use App\WhatsappMessage;
 use Carbon\Carbon;
+use App\Client as BumblebeeClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Twilio\Rest\Client;
@@ -13,6 +15,10 @@ use Response;
 
 class DashboardController extends Controller
 {
+    public function __construct(){
+        //$this->middleware('auth');
+    }
+
     public function getWhatsappConversations(){
         $conversations = [];
         $grouped_conversations = WhatsappMessage::groupBy('user_id')
@@ -32,20 +38,51 @@ class DashboardController extends Controller
             }
             $whatsapp_message->name = $the_name;
             $whatsapp_message->phone = $the_phone;
+            $whatsapp_message->time = Carbon::parse($whatsapp_message->created_at)->format('H:i');
             $conversations[] = ['message'=>$whatsapp_message,
                 'unread_count'=>$unread_messages_count];
         }
         //dd($conversations);
-        return view('admin.whatsapp_conversation',['conversations'=>$conversations]);
+        $the_clients = BumblebeeClient::all();
+        return view('admin.whatsapp_conversation',['conversations'=>$conversations,
+            'the_clients'=>$the_clients]);
     }
 
     public function getWhatsappConversation($user_id){
         $is_json = Input::get('is_json');
+        $page = Input::get('page');
         $user = User::find($user_id);
         if(!$user){
             return redirect()->back()->withErrors('No user was found with this ID!');
         }
         $phone_number = $user->phone;
+
+        $matchedKeywords = [];
+        if($page == 1)
+        {
+            $keywords = Keyword::select('id', 'keyword', 'weight')->get();
+
+            if(!empty($keywords))
+            {
+                $messages = WhatsappMessage::where('to','=',$phone_number)->orWhere('from','=',$phone_number)->select('id', 'message')->get();
+                foreach($messages as $message)
+                {
+                    foreach($keywords as $key=> $keyword)
+                    {
+                        if (strpos($message, $keyword->keyword) !== false) {
+                            $matchedKeywords[] = [
+                                'id' => $keyword->id,
+                                'keyword' => $keyword->keyword,
+                                'weight' => $keyword->weight
+                            ];
+                            unset($keywords[$key]);
+                            continue;
+                        }
+                    }
+                }
+            }
+        }
+
         $whatsapp_messages = WhatsappMessage::with(['audio_transcript'=>function($q){
             $q->where('message_type','=','whatsapp');
         }])->where('user_id','=',$user_id)
@@ -72,9 +109,15 @@ class DashboardController extends Controller
             $message_time_window = $message_time_diff;
         }
         if($is_json){
-            return json_encode(['messages'=>$whatsapp_messages,'more'=>$has_more,
-                'phone'=>$phone_number,'time_window'=>$message_time_window,
-                'unread_count'=>$unread_messages_count]);
+            return json_encode([
+                'messages'=>$whatsapp_messages,
+                'more'=>$has_more,
+                'phone'=>$phone_number,
+                'time_window'=>$message_time_window,
+                'unread_count'=>$unread_messages_count,
+                'countMatchedKeywords' => count($matchedKeywords),
+                'matchedKeywords' => $matchedKeywords
+            ]);
         }
         dd('well');
     }

@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Auth;
+use Validator;
 
 class LookUpController extends Controller
 {
@@ -301,5 +302,64 @@ class LookUpController extends Controller
             dd($soap->__getLastResponse());
         }
         //$data = $soap->GetChargingStationInfo($params);
+    }
+
+    public function getDtcInfo(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'customer_id' => 'required',
+                'dtc' => 'required',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json([
+                "error" => 1,
+                "message" => $validator->errors(),
+                'severity' => 'minor',
+                'dtc_info' => null
+            ])->setStatusCode(422);
+        }
+
+        $dtc = $request->dtc;
+
+        $url = 'https://api.autodata-group.com/docs/v1/vehicles/PEU17173/dtc/'.$dtc.'?country-code=gb&api_key=19243ffqqcioyjfakpxfbtvn';
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            // CURLOPT_SSL_VERIFYPEER => false,
+            // CURLOPT_SSL_VERIFYHOST => 2,
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_HTTPHEADER => ['Content-type: application/json', 'Accept-Language: en-gb;q=0.8,en;q=0.7'],
+            CURLOPT_URL => $url,
+            // CURLOPT_POST => 1,
+        ));
+        $resp = curl_exec($curl);
+        $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        if ($status != 200) {
+            \Log::error('Autodata DTC info retrieval failed',[
+                'Response'=>$resp,
+                'Curl error'=>curl_error($curl),
+                'Curl error no.'=>curl_errno($curl)]);
+            
+            $resp_arr = json_decode($resp);
+                
+            return response()->json([
+                'error' => 1,
+                'message' => $resp_arr->message,
+                'dtc_info' => null,
+                'severity' => 'minor',
+            ])->setStatusCode($resp_arr->status);
+        }
+        curl_close($curl);
+        $dtc_info = json_decode($resp);
+        $faults = $dtc_info->data->fault_locations;
+
+        return response()->json([
+            'severity' => 'minor',
+            'error' => 0,
+            'dtc_info' => $faults
+        ])->setStatusCode(200);
     }
 }

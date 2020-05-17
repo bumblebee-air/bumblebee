@@ -90,17 +90,21 @@ class EmergencyController extends Controller{
         $user_id = null;
         $contact_name = null;
         $contact_phone = null;
+        $contact_email = null;
         $contact_method = null;
         $second_contact_name = null;
         $second_contact_phone = null;
+        $second_contact_email = null;
         $second_contact_method = null;
         if($emergency_settings!=null){
             $user_id = $user->id;
             $contact_name = $emergency_settings->contact_name;
             $contact_phone = $emergency_settings->contact_phone;
+            $contact_email = $emergency_settings->contact_email;
             $contact_method = $emergency_settings->contact_method;
             $second_contact_name = $emergency_settings->second_contact_name;
             $second_contact_phone = $emergency_settings->second_contact_phone;
+            $second_contact_email = $emergency_settings->second_contact_email;
             $second_contact_method = $emergency_settings->second_contact_method;
         }
         $other_contact = null;
@@ -108,8 +112,9 @@ class EmergencyController extends Controller{
             $other_contact = true;
         }
         return view('emergency-settings.settings', compact('contact_name',
-            'contact_phone', 'contact_method', 'second_contact_name',
-            'second_contact_phone', 'second_contact_method', 'user_id', 'other_contact'));
+            'contact_phone', 'contact_email', 'contact_method', 'second_contact_name',
+            'second_contact_phone', 'second_contact_email', 'second_contact_method',
+            'user_id', 'other_contact'));
     }
 
     public function postEmergencySettings(Request $request){

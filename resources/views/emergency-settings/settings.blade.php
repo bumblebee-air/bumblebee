@@ -1,167 +1,264 @@
-<!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+@extends('templates.public')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="">
-    <meta name="author" content="">
+@section('title')
+Emergency Settings
+@endsection
 
-    <title>Emergency Settings</title>
-
-    <!-- Styles -->
-    <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
-    <link href="{{asset('css/fontawesome/all.css')}}" rel="stylesheet">
-    <link href="{{asset('css/main.css')}}" rel="stylesheet">
-    <link href="{{asset('css/material-dashboard.min.css')}}" rel="stylesheet">
-    @yield('page-styles')
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+@section('page-styles')
+    <link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}"/>
     <style>
-
+        #submit-button {
+            border-radius: 5px;
+        }
+        div.iti {
+            width: 100%;
+            color: #000 !important;
+        }
+        div.iti .iti__selected-dial-code {
+            color: #FFF !important;
+        }
+        body {
+            background: url('{{asset('images/mobile-bg.jpg')}}') no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            color: #FFF;
+        }
+        .form-group input {
+            background-color:rgba(255,255,255,0.6) !important;
+        }
+        .form-group input,
+        .form-group input:hover,
+        .form-group input:focus {
+            color: #FFF;
+        }
+        .form-group .form-control::placeholder {
+            opacity: 1; /* Firefox */
+            color: #FFF;
+        }
+        .form-group .form-control:-ms-input-placeholder {
+            color: #FFF;
+        }
+        .form-group .form-control::-ms-input-placeholder {
+            color: #FFF;
+        }
     </style>
-</head>
+@endsection
 
-<body>
-    <!-- Page Content -->
-    <div class="wrapper">
-        @include('partials.flash')
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-6 offset-md-3">
-                    <div class="card match-height">
-                        <div class="card-header card-header-rose card-header-icon">
-                            <div class="card-icon">
-                                <i class="material-icons">group_add</i>
-                            </div>
-                            <h4 class="card-title">In Case Of Emergency</h4>
-                        </div>
-                        <form action="{{ url('emergency-settings')}}" method="POST">
-                            {{ csrf_field() }}
-                            <input type="hidden" name="user_id" value="{{$user_id}}" />
+@section('page-content')
+    <div class="row">
+        <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-10 offset-1">
+            <div style="margin: 20px 0;"></div>
+            <h3 style="text-align: center">In Case Of Emergency</h3>
+            <br/><br/>
+            <form class="form" action="{{ url('emergency-settings')}}" method="POST">
+                {{ csrf_field() }}
+                <input type="hidden" name="user_id" value="{{$user_id}}" />
 
-                            <div class="card-body">
-                                <div class="form-group bmd-form-group">
-                                    <label for="contact-name">Emergency Contact Person*</label>
-                                    <input id="contact-name" name="contact_name" type="text" class="form-control"
-                                           placeholder="Emergency Contact Person"
-                                           value="{{ ($contact_name!=null)? $contact_name : '' }}" required />
-                                </div>
-
-                                <div class="form-group bmd-form-group">
-                                    <label for="contact-phone">Emergency Contact Number*</label>
-                                    <input id="contact-phone" name="contact_phone" type="text" class="form-control"
-                                           placeholder="Emergency Contact Number"
-                                           value="{{ ($contact_phone!=null)? $contact_phone : '' }}" required />
-                                </div>
-
-                                <div class="form-check form-check-radio">
-                                    <label class="form-check-label">
-                                        <input class="form-check-input" type="radio" name="contact_method" value="phone_call"
-                                            @if($contact_method == 'phone_call') checked @endif required>
-                                        Phone call
-                                        <span class="circle">
-                                            <span class="check"></span>
-                                        </span>
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-radio">
-                                    <label class="form-check-label">
-                                        <input class="form-check-input" type="radio" name="contact_method" value="whatsapp"
-                                           @if($contact_method == 'whatsapp') checked @endif >
-                                        WhatsApp
-                                        <span class="circle">
-                                            <span class="check"></span>
-                                        </span>
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-radio">
-                                    <label class="form-check-label">
-                                        <input class="form-check-input" type="radio" name="contact_method" value="sms"
-                                           @if($contact_method == 'sms') checked @endif >
-                                        SMS
-                                        <span class="circle">
-                                            <span class="check"></span>
-                                        </span>
-                                    </label>
-                                </div>
-
-                                <div id="add-another-contact-button-container">
-                                    <button type="button" class="btn btn-link"
-                                        id="add-another-contact-button">Add another contact person</button>
-                                </div>
-                                <div id="add-another-contact-container" style=" @if($other_contact==null) display: none @endif ">
-                                    <div class="form-group bmd-form-group">
-                                        <label for="second-contact-name">Second Contact Person</label>
-                                        <input id="second-contact-name" name="second_contact_name" type="text" class="form-control"
-                                               placeholder="Second Contact Person"
-                                               value="{{ ($second_contact_name!=null)? $second_contact_name : '' }}" />
-                                    </div>
-
-                                    <div class="form-group bmd-form-group">
-                                        <label for="second-contact-phone">Second Contact Number</label>
-                                        <input id="second-contact-phone" name="second_contact_phone" type="text" class="form-control"
-                                               placeholder="Second Contact Number"
-                                               value="{{ ($second_contact_phone!=null)? $second_contact_phone : '' }}" />
-                                    </div>
-
-                                    <div class="form-check form-check-radio">
-                                        <label class="form-check-label">
-                                            <input class="form-check-input" type="radio" name="second_contact_method" value="phone_call"
-                                                   @if($second_contact_method == 'phone_call') checked @endif id="second-contact-method">
-                                            Phone call
-                                            <span class="circle">
-                                            <span class="check"></span>
-                                        </span>
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-radio">
-                                        <label class="form-check-label">
-                                            <input class="form-check-input" type="radio" name="second_contact_method" value="whatsapp"
-                                                   @if($second_contact_method == 'whatsapp') checked @endif >
-                                            WhatsApp
-                                            <span class="circle">
-                                            <span class="check"></span>
-                                        </span>
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-radio">
-                                        <label class="form-check-label">
-                                            <input class="form-check-input" type="radio" name="second_contact_method" value="sms"
-                                                   @if($second_contact_method == 'sms') checked @endif >
-                                            SMS
-                                            <span class="circle">
-                                            <span class="check"></span>
-                                        </span>
-                                        </label>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="card-btns text-center" style="padding: 20px;">
-                                <button type="submit" class="btn btn-fill btn-rose">Save</button>
-                            </div>
-                        </form>
+                <div class="row justify-content-center">
+                    <div class="col-6">
+                        <img src="{{asset('images/add_persons_pink_bg_round.svg')}}"
+                             class="img-fluid" alt="Add Person"/>
                     </div>
                 </div>
-            </div>
+
+                <br/><b/>
+                <h5 style="text-align: center">Please enter contact details</h5>
+                <br/>
+
+                <div class="form-group">
+                    <input id="contact-phone" name="contact_phone" type="text" class="form-control"
+                           placeholder="Phone number*"
+                           value="{{ ($contact_phone!=null)? $contact_phone : '' }}" required />
+                    <p id="contact-phone-intl-output"></p>
+                </div>
+
+                <div class="form-group">
+                    <input id="contact-name" name="contact_name" type="text" class="form-control"
+                           placeholder="Contact person name*"
+                           value="{{ ($contact_name!=null)? $contact_name : '' }}" required />
+                </div>
+
+                <div id="contact-email-container" class="form-group">
+                    <input id="contact-email" name="contact_email" type="email" class="form-control"
+                           placeholder="Contact person email"
+                           value="{{ ($contact_email!=null)? $contact_email : '' }}" required />
+                </div>
+
+                <h6>Contact through</h6>
+                <div class="form-check form-check-radio">
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="contact_method" value="phone_call"
+                            @if($contact_method == 'phone_call') checked @endif required>
+                        Phone call
+                        <span class="circle">
+                            <span class="check"></span>
+                        </span>
+                    </label>
+                </div>
+                <div class="form-check form-check-radio">
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="contact_method" value="whatsapp"
+                           @if($contact_method == 'whatsapp') checked @endif >
+                        WhatsApp
+                        <span class="circle">
+                            <span class="check"></span>
+                        </span>
+                    </label>
+                </div>
+                <div class="form-check form-check-radio">
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="contact_method" value="sms"
+                           @if($contact_method == 'sms') checked @endif >
+                        SMS
+                        <span class="circle">
+                            <span class="check"></span>
+                        </span>
+                    </label>
+                </div>
+                <div class="form-check form-check-radio">
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="contact_method" value="email"
+                               @if($contact_method == 'email') checked @endif >
+                        Email
+                        <span class="circle">
+                            <span class="check"></span>
+                        </span>
+                    </label>
+                </div>
+
+                <div id="add-another-contact-button-container" style=" @if($other_contact!=null) display: none; @endif margin-top: 10px;">
+                    <button type="button" class="btn btn-link" style="color: #FFF;"
+                        id="add-another-contact-button">
+                        <img src="{{asset('images/plus_white_bg_round.svg')}}" style="width: 25px; margin-right: 10px;"/>
+                        Add another contact person</button>
+                </div>
+                <div id="add-another-contact-container" style=" @if($other_contact==null) display: none; @endif margin-top: 10px;">
+                    <br/>
+                    <h5 style="text-align: center">Please enter second contact details</h5>
+                    <br/>
+
+                    <div class="form-group">
+                        <input id="second-contact-phone" name="second_contact_phone" type="text" class="form-control"
+                               placeholder="Second Contact Number"
+                               value="{{ ($second_contact_phone!=null)? $second_contact_phone : '' }}" />
+                        <p id="second-contact-phone-intl-output"></p>
+                    </div>
+
+                    <div class="form-group">
+                        <input id="second-contact-name" name="second_contact_name" type="text" class="form-control"
+                               placeholder="Second Contact Person"
+                               value="{{ ($second_contact_name!=null)? $second_contact_name : '' }}" />
+                    </div>
+
+                    <h6>Contact through</h6>
+                    <div class="form-check form-check-radio">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="radio" name="second_contact_method" value="phone_call"
+                                   @if($second_contact_method == 'phone_call') checked @endif id="second-contact-method">
+                            Phone call
+                            <span class="circle">
+                            <span class="check"></span>
+                        </span>
+                        </label>
+                    </div>
+                    <div class="form-check form-check-radio">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="radio" name="second_contact_method" value="whatsapp"
+                                   @if($second_contact_method == 'whatsapp') checked @endif >
+                            WhatsApp
+                            <span class="circle">
+                            <span class="check"></span>
+                        </span>
+                        </label>
+                    </div>
+                    <div class="form-check form-check-radio">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="radio" name="second_contact_method" value="sms"
+                                   @if($second_contact_method == 'sms') checked @endif >
+                            SMS
+                            <span class="circle">
+                            <span class="check"></span>
+                        </span>
+                        </label>
+                    </div>
+                    <div class="form-check form-check-radio">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="radio" name="second_contact_method" value="email"
+                                   @if($second_contact_method == 'email') checked @endif >
+                            Email
+                            <span class="circle">
+                            <span class="check"></span>
+                        </span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="text-center" style="margin-top: 20px;">
+                    <button type="submit" id="submit-button" class="btn btn-block btn-primary">Save</button>
+                </div>
+            </form>
+            <div style="margin: 20px 0;"></div>
         </div>
     </div>
+@endsection
 
-    <!-- Scripts -->
-    <script src="{{asset('js/jquery.min.js')}}"></script>
-    <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
-    <script src="{{asset('js/moment.min.js')}}"></script>
-    <script src="{{asset('js/moment-timezone.min.js')}}"></script>
+@section('page-scripts')
     <script src="{{ asset('js/bootstrap-selectpicker.js') }}"></script>
     <script src="{{ asset('js/jquery.matchHeight.js') }}" type="text/javascript"></script>
+    <script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>
     <script type="text/javascript">
+        function initializeFirstContactField(){
+            let contact_phone = document.querySelector("#contact-phone");
+            contact_phone = window.intlTelInput(contact_phone, {
+                hiddenInput: 'contact_phone_international',
+                initialCountry: 'IE',
+                separateDialCode: true,
+                preferredCountries: ['IE', 'GB'],
+                utilsScript: "{{asset('js/intlTelInput/utils.js')}}"
+            });
+            let contact_phone_jq = $('#contact-phone');
+            let contact_phone_intl_output = $('#contact-phone-intl-output');
+            contact_phone_jq.on("keyup change", function() {
+                let intlNumber = contact_phone.getNumber();
+                if (intlNumber) {
+                    contact_phone_intl_output.text("International: " + intlNumber);
+                } else {
+                    contact_phone_intl_output.text("Please enter a number below");
+                }
+            });
+        }
+        function initializeSecondContactField(){
+            let second_contact_phone = document.querySelector("#second-contact-phone");
+            second_contact_phone = window.intlTelInput(second_contact_phone, {
+                hiddenInput: 'second_contact_phone_international',
+                initialCountry: 'IE',
+                separateDialCode: true,
+                preferredCountries: ['IE', 'GB']
+            });
+            let second_contact_phone_jq = $('#second-contact-phone');
+            let second_contact_phone_intl_output = $('#second-contact-phone-intl-output');
+            second_contact_phone_jq.on("keyup change", function() {
+                let intlNumber = second_contact_phone.getNumber();
+                if (intlNumber) {
+                    second_contact_phone_intl_output.text("International: " + intlNumber);
+                } else {
+                    second_contact_phone_intl_output.text("Please enter a number below");
+                }
+            });
+            console.log('oh yeah');
+        }
         $(document).ready(function(){
+            initializeFirstContactField();
+            let add_another_contact_container = $('#add-another-contact-container');
+            if(add_another_contact_container.is(':visible')){
+                initializeSecondContactField();
+            }
             $('#add-another-contact-button').on('click', function(e){
                 $('#add-another-contact-button-container').hide();
                 $('#add-another-contact-container').show();
+                initializeSecondContactField();
             });
 
             $('#second-contact-name').on('change', function(e){
@@ -177,6 +274,4 @@
             });
         });
     </script>
-</body>
-
-</html>
+@endsection

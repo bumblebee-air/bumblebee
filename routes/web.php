@@ -150,6 +150,21 @@ Route::get('whatsapp-template/delete/{template}', 'WhatsappTemplateController@de
 Route::get('emergency-settings/pin', 'EmergencyController@getEmergencySettingsPin');
 Route::post('emergency-settings/pin', 'EmergencyController@postEmergencySettingsPin');
 Route::post('emergency-settings', 'EmergencyController@postEmergencySettings');
-
+Route::get('emergency-settings', function(){
+    $user_id = null;
+    $contact_name = null;
+    $contact_phone = null;
+    $contact_email = null;
+    $contact_method = null;
+    $second_contact_name = null;
+    $second_contact_phone = null;
+    $second_contact_email = null;
+    $second_contact_method = null;
+    $other_contact = null;
+    return view('emergency-settings.settings', compact('contact_name',
+        'contact_phone', 'contact_email', 'contact_method', 'second_contact_name',
+        'second_contact_phone', 'second_contact_email', 'second_contact_method',
+        'user_id', 'other_contact'));
+});
 Route::get('test-call', 'TestController@getTestCall');
 Route::post('test-call', 'TestController@postTestCall');

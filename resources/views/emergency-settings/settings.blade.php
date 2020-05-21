@@ -83,13 +83,13 @@ Emergency Settings
                 <div id="contact-email-container" class="form-group">
                     <input id="contact-email" name="contact_email" type="email" class="form-control"
                            placeholder="Contact person email"
-                           value="{{ ($contact_email!=null)? $contact_email : '' }}" required />
+                           value="{{ ($contact_email!=null)? $contact_email : '' }}" @if($contact_method == 'email') required @endif />
                 </div>
 
                 <h6>Contact through</h6>
                 <div class="form-check form-check-radio">
                     <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="contact_method" value="phone_call"
+                        <input class="form-check-input" type="radio" id="contact-method" name="contact_method" value="phone_call"
                             @if($contact_method == 'phone_call') checked @endif required>
                         Phone call
                         <span class="circle">
@@ -131,7 +131,7 @@ Emergency Settings
                 <div id="add-another-contact-button-container" style=" @if($other_contact!=null) display: none; @endif margin-top: 10px;">
                     <button type="button" class="btn btn-link" style="color: #FFF;"
                         id="add-another-contact-button">
-                        <img src="{{asset('images/plus_white_bg_round.svg')}}" style="width: 25px; margin-right: 10px;"/>
+                        <img src="{{asset('images/plus_white_bg_round.svg')}}" style="width: 25px; margin-right: 10px;" alt="Add button"/>
                         Add another contact person</button>
                 </div>
                 <div id="add-another-contact-container" style=" @if($other_contact==null) display: none; @endif margin-top: 10px;">
@@ -150,6 +150,12 @@ Emergency Settings
                         <input id="second-contact-name" name="second_contact_name" type="text" class="form-control"
                                placeholder="Second Contact Person"
                                value="{{ ($second_contact_name!=null)? $second_contact_name : '' }}" />
+                    </div>
+
+                    <div id="second-contact-email-container" class="form-group">
+                        <input id="second-contact-email" name="second_contact_email" type="email" class="form-control"
+                               placeholder="Second Contact person email"
+                               value="{{ ($second_contact_email!=null)? $second_contact_email : '' }}" @if($second_contact_method == 'email') required @endif />
                     </div>
 
                     <h6>Contact through</h6>
@@ -247,7 +253,6 @@ Emergency Settings
                     second_contact_phone_intl_output.text("Please enter a number below");
                 }
             });
-            console.log('oh yeah');
         }
         $(document).ready(function(){
             initializeFirstContactField();
@@ -261,7 +266,7 @@ Emergency Settings
                 initializeSecondContactField();
             });
 
-            $('#second-contact-name').on('change', function(e){
+            $('#second-contact-name,#second-contact-phone').on('change', function(e){
                 if($(this).val()!=null && $(this).val()!=''){
                     $('#second-contact-name').attr('required','required');
                     $('#second-contact-phone').attr('required','required');
@@ -270,6 +275,23 @@ Emergency Settings
                     $('#second-contact-name').removeAttr('required');
                     $('#second-contact-phone').removeAttr('required');
                     $('#second-contact-method').removeAttr('required');
+                }
+            });
+
+            $('input[name="contact_method"]').on('change', function(){
+                let selected_contact_method = $('input[name="contact_method"]:checked').val();
+                if(selected_contact_method === 'email'){
+                    $('#contact-email').attr('required','required');
+                } else {
+                    $('#contact-email').removeAttr('required');
+                }
+            });
+            $('input[name="second_contact_method"]').on('change', function(){
+                let selected_contact_method = $('input[name="second_contact_method"]:checked').val();
+                if(selected_contact_method === 'email'){
+                    $('#second-contact-email').attr('required','required');
+                } else {
+                    $('#second-contact-email').removeAttr('required');
                 }
             });
         });

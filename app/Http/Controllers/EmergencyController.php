@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\CrashReport;
 use Twilio\Rest\Client;
 use Validator;
+use Session;
 
 class EmergencyController extends Controller{
 
@@ -72,9 +73,10 @@ class EmergencyController extends Controller{
 
     public function postEmergencySettingsPin(Request $request){
         $security_pin = $request->get('security_pin');
+        $user = null;
         $current_timestamp = Carbon::now();
         $security_pin_entry = SecurityPin::where('security_pin','=',$security_pin)
-            ->where('expires_at','>',$current_timestamp->toDateTimeString())->first();
+            ->where('expires_at','>=',$current_timestamp->toDateTimeString())->first();
         if($security_pin!='989635') {
             if (!$security_pin_entry) {
                 return redirect()->back()->withErrors(['Wrong or expired security pin!']);
@@ -96,6 +98,9 @@ class EmergencyController extends Controller{
         $second_contact_phone = null;
         $second_contact_email = null;
         $second_contact_method = null;
+        if($user!=null) {
+            $user_id = $user->id;
+        }
         if($emergency_settings!=null){
             $user_id = $user->id;
             $contact_name = $emergency_settings->contact_name;
@@ -118,6 +123,44 @@ class EmergencyController extends Controller{
     }
 
     public function postEmergencySettings(Request $request){
-        dd($request->all());
+        //dd($request->all());
+        $user_id = $request->get('user_id');
+        if($user_id == null){
+            Session::flash('error','No relevant user was found!');
+            return redirect()->back();
+        }
+        $the_user = User::find($user_id);
+        if(!$the_user){
+            Session::flash('error','No user was found with this ID!');
+            return redirect()->back();
+        }
+        //$contact_phone = $request->get('contact_phone');
+        $contact_phone_international = $request->get('contact_phone_international');
+        $contact_name = $request->get('contact_name');
+        $contact_email = $request->get('contact_email');
+        $contact_method = $request->get('contact_method');
+        //$second_contact_phone = $request->get('second_contact_phone');
+        $second_contact_phone_international = $request->get('second_contact_phone_international');
+        $second_contact_name = $request->get('second_contact_name');
+        $second_contact_email = $request->get('second_contact_email');
+        $second_contact_method = $request->get('second_contact_method');
+        $user_emergency_settings = EmergencySetting::where('user_id','=',$user_id)->first();
+        if(!$user_emergency_settings){
+            $user_emergency_settings = new EmergencySetting();
+            $user_emergency_settings->user_id = $user_id;
+        }
+        $user_emergency_settings->contact_phone = $contact_phone_international;
+        $user_emergency_settings->contact_name = $contact_name;
+        $user_emergency_settings->contact_email = $contact_email;
+        $user_emergency_settings->contact_method = $contact_method;
+        if($second_contact_name!=null || $second_contact_phone_international!=null) {
+            $user_emergency_settings->second_contact_phone = $second_contact_phone_international;
+            $user_emergency_settings->second_contact_name = $second_contact_name;
+            $user_emergency_settings->second_contact_email = $second_contact_email;
+            $user_emergency_settings->second_contact_method = $second_contact_method;
+        }
+        $user_emergency_settings->save();
+        Session::flash('success','The emergency settings have been updated successfully');
+        return redirect()->back();
     }
 }

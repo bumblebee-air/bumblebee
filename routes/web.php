@@ -17,7 +17,8 @@ Route::post('login', 'Auth\LoginController@login');
 Route::get('logout', 'Auth\LoginController@logout');
 
 Route::get('/', function () {
-    return view('home');
+    //return view('home');
+    return redirect('login');
 });
 
 Route::get('customer/register/{code}', 'CustomersController@getCustomerRegister');

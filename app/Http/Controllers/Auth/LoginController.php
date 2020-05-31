@@ -39,18 +39,11 @@ class LoginController extends Controller
     }
 
     public function redirectPath(){
-        dd(\Auth::user());
+        //dd(\Auth::user());
     }
 
     protected function authenticated(Request $request, $user)
     {
-        $user_role = $user->user_role;
-        if($user_role == 'insurance'){
-            return redirect()->intended('insurance/dashboard');
-        } elseif($user_role == 'client'){
-            return redirect()->intended('client/dashboard');
-        }
-        return redirect()->intended('/');
     }
 
 }

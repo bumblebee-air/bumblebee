@@ -18,6 +18,16 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
+            $user = Auth::user();
+            $user_role = $user->user_role;
+            /*if($user_role == 'insurance'){
+                return redirect()->intended('insurance/dashboard');
+            }*/
+            if($user_role == 'admin'){
+                return redirect('dashboard');
+            } elseif($user_role == 'client'){
+                return redirect('client/dashboard');
+            }
             return redirect('/');
         }
 

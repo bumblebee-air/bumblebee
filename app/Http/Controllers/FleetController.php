@@ -23,24 +23,52 @@ class FleetController extends Controller
 
     public function postAddFleet(Request $request){
         $current_user = Auth::user();
-        $fleet_members = Excel::toArray(new FleetImport, request()->file('fleet_file'));
+        try {
+            $fleet_members = Excel::toArray(new FleetImport, request()->file('fleet_file'));
+        } catch (\Exception $e){
+            if(strpos($e->getMessage(),'beyond highest row')){
+                \Session::flash('error','Sheet is empty');
+                return redirect()->back();
+            }
+        }
         $the_fleet = new Fleet();
         $the_fleet->name = $request->get('name');
         $the_fleet->company_id = $current_user->id;
         $the_fleet->save();
+        $errors = '';
+        $added_users = 0;
         foreach($fleet_members[0] as $fleet_member){
-            $user = User::create([
-                'name' => $fleet_member['first_name'].' '.$fleet_member['last_name'],
-                'phone' => $fleet_member['mobile_phone_no'],
-                'password' => bcrypt('P@$$w0rd'),
-                'user_role' => 'customer'
-            ]);
-            $the_fleet_member = new FleetMember();
-            $the_fleet_member->fleet_id = $the_fleet->id;
-            $the_fleet_member->user_id = $user->id;
-            $the_fleet_member->save();
+            try {
+                $user = User::create([
+                    'name' => $fleet_member['first_name'] . ' ' . $fleet_member['last_name'],
+                    'phone' => $fleet_member['mobile_phone_no'],
+                    'password' => bcrypt('P@$$w0rd'),
+                    'user_role' => 'customer'
+                ]);
+                $the_fleet_member = new FleetMember();
+                $the_fleet_member->fleet_id = $the_fleet->id;
+                $the_fleet_member->user_id = $user->id;
+                $the_fleet_member->save();
+                $added_users++;
+            } catch (\Exception $e){
+                if(strpos($e->getMessage(),'users_phone_unique')){
+                    $errors .= 'The member '.$fleet_member['first_name'].' '.$fleet_member['last_name'].
+                        ' was not added because the phone number is already in the system <br/>';
+                }
+            }
         }
-        return redirect()->back()->with('success','Fleet was added successfully');
+        if($added_users===0){
+            $the_fleet->delete();
+            if($errors==''){
+                $errors = 'No members were added and this fleet was not created';
+            }
+        }
+        if($errors != ''){
+            \Session::flash('error',$errors);
+        } else {
+            \Session::flash('success','Fleet was added successfully');
+        }
+        return redirect()->back();
     }
 
     public function viewFleets(){

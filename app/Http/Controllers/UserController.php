@@ -42,4 +42,40 @@ class UserController extends Controller
         \Session::flash('success','The user '.$name.' was added successfully');
         return redirect()->back();
     }
+
+    public function getEditUser() {
+
+    }
+
+    public function postEditUser(Request $request) {
+        $user_id = $request->get('user_id');
+        $name = $request->get('name');
+        $email = $request->get('email');
+        $password = $request->get('password');
+        $phone = $request->get('phone');
+        $role = $request->get('role');
+
+        $user = User::find($user_id);
+        if(!$user){
+            \Session::flash('error','No user was found with this ID');
+            return redirect()->back();
+        }
+        $user->name = $name;
+        $user->email = $email;
+        if($password!=null) {
+            $user->password = Hash::make($password);
+        }
+        $user->phone = $phone;
+        $user->user_role = $role;
+        $user->save();
+
+        /*\Mail::send([], [], function ($message) use($email, $name, $password) {
+            $message->to($email)
+                ->subject('Registration')
+                ->setBody("Hi {$name}, your user on Bumblebee has been edited", 'text/html');
+        });*/
+
+        \Session::flash('success','The user '.$name.' was edited successfully');
+        return redirect()->back();
+    }
 }

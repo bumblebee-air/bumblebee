@@ -118,17 +118,6 @@ Route::get('support-customer', function () {
 Route::get('obd-admin', function () {
     return view('obd_general');
 });
-/*Route::get('autodata-driver', function () {
-    return view('autodata-driver');
-});*/
-Route::get('tyres-batteries', function () {
-    return view('autodata-driver');
-});
-Route::get('test-soap','LookUpController@testSoap');
-Route::get('socket-test', function () {
-    return view('socket_test');
-});
-
 
 // Customer
 Route::get('create-customer', 'AdminController@createCustomer');
@@ -147,7 +136,7 @@ Route::get('whatsapp-template/edit/{template}', 'WhatsappTemplateController@edit
 Route::put('whatsapp-template/update/{template}', 'WhatsappTemplateController@update');
 Route::get('whatsapp-template/delete/{template}', 'WhatsappTemplateController@delete');
 
-//Emergency settings
+//Emergency settings for customer
 Route::get('emergency-settings/pin', 'EmergencyController@getEmergencySettingsPin');
 Route::post('emergency-settings/pin', 'EmergencyController@postEmergencySettingsPin');
 Route::post('emergency-settings', 'EmergencyController@postEmergencySettings');
@@ -166,6 +155,18 @@ Route::get('emergency-settings', function(){
         'contact_phone', 'contact_email', 'contact_method', 'second_contact_name',
         'second_contact_phone', 'second_contact_email', 'second_contact_method',
         'user_id', 'other_contact'));
+});
+
+//Test routes
+/*Route::get('autodata-driver', function () {
+    return view('autodata-driver');
+});*/
+Route::get('tyres-batteries', function () {
+    return view('autodata-driver');
+});
+Route::get('test-soap','LookUpController@testSoap');
+Route::get('socket-test', function () {
+    return view('socket_test');
 });
 Route::get('test-call', 'TestController@getTestCall');
 Route::post('test-call', 'TestController@postTestCall');

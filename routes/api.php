@@ -31,3 +31,4 @@ Route::post('dtc-info', 'LookUpController@getDtcInfo');
 Route::post('crash-report', 'EmergencyController@crashReport');
 Route::post('emergency-call-twiml', 'TwilioController@emergencyCallTwiml');
 Route::post('obd-connection', 'OBDController@saveAppOBDConnection');
+Route::post('general-enquiry', 'EnquiryController@saveGeneralEnquiry');

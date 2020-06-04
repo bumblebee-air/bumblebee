@@ -43,3 +43,12 @@ nav.navbar.navbar-rrra {
     background-color: #00479d;
     border-color: #00479d;
 }
+
+.sidebar .user .photo.photo-full {
+    max-width: 100%;
+    height: auto;
+    width: initial;
+    float: none;
+    margin: 0 10px;
+    border-radius: 10px;
+}

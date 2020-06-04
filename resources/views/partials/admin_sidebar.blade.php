@@ -5,13 +5,13 @@
     -->
     @if($user_type == 'client' && $admin_nav_logo!=null)
         <div class="user" style="z-index: 3">
-            <div class="photo">
-                <img src="{{asset($admin_nav_logo)}}" alt="Logo" />
+            <div class="photo photo-full">
+                <img src="{{asset($admin_nav_logo)}}" title="{{$admin_client_name}}"
+                     alt="{{$admin_client_name}}" />
             </div>
             <div class="user-info">
                 <a href="{{url('/')}}" class="username">
                     <span>
-                        {{$admin_client_name}}
                     </span>
                 </a>
             </div>

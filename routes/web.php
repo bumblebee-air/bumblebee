@@ -157,6 +157,9 @@ Route::get('emergency-settings', function(){
         'user_id', 'other_contact'));
 });
 
+Route::get('general-enquiry/add','EnquiryController@getGeneralEnquiry');
+Route::post('general-enquiry','EnquiryController@postGeneralEnquiry');
+
 //Test routes
 /*Route::get('autodata-driver', function () {
     return view('autodata-driver');

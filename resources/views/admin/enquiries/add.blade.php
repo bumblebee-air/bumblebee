@@ -15,6 +15,11 @@
         div.iti {
             width: 100%;
         }
+        a.supplier-name:not([href]):not([tabindex]) {
+            color: #0a6ebd;
+            cursor: pointer;
+            text-decoration: underline;
+        }
 </style>
 @endsection
 @section('page-content')
@@ -25,7 +30,7 @@
                 <div class="card">
                     <div class="card-header card-header-rose card-header-icon">
                         <div class="card-icon">
-                            <i class="material-icons">account_box</i>
+                            <i class="fas fa-question-circle"></i>
                         </div>
                         <h4 class="card-title">Add General Enquiry</h4>
                     </div>
@@ -33,13 +38,17 @@
                         <div class="card-body ">
                             {{ csrf_field() }}
 
-                            <div class="form-group bmd-form-group">
+                            <div class="form-group bmd-form-group" style="@if($is_client==true) display: none; @endif">
                                 <label for="client">Client *</label>
                                 <select id="client" name="client_id" class="form-control selectpicker" required>
                                     <option value="">Select client</option>
-                                    @foreach($clients as $client)
-                                        <option value="{{$client->id}}">{{$client->name}}</option>
-                                    @endforeach
+                                    @if($is_client==true)
+                                        <option value="{{$clients->id}}" selected>{{$clients->name}}</option>
+                                    @else
+                                        @foreach($clients as $client)
+                                            <option value="{{$client->id}}">{{$client->name}}</option>
+                                        @endforeach
+                                    @endif
                                 </select>
                             </div>
 
@@ -60,12 +69,29 @@
                             </div>
 
                             <div class="form-group bmd-form-group">
+                                <label for="location">Customer location</label>
+                                <input id="location" name="customer_location" class="form-control" placeholder="Type for autocomplete"/>
+                                <input type="hidden" id="location-lat" name="location_lat" class="form-control" />
+                                <input type="hidden" id="location-lon" name="location_lon" class="form-control" />
+                            </div>
+
+                            <div class="form-group bmd-form-group">
                                 <label for="enquiry">Enquiry *</label>
                                 <textarea name="enquiry" class="form-control" id="enquiry" required></textarea>
                             </div>
+
+                            <div class="form-group bmd-form-group">
+                                <label for="contractor">Contractor</label>
+                                <select id="contractor" name="contractor" class="form-control selectpicker">
+                                    <option value="">Select contractor</option>
+                                    @foreach(json_decode($suppliers) as $supplier)
+                                        <option value="{{$supplier->id}}">{{$supplier->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                         <div class="card-btns">
-                            <button type="submit" id="addCustomer" class="btn btn-fill btn-rose">Add</button>
+                            <button type="submit" class="btn btn-fill btn-rose">Add</button>
                             <a href="{{ url('/') }}" class="btn">Cancel</a>
                         </div>
                     </form>
@@ -105,8 +131,19 @@
         });
     });
 
+    let suppliers = {!! $suppliers !!};
+    let supplier_markers = [];
+
+    function useSupplier(supplier_id){
+        //console.log('Supplier ID: '+supplier_id);
+        let contractor_field = $('#contractor');
+        contractor_field.val(supplier_id);
+        contractor_field.change();
+    }
+
     let map;
-    let marker;
+    let customer_marker;
+    let customer_latlng = null;
     let contractor_latlng = null;
 
     $('.match-height').matchHeight({
@@ -120,12 +157,66 @@
             center: {lat: 51.5117884, lng: -0.1429935}
         });
 
-        marker = new google.maps.Marker({
+        let customer_location = document.getElementById('location');
+        let autocomplete = new google.maps.places.Autocomplete(customer_location);
+        autocomplete.setComponentRestrictions({'country': ['ie','gb']});
+        
+        customer_marker = new google.maps.Marker({
             map: map,
-            label: 'A',
+            label: 'C',
             anchorPoint: new google.maps.Point(0, -29)
         });
-        marker.setVisible(false);
+        customer_marker.setVisible(false);
+
+        autocomplete.addListener('place_changed', function() {
+            customer_marker.setVisible(false);
+            let place = autocomplete.getPlace();
+            if (!place.geometry) {
+                // User entered the name of a Place that was not suggested and
+                // pressed the Enter key, or the Place Details request failed.
+                window.alert("No details available for input: '" + place.name + "'");
+                return;
+            } else {
+                let place_lat = place.geometry.location.lat();
+                let place_lon = place.geometry.location.lng();
+                document.getElementById("location-lat").value = place_lat.toFixed(5);
+                document.getElementById("location-lon").value = place_lon.toFixed(5);
+                customer_latlng = place.geometry.location;
+            }
+            // If the place has a geometry, then present it on a map.
+            if (place.geometry.viewport) {
+                map.fitBounds(place.geometry.viewport);
+            } else {
+                map.setCenter(place.geometry.location);
+                map.setZoom(12);
+            }
+            customer_marker.setPosition(place.geometry.location);
+            customer_marker.setVisible(true);
+        });
+
+        suppliers.forEach(function (item, index) {
+            let position_lat_lng = {lat: parseFloat(item.latitude), lng: parseFloat(item.longitude)};
+            let supplier_marker = new google.maps.Marker({
+                position: position_lat_lng,
+                map: map
+            });
+            let contentString = '<h3 style="font-weight: 400">' +
+                '<a class="supplier-name" onclick="useSupplier(\''+item.id+'\')">' +
+                item.name+'</a></h3>' +
+                '<p style="font-weight: 400; font-size: 16px">' +
+                item.phone + '<br/>' + item.email + '<br/> Co. ' + item.county;
+            if(item.notes != null ){
+                contentString += '<br/>' + item.notes + '<br/>';
+            }
+            contentString += '</p>';
+            let infowindow = new google.maps.InfoWindow({
+                content: contentString
+            });
+            supplier_marker.addListener('click', function () {
+                infowindow.open(map, supplier_marker);
+            });
+            supplier_markers.push(supplier_marker);
+        });
     }
 </script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=geometry,places&callback=initMap">

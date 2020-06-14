@@ -104,8 +104,14 @@
             @if(!empty(Auth::user()) && Auth::user()->user_role == 'client')
                 <li class="nav-item ">
                     <a class="nav-link" href="{{url('whatsapp-templates')}}">
-                        <i class="material-icons">assignment</i>
+                        <i class="fab fa-whatsapp-square"></i>
                         <p>WhatsApp Templates</p>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="{{url('general-enquiry/add')}}">
+                        <i class="fas fa-question-circle"></i>
+                        <p>Add General Enquiry</p>
                     </a>
                 </li>
             @else

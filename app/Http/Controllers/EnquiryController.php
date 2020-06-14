@@ -4,13 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Client;
 use App\GeneralEnquiry;
+use App\Supplier;
 use Illuminate\Http\Request;
 
 class EnquiryController extends Controller
 {
     public function getGeneralEnquiry(){
         $clients = Client::all();
-        return view('admin.enquiries.add', compact('clients'));
+        $is_client = false;
+        $current_user = \Auth::user();
+        if($current_user->user_role == 'client'){
+            $is_client = true;
+            $clients = Client::where('user_id','=',$current_user->id)->first();
+        }
+        $suppliers = Supplier::all()->toArray();
+        $suppliers = json_encode($suppliers);
+        return view('admin.enquiries.add', compact('clients',
+            'is_client', 'suppliers'));
     }
 
     public function postGeneralEnquiry(Request $request){

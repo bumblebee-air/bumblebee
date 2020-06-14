@@ -160,6 +160,10 @@ Route::get('emergency-settings', function(){
 Route::get('general-enquiry/add','EnquiryController@getGeneralEnquiry');
 Route::post('general-enquiry','EnquiryController@postGeneralEnquiry');
 
+Route::get('suppliers','SupplierController@getSuppliersIndex');
+Route::get('suppliers/import','SupplierController@getSuppliersImport');
+Route::post('suppliers/import','SupplierController@postSuppliersImport');
+
 //Test routes
 /*Route::get('autodata-driver', function () {
     return view('autodata-driver');

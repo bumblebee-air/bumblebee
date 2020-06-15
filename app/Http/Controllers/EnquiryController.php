@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 
 class EnquiryController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth')->except(['saveGeneralEnquiry']);
+    }
+
     public function getGeneralEnquiry(){
         $clients = Client::all();
         $is_client = false;

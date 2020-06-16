@@ -38,9 +38,12 @@
 <!-- Scripts -->
 <script src="{{asset('js/jquery.min.js')}}"></script>
 <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
+<!--<script src="{{asset('js/popper.min.js')}}"></script>-->
+<!--<script src="{{asset('js/ct-material/bootstrap-material-design.min.js')}}"></script>-->
 <script src="{{asset('js/jasny-bootstrap.min.js')}}"></script>
 <script src="{{asset('js/moment.min.js')}}"></script>
 <script src="{{asset('js/moment-timezone.min.js')}}"></script>
+<!--<script src="{{asset('js/ct-material/material-dashboard.min.js')}}"></script>-->
 @yield('page-scripts')
 </body>
 </html>

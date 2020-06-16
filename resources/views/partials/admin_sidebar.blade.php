@@ -72,7 +72,7 @@
         </div>-->
         <ul class="nav">
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{url('/')}}">
                     <i class="fas fa-chart-bar"></i>
                     <p> Dashboard </p>
                 </a>

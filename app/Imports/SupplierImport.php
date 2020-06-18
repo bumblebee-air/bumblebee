@@ -36,6 +36,19 @@ class SupplierImport implements ToCollection,WithChunkReading,WithCustomChunkSiz
             //create new supplier entry
             $supplier = new Supplier();
             $supplier->name = $name;
+            if(substr($phone_number,0,2)==='08' || substr($phone_number,0,1)==='8'){
+                if(substr($phone_number,0,1)==='0'){
+                    $phone_number = substr($phone_number,1);
+                }
+                $phone_number = '+353'.$phone_number;
+            }elseif(substr($phone_number,0,3)==='010' || substr($phone_number,0,3)==='011' ||
+                substr($phone_number,0,3)==='012'|| substr($phone_number,0,2)==='10' ||
+                substr($phone_number,0,2)==='11' || substr($phone_number,0,2)==='12'){
+                if(substr($phone_number,0,1)==='0'){
+                    $phone_number = substr($phone_number,1);
+                }
+                $phone_number = '+20'.$phone_number;
+            }
             $supplier->phone = $phone_number;
             $supplier->email = $email;
             $supplier->county = $county;

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Client;
 use App\GeneralEnquiry;
 use App\Supplier;
+use App\WhatsappMessage;
+use Twilio\Rest\Client as TwilioClient;
 use Illuminate\Http\Request;
 
 class EnquiryController extends Controller
@@ -34,13 +36,45 @@ class EnquiryController extends Controller
             \Session::flash('error','No Client was found with this ID');
             return redirect()->back();
         }
+        $customer_name = $request->get('customer_name');
+        $customer_phone = $request->get('customer_phone');
+        $customer_phone_international = $request->get('customer_phone_international');
+        $customer_email = $request->get('customer_email');
+        $customer_location = $request->get('customer_location');
+        $the_enquiry = $request->get('enquiry');
+        $contractor_id = $request->get('contractor');
+
+        $contractor = Supplier::find($contractor_id);
+        $sid    = env('TWILIO_SID', '');
+        $token  = env('TWILIO_AUTH', '');
+        $body = "Hello $contractor->name, we've a job request for $customer_name at $customer_location scheduled for ASAP.
+To confirm acceptance or rejection of the job, please respond with 'yes', 'no' or 'maybe'.";
+        try {
+            $twilio = new TwilioClient($sid, $token);
+            $message = $twilio->messages->create('whatsapp:'.$contractor->phone,
+                ["from" => "whatsapp:+447445341335",
+                    "body" => $body]
+            );
+            //dd($message);
+            /*$whats = new WhatsappMessage();
+            $whats->message = $body;
+            $whats->from = 'Bumblebee (' . '+447445341335' . ')';
+            $whats->to = $customer_phone;
+            $whats->user_id = $contractor_id;
+            $whats->status = $message->status;
+            $whats->external_id = $message->sid;
+            $whats->save();*/
+        } catch (\Exception $e){
+            \Log::error($e->getMessage());
+        }
         $enquiry = new GeneralEnquiry();
         $enquiry->client_id = $client_id;
-        $enquiry->customer_name = $request->get('customer_name');
-        $enquiry->customer_phone = $request->get('customer_phone');
-        $enquiry->customer_phone_international = $request->get('customer_phone_international');
-        $enquiry->customer_email = $request->get('customer_email');
-        $enquiry->enquiry = $request->get('enquiry');
+        $enquiry->customer_name = $customer_name;
+        $enquiry->customer_phone = $customer_phone;
+        $enquiry->customer_phone_international = $customer_phone_international;
+        $enquiry->customer_email = $customer_email;
+        $enquiry->enquiry = $the_enquiry;
+        $enquiry->contractor = $contractor_id;
         $enquiry->save();
         \Session::flash('success','Enquiry saved successfully');
         return redirect()->back();

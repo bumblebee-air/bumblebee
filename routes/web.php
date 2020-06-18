@@ -163,6 +163,7 @@ Route::post('general-enquiry','EnquiryController@postGeneralEnquiry');
 Route::get('suppliers','SupplierController@getSuppliersIndex');
 Route::get('suppliers/import','SupplierController@getSuppliersImport');
 Route::post('suppliers/import','SupplierController@postSuppliersImport');
+Route::post('suppliers/delete-all','SupplierController@deleteAllSuppliers');
 
 //Test routes
 /*Route::get('autodata-driver', function () {

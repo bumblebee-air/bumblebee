@@ -30,6 +30,16 @@ class SupplierController extends Controller
         }
         $suppliers = \Excel::import(new SupplierImport, $suppliers_file);
         \Session::flash('success','Suppliers imported successfully');
+        return redirect()->to('suppliers');
+    }
+
+    public function deleteAllSuppliers(Request $request){
+        $do_delete = $request->get('do_delete');
+        if(!$do_delete){
+            return redirect()->back();
+        }
+        Supplier::truncate();
+        \Session::flash('success','All Suppliers have been deleted successfully');
         return redirect()->back();
     }
 }

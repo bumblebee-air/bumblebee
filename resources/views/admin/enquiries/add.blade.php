@@ -71,8 +71,8 @@
                             </div>
 
                             <div class="form-group bmd-form-group">
-                                <label for="location">Customer location</label>
-                                <input id="location" name="customer_location" class="form-control" placeholder="Type for autocomplete"/>
+                                <label for="location">Customer location *</label>
+                                <input id="location" name="customer_location" class="form-control" placeholder="Type for autocomplete" required/>
                                 <input type="hidden" id="location-lat" name="location_lat" class="form-control" />
                                 <input type="hidden" id="location-lon" name="location_lon" class="form-control" />
                             </div>
@@ -161,7 +161,7 @@
 
         map = new google.maps.Map(document.getElementById('map'), {
             zoom: 12,
-            center: {lat: 51.5117884, lng: -0.1429935}
+            center: {lat: 53.346324, lng: -6.258668}
         });
 
         let customer_location = document.getElementById('location');

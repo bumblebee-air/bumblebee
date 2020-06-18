@@ -7,7 +7,40 @@
     <div class="content">
         <div class="container-fluid">
             <h2>Suppliers</h2>
-            <a href="{{url('suppliers/import')}}" class="btn btn-primary">Import suppliers</a>
+            <div class="row">
+                <div class="col">
+                    <a href="{{url('suppliers/import')}}" class="btn btn-primary">Import suppliers</a>
+                </div>
+                <div class="col">
+                    <div style="text-align: right">
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+                            Delete Suppliers
+                        </button>
+                    </div>
+                    <!-- Delete modal -->
+                    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteModalLabel">Delete all suppliers</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{url('suppliers/delete-all')}}" method="post">
+                                        {{csrf_field()}}
+                                        <input type="hidden" name="do_delete" value="1"/>
+                                        <h3>Are you sure you want to delete all the suppliers?</h3>
+                                        <div style="text-align: center;">
+                                            <button class="btn btn-danger" type="submit">Yes</button>
+                                            <button type="button" class="btn btn-info ml-2" data-dismiss="modal">No</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br/>
             <div class="row">
                 <div class="col">
                     <div class="material-datatables">

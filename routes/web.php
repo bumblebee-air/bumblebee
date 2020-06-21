@@ -166,6 +166,8 @@ Route::get('suppliers','SupplierController@getSuppliersIndex');
 Route::get('suppliers/import','SupplierController@getSuppliersImport');
 Route::post('suppliers/import','SupplierController@postSuppliersImport');
 Route::post('suppliers/delete-all','SupplierController@deleteAllSuppliers');
+Route::get('supplier/schedule-form/{code}','SupplierController@getSupplierScheduleForm');
+Route::post('supplier/schedule-form','SupplierController@postSupplierScheduleForm');
 
 //Test routes
 /*Route::get('autodata-driver', function () {

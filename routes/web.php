@@ -157,8 +157,10 @@ Route::get('emergency-settings', function(){
         'user_id', 'other_contact'));
 });
 
-Route::get('general-enquiry/add','EnquiryController@getGeneralEnquiry');
+Route::get('general-enquiry','EnquiryController@getGeneralEnquiryIndex');
+Route::get('general-enquiry/add','EnquiryController@getAddGeneralEnquiry');
 Route::post('general-enquiry','EnquiryController@postGeneralEnquiry');
+Route::get('general-enquiry/edit/{id}','EnquiryController@getEditGeneralEnquiry');
 
 Route::get('suppliers','SupplierController@getSuppliersIndex');
 Route::get('suppliers/import','SupplierController@getSuppliersImport');

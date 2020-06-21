@@ -18,6 +18,8 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <!-- favicon -->
+    <link rel="icon" type="image/jpeg" href="{{asset('images/bumblebee_favicon.jpg')}}">
 </head>
 
 <body>

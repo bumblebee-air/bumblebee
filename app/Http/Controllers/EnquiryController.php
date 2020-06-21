@@ -15,7 +15,17 @@ class EnquiryController extends Controller
         $this->middleware('auth')->except(['saveGeneralEnquiry']);
     }
 
-    public function getGeneralEnquiry(){
+    public function getGeneralEnquiryIndex(){
+        $current_user = \Auth::user();
+        if($current_user->user_role == 'client'){
+            $enquiries = GeneralEnquiry::where('client_id','=',$current_user->id)->paginate(10);
+        } elseif($current_user->user_role == 'admin'){
+            $enquiries = GeneralEnquiry::paginate(10);
+        }
+        return view('admin.enquiries.index',compact('enquiries'));
+    }
+
+    public function getAddGeneralEnquiry(){
         $clients = Client::all();
         $is_client = false;
         $current_user = \Auth::user();
@@ -36,6 +46,7 @@ class EnquiryController extends Controller
             \Session::flash('error','No Client was found with this ID');
             return redirect()->back();
         }
+        $enquiry_id = $request->get('enquiry_id');
         $customer_name = $request->get('customer_name');
         $customer_phone = $request->get('customer_phone');
         $customer_phone_international = $request->get('customer_phone_international');
@@ -67,7 +78,11 @@ To confirm acceptance or rejection of the job, please respond with 'yes', 'no' o
         } catch (\Exception $e){
             \Log::error($e->getMessage());
         }
-        $enquiry = new GeneralEnquiry();
+        if($enquiry_id != null) {
+            $enquiry = GeneralEnquiry::find($enquiry_id);
+        } else {
+            $enquiry = new GeneralEnquiry();
+        }
         $enquiry->client_id = $client_id;
         $enquiry->customer_name = $customer_name;
         $enquiry->customer_phone = $customer_phone;

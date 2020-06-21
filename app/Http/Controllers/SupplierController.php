@@ -50,8 +50,10 @@ class SupplierController extends Controller
         if($supplier){
             $supplier_schedule = Schedule::where('entity','=','supplier')
                 ->where('entity_id','=',$supplier->id)->first();
+            if($supplier_schedule!=null) {
+                $the_supplier_schedule = json_decode($supplier_schedule->week_days);
+            }
         }
-        $the_supplier_schedule = json_decode($supplier_schedule->week_days);
         return view('supplier_schedule_form',compact('supplier','the_supplier_schedule'));
     }
 

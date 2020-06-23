@@ -1,4 +1,4 @@
-@extends('templates.rrra')
+@extends('templates.public')
 
 @section('page-styles')
     <style>

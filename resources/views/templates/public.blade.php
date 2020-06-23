@@ -14,6 +14,7 @@
     <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('css/fontawesome/all.css')}}" rel="stylesheet">
     <link href="{{asset('css/main.css')}}" rel="stylesheet">
+    <link href="{{asset('css/material-kit.min.css')}}" rel="stylesheet">
     @yield('page-styles')
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -25,6 +26,7 @@
 <body>
 
 <!-- Navigation -->
+@include('partials.public_nav')
 
 <!-- Page Content -->
 <div class="container">
@@ -36,6 +38,8 @@
 <!-- Scripts -->
 <script src="{{asset('js/jquery.min.js')}}"></script>
 <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('js/bootstrap-material-design.min.js')}}"></script>
+<script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
 <script src="{{asset('js/moment.min.js')}}"></script>
 <script src="{{asset('js/moment-timezone.min.js')}}"></script>
 @yield('page-scripts')

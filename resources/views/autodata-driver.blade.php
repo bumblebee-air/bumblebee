@@ -1,4 +1,4 @@
-@extends('templates.public')
+@extends('templates.bumblebee_public')
 
 @section('page-styles')
     <style>

@@ -206,7 +206,7 @@ Supplier Schedule
                 </div>
 
                 <div class="text-center" style="margin-top: 20px;">
-                    <button type="submit" id="submit-button" class="btn btn-block btn-primary">Save</button>
+                    <button type="submit" id="submit-button" class="btn btn-block btn-success">Save</button>
                 </div>
             </form>
             @else

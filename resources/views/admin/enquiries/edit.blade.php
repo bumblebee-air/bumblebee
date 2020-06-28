@@ -34,11 +34,12 @@
                         <div class="card-icon">
                             <i class="fas fa-question-circle"></i>
                         </div>
-                        <h4 class="card-title">Add General Enquiry</h4>
+                        <h4 class="card-title">Edit General Enquiry</h4>
                     </div>
                     <form id="customer-form" action="{{url('general-enquiry')}}" method="post">
                         <div class="card-body ">
                             {{ csrf_field() }}
+                            <input type="hidden" name="enquiry_id" value="{{$enquiry->id}}"/>
 
                             <div class="form-group bmd-form-group" style="@if($is_client==true) display: none; @endif">
                                 <label for="client">Client *</label>
@@ -48,7 +49,7 @@
                                         <option value="{{$clients->id}}" selected>{{$clients->name}}</option>
                                     @else
                                         @foreach($clients as $client)
-                                            <option value="{{$client->id}}">{{$client->name}}</option>
+                                            <option value="{{$client->id}}" @if($enquiry->client_id==$client->id) selected @endif>{{$client->name}}</option>
                                         @endforeach
                                     @endif
                                 </select>
@@ -56,30 +57,33 @@
 
                             <div class="form-group bmd-form-group">
                                 <label for="name">Customer name *</label>
-                                <input name="customer_name" type="text" class="form-control" id="name" placeholder="Enter customer name" value="{{ old('name') }}" required>
+                                <input name="customer_name" type="text" class="form-control" id="name" placeholder="Enter customer name" value="{{ ($enquiry->customer_name!=null)? $enquiry->customer_name : old('name') }}" required>
                             </div>
 
                             <div class="form-group bmd-form-group">
                                 <label for="phone">Customer phone *</label>
-                                <input name="customer_phone" type="text" class="form-control" id="phone" placeholder="Enter customer phone" value="{{ old('phone') }}" required>
+                                <input name="customer_phone" type="text" class="form-control" id="phone" placeholder="Enter customer phone" value="{{ ($enquiry->customer_phone_international!=null)? $enquiry->customer_phone_international : (($enquiry->customer_phone!=null)? $enquiry->customer_phone : old('phone')) }}" required>
                                 <p id="customer-phone-intl-output"></p>
                             </div>
 
                             <div class="form-group bmd-form-group">
                                 <label for="email">Email</label>
-                                <input name="email" type="text" class="form-control" id="email" placeholder="Enter email address" value="{{ old('email') }}">
+                                <input name="email" type="text" class="form-control" id="email" placeholder="Enter email address" value="{{ ($enquiry->customer_email!=null)? $enquiry->customer_email : old('email') }}">
                             </div>
 
                             <div class="form-group bmd-form-group">
                                 <label for="location">Customer location *</label>
-                                <input id="location" name="customer_location" class="form-control" placeholder="Type for autocomplete" required/>
-                                <input type="hidden" id="location-lat" name="location_lat" class="form-control" />
-                                <input type="hidden" id="location-lon" name="location_lon" class="form-control" />
+                                <input id="location" name="customer_location" class="form-control" placeholder="Type for autocomplete"
+                                    @if($enquiry->location!=null) value="{{$enquiry->location}}" @endif required/>
+                                <input type="hidden" id="location-lat" name="location_lat" class="form-control"
+                                    @if($enquiry->location_lat!=null) value="{{$enquiry->location_lat}}" @endif />
+                                <input type="hidden" id="location-lon" name="location_lon" class="form-control"
+                                    @if($enquiry->location_lon!=null) value="{{$enquiry->location_lon}}" @endif />
                             </div>
 
                             <div class="form-group bmd-form-group">
                                 <label for="enquiry">Enquiry *</label>
-                                <textarea name="enquiry" class="form-control" id="enquiry" required></textarea>
+                                <textarea name="enquiry" class="form-control" id="enquiry" required>@if($enquiry->enquiry!=null){{$enquiry->enquiry}}@endif</textarea>
                             </div>
 
                             <div class="form-group bmd-form-group">
@@ -87,13 +91,13 @@
                                 <select id="contractor" name="contractor" class="form-control">
                                     <option value="">Select contractor</option>
                                     @foreach(json_decode($suppliers) as $supplier)
-                                        <option value="{{$supplier->id}}">{{$supplier->name}}</option>
+                                        <option value="{{$supplier->id}}" @if($enquiry->contractor==$supplier->id) selected @endif>{{$supplier->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
                         <div class="card-btns">
-                            <button type="submit" class="btn btn-fill btn-rose">Add</button>
+                            <button type="submit" class="btn btn-fill btn-rose">Save</button>
                             <a href="{{ url('general-enquiry') }}" class="btn">Cancel</a>
                         </div>
                     </form>
@@ -174,6 +178,12 @@
             anchorPoint: new google.maps.Point(0, -29)
         });
         customer_marker.setVisible(false);
+        @if($enquiry->location_lat!=null && $enquiry->location_lon!=null)
+            customer_marker.setPosition({lat: parseFloat('{{$enquiry->location_lat}}'),lng: parseFloat('{{$enquiry->location_lon}}')});
+            customer_marker.setVisible(true);
+            map.setCenter({lat: parseFloat('{{$enquiry->location_lat}}'),lng: parseFloat('{{$enquiry->location_lon}}')});
+            map.setZoom(12);
+        @endif
 
         autocomplete.addListener('place_changed', function() {
             customer_marker.setVisible(false);

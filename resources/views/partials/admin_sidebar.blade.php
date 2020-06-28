@@ -109,9 +109,9 @@
                     </a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" href="{{url('general-enquiry/add')}}">
+                    <a class="nav-link" href="{{url('general-enquiry')}}">
                         <i class="fas fa-question-circle"></i>
-                        <p>Add General Enquiry</p>
+                        <p>General Enquiries</p>
                     </a>
                 </li>
             @else
@@ -380,7 +380,19 @@
                     <p>Whatsapp</p>
                 </a>
             </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="{{url('general-enquiry')}}">
+                    <i class="fas fa-question-circle"></i>
+                    <p>General Enquiries</p>
+                </a>
+            </li>
             @endif
+            <li class="nav-item ">
+                <a class="nav-link" href="{{url('logout')}}">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <p>Logout</p>
+                </a>
+            </li>
         </ul>
     </div>
     @if($admin_nav_background_image!=null)

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\HealthCheck;
 use App\OBD;
 use App\ObdToVehicle;
 use App\Profile;
@@ -304,16 +305,15 @@ class LookUpController extends Controller
         //$data = $soap->GetChargingStationInfo($params);
     }
 
-    public function getDtcInfo(Request $request)
+    public function submitHealthCheck(Request $request)
     {
         $validator = Validator::make(
             $request->all(),
             [
-                'customer_id' => 'required',
+                'customer_token' => 'required',
                 'dtc' => 'required',
             ]
         );
-
         if ($validator->fails()) {
             return response()->json([
                 "error" => 1,
@@ -323,43 +323,72 @@ class LookUpController extends Controller
             ])->setStatusCode(422);
         }
 
-        $dtc = $request->dtc;
-
-        $url = 'https://api.autodata-group.com/docs/v1/vehicles/PEU17173/dtc/'.$dtc.'?country-code=gb&api_key=19243ffqqcioyjfakpxfbtvn';
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            // CURLOPT_SSL_VERIFYPEER => false,
-            // CURLOPT_SSL_VERIFYHOST => 2,
-            CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_HTTPHEADER => ['Content-type: application/json', 'Accept-Language: en-gb;q=0.8,en;q=0.7'],
-            CURLOPT_URL => $url,
-            // CURLOPT_POST => 1,
-        ));
-        $resp = curl_exec($curl);
-        $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-        if ($status != 200) {
-            \Log::error('Autodata DTC info retrieval failed',[
-                'Response'=>$resp,
-                'Curl error'=>curl_error($curl),
-                'Curl error no.'=>curl_errno($curl)]);
-            
-            $resp_arr = json_decode($resp);
-                
+        $customer = User::where('token',$request->customer_token)->first();
+        if(!$customer){
             return response()->json([
-                'error' => 1,
-                'message' => $resp_arr->message,
-                'dtc_info' => null,
+                "error" => 1,
+                "message" => 'No customer was found with this token',
                 'severity' => 'minor',
-            ])->setStatusCode($resp_arr->status);
+                'dtc_info' => null
+            ])->setStatusCode(422);
         }
-        curl_close($curl);
-        $dtc_info = json_decode($resp);
-        $faults = $dtc_info->data->fault_locations;
 
-        return response()->json([
-            'severity' => 'minor',
-            'error' => 0,
-            'dtc_info' => $faults
-        ])->setStatusCode(200);
+        $dtc = $request->dtc;
+        $dtc_severity = null;
+
+        if($dtc != '') {
+            $url = 'https://api.autodata-group.com/docs/v1/vehicles/PEU17173/dtc/' . $dtc . '?country-code=gb&api_key=19243ffqqcioyjfakpxfbtvn';
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                // CURLOPT_SSL_VERIFYPEER => false,
+                // CURLOPT_SSL_VERIFYHOST => 2,
+                CURLOPT_RETURNTRANSFER => 1,
+                CURLOPT_HTTPHEADER => ['Content-type: application/json', 'Accept-Language: en-gb;q=0.8,en;q=0.7'],
+                CURLOPT_URL => $url,
+                // CURLOPT_POST => 1,
+            ));
+            $resp = curl_exec($curl);
+            $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            if ($status != 200) {
+                \Log::error('Autodata DTC info retrieval failed', [
+                    'Response' => $resp,
+                    'Curl error' => curl_error($curl),
+                    'Curl error no.' => curl_errno($curl)]);
+
+                $resp_arr = json_decode($resp);
+
+                return response()->json([
+                    'error' => 1,
+                    'message' => $resp_arr->message,
+                    'dtc_info' => null,
+                    'severity' => 'minor',
+                ])->setStatusCode($resp_arr->status);
+            }
+            curl_close($curl);
+            $dtc_info = json_decode($resp);
+            $faults = $dtc_info->data->fault_locations;
+            $dtc_severity = 'minor';
+            $response_arr = [
+                'severity' => $dtc_severity,
+                'error' => 0,
+                'message' => '',
+                'dtc_info' => $faults
+            ];
+        } else {
+            $response_arr = [
+                'severity' => 'minor',
+                'error' => 0,
+                'message' => '',
+                'dtc_info' => null
+            ];
+        }
+
+        $health_check = new HealthCheck();
+        $health_check->user_id = $customer->id;
+        $health_check->dtc = ($dtc!='')? $dtc : null;
+        $health_check->dtc = $dtc_severity;
+        $health_check->save();
+
+        return response()->json($response_arr)->setStatusCode(200);
     }
 }

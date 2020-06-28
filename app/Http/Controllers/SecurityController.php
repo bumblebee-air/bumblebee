@@ -7,6 +7,7 @@ use App\WhatsappMessage;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\SecurityPin;
+use App\Helpers\SecurityHelper;
 use Twilio\Rest\Client;
 use SimpleXMLElement;
 use Response;
@@ -25,6 +26,7 @@ class SecurityController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
+                'customer_token' => NULL,
                 "error" => 1,
                 "message" => $validator->errors()
             ])->setStatusCode(422);
@@ -35,8 +37,13 @@ class SecurityController extends Controller
         if (!empty($pin)) {
             $expires_at = strtotime($pin->expires_at);
             if ($expires_at > time()) {
+                $user = User::find($pin->user_id);
+                $security_helper = new SecurityHelper();
+                $security_token = $security_helper->generateSecurityToken(32);
+                $user->token = $security_token;
+                $user->save();
                 $response = [
-                    'customer_id' => $pin->user_id,
+                    'customer_token' => $security_token,
                     'message' => '',
                     'error' => 0
                 ];
@@ -45,7 +52,7 @@ class SecurityController extends Controller
         }
 
         $response = [
-            'customer_id' => NULL,
+            'customer_token' => NULL,
             'error' => 1,
             'message' => 'Invalid security pin'
         ];

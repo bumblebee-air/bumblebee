@@ -18,12 +18,12 @@ class EmergencyController extends Controller{
         $validator = Validator::make(
             $request->all(),
             [
-                'customer_id' => 'required',
+                'customer_token' => 'required',
                 'location_lat' => 'required',
                 'location_lon' => 'required',
                 'last_speed_readings' => 'required',
                 'top_speed_reading' => 'required',
-                'report_time' => 'required|date',
+                'report_time' => 'required',
             ]
         );
 
@@ -34,16 +34,16 @@ class EmergencyController extends Controller{
             ])->setStatusCode(422);
         }
 
-        $customer = User::find($request->customer_id);
+        $customer = User::where('token',$request->customer_token)->first();
         if(!$customer){
             return response()->json([
                 "error" => 1,
-                "message" => 'No customer was found with this ID'
+                "message" => 'No customer was found with this token'
             ])->setStatusCode(422);
         }
 
         $report = new CrashReport();
-        $report->user_id = $request->customer_id;
+        $report->user_id = $customer->id;
         $report->location = $request->location_lat . ',' . $request->location_lon;
         $report->speed_readings = $request->last_speed_readings;
         $report->top_speed = $request->top_speed_reading;
@@ -64,7 +64,10 @@ class EmergencyController extends Controller{
             \Log::error($e->getMessage());
         }
 
-        return response()->json(['error' => 0])->setStatusCode(201);
+        return response()->json([
+            'error' => 0,
+            'message'=>''
+        ])->setStatusCode(201);
     }
 
     public function getEmergencySettingsPin(){

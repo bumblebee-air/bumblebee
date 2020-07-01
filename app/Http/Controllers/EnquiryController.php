@@ -76,11 +76,11 @@ class EnquiryController extends Controller
             $body = "Hello $contractor->name, we've a job request for $customer_name at $customer_location scheduled for ASAP.
 To confirm acceptance or rejection of the job, please respond with 'yes', 'no' or 'maybe'.";
             try {
-                $twilio = new TwilioClient($sid, $token);
+                /*$twilio = new TwilioClient($sid, $token);
                 $message = $twilio->messages->create('whatsapp:' . $contractor->phone,
                     ["from" => "whatsapp:+447445341335",
                         "body" => $body]
-                );
+                );*/
                 //dd($message);
                 /*$whats = new WhatsappMessage();
                 $whats->message = $body;

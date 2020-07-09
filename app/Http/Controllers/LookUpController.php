@@ -336,7 +336,7 @@ class LookUpController extends Controller
         $dtc = $request->dtc;
         $dtc_severity = null;
 
-        if($dtc != '' && $dtc != '0' && $dtc != 0) {
+        if($dtc!=='' && $dtc!=='0' && $dtc!==0) {
             $url = 'https://api.autodata-group.com/docs/v1/vehicles/PEU17173/dtc/' . $dtc . '?country-code=gb&api_key=19243ffqqcioyjfakpxfbtvn';
             $curl = curl_init();
             curl_setopt_array($curl, array(

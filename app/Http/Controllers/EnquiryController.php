@@ -6,6 +6,7 @@ use App\Client;
 use App\GeneralEnquiry;
 use App\Supplier;
 use App\WhatsappMessage;
+use App\WhatsappTemplate;
 use Twilio\Rest\Client as TwilioClient;
 use Illuminate\Http\Request;
 
@@ -30,14 +31,18 @@ class EnquiryController extends Controller
         $clients = Client::all();
         $is_client = false;
         $current_user = \Auth::user();
+        $whatsapp_templates = null;
         if($current_user->user_role == 'client'){
             $is_client = true;
             $clients = Client::where('user_id','=',$current_user->id)->first();
+            $whatsapp_templates = WhatsappTemplate::where('client_id',$clients->id)->get();
+        } elseif($current_user->user_role == 'admin'){
+            $whatsapp_templates = WhatsappTemplate::all();
         }
         $suppliers = Supplier::all()->toArray();
         $suppliers = json_encode($suppliers);
         return view('admin.enquiries.add', compact('clients',
-            'is_client', 'suppliers'));
+            'is_client', 'suppliers', 'whatsapp_templates'));
     }
 
     public function postGeneralEnquiry(Request $request){
@@ -57,7 +62,11 @@ class EnquiryController extends Controller
         $location_lon = $request->get('location_lon');
         $the_enquiry = $request->get('enquiry');
         $contractor_id = $request->get('contractor');
-
+        $whatsapp_template_id = $request->get('whatsapp_template');
+        /*if($whatsapp_template_id!=null){
+            $whatsapp_template = WhatsappTemplate::find($whatsapp_template_id);
+            dd($whatsapp_template);
+        }*/
         if($enquiry_id != null) {
             $enquiry = GeneralEnquiry::find($enquiry_id);
         } else {
@@ -98,6 +107,7 @@ To confirm acceptance or rejection of the job, please respond with 'yes', 'no' o
         $enquiry->location = $customer_location;
         $enquiry->location_lat = $location_lat;
         $enquiry->location_lon = $location_lon;
+        $enquiry->whatsapp_template = $whatsapp_template_id;
         $enquiry->save();
         \Session::flash('success','Enquiry saved successfully');
         return redirect()->to('general-enquiry');
@@ -111,19 +121,23 @@ To confirm acceptance or rejection of the job, please respond with 'yes', 'no' o
         $clients = Client::all();
         $is_client = false;
         $current_user = \Auth::user();
+        $whatsapp_templates = null;
         if($current_user->user_role == 'client'){
             $is_client = true;
             $clients = Client::where('user_id','=',$current_user->id)->first();
+            $whatsapp_templates = WhatsappTemplate::where('client_id',$clients->id)->get();
+        } elseif($current_user->user_role == 'admin'){
+            $whatsapp_templates = WhatsappTemplate::all();
         }
         $suppliers = Supplier::all()->toArray();
         $suppliers = json_encode($suppliers);
         return view('admin.enquiries.edit', compact('enquiry','clients',
-            'is_client', 'suppliers'));
+            'is_client', 'suppliers', 'whatsapp_templates'));
     }
 
     public function saveGeneralEnquiry(Request $request){
         $client_name = $request->get('client');
-        $client = Client::where('name','%like%',$client_name)->first();
+        $client = Client::where('name','like','%'.$client_name.'%')->first();
         if(!$client){
             $response = [
                 'error' => 1,

@@ -240,4 +240,42 @@ class TwilioController extends Controller
         header('Content-type: text/xml');
         echo $response;
     }
+
+    public function crashDetectionTwiml(Request $request){
+        $response = new VoiceResponse();
+        $response->say(
+            "Hi, This is the Bumblebee system checking on you since we received a possible crash report.".
+                "Do you require help now? please reply with yes or no.",
+            array("voice" => "woman", "language"=>"en-gb")
+        );
+        $response->record([
+            'maxLength' => '5',
+            'method' => 'POST',
+            'action' => route('twilio-record-hangup', [], false),
+            'transcribeCallback' => route(
+                'process-crash-detection-recording', [], false
+            )
+        ]);
+        $response->say(
+            "Sorry, no recording received. Goodbye",
+            array("voice" => "woman", "language"=>"en-gb")
+        );
+        $response->hangup();
+        return $response;
+    }
+
+    public function processCrashDetectionRecording(Request $request){
+        \Log::debug('ProcessCrashDetectionRecording:  '.implode(' || ',$request->all()));
+        return ;
+    }
+
+    public function twilioRecordHangup(Request $request){
+        $response = new VoiceResponse();
+        $response->say(
+            "We will process your recording and perform the required action. Goodbye",
+            array("voice" => "woman", "language"=>"en-gb")
+        );
+        $response->hangup();
+        return $response;
+    }
 }

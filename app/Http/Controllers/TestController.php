@@ -31,4 +31,26 @@ class TestController extends Controller
         }
         return redirect()->back();
     }
+
+    public function getTestCrashDetectionCall(){
+        return view('test_crash_detection_call');
+    }
+
+    public function postTestCrashDetectionCall(Request $request){
+        $phone = $request->phone;
+        try {
+            $sid    = env('TWILIO_SID', '');
+            $token  = env('TWILIO_AUTH', '');
+            $twilio = new Client($sid, $token);
+            $call = $twilio->calls
+                ->create($phone,
+                    "+447445341335",
+                    ["ApplicationSid" => "AP610012487e2b9de5665d13e471663873"]
+                );
+            //dd($call);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+        return redirect()->back();
+    }
 }

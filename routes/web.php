@@ -182,3 +182,5 @@ Route::get('socket-test', function () {
 });
 Route::get('test-call', 'TestController@getTestCall');
 Route::post('test-call', 'TestController@postTestCall');
+Route::get('test-crash-call', 'TestController@getTestCrashDetectionCall');
+Route::post('test-crash-call', 'TestController@postTestCrashDetectionCall');

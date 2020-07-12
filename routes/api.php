@@ -30,5 +30,8 @@ Route::post('customer-identification', 'SecurityController@customerIdentificatio
 Route::post('dtc-info', 'LookUpController@submitHealthCheck');
 Route::post('crash-report', 'EmergencyController@crashReport');
 Route::post('emergency-call-twiml', 'TwilioController@emergencyCallTwiml');
+Route::post('crash-detection-twiml', 'TwilioController@crashDetectionTwiml');
+Route::post('twilio-record-hangup', 'TwilioController@twilioRecordHangup');
+Route::post('process-crash-detection-recording', 'TwilioController@processCrashDetectionRecording');
 Route::post('obd-connection', 'OBDController@saveAppOBDConnection');
 Route::post('general-enquiry', 'EnquiryController@saveGeneralEnquiry');

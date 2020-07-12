@@ -251,10 +251,8 @@ class TwilioController extends Controller
         $response->record([
             'maxLength' => '5',
             'method' => 'POST',
-            'action' => route('twilio-record-hangup', [], false),
-            'transcribeCallback' => route(
-                'process-crash-detection-recording', [], false
-            )
+            'action' => url('api/twilio-record-hangup'),
+            'transcribeCallback' => url('api/process-crash-detection-recording')
         ]);
         $response->say(
             "Sorry, no recording received. Goodbye",

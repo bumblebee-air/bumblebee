@@ -50,9 +50,30 @@ class EmergencyController extends Controller{
         $report->report_time = $request->report_time;
         $report->save();
 
-        try {
-            $sid    = env('TWILIO_SID', '');
-            $token  = env('TWILIO_AUTH', '');
+        $emergency_settings = EmergencySetting::where('user_id', '=', $customer->id)->first();
+        if($emergency_settings) {
+            $first_nok_name = $emergency_settings->contact_name;
+            $first_nok_phone = $emergency_settings->contact_phone;
+            try {
+                $sid = env('TWILIO_SID', '');
+                $token = env('TWILIO_AUTH', '');
+                $twilio = new Client($sid, $token);
+                $call = $twilio->calls
+                    ->create($first_nok_phone,
+                        "+447445341335",
+                        [
+                            "twiml" => '<Response><Say>Hello '.$first_nok_name.' . This is an automatic message from the Bumblebee AIR system.'.
+                                ' We are informing you that your relative '.$customer->name.' has been possibly involved in a crash.</Say></Response>'
+                        ]
+                    );
+                //dd($call);
+            } catch (\Exception $e) {
+                \Log::error($e->getMessage());
+            }
+        }
+        /*try {
+            $sid = env('TWILIO_SID', '');
+            $token = env('TWILIO_AUTH', '');
             $twilio = new Client($sid, $token);
             $call = $twilio->calls
                 ->create($customer->phone,
@@ -62,7 +83,7 @@ class EmergencyController extends Controller{
             //dd($call);
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
-        }
+        }*/
 
         return response()->json([
             'error' => 0,

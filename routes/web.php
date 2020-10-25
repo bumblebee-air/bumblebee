@@ -169,6 +169,8 @@ Route::post('suppliers/delete-all','SupplierController@deleteAllSuppliers');
 Route::get('supplier/schedule-form/{code}','SupplierController@getSupplierScheduleForm');
 Route::post('supplier/schedule-form','SupplierController@postSupplierScheduleForm');
 
+Route::get('customer-payment','PaymentController@getCustomerPayment');
+Route::post('custom-customer-payment-amount','PaymentController@setCustomCustomerPaymentAmount');
 //Test routes
 /*Route::get('autodata-driver', function () {
     return view('autodata-driver');
@@ -184,3 +186,8 @@ Route::get('test-call', 'TestController@getTestCall');
 Route::post('test-call', 'TestController@postTestCall');
 Route::get('test-crash-call', 'TestController@getTestCrashDetectionCall');
 Route::post('test-crash-call', 'TestController@postTestCrashDetectionCall');
+Route::get('stripe-account-create-test', 'StripeController@getAccountCreationTest');
+Route::post('stripe-account-create-test', 'StripeController@postAccountCreationTest');
+Route::get('stripe-onboard/{onboard_code}', 'StripeController@getOnboard');
+Route::get('stripe-onboard/stripe/refresh', 'StripeController@getOnboardRefresh');
+Route::get('stripe-onboard/stripe/success', 'StripeController@getOnboardSuccess');

@@ -179,7 +179,10 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\ComposerServiceProvider::class,
         App\Providers\TwilioAccessTokenProvider::class,
-        App\Providers\TwilioChatGrantProvider::class
+        App\Providers\TwilioChatGrantProvider::class,
+
+        //Sweet Alert
+        UxWeb\SweetAlert\SweetAlertServiceProvider::class
 
     ],
 
@@ -231,6 +234,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Input' => Illuminate\Support\Facades\Input::class,
         'Es' => Elasticquent\ElasticquentElasticsearchFacade::class,
+        //Sweet Alert
+        'Alert' => UxWeb\SweetAlert\SweetAlert::class,
 
     ],
 

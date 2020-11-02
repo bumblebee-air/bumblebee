@@ -184,3 +184,7 @@ Route::get('test-call', 'TestController@getTestCall');
 Route::post('test-call', 'TestController@postTestCall');
 Route::get('test-crash-call', 'TestController@getTestCrashDetectionCall');
 Route::post('test-crash-call', 'TestController@postTestCrashDetectionCall');
+
+//GardenHelp
+Route::get('contractor-registration', 'garden_help\ContractorsController@index')->name('getContractorRegistration');
+Route::post('contractor-registration', 'garden_help\ContractorsController@save')->name('postContractorRegistration');

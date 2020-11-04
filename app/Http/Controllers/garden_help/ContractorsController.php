@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\garden_help;
 
 use App\Contractor;
+use App\Mail\ContractorRegistrationMail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Alert;
@@ -37,7 +38,7 @@ class ContractorsController extends Controller
         ]);
 //        dd($request->all());
         //Saving new contractor registration
-        Contractor::create([
+        $contractor = Contractor::create([
             'name' => $request->name,
             'email' => $request->email,
             'phone_number' => $request->phone_number,
@@ -63,6 +64,9 @@ class ContractorsController extends Controller
             'social_profile' => $request->social_profiles,
             'website_address' => $request->website,
         ]);
+
+        \Mail::to(env('GH_NOTIF_EMAIL','kim@bumblebeeai.io'))->send(new ContractorRegistrationMail($contractor));
+
         alert()->success( 'You registration saved successfully');
         return redirect()->back();
     }

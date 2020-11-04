@@ -201,7 +201,7 @@
             <div class="main main-raised">
                 <div class="h-100 row align-items-center">
                     <div class="col-md-12 text-center">
-                        <img src="https://gardenhelp.ie/wp-content/uploads/2016/05/Garden-Help-Logo.png" alt="GardenHelp">
+                        <img src="{{asset('images/Garden-Help-Logo.png')}}" alt="GardenHelp">
                     </div>
                 </div>
                 <div class="container">

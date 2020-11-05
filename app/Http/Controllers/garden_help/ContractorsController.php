@@ -66,6 +66,9 @@ class ContractorsController extends Controller
         ]);
 
         \Mail::to(env('GH_NOTIF_EMAIL','kim@bumblebeeai.io'))->send(new ContractorRegistrationMail($contractor));
+        if($contractor->email!=null && $contractor->email!=''){
+            \Mail::to($contractor->email)->send(new ContractorRegistrationMail($contractor));
+        }
 
         alert()->success( 'You registration saved successfully');
         return redirect()->back();

@@ -109,6 +109,7 @@ Route::get('dashboard', function () {
 });
 //Route for record audio
 Route::get('record-audio','AudioController@index');
+Route::get('orderlist','OrdersController@index');
 Route::post('upload-record-file', 'AudioController@save_recorded_audio');
 Route::post('translate-audio-url', 'AudioController@saveAndTranslateAudioFile');
 

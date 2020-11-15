@@ -35,3 +35,6 @@ Route::post('twilio-record-hangup', 'TwilioController@twilioRecordHangup');
 Route::post('process-crash-detection-recording', 'TwilioController@processCrashDetectionRecording');
 Route::post('obd-connection', 'OBDController@saveAppOBDConnection');
 Route::post('general-enquiry', 'EnquiryController@saveGeneralEnquiry');
+
+Route::post('order', 'OrdersController@receiveOrder');
+Route::post('fulfill-order', 'OrdersController@fulfillOrder');

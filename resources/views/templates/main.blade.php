@@ -18,7 +18,8 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
     <!-- favicon -->
-    <link rel="icon" type="image/jpeg" href="{{asset('images/bumblebee_favicon.jpg')}}">
+    <!--<link rel="icon" type="image/jpeg" href="{{asset('images/bumblebee_favicon.jpg')}}">-->
+    <link rel="icon" type="image/jpeg" href="{{asset('images/doorder-favicon.svg')}}">
 </head>
 
 <body>

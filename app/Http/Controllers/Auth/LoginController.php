@@ -74,4 +74,19 @@ class LoginController extends Controller
         return Auth::guard($this->guard);
     }
 
+    public function logout(Request $request)
+    {
+        $url = '/';
+
+        if (Auth::guard('doorder')->check()) {
+            $url = 'doorder/login';
+        }
+
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        return redirect($url);
+    }
+
 }

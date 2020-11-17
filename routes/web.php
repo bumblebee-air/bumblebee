@@ -197,3 +197,16 @@ Route::post('stripe-account-create-test', 'StripeController@postAccountCreationT
 Route::get('stripe-onboard/{onboard_code}', 'StripeController@getOnboard');
 Route::get('stripe-onboard/stripe/refresh', 'StripeController@getOnboardRefresh');
 Route::get('stripe-onboard/stripe/success', 'StripeController@getOnboardSuccess');
+
+
+//Clients Login
+Route::group(['prefix' => '{client_name}'], function () {
+    Route::get('login', 'Auth\LoginController@showLoginForm')->name('clientLogin');
+    Route::post('login', 'Auth\LoginController@login')->name('clientLogin');
+
+    //DoOrder Routes
+    Route::group(['middleware' => "auth:doorder"],function () {
+        Route::get('dashboard', 'doorder\DashobardController@index')->name('doorder_dashboard');
+        Route::get('orders', 'doorder\OrdersController@getOrdersTable')->name('doorder_ordersTable');
+    });
+});

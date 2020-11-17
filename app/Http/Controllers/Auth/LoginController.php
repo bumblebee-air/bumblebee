@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class LoginController extends Controller
 {
@@ -28,14 +30,19 @@ class LoginController extends Controller
      */
     protected $redirectTo = '/';
 
+    #guard
+    protected $guard = 'web';
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Request $request)
     {
         $this->middleware('guest')->except('logout');
+        if ($request->guard)
+            $this->guard = $request->guard;
     }
 
     public function redirectPath(){
@@ -44,6 +51,27 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
+    }
+
+    public function showLoginForm($client_name = null)
+    {
+        $clients = [
+            'doorder',
+            'garden_help'
+        ];
+        if($client_name) {
+            if ( in_array($client_name, $clients))
+                return view("auth.$client_name.login");
+            else
+                abort(404);
+        } else {
+            return view('auth.login');
+        }
+    }
+
+    protected function guard()
+    {
+        return Auth::guard($this->guard);
     }
 
 }

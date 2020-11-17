@@ -1,0 +1,63 @@
+body {
+    font-family: Quicksand;
+}
+
+li .nav-link {
+    font-family: Quicksand;
+}
+
+li .nav-link:hover {
+    border-radius: 12px!important;
+    background-color: #fafafa!important;
+    color: #e2c447!important;
+    font-family: Quicksand;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+li .nav-link:hover a i {
+    color: #e2c447!important;
+}
+
+
+.sidebar[data-background-color=doorder-color]
+{
+    background-color: rgba(68, 68, 68, 0.6)
+}
+
+.card-icon {
+    background: #f7dc69!important;
+    box-shadow: 0 4px 20px 0 rgba(0,0,0,.14), 0 7px 10px -5px #f7dc69 !important;
+}
+
+.page_icon {
+    width: 39px;
+}
+
+.card-header h4 {
+    font-family: Quicksand;
+    /*margin: 0 0 38px 78px;*/
+    font-size: 21px;
+    font-weight: 500;
+    /*line-height: 2.14;*/
+    letter-spacing: 0.2px;
+    color: #7b7b7b;
+}
+
+.status_icon {
+    width: 13px;
+    height: 13px;
+    margin: 0 11px 0 0;
+}
+
+.status_text {
+    font-size: 10px;
+    font-weight: 500;
+    color: #656565;
+}
+
+.my-nav-icon {
+    width: 22px;
+}
+

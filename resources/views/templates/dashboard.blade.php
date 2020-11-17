@@ -15,12 +15,24 @@
     <link href="{{asset('css/fontawesome/all.css')}}" rel="stylesheet">
     <link href="{{asset('css/main.css')}}" rel="stylesheet">
     <link href="{{asset('css/material-dashboard.min.css')}}" rel="stylesheet">
+    @if(Auth::user()->user_role == 'client' && Auth::user()->client && Auth::user()->client->name == 'GardenHelp')
+        <link href="{{asset('css/gardenhelp_dashboard.css')}}" rel="stylesheet">
+    @endif
+    <!--DoOrder Custom Style-->
+    @if(Auth::guard('doorder')->check())
+        <link href="{{asset('css/doorder_dashboard.css')}}" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Quicksand" />
+    @endif
+    <!--DoOrder Custom Style-->
+
     @yield('page-styles')
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
-    <!-- favicon -->
-    <link rel="icon" type="image/jpeg" href="{{asset('images/bumblebee_favicon.jpg')}}">
+    @if(Auth::guard('web')->check())
+        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+        <!-- favicon -->
+        <link rel="icon" type="image/jpeg" href="{{asset('images/bumblebee_favicon.jpg')}}">
+    @endif
 </head>
 
 <body>

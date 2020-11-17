@@ -8,19 +8,19 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Bumblebee</title>
+    <title>@yield('title', 'Bumblebee')</title>
 
     <!-- Styles -->
     <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('css/fontawesome/all.css')}}" rel="stylesheet">
     <link href="{{asset('css/main.css')}}" rel="stylesheet">
     <link href="{{asset('css/material-dashboard.min.css')}}" rel="stylesheet">
-    @yield('page-styles')
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
-    <!-- favicon -->
+<!-- favicon -->
     <link rel="icon" type="image/jpeg" href="{{asset('images/bumblebee_favicon.jpg')}}">
+    @yield('page-styles')
 </head>
 
 <body>

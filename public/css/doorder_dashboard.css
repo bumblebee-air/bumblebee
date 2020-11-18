@@ -1,3 +1,6 @@
+html {
+    -webkit-font-smoothing: none;
+}
 body {
     font-family: Quicksand;
 }
@@ -58,6 +61,85 @@ li .nav-link:hover a i {
 }
 
 .my-nav-icon {
-    width: 22px;
+    width: 24px;
+    height: 24px;
+    margin-top: 3px;
 }
+
+.status {
+    float: right;
+    display: flex;
+    flex-wrap: wrap;
+    padding-right: 70px;
+}
+
+.status_item {
+    margin: -29px 0 0 11px;
+    font-size: 10px;
+    font-weight: bold;
+    color: #656565;
+}
+
+.status_icon {
+    width: 13px;
+}
+
+th {
+    font-size: 16px!important;
+    font-weight: 700!important;
+    color: #656565;
+    text-align: center;
+    word-wrap: normal;
+}
+
+td {
+    text-align: center;
+    max-width: 165px;
+    min-width: 100px;
+    font-size: 14px;
+    color: #656565;
+}
+
+.order_status_icon {
+    width: 19px;
+}
+
+.progress {
+    width: 110px;
+    height: 8px;
+    border-radius: 10px;
+    background-color: #e0e0e0;
+    margin-bottom: 0;
+    text-align: center;
+}
+
+.progress-bar {
+    background-image: linear-gradient(254deg, #f7dc69, #e9c218);
+    border-radius: 10px;
+}
+
+.sidebar[data-background-color=black] .sidebar-background:after {
+    background: rgba(68, 68, 68, 0.8);
+    /*opacity: .6;*/
+}
+
+.sidebar-background {
+    background-position-x: 53%!important;
+    background-position-y: 10%!important;
+    background-size: auto!important;
+}
+
+
+.sidebar .user .photo-full{
+    box-shadow: none!important;
+}
+
+.sidebar .nav-link p {
+    padding-left: 15px;
+}
+
+.sidebar .user:after {
+    background-color: none;
+}
+
 

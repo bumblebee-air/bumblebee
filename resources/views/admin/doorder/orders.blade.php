@@ -34,16 +34,32 @@
                                     <img class="page_icon" src="{{asset('images/doorder_icons/orders_table_white.png')}}">
                                 </div>
                                 <h4 class="card-title ">Orders Table</h4>
-{{--                                <div class=" status float-right">--}}
-{{--                                    <div class="row">--}}
-{{--                                        <div class="col-sm-2">--}}
-{{--                                            <img class="status_icon" src="{{asset('images/doorder_icons/Tick-Grey.png')}}" alt="pending">--}}
-{{--                                            <p class="status_text">--}}
-{{--                                                pending order fulfilment--}}
-{{--                                            </p>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
+                                <div class="status">
+                                    <div class="status_item">
+                                        <img class="status_icon" src="{{asset('images/doorder_icons/order_status_pending.png')}}" alt="pending">
+                                        pending order fulfilment
+                                    </div>
+                                    <div class="status_item">
+                                        <img class="status_icon" src="{{asset('images/doorder_icons/order_status_ready.png')}}" alt="ready">
+                                        Ready to collect
+                                    </div>
+                                    <div class="status_item">
+                                        <img class="status_icon" src="{{asset('images/doorder_icons/order_status_matched.png')}}" alt="matched">
+                                        Matched
+                                    </div>
+                                    <div class="status_item">
+                                        <img class="status_icon" src="{{asset('images/doorder_icons/order_status_picked_up.png')}}" alt="picked up">
+                                        Picked up
+                                    </div>
+                                    <div class="status_item">
+                                        <img class="status_icon" src="{{asset('images/doorder_icons/order_status_on_route.png')}}" alt="on route">
+                                        On-route
+                                    </div>
+                                    <div class="status_item">
+                                        <img class="status_icon" src="{{asset('images/doorder_icons/order_status_delivered.png')}}" alt="delivered">
+                                        Delivered
+                                    </div>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="float-right">
@@ -63,28 +79,56 @@
                                         </thead>
 
                                         <tbody>
-                                        {{--                                        @if(count($clients))--}}
-                                        {{--                                            @foreach($clients as $client)--}}
-                                        {{--                                                <tr>--}}
-                                        {{--                                                    <td>--}}
-                                        {{--                                                        {{$client->name}}--}}
-                                        {{--                                                    </td>--}}
-                                        {{--                                                    <td>{{ !empty($client->user) ? $client->user->name : '' }}</td>--}}
-                                        {{--                                                    <td>{{ !empty($client->user) ? $client->user->email : '' }}</td>--}}
-                                        {{--                                                    <td>--}}
-                                        {{--                                                        <a class="btn btn-sm btn btn-info" href="{{ url('client/edit/'.$client->id) }}">Edit</a>--}}
-                                        {{--                                                        <a class="btn btn-sm btn btn-danger" deleteLink="{{ url('client/delete/'.$client->id) }}" href="#" onclick="confirmDelete(this)">Delete</a>--}}
-                                        {{--                                                    </td>--}}
-
-                                        {{--                                                </tr>--}}
-                                        {{--                                            @endforeach--}}
-                                        {{--                                        @else--}}
-                                        <tr>
-                                            <td colspan="8" class="text-center">
-                                                <strong>No data found.</strong>
-                                            </td>
-                                        </tr>
-                                        {{--                                        @endif--}}
+                                            @if(count($orders))
+                                                @foreach($orders as $order)
+                                                    <tr>
+                                                        <td>
+                                                            {{$order->created_at->format('h:i')}}
+                                                        </td>
+                                                        <td>#{{$order->order_id}}</td>
+                                                        <td>{{$order->retailer_name}}</td>
+                                                        <td>
+                                                            <img class="order_status_icon" src="{{asset('images/doorder_icons/order_status_'. $order->status .'.png')}}" alt="">
+                                                        </td>
+                                                        <td>
+                                                            @php
+                                                                $order_status = '';
+                                                                if ($order->status == 'pending') {
+                                                                    $order_status = 0;
+                                                                } elseif ($order->status == 'ready') {
+                                                                    $order_status = 20;
+                                                                } elseif ($order->status == 'matched') {
+                                                                    $order_status = 40;
+                                                                } elseif ($order->status == 'picked_up') {
+                                                                    $order_status = 60;
+                                                                } elseif ($order->status == 'on_route') {
+                                                                    $order_status = 80;
+                                                                } else {
+                                                                    $order_status = 100;
+                                                                }
+                                                            @endphp
+                                                            <div class="progress">
+                                                                <div class="progress-bar" role="progressbar" style="width: {{$order_status}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            {{$order->driver}}
+                                                        </td>
+                                                        <td>
+                                                            {{$order->pickup_address}}
+                                                        </td>
+                                                        <td>
+                                                            {{$order->customer_address}}
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @else
+                                                <tr>
+                                                    <td colspan="8" class="text-center">
+                                                        <strong>No data found.</strong>
+                                                    </td>
+                                                </tr>
+                                            @endif
                                         </tbody>
                                     </table>
                                     <nav aria-label="pagination" class="float-right">

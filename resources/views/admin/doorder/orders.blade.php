@@ -112,7 +112,7 @@
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            {{$order->driver}}
+                                                            {{$order->driver ? $order->driver : 'N/A'}}
                                                         </td>
                                                         <td>
                                                             {{$order->pickup_address}}

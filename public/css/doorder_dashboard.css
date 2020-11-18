@@ -142,4 +142,123 @@ td {
     background-color: none;
 }
 
+.form-head span {
+    width: 23px;
+    height: 23px;
+    background-color: #f7dc69;
+    text-align: center;
+    color: #ffffff;
+    border-top-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    margin-right: 10px;
+    font-size: 12px;
+    padding-top: 5px;
+    font-weight: bold;
+}
+
+.form-head {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.19;
+    letter-spacing: 0.8px;
+    color: #4d4d4d;
+    padding-left: 0px;
+
+}
+
+.form-control,.form-control:invalid, .is-focused .form-control  {
+    background-image: none;
+    box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
+}
+
+.is-focused {
+    box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
+}
+.form-group label {
+    margin-left: 15px;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.77px;
+    color: #4d4d4d;
+}
+
+.form-group input {
+    padding-left: 14px;
+}
+
+/*.form-group select {*/
+/*    margin-top: 32px;*/
+/*    height: 36px!important;*/
+/*    font-size: 14px;*/
+/*    letter-spacing: 0.77px;*/
+/*    color: #000000;*/
+/*    background-image: none!important;*/
+/*    padding-left: 14px;*/
+/*}*/
+
+.bootstrap-select .btn.dropdown-toggle.select-with-transition {
+    background-image: none;
+}
+
+.form-group .bootstrap-select {
+    background-image: none;
+}
+
+.filter-option-inner {
+    font-size: 14px;
+    letter-spacing: 0.77px;
+    color: #000000;
+    text-transform: capitalize;
+}
+.filter-option {
+    padding-top: 5px!important;
+    padding-left: 14px!important;
+}
+
+.card-body {
+    padding-top: 40px!important;
+}
+
+.card-body .container {
+    padding-bottom: 40px;
+}
+
+.radio-container {
+    padding-left: 20px;
+}
+
+.radio-container label {
+    padding-right: 20px;
+}
+
+.form-check .form-check-input:checked~.circle {
+    border: solid 1px #e8ca49;
+}
+.radio-container .form-check .circle .check {
+    background-color: #e8ca49;
+}
+
+.bt-submit {
+    width: 347px;
+    height: 50px;
+    border-radius: 22px 0 22px 0;
+    box-shadow: 0 12px 36px -12px rgba(76, 151, 161, 0.35);
+    background-color: #e8ca49;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 0.99px;
+    color: #ffffff;
+}
+
+.bootstrap-select .dropdown-item.active{
+    background: #e8ca49;
+}
+
+.bootstrap-select .dropdown-item:hover {
+    background: #e8ca49;
+    color: #ffffff
+}
 

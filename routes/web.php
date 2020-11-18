@@ -208,5 +208,7 @@ Route::group(['prefix' => '{client_name}'], function () {
     Route::group(['middleware' => "auth:doorder"],function () {
         Route::get('dashboard', 'doorder\DashobardController@index')->name('doorder_dashboard');
         Route::get('orders', 'doorder\OrdersController@getOrdersTable')->name('doorder_ordersTable');
+        Route::get('orders/add', 'doorder\OrdersController@addNewOrder')->name('doorder_addNewOrder');
+        Route::post('orders/save', 'doorder\OrdersController@saveNewOrder')->name('doorder_saveNewOrder');
     });
 });

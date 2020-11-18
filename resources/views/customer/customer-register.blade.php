@@ -177,7 +177,7 @@
         });
 
     function initMap() {
-        
+
         map = new google.maps.Map(document.getElementById('map'), {
             zoom: 12,
             center: {lat: 51.5117884, lng: -0.1429935}
@@ -245,7 +245,7 @@
                         travelMode : 'DRIVING'
                     };
                 }
-                
+
             }
             // If the place has a geometry, then present it on a map.
             if (place.geometry.viewport) {

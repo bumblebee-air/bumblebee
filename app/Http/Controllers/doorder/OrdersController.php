@@ -18,7 +18,6 @@ class OrdersController extends Controller
         return view('admin.doorder.add_order');
     }
     public function saveNewOrder(Request $request) {
-//        dd($request->all());
         $this->validate($request, [
             'first_name' => 'required|string',
             'last_name' => 'required|string',
@@ -49,6 +48,7 @@ class OrdersController extends Controller
             'fragile' => $request->fragile,
             'retailer_name' => auth()->user()->name,
         ]);
+        alert()->success( 'Your order saved successfully');
         return redirect()->back();
     }
 }

@@ -110,6 +110,7 @@
 {{--                                                    <input id="pick_address" name="pickup_address" type="text" class="form-control" value="{{old('pickup_address')}}" required>--}}
                                                     <select id="pick_address" name="pickup_address" data-style="select-with-transition" class="form-control selectpicker">
                                                         <option value="88 - 95 Grafton Street Dublin , Dublin Ireland">88 - 95 Grafton Street Dublin , Dublin Ireland </option>
+                                                        <option value="88 - 95 Grafton Street Dublin , Dublin Ireland">12 Brook Lawn, Lehenagh More, Cork, Ireland</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -234,6 +235,7 @@
         function initMap() {
             var input = document.getElementById('customer_address');
             var autocomplete = new google.maps.places.Autocomplete(input);
+            autocomplete.setComponentRestrictions({'country': ['ie','gb']});
             autocomplete.addListener('place_changed', function () {
                 var place = autocomplete.getPlace();
                 console.log(place);

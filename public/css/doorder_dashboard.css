@@ -126,7 +126,7 @@ td {
 .sidebar-background {
     background-position-x: 53%!important;
     background-position-y: 10%!important;
-    background-size: auto!important;
+    /*background-size: auto!important;*/
 }
 
 

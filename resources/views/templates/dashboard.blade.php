@@ -15,6 +15,8 @@
     <link href="{{asset('css/fontawesome/all.css')}}" rel="stylesheet">
     <link href="{{asset('css/main.css')}}" rel="stylesheet">
     <link href="{{asset('css/material-dashboard.min.css')}}" rel="stylesheet">
+    <!--Sweet Alert-->
+    <script src="https://unpkg.com/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
     @if(Auth::user()->user_role == 'client' && Auth::user()->client && Auth::user()->client->name == 'GardenHelp')
         <link href="{{asset('css/gardenhelp_dashboard.css')}}" rel="stylesheet">
     @endif
@@ -36,6 +38,8 @@
 </head>
 
 <body>
+
+@include('sweet::alert')
 
 <!-- Navigation -->
 

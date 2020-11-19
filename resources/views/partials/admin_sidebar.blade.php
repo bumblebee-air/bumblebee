@@ -1,11 +1,9 @@
-<div class="sidebar"
-     data-color="rose" data-background-color="black"
->
+<div class="sidebar" data-color="rose" data-background-color="black">
     <!--
       Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
       Tip 2: you can also add an image using data-image tag
     -->
-    @if($user_type == 'client' && $admin_nav_logo!=null)
+    @if(($user_type == 'client' || $user_type == 'retailer') && $admin_nav_logo!=null)
         <div class="user" style="z-index: 3">
             <div class="photo photo-full text-center">
                 <img src="{{asset($admin_nav_logo)}}" title="{{$admin_client_name}}"
@@ -21,14 +19,14 @@
     @else
     <div class="logo">
         <a href="{{url('/')}}" class="simple-text logo-mini">
-            @if($user_type == 'client')
+            @if($user_type == 'client' || $user_type == 'retailer')
                 {{$admin_client_name[0]}}
             @else
                 BB
             @endif
         </a>
         <a href="{{url('/')}}" class="simple-text logo-normal">
-            @if($user_type == 'client')
+            @if($user_type == 'client' || $user_type == 'retailer')
                 {{$admin_client_name}}
             @else
                 Bumblebee
@@ -398,29 +396,62 @@
                 </li>
             </ul>
         @elseif(Auth::guard('doorder')->check())
-            <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link d-flex" href="{{url('/')}}">
-{{--                        <i class="fas fa-chart-bar"></i>--}}
-                        <img class="my-nav-icon" src="{{asset('images/doorder_icons/dashboard.png')}}" alt="">
-                        <p> Dashboard </p>
-                    </a>
-                </li>
+            @if(auth()->user()->user_role == 'client')
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link d-flex" href="{{url('/')}}">
+                            {{--                        <i class="fas fa-chart-bar"></i>--}}
+                            <img class="my-nav-icon" src="{{asset('images/doorder_icons/dashboard.png')}}" alt="">
+                            <p> Dashboard </p>
+                        </a>
+                    </li>
 
-                <li class="nav-item">
-                    <a class="nav-link d-flex" href="{{route('doorder_ordersTable', 'doorder')}}">
-{{--                        <i class="fas fa-chart-bar"></i>--}}
-                        <img class="my-nav-icon" src="{{asset('images/doorder_icons/orders_table_white.png')}}" alt="">
-                        <p> Order Table </p>
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="{{url('logout')}}">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <p>Logout</p>
-                    </a>
-                </li>
-            </ul>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex" href="{{route('doorder_ordersTable', 'doorder')}}">
+                            {{--                        <i class="fas fa-chart-bar"></i>--}}
+                            <img class="my-nav-icon" src="{{asset('images/doorder_icons/orders_table_white.png')}}" alt="">
+                            <p> Order Table </p>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="{{url('logout')}}">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <p>Logout</p>
+                        </a>
+                    </li>
+                </ul>
+            @elseif(auth()->user()->user_role == 'retailer')
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('doorder_addNewOrder', 'doorder')}}">
+                            <i class="fas fa-plus-circle"></i>
+{{--                            <img class="my-nav-icon" src="{{asset('images/doorder_icons/dashboard.png')}}" alt="">--}}
+                            <p> Add New Order </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex">
+                            {{--                        <i class="fas fa-chart-bar"></i>--}}
+                            <img class="my-nav-icon" src="{{asset('images/doorder_icons/dashboard.png')}}" alt="">
+                            <p> Dashboard </p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link d-flex">
+                            {{--                        <i class="fas fa-chart-bar"></i>--}}
+                            <img class="my-nav-icon" src="{{asset('images/doorder_icons/orders_table_white.png')}}" alt="">
+                            <p> Order Table </p>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="{{url('logout')}}">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <p>Logout</p>
+                        </a>
+                    </li>
+                </ul>
+            @endif
         @endif
     </div>
     @if($admin_nav_background_image!=null)

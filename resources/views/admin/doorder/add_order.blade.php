@@ -21,6 +21,7 @@
         }
     </style>
 @endsection
+@section('title','DoOrder | Add New Order')
 @section('page-content')
     <div class="content">
         <div class="container-fluid">
@@ -200,7 +201,7 @@
 @endsection
 
 @section('page-scripts')
-    <script src="http://bumblebee.host/js/bootstrap-selectpicker.js"></script>
+    <script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
     <script>
         // var input = document.getElementById('customer_address');
         // var autocomplete = '';

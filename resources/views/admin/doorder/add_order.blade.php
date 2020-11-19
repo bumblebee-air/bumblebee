@@ -33,7 +33,7 @@
                                 <div class="card-header card-header-icon card-header-rose">
                                     <div class="card-icon">
                                         {{--                                    <i class="material-icons">home_work</i>--}}
-                                        <img class="page_icon" src="{{asset('images/doorder_icons/orders_table_white.png')}}">
+                                        <img class="page_icon" src="{{asset('images/doorder_icons/add-plus-outline.png')}}">
                                     </div>
                                     <h4 class="card-title ">New Order</h4>
                                 </div>

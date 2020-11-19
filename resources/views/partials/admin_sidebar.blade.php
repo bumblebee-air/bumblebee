@@ -414,8 +414,9 @@
                         </a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="{{url('logout')}}">
-                            <i class="fas fa-sign-out-alt"></i>
+                        <a class="nav-link d-flex" href="{{url('logout')}}">
+{{--                            <i class="fas fa-sign-out-alt"></i>--}}
+                            <img class="my-nav-icon" src="{{asset('images/doorder_icons/logout-outline.png')}}" alt="">
                             <p>Logout</p>
                         </a>
                     </li>
@@ -423,9 +424,9 @@
             @elseif(auth()->user()->user_role == 'retailer')
                 <ul class="nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('doorder_addNewOrder', 'doorder')}}">
-                            <i class="fas fa-plus-circle"></i>
-{{--                            <img class="my-nav-icon" src="{{asset('images/doorder_icons/dashboard.png')}}" alt="">--}}
+                        <a class="nav-link d-flex" href="{{route('doorder_addNewOrder', 'doorder')}}">
+{{--                            <i class="fas fa-plus-circle"></i>--}}
+                            <img class="my-nav-icon" src="{{asset('images/doorder_icons/add-plus-outline.png')}}" alt="">
                             <p> Add New Order </p>
                         </a>
                     </li>
@@ -445,8 +446,9 @@
                         </a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="{{url('logout')}}">
-                            <i class="fas fa-sign-out-alt"></i>
+                        <a class="nav-link d-flex" href="{{url('logout')}}">
+{{--                            <i class="fas fa-sign-out-alt"></i>--}}
+                            <img class="my-nav-icon" src="{{asset('images/doorder_icons/logout-outline.png')}}" alt="">
                             <p>Logout</p>
                         </a>
                     </li>

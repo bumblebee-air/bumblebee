@@ -110,7 +110,7 @@
 {{--                                                    <input id="pick_address" name="pickup_address" type="text" class="form-control" value="{{old('pickup_address')}}" required>--}}
                                                     <select id="pick_address" name="pickup_address" data-style="select-with-transition" class="form-control selectpicker">
                                                         <option value="88 - 95 Grafton Street Dublin , Dublin Ireland">88 - 95 Grafton Street Dublin , Dublin Ireland </option>
-                                                        <option value="88 - 95 Grafton Street Dublin , Dublin Ireland">12 Brook Lawn, Lehenagh More, Cork, Ireland</option>
+                                                        <option value="12 Brook Lawn, Lehenagh More, Cork, Ireland">12 Brook Lawn, Lehenagh More, Cork, Ireland</option>
                                                     </select>
                                                 </div>
                                             </div>

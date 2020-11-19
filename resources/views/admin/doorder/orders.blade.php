@@ -21,6 +21,8 @@
         }
     </style>
 @endsection
+
+@section('title', 'DoOrder | Orders')
 @section('page-content')
     <div class="content">
         <div class="container-fluid">

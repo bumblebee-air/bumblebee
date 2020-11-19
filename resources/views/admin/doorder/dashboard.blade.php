@@ -1,5 +1,7 @@
 @extends('templates.dashboard')
 
+@section('title', 'DoOrder | Dashboard')
+
 @section('page-styles')
 @endsection
 @section('page-content')

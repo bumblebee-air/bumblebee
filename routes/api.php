@@ -38,3 +38,10 @@ Route::post('general-enquiry', 'EnquiryController@saveGeneralEnquiry');
 
 Route::post('order', 'OrdersController@receiveOrder');
 Route::post('fulfill-order', 'OrdersController@fulfillOrder');
+
+Route::post('driver-login','doorder\DriversController@driversLogin');
+Route::group(['middleware' => "auth:api"],function () {
+    Route::get('orders-list','doorder\DriversController@ordersList');
+    Route::post('driver-status-update','doorder\DriversController@updateOrderDriverStatus');
+    Route::post('order-details','doorder\DriversController@orderDetails');
+});

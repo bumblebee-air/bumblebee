@@ -2,9 +2,8 @@
 
 namespace App\Providers;
 
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
-use App\Keyword;
-use App\Observers\KeywordObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Keyword::observe(KeywordObserver::class);
+        Paginator::useBootstrapThree();
     }
 
     /**

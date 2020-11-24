@@ -7,6 +7,7 @@ use App\Order;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class DriversController extends Controller
 {
@@ -21,8 +22,11 @@ class DriversController extends Controller
             ];
             return response()->json($response)->setStatusCode(422);
         }
+
         $the_user = User::where('phone','=',$phone)->first();
         if(!$the_user){
+//            throw new BadRequestException('test');
+
             $response = [
                 'access_token' => '',
                 'message' => 'No user was found with this phone number',
@@ -44,6 +48,7 @@ class DriversController extends Controller
             'access_token' => $access_token->accessToken,
             'token_type' => 'Bearer ',
             'user_name' => $the_user->name,
+            'is_profile_completed' => $the_user->is_profile_completed,
             'message' => 'Login successful',
             'error' => 0
         ];

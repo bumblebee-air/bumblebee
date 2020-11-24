@@ -7,6 +7,7 @@ use App\Order;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Redis;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class DriversController extends Controller
@@ -94,6 +95,14 @@ class DriversController extends Controller
                 $order->status = 'delivered';
             }
             $order->save();
+            Redis::publish('doorder-channel', json_encode([
+                'event' => 'update-order-status',
+                'data' => [
+                    'id' => $order->id,
+                    'status' => $order->status,
+                    'driver' => $order->orderDriver ? $order->orderDriver->name : null,
+                ]
+            ]));
             $response = [
                 'message' => 'Th order\'s status has been updated successfully',
                 'error' => 0
@@ -108,7 +117,7 @@ class DriversController extends Controller
                     ];
                     return response()->json($response)->setStatusCode(403);
                 }
-                $order->status = 'assigned';
+                $order->status = 'matched';
                 $order->driver = $driver_id;
                 $order->driver_status = $status;
             }elseif($status=='rejected'){
@@ -119,10 +128,19 @@ class DriversController extends Controller
                     ];
                     return response()->json($response)->setStatusCode(403);
                 }
-                $order->status = 'fulfilled';
+                $order->status = 'pending';
                 $order->driver = null;
                 $order->driver_status = null;
             }
+            $order->save();
+            Redis::publish('doorder-channel', json_encode([
+                'event' => 'update-order-status',
+                'data' => [
+                    'id' => $order->id,
+                    'status' => $order->status,
+                    'driver' => $order->orderDriver ? $order->orderDriver->name : null,
+                ]
+            ]));
             $response = [
                 'message' => 'Th order\'s status has been updated successfully',
                 'error' => 0

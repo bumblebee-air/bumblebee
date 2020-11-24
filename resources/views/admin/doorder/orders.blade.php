@@ -19,6 +19,19 @@
         .swal2-popup .swal2-styled:focus {
             box-shadow: none !important;
         }
+
+        .container-fluid {
+            padding-left: 0px;
+            padding-right: 0px;
+        }
+
+        th {
+            font-size: 15px!important;
+        }
+
+        td {
+            font-size: 12px;
+        }
     </style>
 @endsection
 
@@ -81,56 +94,91 @@
                                         </thead>
 
                                         <tbody>
-                                            @if(count($orders))
-                                                @foreach($orders as $order)
-                                                    <tr>
-                                                        <td>
-                                                            {{$order->created_at->format('h:i')}}
-                                                        </td>
-                                                        <td>#{{$order->order_id}}</td>
-                                                        <td>{{$order->retailer_name}}</td>
-                                                        <td>
-                                                            <img class="order_status_icon" src="{{asset('images/doorder_icons/order_status_'. $order->status .'.png')}}" alt="">
-                                                        </td>
-                                                        <td>
-                                                            @php
-                                                                $order_status = '';
-                                                                if ($order->status == 'pending') {
-                                                                    $order_status = 0;
-                                                                } elseif ($order->status == 'ready') {
-                                                                    $order_status = 20;
-                                                                } elseif ($order->status == 'matched') {
-                                                                    $order_status = 40;
-                                                                } elseif ($order->status == 'picked_up') {
-                                                                    $order_status = 60;
-                                                                } elseif ($order->status == 'on_route') {
-                                                                    $order_status = 80;
-                                                                } else {
-                                                                    $order_status = 100;
-                                                                }
-                                                            @endphp
-                                                            <div class="progress">
-                                                                <div class="progress-bar" role="progressbar" style="width: {{$order_status}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            {{$order->driver ? $order->driver : 'N/A'}}
-                                                        </td>
-                                                        <td>
-                                                            {{$order->pickup_address}}
-                                                        </td>
-                                                        <td>
-                                                            {{$order->customer_address}}
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            @else
-                                                <tr>
-                                                    <td colspan="8" class="text-center">
-                                                        <strong>No data found.</strong>
-                                                    </td>
-                                                </tr>
-                                            @endif
+{{--                                            @if(count($orders))--}}
+{{--                                                @foreach($orders as $order)--}}
+{{--                                                    <tr>--}}
+{{--                                                        <td>--}}
+{{--                                                            {{$order->created_at->format('h:i')}}--}}
+{{--                                                        </td>--}}
+{{--                                                        <td>#{{$order->order_id}}</td>--}}
+{{--                                                        <td>{{$order->retailer_name}}</td>--}}
+{{--                                                        <td>--}}
+{{--                                                            <img class="order_status_icon" src="{{asset('images/doorder_icons/order_status_'. $order->status .'.png')}}" alt="">--}}
+{{--                                                        </td>--}}
+{{--                                                        <td>--}}
+{{--                                                            @php--}}
+{{--                                                                $order_status = '';--}}
+{{--                                                                if ($order->status == 'pending') {--}}
+{{--                                                                    $order_status = 0;--}}
+{{--                                                                } elseif ($order->status == 'ready') {--}}
+{{--                                                                    $order_status = 20;--}}
+{{--                                                                } elseif ($order->status == 'matched') {--}}
+{{--                                                                    $order_status = 40;--}}
+{{--                                                                } elseif ($order->status == 'picked_up') {--}}
+{{--                                                                    $order_status = 60;--}}
+{{--                                                                } elseif ($order->status == 'on_route') {--}}
+{{--                                                                    $order_status = 80;--}}
+{{--                                                                } else {--}}
+{{--                                                                    $order_status = 100;--}}
+{{--                                                                }--}}
+{{--                                                            @endphp--}}
+{{--                                                            <div class="progress">--}}
+{{--                                                                <div class="progress-bar" role="progressbar" style="width: {{$order_status}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>--}}
+{{--                                                            </div>--}}
+{{--                                                        </td>--}}
+{{--                                                        <td>--}}
+{{--                                                            {{$order->driver ? $order->driver : 'N/A'}}--}}
+{{--                                                        </td>--}}
+{{--                                                        <td>--}}
+{{--                                                            {{$order->pickup_address}}--}}
+{{--                                                        </td>--}}
+{{--                                                        <td>--}}
+{{--                                                            {{$order->customer_address}}--}}
+{{--                                                        </td>--}}
+{{--                                                    </tr>--}}
+{{--                                                @endforeach--}}
+{{--                                            @else--}}
+{{--                                                <tr>--}}
+{{--                                                    <td colspan="8" class="text-center">--}}
+{{--                                                        <strong>No data found.</strong>--}}
+{{--                                                    </td>--}}
+{{--                                                </tr>--}}
+{{--                                            @endif--}}
+                                            <tr v-for="order in orders.data" v-if="orders.data.length > 0">
+                                                <td>
+                                                    @{{ order.time }}
+                                                </td>
+                                                <td>#@{{order.order_id}}</td>
+                                                <td>@{{order.retailer_name}}</td>
+                                                <td>
+                                                    <img class="order_status_icon" :src="'{{asset('/')}}images/doorder_icons/order_status_' + order.status + '.png'" alt="">
+                                                </td>
+                                                <td>
+                                                    <div class="progress">
+                                                        <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" v-if="order.status == 'pending'"></div>
+                                                        <div class="progress-bar" role="progressbar" style="width: 20%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" v-if="order.status == 'ready'"></div>
+                                                        <div class="progress-bar" role="progressbar" style="width: 40%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" v-if="order.status == 'matched'"></div>
+                                                        <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" v-if="order.status == 'picked_up'"></div>
+                                                        <div class="progress-bar" role="progressbar" style="width: 80%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" v-if="order.status == 'on_route'"></div>
+                                                        <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" v-if="order.status == 'delivered'"></div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    @{{ order.driver != null ? order.driver : 'N/A' }}
+                                                </td>
+                                                <td>
+                                                    @{{ order.pickup_address }}
+                                                </td>
+                                                <td>
+                                                    @{{order.customer_address}}
+                                                </td>
+                                            </tr>
+
+                                            <tr v-else>
+                                                <td colspan="8" class="text-center">
+                                                    <strong>No data found.</strong>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                     <nav aria-label="pagination" class="float-right">
@@ -148,4 +196,34 @@
 @endsection
 
 @section('page-scripts')
+    <script>
+        Vue.use(VueToast);
+        var app = new Vue({
+            el: '#app',
+            data: {
+                orders: JSON.parse('{!! json_encode($orders) !!}')
+            },
+            mounted() {
+                socket.on('doorder-channel:new-order', (data) => {
+                    let decodedData = JSON.parse(data)
+                    this.orders.data.unshift(decodedData.data);
+                });
+
+                socket.on('doorder-channel:update-order-status', (data) => {
+                    let decodedData = JSON.parse(data);
+                    console.log(decodedData);
+                    // this.orders.data.filter(x => x.id === decodedData.data.id).map(x => x.foo);
+                    let orderIndex = this.orders.data.map(function(x) {return x.id; }).indexOf(decodedData.data.id)
+                    if (orderIndex != -1) {
+                        this.orders.data[orderIndex].status = decodedData.data.status;
+                        this.orders.data[orderIndex].driver = decodedData.data.driver;
+                        updateAudio.play();
+                    }
+                });
+            },
+            methods: {
+
+            }
+        });
+    </script>
 @endsection

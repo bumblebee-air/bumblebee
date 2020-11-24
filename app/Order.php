@@ -24,4 +24,8 @@ class Order extends Model
         'fragile',
         'retailer_name'
     ];
+
+    public function orderDriver() {
+        return $this->belongsTo(User::class, 'driver');
+    }
 }

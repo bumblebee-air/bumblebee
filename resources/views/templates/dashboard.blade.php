@@ -45,7 +45,7 @@
 
 
 <!-- Page Content -->
-<div class="wrapper">
+<div class="wrapper" id="app">
     @include('partials.flash')
     @include('partials.admin_sidebar')
     <div class="main-panel">
@@ -62,6 +62,56 @@
 <script src="{{asset('js/moment.min.js')}}"></script>
 <script src="{{asset('js/moment-timezone.min.js')}}"></script>
 <!--<script src="{{asset('js/ct-material/material-dashboard.min.js')}}"></script>-->
+
+{{--Socket & Vue server --}}
+<script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
+<audio id="alert-audio" src="{{asset('audio/update.mp3')}}"></audio>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/vue-toast-notification/dist/theme-sugar.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue-toast-notification"></script>
+
+<script>
+    let updateAudio = new Audio('{{asset("audio/update.mp3")}}');
+    let notificationAudio = new Audio('{{asset("audio/notification.mp3")}}');
+    let socket = io.connect('http://localhost:8890');
+    Vue.use(VueToast);
+
+    socket.on('doorder-channel:new-order', (data) => {
+        let decodedData = JSON.parse(data);
+        Vue.$toast.info('There is a new order.', {
+            // optional options Object
+            position: 'top-right',
+            duration: 3600000,
+
+            onClick: () => this.onClickToast(decodedData)
+        });
+        notificationAudio.play();
+    });
+    function onClickToast(decodedData) {
+        swal({
+            // title: "Good job!",
+            text: "There is a new order! with order No# " + decodedData.data.order_id,
+            icon: "info",
+            buttons: {
+                accept: {
+                    text: "View order",
+                    value: "view",
+                    className: 'btn btn-primary'
+                },
+                reject: {
+                    text: "Close",
+                    value: "cancel",
+                    className: 'btn btn-default'
+                }
+            }
+        }).then(function (input) {
+            if (input === 'view') {
+                console.log('View Page');
+            }
+        });
+    }
+</script>
+
 @yield('page-scripts')
 </body>
 </html>

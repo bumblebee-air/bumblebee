@@ -90,6 +90,7 @@ th {
     color: #656565;
     text-align: center;
     word-wrap: normal;
+    white-space: nowrap;
 }
 
 td {
@@ -98,6 +99,7 @@ td {
     min-width: 100px;
     font-size: 14px;
     color: #656565;
+    line-height: 1.07;
 }
 
 .order_status_icon {

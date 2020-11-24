@@ -73,7 +73,7 @@
 <script>
     let updateAudio = new Audio('{{asset("audio/update.mp3")}}');
     let notificationAudio = new Audio('{{asset("audio/notification.mp3")}}');
-    let socket = io.connect('http://localhost:8890');
+    let socket = io.connect(window.location.protocol+'//' + window.location.hostname + ':8890');
     Vue.use(VueToast);
 
     socket.on('doorder-channel:new-order', (data) => {

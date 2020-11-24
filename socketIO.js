@@ -1,6 +1,19 @@
 var app = require('express')();
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
+
+var https = require('https');
+var fs = require('fs');
+var options = {
+    key: fs.readFileSync('/etc/ssl/private/admin.doorder.eu.key'),
+    cert: fs.readFileSync('/etc/ssl/certs/admin_doorder_eu.crt')
+};
+
+var server = https.createServer(options, app);
+
+var io = require('socket.io')(server, {
+    cors: {
+        origin: '*',
+    }
+});
 var redis = require('redis');
 
 server.listen(8890);

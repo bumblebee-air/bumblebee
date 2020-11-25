@@ -150,7 +150,7 @@ class DriversController extends Controller
     }
 
     public function orderDetails(Request $request){
-        $order_id = $request->get('oder_id');
+        $order_id = $request->get('order_id');
         $order = Order::find($order_id);
         if(!$order){
             $response = [

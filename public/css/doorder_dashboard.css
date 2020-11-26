@@ -264,3 +264,10 @@ td {
     color: #ffffff
 }
 
+.pagination>.page-item.active>a, .pagination>.page-item.active>a:focus, .pagination>.page-item.active>a:hover, .pagination>.page-item.active>span, .pagination>.page-item.active>span:focus, .pagination>.page-item.active>span:hover {
+    background-color: #f7dc69;
+    font-weight: bold;
+}
+.pagination>.page-item>.page-link, .pagination>.page-item>span {
+    border-radius: 6px!important;
+}

@@ -187,6 +187,9 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="d-flex justify-content-center">
+                            {{$orders->links()}}
+                        </div>
                     </div>
                 </div>
             </div>

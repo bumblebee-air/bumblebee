@@ -30,7 +30,6 @@ class OrdersController extends Controller
             'customer_address' => 'required',
             'customer_lat' => 'required',
             'customer_lon' => 'required',
-            'eircode' => 'required',
             'pickup_address' => 'required',
             'fulfilment' => 'required',
             'deliver_by' => 'required',
@@ -38,7 +37,7 @@ class OrdersController extends Controller
         ]);
 
         $order = Order::create([
-            'customer_name' => "$request->first $request->last_name",
+            'customer_name' => "$request->first_name $request->last_name",
             'order_id' => random_int(000001, 999999),
             'customer_email' => $request->email,
             'customer_phone' => $request->customer_phone,

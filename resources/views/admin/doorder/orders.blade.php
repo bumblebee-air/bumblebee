@@ -201,7 +201,7 @@
         var app = new Vue({
             el: '#app',
             data: {
-                orders: JSON.parse('{!! json_encode($orders) !!}')
+                orders: {!! json_encode($orders) !!}
             },
             mounted() {
                 socket.on('doorder-channel:new-order', (data) => {

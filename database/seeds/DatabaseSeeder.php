@@ -65,7 +65,8 @@ class DatabaseSeeder extends Seeder
                 'dimensions' => $faker->numberBetween(1, 1000) . 'x' . $faker->numberBetween(1, 1000),
                 'weight' => $faker->numberBetween(1, 1000),
                 'description' => $faker->text(150),
-                'deliver_by' => DB::table('users')->first()->id
+                'deliver_by' => DB::table('users')->first()->id,
+                'fragile' => $faker->numberBetween(1, 20) . ' kG / Fragile'
             ]);
         }
     }

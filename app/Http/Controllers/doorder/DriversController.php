@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\doorder;
 
 use App\Helpers\SecurityHelper;
+use App\KPITimestamp;
 use App\Order;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redis;
@@ -80,6 +82,15 @@ class DriversController extends Controller
             ];
             return response()->json($response)->setStatusCode(403);
         }
+        $timestamps = KPITimestamp::where('model','=','order')
+            ->where('model_id','=',$order->id)->first();
+        if(!$timestamps){
+            $timestamps = new KPITimestamp();
+            $timestamps->model = 'order';
+            $timestamps->model_id = $order->id;
+        }
+        $current_timestamp = Carbon::now();
+        $current_timestamp = $current_timestamp->toDateTimeString();
         $current_driver = \Auth::user();
         $driver_id = $current_driver->id;
         if($status!='accepted' && $status!='rejected'){
@@ -93,12 +104,16 @@ class DriversController extends Controller
             $order->driver_status = $status;
             if($status=='delivered'){
                 $order->status = $status;
+                $timestamps->completed = $current_timestamp;
             } else if ($status=='on_route_pickup') {
                 $order->status = $status;
+                $timestamps->on_the_way_first = $current_timestamp;
             } else if ($status=='picked_up') {
                 $order->status = $status;
+                $timestamps->arrived_first = $current_timestamp;
             } else if ($status=='on_route') {
                 $order->status = $status;
+                $timestamps->on_the_way_second = $current_timestamp;
             }
             $order->save();
             Redis::publish('doorder-channel', json_encode([
@@ -126,6 +141,10 @@ class DriversController extends Controller
                 $order->status = 'matched';
                 $order->driver = $driver_id;
                 $order->driver_status = $status;
+                $timestamps->accepted = $current_timestamp;
+                if($timestamps->assigned == null){
+                    $timestamps->assigned = $current_timestamp;
+                }
             }elseif($status=='rejected'){
                 if($order->driver != (string)$driver_id){
                     $response = [
@@ -139,6 +158,7 @@ class DriversController extends Controller
                 $order->driver_status = null;
             }
             $order->save();
+            $timestamps->save();
             Redis::publish('doorder-channel', json_encode([
                 'event' => 'update-order-status',
                 'data' => [

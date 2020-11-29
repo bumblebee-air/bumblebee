@@ -92,7 +92,13 @@ class DriversController extends Controller
             }
             $order->driver_status = $status;
             if($status=='delivered'){
-                $order->status = 'delivered';
+                $order->status = $status;
+            } else if ($status=='on_route_pickup') {
+                $order->status = $status;
+            } else if ($status=='picked_up') {
+                $order->status = $status;
+            } else if ($status=='on_route') {
+                $order->status = $status;
             }
             $order->save();
             Redis::publish('doorder-channel', json_encode([
@@ -128,7 +134,7 @@ class DriversController extends Controller
                     ];
                     return response()->json($response)->setStatusCode(403);
                 }
-                $order->status = 'pending';
+                $order->status = 'ready';
                 $order->driver = null;
                 $order->driver_status = null;
             }

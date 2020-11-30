@@ -9,8 +9,7 @@ use Illuminate\Support\Facades\Redis;
 
 class OrdersController extends Controller
 {
-    public function getOrdersTable()
-    {
+    public function getOrdersTable() {
         $orders = Order::paginate(20);
         foreach ($orders as $order) {
             $order->time = $order->created_at->format('h:i');
@@ -69,5 +68,20 @@ class OrdersController extends Controller
         ]));
         alert()->success( 'Your order saved successfully');
         return redirect()->back();
+    }
+
+    public function getSingleOrder($client_name, $id) {
+        $order = Order::find($id);
+        if(!$order){
+            alert()->error( 'No order was found!');
+            return redirect()->back();
+        }
+        //dd($order);
+        $customer_name = explode(' ',$order->customer_name);
+        $first_name = $customer_name[0];
+        $last_name = isset($customer_name[1])? $customer_name[1] : '';
+        $order->first_name = $first_name;
+        $order->last_name = $last_name;
+        return view('admin.doorder.single_order', ['order' => $order]);
     }
 }

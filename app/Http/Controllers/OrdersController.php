@@ -47,15 +47,15 @@ class OrdersController extends Controller
             $notes = $request->get('notes');
             $retailer_name = $request->get('retailer_name');
             $pickup_address = $request->get('pickup_address');
-            //$pickup_lat = $request->get();
-            //$pickup_lon = $request->get();
+            $pickup_lat = $request->get('pickup_lat');
+            $pickup_lon = $request->get('pickup_lon');
             $customer_name = $request->get('customer_name');
             $customer_phone = $request->get('customer_phone');
             $customer_email = $request->get('customer_email');
             $customer_address = $request->get('customer_address');
-            //$customer_address_lat = $request->get();
-            //$customer_address_lon = $request->get();
-            $status = 'awaiting_fulfillment';
+            $customer_address_lat = $request->get('customer_address_lat');
+            $customer_address_lon = $request->get('customer_address_lon');
+            $status = 'pending';
 
             $order = new Order();
             $order->order_id = $order_id;
@@ -65,10 +65,15 @@ class OrdersController extends Controller
             $order->notes = $notes;
             $order->retailer_name = $retailer_name;
             $order->pickup_address = $pickup_address;
+            $order->pickup_lat = $pickup_lat;
+            $order->pickup_lon = $pickup_lon;
             $order->customer_name = $customer_name;
             $order->customer_phone = $customer_phone;
             $order->customer_email = $customer_email;
             $order->customer_address = $customer_address;
+            $order->customer_address_lat = $customer_address_lat;
+            $order->customer_address_lon = $customer_address_lon;
+            $order->status = $status;
             $order->save();
         } catch (\Exception $exception){
             $response = [
@@ -92,7 +97,7 @@ class OrdersController extends Controller
             ];
             return response()->json($response)->setStatusCode(500);
         }
-        $order->status = 'fulfilled';
+        $order->status = 'ready';
         $order->save();
         $response = [
             'message' => 'Order\'s status updated to fulfilled successfully'

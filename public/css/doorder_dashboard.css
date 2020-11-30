@@ -141,7 +141,7 @@ td {
 }
 
 .sidebar .user:after {
-    background-color: none;
+    background-color: transparent;
 }
 
 .form-head span {
@@ -165,7 +165,6 @@ td {
     letter-spacing: 0.8px;
     color: #4d4d4d;
     padding-left: 0px;
-
 }
 
 .form-control,.form-control:invalid, .is-focused .form-control  {

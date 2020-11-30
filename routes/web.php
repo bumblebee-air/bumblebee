@@ -217,3 +217,8 @@ Route::group(['prefix' => '{client_name}'], function () {
         });
     });
 });
+
+//Driver App
+Route::get('driver_app', function () {
+    return view('templates/driver_app');
+});

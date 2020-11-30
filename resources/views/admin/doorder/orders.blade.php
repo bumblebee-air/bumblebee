@@ -32,6 +32,12 @@
         td {
             font-size: 12px;
         }
+
+        tr.order-row:hover,
+        tr.order-row:focus {
+            cursor: pointer;
+            box-shadow: 5px 5px 18px #88888836, 5px -5px 18px #88888836;
+        }
     </style>
 @endsection
 
@@ -144,7 +150,7 @@
 {{--                                                    </td>--}}
 {{--                                                </tr>--}}
 {{--                                            @endif--}}
-                                            <tr v-for="order in orders.data" v-if="orders.data.length > 0">
+                                            <tr v-for="order in orders.data" v-if="orders.data.length > 0" @click="openOrder(order.id)" class="order-row">
                                                 <td>
                                                     @{{ order.time }}
                                                 </td>
@@ -225,7 +231,9 @@
                 });
             },
             methods: {
-
+                openOrder(order_id){
+                    window.location.href = "{{url('doorder/single-order')}}/"+order_id;
+                }
             }
         });
     </script>

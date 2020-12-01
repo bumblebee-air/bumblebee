@@ -74,6 +74,7 @@ class OrdersController extends Controller
             $order->customer_address_lat = $customer_address_lat;
             $order->customer_address_lon = $customer_address_lon;
             $order->status = $status;
+            $order->ericode = '12345';
             $order->save();
         } catch (\Exception $exception){
             $response = [

@@ -31,7 +31,7 @@
         <div class="container-fluid">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-12" id="details-container">
+                    <div class="col-12 col-sm-6" id="details-container">
                         <div class="card">
                             <div class="card-header card-header-icon card-header-rose">
                                 <div class="card-icon">
@@ -116,6 +116,8 @@
                                                         <option value="88 - 95 Grafton Street Dublin , Dublin Ireland">88 - 95 Grafton Street Dublin , Dublin Ireland </option>
                                                         <option value="12 Brook Lawn, Lehenagh More, Cork, Ireland">12 Brook Lawn, Lehenagh More, Cork, Ireland</option>
                                                     </select>-->
+                                                    <input type="hidden" name="pickup_lat" id="pickup_lat" value="{{$order->pickup_lat}}">
+                                                    <input type="hidden" name="pickup_lon" id="pickup_lon" value="{{$order->pickup_lon}}">
                                                 </div>
                                             </div>
                                             <div class="col-12">
@@ -190,6 +192,9 @@
                             </div>
                         </div>-->
                     </div>
+                    <div class="col-12 col-sm-6" id="map-container">
+                        <div id="map" style="width:100%; height: 100%; min-height: 400px; margin-top:0;border-radius:6px;"></div>
+                    </div>
                 </div>
             </div>
 
@@ -230,12 +235,23 @@
         //
         //     }
         // }
+        let map;
+        let customer_marker;
+        let customer_latlng = null;
+        let pickup_marker;
+        let pickup_latlng = null;
+
         function initMap() {
-            var input = document.getElementById('customer_address');
-            var autocomplete = new google.maps.places.Autocomplete(input);
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 12,
+                center: {lat: 53.346324, lng: -6.258668}
+            });
+
+            let customer_address = document.getElementById('customer_address');
+            let autocomplete = new google.maps.places.Autocomplete(customer_address);
             autocomplete.setComponentRestrictions({'country': ['ie','gb']});
             autocomplete.addListener('place_changed', function () {
-                var place = autocomplete.getPlace();
+                let place = autocomplete.getPlace();
                 console.log(place);
                 if (!place.geometry) {
                     // User entered the name of a Place that was not suggested and
@@ -259,6 +275,35 @@
 
                 }
             });
+
+            customer_marker = new google.maps.Marker({
+                map: map,
+                label: 'D',
+                anchorPoint: new google.maps.Point(0, -29)
+            });
+            customer_marker.setVisible(false);
+            let customer_address_lat = $("#customer_lat").val();
+            let customer_address_lon = $("#customer_lon").val();
+            if(customer_address_lat!=null && customer_address_lat!='' &&
+                customer_address_lon!=null && customer_address_lon!=''){
+                customer_marker.setPosition({lat: parseFloat(customer_address_lat),lng: parseFloat(customer_address_lon)});
+                customer_marker.setVisible(true);
+            }
+
+            pickup_marker = new google.maps.Marker({
+                map: map,
+                label: 'P',
+                anchorPoint: new google.maps.Point(0, -29)
+            });
+            pickup_marker.setVisible(false);
+            let pickup_address_lat = $("#pickup_lat").val();
+            let pickup_address_lon = $("#pickup_lon").val();
+            console.log(pickup_address_lat,pickup_address_lon);
+            if(pickup_address_lat!=null && pickup_address_lat!='' &&
+                pickup_address_lon!=null && pickup_address_lon!=''){
+                pickup_marker.setPosition({lat: parseFloat(pickup_address_lat),lng: parseFloat(pickup_address_lon)});
+                pickup_marker.setVisible(true);
+            }
         }
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=geometry,places&callback=initMap"></script>

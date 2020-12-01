@@ -87,7 +87,7 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label for="eircode" class="control-label">Eircode:</label>
-                                                    <input id="eircode" type="text" class="form-control" value="{{old('eircode')}}" name="eircode">
+                                                    <input id="eircode" type="text" class="form-control" value="{{old('eircode')}}" name="eircode" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -109,10 +109,13 @@
                                                 <div class="form-group">
                                                     <label for="pick_address" class="control-label">Pickup Address</label>
 {{--                                                    <input id="pick_address" name="pickup_address" type="text" class="form-control" value="{{old('pickup_address')}}" required>--}}
-                                                    <select id="pick_address" name="pickup_address" data-style="select-with-transition" class="form-control selectpicker">
+                                                    <select id="pick_address" name="pickup_address" data-style="select-with-transition" class="form-control selectpicker" required>
+                                                        <option value="">Select pickup address</option>
                                                         <option value="88 - 95 Grafton Street Dublin , Dublin Ireland">88 - 95 Grafton Street Dublin , Dublin Ireland </option>
                                                         <option value="12 Brook Lawn, Lehenagh More, Cork, Ireland">12 Brook Lawn, Lehenagh More, Cork, Ireland</option>
                                                     </select>
+                                                    <input type="hidden" name="pickup_lat" id="pickup_lat">
+                                                    <input type="hidden" name="pickup_lon" id="pickup_lon">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
@@ -263,6 +266,24 @@
                 }
             });
         }
+
+        $(document).ready(function(){
+            $('#pick_address').on('change',function(){
+                let picked_address = $(this).val();
+                let pickup_lat_field = $('#pickup_lat');
+                let pickup_lon_field = $('#pickup_lon');
+                if(picked_address=='88 - 95 Grafton Street Dublin , Dublin Ireland'){
+                    pickup_lat_field.val('53.3423674');
+                    pickup_lon_field.val('-6.2599023');
+                }else if(picked_address=='12 Brook Lawn, Lehenagh More, Cork, Ireland'){
+                    pickup_lat_field.val('51.8656047');
+                    pickup_lon_field.val('-8.4916848');
+                }else{
+                    pickup_lat_field.val('');
+                    pickup_lon_field.val('');
+                }
+            });
+        });
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=geometry,places&callback=initMap"></script>
 @endsection

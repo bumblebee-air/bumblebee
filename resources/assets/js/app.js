@@ -2,6 +2,9 @@ import VueRouter from 'vue-router';
 import VueToast from 'vue-toast-notification';
 import * as VueGoogleMaps from 'vue2-google-maps'
 import router from './routes';
+import Vue2TouchEvents from 'vue2-touch-events'
+import VueDraggableResizable from 'vue-draggable-resizable'
+import 'vue-draggable-resizable/dist/VueDraggableResizable.css'
 
 
 /**
@@ -46,8 +49,14 @@ Vue.use(VueRouter);
 //Vue Toast
 Vue.use(VueToast);
 
-//
+//Vue Moment js
 Vue.use(require('vue-moment'));
+
+//Vue touch event
+Vue.use(Vue2TouchEvents);
+
+//Vue Resizable
+Vue.component('vue-draggable-resizable', VueDraggableResizable);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

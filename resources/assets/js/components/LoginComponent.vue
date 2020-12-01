@@ -58,6 +58,9 @@
                 isLoading: false
             }
         },
+        mounted() {
+
+        },
         methods: {
             login(e) {
                 e.preventDefault();

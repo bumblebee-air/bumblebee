@@ -26,7 +26,8 @@
         "symfony/config": "^5.1",
         "therobfonz/laravel-mandrill-driver": "^2.0",
         "twilio/sdk": "^6.13.0",
-        "uxweb/sweet-alert": "^2.0"
+        "uxweb/sweet-alert": "^2.0",
+        "lcobucci/jwt": "3.3.3"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

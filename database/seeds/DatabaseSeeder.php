@@ -14,19 +14,36 @@ class DatabaseSeeder extends Seeder
 
         $faker = Faker\Factory::create();
 
-        // Users
-        DB::table('users')->delete();
-        \App\User::create([
-            'name' => 'test user',
-            'email' => 'test@example.com',
-            'phone' => '+123456789',
-            'password' => bcrypt('test123'),
-            'user_role' => 'admin',
-            'is_profile_completed' => true,
-        ]);
+        // Users completed
+        // DB::table('users')->delete();
+        if(! \App\User::find(['email' => 'test@example.com'])) {
+            \App\User::create([
+                'name' => 'test user',
+                'email' => 'test@example.com',
+                'phone' => '+123456789',
+                'password' => bcrypt('test123'),
+                'user_role' => 'admin',
+                'is_profile_completed' => true,
+            ]);
+        }
+
+        // Users not completed
+        // DB::table('users')->delete();
+
+        if(! \App\User::find(['email' => 'test2@example.com'])) {
+            \App\User::create([
+                'name' => 'test user 2',
+                'email' => 'test2@example.com',
+                'phone' => '+987654321',
+                'password' => bcrypt('test123'),
+                'user_role' => 'customer',
+                'is_profile_completed' => false,
+            ]);
+        }
+
 
         // Profiles
-        DB::table('profiles')->delete();
+        // DB::table('profiles')->delete();
         \App\Profile::create([
             'user_id' => DB::table('users')->first()->id,
             'vehicle_reg' => $faker->text(5),
@@ -45,7 +62,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Orders
-        DB::table('orders')->delete();
+        // DB::table('orders')->delete();
         for ($i=0; $i<15; $i++){
             \App\Order::create([
                 'order_id' => $faker->uuid,
@@ -66,7 +83,7 @@ class DatabaseSeeder extends Seeder
                 'weight' => $faker->numberBetween(1, 1000),
                 'description' => $faker->text(150),
                 'deliver_by' => DB::table('users')->first()->id,
-                'fragile' => $faker->numberBetween(1, 20) . ' kG / Fragile'
+                'fragile' => $faker->boolean
             ]);
         }
     }

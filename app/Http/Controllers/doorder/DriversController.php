@@ -186,7 +186,14 @@ class DriversController extends Controller
             ];
             return response()->json($response)->setStatusCode(403);
         }
+
+        $createdAt = $order->created_at ;
+        $now = date("Y-m-d H:i:s");
+        $plus24H = date("Y-m-d H:i:s", strtotime('+24 hours', strtotime($createdAt)));
+        $order['remainHours'] = (int)((strtotime($plus24H) - strtotime($now) ) / (60*60));
+
         $order = json_decode(json_encode($order),true);
+
         $response = [
             'order' => $order,
             'message' => 'Order retrieved successfully',

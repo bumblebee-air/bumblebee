@@ -24,6 +24,7 @@
         "laravel-echo": "^1.9.0",
         "redis": "^3.0.2",
         "socket.io": "^3.0.3",
+        "vue-confirm-dialog": "^1.0.2",
         "vue-draggable-resizable": "^2.2.0",
         "vue-moment": "^4.1.0",
         "vue-router": "^3.4.9",

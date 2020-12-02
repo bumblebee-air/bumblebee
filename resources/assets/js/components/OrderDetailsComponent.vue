@@ -1,186 +1,163 @@
 <template>
-    <div ref="myel">
-<!--        <div v-if="order_data != '' && order_data.status != 'delivered'">-->
-            <nav class="navbar navbar-light bg-light d-flex justify-content-center">
-                <a class="navbar-brand d-flex justify-content-center order-status my-auto" href="#">
-                    <i class="fas fa-circle"></i>
-                    Online
-                </a>
-                <i class="fas fa-arrow-left back-btn" @click="$router.go(-1)"></i>
-            </nav>
-            <div>
-                <GmapMap
-                        ref="gmap"
-                        :center="map_center"
-                        :zoom="7"
-                        map-type-id="roadmap"
-                        style="width: 100%; height: 600px;"
-                        :options = "{
-                       zoomControl: false,
-                       mapTypeControl: false,
-                       scaleControl: false,
-                       streetViewControl: false,
-                       rotateControl: false,
-                       fullscreenControl: true,
-                       disableDefaultUi: false,
-                       gestureHandling: 'cooperative',
-                    }"
-                >
-                    <GmapMarker
-                            v-for="(marker, index) in markers"
-                            v-if="markers[index].position != ''"
-                            :key="index"
-                            :position="markers[index].position"
-                            :clickable="true"
-                            :draggable="false"
-                            :icon="{
-                                url: markers[index].icon,
-                                scaledSize: { height: 29, width: 25 },
-                            }"
-                            @click="toggleInfoWindow(markers[index],index)"
-                    />
+    <div style="height: 100%; overflow-y: hidden;">
+        <loading-component></loading-component>
+        <nav class="navbar navbar-light bg-light d-flex justify-content-center">
+            <a class="navbar-brand d-flex justify-content-center order-status my-auto" href="#">
+                <div v-for="(status, index) in order_status" v-if="order_data.status == status.status">
+                    <i class="fas fa-circle" :style="'color:' + status.color "></i>
+                    {{status.text}}
+                </div>
+            </a>
+            <i class="fas fa-arrow-left back-btn" @click="$router.go(-1)"></i>
+        </nav>
+        <div style="height: 100%">
+            <GmapMap
+                    ref="gmap"
+                    :center="map_center"
+                    :zoom="7"
+                    map-type-id="roadmap"
+                    style="width: 100%; height: 70%;"
+                    :options = "{
+                   zoomControl: false,
+                   mapTypeControl: false,
+                   scaleControl: false,
+                   streetViewControl: false,
+                   rotateControl: false,
+                   fullscreenControl: true,
+                   disableDefaultUi: false,
+                   gestureHandling: 'cooperative',
+                }"
+            >
+                <GmapMarker
+                        v-for="(marker, index) in markers"
+                        v-if="markers[index].position != ''"
+                        :key="index"
+                        :position="markers[index].position"
+                        :clickable="true"
+                        :draggable="false"
+                        :icon="{
+                            url: markers[index].icon,
+                            scaledSize: { height: 29, width: 25 },
+                        }"
+                        @click="toggleInfoWindow(markers[index],index)"
+                />
 
-                    <gmap-info-window
-                            :options="infoOptions"
-                            :position="infoWindowPos"
-                            :opened="infoWinOpen"
-                            @closeclick="infoWinOpen=false"
-                    >
-                        <div v-html="infoContent"></div>
-                    </gmap-info-window>
-                </GmapMap>
-            </div>
-            <div class="order-card-container">
-                <div class="order-details-cart" id="expanded-card" :style="'height: '+minHeight+'em'" v-touch:start="touchStartHandler" v-touch:moving="movingHandler" v-touch:end="movedHandler">
-                    <div class="row">
-                        <div class="col-12 d-flex justify-content-center">
-                            <div class="card-drag"></div>
-                        </div>
-                        <div class="col-12 order-details-container">
-                            <div class="row">
-                                <div class="col-10">
-                                    <p class="delivery-info">
-                                        Delivery Information
-                                    </p>
-                                    <p class="order-number">
-                                        PKG5678902341
-                                    </p>
-                                </div>
-                                <div class="col-2 d-flex justify-content-end align-items-center">
-                                    <div class="time-distance">
-                                        <div class="d-flex delivery-time-container justify-content-center">
-                                            <img class="delivery-time" src="images/doorder_driver_assets/delivery-time.png" alt="delivery time">
-                                            07
-                                        </div>
-                                        <div class="delivery-distance">
-                                            5 Mile Away
-                                        </div>
+                <gmap-info-window
+                        :options="infoOptions"
+                        :position="infoWindowPos"
+                        :opened="infoWinOpen"
+                        @closeclick="infoWinOpen=false"
+                >
+                    <div v-html="infoContent"></div>
+                </gmap-info-window>
+            </GmapMap>
+        </div>
+        <div class="order-card-container">
+            <div class="order-details-cart" id="expanded-card" :style="'height: '+minHeight+'em'" v-touch:start="touchStartHandler" v-touch:moving="movingHandler" v-touch:end="movedHandler">
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-center">
+                        <div class="card-drag"></div>
+                    </div>
+                    <div class="col-12 order-details-container">
+                        <div class="row">
+                            <div class="col-10">
+                                <p class="delivery-info">
+                                    Delivery Information
+                                </p>
+                                <p class="order-number">
+                                    {{this.order_data.order_number}}
+                                </p>
+                            </div>
+                            <div class="col-2 d-flex justify-content-end align-items-center">
+                                <div class="time-distance">
+                                    <div class="d-flex delivery-time-container justify-content-center">
+                                        <img class="delivery-time" src="images/doorder_driver_assets/delivery-time.png" alt="delivery time">
+                                        {{durationTime}}
+                                    </div>
+                                    <div class="delivery-distance">
+                                        {{distance}} KM Away
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-2">
-                                    <img src="images/doorder_driver_assets/pickup-address-pin.png" class="pickup-icon" alt="pickup-icon">
-                                </div>
-                                <div class="col-10 order-address-row">
-                                    <p class="order-address-title">
-                                        Pickup Address
-                                    </p>
-                                    <p class="order-address-value">
-                                        Brown Thomas Cork 18-21 Patrick Street
-                                        , Cork Ireland
-                                    </p>
-                                </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2">
+                                <img src="images/doorder_driver_assets/pickup-address-pin.png" class="pickup-icon" alt="pickup-icon">
                             </div>
-
-                            <div class="row" v-if="order_data.status != 'ready'">
-                                <div class="col-2">
-                                    <img src="images/doorder_driver_assets/pickup-address-pin.png" class="pickup-icon" alt="pickup-icon">
-                                </div>
-                                <div class="col-10 order-address-row">
-                                    <p class="order-address-title">
-                                        Delivery Address
-                                    </p>
-                                    <p class="order-address-value">
-                                        Brown Thomas Cork 18-21 Patrick Street
-                                        , Cork Ireland
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-2">
-                                    <img src="images/doorder_driver_assets/time.png" class="package-details-icon" alt="pickup-icon">
-                                </div>
-                                <div class="col-10 order-address-row">
-                                    <p class="order-address-title">
-                                        Estimated Arrival Time to Delivery Address
-                                    </p>
-                                    <p class="order-address-value">
-                                        0 mins
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-2">
-                                    <img src="images/doorder_driver_assets/package-details.png" class="package-details-icon" alt="pickup-icon">
-                                </div>
-                                <div class="col-8 order-address-row">
-                                    <p class="order-address-title">
-                                        Package details
-                                    </p>
-                                    <p class="order-address-value">
-                                        3 kG / Fragile
-                                    </p>
-                                </div>
-                                <div>
-                                    <img src="images/doorder_driver_assets/whatsapp.png" class="whatsapp-icon" alt="whatsapp">
-                                </div>
+                            <div class="col-10 order-address-row">
+                                <p class="order-address-title">
+                                    Pickup Address
+                                </p>
+                                <p class="order-address-value">
+                                    {{order_data.pickup_address}}
+                                </p>
                             </div>
                         </div>
-                    </div>
-                    <div class="order-details-cart-actions">
-                        <div class="row justify-content-around accept-reject-container" v-if="order_data.status == 'ready'">
-                            <img src="images/doorder_driver_assets/accept.png" width="40" alt="accept" @click="updateOrderStatus('accepted')" >
-                            <img src="images/doorder_driver_assets/reject.png" width="40" alt="reject" @click="updateOrderStatus('rejected')">
+
+                        <div class="row" v-if="order_data.status != 'ready'">
+                            <div class="col-2">
+                                <img src="images/doorder_driver_assets/pickup-address-pin.png" class="pickup-icon" alt="pickup-icon">
+                            </div>
+                            <div class="col-10 order-address-row">
+                                <p class="order-address-title">
+                                    Delivery Address
+                                </p>
+                                <p class="order-address-value">
+                                    {{order_data.customer_address}}
+                                </p>
+                            </div>
                         </div>
-                        <div class="order-details-button-container" v-else>
-                            <button v-for="(status, index) in order_status" v-if="order_data.status == status.status" :class="'btn order-details-button ' + order_status[index + 1].status " @click="updateOrderStatus(order_status[index + 1].status)">
-                                {{ order_status[index + 1].text}}
-                            </button>
+
+                        <div class="row">
+                            <div class="col-2">
+                                <img src="images/doorder_driver_assets/time.png" class="package-details-icon" alt="pickup-icon">
+                            </div>
+                            <div class="col-10 order-address-row">
+                                <p class="order-address-title">
+                                    Estimated Arrival Time to Delivery Address
+                                </p>
+                                <p class="order-address-value">
+                                    {{duration}}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-2">
+                                <img src="images/doorder_driver_assets/package-details.png" class="package-details-icon" alt="pickup-icon">
+                            </div>
+                            <div class="col-8 order-address-row">
+                                <p class="order-address-title">
+                                    Package details
+                                </p>
+                                <p class="order-address-value">
+                                    {{order_data.weight > 0 ? order_data.weight : 0}} kG / {{!order_data.fragile ? 'Not' : ''}} Fragile
+                                </p>
+                            </div>
+                            <div>
+                                <img src="images/doorder_driver_assets/whatsapp.png" class="whatsapp-icon" alt="whatsapp">
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="order-details-cart-actions">
+                    <div class="row justify-content-around accept-reject-container" v-if="order_data.status == 'ready'">
+                        <img src="images/doorder_driver_assets/accept.png" width="40" alt="accept" @click="openConfirmationDialog('accepted')" >
+                        <img src="images/doorder_driver_assets/reject.png" width="40" alt="reject" @click="openConfirmationDialog('rejected')">
+                    </div>
+                    <div class="order-details-button-container" v-else>
+                        <button v-for="(status, index) in order_status" v-if="order_data.status == status.status" :class="'btn order-details-button ' + order_status[index + 1].status " @click="openConfirmationDialog(order_status[index + 1].status)">
+                            {{ order_status[index + 1].text}}
+                        </button>
+                    </div>
+                </div>
             </div>
-<!--        </div>-->
-<!--        <div v-if="order_data && order_data.status == 'delivered'">-->
-<!--            <div class="wrapper">-->
-<!--                <div class="row mx-auto my-auto">-->
-<!--                    <div class="col-md-12">-->
-<!--                        <div class="row">-->
-<!--                            <div class="col-md-12 delivered-title-container">-->
-<!--                                Order #PKG5678902341-->
-<!--                                Delivered Successfully!-->
-<!--                            </div>-->
-<!--                            <div class="col-md-12 delivered-image-container">-->
-<!--                                <img src="images/doorder_driver_assets/delivered-successfully.png" alt="delivered successfully">-->
-<!--                            </div>-->
-<!--                            <div class="col-md-12 delivered-button-container">-->
-<!--                                <button class="btn order-details-button">-->
-<!--                                    Back To My Order List-->
-<!--                                </button>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
+        </div>
     </div>
 </template>
 
 <script>
-    import {gmapApi} from 'vue2-google-maps'
+    import {gmapApi} from 'vue2-google-maps';
 
     export default {
         computed: {
@@ -211,27 +188,33 @@
                 order_status: [
                     {
                         status: 'ready',
-                        text: 'On the Way to Pickup Address',
+                        text: 'Online',
+                        color: '#60a244'
                     },
                     {
                         status: 'matched',
-                        text: 'Arrived to Pickup Address'
+                        text: 'Online',
+                        color: '#60a244'
                     },
                     {
                         status: 'on_route_pickup',
-                        text: 'On the Way to Pickup Address'
+                        text: 'On the Way to Pickup Address',
+                        color: '#e8ca49'
                     },
                     {
                         status: 'picked_up',
-                        text: 'Arrived to Pickup Address'
+                        text: 'Arrived to Pickup Address',
+                        color: '#5590f5'
                     },
                     {
                         status: 'on_route',
-                        text: 'On the Way to Delivery Address'
+                        text: 'On the Way to Delivery Address',
+                        color: '#ef9065'
                     },
                     {
                         status: 'delivered',
-                        text: 'Delivered'
+                        text: 'Delivered',
+                        color: '#60a244'
                     }
                 ],
                 infoContent: '',
@@ -250,12 +233,13 @@
                 },
                 latestDirection: '',
                 maxHeight: '25',
-                minHeight: '16'
+                minHeight: '16',
+                distance: '0',
+                duration: '0',
+                durationTime: '0'
             }
         },
         mounted() {
-            // this.mapFitBound()
-            this.getCurrentLocation();
             this.getOrderData();
         },
         methods: {
@@ -277,20 +261,33 @@
             },
             fetchOrderDataResponse(res) {
                 this.order_data = res.data.order;
-                this.markers.pickup_location.position = {
-                    lat: parseFloat(this.order_data.pickup_lat),
-                    lng: parseFloat(this.order_data.pickup_lon)
-                };
-                this.setCardMaxHeight()
-                this.mapFitBound();
+                if (this.order_data.status == 'delivered') {
+                    this.navigateToOrderDelivered();
+                } else {
+                    this.markers.pickup_location.position = {
+                        lat: parseFloat(this.order_data.pickup_lat),
+                        lng: parseFloat(this.order_data.pickup_lon)
+                    };
+                    if (this.order_data.status != 'ready') {
+                        this.markers.customer_location.position = {
+                            lat: parseFloat(this.order_data.customer_address_lat),
+                            lng: parseFloat(this.order_data.customer_address_lon)
+                        };
+                    }
+                    this.getOrderPassedTime(this.order_data.created_at).then(data => {
+                        this.durationTime = data;
+                    });
+                    this.setCardMaxHeight();
+                    this.getCurrentLocation();
+                    $('#loading').fadeOut();
+                }
             },
             fetchOrderDataError(err) {
-                console.log(err)
+                console.log(err);
             },
             getCurrentLocation() {
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(this.showCurrentPosition);
-                    this.mapFitBound();
                 } else {
                     alert("Geolocation is not supported by this browser.");
                 }
@@ -300,6 +297,12 @@
                     lat: position.coords.latitude,
                     lng: position.coords.longitude,
                 };
+                this.getDrivingDistance(position.coords.latitude, position.coords.longitude, this.order_data.pickup_lat, this.order_data.pickup_lon)
+                    .then(data => {
+                        this.distance = data.distance;
+                        this.duration = data.duration;
+                    });
+                this.mapFitBound();
             },
             touchStartHandler(e) {
                 this.currentTouchStartY = e.changedTouches[0].clientY;
@@ -330,7 +333,6 @@
                 }
             },
             updateOrderStatus(orderStatus) {
-                console.log(orderStatus);
                 let user = JSON.parse(localStorage.getItem('user'));
                 axios.post(process.env.MIX_API_URL + 'driver-status-update',{
                         order_id: this.$route.params.id,
@@ -347,7 +349,7 @@
             },
             fetchUpdateStatusResponse(res, orderStatus) {
                 if (orderStatus == 'delivered') {
-                    alert('done');
+                    this.navigateToOrderDelivered();
                 } else if (orderStatus == 'accepted') {
                     this.order_data.status = 'matched';
                     this.markers.customer_location.position = {
@@ -392,7 +394,7 @@
                 } else {
                     return ('<p>I\'m Here</p>');
                 }
-                return ('<a href="https://maps.google.com/?ll=' + marker.position.lat + ',' + marker.position.lng +'">' + address +'</p>');
+                return ('<a target="_blank" href="http://www.google.com/maps/place/' + marker.position.lat + ',' + marker.position.lng +'">' + address +'</p>');
             },
             mapFitBound() {
                 this.$refs.gmap.$mapPromise.then((map) => {
@@ -411,6 +413,49 @@
                 } else {
                     this.maxHeight = 25;
                 }
+            },
+            navigateToOrderDelivered() {
+                this.$router.push({
+                    name: 'order-delivered',
+                    params: {
+                        order_id: this.order_data.order_id
+                    }
+                })
+            },
+            openConfirmationDialog(ordersStatus) {
+                let message = '';
+                let status = {
+                    accepted: 'Are you sure you want to accept this Delivery?',
+                    rejected: 'Are you sure you want to reject this Delivery?',
+                };
+                if (ordersStatus == 'accepted' || ordersStatus == 'rejected') {
+                    message = status[ordersStatus];
+                } else {
+                    for (let value of this.order_status) {
+                        if (value.status == ordersStatus) {
+                            message = 'You will change your status to "' + value.text + '"';
+                        }
+                    }
+                }
+                this.$confirm(
+                    {
+                        title: 'Are you sure?',
+                        message: message,
+                        button: {
+                            no: 'No',
+                            yes: 'Yes'
+                        },
+                        /**
+                         * Callback Function
+                         * @param {Boolean} confirm
+                         */
+                        callback: confirm => {
+                            if (confirm) {
+                                this.updateOrderStatus(ordersStatus);
+                            }
+                        }
+                    }
+                )
             }
         }
     }
@@ -426,7 +471,7 @@
     }
 
     .order-status .fas {
-        margin: 5px 18px 4px 0;
+        /*margin: 5px 18px 4px 0;*/
         color: #60a244;
     }
 
@@ -444,9 +489,7 @@
         bottom: 0;
         height: 25em;
         width: 100%;
-        /*z-index: 999;*/
         position: fixed;
-        /*transition: height .3s ease;*/
     }
 
     /*.order-card-container {*/
@@ -556,22 +599,11 @@
     }
 
     .delivered {
-        background-color: #60a244;
+        background-color: #60a244
     }
 
-    .delivered-title-container {
-        font-size: 18px;
-        letter-spacing: 0.99px;
-        text-align: center;
-        color: #4d4d4d;
-    }
-
-    .delivered-image-container {
-
-    }
-
-    .delivered-button-container {
-
+    .ready, .matched {
+        color: #60a244;
     }
 
     .order-details-cart-actions {

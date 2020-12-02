@@ -32,8 +32,15 @@
 //Custom style
 
 html, body, #app {
-  height: 100%;
   font-family: Quicksand;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+body {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
 }
 
 .doorder-btn {
@@ -114,6 +121,32 @@ ul.orders-nav li.nav-item a {
     outline: none;
     box-shadow: none;
     color: white;
+}
+
+.data-empty {
+  margin-left: auto;
+  margin-bottom: auto;
+}
+
+.vc-btn {
+  font-size: 18px!important;
+  line-height: 2.5;
+  letter-spacing: 0.17px;
+  color: #767676!important;
+}
+
+.vc-title {
+  font-size: 18px!important;
+  line-height: 2.5;
+  letter-spacing: 0.17px;
+  color: #555555!important;
+}
+
+.vc-text {
+  font-size: 17px!important;
+  line-height: 1.24;
+  letter-spacing: 0.32px;
+  color: #acb1c0!important;
 }
 
 

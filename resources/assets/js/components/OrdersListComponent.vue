@@ -11,11 +11,18 @@
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="orders-requests" role="tabpanel" aria-labelledby="orders-list-tab">
                 <order-card-component v-for="(order, index) in orders_requests" :key="index" :order_data="order"></order-card-component>
+                <div v-if="orders_requests.length == 0">
+                    <empty-component></empty-component>
+                </div>
             </div>
             <div class="tab-pane fade" id="my-orders" role="tabpanel" aria-labelledby="my-orders-tab">
                 <order-card-component v-for="(order, index) in my_orders" :key="index" :order_data="order"></order-card-component>
+                <div v-if="my_orders.length == 0">
+                    <empty-component></empty-component>
+                </div>
             </div>
         </div>
+        <loading-component></loading-component>
     </div>
 </template>
 
@@ -47,6 +54,7 @@
             fetchOrdersDataResponse(res) {
                 this.orders_requests = res.data.available_orders;
                 this.my_orders = res.data.driver_orders;
+                $('#loading').fadeOut();
             },
             fetchOrdersDataError(err) {
                 console.log(err)

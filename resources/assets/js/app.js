@@ -5,6 +5,8 @@ import router from './routes';
 import Vue2TouchEvents from 'vue2-touch-events'
 import VueDraggableResizable from 'vue-draggable-resizable'
 import 'vue-draggable-resizable/dist/VueDraggableResizable.css'
+import VueMoment from 'vue-moment'
+import VueConfirmDialog from 'vue-confirm-dialog'
 
 
 /**
@@ -21,7 +23,7 @@ window.Vue = require('vue');
 Vue.use(VueGoogleMaps, {
     load: {
         key: 'AIzaSyCeP4XM-6BoHM5qfPNh4dHC39t492y3BjM',
-        libraries: 'places', // This is required if you use the Autocomplete plugin
+        libraries: ['places', 'geometry'], // This is required if you use the Autocomplete plugin
         // OR: libraries: 'places,drawing'
         // OR: libraries: 'places,drawing,visualization'
         // (as you require)
@@ -41,7 +43,7 @@ Vue.use(VueGoogleMaps, {
     //// Vue.component('GmapMarker', GmapMarker)
     //// then disable the following:
     // installComponents: true,
-})
+});
 
 //Vue Router
 Vue.use(VueRouter);
@@ -50,13 +52,38 @@ Vue.use(VueRouter);
 Vue.use(VueToast);
 
 //Vue Moment js
-Vue.use(require('vue-moment'));
+Vue.use(VueMoment);
 
 //Vue touch event
 Vue.use(Vue2TouchEvents);
 
-//Vue Resizable
-Vue.component('vue-draggable-resizable', VueDraggableResizable);
+//VueJS Confirmation Dialog
+Vue.use(VueConfirmDialog)
+Vue.component('vue-confirm-dialog', VueConfirmDialog.default)
+
+Vue.mixin({
+    methods: {
+        getDrivingDistance(lat1, long1, lat2, long2) {
+            return new Promise(resolve => {
+                axios.get("https://maps.googleapis.com/maps/api/distancematrix/json?key=AIzaSyCeP4XM-6BoHM5qfPNh4dHC39t492y3BjM&origins="+ lat1 +","+ long1 +"&destinations="+ lat2 +","+ long2 +"&mode=driving")
+                    .then(res => {
+                        resolve({
+                            distance: res.data.rows[0]['elements'][0].distance.value / 100,
+                            duration: res.data.rows[0]['elements'][0].duration.text
+                        });
+                    })
+            })
+        },
+        getOrderPassedTime(endData) {
+            var now = Vue.moment(new Date()); //today date
+            var end = Vue.moment(endData); // another date
+            var duration = Vue.moment.duration(now.diff(end));
+            return new Promise(resolve => {
+                resolve(24 - duration.asHours().toFixed(0) < 0 ? 0 : 24 - duration.asHours().toFixed(0))
+            })
+        },
+    },
+})
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -67,6 +94,33 @@ Vue.component('vue-draggable-resizable', VueDraggableResizable);
 Vue.component('sidebar-component', require('./components/partials/SidebarComponent'));
 Vue.component('topnav-component', require('./components/partials/TopnavComponent'));
 Vue.component('order-card-component', require('./components/partials/OrderCardComponent'));
+Vue.component('empty-component', require('./components/partials/EmptyDataComponent'));
+Vue.component('loading-component', require('./components/partials/LoadingComponent'));
+
+
+//Geolocation Event
+navigator.permissions.query({name: 'geolocation'}).then(function (permissionStatus) {
+    if (permissionStatus.state != 'granted') {
+        $('#access_location').fadeIn();
+        requestGeolocationAccess();
+    } else {
+        $('#access_location').fadeOut();
+    }
+    permissionStatus.onchange = function () {
+        if (this.state != 'granted') {
+            requestGeolocationAccess();
+            $('#access_location').fadeIn();
+        } else {
+            $('#access_location').fadeOut();
+            location.reload();
+        }
+    };
+});
+
+function requestGeolocationAccess() {
+    navigator.geolocation;
+}
+
 
 const app = new Vue({
     el: '#app',

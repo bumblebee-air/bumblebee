@@ -1,5 +1,5 @@
 <template>
-    <div class="order-cart" @click="navigateToOrderDetails();">
+    <div class="order-cart" @click="navigateToOrderDetails()">
         <div class="row">
             <div class="col-10">
                 <p class="order-address">
@@ -18,10 +18,10 @@
                 <div class="time-distance">
                     <div class="d-flex delivery-time-container justify-content-center">
                         <img class="delivery-time" src="images/doorder_driver_assets/delivery-time.png" alt="delivery time">
-                        07
+                        {{durationTime}} H
                     </div>
                     <div class="delivery-distance">
-                        5 Mile Away
+                        {{distance}} KM Away
                     </div>
                 </div>
             </div>
@@ -30,20 +30,41 @@
 </template>
 
 <script>
+    import {gmapApi} from 'vue2-google-maps';
+
     export default {
+        computed: {
+            google: gmapApi
+        },
         props: ['order_data'],
         data () {
             return {
-
+                durationTime: '',
+                distance: ''
             }
+        },
+        mounted() {
+            this.getOrderPassedTime(this.order_data.created_at).then(data => {
+                this.durationTime = data;
+            });
+            this.getCurrentLocation();
         },
         methods: {
             navigateToOrderDetails() {
                 this.$router.push({name: 'order-details', params: {
                     id: this.order_data.id,
                 }});
+            },
+            getCurrentLocation() {
+                navigator.geolocation.getCurrentPosition(this.setDistance)
+            },
+            setDistance(position) {
+                this.getDrivingDistance(position.coords.latitude, position.coords.longitude, this.order_data.pickup_lat, this.order_data.pickup_lon)
+                    .then(data => {
+                        this.distance = data.distance;
+                    })
             }
-        }
+        },
     }
 </script>
 

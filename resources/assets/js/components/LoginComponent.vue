@@ -46,6 +46,7 @@
                 </div>
             </div>
         </div>
+<!--        <loading-component></loading-component>-->
     </div>
 </template>
 
@@ -58,8 +59,10 @@
                 isLoading: false
             }
         },
-        mounted() {
-
+        created() {
+            // $(document).ready(function () {
+            //     $('#loading').fadeOut();
+            // });
         },
         methods: {
             login(e) {
@@ -91,9 +94,9 @@
             fetchLoginError(err) {
                 console.log(err);
                 this.isLoading = false;
-                // Vue.$toast.error(err.response.data.message, {
-                //     position: 'top'
-                // });
+                Vue.$toast.error(err.response.data.message, {
+                    position: 'top'
+                });
             }
         }
     }

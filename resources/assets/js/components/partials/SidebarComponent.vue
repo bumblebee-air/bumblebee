@@ -29,8 +29,10 @@
                         no: 'Cancel'
                     },
                     callback: confirm => {
-                        localStorage.removeItem('user');
-                        this.$router.push({name: 'login'})
+                        if (confirm) {
+                            localStorage.removeItem('user');
+                            this.$router.push({name: 'login'})
+                        }
                     }
                 })
             }

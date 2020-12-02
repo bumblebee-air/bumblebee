@@ -49,8 +49,8 @@
     <script src="{{asset('js/app.js')}}"></script>
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
 
-    @if(config('app.env') == 'local')
-        <script src="{{env('MIX_LOADER_URL')}}:35729/livereload.js"></script>
-    @endif
+{{--    @if(config('app.env') == 'local')--}}
+{{--        <script src="{{env('MIX_LOADER_URL')}}:35729/livereload.js"></script>--}}
+{{--    @endif--}}
 </body>
 </html>

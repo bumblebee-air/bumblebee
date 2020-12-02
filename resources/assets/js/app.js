@@ -118,7 +118,8 @@ navigator.permissions.query({name: 'geolocation'}).then(function (permissionStat
 });
 
 function requestGeolocationAccess() {
-    navigator.geolocation;
+    navigator.geolocation.getCurrentPosition(position => {});
+    console.log('sss');
 }
 
 

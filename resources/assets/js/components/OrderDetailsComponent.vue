@@ -297,6 +297,7 @@
                     lat: position.coords.latitude,
                     lng: position.coords.longitude,
                 };
+                this.watchUserPosition();
                 this.getDrivingDistance(position.coords.latitude, position.coords.longitude, this.order_data.pickup_lat, this.order_data.pickup_lon)
                     .then(data => {
                         this.distance = data.distance;
@@ -456,6 +457,15 @@
                         }
                     }
                 )
+            },
+            watchUserPosition() {
+                navigator.geolocation.watchPosition(this.updateUserPosition);
+            },
+            updateUserPosition(position) {
+                this.markers.current_location.position = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                };
             }
         }
     }

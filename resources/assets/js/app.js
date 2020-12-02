@@ -101,7 +101,7 @@ Vue.component('loading-component', require('./components/partials/LoadingCompone
 //Geolocation Event
 navigator.permissions.query({name: 'geolocation'}).then(function (permissionStatus) {
     if (permissionStatus.state != 'granted') {
-        $('#access_location').fadeIn();
+        // $('#access_location').fadeIn();
         requestGeolocationAccess();
     } else {
         $('#access_location').fadeOut();

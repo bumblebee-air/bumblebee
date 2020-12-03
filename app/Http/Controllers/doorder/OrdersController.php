@@ -54,6 +54,8 @@ class OrdersController extends Controller
             'fragile' => $request->fragile,
             'retailer_name' => auth()->user()->name,
             'status' => 'ready',
+            'weight' => $request->weight,
+            'dimensions' => $request->dimensions,
         ]);
 
         Redis::publish('doorder-channel', json_encode([

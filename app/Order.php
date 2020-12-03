@@ -23,7 +23,9 @@ class Order extends Model
         'deliver_by',
         'fragile',
         'retailer_name',
-        'status'
+        'status',
+        'weight',
+        'dimensions'
     ];
 
     public function orderDriver() {

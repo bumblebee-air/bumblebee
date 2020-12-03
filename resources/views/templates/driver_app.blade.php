@@ -13,6 +13,7 @@
     <!-- Windows Phone -->
     <meta name="msapplication-navbutton-color" content="#f7dc69">
     <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="#f7dc69">
     <title>DoOrder | Driver App</title>
 

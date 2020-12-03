@@ -131,7 +131,7 @@
                                     Package details
                                 </p>
                                 <p class="order-address-value">
-                                    {{order_data.weight > 0 ? order_data.weight : 0}} kG / {{!order_data.fragile ? 'Not' : ''}} Fragile / {{order_data['dimensions'] > 0 ? order_data['dimensions'] : 'N/A Dimensions'}}
+                                    {{order_data.weight > 0 ? order_data.weight : 0}} kG / {{!order_data.fragile ? 'Not' : ''}} Fragile / {{order_data.dimensions ? order_data.dimensions : 'N/A Dimensions'}}
                                 </p>
                             </div>
                             <div>

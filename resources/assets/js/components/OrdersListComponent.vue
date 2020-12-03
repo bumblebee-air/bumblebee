@@ -53,6 +53,9 @@
         },
         mounted() {
             this.getOrdersData();
+            this.timer = setInterval(() => {
+                this.getOrdersData();
+            }, 5000);
         },
         methods: {
             getOrdersData() {
@@ -69,6 +72,8 @@
                 );
             },
             fetchOrdersDataResponse(res) {
+                this.my_orders = [];
+                this.orders_requests = [];
                 this.orders_requests = res.data.available_orders;
                 this.my_orders = res.data.driver_orders;
                 $('#loading').fadeOut();

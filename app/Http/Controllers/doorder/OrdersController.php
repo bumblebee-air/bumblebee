@@ -107,5 +107,10 @@ class OrdersController extends Controller
             return redirect()->back();
         }
         $order->driver = $driver_id;
+        $order->status = 'assigned';
+        $order->driver_status = 'assigned';
+        $order->save();
+        alert()->success( 'The order has been successfully assigned to '.$driver->name);
+        return redirect()->to('doorder/orderlist');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\doorder;
 
+use App\DriverProfile;
 use App\Helpers\SecurityHelper;
 use App\KPITimestamp;
 use App\Order;
@@ -197,6 +198,33 @@ class DriversController extends Controller
         $response = [
             'order' => $order,
             'message' => 'Order retrieved successfully',
+            'error' => 0
+        ];
+        return response()->json($response)->setStatusCode(200);
+    }
+
+    public function updateDriverLocation(Request $request){
+        $driver_id = $request->get('driver_id');
+        $coordinates = $request->get('coordinates');
+        $driver = User::find($driver_id);
+        if(!$driver){
+            $response = [
+                'message' => 'Invalid driver ID',
+                'error' => 1
+            ];
+            return response()->json($response)->setStatusCode(601);
+        }
+        $driver_profile = DriverProfile::where('user_id','=',$driver_id)->first();
+        if(!$driver_profile){
+            $driver_profile = new DriverProfile();
+            $driver_profile->user_id = $driver_id;
+        }
+        $driver_profile->latest_coordinates = $coordinates;
+        $current_timestamp = Carbon::now();
+        $driver_profile->coordinates_updated_at = $current_timestamp->toDateTimeString();
+        $driver_profile->save();
+        $response = [
+            'message' => 'Driver coordinates updated successfully',
             'error' => 0
         ];
         return response()->json($response)->setStatusCode(200);

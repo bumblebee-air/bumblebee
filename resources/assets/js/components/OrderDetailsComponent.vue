@@ -142,8 +142,8 @@
                 </div>
                 <div class="order-details-cart-actions">
                     <div class="row justify-content-around accept-reject-container" v-if="order_data.status == 'ready'">
-                        <img src="images/doorder_driver_assets/accept.png" width="40" alt="accept" @click="openConfirmationDialog('accepted')" >
-                        <img src="images/doorder_driver_assets/reject.png" width="40" alt="reject" @click="openConfirmationDialog('rejected')">
+                        <img src="images/doorder_driver_assets/accept.png" width="40" height="40" alt="accept" @click="openConfirmationDialog('accepted')" >
+                        <img src="images/doorder_driver_assets/reject.png" width="40" height="40" alt="reject" @click="openConfirmationDialog('rejected')">
                     </div>
                     <div class="order-details-button-container" v-else>
                         <button v-for="(status, index) in order_status" v-if="order_data.status == status.status" :class="'btn order-details-button ' + order_status[index + 1].status " @click="openConfirmationDialog(order_status[index + 1].status)">

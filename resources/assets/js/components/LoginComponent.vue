@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper" style='background-image: url("images/doorder_driver_assets/login-screen.jpg");'>
         <div class="container">
-            <div class="row">
+            <div class="row login-row">
                 <div class="col-lg-4 col-md-6 col-sm-8 mx-auto my-auto">
                     <div class="card card-login">
                         <div class="card-header text-center">
@@ -103,7 +103,7 @@
 </script>
 
 <style>
-    .wrapper, .container, .row {
+    .wrapper, .container, .login-row{
         height: 100%;
     }
 

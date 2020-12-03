@@ -283,26 +283,46 @@
                 }
             },
             fetchOrderDataError(err) {
-                console.log(err);
+                console.log(err.response.status);
             },
             getCurrentLocation() {
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(this.showCurrentPosition);
-                } else {
-                    alert("Geolocation is not supported by this browser.");
-                }
+                this.getGeolocationPosition().then(position => {
+                    this.setDistance(position);
+                    this.showCurrentPosition(position);
+                })
+            },
+            setDistance(position) {
+                console.log('here');
+                var directionsService = new this.google.maps.DirectionsService();
+
+                var request = {
+                    origin : new this.google.maps.LatLng(position.coords.latitude, position.coords.longitude),
+                    destination : new this.google.maps.LatLng(this.order_data.pickup_lat, this.order_data.pickup_lon),
+                    travelMode : this.google.maps.TravelMode.WALKING
+                };
+
+                directionsService.route(request, (response, status) => {
+                    if (status == this.google.maps.DirectionsStatus.OK) {
+                        console.log(response);
+                        this.distance = response.routes[0].legs[0].distance.text;
+                        this.duration = response.routes[0].legs[0].duration.text;
+                    } else {
+                        console.log('Not Ok')
+                    }
+                });
             },
             showCurrentPosition(position) {
                 this.markers.current_location.position = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude,
+                    lat: parseFloat(position.coords.latitude),
+                    lng: parseFloat(position.coords.longitude),
                 };
-                this.watchUserPosition();
-                this.getDrivingDistance(position.coords.latitude, position.coords.longitude, this.order_data.pickup_lat, this.order_data.pickup_lon)
-                    .then(data => {
-                        this.distance = data.distance;
-                        this.duration = data.duration;
-                    });
+                // this.watchUserPosition();
+                // this.getDrivingDistance(position.coords.latitude, position.coords.longitude, this.order_data.pickup_lat, this.order_data.pickup_lon)
+                //     .then(data => {
+                //         this.distance = data.distance;
+                //         this.duration = data.duration;
+                //     });
+                this.setDistance(position);
                 this.mapFitBound();
             },
             touchStartHandler(e) {
@@ -466,7 +486,30 @@
                     lat: position.coords.latitude,
                     lng: position.coords.longitude,
                 };
-            }
+            },
+            // getDistance(lat1, long1, lat2, long2) {
+            //     // let originLanLang = new this.google.maps.LatLng(lat1, long1);
+            //     // let destinationLanLang = new this.google.maps.LatLng(lat2, long2);
+            //     // let distance = this.google.maps.geometry.spherical.computeDistanceBetween(originLanLang, destinationLanLang);
+            //     // console.log(distance)
+            //
+            //     var directionsService = new this.google.maps.DirectionsService();
+            //
+            //     var request = {
+            //         origin : new this.google.maps.LatLng(lat1, long1),
+            //         destination : new this.google.maps.LatLng(lat2, long2),
+            //         travelMode : this.google.maps.TravelMode.WALKING
+            //     };
+            //
+            //     directionsService.route(request, function(response, status) {
+            //         if (status == this.google.maps.DirectionsStatus.OK) {
+            //             console.log(response)
+            //             // ... and triggers listener for 'directions_changed'
+            //         } else {
+            //             console.log('Not Ok')
+            //         }
+            //     });
+            // }
         }
     }
 </script>

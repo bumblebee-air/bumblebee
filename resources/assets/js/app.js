@@ -6,7 +6,9 @@ import Vue2TouchEvents from 'vue2-touch-events'
 import VueDraggableResizable from 'vue-draggable-resizable'
 import 'vue-draggable-resizable/dist/VueDraggableResizable.css'
 import VueMoment from 'vue-moment'
-import VueConfirmDialog from 'vue-confirm-dialog'
+import VueConfirmDialog from 'vue-confirm-dialog';
+
+import {gmapApi} from 'vue2-google-maps';
 
 
 /**
@@ -23,7 +25,7 @@ window.Vue = require('vue');
 Vue.use(VueGoogleMaps, {
     load: {
         key: 'AIzaSyCeP4XM-6BoHM5qfPNh4dHC39t492y3BjM',
-        libraries: ['places', 'geometry'], // This is required if you use the Autocomplete plugin
+        libraries: ['geometry'], // This is required if you use the Autocomplete plugin
         // OR: libraries: 'places,drawing'
         // OR: libraries: 'places,drawing,visualization'
         // (as you require)
@@ -62,18 +64,10 @@ Vue.use(VueConfirmDialog)
 Vue.component('vue-confirm-dialog', VueConfirmDialog.default)
 
 Vue.mixin({
+    computed: {
+        'google': gmapApi
+    },
     methods: {
-        getDrivingDistance(lat1, long1, lat2, long2) {
-            return new Promise(resolve => {
-                axios.get("https://maps.googleapis.com/maps/api/distancematrix/json?key=AIzaSyCeP4XM-6BoHM5qfPNh4dHC39t492y3BjM&origins="+ lat1 +","+ long1 +"&destinations="+ lat2 +","+ long2 +"&mode=driving")
-                    .then(res => {
-                        resolve({
-                            distance: res.data.rows[0]['elements'][0].distance.value / 100,
-                            duration: res.data.rows[0]['elements'][0].duration.text
-                        });
-                    })
-            })
-        },
         getOrderPassedTime(endData) {
             var now = Vue.moment(new Date()); //today date
             var end = Vue.moment(endData); // another date
@@ -82,8 +76,18 @@ Vue.mixin({
                 resolve(24 - duration.asHours().toFixed(0) < 0 ? 0 : 24 - duration.asHours().toFixed(0))
             })
         },
-    },
-})
+        getGeolocationPosition() {
+            return new Promise(resolve => {
+                navigator.geolocation.getCurrentPosition(position => {
+                    resolve(position);
+                },
+    error => {
+                    $('#access-location').fadeIn()
+                });
+            });
+        }
+    }
+});
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -99,29 +103,23 @@ Vue.component('loading-component', require('./components/partials/LoadingCompone
 
 
 //Geolocation Event
-navigator.permissions.query({name: 'geolocation'}).then(function (permissionStatus) {
-    if (permissionStatus.state != 'granted') {
-        // $('#access_location').fadeIn();
-        requestGeolocationAccess();
-    } else {
-        $('#access_location').fadeOut();
-    }
-    permissionStatus.onchange = function () {
-        if (this.state != 'granted') {
-            requestGeolocationAccess();
-            $('#access_location').fadeIn();
-        } else {
-            $('#access_location').fadeOut();
-            location.reload();
-        }
-    };
-});
-
-function requestGeolocationAccess() {
-    navigator.geolocation.getCurrentPosition(position => {});
-    console.log('sss');
-}
-
+// navigator.permissions.query({name: 'geolocation'}).then(function (permissionStatus) {
+//     if (permissionStatus.state != 'granted') {
+//         // $('#access_location').fadeIn();
+//         requestGeolocationAccess();
+//     } else {
+//         $('#access_location').fadeOut();
+//     }
+//     permissionStatus.onchange = function () {
+//         if (this.state != 'granted') {
+//             requestGeolocationAccess();
+//             $('#access_location').fadeIn();
+//         } else {
+//             $('#access_location').fadeOut();
+//             location.reload();
+//         }
+//     };
+// });
 
 const app = new Vue({
     el: '#app',

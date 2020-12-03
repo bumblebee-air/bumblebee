@@ -23,6 +23,23 @@
             </div>
         </div>
         <loading-component></loading-component>
+            <GmapMap
+                    ref="mapRef"
+                    :center="{lat: 0, lng: 0}"
+                    :zoom="7"
+                    map-type-id="roadmap"
+                    style="width: 100%; height: 0%; position: absolute"
+                    :options = "{
+                       zoomControl: false,
+                       mapTypeControl: false,
+                       scaleControl: false,
+                       streetViewControl: false,
+                       rotateControl: false,
+                       fullscreenControl: true,
+                       disableDefaultUi: false,
+                       gestureHandling: 'cooperative',
+                    }"
+            ></GmapMap>
     </div>
 </template>
 

@@ -18,10 +18,10 @@
                 <div class="time-distance">
                     <div class="d-flex delivery-time-container justify-content-center">
                         <img class="delivery-time" src="images/doorder_driver_assets/delivery-time.png" alt="delivery time">
-                        {{durationTime}} H
+                        {{durationTime}}
                     </div>
                     <div class="delivery-distance">
-                        {{distance}} KM Away
+                        {{distance}} Away
                     </div>
                 </div>
             </div>
@@ -39,8 +39,8 @@
         props: ['order_data'],
         data () {
             return {
-                durationTime: '',
-                distance: ''
+                durationTime: '0',
+                distance: '0'
             }
         },
         mounted() {
@@ -56,13 +56,24 @@
                 }});
             },
             getCurrentLocation() {
-                navigator.geolocation.getCurrentPosition(this.setDistance)
+                this.getGeolocationPosition().then(position => this.setDistance(position))
             },
             setDistance(position) {
-                this.getDrivingDistance(position.coords.latitude, position.coords.longitude, this.order_data.pickup_lat, this.order_data.pickup_lon)
-                    .then(data => {
-                        this.distance = data.distance;
-                    })
+                var directionsService = new this.google.maps.DirectionsService();
+
+                var request = {
+                    origin : new this.google.maps.LatLng(position.coords.latitude, position.coords.longitude),
+                    destination : new this.google.maps.LatLng(this.order_data.pickup_lat, this.order_data.pickup_lon),
+                    travelMode : this.google.maps.TravelMode.DRIVING
+                };
+
+                directionsService.route(request, (response, status) => {
+                    if (status == this.google.maps.DirectionsStatus.OK) {
+                        this.distance = response.routes[0].legs[0].distance.text;
+                    } else {
+                        console.log('Not Ok')
+                    }
+                });
             }
         },
     }

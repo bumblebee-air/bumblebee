@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\doorder;
 
 use App\Order;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redis;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Redis;
 class OrdersController extends Controller
 {
     public function getOrdersTable() {
-        $orders = Order::paginate(20);
+        $orders = Order::orderBy('id','desc')->paginate(20);
         foreach ($orders as $order) {
             $order->time = $order->created_at->format('h:i');
             $order->driver = $order->orderDriver ? $order->orderDriver->name : null;
@@ -52,6 +53,7 @@ class OrdersController extends Controller
             'deliver_by' => $request->deliver_by,
             'fragile' => $request->fragile,
             'retailer_name' => auth()->user()->name,
+            'status' => 'ready',
         ]);
 
         Redis::publish('doorder-channel', json_encode([
@@ -79,11 +81,29 @@ class OrdersController extends Controller
             return redirect()->back();
         }
         //dd($order);
+        $available_drivers = User::where('user_role','=','driver')->get();
         $customer_name = explode(' ',$order->customer_name);
         $first_name = $customer_name[0];
         $last_name = isset($customer_name[1])? $customer_name[1] : '';
         $order->first_name = $first_name;
         $order->last_name = $last_name;
-        return view('admin.doorder.single_order', ['order' => $order]);
+        return view('admin.doorder.single_order', ['order' => $order,
+            'available_drivers'=>$available_drivers]);
+    }
+
+    public function assignDriverToOrder(Request $request){
+        $order_id = $request->get('order_id');
+        $driver_id = $request->get('driver_id');
+        $order = Order::find($order_id);
+        $driver = User::where('id','=',$driver_id)->where('user_role','=','driver')->first();
+        if(!$order){
+            alert()->error( 'No order was found!');
+            return redirect()->back();
+        }
+        if(!$driver){
+            alert()->error( 'This driver is invalid!');
+            return redirect()->back();
+        }
+        $order->driver = $driver_id;
     }
 }

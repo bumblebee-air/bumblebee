@@ -6,6 +6,7 @@ use App\AudioTextTranscript;
 use App\Order;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Redis;
 use User;
 use Storage;
 use File;
@@ -55,7 +56,7 @@ class OrdersController extends Controller
             $customer_address = $request->get('customer_address');
             $customer_address_lat = $request->get('customer_address_lat');
             $customer_address_lon = $request->get('customer_address_lon');
-            $status = 'pending';
+            $status = 'ready';
 
             $order = new Order();
             $order->order_id = $order_id;
@@ -81,6 +82,24 @@ class OrdersController extends Controller
                 'message' => 'Error in saving the order. Details: '.$exception->getMessage()
             ];
             return response()->json($response)->setStatusCode(500);
+        }
+        try {
+            Redis::publish('doorder-channel', json_encode([
+                'event' => 'new-order',
+                'data' => [
+                    'id' => $order->id,
+                    'time' => $order->created_at->format('h:i'),
+                    'order_id' => $order->order_id,
+                    'retailer_name' => $order->retailer_name,
+                    'status' => $order->status,
+                    'driver' => $order->orderDriver ? $order->orderDriver->name : 'N/A',
+                    'pickup_address' => $order->pickup_address,
+                    'customer_address' => $order->customer_address,
+                    'created_at' => $order->created_at,
+                ]
+            ]));
+        } catch (\Exception $exception){
+            \Log::error('Publish Redis new order notification from external shop API failed');
         }
         $response = [
             'message' => 'Order saved successfully'

@@ -70,7 +70,7 @@ li .nav-link:hover a i {
     float: right;
     display: flex;
     flex-wrap: wrap;
-    padding-right: 70px;
+    padding-right: 30px;
 }
 
 .status_item {

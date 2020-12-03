@@ -69,6 +69,10 @@
                                         Matched
                                     </div>
                                     <div class="status_item">
+                                        <img class="status_icon" src="{{asset('images/doorder_icons/order_status_on_route_pickup.png')}}" alt="matched">
+                                        On-route to pickup
+                                    </div>
+                                    <div class="status_item">
                                         <img class="status_icon" src="{{asset('images/doorder_icons/order_status_picked_up.png')}}" alt="picked up">
                                         Picked up
                                     </div>

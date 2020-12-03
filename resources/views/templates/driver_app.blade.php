@@ -8,6 +8,12 @@
 
     <!-- Axios CSRf Meta Tag -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#f7dc69">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#f7dc69">
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="#f7dc69">
     <title>DoOrder | Driver App</title>
 
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">

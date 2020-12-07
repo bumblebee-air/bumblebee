@@ -55,7 +55,7 @@
             this.getOrdersData();
             this.timer = setInterval(() => {
                 this.getOrdersData();
-            }, 5000);
+            }, 10000);
         },
         methods: {
             getOrdersData() {

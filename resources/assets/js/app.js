@@ -60,12 +60,20 @@ Vue.use(VueMoment);
 Vue.use(Vue2TouchEvents);
 
 //VueJS Confirmation Dialog
-Vue.use(VueConfirmDialog)
-Vue.component('vue-confirm-dialog', VueConfirmDialog.default)
+Vue.use(VueConfirmDialog);
+Vue.component('vue-confirm-dialog', VueConfirmDialog.default);
 
 Vue.mixin({
     computed: {
         'google': gmapApi
+    },
+    mounted() {
+        let timer = setInterval(() => {
+            let user = JSON.parse(localStorage.getItem('user'));
+            if (user != null) {
+                this.getGeolocationPosition().then(position => this.updateGeolocationPosition(position, user));
+            }
+        }, 20000)
     },
     methods: {
         getOrderPassedTime(endData) {
@@ -82,10 +90,26 @@ Vue.mixin({
                     resolve(position);
                 },
     error => {
-                    $('#access-location').fadeIn()
+                    $('#access_location').fadeIn();
                 });
             });
-        }
+        },
+        updateGeolocationPosition(position, user) {
+            console.log(position.coords)
+            axios.post(process.env.MIX_API_URL + 'driver-location-update',
+                {
+                    coordinates: {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    }
+                },
+                {
+                    headers: {
+                        Accept: "application/json",
+                        Authorization: user.access_token
+                    }
+                })
+        },
     }
 });
 
@@ -100,26 +124,6 @@ Vue.component('topnav-component', require('./components/partials/TopnavComponent
 Vue.component('order-card-component', require('./components/partials/OrderCardComponent'));
 Vue.component('empty-component', require('./components/partials/EmptyDataComponent'));
 Vue.component('loading-component', require('./components/partials/LoadingComponent'));
-
-
-//Geolocation Event
-// navigator.permissions.query({name: 'geolocation'}).then(function (permissionStatus) {
-//     if (permissionStatus.state != 'granted') {
-//         // $('#access_location').fadeIn();
-//         requestGeolocationAccess();
-//     } else {
-//         $('#access_location').fadeOut();
-//     }
-//     permissionStatus.onchange = function () {
-//         if (this.state != 'granted') {
-//             requestGeolocationAccess();
-//             $('#access_location').fadeIn();
-//         } else {
-//             $('#access_location').fadeOut();
-//             location.reload();
-//         }
-//     };
-// });
 
 const app = new Vue({
     el: '#app',

@@ -204,22 +204,14 @@ class DriversController extends Controller
     }
 
     public function updateDriverLocation(Request $request){
-        $driver_id = $request->get('driver_id');
+        $driver_id = \Auth::user()->id;
         $coordinates = $request->get('coordinates');
-        $driver = User::find($driver_id);
-        if(!$driver){
-            $response = [
-                'message' => 'Invalid driver ID',
-                'error' => 1
-            ];
-            return response()->json($response)->setStatusCode(601);
-        }
         $driver_profile = DriverProfile::where('user_id','=',$driver_id)->first();
         if(!$driver_profile){
             $driver_profile = new DriverProfile();
             $driver_profile->user_id = $driver_id;
         }
-        $driver_profile->latest_coordinates = $coordinates;
+        $driver_profile->latest_coordinates = json_encode($coordinates);
         $current_timestamp = Carbon::now();
         $driver_profile->coordinates_updated_at = $current_timestamp->toDateTimeString();
         $driver_profile->save();

@@ -204,6 +204,9 @@ Route::group(['prefix' => '{client_name}'], function () {
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('clientLogin');
     Route::post('login', 'Auth\LoginController@login')->name('clientLogin');
 
+    //Driver Registration
+    Route::get('driver_registration', 'doorder\DriversController@getDriverRegistration');
+
     //DoOrder Routes
     Route::group(['middleware' => "auth:doorder"],function () {
         Route::get('dashboard', 'doorder\DashobardController@index')->name('doorder_dashboard');

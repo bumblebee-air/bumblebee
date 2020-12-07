@@ -28,6 +28,16 @@
         .delivered-image-container {
             padding-top: 30px
         }
+
+        .delivery-confirmation-logo {
+            text-align: center;
+            padding-top: 10px;
+        }
+
+        .delivery-confirmation-logo img {
+            width: 180px;
+            height: 110px;
+        }
     </style>
 @endsection
 
@@ -35,6 +45,9 @@
     <div class="container" id="app">
         @if(!$order->delivery_confirmation_status)
             <div class="row">
+                <div class="col-md-12 delivery-confirmation-logo">
+                    <img src="{{asset('images/doorder-logo.png')}}" alt="DoOrder">
+                </div>
                 <div class="col-md-12 delivery-confirmation-title">
                     <p>
                         Please Scan the QR

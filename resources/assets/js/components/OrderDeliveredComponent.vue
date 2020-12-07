@@ -88,11 +88,17 @@
             }
         },
         mounted() {
-            this.order_id = this.$route.params.order_id;
-            this.delivery_confirmation_code = this.$route.params.delivery_confirmation_code;
-            this.delivery_confirmation_status = this.$route.params.delivery_confirmation_status;
-            this.id = this.$route.params.id;
-            this.subscribeIntoConfirmationChannel()
+            if (this.$route.params.order_id) {
+                this.order_id = this.$route.params.order_id;
+                this.delivery_confirmation_code = this.$route.params.delivery_confirmation_code;
+                this.delivery_confirmation_status = this.$route.params.delivery_confirmation_status;
+                this.id = this.$route.params.id;
+                this.subscribeIntoConfirmationChannel()
+            } else {
+                this.$router.push({
+                    name: 'orders-list'
+                });
+            }
         },
         destroyed() {
             this.socketInstance.close();

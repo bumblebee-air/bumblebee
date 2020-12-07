@@ -7,7 +7,7 @@ import VueDraggableResizable from 'vue-draggable-resizable'
 import 'vue-draggable-resizable/dist/VueDraggableResizable.css'
 import VueMoment from 'vue-moment'
 import VueConfirmDialog from 'vue-confirm-dialog';
-
+import QrcodeVue from 'qrcode.vue'
 import {gmapApi} from 'vue2-google-maps';
 
 
@@ -21,7 +21,7 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
-
+//Vue Google MAps
 Vue.use(VueGoogleMaps, {
     load: {
         key: 'AIzaSyCeP4XM-6BoHM5qfPNh4dHC39t492y3BjM',
@@ -63,6 +63,10 @@ Vue.use(Vue2TouchEvents);
 Vue.use(VueConfirmDialog);
 Vue.component('vue-confirm-dialog', VueConfirmDialog.default);
 
+//Vue QR code generator
+Vue.component('qrcode-vue', QrcodeVue);
+
+
 Vue.mixin({
     computed: {
         'google': gmapApi
@@ -95,7 +99,6 @@ Vue.mixin({
             });
         },
         updateGeolocationPosition(position, user) {
-            console.log(position.coords)
             axios.post(process.env.MIX_API_URL + 'driver-location-update',
                 {
                     coordinates: {

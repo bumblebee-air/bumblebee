@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class DriversController extends Controller
@@ -106,6 +107,11 @@ class DriversController extends Controller
             if($status=='delivered'){
                 $order->status = $status;
                 $timestamps->completed = $current_timestamp;
+                $order->customer_confirmation_code = Str::random(8);
+                $order->delivery_confirmation_code = Str::random(32);
+                /*
+                 * Sending the confirmation URL to Customer is here
+                 */
             } else if ($status=='on_route_pickup') {
                 $order->status = $status;
                 $timestamps->on_the_way_first = $current_timestamp;
@@ -127,6 +133,7 @@ class DriversController extends Controller
             ]));
             $response = [
                 'message' => 'Th order\'s status has been updated successfully',
+                'delivery_confirmation_code' => $status == 'delivered' ? $order->delivery_confirmation_code : null,
                 'error' => 0
             ];
             return response()->json($response)->setStatusCode(200);
@@ -220,5 +227,31 @@ class DriversController extends Controller
             'error' => 0
         ];
         return response()->json($response)->setStatusCode(200);
+    }
+
+    public function skipDeliveryConfirmation(Request $request) {
+        $skip_reason = $request->get('skip_reason');
+        $order_id = $request->get('order_id');
+        $order = Order::find($order_id);
+        if (!$order) {
+            $response = [
+                'order' => [],
+                'message' => 'No order was found with this ID',
+                'error' => 1
+            ];
+            return response()->json($response)->setStatusCode(403);
+        }
+        $order->delivery_confirmation_status = 'skipped'; # skipped || confirmed
+        $order->delivery_confirmation_skip_reason = $skip_reason;
+        $order->save();
+        $response = [
+            'message' => 'Delivery confirmation skipped successfully',
+            'error' => 0
+        ];
+        return response()->json($response)->setStatusCode(200);
+    }
+
+    public function getDriverRegistration(Request $request) {
+        return view('doorder.drivers.registration');
     }
 }

@@ -221,7 +221,10 @@ Route::group(['prefix' => '{client_name}'], function () {
     });
 });
 
-//Driver App
+//DoOrder Routes
 Route::get('driver_app', function () {
     return view('templates/driver_app');
 });
+
+Route::get('customer/delivery_confirmation', 'doorder\CustomerController@getDeliveryConfirmationURL')->name('getDeliveryConfirmationURL');
+Route::post('customer/delivery_confirmation', 'doorder\CustomerController@postDeliveryConfirmationURL')->name('postDeliveryConfirmationURL');

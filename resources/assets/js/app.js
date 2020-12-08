@@ -71,14 +71,6 @@ Vue.mixin({
     computed: {
         'google': gmapApi
     },
-    mounted() {
-        let timer = setInterval(() => {
-            let user = JSON.parse(localStorage.getItem('user'));
-            if (user != null) {
-                this.getGeolocationPosition().then(position => this.updateGeolocationPosition(position, user));
-            }
-        }, 20000)
-    },
     methods: {
         getOrderPassedTime(endData) {
             var now = Vue.moment(new Date()); //today date
@@ -129,6 +121,16 @@ Vue.component('empty-component', require('./components/partials/EmptyDataCompone
 Vue.component('loading-component', require('./components/partials/LoadingComponent'));
 
 const app = new Vue({
+    created: function () {
+        console.log('Mounted here');
+        this.timer = setInterval(() => {
+            let user = JSON.parse(localStorage.getItem('user'));
+            if (user != null) {
+                this.getGeolocationPosition().then(position => this.updateGeolocationPosition(position, user));
+                console.log('driver location updated');
+            }
+        }, 20000)
+    },
     el: '#app',
     router
 });

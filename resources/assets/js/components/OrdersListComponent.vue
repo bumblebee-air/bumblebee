@@ -57,6 +57,9 @@
                 this.getOrdersData();
             }, 10000);
         },
+        destroyed() {
+            clearInterval(this.timer);
+        },
         methods: {
             getOrdersData() {
                 let user = JSON.parse(localStorage.getItem('user'));

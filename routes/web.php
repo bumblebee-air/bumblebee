@@ -169,6 +169,7 @@ Route::post('suppliers/import','SupplierController@postSuppliersImport');
 Route::post('suppliers/delete-all','SupplierController@deleteAllSuppliers');
 Route::get('supplier/schedule-form/{code}','SupplierController@getSupplierScheduleForm');
 Route::post('supplier/schedule-form','SupplierController@postSupplierScheduleForm');
+Route::get('suppliers/map','SupplierController@getSuppliersMap');
 
 Route::get('customer-payment','PaymentController@getCustomerPayment');
 Route::post('custom-customer-payment-amount','PaymentController@setCustomCustomerPaymentAmount');
@@ -210,6 +211,7 @@ Route::group(['prefix' => '{client_name}'], function () {
         Route::group(['middleware' => "client"], function () {
             Route::get('orders', 'doorder\OrdersController@getOrdersTable')->name('doorder_ordersTable');
             Route::get('single-order/{id}', 'doorder\OrdersController@getSingleOrder')->name('doorder_singleOrder');
+            Route::post('order/assign', 'doorder\OrdersController@assignDriverToOrder')->name('doorder_assignOrder');
         });
         Route::group(['middleware' => "retailer"], function () {
             Route::get('orders/add', 'doorder\OrdersController@addNewOrder')->name('doorder_addNewOrder');

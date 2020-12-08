@@ -148,3 +148,17 @@ ul.orders-nav li.nav-item a {
   letter-spacing: 0.32px;
   color: #acb1c0!important;
 }
+
+.modal-content {
+  padding: 24px 26px 50px 17px;
+  border-radius: 20px;
+  box-shadow: 0 20px 20px 0 rgba(0, 0, 0, 0.08);
+  background-color: #ffffff;
+}
+
+textarea.form-control {
+  padding: 4px 10px 5px 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
+  background-color: #ffffff;
+}

@@ -45,4 +45,5 @@ Route::group(['middleware' => "auth:api"],function () {
     Route::post('driver-status-update','doorder\DriversController@updateOrderDriverStatus');
     Route::post('order-details','doorder\DriversController@orderDetails');
     Route::post('driver-location-update','doorder\DriversController@updateDriverLocation');
+    Route::post('skip-delivery-confirmation','doorder\DriversController@skipDeliveryConfirmation');
 });

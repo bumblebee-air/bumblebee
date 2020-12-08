@@ -262,7 +262,7 @@
             fetchOrderDataResponse(res) {
                 this.order_data = res.data.order;
                 if (this.order_data.status == 'delivered') {
-                    this.navigateToOrderDelivered();
+                    this.navigateToOrderDelivered(res.data.order.delivery_confirmation_code);
                 } else {
                     this.markers.pickup_location.position = {
                         lat: parseFloat(this.order_data.pickup_lat),
@@ -370,7 +370,7 @@
             },
             fetchUpdateStatusResponse(res, orderStatus) {
                 if (orderStatus == 'delivered') {
-                    this.navigateToOrderDelivered();
+                    this.navigateToOrderDelivered(res.data.delivery_confirmation_code);
                 } else if (orderStatus == 'accepted') {
                     this.order_data.status = 'matched';
                     this.markers.customer_location.position = {
@@ -435,11 +435,14 @@
                     this.maxHeight = 25;
                 }
             },
-            navigateToOrderDelivered() {
+            navigateToOrderDelivered(delivery_confirmation_code = null) {
                 this.$router.push({
                     name: 'order-delivered',
                     params: {
-                        order_id: this.order_data.order_id
+                        order_id: this.order_data.order_id,
+                        delivery_confirmation_code,
+                        id: this.order_data.id,
+                        delivery_confirmation_status: this.order_data.delivery_confirmation_status
                     }
                 })
             },

@@ -9,6 +9,7 @@ window._ = require('lodash');
 
 try {
     window.$ = window.jQuery = require('jquery');
+    window.io = require('socket.io-client');
 
     // require('bootstrap-sass');
 } catch (e) {}

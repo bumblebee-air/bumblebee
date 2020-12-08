@@ -36,6 +36,10 @@ class CreateOrdersTable extends Migration
             $table->string('driver_status',50)->nullable();
             $table->string('eircode',50)->nullable();
             $table->boolean('fragile')->nullable();
+            $table->string('customer_confirmation_code')->nullable();
+            $table->string('delivery_confirmation_code')->nullable();
+            $table->string('delivery_confirmation_status')->nullable();
+            $table->string('delivery_confirmation_skip_reason')->nullable();
             $table->string('fulfilment', 255)->nullable();
             $table->string('deliver_by', 255)->nullable();
             $table->timestamps();

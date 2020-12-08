@@ -25,7 +25,11 @@ class Order extends Model
         'retailer_name',
         'status',
         'weight',
-        'dimensions'
+        'dimensions',
+        'customer_confirmation_code',
+        'delivery_confirmation_code',
+        'delivery_confirmation_status',
+        'delivery_confirmation_skip_reason'
     ];
 
     public function orderDriver() {

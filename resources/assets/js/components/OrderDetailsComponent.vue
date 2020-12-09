@@ -8,7 +8,7 @@
                     {{status.text}}
                 </div>
             </a>
-            <i class="fas fa-arrow-left back-btn" @click="$router.go(-1)"></i>
+            <i class="fas fa-arrow-left back-btn" @click="$router.push({name: 'orders-list'})"></i>
         </nav>
         <div style="height: 100%">
             <GmapMap

@@ -161,14 +161,14 @@
                                                 <td>#@{{order.order_id}}</td>
                                                 <td>@{{order.retailer_name}}</td>
                                                 <td>
-                                                    <img class="order_status_icon" :src="'{{asset('/')}}images/doorder_icons/order_status_' + order.status + '.png'" alt="">
+                                                    <img class="order_status_icon" :src="'{{asset('/')}}images/doorder_icons/order_status_' + (order.status === 'assigned' ? 'matched' :  order.status) + '.png'" :alt="order.status">
                                                 </td>
                                                 @php($i = 16.6);
                                                 <td>
                                                     <div class="progress">
                                                         <div class="progress-bar" role="progressbar" style="width: {{0 * $i}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" v-if="order.status == 'pending'"></div>
                                                         <div class="progress-bar" role="progressbar" style="width: {{1 * $i}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" v-if="order.status == 'ready'"></div>
-                                                        <div class="progress-bar" role="progressbar" style="width: {{2 * $i}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" v-if="order.status == 'matched'"></div>
+                                                        <div class="progress-bar" role="progressbar" style="width: {{2 * $i}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" v-if="order.status == 'matched' || order.status == 'assigned'"></div>
                                                         <div class="progress-bar" role="progressbar" style="width: {{3 * $i}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" v-if="order.status == 'on_route_pickup'"></div>
                                                         <div class="progress-bar" role="progressbar" style="width: {{4 * $i}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" v-if="order.status == 'picked_up'"></div>
                                                         <div class="progress-bar" role="progressbar" style="width: {{5 * $i}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" v-if="order.status == 'on_route'"></div>

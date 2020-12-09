@@ -56,13 +56,14 @@
             return {
                 phone: '+123456789',
                 password: 'test123',
+                firebase_token: '',
                 isLoading: false
             }
         },
-        created() {
-            // $(document).ready(function () {
-            //     $('#loading').fadeOut();
-            // });
+        mounted() {
+            if (Notification.permission === "granted") {
+                this.firebase_token = localStorage.getItem('firebase_token')
+            }
         },
         methods: {
             login(e) {
@@ -70,7 +71,8 @@
                 this.isLoading = true;
                 axios.post(process.env.MIX_API_URL + 'driver-login', {
                     phone: this.phone,
-                    password: this.password
+                    password: this.password,
+                    firebase_token: this.firebase_token
                 }, {
                     headers: {
                         Accept: "application/json"

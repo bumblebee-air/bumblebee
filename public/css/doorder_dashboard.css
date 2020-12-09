@@ -270,3 +270,25 @@ td {
 .pagination>.page-item>.page-link, .pagination>.page-item>span {
     border-radius: 6px!important;
 }
+
+
+.doorder-btn {
+    border-radius: 22px 0px;
+    box-shadow: 0 12px 36px -12px rgba(76, 151, 161, 0.35);
+    background-color: #e8ca49;
+    width: 247px;
+    height: 50px;
+    font-size: 13.6px;
+    font-weight: 500;
+    letter-spacing: 0.75px;
+    color: #ffffff;
+}
+
+.btn-primary {
+    background-color: #e8ca49!important;
+}
+
+.doorder-btn-lg {
+    width: 347px!important;
+    height: 50px!important;
+}

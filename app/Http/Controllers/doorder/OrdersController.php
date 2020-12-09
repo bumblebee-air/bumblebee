@@ -4,6 +4,7 @@ namespace App\Http\Controllers\doorder;
 
 use App\Order;
 use App\User;
+use App\UserFirebaseToken;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redis;
@@ -110,7 +111,16 @@ class OrdersController extends Controller
         $order->status = 'assigned';
         $order->driver_status = 'assigned';
         $order->save();
-        alert()->success( 'The order has been successfully assigned to '.$driver->name);
-        return redirect()->to('doorder/orderlist');
+        //Send Assignment Notification
+        $user_tokens = UserFirebaseToken::where('user_id', $driver_id)->get()->pluck('token')->toArray();
+        if (count($user_tokens) > 0) {
+            self::sendFCM($user_tokens,[
+                'title' => 'Order assigned',
+                'message' => "Order #$order->order_id has been assigned to you",
+                'order_id' => $order->id
+            ]);
+        }
+        alert()->success( "The order has been successfully assigned to $driver->name");
+        return redirect()->to('doorder/orders');
     }
 }

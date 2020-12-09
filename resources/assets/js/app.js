@@ -9,7 +9,8 @@ import VueMoment from 'vue-moment'
 import VueConfirmDialog from 'vue-confirm-dialog';
 import QrcodeVue from 'qrcode.vue'
 import {gmapApi} from 'vue2-google-maps';
-
+import firebase from "firebase";
+import 'firebase/messaging';
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -121,15 +122,56 @@ Vue.component('empty-component', require('./components/partials/EmptyDataCompone
 Vue.component('loading-component', require('./components/partials/LoadingComponent'));
 
 const app = new Vue({
-    created: function () {
-        console.log('Mounted here');
+    mounted: function () {
+        //Update User Location
         this.timer = setInterval(() => {
             let user = JSON.parse(localStorage.getItem('user'));
             if (user != null) {
                 this.getGeolocationPosition().then(position => this.updateGeolocationPosition(position, user));
                 console.log('driver location updated');
             }
-        }, 20000)
+        }, 20000);
+
+        //Firebase Configuration
+        var config = {
+            apiKey: "AIzaSyBYqNsqffWTgHtxdt7Pl5SXMJEJdsaWwrM",
+            authDomain: "bumblebee-833833.firebaseapp.com",
+            projectId: "bumblebee-833833",
+            storageBucket: "bumblebee-833833.appspot.com",
+            messagingSenderId: "589243070383",
+            appId: "1:589243070383:web:96a6bc7fa6006c81b2e15a",
+            measurementId: "G-V7JBXL9PL5"
+        };
+        firebase.initializeApp(config);
+        let messaging = firebase.messaging();
+
+        Notification.requestPermission().then(function (permission) {
+            messaging.getToken().then(token => {
+                localStorage.setItem('firebase_token', token)
+            });
+
+            messaging.onMessage(notification => {
+                Vue.$confirm(
+                    {
+                        title: notification.data.title,
+                        message: notification.data.message,
+                        button: {
+                            yes: 'View'
+                        },
+                        /**
+                         * Callback Function
+                         * @param {Boolean} confirm
+                         */
+                        callback: confirm => {
+                            router.push({name: 'order-details', params: {
+                                id: notification.data.order_id,
+                            }});
+                            window.location.reload();
+                        }
+                    }
+                )
+            });
+        });
     },
     el: '#app',
     router

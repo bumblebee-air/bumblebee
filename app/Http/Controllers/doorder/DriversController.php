@@ -7,6 +7,7 @@ use App\Helpers\SecurityHelper;
 use App\KPITimestamp;
 use App\Order;
 use App\User;
+use App\UserFirebaseToken;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -47,6 +48,18 @@ class DriversController extends Controller
                 'error' => 1
             ];
             return response()->json($response)->setStatusCode(401);
+        }
+        if ($request->firebase_token) {
+            //Check if token registered before with another user and delete them
+            UserFirebaseToken::where('token', $request->firebase_token)->where('user_id', '!=', $the_user->id)->delete();
+            //Check if token registered with the same user
+            $checkIfUserTokenRegistered = UserFirebaseToken::where('token', $request->firebase_token)->where('user_id', $the_user->id)->first();
+            if (!$checkIfUserTokenRegistered) {
+                UserFirebaseToken::create([
+                    'user_id' => $the_user->id,
+                    'token' => $request->firebase_token
+                ]);
+            }
         }
         $access_token = $the_user->createToken('PAT');
         $response = [
@@ -139,7 +152,7 @@ class DriversController extends Controller
             return response()->json($response)->setStatusCode(200);
         } else {
             if($status=='accepted'){
-                if($order->driver!=null){
+                if($order->driver!=null && $order->driver!=$driver_id){
                     $response = [
                         'message' => 'This order has already been accepted by another driver',
                         'error' => 1

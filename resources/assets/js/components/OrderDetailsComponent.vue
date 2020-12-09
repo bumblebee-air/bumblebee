@@ -141,7 +141,7 @@
                     </div>
                 </div>
                 <div class="order-details-cart-actions">
-                    <div class="row justify-content-around accept-reject-container" v-if="order_data.status == 'ready'">
+                    <div class="row justify-content-around accept-reject-container" v-if="order_data.status == 'ready' || order_data.status == 'assigned'">
                         <img src="images/doorder_driver_assets/accept.png" width="40" height="40" alt="accept" @click="openConfirmationDialog('accepted')" >
                         <img src="images/doorder_driver_assets/reject.png" width="40" height="40" alt="reject" @click="openConfirmationDialog('rejected')">
                     </div>
@@ -188,6 +188,12 @@
                 order_status: [
                     {
                         status: 'ready',
+                        text: 'Online',
+                        color: '#60a244'
+                    },
+
+                    {
+                        status: 'assigned',
                         text: 'Online',
                         color: '#60a244'
                     },
@@ -658,7 +664,7 @@
         background-color: #60a244
     }
 
-    .ready, .matched {
+    .ready, .matched .assigned {
         color: #60a244;
     }
 

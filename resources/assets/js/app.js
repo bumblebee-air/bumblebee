@@ -25,7 +25,7 @@ window.Vue = require('vue');
 //Vue Google MAps
 Vue.use(VueGoogleMaps, {
     load: {
-        key: process.env.GOOGLE_API_KEY,
+        key: process.env.MIX_GOOGLE_API_KEY,
         libraries: ['geometry'], // This is required if you use the Autocomplete plugin
         // OR: libraries: 'places,drawing'
         // OR: libraries: 'places,drawing,visualization'

@@ -1,6 +1,7 @@
 @extends('templates.dashboard')
 
 @section('page-styles')
+    <link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
     <style>
         h3 {
             margin-top: 0;
@@ -18,6 +19,10 @@
 
         .swal2-popup .swal2-styled:focus {
             box-shadow: none !important;
+        }
+
+        .iti {
+            width: 100%;
         }
     </style>
 @endsection
@@ -71,7 +76,9 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label for="customer_phone" class="control-label">Contact Number:</label>
-                                                    <input id="customer_phone" type="tel" class="form-control" value="{{old('customer_phone')}}" name="customer_phone" required>
+                                                    <div>
+                                                        <input id="customer_phone" type="tel" class="form-control" value="{{old('customer_phone')}}" required>
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -205,6 +212,7 @@
 
 @section('page-scripts')
     <script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
+    <script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>
     <script>
         // var input = document.getElementById('customer_address');
         // var autocomplete = '';
@@ -282,6 +290,15 @@
                     pickup_lat_field.val('');
                     pickup_lon_field.val('');
                 }
+            });
+
+            var input = document.querySelector("#customer_phone");
+            window.intlTelInput(input, {
+                hiddenInput: 'customer_phone',
+                initialCountry: 'IE',
+                separateDialCode: true,
+                preferredCountries: ['IE', 'GB'],
+                utilsScript: "{{asset('js/intlTelInput/utils.js')}}"
             });
         });
     </script>

@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
+use Twilio\Rest\Client;
 
 class DriversController extends Controller
 {
@@ -125,6 +126,16 @@ class DriversController extends Controller
                 /*
                  * Sending the confirmation URL to Customer is here
                  */
+
+                $sid    = env('TWILIO_SID', '');
+                $token  = env('TWILIO_AUTH', '');
+                $twilio = new Client($sid, $token);
+                $twilio->messages->create($order->customer_phone,
+                    [
+                        "from" => "+447445341335",
+                        "body" => "Hi $order->customer_name, please open the following link to scan the qr code and confirm your order delivery. " . url('customer/delivery_confirmation/' . $order->customer_confirmation_code)
+                    ]
+                );
             } else if ($status=='on_route_pickup') {
                 $order->status = $status;
                 $timestamps->on_the_way_first = $current_timestamp;
@@ -262,6 +273,23 @@ class DriversController extends Controller
             'error' => 0
         ];
         return response()->json($response)->setStatusCode(200);
+    }
+
+    public function updateDriverFirebaseToken(Request $request) {
+        $the_user = auth()->user();
+        //Check if token registered before with another user and delete them
+        UserFirebaseToken::where('token', $request->firebase_token)->where('user_id', '!=', $the_user->id)->delete();
+        //Check if token registered with the same user
+        $checkIfUserTokenRegistered = UserFirebaseToken::where('token', $request->firebase_token)->where('user_id', $the_user->id)->first();
+        if (!$checkIfUserTokenRegistered) {
+            UserFirebaseToken::create([
+                'user_id' => $the_user->id,
+                'token' => $request->firebase_token
+            ]);
+        }
+        return response()->json([
+            'message' => 'Token has been updated successfully'
+        ]);
     }
 
     public function getDriverRegistration(Request $request) {

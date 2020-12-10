@@ -20,22 +20,7 @@
             }
         },
         methods: {
-            logout() {
-                this.$confirm({
-                    title: 'Are you sure?',
-                    message: 'Are you sure you want to logout?',
-                    button: {
-                        yes: 'Yes',
-                        no: 'Cancel'
-                    },
-                    callback: confirm => {
-                        if (confirm) {
-                            localStorage.removeItem('user');
-                            this.$router.push({name: 'login'})
-                        }
-                    }
-                })
-            }
+
         }
     }
 </script>

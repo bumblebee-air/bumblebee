@@ -106,6 +106,22 @@ Vue.mixin({
                     }
                 })
         },
+        logout() {
+            this.$confirm({
+                title: 'Are you sure?',
+                message: 'Are you sure you want to logout?',
+                button: {
+                    yes: 'Yes',
+                    no: 'Cancel'
+                },
+                callback: confirm => {
+                    if (confirm) {
+                        localStorage.removeItem('user');
+                        this.$router.push({name: 'login'})
+                    }
+                }
+            })
+        }
     }
 });
 
@@ -122,7 +138,7 @@ Vue.component('empty-component', require('./components/partials/EmptyDataCompone
 Vue.component('loading-component', require('./components/partials/LoadingComponent'));
 
 const app = new Vue({
-    mounted: function () {
+    created: function () {
         //Update User Location
         this.timer = setInterval(() => {
             let user = JSON.parse(localStorage.getItem('user'));
@@ -143,11 +159,27 @@ const app = new Vue({
             measurementId: "G-V7JBXL9PL5"
         };
         firebase.initializeApp(config);
-        let messaging = firebase.messaging();
+        let messaging = this.messaging = firebase.messaging();
 
         Notification.requestPermission().then(function (permission) {
             messaging.getToken().then(token => {
-                localStorage.setItem('firebase_token', token)
+                let user = JSON.parse(localStorage.getItem('user'));
+                let oldToken = localStorage.getItem('firebase_token');
+                if (user && token !== oldToken) {
+                    axios.post(process.env.MIX_API_URL + 'update-driver-firebase-token',{
+                            firebase_token: token
+                        },
+                        {
+                            headers: {
+                                Accept: "application/json",
+                                Authorization: user.access_token
+                            }
+                        }).then(res => {
+                        localStorage.setItem('firebase_token', token)
+                    }).catch(err => {
+                        console.log(err);
+                    });
+                }
             });
 
             messaging.onMessage(notification => {

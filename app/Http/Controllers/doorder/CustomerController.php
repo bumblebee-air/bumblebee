@@ -8,9 +8,8 @@ use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-    public function getDeliveryConfirmationURL(Request $request)
+    public function getDeliveryConfirmationURL($customer_confirmation_code)
     {
-        $customer_confirmation_code = $request->customer_confirmation_code;
         if (!$customer_confirmation_code) {
             abort(404);
         }

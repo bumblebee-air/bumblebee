@@ -39,10 +39,12 @@ addEventListener('notificationclick', event => {
             if (client.url.includes('/driver_app') && 'focus' in client)
             {
                 client.focus();
+                event.notification.close();
                 return;
             }
         }
         if (clients.openWindow) {
+            event.notification.close();
             return clients.openWindow('/driver_app#/order-details/' + event.notification.data.order_id);
         }
     }());

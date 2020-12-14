@@ -18,9 +18,9 @@ class DashboardController extends Controller
         $drivers_arr = [];
         foreach($drivers as $driver){
             if($driver->driver_profile!=null && $driver->driver_profile->latest_coordinates!=null){
-                $coords = explode(',',$driver->driver_profile->latest_coordinates);
-                $lat = $coords[0];
-                $lon = $coords[1];
+                $coords = json_decode($driver->driver_profile->latest_coordinates);
+                $lat = $coords['lat'];
+                $lon = $coords['lng'];
                 $coords_timestamp = new Carbon($driver->driver_profile->coordinates_updated_at);
                 $drivers_arr[] = [
                     'driver'=>$driver,

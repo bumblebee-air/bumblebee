@@ -15,7 +15,8 @@ class RedirectIfNotAuthAsClient
      */
     public function handle($request, Closure $next)
     {
-        if (auth()->user()->user_role != 'client') {
+        $user_role = auth()->user()->user_role;
+        if ($user_role != 'client' && $user_role!= 'admin') {
             return redirect('/');
         }
         return $next($request);

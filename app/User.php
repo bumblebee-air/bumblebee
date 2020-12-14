@@ -41,4 +41,8 @@ class User extends Authenticatable
     public function firebase_tokens() {
         return $this->hasMany(UserFirebaseToken::class, 'user_id');
     }
+
+    public function driver_profile(){
+        return $this->hasOne(DriverProfile::class, 'user_id', 'id');
+    }
 }

@@ -210,11 +210,12 @@ Route::group(['prefix' => '{client_name}'], function () {
 
     //DoOrder Routes
     Route::group(['middleware' => "auth:doorder"],function () {
-        Route::get('dashboard', 'doorder\DashobardController@index')->name('doorder_dashboard');
+        Route::get('dashboard', 'doorder\DashboardController@index')->name('doorder_dashboard');
         Route::group(['middleware' => "client"], function () {
             Route::get('orders', 'doorder\OrdersController@getOrdersTable')->name('doorder_ordersTable');
             Route::get('single-order/{id}', 'doorder\OrdersController@getSingleOrder')->name('doorder_singleOrder');
             Route::post('order/assign', 'doorder\OrdersController@assignDriverToOrder')->name('doorder_assignOrder');
+            Route::get('admin-map', 'doorder\DashboardController@getAdminMap')->name('doorder_adminMap');
         });
         Route::group(['middleware' => "retailer"], function () {
             Route::get('orders/add', 'doorder\OrdersController@addNewOrder')->name('doorder_addNewOrder');

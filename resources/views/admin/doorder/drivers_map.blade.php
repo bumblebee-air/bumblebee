@@ -158,7 +158,6 @@
                     });
                     deliverer_markers[deliverer.driver.id] = dlvrr_mrkr;
                 });
-                console.log(deliverer_markers);
             }
         }
     </script>

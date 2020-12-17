@@ -99,7 +99,7 @@
                         </div>
                     @endif
                     <div class="row">
-                        <div class="col-md-12 d-flex form-head">
+                        <div class="col-md-12 d-flex form-head pl-3">
                             <span>
                                 1
                             </span>
@@ -178,16 +178,94 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group bmd-form-group">
-                                <label class="bmd-form-group">Postcode/Eircode</label>
-                                <input type="text" class="form-control" name="birthdate" value="{{old('birthdate')}}" required>
+                                <label class="bmd-form-group">PPS Number</label>
+                                <input type="text" class="form-control" name="pps_number" value="{{old('pps_number')}}" required>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group bmd-form-group">
-                                <label class="bmd-form-group">Address</label>
-                                <input type="text" class="form-control" name="address" value="{{old('address')}}" required>
+                                <label class="bmd-form-group">Emergency Contact Name</label>
+                                <input type="text" class="form-control" name="emergency_contact_name" value="{{old('emergency_contact_name')}}" required>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group bmd-form-group">
+                                <label class="bmd-form-group">PPS Number</label>
+                                <input type="text" class="form-control" name="pps_number" value="{{old('pps_number')}}" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group bmd-form-group">
+                                <label class="bmd-form-group">Emergency Contact Name</label>
+                                <input type="text" class="form-control" name="emergency_contact_name" value="{{old('emergency_contact_name')}}" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group bmd-form-group">
+                                <label class="bmd-form-group">Transport Type</label>
+{{--                                <input type="text" class="form-control" name="pps_number" value="{{old('pps_number')}}" required>--}}
+                                <select name="transport_type" class="form-control">
+                                    <option selected disabled>Choose Transportation</option>
+                                    <option value="car">Car</option>
+                                    <option value="scooter">Scooter</option>
+                                    <option value="van">Van</option>
+                                    <option value="bicycle">Bicycle</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group bmd-form-group">
+                                <label class="bmd-form-group">Max package size</label>
+{{--                                <input type="text" class="form-control" name="emergency_contact_name" value="{{old('emergency_contact_name')}}" required>--}}
+                                <select name="transport_type" class="form-control">
+                                    <option selected disabled>Choose Max Package Weight</option>
+                                    <option value="Very Light">Very Light</option>
+                                    <option value="Light">Light</option>
+                                    <option value="Medium Weight">Medium Weight</option>
+                                    <option value="Very Heavy">Very Heavy</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group bmd-form-group">
+                                <label class="bmd-form-group">Work Location</label>
+{{--                                <input type="text" class="form-control" name="emergency_contact_name" value="{{old('emergency_contact_name')}}" required>--}}
+                                <select name="transport_type" class="form-control">
+                                    <option selected disabled>Select Area</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group pl-2">
+                                <div class="contact-through d-flex">
+                                    <div id="check" class="my-check-box">
+                                        <i class="fas fa-check-square"></i>
+                                    </div>
+                                    I want to have a radius from my address
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="row pl-3">
+                        <div class="col-md-12 d-flex form-head">
+                            <span>
+                                2
+                            </span>
+                            Uploads and Verifications
+                        </div>
+                        <p class="pl-4 pt-0">Please upload the following:</p>
                     </div>
                 </div>
             </div>

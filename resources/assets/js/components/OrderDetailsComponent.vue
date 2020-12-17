@@ -75,7 +75,7 @@
                                         {{durationTime}}
                                     </div>
                                     <div class="delivery-distance">
-                                        {{distance}} KM Away
+                                        {{distance}} Away
                                     </div>
                                 </div>
                             </div>
@@ -472,8 +472,8 @@
                         title: 'Are you sure?',
                         message: message,
                         button: {
-                            no: 'No',
-                            yes: 'Yes'
+                            yes: 'Yes',
+                            no: 'No'
                         },
                         /**
                          * Callback Function

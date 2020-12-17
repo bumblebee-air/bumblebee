@@ -54,13 +54,19 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label for="email" class="control-label">First Name:</label>
+                                                    <label for="email" class="control-label">
+                                                        First Name:
+                                                        <span style="color: red">*</span>
+                                                    </label>
                                                     <input id="first_name" type="text" class="form-control" value="{{old('first_name')}}" name="first_name" required>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label for="email" class="control-label">Last Name:</label>
+                                                    <label for="email" class="control-label">
+                                                        Last Name:
+                                                        <span style="color: red">*</span>
+                                                    </label>
                                                     <input id="last_name" type="text" class="form-control" value="{{old('last_name')}}" name="last_name" required>
                                                 </div>
                                             </div>
@@ -68,14 +74,14 @@
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label for="email" class="control-label">Email:</label>
+                                                    <label for="email" class="control-label">Email:<span style="color: red">*</span></label>
                                                     <input id="email" type="email" class="form-control" value="{{old('email')}}" name="email">
                                                 </div>
                                             </div>
 
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label for="customer_phone" class="control-label">Contact Number:</label>
+                                                    <label for="customer_phone" class="control-label">Contact Number:<span style="color: red">*</span></label>
                                                     <div>
                                                         <input id="customer_phone" type="tel" class="form-control" value="{{old('customer_phone')}}" required>
                                                     </div>
@@ -84,7 +90,7 @@
 
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label for="customer_address" class="control-label">Address:</label>
+                                                    <label for="customer_address" class="control-label">Address:<span style="color: red">*</span></label>
                                                     <input id="customer_address" type="text" class="form-control" value="{{old('customer_address')}}" name="customer_address" required>
                                                     <input type="hidden" name="customer_lat" id="customer_lat" value="{{old('customer_lat')}}">
                                                     <input type="hidden" name="customer_lon" id="customer_lon" value="{{old('customer_lon')}}">
@@ -114,7 +120,7 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label for="pick_address" class="control-label">Pickup Address</label>
+                                                    <label for="pick_address" class="control-label">Pickup Address<span style="color: red">*</span></label>
 {{--                                                    <input id="pick_address" name="pickup_address" type="text" class="form-control" value="{{old('pickup_address')}}" required>--}}
                                                     <select id="pick_address" name="pickup_address" data-style="select-with-transition" class="form-control selectpicker" required>
                                                         <option value="">Select pickup address</option>
@@ -127,7 +133,7 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label for="fulfilment" class="control-label">Order Fulfilment</label>
+                                                    <label for="fulfilment" class="control-label">Time until order is ready for collection (Minutes)</label>
                                                     <input id="fulfilment" type="text" name="fulfilment" class="form-control" value="{{old('fulfilment')}}" required>
                                                 </div>
                                             </div>
@@ -135,15 +141,30 @@
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label for="weight" class="control-label">Package Weight in Kg</label>
-                                                    <input id="weight" type="text" class="form-control" name="weight" value="{{old('weight')}}" required>
+                                                    <label for="weight" class="control-label">Package Weight<span style="color: red">*</span></label>
+{{--                                                    <input id="weight" type="text" class="form-control" name="weight" value="{{old('weight')}}" required>--}}
+                                                    <select id="weight" name="weight" data-style="select-with-transition" class="form-control selectpicker" required>
+                                                        <option value="">Select package weight</option>
+                                                        <option value="Very Light">Very Light</option>
+                                                        <option value="Light">Light</option>
+                                                        <option value="Medium Weight">Medium Weight</option>
+                                                        <option value="Very Heavy">Very Heavy</option>
+                                                    </select>
                                                 </div>
                                             </div>
 
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label for="dimensions" class="control-label">Package Dimensions in cm</label>
-                                                    <input id="dimensions" type="text" name="dimensions" class="form-control" value="{{old('dimensions')}}" required>
+                                                    <label for="dimensions" class="control-label">Package Dimensions<span style="color: red">*</span></label>
+{{--                                                    <input id="dimensions" type="text" name="dimensions" class="form-control" value="{{old('dimensions')}}" required>--}}
+                                                    <select id="weight" name="weight" data-style="select-with-transition" class="form-control selectpicker" required>
+                                                        <option value="">Select package weight</option>
+                                                        <option value="Small Bag">Small Bag</option>
+                                                        <option value="Medium Bag">Medium Bag</option>
+                                                        <option value="Large Bag">Large Bag</option>
+                                                        <option value="Shoe Box">Shoe Box</option>
+                                                        <option value="Large Box">Large Box</option>
+                                                    </select>
                                                 </div>
                                             </div>
 
@@ -156,21 +177,19 @@
 
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label for="deliver_by" class="control-label">Deliver By:</label>
-{{--                                                    <select class="form-control" data-style="btn btn-link" id="exampleFormControlSelect1">--}}
-{{--                                                        <option>Car</option>--}}
-{{--                                                        <option>Scooter</option>--}}
-{{--                                                    </select>--}}
+                                                    <label for="deliver_by" class="control-label">Deliver By:<span style="color: red">*</span></label>
                                                     <select id="deliver_by" name="deliver_by" data-style="select-with-transition" class="form-control selectpicker">
                                                         <option value="car">Car</option>
                                                         <option value="scooter">Scooter</option>
+                                                        <option value="van">Van</option>
+                                                        <option value="bicycle">Bicycle</option>
                                                     </select>
                                                 </div>
                                             </div>
 
                                             <div class="col-sm-12">
                                                 <div class="form-group">
-                                                    <label for="deliver_by" class="control-label">Fragile Package?</label>
+                                                    <label for="deliver_by" class="control-label">Fragile Package?<span style="color: red">*</span></label>
                                                     <div class="radio-container row">
                                                         <div class="form-check form-check-radio form-check-inline d-flex justify-content-between"><label class="form-check-label">
                                                                 <input type="radio" name="fragile" id="inlineRadio1" value="1" class="form-check-input" required>

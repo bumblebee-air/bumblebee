@@ -50,39 +50,43 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header card-header-icon card-header-rose">
-                                <div class="card-icon">
-{{--                                    <i class="material-icons">home_work</i>--}}
-                                    <img class="page_icon" src="{{asset('images/doorder_icons/orders_table_white.png')}}">
+                                <div class="col">
+                                    <div class="card-icon">
+                                        {{--                                    <i class="material-icons">home_work</i>--}}
+                                        <img class="page_icon" src="{{asset('images/doorder_icons/orders_table_white.png')}}">
+                                    </div>
+                                    <h4 class="card-title ">Orders Table</h4>
                                 </div>
-                                <h4 class="card-title ">Orders Table</h4>
-                                <div class="status">
-                                    <div class="status_item">
-                                        <img class="status_icon" src="{{asset('images/doorder_icons/order_status_pending.png')}}" alt="pending">
-                                        pending order fulfilment
-                                    </div>
-                                    <div class="status_item">
-                                        <img class="status_icon" src="{{asset('images/doorder_icons/order_status_ready.png')}}" alt="ready">
-                                        Ready to collect
-                                    </div>
-                                    <div class="status_item">
-                                        <img class="status_icon" src="{{asset('images/doorder_icons/order_status_matched.png')}}" alt="matched">
-                                        Matched
-                                    </div>
-                                    <div class="status_item">
-                                        <img class="status_icon" src="{{asset('images/doorder_icons/order_status_on_route_pickup.png')}}" alt="matched">
-                                        On-route to pickup
-                                    </div>
-                                    <div class="status_item">
-                                        <img class="status_icon" src="{{asset('images/doorder_icons/order_status_picked_up.png')}}" alt="picked up">
-                                        Picked up
-                                    </div>
-                                    <div class="status_item">
-                                        <img class="status_icon" src="{{asset('images/doorder_icons/order_status_on_route.png')}}" alt="on route">
-                                        On-route
-                                    </div>
-                                    <div class="status_item">
-                                        <img class="status_icon" src="{{asset('images/doorder_icons/order_status_delivered.png')}}" alt="delivered">
-                                        Delivered
+                                <div class="col">
+                                    <div class="status">
+                                        <div class="status_item">
+                                            <img class="status_icon" src="{{asset('images/doorder_icons/order_status_pending.png')}}" alt="pending">
+                                            pending order fulfilment
+                                        </div>
+                                        <div class="status_item">
+                                            <img class="status_icon" src="{{asset('images/doorder_icons/order_status_ready.png')}}" alt="ready">
+                                            Ready to collect
+                                        </div>
+                                        <div class="status_item">
+                                            <img class="status_icon" src="{{asset('images/doorder_icons/order_status_matched.png')}}" alt="matched">
+                                            Matched
+                                        </div>
+                                        <div class="status_item">
+                                            <img class="status_icon" src="{{asset('images/doorder_icons/order_status_on_route_pickup.png')}}" alt="matched">
+                                            On-route to pickup
+                                        </div>
+                                        <div class="status_item">
+                                            <img class="status_icon" src="{{asset('images/doorder_icons/order_status_picked_up.png')}}" alt="picked up">
+                                            Picked up
+                                        </div>
+                                        <div class="status_item">
+                                            <img class="status_icon" src="{{asset('images/doorder_icons/order_status_on_route.png')}}" alt="on route">
+                                            On-route
+                                        </div>
+                                        <div class="status_item">
+                                            <img class="status_icon" src="{{asset('images/doorder_icons/order_status_delivered.png')}}" alt="delivered">
+                                            Delivered
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -163,7 +167,7 @@
                                                 <td>
                                                     <img class="order_status_icon" :src="'{{asset('/')}}images/doorder_icons/order_status_' + (order.status === 'assigned' ? 'matched' :  order.status) + '.png'" :alt="order.status">
                                                 </td>
-                                                @php($i = 16.6);
+                                                @php($i = 16.6)
                                                 <td>
                                                     <div class="progress">
                                                         <div class="progress-bar" role="progressbar" style="width: {{0 * $i}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" v-if="order.status == 'pending'"></div>

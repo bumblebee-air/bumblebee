@@ -36,7 +36,7 @@ class CreateDriverProfilesTable extends Migration
             $table->string('driver_license',255)->nullable();
             $table->string('insurance_proof',255)->nullable();
             $table->string('address_proof',255)->nullable();
-            $table->string('latest_coordinates',50)->nullable();
+            $table->string('latest_coordinates',100)->nullable();
             $table->string('rejection_reason',255)->nullable();
             $table->dateTime('coordinates_updated_at')->nullable();
             $table->timestamps();

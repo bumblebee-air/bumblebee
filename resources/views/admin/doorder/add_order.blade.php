@@ -266,7 +266,7 @@
         function initMap() {
             var input = document.getElementById('customer_address');
             var autocomplete = new google.maps.places.Autocomplete(input);
-            autocomplete.setComponentRestrictions({'country': ['ie','gb']});
+            autocomplete.setComponentRestrictions({'country': ['ie']});
             autocomplete.addListener('place_changed', function () {
                 var place = autocomplete.getPlace();
                 console.log(place);

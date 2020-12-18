@@ -94,7 +94,7 @@
                             </div>
                         </div>
 
-                        <div class="row" v-if="order_data.status != 'ready'">
+                        <div class="row" v-if="order_data.status != 'ready' && order_data.status != 'assigned'">
                             <div class="col-2">
                                 <img src="images/doorder_driver_assets/pickup-address-pin.png" class="pickup-icon" alt="pickup-icon">
                             </div>
@@ -135,7 +135,10 @@
                                 </p>
                             </div>
                             <div>
-                                <img src="images/doorder_driver_assets/whatsapp.png" class="whatsapp-icon" alt="whatsapp">
+<!--                                <img src="images/doorder_driver_assets/whatsapp.png" class="whatsapp-icon" alt="whatsapp">-->
+                                <button class="btn btn-round doorder-btn-map" @click="navigateToAddress()">
+                                    <i class="fas fa-map-marked-alt"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -219,7 +222,7 @@
                     },
                     {
                         status: 'delivered',
-                        text: 'Delivered',
+                        text: 'Arrived to Delivery Address',
                         color: '#60a244'
                     }
                 ],
@@ -274,7 +277,7 @@
                         lat: parseFloat(this.order_data.pickup_lat),
                         lng: parseFloat(this.order_data.pickup_lon)
                     };
-                    if (this.order_data.status != 'ready') {
+                    if (this.order_data.status != 'ready' && this.order_data.status != 'assigned') {
                         this.markers.customer_location.position = {
                             lat: parseFloat(this.order_data.customer_address_lat),
                             lng: parseFloat(this.order_data.customer_address_lon)
@@ -298,7 +301,6 @@
                 })
             },
             setDistance(position) {
-                console.log('here');
                 var directionsService = new this.google.maps.DirectionsService();
 
                 var request = {
@@ -496,6 +498,25 @@
                     lng: position.coords.longitude,
                 };
             },
+            navigateToAddress() {
+                //Get Lat Lang
+                let lat = '';
+                let lng = '';
+                if (this.order_data.status == 'picked_up' || this.order_data.status == 'on_route') {
+                    lat = this.markers['customer_location'].position.lat;
+                    lng = this.markers['customer_location'].position.lng;
+                } else {
+                    lat = this.markers['pickup_location'].position.lat;
+                    lng = this.markers['pickup_location'].position.lng;
+                }
+                // If it's an iPhone..
+                if( (navigator.platform.indexOf("iPhone") != -1)
+                    || (navigator.platform.indexOf("iPod") != -1)
+                    || (navigator.platform.indexOf("iPad") != -1))
+                    window.open("maps://www.google.com/maps/dir/?api=1&travelmode=driving&layer=traffic&destination="+ lat +"," + lng);
+                else
+                    window.open("https://www.google.com/maps/dir/?api=1&travelmode=driving&layer=traffic&destination="+ lat +"," + lng);
+            }
             // getDistance(lat1, long1, lat2, long2) {
             //     // let originLanLang = new this.google.maps.LatLng(lat1, long1);
             //     // let destinationLanLang = new this.google.maps.LatLng(lat2, long2);

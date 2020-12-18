@@ -8,6 +8,7 @@ use App\UserFirebaseToken;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redis;
+use Twilio\Rest\Client;
 
 class OrdersController extends Controller
 {
@@ -120,6 +121,15 @@ class OrdersController extends Controller
                 'order_id' => $order->id
             ]);
         }
+        $sid    = env('TWILIO_SID', '');
+        $token  = env('TWILIO_AUTH', '');
+        $twilio = new Client($sid, $token);
+        $twilio->messages->create($order->customer_phone,
+            [
+                "from" => "+447445341335",
+                "body" => "Hi $driver->name, there is an order assigned to you, please open your app."
+            ]
+        );
         alert()->success( "The order has been successfully assigned to $driver->name");
         return redirect()->to('doorder/orders');
     }

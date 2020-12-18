@@ -162,3 +162,22 @@ textarea.form-control {
   box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
   background-color: #ffffff;
 }
+
+.vc-btn-grid {
+  direction: rtl;
+}
+
+.doorder-btn-map {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  padding: 0px;
+  border-radius: 50%;
+  box-shadow: 2px 2px 7px 0 rgba(25, 84, 0, 0.4);
+  background-color: #60a244;
+  color: white;
+  margin-top: 15px;
+}
+.btn:hover {
+  color: white;
+}

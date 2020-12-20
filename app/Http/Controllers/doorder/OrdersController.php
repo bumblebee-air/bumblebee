@@ -47,7 +47,7 @@ class OrdersController extends Controller
             'customer_address_lat' => $request->customer_lat,
             'customer_address_lon' => $request->customer_lon,
             'eircode' => $request->eircode,
-            'pickup_address' => $request->pickup_address,
+            'pickup_address' => ($request->pickup_address=='Other')? $request->pickup_address_alt : $request->pickup_address,
             'pickup_lat' => $request->pickup_lat,
             'pickup_lon' => $request->pickup_lon,
             'fulfilment' => $request->fulfilment,

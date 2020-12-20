@@ -49,15 +49,15 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
-                            <div class="card-header card-header-icon card-header-rose">
-                                <div class="col">
+                            <div class="card-header card-header-icon card-header-rose row">
+                                <div class="col-12 col-sm-4">
                                     <div class="card-icon">
                                         {{--                                    <i class="material-icons">home_work</i>--}}
                                         <img class="page_icon" src="{{asset('images/doorder_icons/orders_table_white.png')}}">
                                     </div>
                                     <h4 class="card-title ">Orders Table</h4>
                                 </div>
-                                <div class="col">
+                                <div class="col-12 col-sm-8">
                                     <div class="status">
                                         <div class="status_item">
                                             <img class="status_icon" src="{{asset('images/doorder_icons/order_status_pending.png')}}" alt="pending">

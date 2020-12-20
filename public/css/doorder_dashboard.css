@@ -51,7 +51,8 @@ li .nav-link:hover a i {
 .status_icon {
     width: 13px;
     height: 13px;
-    margin: 0 11px 0 0;
+    /*margin: 0 11px 0 0;*/
+    margin-right: 3px;
 }
 
 .status_text {
@@ -67,21 +68,18 @@ li .nav-link:hover a i {
 }
 
 .status {
-    float: right;
+    /*float: right;*/
     display: flex;
     flex-wrap: wrap;
-    padding-right: 5px;
+    /*padding-right: 5px;*/
 }
 
 .status_item {
-    margin: -29px 0 0 11px;
+    /*margin: -29px 0 0 11px;*/
+    margin-right: 10px;
     font-size: 10px;
     font-weight: bold;
     color: #656565;
-}
-
-.status_icon {
-    width: 13px;
 }
 
 th {

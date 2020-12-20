@@ -126,9 +126,12 @@
                                                         <option value="">Select pickup address</option>
                                                         <option value="88 - 95 Grafton Street Dublin , Dublin Ireland">88 - 95 Grafton Street Dublin , Dublin Ireland </option>
                                                         <option value="12 Brook Lawn, Lehenagh More, Cork, Ireland">12 Brook Lawn, Lehenagh More, Cork, Ireland</option>
+                                                        <option value="Other">Other</option>
                                                     </select>
                                                     <input type="hidden" name="pickup_lat" id="pickup_lat">
                                                     <input type="hidden" name="pickup_lon" id="pickup_lon">
+                                                    <input id="pickup_address_alt" type="text" class="form-control" value="{{old('pickup_address_alt')}}" name="pickup_address_alt"
+                                                        placeholder="Enter address" style="display: none; margin-top: 10px;">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
@@ -158,7 +161,7 @@
                                                     <label for="dimensions" class="control-label">Package Dimensions<span style="color: red">*</span></label>
 {{--                                                    <input id="dimensions" type="text" name="dimensions" class="form-control" value="{{old('dimensions')}}" required>--}}
                                                     <select id="weight" name="weight" data-style="select-with-transition" class="form-control selectpicker" required>
-                                                        <option value="">Select package weight</option>
+                                                        <option value="">Select package size</option>
                                                         <option value="Small Bag">Small Bag</option>
                                                         <option value="Medium Bag">Medium Bag</option>
                                                         <option value="Large Bag">Large Bag</option>
@@ -264,19 +267,19 @@
         //     }
         // }
         function initMap() {
-            var input = document.getElementById('customer_address');
-            var autocomplete = new google.maps.places.Autocomplete(input);
+            let customer_address_input = document.getElementById('customer_address');
+            let autocomplete = new google.maps.places.Autocomplete(customer_address_input);
             autocomplete.setComponentRestrictions({'country': ['ie']});
             autocomplete.addListener('place_changed', function () {
-                var place = autocomplete.getPlace();
+                let place = autocomplete.getPlace();
                 console.log(place);
                 if (!place.geometry) {
                     // User entered the name of a Place that was not suggested and
                     // pressed the Enter key, or the Place Details request failed.
                     window.alert("No details available for input: '" + place.name + "'");
                 } else {
-                    var place_lat = place.geometry.location.lat();
-                    var place_lon = place.geometry.location.lng();
+                    let place_lat = place.geometry.location.lat();
+                    let place_lon = place.geometry.location.lng();
                     document.getElementById("customer_lat").value = place_lat.toFixed(5);
                     document.getElementById("customer_lon").value = place_lon.toFixed(5);
 
@@ -292,6 +295,24 @@
 
                 }
             });
+
+            let pickup_address_input = document.getElementById('pickup_address_alt');
+            let autocomplete_pickup = new google.maps.places.Autocomplete(pickup_address_input);
+            autocomplete_pickup.setComponentRestrictions({'country': ['ie']});
+            autocomplete_pickup.addListener('place_changed', function () {
+                let place = autocomplete_pickup.getPlace();
+                console.log(place);
+                if (!place.geometry) {
+                    // User entered the name of a Place that was not suggested and
+                    // pressed the Enter key, or the Place Details request failed.
+                    window.alert("No details available for input: '" + place.name + "'");
+                } else {
+                    let place_lat = place.geometry.location.lat();
+                    let place_lon = place.geometry.location.lng();
+                    document.getElementById("pickup_lat").value = place_lat.toFixed(5);
+                    document.getElementById("pickup_lon").value = place_lon.toFixed(5);
+                }
+            });
         }
 
         $(document).ready(function(){
@@ -299,20 +320,23 @@
                 let picked_address = $(this).val();
                 let pickup_lat_field = $('#pickup_lat');
                 let pickup_lon_field = $('#pickup_lon');
+                let pickup_address_alt = $('#pickup_address_alt');
+                pickup_address_alt.removeAttr('required').hide();
+                pickup_lat_field.val('');
+                pickup_lon_field.val('');
                 if(picked_address=='88 - 95 Grafton Street Dublin , Dublin Ireland'){
                     pickup_lat_field.val('53.3423674');
                     pickup_lon_field.val('-6.2599023');
                 }else if(picked_address=='12 Brook Lawn, Lehenagh More, Cork, Ireland'){
                     pickup_lat_field.val('51.8656047');
                     pickup_lon_field.val('-8.4916848');
-                }else{
-                    pickup_lat_field.val('');
-                    pickup_lon_field.val('');
+                }else if(picked_address=='Other'){
+                    pickup_address_alt.attr('required','required').show();
                 }
             });
 
-            var input = document.querySelector("#customer_phone");
-            window.intlTelInput(input, {
+            let customer_phone_input = document.querySelector("#customer_phone");
+            window.intlTelInput(customer_phone_input, {
                 hiddenInput: 'customer_phone',
                 initialCountry: 'IE',
                 separateDialCode: true,

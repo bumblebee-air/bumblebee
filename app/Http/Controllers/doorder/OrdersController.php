@@ -127,7 +127,8 @@ class OrdersController extends Controller
         $twilio->messages->create($order->customer_phone,
             [
                 "from" => "DoOrder",
-                "body" => "Hi $driver->name, there is an order assigned to you, please open your app."
+                "body" => "Hi $driver->name, there is an order assigned to you, please open your app. ".
+                    url('driver_app#/order-details/'.$order->id)
             ]
         );
         alert()->success( "The order has been successfully assigned to $driver->name");

@@ -163,11 +163,11 @@
     }
 
     .delivered-image-container {
-        padding-top: 30px
+        /*padding-top: 30px*/
     }
 
     .delivered-button-container {
-        padding: 90px 40px 0 40px;
+        padding: 50px 40px 0 40px;
     }
     .doorder-btn {
         width: 100%;

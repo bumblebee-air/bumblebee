@@ -66,7 +66,7 @@
 {{--Socket & Vue server --}}
 <script src="{{asset('js/socket.io-3.0.1.min.js')}}"></script>
 <audio id="alert-audio" src="{{asset('audio/update.mp3')}}"></audio>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/vue-toast-notification/dist/theme-sugar.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/vue-toast-notification"></script>
 

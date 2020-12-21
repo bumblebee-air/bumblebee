@@ -206,7 +206,8 @@ Route::group(['prefix' => '{client_name}'], function () {
     Route::post('login', 'Auth\LoginController@login')->name('clientLogin');
 
     //Driver Registration
-    Route::get('driver_registration', 'doorder\DriversController@getDriverRegistration');
+    Route::get('driver_registration', 'doorder\DriversController@getDriverRegistration')->name('getDriverRegistration');
+    Route::post('driver_registration', 'doorder\DriversController@postDriverRegistration')->name('postDriverRegistration');
 
     //DoOrder Routes
     Route::group(['middleware' => "auth:doorder"],function () {

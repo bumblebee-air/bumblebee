@@ -300,7 +300,58 @@ class DriversController extends Controller
         ]);
     }
 
-    public function getDriverRegistration(Request $request) {
+    public function getDriverRegistration() {
         return view('doorder.drivers.registration');
+    }
+
+    public function postDriverRegistration(Request $request) {
+        $this->validate($request, [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required',
+            'phone_number' => 'required',
+            'contact_through' => 'required',
+            'birthdate' => 'required',
+            'address' => 'required',
+            'pps_number' => 'required',
+            'emergency_contact_name' => 'required',
+            'emergency_contact_number' => 'required',
+            'transport_type' => 'required',
+            'max_package_size' => 'required',
+            'work_location' => 'required',
+            'proof_id' => 'required',
+            'proof_address' => 'required',
+        ]);
+
+        $user = new User();
+        $user->name = "$request->first_name $request->last_name";
+        $user->email = $request->email;
+        $user->phone = $request->phone_number;
+        $user->password = bcrypt(Str::random(6));
+        $user->user_role = 'driver';
+        $user->save();
+
+        $profile = new DriverProfile();
+        $profile->user_id = $user->id;
+        $profile->first_name = $request->first_name;
+        $profile->last_name = $request->last_name;
+        $profile->contact_channel = $request->contact_through;
+        $profile->dob = $request->birthdate;
+        $profile->address = $request->address;
+        $profile->pps_number = $request->pps_number;
+        $profile->emergency_contact_name = $request->emergency_contact_name;
+        $profile->emergency_contact_number = $request->emergency_contact_number;
+        $profile->transport = $request->transport_type;
+        $profile->max_package_size = $request->max_package_size;
+        $profile->work_location = $request->work_location;
+        $profile->legal_word_evidence = $request->proof_id ? $request->file('proof_id')->store('uploads/doorder_drivers_registration') : null;
+        $profile->driver_license = $request->proof_driving_license ? $request->file('proof_driving_license')->store('uploads/doorder_drivers_registration') : null;
+        $profile->address_proof = $request->proof_address ? $request->file('proof_address')->store('uploads/doorder_drivers_registration') : null;
+        $profile->insurance_proof = $request->proof_insurance ? $request->file('proof_address')->store('uploads/doorder_drivers_registration') : null;
+        $profile->save();
+
+        alert()->success('You are registered successfully ');
+
+        return redirect()->back();
     }
 }

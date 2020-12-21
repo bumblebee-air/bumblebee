@@ -2,7 +2,7 @@
     <div class="wrapper" style="height: 100%">
         <div class="row" style="height: 100%">
             <div class="col-md-12" v-if="delivery_confirmation_status == 'skipped' || delivery_confirmation_status == 'confirmed'">
-                <div class="row ">
+                <div class="row">
                     <div class="col-md-12 delivered-title-container">
                         <p>
                             Order #{{order_id}}

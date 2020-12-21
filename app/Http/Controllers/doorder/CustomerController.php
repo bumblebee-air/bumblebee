@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\doorder;
 
 use App\Http\Controllers\Controller;
+use App\KPITimestamp;
 use App\Order;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -29,9 +31,17 @@ class CustomerController extends Controller
             alert()->error('The Delivery QR Code is not valid, Please try again.');
             return redirect()->back();
         }
+        $timestamps = KPITimestamp::where('model','=','order')
+            ->where('model_id','=',$checkIfCodeExists->id)->first();
+        $current_timestamp = Carbon::now();
         $checkIfCodeExists->update([
             'delivery_confirmation_status' => 'confirmed',
+            'status' => 'delivered',
+            'driver_status' => 'delivered'
         ]);
+        $timestamps->completed = $current_timestamp->toDateTimeString();
+        $timestamps->save();
+
         \Redis::publish('doorder-channel', json_encode([
             'event' => "delivery-confirmation-order-id-$checkIfCodeExists->id",
             'data' => [

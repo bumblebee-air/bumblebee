@@ -118,11 +118,10 @@ class DriversController extends Controller
                 return response()->json($response)->setStatusCode(403);
             }
             $order->driver_status = $status;
-            if($status=='delivered'){
-                $order->status = $status;
-                $timestamps->completed = $current_timestamp;
-                $order->customer_confirmation_code = Str::random(8);
-                $order->delivery_confirmation_code = Str::random(32);
+            if($status=='delivery_arrived'){
+//                $order->status = $status;
+//                $order->customer_confirmation_code = Str::random(8);
+//                $order->delivery_confirmation_code = Str::random(32);
                 /*
                  * Sending the confirmation URL to Customer is here
                  */
@@ -147,17 +146,19 @@ class DriversController extends Controller
                 $timestamps->on_the_way_second = $current_timestamp;
             }
             $order->save();
-            Redis::publish('doorder-channel', json_encode([
-                'event' => 'update-order-status',
-                'data' => [
-                    'id' => $order->id,
-                    'status' => $order->status,
-                    'driver' => $order->orderDriver ? $order->orderDriver->name : null,
-                ]
-            ]));
+            if ($status!='delivery_arrived') {
+                Redis::publish('doorder-channel', json_encode([
+                    'event' => 'update-order-status',
+                    'data' => [
+                        'id' => $order->id,
+                        'status' => $order->status,
+                        'driver' => $order->orderDriver ? $order->orderDriver->name : null,
+                    ]
+                ]));
+            }
             $response = [
                 'message' => 'Th order\'s status has been updated successfully',
-                'delivery_confirmation_code' => $status == 'delivered' ? $order->delivery_confirmation_code : null,
+                'delivery_confirmation_code' => $status == 'delivery_arrived' ? $order->delivery_confirmation_code : null,
                 'error' => 0
             ];
             return response()->json($response)->setStatusCode(200);
@@ -257,6 +258,9 @@ class DriversController extends Controller
         $skip_reason = $request->get('skip_reason');
         $order_id = $request->get('order_id');
         $order = Order::find($order_id);
+        $timestamps = KPITimestamp::where('model','=','order')
+            ->where('model_id','=',$order->id)->first();
+        $current_timestamp = Carbon::now();
         if (!$order) {
             $response = [
                 'order' => [],
@@ -267,7 +271,11 @@ class DriversController extends Controller
         }
         $order->delivery_confirmation_status = 'skipped'; # skipped || confirmed
         $order->delivery_confirmation_skip_reason = $skip_reason;
+        $order->status = 'delivered';
+        $timestamps->completed = $current_timestamp->toDateTimeString();
         $order->save();
+        $timestamps->save();
+
         $response = [
             'message' => 'Delivery confirmation skipped successfully',
             'error' => 0

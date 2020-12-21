@@ -221,7 +221,7 @@
                         color: '#ef9065'
                     },
                     {
-                        status: 'delivered',
+                        status: 'delivery_arrived',
                         text: 'Arrived to Delivery Address',
                         color: '#60a244'
                     }
@@ -377,7 +377,7 @@
                     .catch(err => this.fetchUpdateStatusError(err));
             },
             fetchUpdateStatusResponse(res, orderStatus) {
-                if (orderStatus == 'delivered') {
+                if (orderStatus == 'delivery_arrived') {
                     this.navigateToOrderDelivered(res.data.delivery_confirmation_code);
                 } else if (orderStatus == 'accepted') {
                     this.order_data.status = 'matched';
@@ -682,6 +682,10 @@
     }
 
     .delivered {
+        background-color: #60a244
+    }
+
+    .delivery_arrived {
         background-color: #60a244
     }
 

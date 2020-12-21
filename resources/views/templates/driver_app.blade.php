@@ -32,20 +32,30 @@
         }
         .access_location_text {
             position: absolute;
-            width: 100px;
+            width: 200px;
             height: 50px;
             top: 50%;
             left: 50%;
             margin-left: -100px;
             margin-top: -25px;
             white-space: nowrap;
+            text-align: center;
         }
     </style>
 </head>
 <body>
     <div id="app">
         <div id="access_location" class="access_location">
-            <div class="access_location_text">Can't access your location</div>
+            <div class="access_location_text">
+                Can't access your location
+                <br>
+                PLease check GPS availability
+                <br>
+                and
+                <a href="#" class="access_location_retry" onclick="location.reload()">
+                     retry
+                </a>
+            </div>
         </div>
         <vue-confirm-dialog></vue-confirm-dialog>
         <transition name="fade" mode="out-in">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\doorder;
 use App\DriverProfile;
 use App\Helpers\SecurityHelper;
 use App\KPITimestamp;
+use App\Managers\StripeManager;
 use App\Order;
 use App\User;
 use App\UserFirebaseToken;
@@ -304,7 +305,8 @@ class DriversController extends Controller
         return view('doorder.drivers.registration');
     }
 
-    public function postDriverRegistration(Request $request) {
+    public function postDriverRegistration(Request $request)
+    {
         $this->validate($request, [
             'first_name' => 'required',
             'last_name' => 'required',
@@ -351,7 +353,9 @@ class DriversController extends Controller
         $profile->insurance_proof = $request->proof_insurance ? $request->file('proof_address')->store('uploads/doorder_drivers_registration') : null;
         $profile->save();
 
-        alert()->success('You are registered successfully ');
+        $stripe_manager = new StripeManager();
+        $stripe_account = $stripe_manager->createCustomAccount($user);
+        alert()->success('You are registered successfully');
 
         return redirect()->back();
     }

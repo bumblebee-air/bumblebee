@@ -30,7 +30,7 @@ class StripeManager
         $stripe = new StripeClient($this->stripe_key);
         $stripe_account = $stripe->accounts->create([
             'type' => 'custom',
-            //'country' => 'IE',
+            'country' => 'IE',
             'email' => $email,
             'capabilities' => [
                 //'card_payments' => ['requested' => true],

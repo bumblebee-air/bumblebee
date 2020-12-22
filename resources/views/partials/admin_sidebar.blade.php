@@ -420,8 +420,8 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link d-flex" href="{{route('doorder_drivers_requests', 'doorder')}}">
-                                <i class="fas fa-file-alt"></i>
-{{--                            <img class="my-nav-icon" src="{{asset('images/doorder_icons/orders_table_white.png')}}" alt="">--}}
+{{--                                <i class="fas fa-file-alt"></i>--}}
+                            <img style="height: 22px; width: 18px;" class="my-nav-icon" src="{{asset('images/doorder_icons/drivers_requests.png')}}" alt="">
                             <p> Drivers Requests </p>
                         </a>
                     </li>

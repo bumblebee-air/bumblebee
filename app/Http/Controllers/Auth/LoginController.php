@@ -55,15 +55,8 @@ class LoginController extends Controller
 
     public function showLoginForm($client_name = null)
     {
-        $clients = [
-            'doorder',
-            'garden_help'
-        ];
-        if($client_name) {
-            if ( in_array($client_name, $clients))
-                return view("auth.$client_name.login");
-            else
-                abort(404);
+        if(\request()->getHost() == 'admin.doorder.eu') {
+            return view("auth.doorder.login");
         } else {
             return view('auth.login');
         }
@@ -78,7 +71,7 @@ class LoginController extends Controller
     {
         $url = '/';
 
-        if (Auth::guard('doorder')->check()) {
+        if (request()->getHost() == 'admin.doorder.eu') {
             $url = 'doorder/login';
         }
 

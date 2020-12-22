@@ -310,8 +310,8 @@ class DriversController extends Controller
         $this->validate($request, [
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required',
-            'phone_number' => 'required',
+            'email' => 'required|unique',
+            'phone_number' => 'required|unique',
             'contact_through' => 'required',
             'birthdate' => 'required',
             'address' => 'required',

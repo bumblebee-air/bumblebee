@@ -338,6 +338,7 @@ class DriversController extends Controller
         $profile->contact_channel = $request->contact_through;
         $profile->dob = $request->birthdate;
         $profile->address = $request->address;
+        $profile->address_coordinates = $request->address_coordinates;
         $profile->pps_number = $request->pps_number;
         $profile->emergency_contact_name = $request->emergency_contact_name;
         $profile->emergency_contact_number = $request->emergency_contact_number;
@@ -353,5 +354,11 @@ class DriversController extends Controller
         alert()->success('You are registered successfully ');
 
         return redirect()->back();
+    }
+
+    public function getDriverRegistrationRequests()
+    {
+        $drivers_requests = DriverProfile::with('user')->where('is_confirmed', false)->whereNull('rejection_reason')->paginate(20);
+        return view('admin.doorder.drivers.requests', ['drivers_requests' => $drivers_requests]);
     }
 }

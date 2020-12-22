@@ -418,6 +418,13 @@
                             <p> Order Table </p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex" href="{{route('doorder_ordersTable', 'doorder')}}">
+                                <i class="fas fa-file-alt"></i>
+{{--                            <img class="my-nav-icon" src="{{asset('images/doorder_icons/orders_table_white.png')}}" alt="">--}}
+                            <p> Drivers Requests </p>
+                        </a>
+                    </li>
                     <li class="nav-item ">
                         <a class="nav-link d-flex" href="{{url('logout')}}">
 {{--                            <i class="fas fa-sign-out-alt"></i>--}}

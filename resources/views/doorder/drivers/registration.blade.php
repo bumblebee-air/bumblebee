@@ -232,7 +232,8 @@
                             <div class="col-sm-6">
                                 <div class="form-group bmd-form-group">
                                     <label class="bmd-form-group">Address</label>
-                                    <input type="text" class="form-control" name="address" value="{{old('address')}}" required>
+                                    <input type="text" class="form-control" name="address" id="driver_address" value="{{old('address')}}" required>
+                                    <input type="hidden" class="form-control" name="address_coordinates" id="driver_address_coordinates" value="{{old('address_coordinates')}}">
                                 </div>
                             </div>
                         </div>
@@ -442,5 +443,24 @@
                 }
             }
         });
+
+        function initMap() {
+            let driver_address_input = document.getElementById('driver_address');
+            let autocomplete_driver_address = new google.maps.places.Autocomplete(driver_address_input);
+            autocomplete_driver_address.setComponentRestrictions({'country': ['ie']});
+            autocomplete_driver_address.addListener('place_changed', function () {
+                let place = autocomplete_driver_address.getPlace();
+                if (!place.geometry) {
+                    // User entered the name of a Place that was not suggested and
+                    // pressed the Enter key, or the Place Details request failed.
+                    window.alert("No details available for input: '" + place.name + "'");
+                } else {
+                    let place_lat = place.geometry.location.lat();
+                    let place_lon = place.geometry.location.lng();
+                    document.getElementById("driver_address_coordinates").value = '{lat: ' + place_lat.toFixed(5) + ', lon: ' + place_lon.toFixed(5) +'}';
+                }
+            });
+        }
     </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=geometry,places&callback=initMap"></script>
 @endsection

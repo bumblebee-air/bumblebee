@@ -202,7 +202,7 @@ class DriversController extends Controller
                 ]
             ]));
             $response = [
-                'message' => 'Th order\'s status has been updated successfully',
+                'message' => 'The order\'s status has been updated successfully',
                 'error' => 0
             ];
             return response()->json($response)->setStatusCode(200);
@@ -237,7 +237,8 @@ class DriversController extends Controller
     }
 
     public function updateDriverLocation(Request $request){
-        $driver_id = \Auth::user()->id;
+        $current_user = \Auth::user();
+        $driver_id = $current_user->id;
         $coordinates = $request->get('coordinates');
         $driver_profile = DriverProfile::where('user_id','=',$driver_id)->first();
         if(!$driver_profile){
@@ -248,6 +249,18 @@ class DriversController extends Controller
         $current_timestamp = Carbon::now();
         $driver_profile->coordinates_updated_at = $current_timestamp->toDateTimeString();
         $driver_profile->save();
+        $lat = $coordinates['lat'];
+        $lon = $coordinates['lng'];
+        Redis::publish('doorder-channel', json_encode([
+            'event' => 'update-driver-location',
+            'data' => [
+                'driver_id' => $driver_id,
+                'driver_name' => $current_user->name,
+                'lat' => $lat,
+                'lon' => $lon,
+                'timestamp' => $current_timestamp->format('H:i')
+            ]
+        ]));
         $response = [
             'message' => 'Driver coordinates updated successfully',
             'error' => 0

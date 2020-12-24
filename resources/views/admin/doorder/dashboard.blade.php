@@ -34,6 +34,7 @@
         let map;
         let deliverers_array = JSON.parse('{!! $drivers_arr !!}');
         let deliverer_markers = [];
+        let deliverer_marker;
 
         function initMap() {
             google_initialized = true;
@@ -54,7 +55,7 @@
                 customer_marker.setPosition({lat: parseFloat(customer_address_lat),lng: parseFloat(customer_address_lon)});
                 customer_marker.setVisible(true);
             }*/
-            let deliverer_marker = {
+            deliverer_marker = {
                 url: "{{asset('images/doorder_driver_assets/deliverer-location-pin.png')}}",
                 scaledSize: new google.maps.Size(30, 35), // scaled size
                 origin: new google.maps.Point(0,0), // origin
@@ -64,7 +65,7 @@
                 deliverers_array.forEach(function(deliverer,index){
                     let del_lat = parseFloat(deliverer.lat);
                     let del_lon = parseFloat(deliverer.lon);
-                    let deliverer_latlng = {lat: del_lat, lng: del_lon};
+                    /*let deliverer_latlng = {lat: del_lat, lng: del_lon};
                     let dlvrr_mrkr = new google.maps.Marker({
                         map: map,
                         icon: deliverer_marker,
@@ -85,7 +86,8 @@
                     deliverer_markers[deliverer.driver.id] = {
                         marker: dlvrr_mrkr,
                         info_window: infowindow
-                    };
+                    };*/
+                    drawDelivererMarker(deliverer.driver.id,deliverer.driver.name,del_lat,del_lon,deliverer.timestamp);
                 });
             }
         }
@@ -103,7 +105,7 @@
             let the_timestamp = the_data.timestamp;
             if(google_initialized){
                 if(deliverer_markers[driver_id] === undefined){
-
+                    drawDelivererMarker(driver_id,driver_name,lat,lon,the_timestamp);
                 } else {
                     let the_marker = deliverer_markers[driver_id]['marker'];
                     the_marker.setPosition({lat: lat, lng: lon});
@@ -116,6 +118,31 @@
                 }
             }
         });
+
+        function drawDelivererMarker(deliverer_id,deliverer_name,lat,lon,the_timestamp){
+            let deliverer_latlng = {lat: lat, lng: lon};
+            let dlvrr_mrkr = new google.maps.Marker({
+                map: map,
+                icon: deliverer_marker,
+                //anchorPoint: new google.maps.Point(del_lat, del_lon),
+                position: deliverer_latlng
+            });
+            let contentString = '<h3 style="font-weight: 400">' +
+                '<span class="deliverer-name">' + deliverer_name + '</span></h3>' +
+                '<span style="font-weight: 400; font-size: 16px">' +
+                'Last updated: ' + the_timestamp;
+            contentString += '</span>';
+            let infowindow = new google.maps.InfoWindow({
+                content: contentString
+            });
+            dlvrr_mrkr.addListener('click', function () {
+                infowindow.open(map, dlvrr_mrkr);
+            });
+            deliverer_markers[deliverer_id] = {
+                marker: dlvrr_mrkr,
+                info_window: infowindow
+            };
+        }
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=geometry,places&callback=initMap"></script>
 @endsection

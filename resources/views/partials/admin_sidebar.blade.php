@@ -405,12 +405,12 @@
                             <p> Dashboard </p>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <!--<li class="nav-item">
                         <a class="nav-link d-flex" href="{{route('doorder_adminMap', 'doorder')}}">
                             <img class="my-nav-icon" src="{{asset('images/map_icon_card_white.png')}}" alt="Map">
                             <p>Map</p>
                         </a>
-                    </li>
+                    </li>-->
                     <li class="nav-item">
                         <a class="nav-link d-flex" href="{{route('doorder_ordersTable', 'doorder')}}">
                             {{--                        <i class="fas fa-chart-bar"></i>--}}

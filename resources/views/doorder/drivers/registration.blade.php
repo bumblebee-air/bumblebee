@@ -198,7 +198,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group bmd-form-group">
                                     <label class="bmd-form-group">Phone Number</label>
-                                    <input id="driver_phone" type="text" class="form-control" name="phone_number" value="{{old('phone_number')}}" required>
+                                    <input id="driver_phone" type="text" class="form-control" name="driver_phone" value="{{old('driver_phone')}}" required>
                                 </div>
                             </div>
                         </div>
@@ -469,9 +469,9 @@
         }
 
         $(document).ready(function () {
-            let customer_phone_input = document.querySelector("#driver_phone");
-            window.intlTelInput(customer_phone_input, {
-                hiddenInput: 'customer_phone',
+            let driver_phone_input = document.querySelector("#driver_phone");
+            window.intlTelInput(driver_phone_input, {
+                hiddenInput: 'phone_number',
                 initialCountry: 'IE',
                 separateDialCode: true,
                 preferredCountries: ['IE', 'GB'],

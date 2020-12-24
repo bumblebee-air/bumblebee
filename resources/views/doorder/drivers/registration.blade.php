@@ -127,8 +127,13 @@
         .my-check-box-checked {
             color: #f7dc69;
         }
+
+        .iti {
+            width: 100%;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
+    <link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
 @endsection
 
 @section('content')
@@ -193,7 +198,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group bmd-form-group">
                                     <label class="bmd-form-group">Phone Number</label>
-                                    <input type="text" class="form-control" name="phone_number" value="{{old('phone_number')}}" required>
+                                    <input id="driver_phone" type="text" class="form-control" name="phone_number" value="{{old('phone_number')}}" required>
                                 </div>
                             </div>
                         </div>
@@ -425,6 +430,7 @@
 @endsection
 
 @section('scripts')
+    <script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>
     <script>
         var app = new Vue({
             el: '#app',
@@ -461,6 +467,17 @@
                 }
             });
         }
+
+        $(document).ready(function () {
+            let customer_phone_input = document.querySelector("#driver_phone");
+            window.intlTelInput(customer_phone_input, {
+                hiddenInput: 'customer_phone',
+                initialCountry: 'IE',
+                separateDialCode: true,
+                preferredCountries: ['IE', 'GB'],
+                utilsScript: "{{asset('js/intlTelInput/utils.js')}}"
+            });
+        })
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=geometry,places&callback=initMap"></script>
 @endsection

@@ -120,9 +120,9 @@ class DriversController extends Controller
             }
             $order->driver_status = $status;
             if($status=='delivery_arrived'){
-//                $order->status = $status;
-//                $order->customer_confirmation_code = Str::random(8);
-//                $order->delivery_confirmation_code = Str::random(32);
+                $order->status = $status;
+                $order->customer_confirmation_code = Str::random(8);
+                $order->delivery_confirmation_code = Str::random(32);
                 /*
                  * Sending the confirmation URL to Customer is here
                  */

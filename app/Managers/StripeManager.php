@@ -33,7 +33,7 @@ class StripeManager
             'country' => 'IE',
             'email' => $email,
             'capabilities' => [
-                //'card_payments' => ['requested' => true],
+                'card_payments' => ['requested' => true],
                 'transfers' => ['requested' => true],
             ],
             /*'address' => [

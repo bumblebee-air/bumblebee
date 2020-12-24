@@ -55,7 +55,7 @@ class LoginController extends Controller
 
     public function showLoginForm($client_name = null)
     {
-        if(\request()->getHost() == 'admin.doorder.eu') {
+        if(request()->getHost() == 'admin.doorder.eu' || str_contains(request()->url(),'doorder/login')) {
             return view("auth.doorder.login");
         } else {
             return view('auth.login');

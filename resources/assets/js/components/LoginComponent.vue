@@ -21,6 +21,7 @@
                                                 defaultCountry="IE"
                                                 :required="true"
                                                 mode="international"
+                                                :disabled="isLoading"
                                                 :enabledCountryCode="false"></vue-tel-input>
                                     </div>
                                 </div>

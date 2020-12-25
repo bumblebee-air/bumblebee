@@ -55,15 +55,15 @@ body {
   color: #ffffff;
 }
 
-input.form-control {
+form-control {
   padding: 11px 14px 11px 14px;
-  border-radius: 10px;
-  box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
+  border-radius: 10px!important;
+  box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08)!important;
   background-color: #ffffff;
   font-size: 14px;
   letter-spacing: 0.77px;
   color: #4d4d4d;
-
+  border: 1px solid #ced4da!important;
 }
 
 ul.orders-nav {

@@ -11,6 +11,8 @@ import QrcodeVue from 'qrcode.vue'
 import {gmapApi} from 'vue2-google-maps';
 import firebase from "firebase";
 import 'firebase/messaging';
+import VueTelInput from 'vue-tel-input'
+
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -66,6 +68,9 @@ Vue.component('vue-confirm-dialog', VueConfirmDialog.default);
 
 //Vue QR code generator
 Vue.component('qrcode-vue', QrcodeVue);
+
+//Vue Tel Input
+Vue.use(VueTelInput);
 
 
 Vue.mixin({

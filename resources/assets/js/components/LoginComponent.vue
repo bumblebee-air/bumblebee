@@ -13,7 +13,15 @@
                             <form class="form-signin" @submit="login">
                                 <div class="bmd-form-group my-4">
                                     <div class="input-group">
-                                        <input id="phone" class="form-control" name="phone" placeholder="Phone" required autofocus v-model="phone" :disabled="isLoading">
+<!--                                        <input id="phone" class="form-control" name="phone" placeholder="Phone" required autofocus v-model="phone" :disabled="isLoading">-->
+                                        <vue-tel-input
+                                                v-model="phone"
+                                                class="form-control"
+                                                placeholder="Phone"
+                                                defaultCountry="IE"
+                                                :required="true"
+                                                mode="international"
+                                                :enabledCountryCode="false"></vue-tel-input>
                                     </div>
                                 </div>
 
@@ -54,8 +62,8 @@
     export default {
         data() {
             return {
-                phone: '+123456789',
-                password: 'test123',
+                phone: '',
+                password: '',
                 firebase_token: '',
                 isLoading: false
             }
@@ -70,7 +78,7 @@
                 e.preventDefault();
                 this.isLoading = true;
                 axios.post(process.env.MIX_API_URL + 'driver-login', {
-                    phone: this.phone,
+                    phone: this.phone.replaceAll(' ', ''),
                     password: this.password,
                     firebase_token: this.firebase_token
                 }, {
@@ -99,7 +107,7 @@
                 Vue.$toast.error(err.response.data.message, {
                     position: 'top'
                 });
-            }
+            },
         }
     }
 </script>

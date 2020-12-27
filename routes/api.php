@@ -37,6 +37,7 @@ Route::post('obd-connection', 'OBDController@saveAppOBDConnection');
 Route::post('general-enquiry', 'EnquiryController@saveGeneralEnquiry');
 
 Route::post('order', 'OrdersController@receiveOrder');
+Route::post('shopify/order', 'ShopifyController@receiveOrder');
 Route::post('fulfill-order', 'OrdersController@fulfillOrder');
 
 Route::post('driver-login','doorder\DriversController@driversLogin');

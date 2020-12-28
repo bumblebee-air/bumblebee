@@ -209,6 +209,10 @@ Route::group(['prefix' => '{client_name}'], function () {
     Route::get('driver_registration', 'doorder\DriversController@getDriverRegistration')->name('getDriverRegistration');
     Route::post('driver_registration', 'doorder\DriversController@postDriverRegistration')->name('postDriverRegistration');
 
+    //Retailer Registration
+    Route::get('retailer/registration', 'doorder\RetailerController@getRetailerRegistrationForm')->name('getRetailerRegistration');
+    Route::post('retailer/registration', 'doorder\RetailerController@postRetailerRegistrationForm')->name('postRetailerRegistration');
+
     //DoOrder Routes
     Route::group(['middleware' => "auth:doorder"],function () {
         Route::get('dashboard', 'doorder\DashboardController@index')->name('doorder_dashboard');

@@ -10,6 +10,10 @@ class ShopifyController extends Controller
     public function receiveOrder(Request $request){
         $shop_domain = $_SERVER['HTTP_X_SHOPIFY_SHOP_DOMAIN'];
         $retailer = Retailer::where('shopify_store_domain','=',$shop_domain)->first();
+        if(!$retailer){
+            \Log::error('Retailer not registered on the system, domain: '.$shop_domain);
+            return response()->json(['error'=>1,'message'=>'Unregistered on platform']);
+        }
         $shop = "https://" . $retailer->shopify_store_domain;
         $shopName = $retailer->shopify_store_domain;
         $api_key = $retailer->shopify_app_api_key;

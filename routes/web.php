@@ -231,5 +231,7 @@ Route::get('driver_app', function () {
     return view('templates/driver_app');
 });
 
+Route::get('customer/order/{customer_confirmation_code}', 'doorder\CustomerController@getCustomerOrderPage');
+Route::get('customer/tracking/{customer_confirmation_code}', 'doorder\CustomerController@getOrderTracking');
 Route::get('customer/delivery_confirmation/{customer_confirmation_code}', 'doorder\CustomerController@getDeliveryConfirmationURL')->name('getDeliveryConfirmationURL');
 Route::post('customer/delivery_confirmation', 'doorder\CustomerController@postDeliveryConfirmationURL')->name('postDeliveryConfirmationURL');

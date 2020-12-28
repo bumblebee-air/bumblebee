@@ -119,32 +119,31 @@ class DriversController extends Controller
                 return response()->json($response)->setStatusCode(403);
             }
             $order->driver_status = $status;
-            if($status=='delivery_arrived'){
+            if ($status=='on_route_pickup') {
                 $order->status = $status;
+                $timestamps->on_the_way_first = $current_timestamp;
+            } elseif ($status=='picked_up') {
+                $order->status = $status;
+                $timestamps->arrived_first = $current_timestamp;
+            } elseif ($status=='on_route') {
+                $order->status = $status;
+                $timestamps->on_the_way_second = $current_timestamp;
+                //Send the customer order url for tracking & qr code
                 $order->customer_confirmation_code = Str::random(8);
                 $order->delivery_confirmation_code = Str::random(32);
-                /*
-                 * Sending the confirmation URL to Customer is here
-                 */
-
                 $sid    = env('TWILIO_SID', '');
                 $token  = env('TWILIO_AUTH', '');
                 $twilio = new Client($sid, $token);
+                //url('customer/delivery_confirmation/' . $order->customer_confirmation_code)
                 $twilio->messages->create($order->customer_phone,
                     [
                         "from" => "DoOrder",
-                        "body" => "Hi $order->customer_name, please open the following link to scan the qr code and confirm your order delivery. " . url('customer/delivery_confirmation/' . $order->customer_confirmation_code)
+                        "body" => "Hi $order->customer_name, your order is on its way, open the link to track it and confirm the delivery afterwards. " . url('customer/order/' . $order->customer_confirmation_code)
                     ]
                 );
-            } else if ($status=='on_route_pickup') {
+            } elseif($status=='delivery_arrived'){
                 $order->status = $status;
-                $timestamps->on_the_way_first = $current_timestamp;
-            } else if ($status=='picked_up') {
-                $order->status = $status;
-                $timestamps->arrived_first = $current_timestamp;
-            } else if ($status=='on_route') {
-                $order->status = $status;
-                $timestamps->on_the_way_second = $current_timestamp;
+                $timestamps->arrived_second = $current_timestamp;
             }
             $order->save();
             if ($status!='delivery_arrived') {
@@ -158,7 +157,7 @@ class DriversController extends Controller
                 ]));
             }
             $response = [
-                'message' => 'Th order\'s status has been updated successfully',
+                'message' => 'The order\'s status has been updated successfully',
                 'delivery_confirmation_code' => $status == 'delivery_arrived' ? $order->delivery_confirmation_code : null,
                 'error' => 0
             ];

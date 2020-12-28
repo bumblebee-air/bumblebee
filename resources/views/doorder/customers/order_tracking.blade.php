@@ -29,7 +29,7 @@
                 <img src="{{asset('images/doorder-logo.png')}}" alt="DoOrder logo">
             </div>
             <div class="col-md-12 tracking-title">
-                <p>Order #{{$order_id}} tracking</p>
+                <p>Order #{{$order_id}} from {{$retailer_name}}</p>
             </div>
         </div>
         <div class="row">

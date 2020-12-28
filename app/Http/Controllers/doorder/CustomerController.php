@@ -41,6 +41,7 @@ class CustomerController extends Controller
             }
             return redirect()->to('customer/delivery_confirmation/' . $order->customer_confirmation_code);
         }
+        $retailer_name = $order->retailer_name;
         $driver_id = $order->driver;
         $order_id = $order->order_id;
         $driver_profile = DriverProfile::where('user_id','=',$driver_id)->first();
@@ -61,7 +62,7 @@ class CustomerController extends Controller
         }
         $customer_code = $customer_confirmation_code;
         return view('doorder.customers.order_tracking', compact('order_id',
-            'driver_lat','driver_lon','latest_timestamp','customer_code'));
+            'driver_lat','driver_lon','latest_timestamp','customer_code','retailer_name'));
     }
 
     public function getDeliveryConfirmationURL($customer_confirmation_code)

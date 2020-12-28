@@ -131,6 +131,7 @@ class DriversController extends Controller
                 //Send the customer order url for tracking & qr code
                 $order->customer_confirmation_code = Str::random(8);
                 $order->delivery_confirmation_code = Str::random(32);
+                $retailer_name = $order->retailer_name;
                 $sid    = env('TWILIO_SID', '');
                 $token  = env('TWILIO_AUTH', '');
                 $twilio = new Client($sid, $token);
@@ -138,7 +139,7 @@ class DriversController extends Controller
                 $twilio->messages->create($order->customer_phone,
                     [
                         "from" => "DoOrder",
-                        "body" => "Hi $order->customer_name, your order is on its way, open the link to track it and confirm the delivery afterwards. " . url('customer/order/' . $order->customer_confirmation_code)
+                        "body" => "Hi $order->customer_name, your order from $retailer_name is on its way, open the link to track it and confirm the delivery afterwards. " . url('customer/order/' . $order->customer_confirmation_code)
                     ]
                 );
             } elseif($status=='delivery_arrived'){

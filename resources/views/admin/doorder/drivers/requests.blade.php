@@ -53,9 +53,9 @@
                                 <div class="col-12 col-sm-4">
                                     <div class="card-icon">
                                         {{--                                    <i class="material-icons">home_work</i>--}}
-                                        <img class="page_icon" src="{{asset('images/doorder_icons/orders_table_white.png')}}">
+                                        <img class="page_icon" src="{{asset('images/doorder_icons/drivers_requests.png')}}">
                                     </div>
-                                    <h4 class="card-title ">Orders Table</h4>
+                                    <h4 class="card-title ">Drivers Table</h4>
                                 </div>
 {{--                                <div class="col-12 col-sm-8">--}}
 {{--                                    <div class="status">--}}

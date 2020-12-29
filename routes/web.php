@@ -222,6 +222,7 @@ Route::group(['prefix' => '{client_name}'], function () {
             Route::post('order/assign', 'doorder\OrdersController@assignDriverToOrder')->name('doorder_assignOrder');
             Route::get('admin-map', 'doorder\DashboardController@getAdminMap')->name('doorder_adminMap');
             Route::get('drivers/requests', 'doorder\DriversController@getDriverRegistrationRequests')->name('doorder_drivers_requests');
+            Route::get('retailers/requests', 'doorder\RetailerController@getRetailerRequests')->name('doorder_retailers_requests');
         });
         Route::group(['middleware' => "retailer"], function () {
             Route::get('orders/add', 'doorder\OrdersController@addNewOrder')->name('doorder_addNewOrder');

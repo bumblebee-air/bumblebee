@@ -290,6 +290,21 @@ class DriversController extends Controller
         $order->save();
         $timestamps->save();
 
+        Redis::publish('doorder-channel', json_encode([
+            'event' => 'new-order',
+            'data' => [
+                'id' => $order->id,
+                'time' => $order->created_at->format('h:i'),
+                'order_id' => $order->order_id,
+                'retailer_name' => $order->retailer_name,
+                'status' => $order->status,
+                'driver' => $order->orderDriver ? $order->orderDriver->name : 'N/A',
+                'pickup_address' => $order->pickup_address,
+                'customer_address' => $order->customer_address,
+                'created_at' => $order->created_at,
+            ]
+        ]));
+
         $response = [
             'message' => 'Delivery confirmation skipped successfully',
             'error' => 0

@@ -375,13 +375,13 @@
 
                                 <div class="col-sm-6">
                                     <div class="form-group bmd-form-group">
-                                        <input type="text" class="form-control" :id="'contact_number' + (index + 1)" name="contact_number" value="{{old('contact_number')}}" placeholder="Contact Number" required>
+                                        <input type="text" class="form-control" :id="'contact_number' + (index + 1)" value="{{old('contact_number')}}" placeholder="Contact Number" required>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-6">
                                     <div class="form-group bmd-form-group">
-                                        <input type="text" class="form-control" :id="'contact_email' + (index + 1)" :name="'contact_email' + (index + 1)" value="{{old('contact_email')}}" placeholder="Contact Email Addess" required>
+                                        <input type="email" class="form-control" :id="'contact_email' + (index + 1)" :name="'contact_email' + (index + 1)" value="{{old('contact_email')}}" placeholder="Contact Email Addess" required>
                                     </div>
                                 </div>
 
@@ -647,7 +647,7 @@
                         for (let item of this.contacts) {
                             contacts_details.push({
                                 contact_name: $('#contact_name' + (this.contacts.indexOf(item) + 1)).val(),
-                                contact_phone: $('contact_phone' + (this.contacts.indexOf(item) + 1)).val(),
+                                contact_phone: $('input[name="contact_number' + (this.contacts.indexOf(item) + 1) + '"').val(),
                                 contact_email: $('#contact_email' + (this.contacts.indexOf(item) + 1)).val(),
                                 contact_location: $('#contact_location' + (this.contacts.indexOf(item) + 1)).val()
                             });

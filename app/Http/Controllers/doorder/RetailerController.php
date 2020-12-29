@@ -15,7 +15,6 @@ class RetailerController extends Controller
     }
 
     public function postRetailerRegistrationForm(Request $request) {
-//        dd($request->all());
         $this->validate($request, [
             'company_name' => 'required',
             'company_website' => 'required',
@@ -26,10 +25,17 @@ class RetailerController extends Controller
             'stripeToken' => 'required',
         ]);
 
-        $firstContact = json_decode($request->contacts_details)[0];
+        $firstContact = json_decode($request->contacts_details, true)[0];
+        $errors = \Validator::make($firstContact, [
+            'contact_email' => 'required|unique:users,email',
+            'contact_phone' => 'required|unique:users,phone',
+        ]);
+        if ($errors->fails()) {
+            return redirect()->back()->with(['errors' => $errors->errors()])->withInput($request->all());
+        }
         $user = new User();
-        $user->name = $firstContact->contact_name;
-        $user->email = $firstContact->contact_email;
+        $user->name = $firstContact['contact_name'];
+        $user->email = $firstContact['contact_email'];
         $user->password = bcrypt(Str::random(6));
         $user->user_role = 'retailer';
         $user->save();

@@ -294,7 +294,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group bmd-form-group">
                                         {{--                            <label class="bmd-label-floating">First Name</label>--}}
-                                        <textarea :id="'location' + (index +1)" class="form-control" rows="3" :name="'address' + (index + 1)" placeholder="Address" required v-model="location.address">{{old('address')}}</textarea>
+                                        <textarea :id="'location' + (index +1)" class="form-control" rows="3" :name="'address' + (index + 1)" placeholder="Address" required>{{old('address')}}</textarea>
                                         <input :id="'location_'+ (index+1) +'_coordinates'" :name="'address_coordinates_' + (index + 1)" type="hidden">
                                     </div>
                                 </div>
@@ -390,7 +390,7 @@
     {{--                                    <input type="text" class="form-control" name="contact_location" value="{{old('contact_location')}}" placeholder="Location" required>--}}
                                         <select class="form-control" :id="'contact_location' + (index + 1)"  :name="'contact_location' + (index + 1)">
                                             <option selected disabled>Location</option>
-                                            <option v-for="(location, index) of locations" value="location" v-if="location.address">Location @{{ index +1 }}</option>
+                                            <option v-for="(location, index) of locations" value="location">Location @{{ index +1 }}</option>
                                             <option value="all" v-if="locations.length > 1">All</option>
                                         </select>
                                     </div>

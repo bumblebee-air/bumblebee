@@ -15,6 +15,7 @@
     <!-- iOS Safari -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="#f7dc69">
+    <link rel="icon" type="image/jpeg" href="{{asset('images/doorder-favicon.svg')}}">
     <title>DoOrder | @yield('title')</title>
 
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">

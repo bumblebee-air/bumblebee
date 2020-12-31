@@ -31,11 +31,11 @@ class ShopifyController extends Controller
         //$data = file_get_contents('php://input');
         $data = file_get_contents('php://input');
 
-        $verified = $this->verify_webhook($data, $hmac_header, $app_secret);
+        /*$verified = $this->verify_webhook($data, $hmac_header, $app_secret);
         if(!$verified){
             \Log::error('Webhook not verified: ' . var_export($verified, true));
             return response()->json(['error'=>1,'message'=>'Unverified']);
-        }
+        }*/
         /*var_export($verified);
         error_log('Webhook verified: ' . var_export($verified, true));*/
         /*$token = $password;

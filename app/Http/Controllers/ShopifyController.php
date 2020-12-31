@@ -116,7 +116,7 @@ class ShopifyController extends Controller
                     $orders['shipping_address']['zip'] . ", " .
                     $orders['shipping_address']['province'] . ", " .
                     $orders['shipping_address']['country'];
-                $aWebhook["customer_phone"] = $orders['shipping_address']['phone'];
+                $aWebhook["customer_phone"] = $orders['phone'];
                 $aWebhook["customer_email"] = $orders['email'];
                 $aWebhook["customer_address_lat"] = $orders['shipping_address']['latitude'];
                 $aWebhook["customer_address_lon"] = $orders['shipping_address']['longitude'];

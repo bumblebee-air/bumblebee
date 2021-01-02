@@ -57,38 +57,24 @@
                                     </div>
                                     <h4 class="card-title ">Drivers Table</h4>
                                 </div>
-{{--                                <div class="col-12 col-sm-8">--}}
-{{--                                    <div class="status">--}}
-{{--                                        <div class="status_item">--}}
-{{--                                            <img class="status_icon" src="{{asset('images/doorder_icons/order_status_pending.png')}}" alt="pending">--}}
-{{--                                            pending order fulfilment--}}
-{{--                                        </div>--}}
-{{--                                        <div class="status_item">--}}
-{{--                                            <img class="status_icon" src="{{asset('images/doorder_icons/order_status_ready.png')}}" alt="ready">--}}
-{{--                                            Ready to collect--}}
-{{--                                        </div>--}}
-{{--                                        <div class="status_item">--}}
-{{--                                            <img class="status_icon" src="{{asset('images/doorder_icons/order_status_matched.png')}}" alt="matched">--}}
-{{--                                            Matched--}}
-{{--                                        </div>--}}
-{{--                                        <div class="status_item">--}}
-{{--                                            <img class="status_icon" src="{{asset('images/doorder_icons/order_status_on_route_pickup.png')}}" alt="matched">--}}
-{{--                                            On-route to pickup--}}
-{{--                                        </div>--}}
-{{--                                        <div class="status_item">--}}
-{{--                                            <img class="status_icon" src="{{asset('images/doorder_icons/order_status_picked_up.png')}}" alt="picked up">--}}
-{{--                                            Picked up--}}
-{{--                                        </div>--}}
-{{--                                        <div class="status_item">--}}
-{{--                                            <img class="status_icon" src="{{asset('images/doorder_icons/order_status_on_route.png')}}" alt="on route">--}}
-{{--                                            On-route--}}
-{{--                                        </div>--}}
-{{--                                        <div class="status_item">--}}
-{{--                                            <img class="status_icon" src="{{asset('images/doorder_icons/order_status_delivered.png')}}" alt="delivered">--}}
-{{--                                            Delivered--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
+                                <div class="col-6 col-sm-8 mt-4">
+                                    <div class="row justify-content-end">
+                                        <div class="status">
+                                            <div class="status_item">
+                                                <img class="status_icon" src="{{asset('images/doorder_icons/order_status_ready.png')}}" alt="Request received">
+                                                Request received
+                                            </div>
+                                            <div class="status_item">
+                                                <img class="status_icon" src="{{asset('images/doorder_icons/order_status_on_route_pickup.png')}}" alt="Missing Data">
+                                                Missing Data
+                                            </div>
+                                            <div class="status_item">
+                                                <img class="status_icon" src="{{asset('images/doorder_icons/order_status_delivered.png')}}" alt="Request completed">
+                                                Request completed
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="float-right">
@@ -97,129 +83,50 @@
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead>
-                                        <th>Name</th>
-{{--                                        <th>Email</th>--}}
-                                        <th>Contact through</th>
-{{--                                        <th>Phone Number</th>--}}
+                                        <th>Date/Time</th>
+                                        <th>Location</th>
+                                        <th>Deliverer Name</th>
+                                        <th>Application No.</th>
+                                        <th>Status</th>
+                                        <th>Stage</th>
                                         <th>Address</th>
-                                        <th>Transport type</th>
-                                        <th>Work Location</th>
-                                        <th>Max Package Size</th>
-{{--                                        <th>Max Package Weight</th>--}}
                                         </thead>
 
                                         <tbody>
-                                        {{--                                            @if(count($orders))--}}
-                                        {{--                                                @foreach($orders as $order)--}}
-                                        {{--                                                    <tr>--}}
-                                        {{--                                                        <td>--}}
-                                        {{--                                                            {{$order->created_at->format('h:i')}}--}}
-                                        {{--                                                        </td>--}}
-                                        {{--                                                        <td>#{{$order->order_id}}</td>--}}
-                                        {{--                                                        <td>{{$order->retailer_name}}</td>--}}
-                                        {{--                                                        <td>--}}
-                                        {{--                                                            <img class="order_status_icon" src="{{asset('images/doorder_icons/order_status_'. $order->status .'.png')}}" alt="">--}}
-                                        {{--                                                        </td>--}}
-                                        {{--                                                        <td>--}}
-                                        {{--                                                            @php--}}
-                                        {{--                                                                $order_status = '';--}}
-                                        {{--                                                                if ($order->status == 'pending') {--}}
-                                        {{--                                                                    $order_status = 0;--}}
-                                        {{--                                                                } elseif ($order->status == 'ready') {--}}
-                                        {{--                                                                    $order_status = 20;--}}
-                                        {{--                                                                } elseif ($order->status == 'matched') {--}}
-                                        {{--                                                                    $order_status = 40;--}}
-                                        {{--                                                                } elseif ($order->status == 'picked_up') {--}}
-                                        {{--                                                                    $order_status = 60;--}}
-                                        {{--                                                                } elseif ($order->status == 'on_route') {--}}
-                                        {{--                                                                    $order_status = 80;--}}
-                                        {{--                                                                } else {--}}
-                                        {{--                                                                    $order_status = 100;--}}
-                                        {{--                                                                }--}}
-                                        {{--                                                            @endphp--}}
-                                        {{--                                                            <div class="progress">--}}
-                                        {{--                                                                <div class="progress-bar" role="progressbar" style="width: {{$order_status}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>--}}
-                                        {{--                                                            </div>--}}
-                                        {{--                                                        </td>--}}
-                                        {{--                                                        <td>--}}
-                                        {{--                                                            {{$order->driver ? $order->driver : 'N/A'}}--}}
-                                        {{--                                                        </td>--}}
-                                        {{--                                                        <td>--}}
-                                        {{--                                                            {{$order->pickup_address}}--}}
-                                        {{--                                                        </td>--}}
-                                        {{--                                                        <td>--}}
-                                        {{--                                                            {{$order->customer_address}}--}}
-                                        {{--                                                        </td>--}}
-                                        {{--                                                    </tr>--}}
-                                        {{--                                                @endforeach--}}
-                                        {{--                                            @else--}}
-                                        {{--                                                <tr>--}}
-                                        {{--                                                    <td colspan="8" class="text-center">--}}
-                                        {{--                                                        <strong>No data found.</strong>--}}
-                                        {{--                                                    </td>--}}
-                                        {{--                                                </tr>--}}
-                                        {{--                                            @endif--}}
-                                        <tr v-for="driver_request in drivers_requests.data" v-if="drivers_requests.data.length > 0" class="order-row">
-                                            <td>
-                                                @{{ driver_request.first_name}} @{{ driver_request.last_name  }}
-                                            </td>
-{{--                                            <td>--}}
-{{--                                                @{{ driver_request.email}}--}}
-{{--                                            </td>--}}
-                                            <td>
-                                                @{{ driver_request.contact_channel}}
-                                            </td>
-{{--                                            <td>--}}
-{{--                                                @{{ driver_request.phone_number}}--}}
-{{--                                            </td>--}}
-                                            <td>
-                                                @{{ driver_request.address}}
-                                            </td>
-                                            <td>
-                                                @{{ driver_request.transport}}
-                                            </td>
-                                            <td>
-                                                @{{ driver_request.work_location}}
-                                            </td>
-                                            <td>
-                                                @{{ driver_request.max_package_size}}
-                                            </td>
-{{--                                            <td>--}}
-{{--                                                @{{ driver_request.max_package_weight}}--}}
-{{--                                            </td>--}}
-{{--                                            <td>#@{{order.order_id}}</td>--}}
-{{--                                            <td>@{{order.retailer_name}}</td>--}}
-{{--                                            <td>--}}
-{{--                                                <img class="order_status_icon" :src="'{{asset('/')}}images/doorder_icons/order_status_' + (order.status === 'assigned' ? 'matched' :  order.status) + '.png'" :alt="order.status">--}}
-{{--                                            </td>--}}
-{{--                                            @php($i = 16.6)--}}
-{{--                                            <td>--}}
-{{--                                                <div class="progress">--}}
-{{--                                                    <div class="progress-bar" role="progressbar" style="width: {{0 * $i}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" v-if="order.status == 'pending'"></div>--}}
-{{--                                                    <div class="progress-bar" role="progressbar" style="width: {{1 * $i}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" v-if="order.status == 'ready'"></div>--}}
-{{--                                                    <div class="progress-bar" role="progressbar" style="width: {{2 * $i}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" v-if="order.status == 'matched' || order.status == 'assigned'"></div>--}}
-{{--                                                    <div class="progress-bar" role="progressbar" style="width: {{3 * $i}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" v-if="order.status == 'on_route_pickup'"></div>--}}
-{{--                                                    <div class="progress-bar" role="progressbar" style="width: {{4 * $i}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" v-if="order.status == 'picked_up'"></div>--}}
-{{--                                                    <div class="progress-bar" role="progressbar" style="width: {{5 * $i}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" v-if="order.status == 'on_route'"></div>--}}
-{{--                                                    <div class="progress-bar" role="progressbar" style="width: {{6 * $i}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" v-if="order.status == 'delivered'"></div>--}}
-{{--                                                </div>--}}
-{{--                                            </td>--}}
-{{--                                            <td>--}}
-{{--                                                @{{ order.driver != null ? order.driver : 'N/A' }}--}}
-{{--                                            </td>--}}
-{{--                                            <td>--}}
-{{--                                                @{{ order.pickup_address }}--}}
-{{--                                            </td>--}}
-{{--                                            <td>--}}
-{{--                                                @{{order.customer_address}}--}}
-{{--                                            </td>--}}
-                                        </tr>
+                                            <tr v-for="driver_request in drivers_requests.data" v-if="drivers_requests.data.length > 0" class="order-row">
+                                                <td>@{{ parseDateTime(driver_request.created_at) }}</td>
+                                                <td>
+                                                    @{{ driver_request.work_location}}
+                                                </td>
+                                                <td>
+                                                    @{{ driver_request.first_name}} @{{ driver_request.last_name  }}
+                                                </td>
+                                                <td>
+                                                    @{{ driver_request.id}}
+                                                </td>
+                                                <td>
+                                                    <img class="status_icon" src="{{asset('images/doorder_icons/order_status_ready.png')}}" v-if="driver_request.status == 'received'" alt="Request received">
+                                                    <img class="status_icon" src="{{asset('images/doorder_icons/order_status_on_route_pickup.png')}}" v-if="driver_request.status == 'missing'" alt="Missing Data">
+                                                    <img class="status_icon" src="{{asset('images/doorder_icons/order_status_delivered.png')}}" v-if="driver_request.status == 'completed'" alt="Request completed">
+                                                </td>
+                                                @php($i = 33.34)
+                                                <td>
+                                                    <div class="progress">
+                                                        <div class="progress-bar" role="progressbar" style="width: {{1 * $i}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" v-if="driver_request.status == 'received'"></div>
+                                                        <div class="progress-bar" role="progressbar" style="width: {{2 * $i}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" v-if="driver_request.status == 'missing'"></div>
+                                                        <div class="progress-bar" role="progressbar" style="width: {{3 * $i}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" v-if="driver_request.status == 'completed'"></div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    @{{ driver_request.address}}
+                                                </td>
+                                            </tr>
 
-                                        <tr v-else>
-                                            <td colspan="8" class="text-center">
-                                                <strong>No data found.</strong>
-                                            </td>
-                                        </tr>
+                                            <tr v-else>
+                                                <td colspan="8" class="text-center">
+                                                    <strong>No data found.</strong>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                     <nav aria-label="pagination" class="float-right">
@@ -268,6 +175,17 @@
             methods: {
                 openOrder(order_id){
                     {{--window.location.href = "{{url('doorder/single-order')}}/"+order_id;--}}
+                },
+                parseDateTime(date) {
+                    console.log(date);
+                    let dateTime = '';
+                    let parseDate = new Date(date);
+                    dateTime += parseDate.getFullYear() + '/';
+                    dateTime += parseDate.getMonth() + '/';
+                    dateTime += parseDate.getDay() + ' ';
+                    dateTime += parseDate.getHours() + ':';
+                    dateTime += parseDate.getMinutes();
+                    return dateTime;
                 }
             }
         });

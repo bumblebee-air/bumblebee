@@ -33,12 +33,19 @@ class RetailerController extends Controller
         if ($errors->fails()) {
             return redirect()->back()->with(['errors' => $errors->errors()])->withInput($request->all());
         }
+
         $user = new User();
         $user->name = $firstContact['contact_name'];
         $user->email = $firstContact['contact_email'];
         $user->password = bcrypt(Str::random(6));
         $user->user_role = 'retailer';
         $user->save();
+
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+        $customer = $stripe->customers->create([
+            'email' => $user->email,
+            'source' => $request->stripeToken
+        ]);
 
         $retailer = new Retailer();
         $retailer->user_id = $user->id;
@@ -48,7 +55,7 @@ class RetailerController extends Controller
         $retailer->nom_business_locations = $request->number_business_locations;
         $retailer->locations_details = $request->locations_details;
         $retailer->contacts_details = $request->contacts_details;
-        $retailer->stripe_token = $request->stripeToken;
+        $retailer->stripe_customer_id = $customer->id;
         $retailer->save();
 
         alert()->success('You are registered successfully');

@@ -41,7 +41,7 @@
     </style>
 @endsection
 
-@section('title', 'DoOrder | Orders')
+@section('title', 'DoOrder | Drivers Requests')
 @section('page-content')
     <div class="content">
         <div class="container-fluid">
@@ -93,7 +93,7 @@
                                         </thead>
 
                                         <tbody>
-                                            <tr v-for="driver_request in drivers_requests.data" v-if="drivers_requests.data.length > 0" class="order-row">
+                                            <tr v-for="driver_request in drivers_requests.data" v-if="drivers_requests.data.length > 0" class="order-row" @click="openRequest(driver_request.id)">
                                                 <td>@{{ parseDateTime(driver_request.created_at) }}</td>
                                                 <td>
                                                     @{{ driver_request.work_location}}
@@ -173,8 +173,8 @@
                 // });
             },
             methods: {
-                openOrder(order_id){
-                    {{--window.location.href = "{{url('doorder/single-order')}}/"+order_id;--}}
+                openRequest(request_id){
+                    window.location.href = "{{url('doorder/drivers/requests/')}}/"+request_id;
                 },
                 parseDateTime(date) {
                     console.log(date);

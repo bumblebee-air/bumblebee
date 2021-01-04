@@ -265,6 +265,19 @@
                                     <input type="text" class="form-control" name="emergency_contact_number" value="{{old('emergency_contact_number')}}" required>
                                 </div>
                             </div>
+                            <div class="col-sm-6">
+                                <div class="form-group bmd-form-group">
+                                    <label class="bmd-form-group">Max package Weight</label>
+                                    {{--                                <input type="text" class="form-control" name="emergency_contact_name" value="{{old('emergency_contact_name')}}" required>--}}
+                                    <select name="max_package_size" class="form-control">
+                                        <option selected disabled>Choose Max Package Weight</option>
+                                        <option value="Very Light">Very Light</option>
+                                        <option value="Light">Light</option>
+                                        <option value="Medium Weight">Medium Weight</option>
+                                        <option value="Very Heavy">Very Heavy</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="row">
@@ -283,14 +296,11 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group bmd-form-group">
-                                    <label class="bmd-form-group">Max package size</label>
-    {{--                                <input type="text" class="form-control" name="emergency_contact_name" value="{{old('emergency_contact_name')}}" required>--}}
-                                    <select name="max_package_size" class="form-control">
-                                        <option selected disabled>Choose Max Package Weight</option>
-                                        <option value="Very Light">Very Light</option>
-                                        <option value="Light">Light</option>
-                                        <option value="Medium Weight">Medium Weight</option>
-                                        <option value="Very Heavy">Very Heavy</option>
+                                    <label class="bmd-form-group">Work Location</label>
+                                    {{--                                <input type="text" class="form-control" name="emergency_contact_name" value="{{old('emergency_contact_name')}}" required>--}}
+                                    <select name="work_location" class="form-control" required v-model="work_location" id="work_location" @change="changeWorkLocation()">
+                                        <option value="" selected disabled>Select Area</option>
+                                        <option v-for="county of counties" :value="JSON.stringify(county)">@{{ county.name }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -298,25 +308,27 @@
 
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group bmd-form-group">
-                                    <label class="bmd-form-group">Work Location</label>
-    {{--                                <input type="text" class="form-control" name="emergency_contact_name" value="{{old('emergency_contact_name')}}" required>--}}
-                                    <select name="work_location" class="form-control" required>
-                                        <option selected disabled>Select Area</option>
-                                        <option value="dublin">Dublin</option>
-                                    </select>
+                                <div class="form-group pl-2">
+                                    <div class="contact-through d-flex" @click="changeRadiusStatus()">
+                                        <div id="check" :class="has_radius ? 'my-check-box my-check-box-checked' : 'my-check-box'">
+                                            <i class="fas fa-check-square"></i>
+                                        </div>
+                                        I want to have a radius from my address
+                                    </div>
                                 </div>
                             </div>
-    {{--                        <div class="col-sm-6 col-md-12">--}}
-    {{--                            <div class="form-group pl-2">--}}
-    {{--                                <div class="contact-through d-flex">--}}
-    {{--                                    <div id="check" class="my-check-box">--}}
-    {{--                                        <i class="fas fa-check-square"></i>--}}
-    {{--                                    </div>--}}
-    {{--                                    I want to have a radius from my address--}}
-    {{--                                </div>--}}
-    {{--                            </div>--}}
-    {{--                        </div>--}}
+                            <div class="col-sm-6">
+                                <div class="form-group" v-if="has_radius">
+                                    {{--                                    <label class="bmd-form-group">Emergency Contact Number</label>--}}
+                                    <input type="number" class="form-control" id="work_radius" name="work_radius" placeholder="Work Radius" v-model="work_radius" @change="changeRadiusValue()" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div id="map" style="height: 300px"></div>
+                            </div>
                         </div>
                     </div>
 
@@ -437,8 +449,19 @@
             data() {
                 return {
                     contact: '',
-                    hasInsurance: false
+                    hasInsurance: false,
+                    has_radius: false,
+                    counties: [],
+                    work_location: '',
+                    work_radius: {!! old('work_radius') ? old('work_radius') : 0 !!}
                 }
+            },
+            mounted() {
+                let iresh_counties_json = jQuery.getJSON('{{asset('iresh_counties.json')}}', data => {
+                    for (let county of data) {
+                        this.counties.push({name: county.city, coordinates: {lat: county.lat, lng: county.lng}});
+                    }
+                });
             },
             methods: {
                 changeContact(contact) {
@@ -446,15 +469,91 @@
                 },
                 changeHasInsurace() {
                     this.hasInsurance = !this.hasInsurance;
+                },
+                changeRadiusStatus() {
+                    this.has_radius = !this.has_radius;
+                    window.home_address_circle.setRadius(0);
+                    this.work_radius = 0;
+                },
+                changeRadiusValue() {
+                    if (this.work_radius != 0) {
+                        window.home_address_circle.setRadius(parseInt(this.work_radius) * 1000);
+                        this.mapFitBound();
+                    }
+                },
+                changeWorkLocation() {
+                    let select_value = JSON.parse($('select#work_location').val());
+                    window.workLocationMarker.setPosition({lat: parseFloat(select_value.coordinates.lat), lng: parseFloat(select_value.coordinates.lng)});
+                    window.workLocationMarker.setVisible(true);
+                    this.mapFitBound();
+                },
+                mapFitBound() {
+                    let bounds = new google.maps.LatLngBounds();
+                    let work_location_value = $('select#work_location').val();
+                    let address_coords_value = $('input#driver_address_coordinates').val();
+                    if (work_location_value != '' && work_location_value != null) {
+                        work_location_value = JSON.parse(work_location_value)
+                        let latlng_object = {lat: parseFloat(work_location_value.coordinates.lat), lng: parseFloat(work_location_value.coordinates.lng)};
+                        // console.log(latlng_object);
+                        // return;
+                        bounds.extend(latlng_object);
+                    }
+                    if (address_coords_value != '' && address_coords_value != null) {
+                        address_coords_value = JSON.parse(address_coords_value)
+                        let latlng_object = {lat: address_coords_value.lat, lng: address_coords_value.lon};
+                        bounds.extend(latlng_object);
+                    }
+                    window.googleMaps.fitBounds(bounds);
                 }
             }
         });
 
         function initMap() {
+            //Map Initialization
+            window.googleMaps = this.map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 12,
+                center: {lat: 53.346324, lng: -6.258668}
+            });
+
+            let marker_icon = {
+                url: "{{asset('images/doorder_driver_assets/deliverer-location-pin.png')}}",
+                scaledSize: new google.maps.Size(30, 35), // scaled size
+                // origin: new google.maps.Point(0,0), // origin
+                // anchor: new google.maps.Point(0, 0) // anchor
+            };
+
+            window.workLocationMarker = new google.maps.Marker({
+                map: this.map,
+                icon: marker_icon,
+                // anchorPoint: new google.maps.Point(0, -29)
+                position: {lat: 53.346324, lng: -6.258668}
+            });
+
+            window.homeAddressMarker = new google.maps.Marker({
+                map: this.map,
+                icon: marker_icon,
+                position: {lat: 0, lng: 0}
+            });
+
+            window.workLocationMarker.setVisible(false);
+            window.homeAddressMarker.setVisible(false);
+
+            window.home_address_circle = new google.maps.Circle({
+                center: {lat: 0, lng: 0},
+                map: this.map,
+                radius: 0,
+                strokeColor: "#f5da68",
+                strokeOpacity: 0.8,
+                strokeWeight: 1,
+                fillColor: "#f5da68",
+                fillOpacity: 0.4,
+            });
+
+            //Autocomplete Initialization
             let driver_address_input = document.getElementById('driver_address');
             let autocomplete_driver_address = new google.maps.places.Autocomplete(driver_address_input);
             autocomplete_driver_address.setComponentRestrictions({'country': ['ie']});
-            autocomplete_driver_address.addListener('place_changed', function () {
+            autocomplete_driver_address.addListener('place_changed', () => {
                 let place = autocomplete_driver_address.getPlace();
                 if (!place.geometry) {
                     // User entered the name of a Place that was not suggested and
@@ -463,7 +562,16 @@
                 } else {
                     let place_lat = place.geometry.location.lat();
                     let place_lon = place.geometry.location.lng();
-                    document.getElementById("driver_address_coordinates").value = '{lat: ' + place_lat.toFixed(5) + ', lon: ' + place_lon.toFixed(5) +'}';
+                    document.getElementById("driver_address_coordinates").value = '{"lat": ' + place_lat.toFixed(5) + ', "lon": ' + place_lon.toFixed(5) +'}';
+                    this.homeAddressMarker.setPosition({lat: place_lat, lng: place_lon});
+                    this.homeAddressMarker.setVisible(true)
+                    this.home_address_circle.setCenter({lat: place_lat, lng: place_lon});
+                    if ($('input#work_radius').val() != '' && $('input#work_radius').val() != null) {
+                        this.home_address_circle.setRadius(parseInt($('input#work_radius').val()) * 1000);
+                    }
+                    let bounds = new google.maps.LatLngBounds();
+                    bounds.extend({lat: place_lat, lng: place_lon})
+                    window.googleMaps.fitBounds(bounds);
                 }
             });
         }

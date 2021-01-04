@@ -393,4 +393,12 @@ class DriversController extends Controller
         $drivers_requests = DriverProfile::with('user')->where('is_confirmed', false)->whereNull('rejection_reason')->paginate(20);
         return view('admin.doorder.drivers.requests', ['drivers_requests' => $drivers_requests]);
     }
+
+    public function getSingleRequest($client_name,$id) {
+        $singleRequest = DriverProfile::find($id);
+        if (!$singleRequest) {
+            abort(404);
+        }
+        return view('admin.doorder.drivers.single_request', ['singleRequest' => $singleRequest]);
+    }
 }

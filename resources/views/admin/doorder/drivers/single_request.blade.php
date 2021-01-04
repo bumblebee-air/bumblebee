@@ -1,7 +1,7 @@
 @extends('templates.dashboard')
 
 @section('page-styles')
-    <link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
+{{--    <link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">--}}
     <style>
         h3 {
             margin-top: 0;
@@ -186,7 +186,7 @@
         }
     </style>
 @endsection
-@section('title','DoOrder | Retailer Application NO. ' . $singleRequest->id)
+@section('title','DoOrder | Driver Application NO. ' . $singleRequest->id)
 @section('page-content')
     <div class="content" id="app">
         <div class="container-fluid">
@@ -200,7 +200,7 @@
                                     {{--                                    <i class="material-icons">home_work</i>--}}
                                     <img class="page_icon" src="{{asset('images/doorder_icons/drivers_requests.png')}}">
                                 </div>
-                                <h4 class="card-title ">Retailer Application NO. {{$singleRequest->id}}</h4>
+                                <h4 class="card-title ">Driver Application NO. {{$singleRequest->id}}</h4>
                             </div>
                             <div class="card-body">
                                 <div class="container">
@@ -221,34 +221,73 @@
                                             <span>
                                                 1
                                             </span>
-                                            Company Details
+                                            Deliverer Details
                                         </div>
 
                                         <div class="col-sm-6">
                                             <div class="form-group bmd-form-group">
-                                                <label>Company Name</label>
-                                                <input type="text" class="form-control" name="company_name" value="{{$singleRequest->name}}" placeholder="Company Name" required>
+                                                <label>First Name</label>
+                                                <input type="text" class="form-control" name="first_name" value="{{$singleRequest->first_name}}" placeholder="First Name" required>
                                             </div>
                                         </div>
 
                                         <div class="col-sm-6">
                                             <div class="form-group bmd-form-group">
-                                                <label>Company Website</label>
-                                                <input type="text" class="form-control" name="company_website" value="{{$singleRequest->company_website}}" placeholder="Company Website" required>
+                                                <label>Last Name</label>
+                                                <input type="text" class="form-control" name="last_name" value="{{$singleRequest->last_name}}" placeholder="Last Name" required>
                                             </div>
                                         </div>
 
                                         <div class="col-sm-6">
                                             <div class="form-group bmd-form-group">
-                                                <label>Business Type</label>
-                                                <input type="text" class="form-control" name="business_type" value="{{$singleRequest->business_type}}" placeholder="Business Type" required>
+                                                <label>Email Address</label>
+                                                <input type="email" class="form-control" name="email" value="{{$singleRequest->user->email}}" placeholder="Email Address" required>
                                             </div>
                                         </div>
 
                                         <div class="col-sm-6">
                                             <div class="form-group bmd-form-group">
-                                                <label>Number of Business Locations</label>
-                                                <input type="text" class="form-control" name="number_business_locations" value="{{$singleRequest->nom_business_locations}}" placeholder="Number of Business Locations" required>
+                                                <label>Contact Number</label>
+                                                <input type="text" class="form-control" name="contact_number" value="{{$singleRequest->user->phone}}" placeholder="Contact Number" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="form-group bmd-form-group">
+                                                <label>Contact Through</label>
+                                                <input type="text" class="form-control" name="contact_channel" value="{{$singleRequest->contact_channel}}" placeholder="Contact Through" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="form-group bmd-form-group">
+                                                <label>Date of Birth</label>
+                                                <input type="text" class="form-control" name="birthdate" value="{{$singleRequest->dob}}" placeholder="Date of Birth" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="form-group bmd-form-group">
+                                                <label>Address</label>
+                                                <textarea class="form-control" name="address" placeholder="Address" rows="5" required>{{$singleRequest->address}}</textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="form-group bmd-form-group">
+                                                <label>PPS Number</label>
+                                                <input type="text" class="form-control" name="pps_number" value="{{$singleRequest->pps_number}}" placeholder="PPS Number" required>
+                                            </div>
+                                            <div class="form-group bmd-form-group">
+                                                <label>Emergency Contact Name</label>
+                                                <input type="text" class="form-control" name="emergency_contact_name" value="{{$singleRequest->emergency_contact_name}}" placeholder="Emergency Contact Name" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="form-group bmd-form-group">
+                                                <label>Emergency Contact Phone Number</label>
+                                                <input type="text" class="form-control" name="emergency_contact_number" value="{{$singleRequest->emergency_contact_number}}" placeholder="Emergency Contact Phone Number" required>
                                             </div>
                                         </div>
                                     </div>
@@ -257,67 +296,56 @@
                         </div>
 
                         <div class="card">
-{{--                                <div class="card-header card-header-icon card-header-rose">--}}
-{{--                                    <div class="card-icon">--}}
-{{--                                        --}}{{--                                    <i class="material-icons">home_work</i>--}}
-{{--                                        <img class="page_icon" src="{{asset('images/doorder_icons/add-plus-outline.png')}}">--}}
-{{--                                    </div>--}}
-{{--                                    <h4 class="card-title ">New Order</h4>--}}
-{{--                                </div>--}}
+                            {{--                                <div class="card-header card-header-icon card-header-rose">--}}
+                            {{--                                    <div class="card-icon">--}}
+                            {{--                                        --}}{{--                                    <i class="material-icons">home_work</i>--}}
+                            {{--                                        <img class="page_icon" src="{{asset('images/doorder_icons/add-plus-outline.png')}}">--}}
+                            {{--                                    </div>--}}
+                            {{--                                    <h4 class="card-title ">New Order</h4>--}}
+                            {{--                                </div>--}}
                             <div class="card-body">
                                 <div class="container">
                                     <div class="row">
-                                        <div class="col-md-12 d-flex form-head pl-3">
-                                            <span>
-                                                2
-                                            </span>
-                                            Locations Details
-                                        </div>
+{{--                                        <div class="col-md-12 d-flex form-head pl-3">--}}
+{{--                                            <span>--}}
+{{--                                                2--}}
+{{--                                            </span>--}}
+{{--                                            Locations Details--}}
+{{--                                        </div>--}}
 
-                                        <div class="col-md-12" v-for="(location, index) in locations">
-                                            <label v-if="locations.length > 1">Location @{{ index + 1 }}</label>
+                                        <div class="col-md-12">
+{{--                                            <label v-if="locations.length > 1">Location @{{ index + 1 }}</label>--}}
                                             <div class="row">
                                                 <div class="col-sm-6">
                                                     <div class="form-group bmd-form-group">
+                                                        <label>Transport Type</label>
+                                                        <input class="form-control" value="{{$singleRequest->transport}}" placeholder="Transport Type" required>
+                                                    </div>
+
+                                                    <div class="form-group bmd-form-group">
+                                                        <label>Max package size</label>
+                                                        <input class="form-control" value="{{$singleRequest->max_package_size}}" placeholder="Max package size" required>
+                                                    </div>
+
+                                                    <div class="form-group bmd-form-group">
+                                                        <label>Work Location</label>
+                                                        <input class="form-control" value="{{$singleRequest->work_location}}" placeholder="Work Location" required>
+                                                    </div>
+
+                                                    <div class="form-group bmd-form-group">
+                                                        <label>Radius</label>
+                                                        <input class="form-control" value="{{$singleRequest->work_radius}}" placeholder="Radius" required>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-sm-6">
+                                                    <div class="form-group bmd-form-group">
                                                         <label>Address</label>
-                                                        <textarea :id="'location' + (index +1)" class="form-control" rows="3" :name="'address' + (index + 1)" placeholder="Address" required>@{{ location.address }}</textarea>
-                                                        <input :id="'location_'+ (index+1) +'_coordinates'" :name="'address_coordinates_' + (index + 1)" type="hidden">
+                                                        <textarea class="form-control" rows="14" placeholder="Address" required></textarea>
                                                     </div>
                                                 </div>
 
-                                                <div class="col-sm-6">
-                                                    <div class="form-group bmd-form-group">
-                                                        <label>Eircode</label>
-                                                        <input type="text" class="form-control" :name="'eircode' + (index + 1)" :id="'eircode' + (index + 1)" :value="location.eircode" placeholder="Postcode/Eircode" required>
-                                                    </div>
-                                                    <div class="form-group bmd-form-group">
-                                                        {{--                            <label class="bmd-label-floating">First Name</label>--}}
-{{--                                                            <select class="form-control" :id="'country' + (index + 1)" :name="'country' + (index + 1)" required>--}}
-{{--                                                                <option disabled>Select Country</option>--}}
-{{--                                                                <option value="Ireland" selected>Ireland</option>--}}
-{{--                                                            </select>--}}
-                                                        <input type="text" class="form-control" :value="location.country" placeholder="Country" required>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-sm-6">
-                                                    <div class="form-group bmd-form-group">
-                                                        <label>Working Days and Hours</label>
-                                                        <input type="text" class="form-control" :id="'business_hours' + (index + 1)" :name="'business_hours' + (index + 1)" :value="location.business_hours" placeholder="Working Days and Hours">
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-sm-6">
-                                                    <div class="form-group bmd-form-group">
-                                                        {{--                            <label class="bmd-label-floating">First Name</label>--}}
-{{--                                                            <select class="form-control" :id="'county' + (index + 1)" :name="'county' + (index + 1)" required>--}}
-{{--                                                                <option selected disabled>Select County</option>--}}
-{{--                                                                <option v-for="county in counties" :value="county">@{{ county }}</option>--}}
-{{--                                                            </select>--}}
-                                                        <label>Country</label>
-                                                        <input type="text" class="form-control" :value="location.county" placeholder="Country" required>
-                                                    </div>
-                                                </div>
                                             </div>
 
                                             <!-- Workig Hours Modal -->
@@ -386,11 +414,11 @@
                                                 <div class="col-sm-6">
                                                     <div class="form-group bmd-form-group">
                                                         {{--                                    <input type="text" class="form-control" name="contact_location" value="{{old('contact_location')}}" placeholder="Location" required>--}}
-{{--                                                            <select class="form-control" :id="'contact_location' + (index + 1)"  :name="'contact_location' + (index + 1)">--}}
-{{--                                                                <option selected disabled>Location</option>--}}
-{{--                                                                <option v-for="(location, index) of locations" value="location">Location @{{ index +1 }}</option>--}}
-{{--                                                                <option value="all" v-if="locations.length > 1">All</option>--}}
-{{--                                                            </select>--}}
+                                                        {{--                                                            <select class="form-control" :id="'contact_location' + (index + 1)"  :name="'contact_location' + (index + 1)">--}}
+                                                        {{--                                                                <option selected disabled>Location</option>--}}
+                                                        {{--                                                                <option v-for="(location, index) of locations" value="location">Location @{{ index +1 }}</option>--}}
+                                                        {{--                                                                <option value="all" v-if="locations.length > 1">All</option>--}}
+                                                        {{--                                                            </select>--}}
                                                         <label>Location</label>
                                                         <input type="text" class="form-control" :value="contact.contact_location" placeholder="Location" required>
                                                     </div>
@@ -450,12 +478,12 @@
                         </div>
 
                         <div class="row">
-                                <div class="col-sm-6 text-center">
-                                    <form id="order-form" method="POST" action="{{route('post_doorder_retailers_single_request', ['doorder', $singleRequest->id])}}">
-                                        {{csrf_field()}}
-                                        <button class="btn bt-submit">Accept</button>
-                                    </form>
-                                </div>
+                            <div class="col-sm-6 text-center">
+                                <form id="order-form" method="POST" action="{{route('post_doorder_retailers_single_request', ['doorder', $singleRequest->id])}}">
+                                    {{csrf_field()}}
+                                    <button class="btn bt-submit">Accept</button>
+                                </form>
+                            </div>
                             <div class="col-sm-6 text-center">
                                 <button class="btn bt-submit btn-danger" data-toggle="modal" data-target="#rejection-reason-modal">Reject</button>
                             </div>
@@ -483,7 +511,7 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer d-flex justify-content-around">
-                                        <button type="button" class="btn btn-primary doorder-btn-lg doorder-btn" onclick="$('form#request-rejection').submit()">Send</button>
+                                        <button type="button" class="btn btn-primary doorder-btn-lg doorder-btn" onclick="$('form#request-rejection').submit()">Assign</button>
                                         <button type="button" class="btn btn-danger doorder-btn-lg doorder-btn" data-dismiss="modal">Close</button>
                                     </div>
                                 </div>
@@ -495,20 +523,4 @@
 
         </div>
     </div>
-@endsection
-
-@section('page-scripts')
-{{--    <script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>--}}
-{{--    <script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>--}}
-    <script>
-        var app = new Vue({
-            el: '#app',
-            data() {
-                return {
-                    locations: JSON.parse({!! json_encode($singleRequest->locations_details) !!}),
-                    contacts: JSON.parse({!! json_encode($singleRequest->contacts_details) !!}),
-                }
-            },
-        });
-    </script>
 @endsection

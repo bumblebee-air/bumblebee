@@ -326,7 +326,7 @@
                                         {{--                            <label class="bmd-label-floating">First Name</label>--}}
                                         <select class="form-control" :id="'county' + (index + 1)" :name="'county' + (index + 1)" required>
                                             <option selected disabled>Select County</option>
-                                            <option v-for="county in counties" :value="county">@{{ county }}</option>
+                                            <option v-for="county in counties" :value="county">@{{ county.name }}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -497,8 +497,8 @@
                 });
 
                 let iresh_counties_json = jQuery.getJSON('{{asset('iresh_counties.json')}}', data => {
-                    for (let county of data.objects.counties.geometries) {
-                        this.counties.push(county.id);
+                    for (let county of data) {
+                        this.counties.push({name: county.city, coordinates: {lat: county.lat, lng: county.lng}});
                     }
                 });
 

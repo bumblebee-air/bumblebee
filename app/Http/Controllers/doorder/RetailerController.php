@@ -32,6 +32,7 @@ class RetailerController extends Controller
         if ($errors->fails()) {
             return redirect()->back()->with(['errors' => $errors->errors()])->withInput($request->all());
         }
+
         $user = new User();
         $user->name = $firstContact['contact_name'];
         $user->email = $firstContact['contact_email'];
@@ -82,10 +83,14 @@ class RetailerController extends Controller
             $stripeTokenforCharge = $stripeToken;
         }
 
-        $amount = '1000';
+        /*$amount = '1000';
         $currency = 'usd';
         $description = 'Testing Payment Reason';
-        $this->chargeRetailer($amount, $currency, $stripeTokenforCharge, $description);
+        $this->chargeRetailer($amount, $currency, $stripeTokenforCharge, $description);*/
+        /*$customer = $stripe->customers->create([
+            'email' => $user->email,
+            'source' => $request->stripeToken
+        ]);*/
 
         $retailer = new Retailer();
         $retailer->user_id = $user->id;
@@ -97,6 +102,7 @@ class RetailerController extends Controller
         $retailer->contacts_details = $request->contacts_details;
         $retailer->stripe_token = $stripeToken;
         $retailer->customer_id = $customer_details['id'];
+        //$retailer->stripe_customer_id = $customer->id;
         $retailer->save();
 
         alert()->success('You are registered successfully');

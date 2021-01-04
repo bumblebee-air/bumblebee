@@ -433,7 +433,6 @@
                                         <img src="{{asset('images/pay-with-stripe.png')}}" style="max-width: 100%; max-height: 40px" alt="Pay With Stripe">
                                     </div>
                                 </div>
-                                <input type='hidden' name='stripeToken' v-model="stripeToken"/>
                                 <input type='hidden' id="locations_details" name='locations_details'/>
                                 <input type='hidden' id='contacts_details' name='contacts_details'/>
                             </div>
@@ -609,28 +608,8 @@
                 },
                 checkPaymentCard(e) {
                     e.preventDefault();
-                    // console.log($form);
-                    let exp_date = $('#payment_exp_date').val();
-                    let exp_month = exp_date.split('/')[0];
-                    let exp_year = exp_date.split('/')[1];
-                    Stripe.setPublishableKey('{{env('STRIPE_PUBLIC_KEY')}}');
-                    Stripe.createToken({
-                        number: $('#card_number').val(),
-                        cvc: $('#cvc').val(),
-                        exp_month: exp_month,
-                        exp_year: exp_year
-                    }, this.stripeResponseHandler);
-                    return false;
-                },
-                stripeResponseHandler(status, response) {
-                    if (response.error) {
-                        alert(response.error.message);
-                    } else {
-                        // token contains id, last4, and card type
-                        var token = response['id'];
-                        this.stripeToken = token;
-                        let location_details = [];
-                        let contacts_details = [];
+                    let location_details = [];
+                    let contacts_details = [];
                         //Make Location Details Input
                         for(let item of this.locations) {
                             location_details.push({
@@ -643,11 +622,10 @@
                                 county: $('#county' + (this.locations.indexOf(item) + 1)).val(),
                             });
                         }
-
                         for (let item of this.contacts) {
                             contacts_details.push({
                                 contact_name: $('#contact_name' + (this.contacts.indexOf(item) + 1)).val(),
-                                contact_phone: $('input[name="contact_number' + (this.contacts.indexOf(item) + 1) + '"').val(),
+                                contact_phone: $('#contact_number' + (this.contacts.indexOf(item) + 1)).val(),
                                 contact_email: $('#contact_email' + (this.contacts.indexOf(item) + 1)).val(),
                                 contact_location: $('#contact_location' + (this.contacts.indexOf(item) + 1)).val()
                             });
@@ -661,7 +639,6 @@
                         setTimeout(() => {
                             $form.get(0).submit();
                         }, 300)
-                    }
                 }
             }
         });

@@ -7,6 +7,7 @@ use App\Retailer;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Stripe;
 
 class RetailerController extends Controller
 {
@@ -22,9 +23,7 @@ class RetailerController extends Controller
             'number_business_locations' => 'required',
             'locations_details' => 'required',
             'contacts_details' => 'required',
-            'stripeToken' => 'required',
         ]);
-
         $firstContact = json_decode($request->contacts_details, true)[0];
         $errors = \Validator::make($firstContact, [
             'contact_email' => 'required|unique:users,email',
@@ -39,6 +38,54 @@ class RetailerController extends Controller
         $user->password = bcrypt(Str::random(6));
         $user->user_role = 'retailer';
         $user->save();
+        
+        $stripe = new \Stripe\StripeClient(
+            env('STRIPE_SECRET')
+        );
+        $customer_details = $stripe->customers->create([
+        'name' => $firstContact['contact_name'],
+        'email' => $firstContact['contact_email'],
+        'phone' => $firstContact['contact_phone'],
+        'description' => 'Customer Company name is '.$request->company_name,
+        ]);
+        
+        $payment_exp_date = explode('/', $request->payment_exp_date);
+        $exp_month = $payment_exp_date[0];
+        $exp_year = $payment_exp_date[1];
+        
+        $getCreatedStripeTokenDetail = $stripe->tokens->create([
+        'card' => [
+            'number' => $request->payment_card_number,
+            'exp_month' => $exp_month,
+            'exp_year' => $exp_year,
+            'cvc' => $request->payment_cvc_number,
+        ],
+        ]);
+
+        $stripeToken = $getCreatedStripeTokenDetail['id'];
+        if (env('APP_ENV') == 'local') {
+            $customer_card_details = $stripe->customers->createSource(
+                $customer_details['id'],
+                ['source' => 'tok_visa']
+                );
+            $stripeTokenforCharge = 'tok_visa';
+        } else{
+            $customer_card_details = $stripe->customers->createSource(
+                $customer_details['id'],
+                ['source' => ['object' => 'card',
+                'number' => $request->payment_card_number,
+                'exp_month' => $exp_month,
+                'exp_year' => $exp_year,
+                'cvc' => $request->payment_cvc_number]
+                ]
+                );
+            $stripeTokenforCharge = $stripeToken;
+        }
+
+        $amount = '1000';
+        $currency = 'usd';
+        $description = 'Testing Payment Reason';
+        $this->chargeRetailer($amount, $currency, $stripeTokenforCharge, $description);
 
         $retailer = new Retailer();
         $retailer->user_id = $user->id;
@@ -48,7 +95,8 @@ class RetailerController extends Controller
         $retailer->nom_business_locations = $request->number_business_locations;
         $retailer->locations_details = $request->locations_details;
         $retailer->contacts_details = $request->contacts_details;
-        $retailer->stripe_token = $request->stripeToken;
+        $retailer->stripe_token = $stripeToken;
+        $retailer->customer_id = $customer_details['id'];
         $retailer->save();
 
         alert()->success('You are registered successfully');
@@ -58,5 +106,22 @@ class RetailerController extends Controller
     public function getRetailerRequests() {
         $retailers_requests = Retailer::paginate(20);
         return view('admin.doorder.retailers.requests', ['retailers_requests' => $retailers_requests]);
+    }
+
+    public function chargeRetailer($amount, $currency, $stripeTokenforCharge, $description)
+    {
+        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        $stripe_charge = Stripe\Charge::create ([
+                "amount" => $amount,
+                "currency" => $currency,
+                "source" => $stripeTokenforCharge,
+                "description" => $description 
+        ]);
+        if($stripe_charge)
+        {
+            return true;
+        } else{
+            return false;
+        }
     }
 }

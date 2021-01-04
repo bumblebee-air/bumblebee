@@ -124,7 +124,7 @@
                                         </thead>
 
                                         <tbody>
-                                            <tr v-for="request in retailers_requests.data" v-if="retailers_requests.data.length > 0" class="order-row">
+                                            <tr v-for="request in retailers_requests.data" v-if="retailers_requests.data.length > 0" class="order-row" @click="openRequest(request.id)">
                                                 <td>@{{ parseDateTime(request.created_at) }}</td>
                                                 <td>@{{ request.business_type}}</td>
                                                 <td>@{{ request.name}}</td>
@@ -194,6 +194,9 @@
                     dateTime += parseDate.getHours() + ':';
                     dateTime += parseDate.getMinutes();
                     return dateTime;
+                },
+                openRequest(request_id) {
+                    window.location = "{{url('doorder/retailers/requests/')}}/"+request_id
                 }
             }
         });

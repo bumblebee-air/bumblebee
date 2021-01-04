@@ -130,4 +130,30 @@ class RetailerController extends Controller
             return false;
         }
     }
+
+    public function getSingleRequest($client_name, $id) {
+        $singleRequest = Retailer::find($id);
+        if (!$singleRequest) {
+            abort(404);
+        }
+        return view('admin.doorder.retailers.single_request', ['singleRequest' => $singleRequest]);
+    }
+
+    public function postSingleRequest(Request $request, $client_name, $id) {
+        $singleRequest = Retailer::find($id);
+        if (!$singleRequest) {
+            abort(404);
+        }
+        if ($request->rejection_reason) {
+            $singleRequest->rejection_reason = $request->rejection_reason;
+            $singleRequest->status = 'missing';
+            $singleRequest->save();
+            alert()->success('Retailer Form rejected successfully');
+        } else {
+            $singleRequest->status = 'completed';
+            $singleRequest->save();
+            alert()->success('Retailer Form accepted successfully');
+        }
+        return redirect()->route('doorder_retailers_requests', 'doorder');
+    }
 }

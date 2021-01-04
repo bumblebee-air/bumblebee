@@ -418,19 +418,45 @@
                             <p> Order Table </p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link d-flex" href="{{route('doorder_drivers_requests', 'doorder')}}">
+{{--                    <li class="nav-item">--}}
+{{--                        <a class="nav-link d-flex" href="{{route('doorder_drivers_requests', 'doorder')}}">--}}
 {{--                                <i class="fas fa-file-alt"></i>--}}
-                            <img style="height: 22px; width: 18px;" class="my-nav-icon" src="{{asset('images/doorder_icons/drivers_requests.png')}}" alt="">
-                            <p> Drivers Requests </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link d-flex" href="{{route('doorder_retailers_requests', 'doorder')}}">
+{{--                            <img style="height: 22px; width: 18px;" class="my-nav-icon" src="{{asset('images/doorder_icons/drivers_requests.png')}}" alt="">--}}
+{{--                            <p> Drivers Requests </p>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
+{{--                    <li class="nav-item">--}}
+{{--                        <a class="nav-link d-flex" href="{{route('doorder_retailers_requests', 'doorder')}}">--}}
 {{--                                <i class="fas fa-file-alt"></i>--}}
+{{--                            <img style="height: 22px; width: 18px;" class="my-nav-icon" src="{{asset('images/doorder_icons/drivers_requests.png')}}" alt="">--}}
+{{--                            <p> Retailers Requests </p>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
+                    <li class="nav-item ">
+                        <a class="nav-link collapsed d-flex" data-toggle="collapse" href="#componentsExamples" aria-expanded="false">
+{{--                            <i class="material-icons">apps</i>--}}
                             <img style="height: 22px; width: 18px;" class="my-nav-icon" src="{{asset('images/doorder_icons/drivers_requests.png')}}" alt="">
-                            <p> Retailers Requests </p>
+                            <p style="padding-right: 30px;">
+                                Requests
+                                <b class="caret"></b>
+                            </p>
                         </a>
+                        <div class="collapse" id="componentsExamples">
+                            <ul class="nav">
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="{{route('doorder_retailers_requests', 'doorder')}}">
+                                        <span class="sidebar-mini">RR</span>
+                                        <span class="sidebar-normal"> Retailers Requests </span>
+                                    </a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="{{route('doorder_drivers_requests', 'doorder')}}">
+                                        <span class="sidebar-mini">DR</span>
+                                        <span class="sidebar-normal"> Drivers Requests </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
                     <li class="nav-item ">
                         <a class="nav-link d-flex" href="{{url('logout')}}">

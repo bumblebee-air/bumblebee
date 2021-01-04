@@ -124,7 +124,7 @@ class OrdersController extends Controller
         $sid    = env('TWILIO_SID', '');
         $token  = env('TWILIO_AUTH', '');
         $twilio = new Client($sid, $token);
-        $twilio->messages->create($order->customer_phone,
+        $twilio->messages->create($driver->phone,
             [
                 "from" => "DoOrder",
                 "body" => "Hi $driver->name, there is an order assigned to you, please open your app. ".

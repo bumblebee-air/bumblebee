@@ -23,7 +23,7 @@ class SideNavComposer
         $user_type = null;
         $client_name = null;
         if($this->user!=null){
-            if($this->user->user_role == 'client' || $this->user->user_role == 'retailer'){
+            if($this->user->user_role == 'client'){
                 $user_type = $this->user->user_role;
                 $client_profile = Client::where('user_id','=',$this->user->id)->first();
                 $client_name = $client_profile->name;
@@ -38,6 +38,8 @@ class SideNavComposer
                         $admin_nav_background_image = asset($client_profile->nav_background_image);
                     }
                 }
+            } else if($this->user->user_role == 'retailer') {
+                $client_name = $this->user->name;
             }
         }
         $view->with(['user'=>$this->user, 'user_type'=>$user_type,

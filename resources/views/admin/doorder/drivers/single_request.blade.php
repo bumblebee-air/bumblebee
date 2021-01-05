@@ -485,6 +485,17 @@
                                         <div class="col-md-12">
                                             <form id="request-rejection" method="POST" action="{{route('post_doorder_drivers_single_request', ['doorder', $singleRequest->id])}}">
                                                 {{csrf_field()}}
+                                                <div class="text-center" style="  font-size: 30px;
+                                                                                  font-weight: bold;
+                                                                                  font-stretch: normal;
+                                                                                  font-style: normal;
+                                                                                  line-height: normal;
+                                                                                  letter-spacing: normal;
+                                                                                  color: #414141;">
+                                                    <img src="{{asset('images/doorder_icons/red-tick.png')}}" style="width: 160px" alt="Reqject">
+                                                    <br>
+                                                    Rejected
+                                                </div>
                                                 <div class="form-group bmd-form-group">
                                                     <label>Please add reason for rejection</label>
                                                     <textarea class="form-control" name="rejection_reason" rows="4" required></textarea>
@@ -493,7 +504,7 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer d-flex justify-content-around">
-                                        <button type="button" class="btn btn-primary doorder-btn-lg doorder-btn" onclick="$('form#request-rejection').submit()">Assign</button>
+                                        <button type="button" class="btn btn-primary doorder-btn-lg doorder-btn" onclick="$('form#request-rejection').submit()">Send</button>
                                         <button type="button" class="btn btn-danger doorder-btn-lg doorder-btn" data-dismiss="modal">Close</button>
                                     </div>
                                 </div>

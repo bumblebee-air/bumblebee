@@ -184,6 +184,18 @@
             font-size: 10px!important;
             margin: -5px;
         }
+
+        .file-url-container {
+            padding: 8px 44px 8px 17px;
+            border-radius: 9px;
+            border: solid 1px #e3e3e3;
+            background-color: #ffffff;
+            /*width: fit-content;*/
+        }
+        .file-url-container i {
+            font-size: 50px;
+            color: #e2e5e7;
+        }
     </style>
 @endsection
 @section('title','DoOrder | Driver Application NO. ' . $singleRequest->id)
@@ -329,7 +341,7 @@
 
                                                     <div class="form-group bmd-form-group">
                                                         <label>Work Location</label>
-                                                        <input class="form-control" value="{{$singleRequest->work_location}}" placeholder="Work Location" required>
+                                                        <input class="form-control" value="{{json_decode($singleRequest->work_location)->name}}" placeholder="Work Location" required>
                                                     </div>
 
                                                     <div class="form-group bmd-form-group">
@@ -341,8 +353,9 @@
 
                                                 <div class="col-sm-6">
                                                     <div class="form-group bmd-form-group">
-                                                        <label>Address</label>
-                                                        <textarea class="form-control" rows="14" placeholder="Address" required></textarea>
+{{--                                                        <label>Address</label>--}}
+{{--                                                        <textarea class="form-control" rows="14" placeholder="Address" required></textarea>--}}
+                                                        <div id="driver_map" style="height: 320px;"></div>
                                                     </div>
                                                 </div>
 
@@ -379,99 +392,68 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="container">
-                                    <div class="row" @click="changeCurrentTap('contact')">
+                                    <div class="row">
                                         <div class="col-md-12 d-flex form-head pl-3">
                                             <span>
                                                 3
                                             </span>
-                                            Contact Details
+                                            Verification Documents
                                         </div>
 
-                                        <div class="col-md-12" v-for="(contact, index) in contacts">
-                                            <label v-if="contacts.length > 1">Contact Details @{{ index + 1 }}</label>
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <div class="form-group bmd-form-group">
-                                                        <label>Contact Name</label>
-                                                        <input type="text" class="form-control" :id="'contact_name' + (index + 1)" :name="'contact_name' + (index + 1)" :value="contact.contact_name" placeholder="Contact Name" required>
+                                        <div class="col-sm-6">
+                                            <div class="form-group bmd-form-group">
+                                                <a target="_blank" href="{{asset($singleRequest->legal_word_evidence)}}" style="color: #333">
+                                                    <div class="file-url-container d-flex">
+                                                        <i class="fas fa-file"></i>
+                                                        <p class="mt-3 pl-3">
+                                                            Evidence you can legally work in Ireland
+                                                        </p>
                                                     </div>
-                                                </div>
-
-                                                <div class="col-sm-6">
-                                                    <div class="form-group bmd-form-group">
-                                                        <label>Contact Number</label>
-                                                        <input type="text" class="form-control" :id="'contact_number' + (index + 1)" :value="contact.contact_number" placeholder="Contact Number" required>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-sm-6">
-                                                    <div class="form-group bmd-form-group">
-                                                        <label>Contact Email</label>
-                                                        <input type="email" class="form-control" :id="'contact_email' + (index + 1)" :value="contact.contact_email" placeholder="Contact Email Address" required>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-sm-6">
-                                                    <div class="form-group bmd-form-group">
-                                                        {{--                                    <input type="text" class="form-control" name="contact_location" value="{{old('contact_location')}}" placeholder="Location" required>--}}
-                                                        {{--                                                            <select class="form-control" :id="'contact_location' + (index + 1)"  :name="'contact_location' + (index + 1)">--}}
-                                                        {{--                                                                <option selected disabled>Location</option>--}}
-                                                        {{--                                                                <option v-for="(location, index) of locations" value="location">Location @{{ index +1 }}</option>--}}
-                                                        {{--                                                                <option value="all" v-if="locations.length > 1">All</option>--}}
-                                                        {{--                                                            </select>--}}
-                                                        <label>Location</label>
-                                                        <input type="text" class="form-control" :value="contact.contact_location" placeholder="Location" required>
-                                                    </div>
-                                                </div>
+                                                </a>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="container">
-                                    <div class="row" @click="changeCurrentTap('contact')">
-                                        <div class="col-md-12 d-flex form-head pl-3">
-                                            <span>
-                                                4
-                                            </span>
-                                            Shopify Details
-                                        </div>
-
-                                        <div class="col-md-12">
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <div class="form-group bmd-form-group">
-                                                        <label>Shop URL</label>
-                                                        <input type="text" class="form-control" value="{{$singleRequest->shopify_store_domain}}" placeholder="Shop URL" required>
+                                        <div class="col-sm-6">
+                                            <div class="form-group bmd-form-group">
+                                                <a target="_blank" href="{{asset($singleRequest->driver_license)}}" style="color: #333">
+                                                    <div class="file-url-container d-flex">
+                                                        <i class="fas fa-file"></i>
+                                                        <p class="mt-3 pl-3">
+                                                            Driving License
+                                                        </p>
                                                     </div>
-                                                </div>
-
-                                                <div class="col-sm-6">
-                                                    <div class="form-group bmd-form-group">
-                                                        <label>App API key</label>
-                                                        <input type="text" class="form-control" value="{{$singleRequest->shopify_app_api_key}}" placeholder="App API key" required>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-sm-6">
-                                                    <div class="form-group bmd-form-group">
-                                                        <label>App Password</label>
-                                                        <input type="text" class="form-control" value="{{$singleRequest->shopify_app_password}}" placeholder="App Password" required>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-sm-6">
-                                                    <div class="form-group bmd-form-group">
-                                                        <label>App Secret</label>
-                                                        <input type="text" class="form-control" value="{{$singleRequest->shopify_app_secret}}" placeholder="App Secret" required>
-                                                    </div>
-                                                </div>
+                                                </a>
                                             </div>
                                         </div>
+
+                                        @if($singleRequest->insurance_proof)
+                                            <div class="col-sm-6">
+                                                <div class="form-group bmd-form-group">
+                                                    <a target="_blank" href="{{asset($singleRequest->insurance_proof)}}" style="color: #333">
+                                                        <div class="file-url-container d-flex">
+                                                            <i class="fas fa-file"></i>
+                                                            <p class="mt-3 pl-3">
+                                                                Proof of Insurance
+                                                            </p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        @endif
+
+                                        <div class="col-sm-6">
+                                            <div class="form-group bmd-form-group">
+                                                <a target="_blank" href="{{asset($singleRequest->address_proof)}}" style="color: #333">
+                                                    <div class="file-url-container d-flex">
+                                                        <i class="fas fa-file"></i>
+                                                        <p class="mt-3 pl-3">
+                                                            Proof of Address
+                                                        </p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -479,7 +461,7 @@
 
                         <div class="row">
                             <div class="col-sm-6 text-center">
-                                <form id="order-form" method="POST" action="{{route('post_doorder_retailers_single_request', ['doorder', $singleRequest->id])}}">
+                                <form id="order-form" method="POST" action="{{route('post_doorder_drivers_single_request', ['doorder', $singleRequest->id])}}">
                                     {{csrf_field()}}
                                     <button class="btn bt-submit">Accept</button>
                                 </form>
@@ -501,7 +483,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="col-md-12">
-                                            <form id="request-rejection" method="POST" action="{{route('post_doorder_retailers_single_request', ['doorder', $singleRequest->id])}}">
+                                            <form id="request-rejection" method="POST" action="{{route('post_doorder_drivers_single_request', ['doorder', $singleRequest->id])}}">
                                                 {{csrf_field()}}
                                                 <div class="form-group bmd-form-group">
                                                     <label>Please add reason for rejection</label>
@@ -523,4 +505,51 @@
 
         </div>
     </div>
+@endsection
+
+@section('page-scripts')
+    <script>
+        function initMap() {
+            let address_coordinates = JSON.parse({!! json_encode($singleRequest->address_coordinates) !!});
+            let work_location_coordinates = JSON.parse({!! json_encode($singleRequest->work_location) !!});
+            let map = new google.maps.Map(document.getElementById('driver_map'), {
+                zoom: 12,
+                center: {lat: 53.346324, lng: -6.258668}
+            });
+
+            let marker_icon = {
+                url: "{{asset('images/doorder_driver_assets/deliverer-location-pin.png')}}",
+                scaledSize: new google.maps.Size(30, 35), // scaled size
+            };
+
+            window.workLocationMarker = new google.maps.Marker({
+                map: map,
+                icon: marker_icon,
+                // anchorPoint: new google.maps.Point(0, -29)
+                position: {lat: parseFloat(work_location_coordinates.coordinates.lat), lng: parseFloat(work_location_coordinates.coordinates.lng)}
+            });
+
+            window.homeAddressMarker = new google.maps.Marker({
+                map: map,
+                icon: marker_icon,
+                position: {lat: parseFloat(address_coordinates.lat), lng: parseFloat(address_coordinates.lon)}
+            });
+
+            let home_address_circle = new google.maps.Circle({
+                center: {lat: parseFloat(address_coordinates.lat), lng: parseFloat(address_coordinates.lon)},
+                map: map,
+                radius: parseInt({!! $singleRequest->work_radius ? $singleRequest->work_radius : 0 !!}) * 1000,
+                strokeColor: "#f5da68",
+                strokeOpacity: 0.8,
+                strokeWeight: 1,
+                fillColor: "#f5da68",
+                fillOpacity: 0.4,
+            });
+            let bounds = new google.maps.LatLngBounds();
+            bounds.extend({lat: parseFloat(work_location_coordinates.coordinates.lat), lng: parseFloat(work_location_coordinates.coordinates.lng)})
+            bounds.extend({lat: parseFloat(address_coordinates.lat), lng: parseFloat(address_coordinates.lon)})
+            map.fitBounds(bounds);
+        }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=geometry,places&callback=initMap"></script>
 @endsection

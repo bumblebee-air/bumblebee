@@ -96,7 +96,7 @@
                                             <tr v-for="driver_request in drivers_requests.data" v-if="drivers_requests.data.length > 0" class="order-row" @click="openRequest(driver_request.id)">
                                                 <td>@{{ parseDateTime(driver_request.created_at) }}</td>
                                                 <td>
-                                                    @{{ driver_request.work_location}}
+                                                    @{{ JSON.parse(driver_request.work_location).name}}
                                                 </td>
                                                 <td>
                                                     @{{ driver_request.first_name}} @{{ driver_request.last_name  }}

@@ -390,7 +390,10 @@ class DriversController extends Controller
 
     public function getDriverRegistrationRequests()
     {
-        $drivers_requests = DriverProfile::with('user')->where('is_confirmed', false)->whereNull('rejection_reason')->paginate(20);
+        $drivers_requests = DriverProfile::with('user')
+//            ->where('is_confirmed', false)
+//            ->whereNull('rejection_reason')
+            ->paginate(20);
         return view('admin.doorder.drivers.requests', ['drivers_requests' => $drivers_requests]);
     }
 
@@ -400,5 +403,24 @@ class DriversController extends Controller
             abort(404);
         }
         return view('admin.doorder.drivers.single_request', ['singleRequest' => $singleRequest]);
+    }
+
+    public function postSingleRequest($client_name,$id, Request $request) {
+        $singleRequest = DriverProfile::find($id);
+        if (!$singleRequest) {
+            abort(404);
+        }
+        if ($request->rejection_reason) {
+            $singleRequest->rejection_reason = $request->rejection_reason;
+            $singleRequest->status = 'missing';
+            $singleRequest->save();
+            alert()->success('Retailer Form rejected successfully');
+        } else {
+            $singleRequest->status = 'completed';
+            $singleRequest->is_confirmed = true;
+            $singleRequest->save();
+            alert()->success('Retailer Form accepted successfully');
+        }
+        return redirect()->route('doorder_drivers_requests', 'doorder');
     }
 }

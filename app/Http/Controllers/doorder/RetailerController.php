@@ -65,7 +65,7 @@ class RetailerController extends Controller
 
         $stripeToken = $getCreatedStripeTokenDetail['id'];
 //        if (env('APP_ENV') == 'local') {
-        if (str_contains(env('STRIPE_SECRET'), 'test_') == 'local') {
+        if (str_contains(env('STRIPE_SECRET'), 'test_')) {
             $customer_card_details = $stripe->customers->createSource(
                 $customer_details['id'],
                 ['source' => 'tok_visa']

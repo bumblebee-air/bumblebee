@@ -84,6 +84,10 @@
                                             On-route
                                         </div>
                                         <div class="status_item">
+                                            <img class="status_icon" src="{{asset('images/doorder_icons/order_status_delivery_arrived.png')}}" alt="on route">
+                                            Arrived to location
+                                        </div>
+                                        <div class="status_item">
                                             <img class="status_icon" src="{{asset('images/doorder_icons/order_status_delivered.png')}}" alt="delivered">
                                             Delivered
                                         </div>

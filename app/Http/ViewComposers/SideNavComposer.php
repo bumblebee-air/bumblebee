@@ -23,9 +23,9 @@ class SideNavComposer
         $user_type = null;
         $client_name = null;
         if($this->user!=null){
-            if($this->user->user_role == 'client'){
+            if($this->user->user_role == 'client' || $this->user->user_role == 'retailer'){
                 $user_type = $this->user->user_role;
-                $client_profile = Client::where('user_id','=',$this->user->id)->first();
+                $client_profile = Client::find($this->user->client->client_id);
                 $client_name = $client_profile->name;
                 if($client_profile){
                     if($client_profile->logo!=null){

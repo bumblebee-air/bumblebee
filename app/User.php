@@ -35,7 +35,7 @@ class User extends Authenticatable
     }
 
     public function client(){
-        return $this->hasOne(Client::class, 'user_id', 'id');
+        return $this->hasOne(UserClient::class, 'user_id', 'id');
     }
 
     public function firebase_tokens() {

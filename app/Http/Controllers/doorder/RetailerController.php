@@ -5,6 +5,7 @@ namespace App\Http\Controllers\doorder;
 use App\Http\Controllers\Controller;
 use App\Retailer;
 use App\User;
+use App\UserClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Stripe;
@@ -105,6 +106,16 @@ class RetailerController extends Controller
         $retailer->customer_id = $customer_details['id'];
         //$retailer->stripe_customer_id = $customer->id;
         $retailer->save();
+
+        //Getting Doorder Client
+        $client = \App\Client::where('name', 'DoOrder')->first();
+        if($client) {
+            //Making Client Relation
+            UserClient::create([
+                'user_id' => $retailer,
+                'client_id' => $client->id
+            ]);
+        }
 
         alert()->success('You are registered successfully');
         return redirect()->back();

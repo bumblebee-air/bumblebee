@@ -375,7 +375,7 @@
 
                                 <div class="col-sm-6">
                                     <div class="form-group bmd-form-group">
-                                        <input type="text" class="form-control" :id="'contact_number' + (index + 1)" value="{{old('contact_number')}}" placeholder="Contact Number" required>
+                                        <input type="text" class="form-control" :id="'contact_number' + (index + 1)" :name="'contact_number' + (index + 1)" value="{{old('contact_number')}}" placeholder="Contact Number" required>
                                     </div>
                                 </div>
 

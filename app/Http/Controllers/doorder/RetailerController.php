@@ -9,6 +9,7 @@ use App\UserClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Stripe;
+use Twilio\Rest\Client;
 
 class RetailerController extends Controller
 {
@@ -36,6 +37,7 @@ class RetailerController extends Controller
 
         $user = new User();
         $user->name = $firstContact['contact_name'];
+        $user->phone = $firstContact['contact_phone'];
         $user->email = $firstContact['contact_email'];
         $user->password = bcrypt(Str::random(6));
         $user->user_role = 'retailer';
@@ -156,15 +158,37 @@ class RetailerController extends Controller
         if (!$singleRequest) {
             abort(404);
         }
+        $user = User::find($singleRequest->user_id);
+        if (!$user) {
+            abort(404);
+        }
         if ($request->rejection_reason) {
             $singleRequest->rejection_reason = $request->rejection_reason;
             $singleRequest->status = 'missing';
             $singleRequest->save();
-            alert()->success('Retailer Form rejected successfully');
+            alert()->success('Retailer rejected successfully');
         } else {
             $singleRequest->status = 'completed';
             $singleRequest->save();
-            alert()->success('Retailer Form accepted successfully');
+            //update user password send sms to retailer with login details
+            $new_pass = Str::random(6);
+            $user->password = bcrypt($new_pass);
+            $user->save();
+            try {
+                $sid = env('TWILIO_SID', '');
+                $token = env('TWILIO_AUTH', '');
+                $twilio = new Client($sid, $token);
+                $twilio->messages->create($user->phone,
+                    [
+                        "from" => "DoOrder",
+                        "body" => "Hi $user->name, your retailer profile has been accepted.
+                        Login details are the email: $user->email and the password: $new_pass .
+                        Login page: ".url('doorder/login')
+                    ]
+                );
+            } catch (\Exception $exception){
+            }
+            alert()->success('Retailer accepted successfully');
         }
         return redirect()->route('doorder_retailers_requests', 'doorder');
     }

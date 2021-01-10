@@ -410,16 +410,38 @@ class DriversController extends Controller
         if (!$singleRequest) {
             abort(404);
         }
+        $user = User::find($singleRequest->user_id);
+        if (!$user) {
+            abort(404);
+        }
         if ($request->rejection_reason) {
             $singleRequest->rejection_reason = $request->rejection_reason;
             $singleRequest->status = 'missing';
             $singleRequest->save();
-            alert()->success('Retailer Form rejected successfully');
+            alert()->success('Deliverer rejected successfully');
         } else {
             $singleRequest->status = 'completed';
             $singleRequest->is_confirmed = true;
             $singleRequest->save();
-            alert()->success('Retailer Form accepted successfully');
+            //update user password send sms to deliverer with login details
+            $new_pass = Str::random(6);
+            $user->password = bcrypt($new_pass);
+            $user->save();
+            try {
+                $sid = env('TWILIO_SID', '');
+                $token = env('TWILIO_AUTH', '');
+                $twilio = new Client($sid, $token);
+                $twilio->messages->create($user->phone,
+                    [
+                        "from" => "DoOrder",
+                        "body" => "Hi $user->name, your deliverer profile has been accepted.
+                        Your login details are your phone and the password: $new_pass .
+                        Login page: ".url('driver_app')
+                    ]
+                );
+            } catch (\Exception $exception){
+            }
+            alert()->success('Deliverer accepted successfully');
         }
         return redirect()->route('doorder_drivers_requests', 'doorder');
     }

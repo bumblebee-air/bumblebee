@@ -169,7 +169,7 @@
                                 <span>
                                     1
                                 </span>
-                                A bit About You
+                                A bit about you
                             </div>
 
                             <div class="col-sm-6">
@@ -313,14 +313,14 @@
                                         <div id="check" :class="has_radius ? 'my-check-box my-check-box-checked' : 'my-check-box'">
                                             <i class="fas fa-check-square"></i>
                                         </div>
-                                        I want to have a radius from my address
+                                        I want to have a radius from my address (KM Unit)
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group" v-if="has_radius">
                                     {{--                                    <label class="bmd-form-group">Emergency Contact Number</label>--}}
-                                    <input type="number" class="form-control" id="work_radius" name="work_radius" placeholder="Work Radius" v-model="work_radius" @change="changeRadiusValue()" required>
+                                    <input type="number" class="form-control" id="work_radius" name="work_radius" placeholder="Work Radius (Km unit)" v-model="work_radius" @change="changeRadiusValue()" required>
                                 </div>
                             </div>
                         </div>

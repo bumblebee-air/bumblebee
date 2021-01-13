@@ -174,14 +174,14 @@
 
                             <div class="col-sm-6">
                                 <div class="form-group bmd-form-group">
-                                    <label class="bmd-label-floating">First Name</label>
+                                    <label class="bmd-label-floating">First Name</label> <span style="color: red">*</span>
                                     <input type="text" class="form-control" name="first_name" value="{{old('first_name')}}" required>
                                 </div>
                             </div>
 
                             <div class="col-sm-6">
                                 <div class="form-group bmd-form-group">
-                                    <label class="bmd-label-floating">Last Name</label>
+                                    <label class="bmd-label-floating">Last Name</label> <span style="color: red">*</span>
                                     <input type="text" class="form-control" name="last_name" value="{{old('last_name')}}" required>
                                 </div>
                             </div>
@@ -190,14 +190,14 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group bmd-form-group">
-                                    <label class="bmd-label-floating">Email Address</label>
+                                    <label class="bmd-label-floating">Email Address</label> <span style="color: red">*</span>
                                     <input type="text" class="form-control" name="email" value="{{old('email')}}" required>
                                 </div>
                             </div>
 
                             <div class="col-sm-6">
                                 <div class="form-group bmd-form-group">
-                                    <label class="bmd-form-group">Phone Number</label>
+                                    <label class="bmd-form-group">Phone Number</label> <span style="color: red">*</span>
                                     <input id="driver_phone" type="text" class="form-control" name="driver_phone" value="{{old('driver_phone')}}" required>
                                 </div>
                             </div>
@@ -206,7 +206,7 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label class="bmd-label-floating">Contact through</label>
+                                    <label class="bmd-label-floating">Contact through</label> <span style="color: red">*</span>
                                     <div class="d-flex">
                                         <div class="contact-through d-flex pr-5" @click="changeContact('whatsapp')">
                                             <div id="check" :class="contact == 'whatsapp' ? 'my-check-box my-check-box-checked' : 'my-check-box'">
@@ -230,13 +230,13 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group bmd-form-group">
-                                    <label class="bmd-form-group">Date of Birth</label>
+                                    <label class="bmd-form-group">Date of Birth</label> <span style="color: red">*</span>
                                     <input type="date" class="form-control" name="birthdate" value="{{old('birthdate')}}" required>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group bmd-form-group">
-                                    <label class="bmd-form-group">Address</label>
+                                    <label class="bmd-form-group">Address</label> <span style="color: red">*</span>
                                     <input type="text" class="form-control" name="address" id="driver_address" value="{{old('address')}}" required>
                                     <input type="hidden" class="form-control" name="address_coordinates" id="driver_address_coordinates" value="{{old('address_coordinates')}}">
                                 </div>
@@ -246,13 +246,13 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group bmd-form-group">
-                                    <label class="bmd-form-group">PPS Number</label>
+                                    <label class="bmd-form-group">PPS Number</label> <span style="color: red">*</span>
                                     <input type="text" class="form-control" name="pps_number" value="{{old('pps_number')}}" required>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group bmd-form-group">
-                                    <label class="bmd-form-group">Emergency Contact Name</label>
+                                    <label class="bmd-form-group">Emergency Contact Name</label> <span style="color: red">*</span>
                                     <input type="text" class="form-control" name="emergency_contact_name" value="{{old('emergency_contact_name')}}" required>
                                 </div>
                             </div>
@@ -261,13 +261,13 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group bmd-form-group">
-                                    <label class="bmd-form-group">Emergency Contact Number</label>
+                                    <label class="bmd-form-group">Emergency Contact Number</label> <span style="color: red">*</span>
                                     <input type="text" class="form-control" name="emergency_contact_number" value="{{old('emergency_contact_number')}}" required>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group bmd-form-group">
-                                    <label class="bmd-form-group">Max package Weight</label>
+                                    <label class="bmd-form-group">Max package Weight</label> <span style="color: red">*</span>
                                     {{--                                <input type="text" class="form-control" name="emergency_contact_name" value="{{old('emergency_contact_name')}}" required>--}}
                                     <select name="max_package_size" class="form-control">
                                         <option selected disabled>Choose Max Package Weight</option>
@@ -283,7 +283,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group bmd-form-group">
-                                    <label class="bmd-form-group">Transport Type</label>
+                                    <label class="bmd-form-group">Transport Type</label> <span style="color: red">*</span>
     {{--                                <input type="text" class="form-control" name="pps_number" value="{{old('pps_number')}}" required>--}}
                                     <select name="transport_type" class="form-control">
                                         <option selected disabled>Choose Transportation</option>
@@ -296,7 +296,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group bmd-form-group">
-                                    <label class="bmd-form-group">Work Location</label>
+                                    <label class="bmd-form-group">Work Location</label> <span style="color: red">*</span>
                                     {{--                                <input type="text" class="form-control" name="emergency_contact_name" value="{{old('emergency_contact_name')}}" required>--}}
                                     <select name="work_location" class="form-control" required v-model="work_location" id="work_location" @change="changeWorkLocation()">
                                         <option value="" selected disabled>Select Area</option>
@@ -346,7 +346,7 @@
                         <div class="upload-file-card">
                             <div class="row">
                                 <div class="col-md-12 upload-file-title-container">
-                                    <p class="upload-file-title">Evidence you can legally work in Ireland</p>
+                                    <p class="upload-file-title">Evidence you can legally work in Ireland  <span style="color: red">*</span></p>
                                     <p class="upload-file-subtitle">
                                         (Work permit or Passport/National Identity Card
                                         issued by a state that is part of the EEA)
@@ -412,7 +412,7 @@
                         <div class="upload-file-card">
                             <div class="row">
                                 <div class="col-md-12 upload-file-title-container">
-                                    <p class="upload-file-title">Proof of Address</p>
+                                    <p class="upload-file-title">Proof of Address <span style="color: red">*</span></p>
                                     <p class="upload-file-subtitle">
                                         (bank statement, utility bill, driving licence)
                                     </p>

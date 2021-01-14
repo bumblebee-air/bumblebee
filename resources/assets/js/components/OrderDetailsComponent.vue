@@ -131,7 +131,10 @@
                                     Package details
                                 </p>
                                 <p class="order-address-value">
-                                    {{order_data.weight ? order_data.weight + ' / ' : ''}}  {{!order_data.fragile ? 'Not' : ''}} Fragile / {{order_data.dimensions ? order_data.dimensions : 'N/A Dimensions'}}
+                                  {{order_data.weight ? order_data.weight + ' / ' : ''}}  {{!order_data.fragile ? 'Not' : ''}} Fragile / {{order_data.dimensions ? order_data.dimensions : 'N/A Dimensions'}}
+                                  <br v-if="order_data.notes != ''">
+                                  <br v-if="order_data.notes != ''">
+                                  {{order_data.notes != '' ? 'Notes: ' + order_data.notes : ''}}
                                 </p>
                             </div>
                             <div>

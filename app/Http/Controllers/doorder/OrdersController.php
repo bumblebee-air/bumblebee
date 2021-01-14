@@ -13,7 +13,7 @@ use Twilio\Rest\Client;
 class OrdersController extends Controller
 {
     public function getOrdersTable() {
-        if (auth()->user()->role == 'retailer') {
+        if (auth()->user()->user_role == 'retailer') {
             $orders = Order::where('retailer_id', auth()->user()->retailer_profile->id)->orderBy('id', 'desc')->paginate(20);
         } else {
             $orders = Order::orderBy('id', 'desc')->paginate(20);

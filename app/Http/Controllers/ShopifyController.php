@@ -16,6 +16,7 @@ class ShopifyController extends Controller
             \Log::error('Retailer not registered on the system, domain: '.$shop_domain);
             return response()->json(['error'=>1,'message'=>'Unregistered on platform']);
         }
+        $retailer_id = $retailer->id;
         $shop = "https://" . $retailer->shopify_store_domain;
         $shopName = $retailer->shopify_store_domain;
         $api_key = $retailer->shopify_app_api_key;
@@ -162,6 +163,7 @@ class ShopifyController extends Controller
                     $order->dimensions = $dimensions;
                     $order->notes = $notes;
                     $order->retailer_name = $retailer_name;
+                    $order->retailer_id = $retailer_id;
                     $order->pickup_address = $pickup_address;
                     $order->pickup_lat = $pickup_lat;
                     $order->pickup_lon = $pickup_lon;

@@ -14,9 +14,9 @@ class OrdersController extends Controller
 {
     public function getOrdersTable() {
         if (auth()->user()->role == 'retailer')
-            $orders = Order::orderBy('id','desc')->paginate(20);
-        else
             $orders = Order::where('retailer_id', auth()->user()->retailer_profile->id)->orderBy('id','desc')->paginate(20);
+        else
+            $orders = Order::orderBy('id','desc')->paginate(20);
 
         foreach ($orders as $order) {
             $order->time = $order->created_at->format('h:i');

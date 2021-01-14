@@ -166,7 +166,7 @@
                                                 <td>
                                                     @{{ order.time }}
                                                 </td>
-                                                <td>#@{{order.order_id}}</td>
+                                                <td>@{{order.order_id.includes('#')? order.order_id : '#'+order.order_id}}</td>
                                                 <td>@{{order.retailer_name}}</td>
                                                 <td>
                                                     <img class="order_status_icon" :src="'{{asset('/')}}images/doorder_icons/order_status_' + (order.status === 'assigned' ? 'matched' :  order.status) + '.png'" :alt="order.status">

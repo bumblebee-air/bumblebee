@@ -78,7 +78,7 @@ class DriversController extends Controller
     public function ordersList(){
         $current_driver = \Auth::user();
         $driver_id = $current_driver->id;
-        $available_orders = Order::where('status','!=','delivered')->whereNull('driver')->get()->toArray();
+        $available_orders = Order::whereNotIn('status',['pending','delivered'])->whereNull('driver')->get()->toArray();
         $driver_orders = Order::where('status','!=','delivered')->where('driver','=',(string)$driver_id)->get()->toArray();
         $response = [
             'available_orders' => $available_orders,

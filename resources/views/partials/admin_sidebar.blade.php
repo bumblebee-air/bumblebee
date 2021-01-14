@@ -484,7 +484,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link d-flex">
+                        <a class="nav-link d-flex" href="{{route('doorder_ordersTable', 'doorder')}}">
                             {{--                        <i class="fas fa-chart-bar"></i>--}}
                             <img class="my-nav-icon" src="{{asset('images/doorder_icons/orders_table_white.png')}}" alt="">
                             <p> Order Table </p>

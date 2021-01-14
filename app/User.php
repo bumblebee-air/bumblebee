@@ -45,4 +45,8 @@ class User extends Authenticatable
     public function driver_profile(){
         return $this->hasOne(DriverProfile::class, 'user_id', 'id');
     }
+
+    public function retailer_profile() {
+        return $this->hasOne(Retailer::class, 'user_id');
+    }
 }

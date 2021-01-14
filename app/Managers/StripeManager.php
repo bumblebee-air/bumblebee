@@ -68,7 +68,7 @@ class StripeManager
         $sid    = env('TWILIO_SID', '');
         $token  = env('TWILIO_AUTH', '');
         $twilio = new Client($sid, $token);
-        $message_body = 'Hi '.$first_name.', press the following link to start your Stripe account on-boarding: '.
+        $message_body = 'Hi '.$first_name.', Click on the following link to start your Stripe account on-boarding: '.
             url('stripe-onboard/'.$onboard_code);
         $message = $twilio->messages->create($phone,
             ["from" => "DoOrder",

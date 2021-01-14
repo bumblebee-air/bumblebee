@@ -374,7 +374,7 @@ class DriversController extends Controller
         $profile->emergency_contact_number = $request->emergency_contact_number;
         $profile->transport = $request->transport_type;
         $profile->max_package_size = $request->max_package_size;
-        $profile->work_location = $request->work_location;
+        $profile->work_location = $request->work_location ? $request->work_location : '{"name":"N/A","coordinates":{"lat":"0","lng":"0"}}';
         $profile->legal_word_evidence = $request->proof_id ? $request->file('proof_id')->store('uploads/doorder_drivers_registration') : null;
         $profile->driver_license = $request->proof_driving_license ? $request->file('proof_driving_license')->store('uploads/doorder_drivers_registration') : null;
         $profile->address_proof = $request->proof_address ? $request->file('proof_address')->store('uploads/doorder_drivers_registration') : null;

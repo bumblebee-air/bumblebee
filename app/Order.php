@@ -29,7 +29,8 @@ class Order extends Model
         'customer_confirmation_code',
         'delivery_confirmation_code',
         'delivery_confirmation_status',
-        'delivery_confirmation_skip_reason'
+        'delivery_confirmation_skip_reason',
+        'retailer_id'
     ];
 
     public function orderDriver() {

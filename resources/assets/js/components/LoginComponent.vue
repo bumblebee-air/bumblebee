@@ -31,18 +31,9 @@
                                         <input type="password" id="password" name="password" class="form-control" placeholder="Password" required v-model="password" :disabled="isLoading">
                                     </div>
                                 </div>
-
-<!--                                <div class="col-md-9 my-4">-->
-<!--                                    <div class="form-check">-->
-<!--                                        <label class="form-check-label" for="remember-me">-->
-<!--                                            <input type="checkbox" class="form-check-input" id="remember-me" name="remember">-->
-<!--                                            Remember me-->
-<!--                                            <span class="form-check-sign">-->
-<!--                                            <span class="check"></span>-->
-<!--                                        </span>-->
-<!--                                        </label>-->
-<!--                                    </div>-->
-<!--                                </div>-->
+                                <div class="col-md-9 my-4 text-center">
+                                  <router-link :to="{name: 'forgot-password'}" class="forgot-password">Forgot password?</router-link>
+                                </div>
                                 <div class="d-flex justify-content-center align-content-center">
                                     <button class="btn btn-lg doorder-btn" type="submit" :disabled="isLoading">
                                         {{!isLoading ? 'Submit' : ''}}
@@ -55,7 +46,6 @@
                 </div>
             </div>
         </div>
-<!--        <loading-component></loading-component>-->
     </div>
 </template>
 
@@ -140,4 +130,9 @@
         height: 52px;
     }
 
+    .forgot-password {
+      font-size: 13px;
+      letter-spacing: 0.24px;
+      color: #dcbd3b;
+    }
 </style>

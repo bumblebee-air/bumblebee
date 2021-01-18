@@ -41,6 +41,9 @@ Route::post('shopify/order', 'ShopifyController@receiveOrder');
 Route::post('fulfill-order', 'OrdersController@fulfillOrder');
 
 Route::post('driver-login','doorder\DriversController@driversLogin');
+Route::post('driver-forgot-password','doorder\DriversController@sendForgotPasswordCode');
+Route::post('driver-check-code','doorder\DriversController@checkForgotPasswordCode');
+Route::post('driver-change-password','doorder\DriversController@changeUserPassword');
 Route::group(['middleware' => "auth:api"],function () {
     Route::get('orders-list','doorder\DriversController@ordersList');
     Route::post('driver-status-update','doorder\DriversController@updateOrderDriverStatus');

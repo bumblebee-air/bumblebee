@@ -4,6 +4,7 @@ import AppComponent from "./components/AppComponent";
 import OrdersListComponent from "./components/OrdersListComponent";
 import OrderDetailsComponent from "./components/OrderDetailsComponent";
 import OrderDeliveredComponent from "./components/OrderDeliveredComponent";
+import ForgotPasswordComponent from "./components/ForgotPasswordComponent";
 
 const router = new VueRouter({
     routes: [
@@ -12,6 +13,12 @@ const router = new VueRouter({
             path: '/login',
             name: 'login',
             component: LoginComponent,
+            beforeEnter: (to, from, next) => checkIfAuthed(to, from, next)
+        },
+        {
+            path: '/forgot-password',
+            name: 'forgot-password',
+            component: ForgotPasswordComponent,
             beforeEnter: (to, from, next) => checkIfAuthed(to, from, next)
         },
         {

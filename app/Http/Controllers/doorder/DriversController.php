@@ -9,6 +9,7 @@ use App\Managers\StripeManager;
 use App\Order;
 use App\User;
 use App\UserFirebaseToken;
+use App\UserPasswordReset;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -444,5 +445,115 @@ class DriversController extends Controller
             alert()->success('Deliverer accepted successfully');
         }
         return redirect()->route('doorder_drivers_requests', 'doorder');
+    }
+
+    public function sendForgotPasswordCode(Request $request) {
+        $checkIfUserExists = User::where('phone', $request->phone)->first();
+        if ($checkIfUserExists) {
+            $resetPasswordCode = Str::random(6);
+            try {
+                $sid = env('TWILIO_SID', '');
+                $token = env('TWILIO_AUTH', '');
+                $twilio = new Client($sid, $token);
+                $twilio->messages->create($checkIfUserExists->phone,
+                    [
+                        "from" => "DoOrder",
+                        "body" => "Hi $checkIfUserExists->name, this message has been sent upon you request.
+                        This is your reset password code: " . $resetPasswordCode
+                    ]
+                );
+            } catch (\Exception $exception) {
+            }
+
+            UserPasswordReset::create([
+                'user_id' => $checkIfUserExists->id,
+                'code' => $resetPasswordCode
+            ]);
+            $response = [
+                'access_token' => '',
+                'message' => 'Please enter the reset password code.',
+                'error' => 0
+            ];
+            return response()->json($response);
+        } else {
+            $response = [
+                'access_token' => '',
+                'message' => 'No user was found with this phone number',
+                'error' => 1
+            ];
+            return response()->json($response)->setStatusCode(422);
+        }
+    }
+
+    public function checkForgotPasswordCode(Request $request) {
+        $checkIfUserExists = User::where('phone', $request->phone)->first();
+        if($checkIfUserExists) {
+            $userResetCode = UserPasswordReset::where('user_id', $checkIfUserExists->id)->
+                where('code', $request->password_reset_code)->first();
+            if (!$userResetCode) {
+                $response = [
+                    'access_token' => '',
+                    'message' => 'password reset code was not correct.',
+                    'error' => 1
+                ];
+                return response()->json($response)->setStatusCode(422);
+            }
+            $response = [
+                'access_token' => '',
+                'message' => '',
+                'error' => 0
+            ];
+            return response()->json($response);
+        } else {
+            $response = [
+                'access_token' => '',
+                'message' => 'No user was found with this phone number',
+                'error' => 1
+            ];
+            return response()->json($response)->setStatusCode(422);
+        }
+    }
+
+    public function changeUserPassword(Request $request) {
+        if(!$request->password_reset_code || !$request->password || !$request->phone){
+            $response = [
+                'access_token' => '',
+                'message' => 'Missing password or reset code',
+                'error' => 1
+            ];
+            return response()->json($response)->setStatusCode(422);
+        }
+
+        $checkIfUserExists = User::where('phone', $request->phone)->first();
+        if($checkIfUserExists) {
+            $userResetCode = UserPasswordReset::where('user_id', $checkIfUserExists->id)->
+            where('code', $request->password_reset_code)->first();
+            if (!$userResetCode) {
+                $response = [
+                    'access_token' => '',
+                    'message' => 'password reset code was not correct.',
+                    'error' => 1
+                ];
+                return response()->json($response)->setStatusCode(422);
+            }
+            $checkIfUserExists->update([
+                'password' => bcrypt($request->password)
+            ]);
+            //Delete password reset codes
+            UserPasswordReset::where('user_id', $checkIfUserExists->id)->delete();
+            $response = [
+                'access_token' => '',
+                'message' => 'Password has been changed successfully',
+                'error' => 0
+            ];
+            return response()->json($response);
+        } else {
+            $response = [
+                'access_token' => '',
+                'message' => 'No user was found with this phone number',
+                'error' => 1
+            ];
+            return response()->json($response)->setStatusCode(422);
+        }
     }
 }

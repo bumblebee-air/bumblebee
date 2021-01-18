@@ -27,7 +27,12 @@ class OrdersController extends Controller
     }
 
     public function addNewOrder() {
-        return view('admin.doorder.add_order');
+        $pickup_addresses = [];
+        $user_profile = auth()->user()->retailer_profile;
+        if ($user_profile) {
+            $pickup_addresses = json_decode($user_profile->locations_details, true);
+        }
+        return view('admin.doorder.add_order', with(['pickup_addresses' => $pickup_addresses]));
     }
     public function saveNewOrder(Request $request) {
         $this->validate($request, [

@@ -124,8 +124,9 @@
 {{--                                                    <input id="pick_address" name="pickup_address" type="text" class="form-control" value="{{old('pickup_address')}}" required>--}}
                                                     <select id="pick_address" name="pickup_address" data-style="select-with-transition" class="form-control selectpicker" required>
                                                         <option value="">Select pickup address</option>
-                                                        <option value="88 - 95 Grafton Street Dublin , Dublin Ireland">88 - 95 Grafton Street Dublin , Dublin Ireland </option>
-                                                        <option value="12 Brook Lawn, Lehenagh More, Cork, Ireland">12 Brook Lawn, Lehenagh More, Cork, Ireland</option>
+                                                        @foreach($pickup_addresses as $address)
+                                                            <option value="{{$address['address']}}">{{$address['address']}}</option>
+                                                        @endforeach
                                                         <option value="Other">Other</option>
                                                     </select>
                                                     <input type="hidden" name="pickup_lat" id="pickup_lat">
@@ -324,15 +325,24 @@
                 pickup_address_alt.removeAttr('required').hide();
                 pickup_lat_field.val('');
                 pickup_lon_field.val('');
-                if(picked_address=='88 - 95 Grafton Street Dublin , Dublin Ireland'){
-                    pickup_lat_field.val('53.3423674');
-                    pickup_lon_field.val('-6.2599023');
-                }else if(picked_address=='12 Brook Lawn, Lehenagh More, Cork, Ireland'){
-                    pickup_lat_field.val('51.8656047');
-                    pickup_lon_field.val('-8.4916848');
-                }else if(picked_address=='Other'){
+               if(picked_address=='Other'){
                     pickup_address_alt.attr('required','required').show();
-                }
+                } else {
+                   let pickup_addresses = {!! json_encode($pickup_addresses) !!};
+                   console.log('pickup_address', pickup_addresses);
+                   for (let address of pickup_addresses) {
+                       if (picked_address == address.address) {
+                           address_coordinates = address.coordinates;
+                           address_coordinates = address_coordinates.replaceAll("lon", '"lon"');
+                           address_coordinates = address_coordinates.replaceAll("lat", '"lat"');
+                           address_coordinates = JSON.parse(address_coordinates);
+
+                           pickup_lat_field.val(address_coordinates.lat);
+                           pickup_lon_field.val(address_coordinates.lon);
+                           console.log('Yes')
+                       }
+                   }
+               }
             });
 
             let customer_phone_input = document.querySelector("#customer_phone");

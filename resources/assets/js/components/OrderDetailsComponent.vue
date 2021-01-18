@@ -65,7 +65,7 @@
                                     Delivery Information
                                 </p>
                                 <p class="order-number">
-                                    {{this.order_data.order_number}}
+                                    {{this.order_data.order_id}}
                                 </p>
                             </div>
                             <div class="col-2 d-flex justify-content-end align-items-center">

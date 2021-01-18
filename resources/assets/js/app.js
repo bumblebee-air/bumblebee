@@ -5,7 +5,8 @@ import router from './routes';
 import Vue2TouchEvents from 'vue2-touch-events'
 import VueDraggableResizable from 'vue-draggable-resizable'
 import 'vue-draggable-resizable/dist/VueDraggableResizable.css'
-import VueMoment from 'vue-moment'
+import VueMoment from 'vue-moment';
+import moment from 'moment-timezone';
 import VueConfirmDialog from 'vue-confirm-dialog';
 import QrcodeVue from 'qrcode.vue'
 import {gmapApi} from 'vue2-google-maps';
@@ -57,7 +58,9 @@ Vue.use(VueRouter);
 Vue.use(VueToast);
 
 //Vue Moment js
-Vue.use(VueMoment);
+Vue.use(VueMoment, {
+    moment,
+});
 
 //Vue touch event
 Vue.use(Vue2TouchEvents);

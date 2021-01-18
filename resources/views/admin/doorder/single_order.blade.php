@@ -236,38 +236,126 @@
                         </div>
                     </div>
 
-                    <div class="card">
-                        <div class="card-header" data-toggle="collapse" id="deliverer-details-header" data-target="#deliverer-details" aria-expanded="true" aria-controls="deliverer-details">
-                            <div class="d-flex form-head">
-                                <span>3</span>
-                                Deliverers
+                    @if($order->status == 'delivered')
+                        <div class="card">
+                            <div class="card-header" data-toggle="collapse" id="deliverer-details-header" data-target="#deliverer-details" aria-expanded="true" aria-controls="deliverer-details">
+                                <div class="d-flex form-head">
+                                    <span>3</span>
+                                    Order's Deliverer Details
+                                </div>
                             </div>
-                        </div>
-                        <div id="deliverer-details" class="collapse" aria-labelledby="deliverer-details-header" data-parent="#details-container">
-                            <div class="card-body">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-12 deliverers-container">
-                                            @foreach($available_drivers as $driver)
-                                                <div id="driver-{{$driver->id}}" class="card deliverer-card"
-                                                     data-driver-id="{{$driver->id}}" data-driver-name="{{$driver->name}}"
-                                                     onclick="showAssignDriverModal({{$driver->id}})">
-                                                    <div class="card-header deliverer-details row">
-                                                        <div class="col-6">
-                                                            <span class="deliverer-name">{{$driver->name}}</span>
-                                                        </div>
-                                                        <div class="col-6" style="text-align: right">
-                                                            <i class="fas fa-check-circle"></i>
-                                                        </div>
+                            <div id="deliverer-details" class="collapse" aria-labelledby="deliverer-details-header" data-parent="#details-container">
+                                <div class="card-body" style="padding-top:20px!important;">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="fulfilment" class="control-label">Driver Name</label>
+                                                    <input id="fulfilment" type="text" name="fulfilment" class="form-control" value="{{$order->orderDriver->name}}" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="fulfilment" class="control-label">Delivery Status</label>
+                                                    <input id="fulfilment" type="text" name="fulfilment" class="form-control" value="{{$order->delivery_confirmation_status && $order->delivery_confirmation_status == 'confirmed' ? 'The customer has confirmed the delivery' : 'The deliverer has skipped the confirmation'}}" required>
+                                                </div>
+                                            </div>
+                                            @if($order->delivery_confirmation_status != 'confirmed')
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="fulfilment" class="control-label">Delivery Skip Reason</label>
+                                                        <input id="fulfilment" type="text" name="fulfilment" class="form-control" value="{{$order->delivery_confirmation_skip_reason ? $order->delivery_confirmation_skip_reason : 'N/A'}}" required>
                                                     </div>
                                                 </div>
-                                            @endforeach
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @else
+                        <div class="card">
+                            <div class="card-header" data-toggle="collapse" id="deliverer-details-header" data-target="#deliverer-details" aria-expanded="true" aria-controls="deliverer-details">
+                                <div class="d-flex form-head">
+                                    <span>3</span>
+                                    Deliverers
+                                </div>
+                            </div>
+                            <div id="deliverer-details" class="collapse" aria-labelledby="deliverer-details-header" data-parent="#details-container">
+                                <div class="card-body">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-12 deliverers-container">
+                                                @foreach($available_drivers as $driver)
+                                                    <div id="driver-{{$driver->id}}" class="card deliverer-card"
+                                                         data-driver-id="{{$driver->id}}" data-driver-name="{{$driver->name}}"
+                                                         onclick="showAssignDriverModal({{$driver->id}})">
+                                                        <div class="card-header deliverer-details row">
+                                                            <div class="col-6">
+                                                                <span class="deliverer-name">{{$driver->name}}</span>
+                                                            </div>
+                                                            <div class="col-6" style="text-align: right">
+                                                                <i class="fas fa-check-circle"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Assign deliverer modal -->
+                        <div class="modal fade" id="assign-deliverer-modal" tabindex="-1" role="dialog" aria-labelledby="assign-deliverer-label" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        {{--                        <h5 class="modal-title" id="assign-deliverer-label">Assign deliverer</h5>--}}
+                                        <button type="button" class="close d-flex justify-content-center" data-dismiss="modal" aria-label="Close">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="modal-dialog-header">
+                                            This deliverer is successfully selected <br> and ready to be assigned
+                                        </div>
+
+                                        <div>
+                                            <div class="card-body">
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="col-md-8 offset-md-2 deliverers-container">
+                                                            <div id="driver-modal-card" class="card deliverer-card">
+                                                                <div class="card-header deliverer-details row">
+                                                                    <div class="col-6">
+                                                                        <span id="deliverer-modal-name" class="deliverer-name"></span>
+                                                                    </div>
+                                                                    <div class="col-6" style="text-align: right">
+                                                                        <i class="fas fa-check-circle"></i>
+                                                                    </div>
+                                                                    <form method="POST" id="assign-driver" action="{{url('doorder/order/assign')}}">
+                                                                        @csrf
+                                                                        <input type="hidden" id="order-id" name="order_id" value="{{$order->id}}"/>
+                                                                        <input type="hidden" id="driver-id" name="driver_id" required/>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer d-flex justify-content-around">
+                                        <button type="button" class="btn btn-primary doorder-btn-lg doorder-btn" onclick="$('form#assign-driver').submit()">Assign</button>
+                                        <button type="button" class="btn btn-danger doorder-btn-lg doorder-btn" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                     <!--<div class="row">
                         <div class="col-md-12 text-center">
                             <button class="btn bt-submit">Submit</button>
@@ -276,54 +364,6 @@
                 </div>
                 <div class="col-12 col-sm-6" id="map-container">
                     <div id="map" style="width:100%; height: 100%; min-height: 400px; margin-top:0;border-radius:6px;"></div>
-                </div>
-            </div>
-        </div>
-        <!-- Assign deliverer modal -->
-        <div class="modal fade" id="assign-deliverer-modal" tabindex="-1" role="dialog" aria-labelledby="assign-deliverer-label" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-{{--                        <h5 class="modal-title" id="assign-deliverer-label">Assign deliverer</h5>--}}
-                        <button type="button" class="close d-flex justify-content-center" data-dismiss="modal" aria-label="Close">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="modal-dialog-header">
-                            This deliverer is successfully selected <br> and ready to be assigned
-                        </div>
-
-                        <div>
-                            <div class="card-body">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-md-8 offset-md-2 deliverers-container">
-                                            <div id="driver-modal-card" class="card deliverer-card">
-                                                <div class="card-header deliverer-details row">
-                                                    <div class="col-6">
-                                                        <span id="deliverer-modal-name" class="deliverer-name"></span>
-                                                    </div>
-                                                    <div class="col-6" style="text-align: right">
-                                                        <i class="fas fa-check-circle"></i>
-                                                    </div>
-                                                    <form method="POST" id="assign-driver" action="{{url('doorder/order/assign')}}">
-                                                        @csrf
-                                                        <input type="hidden" id="order-id" name="order_id" value="{{$order->id}}"/>
-                                                        <input type="hidden" id="driver-id" name="driver_id" required/>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer d-flex justify-content-around">
-                        <button type="button" class="btn btn-primary doorder-btn-lg doorder-btn" onclick="$('form#assign-driver').submit()">Assign</button>
-                        <button type="button" class="btn btn-danger doorder-btn-lg doorder-btn" data-dismiss="modal">Close</button>
-                    </div>
                 </div>
             </div>
         </div>

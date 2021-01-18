@@ -154,7 +154,8 @@ class ShopifyController extends Controller
                     $customer_address = isset($aWebhook['customer_address'])? $aWebhook['customer_address'] : null;
                     $customer_address_lat = isset($aWebhook['customer_address_lat'])? $aWebhook['customer_address_lat'] : null;
                     $customer_address_lon = isset($aWebhook['customer_address_lon'])? $aWebhook['customer_address_lon'] : null;
-                    $status = 'ready';
+                    //$status = 'ready';
+                    $status = 'pending';
 
                     $order = new Order();
                     $order->order_id = $order_id;
@@ -203,6 +204,26 @@ class ShopifyController extends Controller
             }
         }
         return response()->json(['error'=>0,'message'=>'Order received successfully']);
+    }
+
+    public function fulfillOrder(Request $request){
+        //\Log::info(json_encode($request->all()));
+        $shop_domain = $_SERVER['HTTP_X_SHOPIFY_SHOP_DOMAIN'];
+        $retailer = Retailer::where('shopify_store_domain','=',$shop_domain)->first();
+        if(!$retailer){
+            \Log::error('Retailer not registered on the system, domain: '.$shop_domain);
+            return response()->json(['error'=>1,'message'=>'Unregistered on platform']);
+        }
+        $retailer_id = $retailer->id;
+        $order_data = $request->all();
+        $order_id = $order_data['name'];
+        $order = Order::where()->where('order_id',$order_id)
+            ->where('retailer_id',$retailer_id)->first();
+        if($order){
+            $order->status = 'ready';
+            $order->save();
+        }
+        return response()->json(['error'=>0,'message'=>'Order fulfillment received successfully']);
     }
 
     function verify_webhook($data, $hmac_header, $app_secret){

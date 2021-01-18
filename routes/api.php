@@ -38,6 +38,7 @@ Route::post('general-enquiry', 'EnquiryController@saveGeneralEnquiry');
 
 Route::post('order', 'OrdersController@receiveOrder');
 Route::post('shopify/order', 'ShopifyController@receiveOrder');
+Route::post('shopify/fulfill-order', 'ShopifyController@fulfillOrder');
 Route::post('fulfill-order', 'OrdersController@fulfillOrder');
 
 Route::post('driver-login','doorder\DriversController@driversLogin');

@@ -90,7 +90,13 @@ class OrdersController extends Controller
     }
 
     public function getSingleOrder($client_name, $id) {
-        $order = Order::find($id);
+        if (auth()->user()->user_role == 'retailer') {
+            $order = Order::where('retailer_id', auth()->user()->retailer_profile->id)
+                ->where('id', $id)->first();
+        } else {
+            $order = Order::find($id);
+        }
+
         if(!$order){
             alert()->error( 'No order was found!');
             return redirect()->back();

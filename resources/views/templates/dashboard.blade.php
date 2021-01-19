@@ -17,7 +17,7 @@
     <link href="{{asset('css/material-dashboard.min.css')}}" rel="stylesheet">
     <!--Sweet Alert-->
     <script src="https://unpkg.com/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
-    @if(Auth::user()->user_role == 'client' && Auth::user()->client && Auth::user()->client->name == 'GardenHelp')
+    @if(Auth::user() && Auth::user()->user_role == 'client' && Auth::user()->client && Auth::user()->client->name == 'GardenHelp')
         <link href="{{asset('css/gardenhelp_dashboard.css')}}" rel="stylesheet">
     @endif
     <!--DoOrder Custom Style-->
@@ -71,47 +71,49 @@
 <link href="https://cdn.jsdelivr.net/npm/vue-toast-notification/dist/theme-sugar.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/vue-toast-notification"></script>
 
-<script>
-    let updateAudio = new Audio('{{asset("audio/update.mp3")}}');
-    let notificationAudio = new Audio('{{asset("audio/notification.mp3")}}');
-    let socket = io.connect(window.location.protocol+'//' + window.location.hostname + ':8890');
-    Vue.use(VueToast);
+@if(auth()->user() && auth()->user()->user_role != "retailer")
+    <script>
+        let updateAudio = new Audio('{{asset("audio/update.mp3")}}');
+        let notificationAudio = new Audio('{{asset("audio/notification.mp3")}}');
+        let socket = io.connect(window.location.protocol+'//' + window.location.hostname + ':8890');
+        Vue.use(VueToast);
 
-    socket.on('doorder-channel:new-order', (data) => {
-        let decodedData = JSON.parse(data);
-        Vue.$toast.info('There is a new order.', {
-            // optional options Object
-            position: 'top-right',
-            duration: 3600000,
+        socket.on('doorder-channel:new-order', (data) => {
+            let decodedData = JSON.parse(data);
+            Vue.$toast.info('There is a new order.', {
+                // optional options Object
+                position: 'top-right',
+                duration: 3600000,
 
-            onClick: () => this.onClickToast(decodedData)
+                onClick: () => this.onClickToast(decodedData)
+            });
+            notificationAudio.play();
         });
-        notificationAudio.play();
-    });
-    function onClickToast(decodedData) {
-        swal({
-            // title: "Good job!",
-            text: "There is a new order! with order No# " + decodedData.data.order_id,
-            icon: "info",
-            buttons: {
-                accept: {
-                    text: "View order",
-                    value: "view",
-                    className: 'btn btn-primary'
-                },
-                reject: {
-                    text: "Close",
-                    value: "cancel",
-                    className: 'btn btn-default'
+        function onClickToast(decodedData) {
+            swal({
+                // title: "Good job!",
+                text: "There is a new order! with order No# " + decodedData.data.order_id,
+                icon: "info",
+                buttons: {
+                    accept: {
+                        text: "View order",
+                        value: "view",
+                        className: 'btn btn-primary'
+                    },
+                    reject: {
+                        text: "Close",
+                        value: "cancel",
+                        className: 'btn btn-default'
+                    }
                 }
-            }
-        }).then(function (input) {
-            if (input === 'view') {
-                console.log('View Page');
-            }
-        });
-    }
-</script>
+            }).then(function (input) {
+                if (input === 'view') {
+                    console.log('View Page');
+                }
+            });
+        }
+    </script>
+@endif
 
 @yield('page-scripts')
 </body>

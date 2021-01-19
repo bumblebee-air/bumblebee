@@ -51,6 +51,10 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
+        if ($user->user_role == "driver") {
+            \Session::flash('error', 'You are not allowed to login the portal');
+            $this->logout($request);
+        }
     }
 
     public function showLoginForm($client_name = null)
@@ -81,5 +85,4 @@ class LoginController extends Controller
 
         return redirect($url);
     }
-
 }

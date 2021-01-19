@@ -42,59 +42,13 @@ class RetailerController extends Controller
         $user->password = bcrypt(Str::random(6));
         $user->user_role = 'retailer';
         $user->save();
-        
-        $stripe = new \Stripe\StripeClient(
-            env('STRIPE_SECRET')
-        );
-        $customer_details = $stripe->customers->create([
-        'name' => $firstContact['contact_name'],
-        'email' => $firstContact['contact_email'],
-        'phone' => $firstContact['contact_phone'],
-        'description' => 'Customer Company name is '.$request->company_name,
-        ]);
-        
-        $payment_exp_date = explode('/', $request->payment_exp_date);
-        $exp_month = $payment_exp_date[0];
-        $exp_year = $payment_exp_date[1];
-        
-        $getCreatedStripeTokenDetail = $stripe->tokens->create([
-        'card' => [
-            'number' => $request->payment_card_number,
-            'exp_month' => $exp_month,
-            'exp_year' => $exp_year,
-            'cvc' => $request->payment_cvc_number,
-        ],
-        ]);
 
-        $stripeToken = $getCreatedStripeTokenDetail['id'];
-//        if (env('APP_ENV') == 'local') {
-        if (str_contains(env('STRIPE_SECRET'), 'test_')) {
-            $customer_card_details = $stripe->customers->createSource(
-                $customer_details['id'],
-                ['source' => 'tok_visa']
-                );
-            $stripeTokenforCharge = 'tok_visa';
-        } else{
-            $customer_card_details = $stripe->customers->createSource(
-                $customer_details['id'],
-                ['source' => ['object' => 'card',
-                'number' => $request->payment_card_number,
-                'exp_month' => $exp_month,
-                'exp_year' => $exp_year,
-                'cvc' => $request->payment_cvc_number]
-                ]
-                );
-            $stripeTokenforCharge = $stripeToken;
-        }
-
-        /*$amount = '1000';
-        $currency = 'usd';
-        $description = 'Testing Payment Reason';
-        $this->chargeRetailer($amount, $currency, $stripeTokenforCharge, $description);*/
-        /*$customer = $stripe->customers->create([
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+        $customer = $stripe->customers->create([
+            'name' => $user->name,
             'email' => $user->email,
             'source' => $request->stripeToken
-        ]);*/
+        ]);
 
         $retailer = new Retailer();
         $retailer->user_id = $user->id;
@@ -104,9 +58,9 @@ class RetailerController extends Controller
         $retailer->nom_business_locations = $request->number_business_locations;
         $retailer->locations_details = $request->locations_details;
         $retailer->contacts_details = $request->contacts_details;
-        $retailer->stripe_token = $stripeToken;
-        $retailer->customer_id = $customer_details['id'];
-        //$retailer->stripe_customer_id = $customer->id;
+//        $retailer->stripe_token = $stripeToken;
+//        $retailer->customer_id = $customer;
+        $retailer->stripe_customer_id = $customer->id;
         $retailer->save();
 
         //Getting Doorder Client

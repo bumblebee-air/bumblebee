@@ -608,10 +608,29 @@
                 },
                 checkPaymentCard(e) {
                     e.preventDefault();
-                    let location_details = [];
-                    let contacts_details = [];
+                    let exp_date = $('#payment_exp_date').val();
+                    let exp_month = exp_date.split('/')[0];
+                    let exp_year = exp_date.split('/')[1];
+                    Stripe.setPublishableKey('{{env('STRIPE_PUBLIC_KEY')}}');
+                    Stripe.createToken({
+                        number: $('#card_number').val(),
+                        cvc: $('#cvc').val(),
+                        exp_month: exp_month,
+                        exp_year: exp_year
+                    }, this.stripeResponseHandler);
+                    return false;
+                },
+                stripeResponseHandler(response) {
+                    if (response.error) {
+                        alert(response.error.message);
+                    } else {
+                        // token contains id, last4, and card type
+                        var token = response['id'];
+                        this.stripeToken = token;
+                        let location_details = [];
+                        let contacts_details = [];
                         //Make Location Details Input
-                        for(let item of this.locations) {
+                        for (let item of this.locations) {
                             location_details.push({
                                 address: $('#location' + (this.locations.indexOf(item) + 1)).val(),
                                 coordinates: $('#location_' + (this.locations.indexOf(item) + 1) + '_coordinates').val(),
@@ -630,37 +649,15 @@
                                 contact_location: $('#contact_location' + (this.contacts.indexOf(item) + 1)).val()
                             });
                         }
-
-                        console.log(location_details);
-                        console.log(contacts_details);
                         $('#locations_details').val(JSON.stringify(location_details))
                         $('#contacts_details').val(JSON.stringify(contacts_details))
                         var $form = $("#registeration-form");
                         setTimeout(() => {
                             $form.get(0).submit();
                         }, 300)
+                    }
                 }
             }
         });
-
-        // function initMap() {
-        //     //Google MAp autocomplete
-        //     let driver_address_input = document.getElementById('location0');
-        //     let autocomplete_driver_address = new google.maps.places.Autocomplete(driver_address_input);
-        //     autocomplete_driver_address.setComponentRestrictions({'country': ['ie']});
-        //     autocomplete_driver_address.addListener('place_changed', function () {
-        //         let place = autocomplete_driver_address.getPlace();
-        //         if (!place.geometry) {
-        //             // User entered the name of a Place that was not suggested and
-        //             // pressed the Enter key, or the Place Details request failed.
-        //             window.alert("No details available for input: '" + place.name + "'");
-        //         } else {
-        //             let place_lat = place.geometry.location.lat();
-        //             let place_lon = place.geometry.location.lng();
-        //             document.getElementById("driver_address_coordinates").value = '{lat: ' + place_lat.toFixed(5) + ', lon: ' + place_lon.toFixed(5) +'}';
-        //         }
-        //     });
-        // }
     </script>
-<!--<script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=geometry,places&callback=initMap"></script>-->
 @endsection

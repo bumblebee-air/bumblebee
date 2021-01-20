@@ -26,7 +26,9 @@ class DashboardController extends Controller
             $to_date = null;
             $filter_from_date = $request->get('from_date');
             $filter_to_date = $request->get('to_date');
+            $ajax_flag = false;
             if($filter_from_date!=null && $filter_to_date!=null){
+                $ajax_flag = true;
                 $filter_from_date = new Carbon($filter_from_date);
                 $filter_to_date = new Carbon($filter_to_date);
                 $from_date = $filter_from_date->startOfDay()->toDateTimeString();
@@ -37,8 +39,15 @@ class DashboardController extends Controller
             $delivered_orders_count = $admin_data['delivered_orders_count'];
             $retailers_count = $admin_data['retailers_count'];
             $deliverers_count = $admin_data['deliverers_count'];
+            $deliverers_order_charges = $admin_data['deliverers_order_charges'];
+            $retailers_order_charges = $admin_data['retailers_order_charges'];
             $drivers_arr = $admin_data['drivers_arr'];
-            return view('admin.doorder.dashboard',compact('drivers_arr'));
+            if($ajax_flag == true){
+                return response()->json($admin_data);
+            }
+            return view('admin.doorder.dashboard',compact('drivers_arr',
+            'all_orders_count','delivered_orders_count','retailers_count',
+            'deliverers_count','deliverers_order_charges','retailers_order_charges'));
         }
     }
 
@@ -115,6 +124,63 @@ class DashboardController extends Controller
         $registered_deliverers = DriverProfile::whereBetween('created_at',[$from_date,$to_date])->get();
         $retailers_count = count($registered_retailers);
         $deliverers_count = count($registered_deliverers);
+        $month_period_orders = Order::whereBetween('created_at',[$from_date,$to_date])->get();
+        $retailers_orders = [];
+        $deliverers_orders = [];
+        foreach($month_period_orders as $order){
+            if($order->status == 'delivered' && $order->retailer_id != null){
+                if(isset($retailers_orders[$order->retailer_id])){
+                    $retailers_orders[$order->retailer_id] = $retailers_orders[$order->retailer_id]+1;
+                } else {
+                    $retailers_orders[$order->retailer_id] = 1;
+                }
+            }
+            if($custom_date==true && $order->status == 'delivered' && $order->driver != null){
+                if(isset($deliverers_orders[$order->driver])){
+                    $deliverers_orders[$order->driver] = $deliverers_orders[$order->driver]+1;
+                } else {
+                    $deliverers_orders[$order->driver] = 1;
+                }
+            }
+        }
+        $retailers_order_charges = [];
+        foreach($retailers_orders as $retailer_id=>$order){
+            $retailer = Retailer::find($retailer_id);
+            $retailer_name = $retailer->name;
+            $order_charge = $order * 10;
+            $order_count = (string)$order;
+            $retailers_order_charges[] = (object)[
+                'retailer_name'=>$retailer_name,
+                'order_count'=>$order_count,
+                'order_charge'=>'€'.(string)$order_charge
+            ];
+        }
+        if($custom_date == false) {
+            $from_date = $current_date->startOfWeek()->startOfDay()->toDateTimeString();
+            $to_date = $current_date->endOfWeek()->endOfDay()->toDateTimeString();
+            $week_period_orders = Order::whereBetween('created_at',[$from_date,$to_date])->get();
+            foreach($week_period_orders as $order){
+                if($order->status == 'delivered' && $order->driver != null){
+                    if(isset($deliverers_orders[$order->driver])){
+                        $deliverers_orders[$order->driver] = $deliverers_orders[$order->driver]+1;
+                    } else {
+                        $deliverers_orders[$order->driver] = 1;
+                    }
+                }
+            }
+        }
+        $deliverers_order_charges = [];
+        foreach($deliverers_orders as $deliverer_id=>$order){
+            $deliverer = User::find($deliverer_id);
+            $deliverer_name = $deliverer->name;
+            $order_charge = $order * 5;
+            $order_count = (string)$order;
+            $deliverers_order_charges[] = (object)[
+                'retailer_name'=>$deliverer_name,
+                'order_count'=>$order_count,
+                'order_charge'=>'€'.(string)$order_charge
+            ];
+        }
         $drivers = User::with('driver_profile')->where('user_role','=','driver')->get();
         $drivers_arr = [];
         foreach($drivers as $driver){
@@ -137,6 +203,7 @@ class DashboardController extends Controller
         $drivers_arr = json_encode($drivers_arr);
         return ['drivers_arr'=>$drivers_arr, 'all_orders_count'=>$all_orders_count,
             'delivered_orders_count'=>$delivered_orders_count, 'retailers_count'=>$retailers_count,
-            'deliverers_count'=>$deliverers_count];
+            'deliverers_count'=>$deliverers_count, 'retailers_order_charges'=>$retailers_order_charges,
+            'deliverers_order_charges'=>$deliverers_order_charges];
     }
 }

@@ -41,13 +41,16 @@ class DashboardController extends Controller
             $deliverers_count = $admin_data['deliverers_count'];
             $deliverers_order_charges = $admin_data['deliverers_order_charges'];
             $retailers_order_charges = $admin_data['retailers_order_charges'];
+            $annual_chart_labels = $admin_data['annual_chart_labels'];
+            $annual_chart_data = $admin_data['annual_chart_data'];
             $drivers_arr = $admin_data['drivers_arr'];
             if($ajax_flag == true){
                 return response()->json($admin_data);
             }
             return view('admin.doorder.dashboard',compact('drivers_arr',
             'all_orders_count','delivered_orders_count','retailers_count',
-            'deliverers_count','deliverers_order_charges','retailers_order_charges'));
+            'deliverers_count','deliverers_order_charges','retailers_order_charges',
+            'annual_chart_labels','annual_chart_data'));
         }
     }
 
@@ -181,6 +184,21 @@ class DashboardController extends Controller
                 'order_charge'=>'€'.(string)$order_charge
             ];
         }
+        //Annual orders data
+        //$current_date = Carbon::now()->subYear();
+        $startOfYear = $current_date->startOfYear()->toDateTimeString();
+        $endOfYear = $current_date->endOfYear()->toDateTimeString();
+        $annual_orders = Order::whereBetween('created_at',[$startOfYear,$endOfYear])->get();
+        $annual_chart_labels = [];
+        $annual_chart_data = [];
+        for($i=0; $i<12; $i++){
+            $current_month = Carbon::parse($startOfYear)->addMonths($i);
+            $start_of_month = $current_month->startOfMonth()->toDateTimeString();
+            $end_of_month = $current_month->endOfMonth()->toDateTimeString();
+            $month_orders = $annual_orders->whereBetween('created_at',[$start_of_month,$end_of_month]);
+            $annual_chart_labels[] = $current_month->format('M');
+            $annual_chart_data[] = (string)count($month_orders);
+        }
         $drivers = User::with('driver_profile')->where('user_role','=','driver')->get();
         $drivers_arr = [];
         foreach($drivers as $driver){
@@ -204,6 +222,7 @@ class DashboardController extends Controller
         return ['drivers_arr'=>$drivers_arr, 'all_orders_count'=>$all_orders_count,
             'delivered_orders_count'=>$delivered_orders_count, 'retailers_count'=>$retailers_count,
             'deliverers_count'=>$deliverers_count, 'retailers_order_charges'=>$retailers_order_charges,
-            'deliverers_order_charges'=>$deliverers_order_charges];
+            'deliverers_order_charges'=>$deliverers_order_charges, 'annual_chart_labels'=>$annual_chart_labels,
+            'annual_chart_data'=>$annual_chart_data];
     }
 }

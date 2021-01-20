@@ -68,7 +68,7 @@ class RetailerController extends Controller
         if($client) {
             //Making Client Relation
             UserClient::create([
-                'user_id' => $retailer,
+                'user_id' => $retailer->id,
                 'client_id' => $client->id
             ]);
         }

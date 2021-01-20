@@ -411,19 +411,19 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group bmd-form-group">
-                                        <input type="text" class="form-control" id="card_number" name="payment_card_number" value="{{old('payment_card_number')}}" placeholder="Card Number" required>
+                                        <input type="text" class="form-control" id="card_number" value="{{old('payment_card_number')}}" placeholder="Card Number" required>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-6">
                                     <div class="form-group bmd-form-group">
-                                        <input type="text" class="form-control" id="cvc" name="payment_cvc_number" value="{{old('payment_cvc_number')}}" placeholder="CVC Number" required>
+                                        <input type="text" class="form-control" id="cvc" value="{{old('payment_cvc_number')}}" placeholder="CVC Number" required>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-6">
                                     <div class="form-group bmd-form-group">
-                                        <input type="text" class="form-control" id="payment_exp_date" name="payment_exp_date" value="{{old('payment_exp_date')}}" placeholder="Expire Date" required>
+                                        <input type="text" class="form-control" id="payment_exp_date" value="{{old('payment_exp_date')}}" placeholder="Expire Date" required>
                                     </div>
                                 </div>
 
@@ -433,6 +433,7 @@
                                         <img src="{{asset('images/pay-with-stripe.png')}}" style="max-width: 100%; max-height: 40px" alt="Pay With Stripe">
                                     </div>
                                 </div>
+                                <input type='hidden' name='stripeToken' v-model="stripeToken"/>
                                 <input type='hidden' id="locations_details" name='locations_details'/>
                                 <input type='hidden' id='contacts_details' name='contacts_details'/>
                             </div>
@@ -620,7 +621,7 @@
                     }, this.stripeResponseHandler);
                     return false;
                 },
-                stripeResponseHandler(response) {
+                stripeResponseHandler(status, response) {
                     if (response.error) {
                         alert(response.error.message);
                     } else {

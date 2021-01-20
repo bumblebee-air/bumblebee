@@ -185,7 +185,7 @@ class DashboardController extends Controller
             ];
         }
         //Annual orders data
-        //$current_date = Carbon::now()->subYear();
+        $current_date = Carbon::now()->subYear();
         $startOfYear = $current_date->startOfYear()->toDateTimeString();
         $endOfYear = $current_date->endOfYear()->toDateTimeString();
         $annual_orders = Order::whereBetween('created_at',[$startOfYear,$endOfYear])->get();

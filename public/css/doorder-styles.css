@@ -1,0 +1,161 @@
+.dashboard-card-icon {
+	background: #fff !important;
+	box-shadow: none !important;
+}
+
+.dashboard-card-icon-container {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+}
+
+.dashboard-card-img {
+	width: 63px;
+}
+
+.card-dashboard-content {
+	padding: 1.3rem 1.2rem;
+}
+
+p.card-category {
+	font-family: Quicksand;
+	font-size: 14px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.5px;
+	color: #7b7b7b !important;
+}
+
+.cardDashboardValueH3 {
+	font-family: Quicksand;
+	font-size: 24.5px;
+	font-weight: bold;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.87px;
+	color: #e5c43f !important;
+}
+
+.card-dashboard-content .card-footer {
+	margin: 0 !important;
+}
+
+.card-dashboard-content .card-footer .stats {
+	font-family: Quicksand;
+	font-size: 13px !important;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.46px;
+	color: #c2c8d5 !important;
+}
+
+.filterLabelDashboard {
+	font-size: 14px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.66px;
+	color: #4d4d4d;
+	max-width: fit-content;
+}
+
+#dashboardCardDiv .btn {
+	font-size: 14px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.72px;
+	color: #ffffff;
+	padding: 9px 52px;
+	border-radius: 12px 0;
+	text-transform: inherit !important;
+}
+
+.tableDashboardH3 {
+	font-family: Quicksand;
+	font-size: 14px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.5px;
+	color: #7b7b7b;
+	padding: 10px;
+}
+
+.cardContentTableDiv {
+	padding: 1rem 0.25rem 0 0.25rem;
+}
+
+.ct-chart .ct-series-a .ct-area, .ct-chart .ct-series-a .ct-bar,
+	.ct-chart .ct-series-a .ct-line, .ct-chart .ct-series-a .ct-point,
+	.ct-chart .ct-series-a .ct-slice-donut, .ct-chart .ct-series-a .ct-slice-donut-solid,
+	.ct-chart .ct-series-a .ct-slice-pie {
+	stroke:  #e9c218 !important;
+	  stroke-width: 10px;
+}
+
+.row{
+	 display: flex;
+    flex-wrap: wrap;
+}
+
+/****************** tables *************************/
+.table {
+	margin-bottom: 0 !important;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th,
+	.table>thead>tr>td, .table>thead>tr>th {
+	border-left: 1px solid;
+	border-color: #e9e8e8 !important;
+}
+
+.card .table tr td:first-child, .card .table tr th:first-child {
+	border-left: none !important;
+}
+
+thead tr th {
+	border-top: 1px solid #e9e8e8 !important;
+	font-family: Open Sans;
+	font-size: 14px !important;
+	font-weight: normal !important;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.07;
+	letter-spacing: normal;
+	text-align: center;
+	color: #b1b1b1;
+}
+
+tbody tr td {
+	font-family: Open Sans;
+	font-size: 13px !important;
+	font-weight: normal !important;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.15;
+	letter-spacing: normal;
+	text-align: center;
+	color: #212529;
+}
+
+tbody tr td:first-child {
+	font-family: Open Sans;
+	font-size: 13px !important;
+	font-weight: normal !important;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.15;
+	letter-spacing: normal;
+	text-align: center;
+	color: #d6b93d;
+}

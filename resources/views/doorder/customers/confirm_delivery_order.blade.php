@@ -29,6 +29,10 @@
             padding-top: 30px
         }
 
+        .delivered-image-container img {
+            max-width: 100%;
+        }
+
         .delivery-confirmation-logo {
             text-align: center;
             padding-top: 10px;
@@ -67,7 +71,7 @@
                 </div>
             </div>
         @else
-            <div class="row ">
+            <div class="row justify-content-center">
                 <div class="col-md-12 delivered-title-container">
                     <p>
                         Order #{{$order->order_id}}
@@ -76,7 +80,7 @@
                         Delivered Successfully!
                     </p>
                 </div>
-                <div class="col-md-12 delivered-image-container">
+                <div class="col-md-12 delivered-image-container text-center">
                     <img src="{{asset('images/doorder_driver_assets/delivered-successfully.png')}}" alt="delivered successfully">
                 </div>
                 <div class="col-md-12 delivered-title-container">

@@ -103,6 +103,7 @@
                                         <thead>
                                         <th>Time</th>
                                         <th>Order Number</th>
+                                        <th>Fulfilment At</th>
                                         <th>Retailer Name</th>
                                         <th>Status</th>
                                         <th>Stage</th>
@@ -167,6 +168,9 @@
                                                     @{{ order.time }}
                                                 </td>
                                                 <td>@{{order.order_id.includes('#')? order.order_id : '#'+order.order_id}}</td>
+                                                <td>
+                                                    @{{order.fulfilment_at}}
+                                                </td>
                                                 <td>@{{order.retailer_name}}</td>
                                                 <td>
                                                     <img class="order_status_icon" :src="'{{asset('/')}}images/doorder_icons/order_status_' + (order.status === 'assigned' ? 'matched' :  order.status) + '.png'" :alt="order.status">
@@ -219,12 +223,13 @@
 @endsection
 
 @section('page-scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
     <script>
         Vue.use(VueToast);
         var app = new Vue({
             el: '#app',
             data: {
-                orders: {!! json_encode($orders) !!}
+                orders: {}
             },
             mounted() {
                 socket.on('doorder-channel:new-order', (data) => {
@@ -243,6 +248,20 @@
                         updateAudio.play();
                     }
                 });
+
+                var orders_data = {!! json_encode($orders) !!};
+
+                for(let order of orders_data.data) {
+                    let fulfil_time= moment().add(order.fulfilment, 'minutes');
+                    let duration = moment.duration(fulfil_time.diff(moment.now())).asMinutes();
+                    if (duration <= 0) {
+                        order.fulfilment_at = 'Fulfilled'
+                    } else {
+                        order.fulfilment_at = fulfil_time.format('hh:mm A');
+                    }
+                }
+
+                this.orders = orders_data;
             },
             methods: {
                 openOrder(order_id){

@@ -65,7 +65,7 @@ class OrdersController extends Controller
             'deliver_by' => $request->deliver_by,
             'fragile' => $request->fragile,
             'retailer_name' => auth()->user()->name,
-            'retailer_id' => auth()->user()->id,
+            'retailer_id' => auth()->user()->retailer_profile->id,
             'status' => 'ready',
             'weight' => $request->weight,
             'dimensions' => $request->dimensions,

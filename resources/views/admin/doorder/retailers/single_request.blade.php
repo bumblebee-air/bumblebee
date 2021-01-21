@@ -315,7 +315,7 @@
 {{--                                                                <option v-for="county in counties" :value="county">@{{ county }}</option>--}}
 {{--                                                            </select>--}}
                                                         <label>Country</label>
-                                                        <input type="text" class="form-control" :value="location.county" placeholder="Country" required>
+                                                        <input type="text" class="form-control" :value="location.county.name" placeholder="Country" required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -372,7 +372,7 @@
                                                 <div class="col-sm-6">
                                                     <div class="form-group bmd-form-group">
                                                         <label>Contact Number</label>
-                                                        <input type="text" class="form-control" :id="'contact_number' + (index + 1)" :value="contact.contact_number" placeholder="Contact Number" required>
+                                                        <input type="text" class="form-control" :id="'contact_number' + (index + 1)" :value="contact.contact_phone" placeholder="Contact Number" required>
                                                     </div>
                                                 </div>
 

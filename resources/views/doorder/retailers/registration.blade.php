@@ -477,6 +477,7 @@
                         {}
                     ],
                     stripeToken: '',
+                    itn_inputs: []
                 }
             },
             mounted() {
@@ -552,7 +553,7 @@
                 addIntelInput() {
                     let latest_key = this.contacts.length;
                     let driver_phone_input = document.querySelector("#contact_number" + latest_key);
-                    window.intlTelInput(driver_phone_input, {
+                    this.itn_inputs["contact_number" + latest_key] = window.intlTelInput(driver_phone_input, {
                         hiddenInput: "contact_number" + latest_key,
                         initialCountry: 'IE',
                         separateDialCode: true,
@@ -643,9 +644,10 @@
                             });
                         }
                         for (let item of this.contacts) {
+                            let intl_tel_input_value = this.itn_inputs['contact_number' + (this.contacts.indexOf(item) + 1)]
                             contacts_details.push({
                                 contact_name: $('#contact_name' + (this.contacts.indexOf(item) + 1)).val(),
-                                contact_phone: $('#contact_number' + (this.contacts.indexOf(item) + 1)).val(),
+                                contact_phone: intl_tel_input_value.getNumber(),
                                 contact_email: $('#contact_email' + (this.contacts.indexOf(item) + 1)).val(),
                                 contact_location: $('#contact_location' + (this.contacts.indexOf(item) + 1)).val()
                             });

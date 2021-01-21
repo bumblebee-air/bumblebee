@@ -179,7 +179,7 @@ class DashboardController extends Controller
             $order_charge = $order * 5;
             $order_count = (string)$order;
             $deliverers_order_charges[] = (object)[
-                'retailer_name'=>$deliverer_name,
+                'deliverer_name'=>$deliverer_name,
                 'order_count'=>$order_count,
                 'order_charge'=>'€'.(string)$order_charge
             ];

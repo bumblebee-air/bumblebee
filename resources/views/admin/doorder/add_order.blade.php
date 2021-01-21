@@ -138,7 +138,7 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label for="fulfilment" class="control-label">Time until order is ready for collection (Minutes)</label>
-                                                    <input id="fulfilment" type="text" name="fulfilment" class="form-control" value="{{old('fulfilment')}}" required>
+                                                    <input id="fulfilment" type="number" name="fulfilment" class="form-control" value="{{old('fulfilment')}}" required>
                                                 </div>
                                             </div>
                                         </div>

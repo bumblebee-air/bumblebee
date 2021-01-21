@@ -53,3 +53,5 @@ Route::group(['middleware' => "auth:api"],function () {
     Route::post('skip-delivery-confirmation','doorder\DriversController@skipDeliveryConfirmation');
     Route::post('update-driver-firebase-token','doorder\DriversController@updateDriverFirebaseToken');
 });
+
+Route::post('stripe-account-update','StripeController@accountUpdateWebhook');

@@ -124,4 +124,29 @@ class StripeController extends Controller
     public function getOnboardSuccess(){
         return view('stripe_onboard',['title'=>'Success', 'text'=>'The Stripe on-boarding form has been submitted successfully, please make sure that there were no missing data']);
     }
+
+    public function accountUpdateWebhook(Request $request){
+        //\Log::info(json_encode($request->all()));
+        $account_ready_flag = true;
+        $account_id = $request->get('account');
+        $stripe_account = StripeAccount::where('account_id','=',$account_id)->first();
+        if(!$stripe_account){
+            return response()->json('No account was found with this ID!');
+        }
+        $data = $request->get('data');
+        $account_requirements = $data['object']['requirements'];
+        $currently_due_reqs = $account_requirements['currently_due'];
+        if(count($currently_due_reqs)>0){
+            \Log::info(json_encode($currently_due_reqs));
+            $account_ready_flag = false;
+        }
+        $eventually_due_reqs = $account_requirements['eventually_due'];
+        if(count($eventually_due_reqs)>0){
+            \Log::info(json_encode($eventually_due_reqs));
+            $account_ready_flag = false;
+        }
+        $stripe_account->onboard_status = ($account_ready_flag==true)? 'complete' : 'incomplete';
+        $stripe_account->save();
+        return response()->json('Webhook received successfully');
+    }
 }

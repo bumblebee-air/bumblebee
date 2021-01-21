@@ -269,7 +269,7 @@
                                 <div class="form-group bmd-form-group">
                                     <label class="bmd-form-group">Max package Weight</label> <span style="color: red">*</span>
                                     {{--                                <input type="text" class="form-control" name="emergency_contact_name" value="{{old('emergency_contact_name')}}" required>--}}
-                                    <select name="max_package_size" class="form-control">
+                                    <select name="max_package_size" class="form-control" required>
                                         <option selected disabled>Choose Max Package Weight</option>
                                         <option value="Very Light">Very Light</option>
                                         <option value="Light">Light</option>
@@ -285,7 +285,7 @@
                                 <div class="form-group bmd-form-group">
                                     <label class="bmd-form-group">Transport Type</label> <span style="color: red">*</span>
     {{--                                <input type="text" class="form-control" name="pps_number" value="{{old('pps_number')}}" required>--}}
-                                    <select name="transport_type" class="form-control">
+                                    <select name="transport_type" class="form-control" required>
                                         <option selected disabled>Choose Transportation</option>
                                         <option value="car">Car</option>
                                         <option value="scooter">Scooter</option>

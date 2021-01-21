@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\ChargeRetailer::class
+        Commands\ChargeRetailer::class,
+        Commands\PayoutDeliverer::class
     ];
 
     /**
@@ -24,7 +25,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('chargeretailer:cron')->daily();
+        $schedule->command('chargeretailer:cron')->monthly();
     }
 
     /**

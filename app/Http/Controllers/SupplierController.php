@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Client;
 use App\Imports\SupplierImport;
 use App\Schedule;
 use App\Supplier;
@@ -85,5 +86,15 @@ class SupplierController extends Controller
         $supplier_schedule->save();
         \Session::flash('success','The schedule was updated successfully');
         return redirect()->back();
+    }
+
+    public function getSuppliersMap(){
+        $current_user = \Auth::user();
+        $client = Client::where('user_id','=',$current_user->id)->first();
+        if($current_user->user_role == 'client'){
+            $suppliers = Supplier::where('client_id','=',$client->id)->get();
+        } else {
+            $suppliers = Supplier::all();
+        }
     }
 }

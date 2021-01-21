@@ -21,6 +21,7 @@ class StripeManager
         /*Stripe merchant code for 'Motor Freight Carriers and Trucking
             - Local and Long Distance, Moving and Storage Companies,
             and Local Delivery Services'*/
+        $account_type = 'express';
         $merchant_code = 4214;
         $user_name = explode(' ',$user->name);
         $first_name = $user_name[0];
@@ -29,7 +30,7 @@ class StripeManager
         $phone = $user->phone;
         $stripe = new StripeClient($this->stripe_key);
         $stripe_account = $stripe->accounts->create([
-            'type' => 'custom',
+            'type' => $account_type,
             'country' => 'IE',
             'email' => $email,
             'capabilities' => [
@@ -61,7 +62,7 @@ class StripeManager
         $new_stripe_account->user_id = $user->id;
         $new_stripe_account->account_id = $stripe_account->id;
         $new_stripe_account->business_type = $stripe_account->business_type;
-        $new_stripe_account->type = 'custom';
+        $new_stripe_account->type = $account_type;
         $new_stripe_account->onboard_code = $onboard_code;
         $new_stripe_account->save();
         //send onboarding link to user

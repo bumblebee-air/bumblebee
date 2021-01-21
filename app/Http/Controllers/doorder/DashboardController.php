@@ -120,6 +120,7 @@ class DashboardController extends Controller
             }
         }
         if($custom_date == false) {
+            $current_date = Carbon::now();
             $from_date = $current_date->startOfMonth()->startOfDay()->toDateTimeString();
             $to_date = $current_date->endOfMonth()->endOfDay()->toDateTimeString();
         }
@@ -159,6 +160,7 @@ class DashboardController extends Controller
             ];
         }
         if($custom_date == false) {
+            $current_date = Carbon::now();
             $from_date = $current_date->startOfWeek()->startOfDay()->toDateTimeString();
             $to_date = $current_date->endOfWeek()->endOfDay()->toDateTimeString();
             $week_period_orders = Order::whereBetween('created_at',[$from_date,$to_date])->get();
@@ -186,6 +188,7 @@ class DashboardController extends Controller
         }
         //Annual orders data
         //$current_date = Carbon::now()->subYear();
+        $current_date = Carbon::now();
         $startOfYear = $current_date->startOfYear()->toDateTimeString();
         $endOfYear = $current_date->endOfYear()->toDateTimeString();
         $annual_orders = Order::whereBetween('created_at',[$startOfYear,$endOfYear])->get();

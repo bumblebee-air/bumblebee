@@ -203,29 +203,29 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label class="bmd-label-floating">Contact through</label> <span style="color: red">*</span>
-                                    <div class="d-flex">
-                                        <div class="contact-through d-flex pr-5" @click="changeContact('whatsapp')">
-                                            <div id="check" :class="contact == 'whatsapp' ? 'my-check-box my-check-box-checked' : 'my-check-box'">
-                                                <i class="fas fa-check-square"></i>
-                                            </div>
-                                            Whatsapp
-                                        </div>
+{{--                        <div class="row">--}}
+{{--                            <div class="col-sm-12">--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <label class="bmd-label-floating">Contact through</label> <span style="color: red">*</span>--}}
+{{--                                    <div class="d-flex">--}}
+{{--                                        <div class="contact-through d-flex pr-5" @click="changeContact('whatsapp')">--}}
+{{--                                            <div id="check" :class="contact == 'whatsapp' ? 'my-check-box my-check-box-checked' : 'my-check-box'">--}}
+{{--                                                <i class="fas fa-check-square"></i>--}}
+{{--                                            </div>--}}
+{{--                                            Whatsapp--}}
+{{--                                        </div>--}}
 
-                                        <div class="contact-through d-flex" @click="changeContact('sms')">
-                                            <div id="check" :class="contact == 'sms' ? 'my-check-box my-check-box-checked' : 'my-check-box'">
-                                                <i class="fas fa-check-square"></i>
-                                            </div>
-                                            SMS
-                                        </div>
+{{--                                        <div class="contact-through d-flex" @click="changeContact('sms')">--}}
+{{--                                            <div id="check" :class="contact == 'sms' ? 'my-check-box my-check-box-checked' : 'my-check-box'">--}}
+{{--                                                <i class="fas fa-check-square"></i>--}}
+{{--                                            </div>--}}
+{{--                                            SMS--}}
+{{--                                        </div>--}}
                                         <input type="hidden" v-model="contact" name="contact_through">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
 
                         <div class="row">
                             <div class="col-sm-6">
@@ -448,7 +448,7 @@
             el: '#app',
             data() {
                 return {
-                    contact: '',
+                    contact: 'sms',
                     hasInsurance: false,
                     has_radius: false,
                     counties: [],

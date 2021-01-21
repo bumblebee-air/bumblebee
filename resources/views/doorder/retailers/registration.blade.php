@@ -326,7 +326,7 @@
                                         {{--                            <label class="bmd-label-floating">First Name</label>--}}
                                         <select class="form-control" :id="'county' + (index + 1)" :name="'county' + (index + 1)" required>
                                             <option selected disabled>Select County</option>
-                                            <option v-for="county in counties" :value="county">@{{ county.name }}</option>
+                                            <option v-for="county in counties" :value="JSON.stringify(county)">@{{ county.name }}</option>
                                         </select>
                                     </div>
                                 </div>

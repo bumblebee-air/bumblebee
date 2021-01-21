@@ -17,12 +17,12 @@ class CustomerController extends Controller
             abort(404);
         }
         $order_status = $order->status;
-        if($order_status=='delivered'){
+        /*if($order_status=='delivered'){
             die('This order has been delivered');
-        }
+        }*/
         if(in_array($order_status,['on_route','on_route_pickup','picked_up'])){
             return redirect()->to('customer/tracking/' . $order->customer_confirmation_code);
-        } elseif($order_status == 'delivery_arrived') {
+        } elseif(in_array($order_status,['delivery_arrived','delivered'])) {
             return redirect()->to('customer/delivery_confirmation/' . $order->customer_confirmation_code);
         }
         return abort(404);

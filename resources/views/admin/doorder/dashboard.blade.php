@@ -193,9 +193,9 @@ background-size: cover;
 													<tbody>
 													@foreach($deliverers_order_charges as $obj)
 														<tr>
-															<td>{{$obj->deliver}}</td>
-															<td>{{$obj->noOfOrder}}</td>
-															<td>{{$obj->payment}}</td>
+															<td>{{$obj->deliverer_name}}</td>
+															<td>{{$obj->order_count}}</td>
+															<td>{{$obj->order_charge}}</td>
 														</tr>
 													@endforeach
 														
@@ -226,9 +226,9 @@ background-size: cover;
 													<tbody>
 														@foreach($retailers_order_charges as $objr)
 														<tr>
-															<td>{{$objr->retailer}}</td>
-															<td>{{$objr->noOfOrder}}</td>
-															<td>{{$objr->charge}}</td>
+															<td>{{$objr->retailer_name}}</td>
+															<td>{{$objr->order_count}}</td>
+															<td>{{$objr->order_charge}}</td>
 														</tr>
 														@endforeach
 													</tbody>
@@ -279,7 +279,7 @@ background-size: cover;
         		"scrollCollapse": true,
         		"searching": false,
         		"columns": [
-                    { "data": "retailer_name" },
+                    { "data": "deliverer_name" },
                     { "data": "order_count" },
                     { "data": "order_charge" }
         		]

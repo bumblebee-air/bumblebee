@@ -476,7 +476,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link d-flex">
+                        <a class="nav-link d-flex" href="{{url('/')}}">
                             {{--                        <i class="fas fa-chart-bar"></i>--}}
                             <img class="my-nav-icon" src="{{asset('images/doorder_icons/dashboard.png')}}" alt="">
                             <p> Dashboard </p>

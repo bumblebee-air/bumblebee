@@ -189,9 +189,7 @@ Route::post('test-call', 'TestController@postTestCall');
 Route::get('test-crash-call', 'TestController@getTestCrashDetectionCall');
 Route::post('test-crash-call', 'TestController@postTestCrashDetectionCall');
 
-//GardenHelp
-Route::get('contractor-registration', 'garden_help\ContractorsController@index')->name('getContractorRegistration');
-Route::post('contractor-registration', 'garden_help\ContractorsController@save')->name('postContractorRegistration');
+
 //Stripe
 Route::get('stripe-account-create-test', 'StripeController@getAccountCreationTest');
 Route::post('stripe-account-create-test', 'StripeController@postAccountCreationTest');
@@ -205,6 +203,24 @@ Route::group(['prefix' => '{client_name}'], function () {
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('clientLogin');
     Route::post('login', 'Auth\LoginController@login')->name('clientLogin');
 
+    /*
+     * GardenHelp Routes
+     */
+
+    Route::get('contractors/registration', 'garden_help\ContractorsController@index')->name('getContractorRegistration');
+    Route::post('contractors/registration', 'garden_help\ContractorsController@save')->name('postContractorRegistration');
+    Route::get('customers/registration', 'garden_help\CustomersController@getRegistrationForm')->name('getCustomerRegistration');
+
+    Route::group(['middleware' => "auth:garden-help"],function () {
+        Route::get('home', 'garden_help\DashboardController@index')->name('garden_help_getDashboard');
+        Route::group(['prefix' => 'contractors'], function () {
+            Route::get('requests', 'garden_help\ContractorsController@getContractorsRequests')->name('garden_help_getContractorsRequests');
+        });
+    });
+    /*
+     * DoOrder Routes
+     */
+
     //Driver Registration
     Route::get('driver_registration', 'doorder\DriversController@getDriverRegistration')->name('getDriverRegistration');
     Route::post('driver_registration', 'doorder\DriversController@postDriverRegistration')->name('postDriverRegistration');
@@ -213,7 +229,6 @@ Route::group(['prefix' => '{client_name}'], function () {
     Route::get('retailer/registration', 'doorder\RetailerController@getRetailerRegistrationForm')->name('getRetailerRegistration');
     Route::post('retailer/registration', 'doorder\RetailerController@postRetailerRegistrationForm')->name('postRetailerRegistration');
 
-    //DoOrder Routes
     Route::group(['middleware' => "auth:doorder"],function () {
         Route::get('dashboard', 'doorder\DashboardController@index')->name('doorder_dashboard');
         Route::get('orders', 'doorder\OrdersController@getOrdersTable')->name('doorder_ordersTable');

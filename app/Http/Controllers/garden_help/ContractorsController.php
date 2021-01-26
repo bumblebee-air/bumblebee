@@ -73,4 +73,10 @@ class ContractorsController extends Controller
         alert()->success( 'You registration saved successfully');
         return redirect()->back();
     }
+
+    public function getContractorsRequests() {
+
+        $contractors_requests = Contractor::paginate(20);
+        return view('admin.garden_help.contractors.requests', ['contractors_requests' => $contractors_requests]);
+    }
 }

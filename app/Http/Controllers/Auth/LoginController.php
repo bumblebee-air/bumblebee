@@ -41,6 +41,7 @@ class LoginController extends Controller
     public function __construct(Request $request)
     {
         $this->middleware('guest')->except('logout');
+        $this->middleware('guest')->except('logout');
         if ($request->guard)
             $this->guard = $request->guard;
     }
@@ -61,6 +62,8 @@ class LoginController extends Controller
     {
         if(request()->getHost() == 'admin.doorder.eu' || str_contains(request()->url(),'doorder/login')) {
             return view("auth.doorder.login");
+        } else if(str_contains(request()->url(),'garden-help/login')) {
+            return view("auth.garden_help.login");
         } else {
             return view('auth.login');
         }

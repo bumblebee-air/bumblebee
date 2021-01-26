@@ -499,6 +499,30 @@
                     </li>
                 </ul>
             @endif
+        @elseif(Auth::guard('garden-help')->check())
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{url('garden-help/home')}}">
+                        {{--                            <i class="fas fa-plus-circle"></i>--}}
+                        <img style="width: 21px; height: 16px; margin-top: 7px" class="my-nav-icon" src="{{asset('images/gardenhelp_icons/Dashboard.png')}}" alt="Dashboard">
+                        <p> Dashboard </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{route('garden_help_getContractorsRequests', 'garden-help')}}">
+                        {{--                            <i class="fas fa-plus-circle"></i>--}}
+                        <img style="width: 15px; height: 20px" class="my-nav-icon" src="{{asset('images/gardenhelp_icons/Requests.png')}}" alt="Contractors Requests">
+                        <p> Contractors Requests </p>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link d-flex" href="{{url('logout')}}">
+                        {{--                            <i class="fas fa-sign-out-alt"></i>--}}
+                        <img style="width: 20px; height: 15px; margin-top: 7px" class="my-nav-icon" src="{{asset('images/gardenhelp_icons/Logout.png')}}" alt="">
+                        <p>Logout</p>
+                    </a>
+                </li>
+            </ul>
         @endif
     </div>
     @if($admin_nav_background_image!=null)

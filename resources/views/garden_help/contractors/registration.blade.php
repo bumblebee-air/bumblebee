@@ -196,7 +196,7 @@
 
 @section('content')
     <div class="container" id="app">
-        <form action="{{route('postContractorRegistration')}}" method="POST" enctype="multipart/form-data" autocomplete="off">
+        <form action="{{route('postContractorRegistration', 'garden-help')}}" method="POST" enctype="multipart/form-data" autocomplete="off">
             {{csrf_field()}}
             <div class="main main-raised">
                 <div class="h-100 row align-items-center">

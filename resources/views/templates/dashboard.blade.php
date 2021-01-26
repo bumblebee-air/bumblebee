@@ -16,17 +16,17 @@
     <link href="{{asset('css/main.css')}}" rel="stylesheet">
     <link href="{{asset('css/material-dashboard.min.css')}}" rel="stylesheet">
  	<link rel="stylesheet" href="{{asset('css/jquery-ui.css')}}">
-    <link href="{{asset('css/doorder-styles.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/chartist.min.css')}}">
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
     
     <!--Sweet Alert-->
     <script src="https://unpkg.com/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
-    @if(Auth::user() && Auth::user()->user_role == 'client' && Auth::user()->client && Auth::user()->client->name == 'GardenHelp')
+    @if(Auth::guard('garden-help')->check())
         <link href="{{asset('css/gardenhelp_dashboard.css')}}" rel="stylesheet">
     @endif
     <!--DoOrder Custom Style-->
     @if(Auth::guard('doorder')->check())
+        <link href="{{asset('css/doorder-styles.css')}}" rel="stylesheet">
         <link href="{{asset('css/doorder_dashboard.css')}}" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Quicksand" />
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -80,7 +80,7 @@
 <link href="https://cdn.jsdelivr.net/npm/vue-toast-notification/dist/theme-sugar.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/vue-toast-notification"></script>
 
-@if(auth()->user() && auth()->user()->user_role != "retailer")
+@if(Auth::guard('doorder')->check() && auth()->user() && auth()->user()->user_role != "retailer")
     <script>
         let updateAudio = new Audio('{{asset("audio/update.mp3")}}');
         let notificationAudio = new Audio('{{asset("audio/notification.mp3")}}');
@@ -121,6 +121,10 @@
                 }
             });
         }
+    </script>
+@elseif(Auth::guard('garden-help')->check())
+    <script>
+        $('.sidebar').attr('data-background-color', 'white');
     </script>
 @endif
 

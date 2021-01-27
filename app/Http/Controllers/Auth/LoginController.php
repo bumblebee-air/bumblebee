@@ -46,8 +46,10 @@ class LoginController extends Controller
             $this->guard = $request->guard;
     }
 
-    public function redirectPath(){
-        //dd(\Auth::user());
+    public function redirectPath() {
+        if ($this->guard == 'garden-help') {
+            return 'garden-help/home';
+        }
     }
 
     protected function authenticated(Request $request, $user)

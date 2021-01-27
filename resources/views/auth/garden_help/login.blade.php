@@ -1,6 +1,6 @@
 @extends('templates.auth')
 
-@section('title', 'DoOrder')
+@section('title', 'GardenHelp')
 
 @section('page-styles')
     <style>

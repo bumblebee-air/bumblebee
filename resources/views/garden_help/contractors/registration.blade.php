@@ -819,11 +819,6 @@
                         is_checked: JSON.parse("{{old('type_of_work_exp') ? ( strpos(old('type_of_work_exp'), 'Decking') === false  ? 'false' : 'true' ) : 'false'}}"),
                         level: ["1", "2", "3"],
                     },
-                    {
-                        title: 'Decking',
-                        is_checked: JSON.parse("{{old('type_of_work_exp') ? ( strpos(old('type_of_work_exp'), 'Decking') === false  ? 'false' : 'true' ) : 'false'}}"),
-                        level: ["1", "2", "3"],
-                    },
                 ],
                 experience_type: '{{old('type_of_work_exp')}}',
                 experience_type_input: '{{old('type_of_work_exp')}}',

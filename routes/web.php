@@ -215,6 +215,8 @@ Route::group(['prefix' => '{client_name}'], function () {
         Route::get('home', 'garden_help\DashboardController@index')->name('garden_help_getDashboard');
         Route::group(['prefix' => 'contractors'], function () {
             Route::get('requests', 'garden_help\ContractorsController@getContractorsRequests')->name('garden_help_getContractorsRequests');
+            Route::get('requests/{id}', 'garden_help\ContractorsController@getSingleRequest')->name('garden_help_getContractorSingleRequest');
+            Route::post('requests/{id}', 'garden_help\ContractorsController@postSingleRequest')->name('garden_help_postContractorSingleRequest');
         });
     });
     /*

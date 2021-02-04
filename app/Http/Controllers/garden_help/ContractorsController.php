@@ -79,4 +79,48 @@ class ContractorsController extends Controller
         $contractors_requests = Contractor::paginate(20);
         return view('admin.garden_help.contractors.requests', ['contractors_requests' => $contractors_requests]);
     }
+
+    public function getSingleRequest($client_name, $id) {
+        $contractor_request = Contractor::find($id);
+        if (!$contractor_request) {
+            abort(404);
+        }
+        return view('admin.garden_help.contractors.single_request', ['contractor_request' => $contractor_request]);
+    }
+
+    public function postSingleRequest(Request $request, $client_name, $id) {
+        $singleRequest = Contractor::find($id);
+        if (!$singleRequest) {
+            abort(404);
+        }
+        if ($request->rejection_reason) {
+            $singleRequest->rejection_reason = $request->rejection_reason;
+            $singleRequest->status = 'missing';
+            $singleRequest->save();
+            alert()->success('Contractor rejected successfully');
+        } else {
+            $singleRequest->status = 'completed';
+            $singleRequest->save();
+            //update user password send sms to retailer with login details
+//            $new_pass = Str::random(6);
+//            $user->password = bcrypt($new_pass);
+//            $user->save();
+//            try {
+//                $sid = env('TWILIO_SID', '');
+//                $token = env('TWILIO_AUTH', '');
+//                $twilio = new Client($sid, $token);
+//                $twilio->messages->create($user->phone,
+//                    [
+//                        "from" => "DoOrder",
+//                        "body" => "Hi $user->name, your retailer profile has been accepted.
+//                        Login details are the email: $user->email and the password: $new_pass .
+//                        Login page: ".url('doorder/login')
+//                    ]
+//                );
+//            } catch (\Exception $exception){
+//            }
+            alert()->success('Contractor accepted successfully');
+        }
+        return redirect()->route('garden_help_getContractorsRequests', 'garden-help');
+    }
 }

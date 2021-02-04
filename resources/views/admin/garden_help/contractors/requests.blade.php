@@ -29,7 +29,7 @@
                                         {{--                                    <i class="material-icons">home_work</i>--}}
                                         <img class="page_icon" src="{{asset('images/gardenhelp_icons/Requests-white.png')}}">
                                     </div>
-                                    <h4 class="card-title ">Request Number 1000</h4>
+                                    <h4 class="card-title ">Contractors Requests</h4>
                                 </div>
                                 <div class="col-6 col-sm-8 mt-4">
                                     <div class="row justify-content-end">

@@ -53,8 +53,10 @@
                 <div class="container">
                     <div class="card card-login">
                         <div class="card-header text-center">
-                            <a href="{{url('/')}}"><img class="img-fluid" src="{{asset('images/gardenhelp_icons/Logo.png')}}"
-                                                        alt="DoOrder Logo" style=" height: 110px;"></a>
+                            <a href="{{url('/')}}">
+{{--                                <img class="img-fluid" src="{{asset('images/gardenhelp_icons/Logo.png')}}" alt="DoOrder Logo" style=" height: 110px;">--}}
+                                <img class="img-fluid" src="{{asset('images/gardenhelp_icons/New-Logo-02.png')}}" alt="DoOrder Logo" style=" height: 110px;">
+                            </a>
                         </div>
                         <div class="card-body">
                             <form class="form-signin" method="POST" action="{{url('login')}}">

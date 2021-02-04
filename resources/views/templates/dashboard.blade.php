@@ -23,6 +23,7 @@
     <script src="https://unpkg.com/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
     @if(Auth::guard('garden-help')->check())
         <link href="{{asset('css/gardenhelp_dashboard.css')}}" rel="stylesheet">
+        <link rel="icon" type="image/jpeg" href="{{asset('images/garden-help-fav.png')}}">
     @endif
     <!--DoOrder Custom Style-->
     @if(Auth::guard('doorder')->check())

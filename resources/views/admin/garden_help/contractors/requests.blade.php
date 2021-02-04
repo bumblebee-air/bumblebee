@@ -23,12 +23,32 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
-                            <div class="card-header card-header-icon card-header-rose">
-                                <div class="card-icon">
-                                    {{--                                    <i class="material-icons">home_work</i>--}}
-                                    <img class="page_icon" src="{{asset('images/gardenhelp_icons/Requests-white.png')}}">
+                            <div class="card-header card-header-icon card-header-rose row">
+                                <div class="col-12 col-sm-4">
+                                    <div class="card-icon">
+                                        {{--                                    <i class="material-icons">home_work</i>--}}
+                                        <img class="page_icon" src="{{asset('images/gardenhelp_icons/Requests-white.png')}}">
+                                    </div>
+                                    <h4 class="card-title ">Request Number 1000</h4>
                                 </div>
-                                <h4 class="card-title ">Request Number 1000</h4>
+                                <div class="col-6 col-sm-8 mt-4">
+                                    <div class="row justify-content-end">
+                                        <div class="status">
+                                            <div class="status_item">
+                                                <img class="status_icon" src="{{asset('images/doorder_icons/order_status_ready.png')}}" alt="Request received">
+                                                Request received
+                                            </div>
+                                            <div class="status_item">
+                                                <img class="status_icon" src="{{asset('images/doorder_icons/order_status_on_route_pickup.png')}}" alt="Missing Data">
+                                                Missing Data
+                                            </div>
+                                            <div class="status_item">
+                                                <img class="status_icon" src="{{asset('images/doorder_icons/order_status_delivered.png')}}" alt="Request completed">
+                                                Request completed
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="container">
@@ -39,6 +59,7 @@
                                                 <th>Level</th>
                                                 <th>Request No</th>
                                                 <th>Status</th>
+                                                <th>Stage</th>
                                                 <th>Address</th>
                                             </thead>
 
@@ -51,6 +72,15 @@
                                                             </td>
                                                             <td>Level {{$contractor->experience_level_value}}</td>
                                                             <td>{{$contractor->id}}</td>
+                                                            <td>
+                                                                @if($contractor->status == 'received')
+                                                                    <img class="status_icon" src="{{asset('images/doorder_icons/order_status_ready.png')}}" alt="Request received">
+                                                                @elseif($contractor->status == 'missing')
+                                                                    <img class="status_icon" src="{{asset('images/doorder_icons/order_status_on_route_pickup.png')}}" alt="Missing Data">
+                                                                @else
+                                                                    <img class="status_icon" src="{{asset('images/doorder_icons/order_status_delivered.png')}}" alt="Request completed">
+                                                                @endif
+                                                            </td>
                                                             <td>
                                                                 @php($i = '33.34')
                                                                 <div class="progress m-auto">

@@ -481,7 +481,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                                <label class="bmd-label-floating" for="address">Address</label>
+                                <label class="bmd-label-floating" for="address">Location</label>
                                 <input id="address" type="text" class="form-control" name="address" value="{{old('address')}}" required>
                             </div>
                         </div>
@@ -805,9 +805,24 @@
                         level: ["1", "2", "3"]
                     },
                     {
-                        title: 'Landscaping',
-                        is_checked: JSON.parse("{{old('type_of_work_exp') ? ( strpos(old('type_of_work_exp'), 'Landscaping') === false  ? 'false' : 'true' ) : 'false'}}"),
-                        level: ["2", "3"],
+                        title: 'Hard Landscaping',
+                        is_checked: JSON.parse("{{old('type_of_work_exp') ? ( strpos(old('type_of_work_exp'), 'Hard Landscaping') === false  ? 'false' : 'true' ) : 'false'}}"),
+                        level: ["1", "2", "3"],
+                    },
+                    {
+                        title: 'Patios',
+                        is_checked: JSON.parse("{{old('type_of_work_exp') ? ( strpos(old('type_of_work_exp'), 'Patios') === false  ? 'false' : 'true' ) : 'false'}}"),
+                        level: ["1", "2", "3"],
+                    },
+                    {
+                        title: 'Decking',
+                        is_checked: JSON.parse("{{old('type_of_work_exp') ? ( strpos(old('type_of_work_exp'), 'Decking') === false  ? 'false' : 'true' ) : 'false'}}"),
+                        level: ["1", "2", "3"],
+                    },
+                    {
+                        title: 'Decking',
+                        is_checked: JSON.parse("{{old('type_of_work_exp') ? ( strpos(old('type_of_work_exp'), 'Decking') === false  ? 'false' : 'true' ) : 'false'}}"),
+                        level: ["1", "2", "3"],
                     },
                 ],
                 experience_type: '{{old('type_of_work_exp')}}',

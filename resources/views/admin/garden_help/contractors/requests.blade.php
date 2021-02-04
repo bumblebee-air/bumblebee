@@ -7,6 +7,11 @@
         .main-panel>.content {
             margin-top: 0px;
         }
+        tr.order-row:hover,
+        tr.order-row:focus {
+            cursor: pointer;
+            box-shadow: 5px 5px 18px #88888836, 5px -5px 18px #88888836;
+        }
     </style>
 @endsection
 
@@ -40,31 +45,16 @@
                                             <tbody>
                                                 @if(count($contractors_requests) > 0)
                                                     @foreach($contractors_requests as $contractor)
-                                                        <tr>
+                                                        <tr class="order-row" onclick="window.location = '{{route('garden_help_getContractorSingleRequest',['garden-help', $contractor->id])}}'">
                                                             <td>
                                                                 {{$contractor->created_at}}
                                                             </td>
                                                             <td>Level {{$contractor->experience_level_value}}</td>
                                                             <td>{{$contractor->id}}</td>
                                                             <td>
-                                                                @php
-                                                                    $contractor_status = '80';
-                                                                    /*if ($order->status == 'pending') {
-                                                                        $order_status = 0;
-                                                                    } elseif ($order->status == 'ready') {
-                                                                        $order_status = 20;
-                                                                    } elseif ($order->status == 'matched') {
-                                                                        $order_status = 40;
-                                                                    } elseif ($order->status == 'picked_up') {
-                                                                        $order_status = 60;
-                                                                    } elseif ($order->status == 'on_route') {
-                                                                        $order_status = 80;
-                                                                    } else {
-                                                                        $order_status = 100;
-                                                                    }*/
-                                                                @endphp
+                                                                @php($i = '33.34')
                                                                 <div class="progress m-auto">
-                                                                    <div class="progress-bar" role="progressbar" style="width: {{$contractor_status}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                    <div class="progress-bar" role="progressbar" style="width: {{($contractor->status == 'received' ? 1 : ($contractor->status == 'missing' ? 2 : 3)) *$i}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </td>
                                                             <td>

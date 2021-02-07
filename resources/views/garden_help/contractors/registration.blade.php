@@ -419,53 +419,61 @@
                         <div class="col-md-12" v-if="experience_level_selected_value == 2 || experience_level_selected_value == 1">
                             <div class="form-group bmd-form-group">
                                 <label for="available_tools">Available Tools and Equipment</label>
-                                <div class="d-flex justify-content-between" @click="openModal('available_tools')">
-                                    <input type="text" class="form-control" name="available_equipments" id="available_tools" v-model="available_tool_input" required>
-                                    <a class="select-icon">
-                                        <i class="fas fa-caret-down"></i>
-                                    </a>
+                                <div class="d-flex justify-content-between" {{--@click="openModal('available_tools')"--}}>
+                                    <div class="col-md-12 d-flex" style="padding-left: 0; padding-top: 5px;" @click="checkEquipment()">
+                                        <div class="my-check-box" id="check">
+                                            <i :class="equipments_checked === true ? 'fas fa-check-square checked' : 'fas fa-check-square'"></i>
+                                        </div>
+                                        <label style="margin-left: 14px; margin-top: 4px;" for="my-check-box" :class="equipments_checked === true ? 'my-check-box-label my-check-box-label-checked' : 'my-check-box-label'">I declare I have the correct
+                                            tools to carry out the type of work I have requested</label>
+                                    </div>
+                                    <input type="hidden" name="available_equipments" v-model="available_tool_input" required>
+{{--                                    <input type="text" class="form-control" name="available_equipments" id="available_tools" v-model="available_tool_input" required>--}}
+{{--                                    <a class="select-icon">--}}
+{{--                                        <i class="fas fa-caret-down"></i>--}}
+{{--                                    </a>--}}
                                 </div>
                                 <!-- Button trigger modal -->
-                                <a id="available_tools_btn_modal" data-toggle="modal"
-                                   data-target="#available_toolsModal" style="display: none"></a>
+{{--                                <a id="available_tools_btn_modal" data-toggle="modal"--}}
+{{--                                   data-target="#available_toolsModal" style="display: none"></a>--}}
 
-                                <!-- Modal -->
-                                <div class="modal fade" id="available_toolsModal" tabindex="-1" role="dialog"
-                                     aria-labelledby="available_toolsLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title text-left" id="type_of_experienceLabel">Available Tools and Equipment</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="row">
-                                                    <div class="col-md-12 d-flex justify-content-between" v-for="tool in available_tools" @click="toggleCheckedValue(tool)">
-                                                        <label for="my-check-box" :class="tool.is_checked === true ? 'my-check-box-label my-check-box-label-checked' : 'my-check-box-label'">@{{ tool.title }}</label>
-                                                        <div class="my-check-box" id="check">
-                                                            <i :class="tool.is_checked === true ? 'fas fa-check-square checked' : 'fas fa-check-square'"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12 d-flex justify-content-between">
-                                                        <input type="text" class="form-control" placeholder="Add Other" v-model="available_tool_other">
-                                                        <a class="add-other-button" v-if="available_tool_other != ''" @click="addOtherInput('available_tools')">
-                                                            <i class="fas fa-arrow-right"></i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-link modal-button-close" data-dismiss="modal">Close
-                                                </button>
-                                                <button type="button" class="btn btn-link modal-button-done" data-dismiss="modal" @click="changeSelectedValue('available_tools')">
-                                                    Done
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+{{--                                <!-- Modal -->--}}
+{{--                                <div class="modal fade" id="available_toolsModal" tabindex="-1" role="dialog"--}}
+{{--                                     aria-labelledby="available_toolsLabel" aria-hidden="true">--}}
+{{--                                    <div class="modal-dialog" role="document">--}}
+{{--                                        <div class="modal-content">--}}
+{{--                                            <div class="modal-header">--}}
+{{--                                                <h5 class="modal-title text-left" id="type_of_experienceLabel">Available Tools and Equipment</h5>--}}
+{{--                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
+{{--                                                    <span aria-hidden="true">&times;</span>--}}
+{{--                                                </button>--}}
+{{--                                            </div>--}}
+{{--                                            <div class="modal-body">--}}
+{{--                                                <div class="row">--}}
+{{--                                                    <div class="col-md-12 d-flex justify-content-between" v-for="tool in available_tools" @click="toggleCheckedValue(tool)">--}}
+{{--                                                        <label for="my-check-box" :class="tool.is_checked === true ? 'my-check-box-label my-check-box-label-checked' : 'my-check-box-label'">@{{ tool.title }}</label>--}}
+{{--                                                        <div class="my-check-box" id="check">--}}
+{{--                                                            <i :class="tool.is_checked === true ? 'fas fa-check-square checked' : 'fas fa-check-square'"></i>--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
+{{--                                                    <div class="col-md-12 d-flex justify-content-between">--}}
+{{--                                                        <input type="text" class="form-control" placeholder="Add Other" v-model="available_tool_other">--}}
+{{--                                                        <a class="add-other-button" v-if="available_tool_other != ''" @click="addOtherInput('available_tools')">--}}
+{{--                                                            <i class="fas fa-arrow-right"></i>--}}
+{{--                                                        </a>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                            <div class="modal-footer">--}}
+{{--                                                <button type="button" class="btn btn-link modal-button-close" data-dismiss="modal">Close--}}
+{{--                                                </button>--}}
+{{--                                                <button type="button" class="btn btn-link modal-button-done" data-dismiss="modal" @click="changeSelectedValue('available_tools')">--}}
+{{--                                                    Done--}}
+{{--                                                </button>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
                             </div>
                         </div>
                     </div>
@@ -892,7 +900,8 @@
                     }
                 ],
                 green_waste_collection_method_input: "{{old('green_waste_collection_method')}}",
-                green_waste_collection_method_other: ''
+                green_waste_collection_method_other: '',
+                equipments_checked: false
             },
             mounted() {
 
@@ -972,6 +981,15 @@
                 },
                 onChangeFile(e ,id) {
                     $("#" + id).val(e.target.files[0].name);
+                },
+                checkEquipment() {
+                    if(this.equipments_checked == true) {
+                        this.equipments_checked = false;
+                        this.available_tool_input = '';
+                    } else {
+                        this.equipments_checked = true;
+                        this.available_tool_input = "I declare I have the correct tools to carry out the type of work I have requested";
+                    }
                 }
             }
         });

@@ -317,3 +317,8 @@ td {
 	width: 347px!important;
 	height: 50px!important;
 }
+
+.sidebar .sidebar-background:after {
+	background: black;
+	opacity: 0.7;
+}

@@ -1,6 +1,6 @@
 @extends('templates.garden_help')
 
-@section('title', 'Contractors Registration')
+@section('title', 'GardenHelp | Contractors Registration')
 
 @section('styles')
     <style>

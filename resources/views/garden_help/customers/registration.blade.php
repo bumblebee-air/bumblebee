@@ -1,6 +1,6 @@
 @extends('templates.garden_help')
 
-@section('title', 'Contractors Registration')
+@section('title', 'GardenHelp | Customers Registration')
 
 @section('styles')
     <style>
@@ -32,6 +32,8 @@
             padding-top: 10px;
             padding-left: 23px;
             padding-right: 23px;
+            padding-bottom: 35px;
+            margin-bottom: 20px;
         }
 
         .modal-content {
@@ -191,12 +193,20 @@
             transition: 0.3s ease-in-out;
             font-size: 20px;
         }
+
+        /*.bootstrap-select>.dropdown-toggle.bs-placeholder {*/
+        /*    color: white;*/
+        /*}*/
+
+        .form-group-none:invalid {
+
+        }
     </style>
 @endsection
 
 @section('content')
     <div class="container" id="app">
-        <form action="{{route('postContractorRegistration')}}" method="POST" enctype="multipart/form-data" autocomplete="off">
+        <form action="{{route('postContractorRegistration', 'garden-help')}}" method="POST" enctype="multipart/form-data" autocomplete="off">
             {{csrf_field()}}
             <div class="main main-raised">
                 <div class="h-100 row align-items-center">
@@ -207,7 +217,6 @@
                 <div class="container">
                     <div class="section">
                         <h4 class="title">Customer Registration Form</h4>
-                        <h5 class="sub-title">Personal Details</h5>
                     </div>
                     @if(count($errors))
                         <div class="alert alert-danger" role="alert">
@@ -218,7 +227,43 @@
                             </ul>
                         </div>
                     @endif
+
                     <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+{{--                                <label class="bmd-label-floating">Location</label>--}}
+{{--                                <input type="text" class="form-control" name="name" value="{{old('name')}}" required>--}}
+                                <select name="location" data-style="select-with-transition" class="form-control selectpicker" @change="changeLocation">
+                                    <option disabled selected>Location</option>
+                                    <option value="Limerick">Limerick</option>
+                                    <option value="Drumcondra">Drumcondra</option>
+                                    <option value="Dún Laoghaire">Dún Laoghaire</option>
+                                    <option value="Smithfield">Smithfield</option>
+                                    <option value="Clontarf">Clontarf</option>
+                                    <option value="Blackrock">Blackrock</option>
+                                    <option value="Glasnevin">Glasnevin</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                {{--                                <label class="bmd-label-floating">Location</label>--}}
+                                {{--                                <input type="text" class="form-control" name="name" value="{{old('name')}}" required>--}}
+                                <select name="type_of_work" data-style="select-with-transition" class="form-control selectpicker" v-model="type_of_work">
+                                    <option disabled selected>Type of work</option>
+                                    <option value="Residential">Residential</option>
+                                    <option value="Commercial">Commercial</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" v-if="type_of_work == 'Residential'">
+                        <div class="col-md-12">
+                            <h5 class="sub-title">Property Information</h5>
+                        </div>
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
                                 <label class="bmd-label-floating">Name</label>
@@ -252,11 +297,96 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Phone</label>
+                                <input type="tel" class="form-control" name="phone" value="{{old('phone')}}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Password</label>
+                                <input type="password" class="form-control" name="password" value="{{old('password')}}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Confirm Password</label>
+                                <input type="password" class="form-control" name="password_confirmation" value="{{old('password_confirmation')}}" required>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <br>
-            {{--Other Details--}}
+
+            <div class="main main-raised content-card">
+                <div class="container">
+                    <div class="section">
+                        <h5 class="sub-title">Services Details</h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                <label for="type_of_experience" class="bmd-label-floating">Service Type</label>
+                                <div class="d-flex justify-content-between" @click="openModal('service_type')">
+                                    <input name="service_types" type="text" class="form-control" id="service_type_input" v-model="service_type_input" {{old('service_type_input')}} required>
+                                    <a class="select-icon">
+                                        <i class="fas fa-caret-down"></i>
+                                    </a>
+                                </div>
+                                <!-- Button trigger modal -->
+                                <a id="service_type_btn_modal" data-toggle="modal"
+                                   data-target="#service_typeModal" style="display: none"></a>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="service_typeModal" tabindex="-1" role="dialog"
+                                     aria-labelledby="type_of_experienceLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title text-left" id="type_of_experienceLabel">Service Type</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-md-12 d-flex justify-content-between" v-for="type in service_types"  @click="toggleCheckedValue(type)">
+                                                        <label for="my-check-box" :class="type.is_checked == true ? 'my-check-box-label my-check-box-label-checked' : 'my-check-box-label'">@{{ type.title }}</label>
+                                                        <div class="my-check-box" id="check">
+                                                            <i :class="type.is_checked == true ? 'fas fa-check-square checked' : 'fas fa-check-square'"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <h5 class="modal-title text-left" id="type_of_experienceLabel">Other Service</h5>
+                                                        <br>
+                                                    </div>
+                                                    <div class="col-md-12 d-flex justify-content-between" v-for="type in other_service_types"  @click="toggleCheckedValue(type)">
+                                                        <label for="my-check-box" :class="type.is_checked == true ? 'my-check-box-label my-check-box-label-checked' : 'my-check-box-label'">@{{ type.title }}</label>
+                                                        <div class="my-check-box" id="check">
+                                                            <i :class="type.is_checked == true ? 'fas fa-check-square checked' : 'fas fa-check-square'"></i>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-link modal-button-close" data-dismiss="modal">Close
+                                                </button>
+                                                <button type="button" class="btn btn-link modal-button-done" data-dismiss="modal" @click="changeSelectedValue('experience_type')">
+                                                    Done
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="main main-raised content-card">
                 <div class="container">
                     <div class="section">
@@ -265,7 +395,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-{{--                                <label class="bmd-label-floating" for="location">Location</label>--}}
+                                <label class="bmd-label-floating" for="location">Location</label>
                                 <input type="text" class="form-control" id="location" name="location" value="{{old('location')}}" required>
                                 <input type="hidden" id="location_coordinates" name="location_latlang">
                             </div>
@@ -292,6 +422,43 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Property size</label>
+                                <input type="text" class="form-control" name="property_size" value="{{old('property_size')}}" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                <label for="vat-number">Is this the first time you do service for your property?</label>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-check form-check-radio">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" id="exampleRadios2" name="has_smartphone" value="1" {{old('has_smartphone') === '1' ? 'checked' : ''}} required>
+                                                Yes
+                                                <span class="circle">
+                                                    <span class="check"></span>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-check form-check-radio">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" id="exampleRadios1" name="has_smartphone" value="0" {{old('has_smartphone') === '0' ? 'checked' : ''}} required>
+                                                No
+                                                <span class="circle">
+                                                    <span class="check"></span>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -308,6 +475,36 @@
                 </div>
             </div>
         </form>
+        <a id="addOtherLocationBtn" data-toggle="modal"
+           data-target="#addOtherLocationModal" style="display: none"></a>
+        <!-- Modal -->
+        <div class="modal fade" id="addOtherLocationModal" tabindex="-1" role="dialog"
+             aria-labelledby="type_of_experienceLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-left" id="type_of_experienceLabel">Type of work experience</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12 d-flex justify-content-between">
+                                <input type="text" class="form-control" placeholder="Add Other">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link modal-button-close" data-dismiss="modal">Close
+                        </button>
+                        <button type="button" class="btn btn-link modal-button-done" data-dismiss="modal" @click="changeSelectedValue('experience_type')">
+                            Done
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 
@@ -319,199 +516,104 @@
         var app = new Vue({
             el: '#app',
             data: {
-                experience_level: '{{old('experience_level_value') ? old('experience_level_value') : 1}}',
-                experience_level_input: '{{old('experience_level') ?  old('experience_level') : 'Level 1 (0-2 Years)'}}',
-                experience_level_selected_value: '{{old('experience_level_value') ? old('experience_level_value') : 1}}',
-                experience_types: [
-                    {
-                        title: 'Garden Design',
-                        is_checked: JSON.parse("{{old('type_of_work_exp') ? ( strpos(old('type_of_work_exp'), 'Garden Design') === false ? 'false' : 'true' ) : 'false'}}"),
-                        level: ["2", "3"]
-                    },
-                    {
-                        title: 'Tree surgery',
-                        is_checked: JSON.parse("{{old('type_of_work_exp') ? ( strpos(old('type_of_work_exp'), 'Tree surgery') === false ? 'false' : 'true' ) : 'false'}}"),
-                        level: ["2", "3"]
-                    },
+                type_of_work: 'Residential',
+                service_types: [
                     {
                         title: 'Garden Maintenance',
-                        is_checked: JSON.parse("{{old('type_of_work_exp') ? ( strpos(old('type_of_work_exp'), 'Garden Maintenance') === false  ? 'false' : 'true' ) : 'false'}}"),
-                        level: ["1", "2", "3"]
+                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Garden Maintenance') === false ? 'false' : 'true' ) : 'false'}}"),
                     },
                     {
                         title: 'Grass Cutting',
-                        is_checked: JSON.parse("{{old('type_of_work_exp') ? ( strpos(old('type_of_work_exp'), 'Grass Cutting') === false ? 'false' : 'true' ) : 'false'}}"),
-                        level: ["1", "2", "3"]
+                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Grass Cutting') === false ? 'false' : 'true' ) : 'false'}}"),
+                    },
+                ],
+                other_service_types: [
+                    {
+                        title: 'Landscaping/Garden Design',
+                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Landscaping/Garden Design') === false ? 'false' : 'true' ) : 'false'}}"),
+                    },
+                    {
+                        title: 'Tree Surgery/Stump Removal',
+                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Tree Surgery/Stump Removal') === false ? 'false' : 'true' ) : 'false'}}"),
                     },
                     {
                         title: 'Fencing',
-                        is_checked: JSON.parse("{{old('type_of_work_exp') ? ( strpos(old('type_of_work_exp'), 'Fencing')  === false  ? 'false' : true) : 'false'}}"),
-                        level: ["1", "2", "3"]
+                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Fencing') === false ? 'false' : 'true' ) : 'false'}}"),
                     },
                     {
-                        title: 'Groundwork',
-                        is_checked: JSON.parse("{{old('type_of_work_exp') ? ( strpos(old('type_of_work_exp'), 'Groundwork') === false  ? 'false' : 'true' ) : 'false'}}"),
-                        level: ["1", "2", "3"]
+                        title: 'Decking',
+                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Decking') === false ? 'false' : 'true' ) : 'false'}}"),
                     },
                     {
-                        title: 'Landscaping',
-                        is_checked: JSON.parse("{{old('type_of_work_exp') ? ( strpos(old('type_of_work_exp'), 'Landscaping') === false  ? 'false' : 'true' ) : 'false'}}"),
-                        level: ["2", "3"],
-                    },
-                ],
-                experience_type: '{{old('type_of_work_exp')}}',
-                experience_type_input: '{{old('type_of_work_exp')}}',
-                experience_type_other: '',
-                available_tools: [
-                    {
-                        title: 'Hedge cutters',
-                        is_checked: JSON.parse("{{old('available_equipments') ? ( strpos(old('available_equipments'), 'Hedge cutters') === false  ? 'false' : 'true' ) : 'false'}}")
+                        title: 'Decking Repairs',
+                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Decking Repairs') === false ? 'false' : 'true' ) : 'false'}}"),
                     },
                     {
-                        title: 'Hand fork',
-                        is_checked: JSON.parse("{{old('available_equipments') ? ( strpos(old('available_equipments'), 'Hand fork') === false  ? 'false' : 'true' ) : 'false'}}")
+                        title: 'Strimming',
+                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Strimming') === false ? 'false' : 'true' ) : 'false'}}"),
                     },
                     {
-                        title: 'Lawn scarifier',
-                        is_checked: JSON.parse("{{old('available_equipments') ? ( strpos(old('available_equipments'), 'Lawn scarifier') === false  ? 'false' : 'true' ) : 'false'}}")
+                        title: 'Power Washing',
+                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Power Washing') === false ? 'false' : 'true' ) : 'false'}}"),
                     },
                     {
-                        title: 'Hoe',
-                        is_checked: JSON.parse("{{old('available_equipments') ? ( strpos(old('available_equipments'), 'Hoe') === false  ? 'false' : 'true' ) : 'false'}}")
+                        title: 'Shed Repairs',
+                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Shed Repairs') === false ? 'false' : 'true' ) : 'false'}}"),
                     },
                     {
-                        title: 'Secateurs',
-                        is_checked: JSON.parse("{{old('available_equipments') ? ( strpos(old('available_equipments'), 'Secateurs') === false  ? 'false' : 'true' ) : 'false'}}")
+                        title: 'Flat Pack Garden Furniture Assembly',
+                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Flat Pack Garden Furniture Assembly') === false ? 'false' : 'true' ) : 'false'}}"),
                     },
                     {
-                        title: 'Dibber',
-                        is_checked: JSON.parse("{{old('available_equipments') ? ( strpos(old('available_equipments'), 'Dibber') === false  ? 'false' : 'true' ) : 'false'}}")
+                        title: 'Green Waste Removal',
+                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Green Waste Removal') === false ? 'false' : 'true' ) : 'false'}}"),
                     },
                     {
-                        title: 'Pruning saw',
-                        is_checked: JSON.parse("{{old('available_equipments') ? ( strpos(old('available_equipments'), 'Pruning saw') === false  ? 'false' : 'true' ) : 'false'}}")
+                        title: 'Patio Installation',
+                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Patio Installation') === false ? 'false' : 'true' ) : 'false'}}"),
                     },
                     {
-                        title: 'Paving knife',
-                        is_checked: JSON.parse("{{old('available_equipments') ? ( strpos(old('available_equipments'), 'Paving knife') === false  ? 'false' : 'true' ) : 'false'}}")
+                        title: 'Lawn Fertilization',
+                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Lawn Fertilization') === false ? 'false' : 'true' ) : 'false'}}"),
                     },
                     {
-                        title: 'Edging knife',
-                        is_checked: JSON.parse("{{old('available_equipments') ? ( strpos(old('available_equipments'), 'Edging knife') === false  ? 'false' : 'true' ) : 'false'}}")
+                        title: 'Garden Painting',
+                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Garden Painting') === false ? 'false' : 'true' ) : 'false'}}"),
                     },
                     {
-                        title: 'Mattock',
-                        is_checked: JSON.parse("{{old('available_equipments') ? ( strpos(old('available_equipments'), 'Mattock') === false  ? 'false' : 'true' ) : 'false'}}")
-                    },
-                ],
-                available_tool_other: '',
-                available_tool_input: "{{old('available_equipments')}}",
-                transport_types: [
-                    {
-                        title: 'Van',
-                        is_checked: JSON.parse("{{old('type_of_transport') ? ( strpos(old('type_of_transport'), 'Van') === false  ? 'false' : 'true' ) : 'false'}}")
+                        title: 'Gutter VAC',
+                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Gutter VAC') === false ? 'false' : 'true' ) : 'false'}}"),
                     },
                     {
-                        title: 'Trailer',
-                        is_checked: JSON.parse("{{old('type_of_transport') ? ( strpos(old('type_of_transport'), 'Trailer') === false  ? 'false' : 'true' ) : 'false'}}")
-                    }
-                ],
-                transport_type_input: "{{old('type_of_transport')}}",
-                charge: "{{old('charge_type')}}",
-                call_out_fee: "{{old('has_callout_fee')}}",
-                call_out_fee_charge: "{{old('callout_fee_value')}}",
-                green_waste_collection_methods: [
-                    {
-                        title: 'Ton bags',
-                        is_checked: JSON.parse("{{old('green_waste_collection_method') ? ( strpos(old('green_waste_collection_method'), 'Ton bags') === false  ? 'false' : 'true' ) : 'false'}}")
+                        title: 'Leaf blowing',
+                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Leaf blowing') === false ? 'false' : 'true' ) : 'false'}}"),
                     },
                     {
-                        title: 'Trailer',
-                        is_checked: JSON.parse("{{old('green_waste_collection_method') ? ( strpos(old('green_waste_collection_method'), 'Trailer') === false  ? 'false' : 'true' ) : 'false'}}")
-                    }
-                ],
-                green_waste_collection_method_input: "{{old('green_waste_collection_method')}}",
-                green_waste_collection_method_other: ''
+                        title: 'Mulching',
+                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Mulching') === false ? 'false' : 'true' ) : 'false'}}"),
+                    },
+                    {
+                        title: 'Power Washing',
+                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Power Washing') === false ? 'false' : 'true' ) : 'false'}}"),
+                    },
+                    {
+                        title: 'Hedge Cutting',
+                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Hedge Cutting') === false ? 'false' : 'true' ) : 'false'}}"),
+                    },
+                ]
             },
             mounted() {
 
             },
             methods: {
-                changeExperienceLevel() {
-                    if (this.experience_level == 1) {
-                        this.experience_level_input = "Level 1 (0-2 Years)";
-                        this.experience_level_selected_value = this.experience_level;
-                    } else if (this.experience_level == 2) {
-                        this.experience_level_input = "Level 2 (2-5 Years)";
-                        this.experience_level_selected_value = this.experience_level;
-                    } else {
-                        this.experience_level_input = "Level 3 (+5 Years)";
-                        this.experience_level_selected_value = this.experience_level;
+                changeLocation(e) {
+                    if(e.target.value == 'Other') {
+                        $('#addOtherLocationBtn').click();
                     }
                 },
                 openModal(type) {
                     $('#' + type + '_btn_modal').click();
                 },
-                toggleCheckedValue(type) {
-                    type.is_checked = !type.is_checked;
-                },
-                addOtherInput(type) {
-                    if (type === 'experience_type') {
-                        this.experience_types.push({
-                            title: this.experience_type_other,
-                            is_checked: true,
-                            level: [this.experience_level],
-                        });
-                        this.experience_type_other = '';
-                    } else if (type === 'available_tools') {
-                        this.available_tools.push({
-                            title: this.available_tool_other,
-                            is_checked: true
-                        });
-                        this.available_tool_other = '';
-                    } else if (type === 'green_waste_collection_method') {
-                        this.green_waste_collection_methods.push({
-                            title: this.green_waste_collection_method_other,
-                            is_checked: true
-                        });
-                        this.green_waste_collection_method_other = '';
-                    }
-                },
-                changeSelectedValue(type) {
-                    let input = '';
-                    let list = '';
-                    if (type === 'experience_type') {
-                        this.experience_type_input = '';
-                        list = this.experience_types;
-                        for(let item of list) {
-                            item.is_checked === true ? this.experience_type_input += (this.experience_type_input == '' ? item.title : ', ' + item.title ) : '';
-                        }
-                    } else if(type === 'available_tools') {
-                        this.available_tool_input = '';
-                        list = this.available_tools;
-                        for(let item of list) {
-                            item.is_checked === true ? this.available_tool_input += (this.available_tool_input == '' ? item.title : ', ' + item.title ) : '';
-                        }
-                    } else if(type === 'transport_types') {
-                        this.transport_type_input = '';
-                        list = this.transport_types;
-                        for(let item of list) {
-                            item.is_checked === true ? this.transport_type_input += (this.transport_type_input == '' ? item.title : ', ' + item.title ) : '';
-                        }
-                    } else if(type === 'green_waste_collection_methods') {
-                        this.green_waste_collection_method_input = '';
-                        list = this.green_waste_collection_methods;
-                        for(let item of list) {
-                            item.is_checked === true ? this.green_waste_collection_method_input += (this.green_waste_collection_method_input == '' ? item.title : ', ' + item.title ) : '';
-                        }
-                    }
-                },
-                addFile(id) {
-                    $('#' + id).click();
-                },
-                onChangeFile(e ,id) {
-                    $("#" + id).val(e.target.files[0].name);
-                }
             }
         });
 

@@ -198,8 +198,30 @@
         /*    color: white;*/
         /*}*/
 
-        .form-group-none:invalid {
+        /*Map Caculater Style*/
+        #panel {
+            width: 200px;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            float: right;
+            margin: 10px;
+        }
 
+        #color-palette {
+            clear: both;
+        }
+
+        .color-button {
+            width: 14px;
+            height: 14px;
+            font-size: 0;
+            margin: 2px;
+            float: left;
+            cursor: pointer;
+        }
+
+        #delete-button {
+            margin-top: 5px;
         }
     </style>
 @endsection
@@ -395,13 +417,14 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                                <label class="bmd-label-floating" for="location">Location</label>
+{{--                                <label class="bmd-label-floating" for="location">Location</label>--}}
                                 <input type="text" class="form-control" id="location" name="location" value="{{old('location')}}" required>
                                 <input type="hidden" id="location_coordinates" name="location_latlang">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
+                                <div id="area"></div>
                                 <div id="map" style="height: 400px; margin-top: 0"></div>
                             </div>
                         </div>
@@ -426,7 +449,7 @@
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
                                 <label class="bmd-label-floating">Property size</label>
-                                <input type="text" class="form-control" name="property_size" value="{{old('property_size')}}" required>
+                                <input type="text" class="form-control" id="property_size" name="property_size" value="{{old('property_size')}}" required>
                             </div>
                         </div>
 
@@ -617,11 +640,13 @@
             }
         });
 
+        //Map Js
         function initMap() {
             //Map Initialization
             this.map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 12,
-                center: {lat: 53.346324, lng: -6.258668}
+                center: {lat: 53.346324, lng: -6.258668},
+                disableDefaultUI: true
             });
 
             //Marker
@@ -665,7 +690,181 @@
                     document.getElementById("location_coordinates").value = '{"lat": ' + place_lat.toFixed(5) + ', "lon": ' + place_lon.toFixed(5) +'}';
                 }
             });
+
+            //Map drawing
+            var polyOptions = {
+                strokeWeight: 0,
+                fillOpacity: 0.45,
+                editable: true
+            };
+            // Creates a drawing manager attached to the map that allows the user to draw
+            // markers, lines, and shapes.
+            drawingManager = new google.maps.drawing.DrawingManager({
+                drawingMode: google.maps.drawing.OverlayType.POLYGON,
+                markerOptions: {
+                    draggable: true
+                },
+                polylineOptions: {
+                    editable: true
+                },
+                rectangleOptions: polyOptions,
+                circleOptions: polyOptions,
+                polygonOptions: polyOptions,
+                map: this.map
+            });
+
+            google.maps.event.addListener(drawingManager, 'overlaycomplete', function(e) {
+                if (e.type != google.maps.drawing.OverlayType.MARKER) {
+                    // Switch back to non-drawing mode after drawing a shape.
+                    drawingManager.setDrawingMode(null);
+
+                    // Add an event listener that selects the newly-drawn shape when the user
+                    // mouses down on it.
+                    var newShape = e.overlay;
+                    newShape.type = e.type;
+                    google.maps.event.addListener(newShape, 'click', function() {
+                        setSelection(newShape);
+                    });
+                    var area = google.maps.geometry.spherical.computeArea(newShape.getPath());
+                    let property_size = $("#property_size");
+                    property_size.val(area + ' Square Meters');
+                    property_size.parent().addClass('is-filled');
+                    setSelection(newShape);
+                }
+            });
+
+            // Clear the current selection when the drawing mode is changed, or when the
+            // map is clicked.
+            google.maps.event.addListener(drawingManager, 'drawingmode_changed', clearSelection);
+            google.maps.event.addListener(map, 'click', clearSelection);
+            // google.maps.event.addDomListener(document.getElementById('delete-button'), 'click', deleteSelectedShape);
+
+            // buildColorPalette();
+
+            //Add a custome control button
+            let controlDiv = document.createElement("div");
+            // Set CSS for the control border.
+            const controlUI = document.createElement("div");
+            controlUI.style.backgroundColor = "#fff";
+            controlUI.style.border = "2px solid #fff";
+            controlUI.style.borderRadius = "3px";
+            controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+            controlUI.style.cursor = "pointer";
+            controlUI.style.marginBottom = "22px";
+            controlUI.style.textAlign = "center";
+            controlUI.title = "Click to recenter the map";
+            controlDiv.appendChild(controlUI);
+
+            // Set CSS for the control interior.
+            const controlText = document.createElement("div");
+            controlText.style.color = "rgb(25,25,25)";
+            controlText.style.fontFamily = "Roboto,Arial,sans-serif";
+            controlText.style.fontSize = "16px";
+            controlText.style.lineHeight = "38px";
+            controlText.style.paddingLeft = "5px";
+            controlText.style.paddingRight = "5px";
+            controlText.innerHTML = "Reset Area";
+            controlUI.appendChild(controlText);
+            // Setup the click event listeners: simply set the map to Chicago.
+            controlUI.addEventListener("click", () => deleteSelectedShape());
+
+            this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(controlDiv)
         }
+
+        var drawingManager;
+        var selectedShape;
+        var colors = ['#1E90FF', '#FF1493', '#32CD32', '#FF8C00', '#4B0082'];
+        var selectedColor;
+        var colorButtons = {};
+
+        function clearSelection() {
+            if (selectedShape) {
+                selectedShape.setEditable(false);
+                selectedShape = null;
+            }
+        }
+
+        function setSelection(shape) {
+            clearSelection();
+            selectedShape = shape;
+            shape.setEditable(true);
+            selectColor(shape.get('fillColor') || shape.get('strokeColor'));
+            google.maps.event.addListener(shape.getPath(), 'set_at', calcar);
+            google.maps.event.addListener(shape.getPath(), 'insert_at', calcar);
+        }
+
+        function calcar() {
+            var area = google.maps.geometry.spherical.computeArea(selectedShape.getPath());
+            document.getElementById("area").innerHTML = "Area =" + area;
+        }
+
+        function deleteSelectedShape() {
+            if (selectedShape) {
+                selectedShape.setMap(null);
+                let property_size = $("#property_size");
+                property_size.val('');
+                property_size.parent().removeClass('is-filled');
+            }
+        }
+
+        function selectColor(color) {
+            selectedColor = color;
+            for (var i = 0; i < colors.length; ++i) {
+                var currColor = colors[i];
+                colorButtons[currColor].style.border = currColor == color ? '2px solid #789' : '2px solid #fff';
+            }
+
+            // Retrieves the current options from the drawing manager and replaces the
+            // stroke or fill color as appropriate.
+            var polylineOptions = drawingManager.get('polylineOptions');
+            polylineOptions.strokeColor = color;
+            drawingManager.set('polylineOptions', polylineOptions);
+
+            var rectangleOptions = drawingManager.get('rectangleOptions');
+            rectangleOptions.fillColor = color;
+            drawingManager.set('rectangleOptions', rectangleOptions);
+
+            var circleOptions = drawingManager.get('circleOptions');
+            circleOptions.fillColor = color;
+            drawingManager.set('circleOptions', circleOptions);
+
+            var polygonOptions = drawingManager.get('polygonOptions');
+            polygonOptions.fillColor = color;
+            drawingManager.set('polygonOptions', polygonOptions);
+        }
+
+        // function setSelectedShapeColor(color) {
+        //     if (selectedShape) {
+        //         if (selectedShape.type == google.maps.drawing.OverlayType.POLYLINE) {
+        //             selectedShape.set('strokeColor', color);
+        //         } else {
+        //             selectedShape.set('fillColor', color);
+        //         }
+        //     }
+        // }
+
+        // function makeColorButton(color) {
+        //     var button = document.createElement('span');
+        //     button.className = 'color-button';
+        //     button.style.backgroundColor = color;
+        //     google.maps.event.addDomListener(button, 'click', function() {
+        //         selectColor(color);
+        //         setSelectedShapeColor(color);
+        //     });
+        //
+        //     return button;
+        // }
+        //
+        // function buildColorPalette() {
+        //     var colorPalette = document.getElementById('color-palette');
+        //     for (var i = 0; i < colors.length; ++i) {
+        //         var currColor = colors[i];
+        //         var colorButton = makeColorButton(currColor);
+        //         colorPalette.appendChild(colorButton);
+        //         colorButtons[currColor] = colorButton;
+        //     }
+        //     selectColor(colors[0]);
+        // }
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=geometry,places&callback=initMap"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=geometry,places,drawing&callback=initMap"></script>
 @endsection

@@ -415,16 +415,45 @@
 
                                         <div class="col-sm-6">
                                             <div class="form-group bmd-form-group">
-                                                <a target="_blank" href="{{asset($singleRequest->driver_license)}}" style="color: #333">
+                                                <a target="_blank" href="{{asset($singleRequest->address_proof)}}" style="color: #333">
                                                     <div class="file-url-container d-flex">
                                                         <i class="fas fa-file"></i>
                                                         <p class="mt-3 pl-3">
-                                                            Driving License
+                                                            Proof of Address
                                                         </p>
                                                     </div>
                                                 </a>
                                             </div>
                                         </div>
+
+                                        @if($singleRequest->driver_license)
+                                            <div class="col-sm-6">
+                                                <div class="form-group bmd-form-group">
+                                                    <a target="_blank" href="{{asset($singleRequest->driver_license)}}" style="color: #333">
+                                                        <div class="file-url-container d-flex">
+                                                            <i class="fas fa-file"></i>
+                                                            <p class="mt-3 pl-3">
+                                                                Driving License front
+                                                            </p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        @endif
+                                        @if($singleRequest->driver_license_back)
+                                            <div class="col-sm-6">
+                                                <div class="form-group bmd-form-group">
+                                                    <a target="_blank" href="{{asset($singleRequest->driver_license_back)}}" style="color: #333">
+                                                        <div class="file-url-container d-flex">
+                                                            <i class="fas fa-file"></i>
+                                                            <p class="mt-3 pl-3">
+                                                                Driving License back
+                                                            </p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        @endif
 
                                         @if($singleRequest->insurance_proof)
                                             <div class="col-sm-6">
@@ -440,20 +469,6 @@
                                                 </div>
                                             </div>
                                         @endif
-
-                                        <div class="col-sm-6">
-                                            <div class="form-group bmd-form-group">
-                                                <a target="_blank" href="{{asset($singleRequest->address_proof)}}" style="color: #333">
-                                                    <div class="file-url-container d-flex">
-                                                        <i class="fas fa-file"></i>
-                                                        <p class="mt-3 pl-3">
-                                                            Proof of Address
-                                                        </p>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>

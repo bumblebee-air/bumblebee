@@ -10,6 +10,12 @@ use Response;
 class TestController extends Controller
 {
     public function getTestCall(){
+        /*$sid    = env('TWILIO_SID', '');
+        $token  = env('TWILIO_AUTH', '');
+        $twilio = new Client($sid, $token);
+        $account = $twilio->api->v2010->accounts("subaccount_sid_goes_here")
+            ->update(["status" => "closed"]);
+        dd($account->friendlyName);*/
         return view('test_call');
     }
 

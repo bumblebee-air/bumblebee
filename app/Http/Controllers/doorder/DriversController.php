@@ -378,13 +378,14 @@ class DriversController extends Controller
         $profile->work_location = $request->work_location ? $request->work_location : '{"name":"N/A","coordinates":{"lat":"0","lng":"0"}}';
         $profile->legal_word_evidence = $request->proof_id ? $request->file('proof_id')->store('uploads/doorder_drivers_registration') : null;
         $profile->driver_license = $request->proof_driving_license ? $request->file('proof_driving_license')->store('uploads/doorder_drivers_registration') : null;
+        $profile->driver_license_back = $request->proof_driving_license_back ? $request->file('proof_driving_license_back')->store('uploads/doorder_drivers_registration') : null;
         $profile->address_proof = $request->proof_address ? $request->file('proof_address')->store('uploads/doorder_drivers_registration') : null;
         $profile->insurance_proof = $request->proof_insurance ? $request->file('proof_address')->store('uploads/doorder_drivers_registration') : null;
         $profile->save();
 
         $stripe_manager = new StripeManager();
         $stripe_account = $stripe_manager->createCustomAccount($user);
-        alert()->success('You are registered successfully');
+        alert()->success('Your profile has been registered successfully, the administration will review your request soon');
 
         return redirect()->back();
     }

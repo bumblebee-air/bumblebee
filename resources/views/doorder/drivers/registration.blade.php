@@ -380,8 +380,13 @@
                                         date is visible
                                     </p>
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <p class="upload-file-subtitle">Front</p>
                                     <input type="file" name="proof_driving_license">
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="upload-file-subtitle">Back</p>
+                                    <input type="file" name="proof_driving_license_back">
                                 </div>
                             </div>
                         </div>

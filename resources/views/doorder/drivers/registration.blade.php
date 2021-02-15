@@ -556,6 +556,15 @@
 
             //Autocomplete Initialization
             let driver_address_input = document.getElementById('driver_address');
+            //Mutation observer hack for chrome address autofill issue
+            let observerHackDriverAddress = new MutationObserver(function() {
+                observerHackDriverAddress.disconnect();
+                $("#driver_address").attr("autocomplete", "new-password");
+            });
+            observerHackDriverAddress.observe(driver_address_input, {
+                attributes: true,
+                attributeFilter: ['autocomplete']
+            });
             let autocomplete_driver_address = new google.maps.places.Autocomplete(driver_address_input);
             autocomplete_driver_address.setComponentRestrictions({'country': ['ie']});
             autocomplete_driver_address.addListener('place_changed', () => {

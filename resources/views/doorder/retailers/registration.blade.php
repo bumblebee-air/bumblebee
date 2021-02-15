@@ -483,6 +483,15 @@
             mounted() {
                 //Google MAp autocomplete
                 let driver_address_input = document.getElementById('location1');
+                //Mutation observer hack for chrome address autofill issue
+                let observerHackDriverAddress = new MutationObserver(function() {
+                    observerHackDriverAddress.disconnect();
+                    $("#location1").attr("autocomplete", "new-password");
+                });
+                observerHackDriverAddress.observe(driver_address_input, {
+                    attributes: true,
+                    attributeFilter: ['autocomplete']
+                });
                 let autocomplete_driver_address = new google.maps.places.Autocomplete(driver_address_input);
                 autocomplete_driver_address.setComponentRestrictions({'country': ['ie']});
                 autocomplete_driver_address.addListener('place_changed', function () {
@@ -534,7 +543,16 @@
                 },
                 addAutoCompleteInput() {
                     let latest_key = this.locations.length;
-                    let driver_address_input = document.getElementById('location'+latest_key)
+                    let driver_address_input = document.getElementById('location'+latest_key);
+                    //Mutation observer hack for chrome address autofill issue
+                    let observerHackAddress = new MutationObserver(function() {
+                        observerHackAddress.disconnect();
+                        $('#location'+latest_key).attr("autocomplete", "new-password");
+                    });
+                    observerHackAddress.observe(driver_address_input, {
+                        attributes: true,
+                        attributeFilter: ['autocomplete']
+                    });
                     let autocomplete_driver_address = new google.maps.places.Autocomplete(driver_address_input);
                     autocomplete_driver_address.setComponentRestrictions({'country': ['ie']});
                     autocomplete_driver_address.addListener('place_changed', function () {

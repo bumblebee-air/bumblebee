@@ -121,7 +121,7 @@
             color: #c3c7d2;
             margin-right: 10px;
         }
-        .my-check-box .checked {
+        .checked {
             color: #60a244;
         }
 
@@ -303,19 +303,19 @@
                                 <label class="bmd-label-floating">Contact through</label>
                                 <div class="d-flex">
                                     <div class="contact-through d-flex pr-5" @click="changeContact('whatsapp')">
-                                        <div id="check" :class="contact == 'whatsapp' ? 'my-check-box my-check-box-checked' : 'my-check-box'">
+                                        <div id="check" :class="contact_through == 'whatsapp' ? 'my-check-box checked' : 'my-check-box'">
                                             <i class="fas fa-check-square"></i>
                                         </div>
                                         Whatsapp
                                     </div>
 
                                     <div class="contact-through d-flex" @click="changeContact('sms')">
-                                        <div id="check" :class="contact == 'sms' ? 'my-check-box my-check-box-checked' : 'my-check-box'">
+                                        <div id="check" :class="contact_through == 'sms' ? 'my-check-box checked' : 'my-check-box'">
                                             <i class="fas fa-check-square"></i>
                                         </div>
                                         SMS
                                     </div>
-                                    <input type="hidden" v-model="contact" name="contact_through">
+                                    <input type="hidden" v-model="contact_through" name="contact_through">
                                 </div>
                             </div>
                         </div>
@@ -338,10 +338,84 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="row" v-if="type_of_work == 'Commercial'">
+                        <div class="col-md-12">
+                            <h5 class="sub-title">Business Details</h5>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Business Name</label>
+                                <input type="text" class="form-control" name="name" value="{{old('name')}}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Address</label>
+                                <input type="email" class="form-control" name="email" value="{{old('address')}}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Company Email</label>
+                                <input type="email" class="form-control" name="email" value="{{old('email')}}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Contact through</label>
+                                <div class="d-flex">
+                                    <div class="contact-through d-flex pr-5" @click="changeContact('email')">
+                                        <div id="check" :class="contact_through == 'email' ? 'my-check-box checked' : 'my-check-box'">
+                                            <i class="fas fa-check-square"></i>
+                                        </div>
+                                        Email
+                                    </div>
+
+                                    <div class="contact-through d-flex" @click="changeContact('phone')">
+                                        <div id="check" :class="contact_through == 'phone' ? 'my-check-box checked' : 'my-check-box'">
+                                            <i class="fas fa-check-square"></i>
+                                        </div>
+                                        Phone Calls
+                                    </div>
+                                    <input type="hidden" v-model="contact_through" name="contact_through">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Contact Person Name</label>
+                                <input type="text" class="form-control" name="contact_name" value="{{old('contact_name')}}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Contact Person Number</label>
+                                <input type="password" class="form-control" name="contact_number" value="{{old('contact_number')}}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Contact Person Number</label>
+                                <input type="password" class="form-control" name="contact_number" value="{{old('contact_number')}}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                <label for="type_of_experience" class="bmd-label-floating">Select from the available date & time</label>
+                                <div class="d-flex justify-content-between">
+                                    <input name="available_date_time" type="text" class="form-control datetimepicker" id="available_date_time" {{old('available_date_time')}} required>
+                                    <a class="select-icon">
+                                        <i class="fas fa-caret-down"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="main main-raised content-card">
+            <div class="main main-raised content-card" v-if="type_of_work == 'Residential'">
                 <div class="container">
                     <div class="section">
                         <h5 class="sub-title">Services Details</h5>
@@ -351,65 +425,18 @@
                             <div class="form-group bmd-form-group">
                                 <label for="type_of_experience" class="bmd-label-floating">Service Type</label>
                                 <div class="d-flex justify-content-between" @click="openModal('service_type')">
-                                    <input name="service_types" type="text" class="form-control" id="service_type_input" v-model="service_type_input" {{old('service_type_input')}} required>
+                                    <input name="service_types" type="text" class="form-control" id="service_type_input" v-model="service_types_input" {{old('service_details')}} required>
                                     <a class="select-icon">
                                         <i class="fas fa-caret-down"></i>
                                     </a>
                                 </div>
-                                <!-- Button trigger modal -->
-                                <a id="service_type_btn_modal" data-toggle="modal"
-                                   data-target="#service_typeModal" style="display: none"></a>
-
-                                <!-- Modal -->
-                                <div class="modal fade" id="service_typeModal" tabindex="-1" role="dialog"
-                                     aria-labelledby="type_of_experienceLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title text-left" id="type_of_experienceLabel">Service Type</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="row">
-                                                    <div class="col-md-12 d-flex justify-content-between" v-for="type in service_types"  @click="toggleCheckedValue(type)">
-                                                        <label for="my-check-box" :class="type.is_checked == true ? 'my-check-box-label my-check-box-label-checked' : 'my-check-box-label'">@{{ type.title }}</label>
-                                                        <div class="my-check-box" id="check">
-                                                            <i :class="type.is_checked == true ? 'fas fa-check-square checked' : 'fas fa-check-square'"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <h5 class="modal-title text-left" id="type_of_experienceLabel">Other Service</h5>
-                                                        <br>
-                                                    </div>
-                                                    <div class="col-md-12 d-flex justify-content-between" v-for="type in other_service_types"  @click="toggleCheckedValue(type)">
-                                                        <label for="my-check-box" :class="type.is_checked == true ? 'my-check-box-label my-check-box-label-checked' : 'my-check-box-label'">@{{ type.title }}</label>
-                                                        <div class="my-check-box" id="check">
-                                                            <i :class="type.is_checked == true ? 'fas fa-check-square checked' : 'fas fa-check-square'"></i>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-link modal-button-close" data-dismiss="modal">Close
-                                                </button>
-                                                <button type="button" class="btn btn-link modal-button-done" data-dismiss="modal" @click="changeSelectedValue('experience_type')">
-                                                    Done
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="main main-raised content-card">
+            <div class="main main-raised content-card" v-if="type_of_work == 'Residential'">
                 <div class="container">
                     <div class="section">
                         <h5 class="sub-title">Property Information</h5>
@@ -460,7 +487,7 @@
                                     <div class="col">
                                         <div class="form-check form-check-radio">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="radio" id="exampleRadios2" name="has_smartphone" value="1" {{old('has_smartphone') === '1' ? 'checked' : ''}} required>
+                                                <input class="form-check-input" type="radio" id="exampleRadios2" name="is_first_time" v-model="is_first_time" value="1" {{old('is_first_time') === '1' ? 'checked' : ''}} required>
                                                 Yes
                                                 <span class="circle">
                                                     <span class="check"></span>
@@ -471,7 +498,61 @@
                                     <div class="col">
                                         <div class="form-check form-check-radio">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="radio" id="exampleRadios1" name="has_smartphone" value="0" {{old('has_smartphone') === '0' ? 'checked' : ''}} required>
+                                                <input class="form-check-input" type="radio" id="exampleRadios1" name="is_first_time" v-model="is_first_time" value="0" {{old('is_first_time') === '0' ? 'checked' : ''}} required>
+                                                No
+                                                <span class="circle">
+                                                    <span class="check"></span>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12" v-if="is_first_time != '' && is_first_time == 0">
+                            <div class="form-group bmd-form-group">
+                                <label for="type_of_experience" class="bmd-label-floating">When was the last service?</label>
+                                <div class="d-flex justify-content-between" @click="openModal('last_services')">
+                                    <input name="last_services" type="text" class="form-control" id="last_services" {{old('last_services')}} required>
+                                    <a class="select-icon">
+                                        <i class="fas fa-caret-down"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12" v-if="is_first_time != '' && is_first_time == 0">
+                            <div class="form-group bmd-form-group">
+                                <label for="type_of_experience" class="bmd-label-floating">Site details</label>
+                                <div class="d-flex justify-content-between" @click="openModal('site_details')">
+                                    <input name="last_services" type="text" class="form-control" id="site_details" v-model="site_details_input" {{old('site_details')}} required>
+                                    <a class="select-icon">
+                                        <i class="fas fa-caret-down"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                <label for="vat-number">Is there a parking access on site?*</label>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-check form-check-radio">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" id="exampleRadios2" name="is_parking_site" v-model="is_parking_site" value="1" {{old('is_parking_site') === '1' ? 'checked' : ''}} required>
+                                                Yes
+                                                <span class="circle">
+                                                    <span class="check"></span>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-check form-check-radio">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" id="exampleRadios1" name="is_parking_site" v-model="is_parking_site" value="0" {{old('is_parking_site') === '0' ? 'checked' : ''}} required>
                                                 No
                                                 <span class="circle">
                                                     <span class="check"></span>
@@ -494,7 +575,7 @@
                 </div>
 
                 <div class="col-md-12 submit-container">
-                    <button class="btn btn-success btn-block submit-btn" type="submit">Submit</button>
+                    <button class="btn btn-success btn-block submit-btn" type="submit">Signup</button>
                 </div>
             </div>
         </form>
@@ -528,18 +609,110 @@
                 </div>
             </div>
         </div>
+
+        <!-- Button trigger Site Details modal -->
+        <a id="site_details_btn_modal" data-toggle="modal"
+           data-target="#site_detailsModal" style="display: none"></a>
+
+        <!-- Last Services Modal -->
+        <div class="modal fade" id="site_detailsModal" tabindex="-1" role="dialog"
+             aria-labelledby="type_of_experienceLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-left" id="type_of_experienceLabel">Site Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12 d-flex justify-content-between" v-for="item in site_details"  @click="toggleCheckedValue(item)">
+                                <label for="my-check-box" :class="item.is_checked == true ? 'my-check-box-label my-check-box-label-checked' : 'my-check-box-label'">@{{ item.title }}</label>
+                                <div class="my-check-box" id="check">
+                                    <i :class="item.is_checked == true ? 'fas fa-check-square checked' : 'fas fa-check-square'"></i>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link modal-button-close" data-dismiss="modal">Close
+                        </button>
+                        <button type="button" class="btn btn-link modal-button-done" data-dismiss="modal" @click="changeSelectedValue('site_details')">
+                            Done
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Button trigger modal -->
+        <a id="service_type_btn_modal" data-toggle="modal"
+           data-target="#service_typeModal" style="display: none"></a>
+
+        <!-- Modal -->
+        <div class="modal fade" id="service_typeModal" tabindex="-1" role="dialog"
+             aria-labelledby="type_of_experienceLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-left" id="type_of_experienceLabel">Service Type</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12 d-flex justify-content-between" v-for="type in service_types"  @click="toggleCheckedValue(type)">
+                                <label for="my-check-box" :class="type.is_checked == true ? 'my-check-box-label my-check-box-label-checked' : 'my-check-box-label'">@{{ type.title }}</label>
+                                <div class="my-check-box" id="check">
+                                    <i :class="type.is_checked == true ? 'fas fa-check-square checked' : 'fas fa-check-square'"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-12" data-toggle="collapse" href="#otherServicesCollapse" role="button" aria-expanded="false" aria-controls="otherServicesCollapse">
+                                <div class="d-flex justify-content-between">
+                                    <h5 class="modal-title text-left" id="type_of_experienceLabel">Other Service</h5>
+                                    <a class="select-icon" style="margin-top: 3px; color: black!important">
+                                        <i class="fas fa-caret-down"></i>
+                                    </a>
+                                </div>
+                                <br>
+                            </div>
+                            <div class="collapse" id="otherServicesCollapse" style="max-height: 300px; overflow: scroll; width: 100%;">
+                                <div class="col-md-12 d-flex justify-content-between" v-for="type in other_service_types"  @click="toggleCheckedValue(type)">
+                                    <label for="my-check-box" :class="type.is_checked == true ? 'my-check-box-label my-check-box-label-checked' : 'my-check-box-label'">@{{ type.title }}</label>
+                                    <div class="my-check-box" id="check">
+                                        <i :class="type.is_checked == true ? 'fas fa-check-square checked' : 'fas fa-check-square'"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link modal-button-close" data-dismiss="modal">Close
+                        </button>
+                        <button type="button" class="btn btn-link modal-button-done" data-dismiss="modal" @click="changeSelectedValue('service_details')">
+                            Done
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 
 @section('scripts')
     <script src="{{ asset('js/bootstrap-selectpicker.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="{{asset('js/bootstrap-4-datetimepicker.min.js')}}"></script>
 
     <script>
         var app = new Vue({
             el: '#app',
             data: {
-                type_of_work: 'Residential',
+                type_of_work: 'Commercial',
                 service_types: [
                     {
                         title: 'Garden Maintenance',
@@ -623,10 +796,53 @@
                         title: 'Hedge Cutting',
                         is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Hedge Cutting') === false ? 'false' : 'true' ) : 'false'}}"),
                     },
-                ]
+                ],
+                site_details: [
+                    {
+                        title: 'Pets',
+                        is_checked: JSON.parse("{{old('site_details') ? ( strpos(old('site_details'), 'Pets') === false ? 'false' : 'true' ) : 'false'}}"),
+                    },
+                    {
+                        title: 'Underground Electrical Cable',
+                        is_checked: JSON.parse("{{old('site_details') ? ( strpos(old('site_details'), 'Underground Electrical Cable') === false ? 'false' : 'true' ) : 'false'}}"),
+                    },
+                    {
+                        title: 'Over Ground Electrical Cable',
+                        is_checked: JSON.parse("{{old('site_details') ? ( strpos(old('site_details'), 'Over Ground Electrical Cable') === false ? 'false' : 'true' ) : 'false'}}"),
+                    },
+                    {
+                        title: 'Water Mains',
+                        is_checked: JSON.parse("{{old('site_details') ? ( strpos(old('site_details'), 'Water Mains') === false ? 'false' : 'true' ) : 'false'}}"),
+                    },
+                    {
+                        title: 'Gas Mains',
+                        is_checked: JSON.parse("{{old('site_details') ? ( strpos(old('site_details'), 'Gas Mains') === false ? 'false' : 'true' ) : 'false'}}"),
+                    },
+                    {
+                        title: 'Metered Parking Area',
+                        is_checked: JSON.parse("{{old('site_details') ? ( strpos(old('site_details'), 'Metered Parking Area') === false ? 'false' : 'true' ) : 'false'}}"),
+                    },
+                ],
+                is_first_time: '',
+                is_parking_site: '',
+                contact_through: '',
+                service_types_input:'',
+                site_details_input: ''
             },
             mounted() {
-
+                $('#available_date_time').datetimepicker({
+                    icons: {
+                        time: "fa fa-clock-o",
+                        date: "fa fa-calendar",
+                        up: "fa fa-chevron-up",
+                        down: "fa fa-chevron-down",
+                        previous: 'fa fa-chevron-left',
+                        next: 'fa fa-chevron-right',
+                        today: 'fa fa-screenshot',
+                        clear: 'fa fa-trash',
+                        close: 'fa fa-remove'
+                    }
+                });
             },
             methods: {
                 changeLocation(e) {
@@ -636,6 +852,43 @@
                 },
                 openModal(type) {
                     $('#' + type + '_btn_modal').click();
+                },
+                changeSelectedValue(type) {
+                    let input = '';
+                    let list = '';
+                    if (type === 'service_details') {
+                        let service_types_input = '';
+                        list = this.service_types;
+                        for(let item of list) {
+                            item.is_checked === true ? service_types_input += (service_types_input == '' ? item.title : ', ' + item.title ) : '';
+                        }
+                        for(let item of this.other_service_types) {
+                            item.is_checked === true ? service_types_input += (service_types_input == '' ? item.title : ', ' + item.title ) : '';
+                        }
+                        this.service_types_input = service_types_input;
+                    } else if (type === 'site_details') {
+                        let site_details_input = '';
+                        list = this.site_details;
+                        for(let item of list) {
+                            item.is_checked === true ? site_details_input += (site_details_input == '' ? item.title : ', ' + item.title ) : '';
+                        }
+                        for(let item of this.other_service_types) {
+                            item.is_checked === true ? site_details_input += (site_details_input == '' ? item.title : ', ' + item.title ) : '';
+                        }
+                        this.site_details_input = site_details_input;
+                    }
+                },
+                addFile(id) {
+                    $('#' + id).click();
+                },
+                onChangeFile(e ,id) {
+                    $("#" + id).val(e.target.files[0].name);
+                },
+                changeContact(value) {
+                    this.contact_through = value;
+                },
+                toggleCheckedValue(type) {
+                    type.is_checked = !type.is_checked;
                 },
             }
         });

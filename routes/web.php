@@ -210,6 +210,7 @@ Route::group(['prefix' => '{client_name}'], function () {
     Route::get('contractors/registration', 'garden_help\ContractorsController@index')->name('getContractorRegistration');
     Route::post('contractors/registration', 'garden_help\ContractorsController@save')->name('postContractorRegistration');
     Route::get('customers/registration', 'garden_help\CustomersController@getRegistrationForm')->name('getCustomerRegistration');
+    Route::post('customers/registration', 'garden_help\CustomersController@postRegistrationForm')->name('postCustomerRegistration');
 
     Route::group(['middleware' => "auth:garden-help"],function () {
         Route::get('home', 'garden_help\DashboardController@index')->name('garden_help_getDashboard');

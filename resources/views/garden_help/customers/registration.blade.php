@@ -223,12 +223,16 @@
         #delete-button {
             margin-top: 5px;
         }
+
+        .bootstrap-select .btn.dropdown-toggle.select-with-transition {
+            background-image: none!important;
+        }
     </style>
 @endsection
 
 @section('content')
     <div class="container" id="app">
-        <form action="{{route('postContractorRegistration', 'garden-help')}}" method="POST" enctype="multipart/form-data" autocomplete="off">
+        <form action="{{route('postCustomerRegistration', 'garden-help')}}" method="POST" enctype="multipart/form-data" autocomplete="off">
             {{csrf_field()}}
             <div class="main main-raised">
                 <div class="h-100 row align-items-center">
@@ -255,7 +259,7 @@
                             <div class="form-group bmd-form-group">
 {{--                                <label class="bmd-label-floating">Location</label>--}}
 {{--                                <input type="text" class="form-control" name="name" value="{{old('name')}}" required>--}}
-                                <select name="location" data-style="select-with-transition" class="form-control selectpicker" @change="changeLocation">
+                                <select name="work_location" data-style="select-with-transition" class="form-control selectpicker" @change="changeLocation">
                                     <option disabled selected>Location</option>
                                     <option value="Limerick">Limerick</option>
                                     <option value="Drumcondra">Drumcondra</option>
@@ -273,7 +277,7 @@
                             <div class="form-group bmd-form-group">
                                 {{--                                <label class="bmd-label-floating">Location</label>--}}
                                 {{--                                <input type="text" class="form-control" name="name" value="{{old('name')}}" required>--}}
-                                <select name="type_of_work" data-style="select-with-transition" class="form-control selectpicker" v-model="type_of_work">
+                                <select name="type_of_work" data-style="select-with-transition" class="form-control selectpicker" v-model="type_of_work" @change="changeWorkType()">
                                     <option disabled selected>Type of work</option>
                                     <option value="Residential">Residential</option>
                                     <option value="Commercial">Commercial</option>
@@ -288,19 +292,19 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                                <label class="bmd-label-floating">Name</label>
+                                <label>Name</label>
                                 <input type="text" class="form-control" name="name" value="{{old('name')}}" required>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                                <label class="bmd-label-floating">Email Address</label>
+                                <label>Email Address</label>
                                 <input type="email" class="form-control" name="email" value="{{old('email')}}" required>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="bmd-label-floating">Contact through</label>
+                                <label>Contact through</label>
                                 <div class="d-flex">
                                     <div class="contact-through d-flex pr-5" @click="changeContact('whatsapp')">
                                         <div id="check" :class="contact_through == 'whatsapp' ? 'my-check-box checked' : 'my-check-box'">
@@ -321,19 +325,19 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                                <label class="bmd-label-floating">Phone</label>
+                                <label>Phone</label>
                                 <input type="tel" class="form-control" name="phone" value="{{old('phone')}}" required>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                                <label class="bmd-label-floating">Password</label>
+                                <label>Password</label>
                                 <input type="password" class="form-control" name="password" value="{{old('password')}}" required>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                                <label class="bmd-label-floating">Confirm Password</label>
+                                <label>Confirm Password</label>
                                 <input type="password" class="form-control" name="password_confirmation" value="{{old('password_confirmation')}}" required>
                             </div>
                         </div>
@@ -345,25 +349,25 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                                <label class="bmd-label-floating">Business Name</label>
+                                <label>Business Name</label>
                                 <input type="text" class="form-control" name="name" value="{{old('name')}}" required>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                                <label class="bmd-label-floating">Address</label>
-                                <input type="email" class="form-control" name="email" value="{{old('address')}}" required>
+                                <label>Address</label>
+                                <input type="text" class="form-control" name="address" value="{{old('address')}}" required>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                                <label class="bmd-label-floating">Company Email</label>
+                                <label>Company Email</label>
                                 <input type="email" class="form-control" name="email" value="{{old('email')}}" required>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="bmd-label-floating">Contact through</label>
+                                <label>Contact through</label>
                                 <div class="d-flex">
                                     <div class="contact-through d-flex pr-5" @click="changeContact('email')">
                                         <div id="check" :class="contact_through == 'email' ? 'my-check-box checked' : 'my-check-box'">
@@ -384,31 +388,25 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                                <label class="bmd-label-floating">Contact Person Name</label>
+                                <label>Contact Person Name</label>
                                 <input type="text" class="form-control" name="contact_name" value="{{old('contact_name')}}" required>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                                <label class="bmd-label-floating">Contact Person Number</label>
+                                <label>Contact Person Number</label>
                                 <input type="password" class="form-control" name="contact_number" value="{{old('contact_number')}}" required>
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <div class="form-group bmd-form-group">
-                                <label class="bmd-label-floating">Contact Person Number</label>
-                                <input type="password" class="form-control" name="contact_number" value="{{old('contact_number')}}" required>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group bmd-form-group">
-                                <label for="type_of_experience" class="bmd-label-floating">Select from the available date & time</label>
-                                <div class="d-flex justify-content-between">
+                            <div class="form-group bmd-form-group is-filled">
+                                <label for="available_date_time">Select from the available date & time</label>
+{{--                                <div class="d-flex justify-content-between">--}}
                                     <input name="available_date_time" type="text" class="form-control datetimepicker" id="available_date_time" {{old('available_date_time')}} required>
-                                    <a class="select-icon">
-                                        <i class="fas fa-caret-down"></i>
-                                    </a>
-                                </div>
+{{--                                    <a class="select-icon">--}}
+{{--                                        <i class="fas fa-caret-down"></i>--}}
+{{--                                    </a>--}}
+{{--                                </div>--}}
                             </div>
                         </div>
                     </div>
@@ -423,7 +421,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                                <label for="type_of_experience" class="bmd-label-floating">Service Type</label>
+                                <label for="type_of_experience">Service Type</label>
                                 <div class="d-flex justify-content-between" @click="openModal('service_type')">
                                     <input name="service_types" type="text" class="form-control" id="service_type_input" v-model="service_types_input" {{old('service_details')}} required>
                                     <a class="select-icon">
@@ -446,7 +444,7 @@
                             <div class="form-group bmd-form-group">
 {{--                                <label class="bmd-label-floating" for="location">Location</label>--}}
                                 <input type="text" class="form-control" id="location" name="location" value="{{old('location')}}" required>
-                                <input type="hidden" id="location_coordinates" name="location_latlang">
+                                <input type="hidden" id="location_coordinates" name="location_coordinates">
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -461,9 +459,9 @@
                                     Upload Photographs of Property
                                 </label>
                                 <br>
-                                <input id="age_proof" name="photographs_of_property" type="file" class="inputFileHidden" @change="onChangeFile($event, 'age_proof_input')">
-                                <div class="input-group" @click="addFile('age_proof')">
-                                    <input type="text" id="age_proof_input" class="form-control inputFileVisible" placeholder="Upload Photo" required>
+                                <input id="property_photo" name="property_photo" type="file" class="inputFileHidden" @change="onChangeFile($event, 'property_photo_input')">
+                                <div class="input-group" @click="addFile('property_photo')">
+                                    <input type="text" id="property_photo_input" class="form-control inputFileVisible" placeholder="Upload Photo" required>
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-fab btn-round btn-success">
                                             <i class="fas fa-cloud-upload-alt"></i>
@@ -475,7 +473,7 @@
 
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                                <label class="bmd-label-floating">Property size</label>
+                                <label>Property size</label>
                                 <input type="text" class="form-control" id="property_size" name="property_size" value="{{old('property_size')}}" required>
                             </div>
                         </div>
@@ -498,7 +496,7 @@
                                     <div class="col">
                                         <div class="form-check form-check-radio">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="radio" id="exampleRadios1" name="is_first_time" v-model="is_first_time" value="0" {{old('is_first_time') === '0' ? 'checked' : ''}} required>
+                                                <input class="form-check-input" type="radio" id="exampleRadios1" name="is_first_time" v-model="is_first_time" value="0" {{old('is_first_time') === '0' ? 'checked' : ''}} @click="changeIsFirst()" required>
                                                 No
                                                 <span class="circle">
                                                     <span class="check"></span>
@@ -512,7 +510,7 @@
 
                         <div class="col-md-12" v-if="is_first_time != '' && is_first_time == 0">
                             <div class="form-group bmd-form-group">
-                                <label for="type_of_experience" class="bmd-label-floating">When was the last service?</label>
+                                <label for="type_of_experience">When was the last service?</label>
                                 <div class="d-flex justify-content-between" @click="openModal('last_services')">
                                     <input name="last_services" type="text" class="form-control" id="last_services" {{old('last_services')}} required>
                                     <a class="select-icon">
@@ -524,9 +522,9 @@
 
                         <div class="col-md-12" v-if="is_first_time != '' && is_first_time == 0">
                             <div class="form-group bmd-form-group">
-                                <label for="type_of_experience" class="bmd-label-floating">Site details</label>
+                                <label for="type_of_experience">Site details</label>
                                 <div class="d-flex justify-content-between" @click="openModal('site_details')">
-                                    <input name="last_services" type="text" class="form-control" id="site_details" v-model="site_details_input" {{old('site_details')}} required>
+                                    <input name="site_details" type="text" class="form-control" id="site_details" v-model="site_details_input" {{old('site_details')}} required>
                                     <a class="select-icon">
                                         <i class="fas fa-caret-down"></i>
                                     </a>
@@ -706,13 +704,12 @@
 @section('scripts')
     <script src="{{ asset('js/bootstrap-selectpicker.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="{{asset('js/bootstrap-4-datetimepicker.min.js')}}"></script>
 
     <script>
         var app = new Vue({
             el: '#app',
             data: {
-                type_of_work: 'Commercial',
+                type_of_work: '',
                 service_types: [
                     {
                         title: 'Garden Maintenance',
@@ -827,22 +824,39 @@
                 is_parking_site: '',
                 contact_through: '',
                 service_types_input:'',
-                site_details_input: ''
+                site_details_input: '',
+                property_photo_input: ''
             },
             mounted() {
-                $('#available_date_time').datetimepicker({
-                    icons: {
-                        time: "fa fa-clock-o",
-                        date: "fa fa-calendar",
-                        up: "fa fa-chevron-up",
-                        down: "fa fa-chevron-down",
-                        previous: 'fa fa-chevron-left',
-                        next: 'fa fa-chevron-right',
-                        today: 'fa fa-screenshot',
-                        clear: 'fa fa-trash',
-                        close: 'fa fa-remove'
-                    }
-                });
+                if (this.type_of_work == 'Commercial') {
+                    $('#available_date_time').datetimepicker({
+                        icons: {
+                            time: "fa fa-clock",
+                            date: "fa fa-calendar",
+                            up: "fa fa-chevron-up",
+                            down: "fa fa-chevron-down",
+                            previous: 'fa fa-chevron-left',
+                            next: 'fa fa-chevron-right',
+                            today: 'fa fa-screenshot',
+                            clear: 'fa fa-trash',
+                            close: 'fa fa-remove'
+                        }
+                    });
+                } else {
+                    $('#last_services').datetimepicker({
+                        icons: {
+                            time: "fa fa-clock",
+                            date: "fa fa-calendar",
+                            up: "fa fa-chevron-up",
+                            down: "fa fa-chevron-down",
+                            previous: 'fa fa-chevron-left',
+                            next: 'fa fa-chevron-right',
+                            today: 'fa fa-screenshot',
+                            clear: 'fa fa-trash',
+                            close: 'fa fa-remove'
+                        }
+                    });
+                }
             },
             methods: {
                 changeLocation(e) {
@@ -890,11 +904,64 @@
                 toggleCheckedValue(type) {
                     type.is_checked = !type.is_checked;
                 },
+                changeWorkType() {
+                    if (this.type_of_work == 'Residential') {
+                        setTimeout(() => {
+                            window.initMap();
+                            $('#last_services').datetimepicker({
+                                icons: {
+                                    time: "fa fa-clock",
+                                    date: "fa fa-calendar",
+                                    up: "fa fa-chevron-up",
+                                    down: "fa fa-chevron-down",
+                                    previous: 'fa fa-chevron-left',
+                                    next: 'fa fa-chevron-right',
+                                    today: 'fa fa-screenshot',
+                                    clear: 'fa fa-trash',
+                                    close: 'fa fa-remove'
+                                }
+                            });
+                        }, 500)
+                    } else {
+                        setTimeout(() => {
+                            $('#available_date_time').datetimepicker({
+                                icons: {
+                                    time: "fa fa-clock",
+                                    date: "fa fa-calendar",
+                                    up: "fa fa-chevron-up",
+                                    down: "fa fa-chevron-down",
+                                    previous: 'fa fa-chevron-left',
+                                    next: 'fa fa-chevron-right',
+                                    today: 'fa fa-screenshot',
+                                    clear: 'fa fa-trash',
+                                    close: 'fa fa-remove'
+                                }
+                            });
+                        });
+                    }
+                },
+                changeIsFirst() {
+                    setTimeout(() => {
+                        $('#last_services').datetimepicker({
+                            icons: {
+                                time: "fa fa-clock",
+                                date: "fa fa-calendar",
+                                up: "fa fa-chevron-up",
+                                down: "fa fa-chevron-down",
+                                previous: 'fa fa-chevron-left',
+                                next: 'fa fa-chevron-right',
+                                today: 'fa fa-screenshot',
+                                clear: 'fa fa-trash',
+                                close: 'fa fa-remove'
+                            }
+                        });
+                    }, 500)
+                }
             }
         });
 
         //Map Js
-        function initMap() {
+        window.initMap = function initMap() {
             //Map Initialization
             this.map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 12,
@@ -980,7 +1047,7 @@
                     });
                     var area = google.maps.geometry.spherical.computeArea(newShape.getPath());
                     let property_size = $("#property_size");
-                    property_size.val(area + ' Square Meters');
+                    property_size.val(area.toFixed(0) + ' Square Meters');
                     property_size.parent().addClass('is-filled');
                     setSelection(newShape);
                 }

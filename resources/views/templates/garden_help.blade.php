@@ -21,6 +21,8 @@
 {{--    <link rel="icon" type="image/jpeg" href="{{asset('images/bumblebee_favicon.jpg')}}">--}}
     <link rel="icon" type="image/jpeg" href="{{asset('images/garden-help-fav.png')}}">
 
+{{--    <link rel="stylesheet" href="{{asset('css/bootstrap-4-datetimepicker.css')}}"/>--}}
+
     @yield('styles')
 </head>
 <body>
@@ -36,6 +38,8 @@
 <script src="{{asset('js/moment.min.js')}}"></script>
 <script src="{{asset('js/moment-timezone.min.js')}}"></script>
 <script src="{{asset('js/ct-material/material-dashboard.min.js')}}"></script>
+<script src="{{asset('js/bootstrap-datetimepicker.min.js')}}"></script>
+
 {{--<script src="http://demos.creative-tim.com/material-kit/assets/js/material.min.js"></script>--}}
 {{--<script src="http://demos.creative-tim.com/material-kit/assets/js/material-kit.js"></script>--}}
 @yield('scripts')

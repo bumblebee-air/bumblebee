@@ -10,15 +10,19 @@
     <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('css/fontawesome/all.css')}}" rel="stylesheet">
     <link href="{{asset('css/material-dashboard.min.css')}}" rel="stylesheet">
+    <link href="{{asset('css/gardenhelp-styles.css')}}" rel="stylesheet">
+    <link href="{{asset('css/gaedenhelp-butttons-styles.css')}}" rel="stylesheet">
 
     <!--Sweet Alert-->
     <script src="https://unpkg.com/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
     <!--Sweet Alert-->
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+<!--     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" /> -->
+    
     <!-- favicon -->
-{{--    <link rel="icon" type="image/jpeg" href="{{asset('images/bumblebee_favicon.jpg')}}">--}}
     <link rel="icon" type="image/jpeg" href="{{asset('images/garden-help-fav.png')}}">
 
     @yield('styles')
@@ -35,6 +39,7 @@
 <script src="{{asset('js/jasny-bootstrap.min.js')}}"></script>
 <script src="{{asset('js/moment.min.js')}}"></script>
 <script src="{{asset('js/moment-timezone.min.js')}}"></script>
+<script src="{{asset('js/ct-material/perfect-scrollbar.jquery.min.js')}}"></script>
 <script src="{{asset('js/ct-material/material-dashboard.min.js')}}"></script>
 {{--<script src="http://demos.creative-tim.com/material-kit/assets/js/material.min.js"></script>--}}
 {{--<script src="http://demos.creative-tim.com/material-kit/assets/js/material-kit.js"></script>--}}

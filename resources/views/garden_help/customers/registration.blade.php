@@ -237,7 +237,7 @@
             <div class="main main-raised">
                 <div class="h-100 row align-items-center">
                     <div class="col-md-12 text-center">
-                        <img src="{{asset('images/gardenhelp/Garden-help-new-logo.png')}}" width="50" alt="GardenHelp">
+                        <img src="{{asset('images/gardenhelp/Garden-help-new-logo.png')}}" width="130" alt="GardenHelp">
                     </div>
                 </div>
                 <div class="container">

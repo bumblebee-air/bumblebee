@@ -41,14 +41,197 @@ input {
 }
 /************ end login *****************/
 input {
-	color: #222 !important;
+	font-family: Roboto;
+	font-size: 17px !important;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.32px;
+	color: #1e2432 !important;
+}
+
+label.bmd-label-floating, .form-check-label, .bmd-label-static {
+	font-family: Roboto;
+	font-size: 15px !important;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.32px;
+	color: #acb1c0;
+}
+
+.is-focused [class*=" bmd-label"], .is-focused [class^=bmd-label] {
+	color: #acb1c0 !important;
 }
 
 .form-control, .is-focused .form-control {
 	background-image: linear-gradient(0deg, #60a244 2px, rgba(156, 39, 176, 0)
-		0), linear-gradient(0deg, #d2d2d2 1px, hsla(0, 0%, 82%, 0) 0) !important;
+		0), linear-gradient(0deg, #d2d2d2 1px, hsla(0, 0%, 82%, 0) 0)
+		!important;
 }
 
-.form-check .form-check-label{
+.form-check .form-check-label {
 	font-size: 16px !important;
+}
+
+.registerTitle {
+	font-family: Roboto;
+	font-size: 20px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 2.25;
+	letter-spacing: 0.19px;
+	color: #60a244;
+}
+
+.registerSubTitle, .registerModalTitle {
+	font-family: Roboto;
+	font-size: 18px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 2.5;
+	letter-spacing: 0.17px;
+	color: #000000;
+}
+
+.main {
+	background-color: white;
+	border-bottom-left-radius: 30px;
+	border-bottom-right-radius: 30px;
+	padding-top: 10px;
+	padding-left: 23px;
+	padding-right: 23px;
+}
+
+.modal-content {
+	border-radius: 20px !important;
+	box-shadow: 0 20px 20px 0 rgba(0, 0, 0, 0.08) !important;
+	padding: 25px;
+}
+
+.modal-dialog .modal-header .close {
+	top: auto !important;
+}
+
+.modal-button-close {
+	font-family: Roboto;
+	font-size: 18px !important;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 2.5 !important;
+	letter-spacing: 0.17px !important;
+	color: #767676 !important;
+}
+
+.modal-button-done {
+	font-family: Roboto;
+	font-size: 18px !important;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 2.5 !important;
+	letter-spacing: 0.17px !important;
+	color: #60a244 !important;
+}
+
+.modal-button-done:disabled {
+	color: #999 !important;
+}
+
+.modal-dialog .modal-footer {
+	padding: 0 !important;
+}
+
+.my-check-box-label {
+	font-family: Roboto;
+	font-size: 17px !important;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.32px;
+	color: #acb1c0 !important;
+}
+
+.my-check-box-label-checked {
+	color: #6c707c !important;
+	font-weight: bold !important;
+}
+
+.my-check-box {
+	width: 15px;
+	height: 15px;
+	color: #c3c7d2;
+}
+
+.my-check-box .checked {
+	color: #60a244;
+}
+
+.add-other-input {
+	font-family: Roboto;
+	font-size: 14px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.26px;
+	color: #acb1c0;
+}
+
+.add-other-button {
+	position: absolute;
+	right: 0;
+	color: gray;
+	margin-top: 10px;
+	margin-right: 15px;
+	color: #c3c7d2 !important;
+	transition: 0.3s ease-in-out;
+}
+
+.inputFileVisible {
+	background-image: none;
+}
+
+.circle {
+	border-color: #60a244 !important;
+}
+
+.check {
+	background-color: #60a244 !important;
+}
+
+.form-check-label {
+	font-size: 17px;
+	letter-spacing: 0.32px;
+	color: #1e2432;
+}
+
+.terms {  
+	margin: 0 0 10px;
+	font-family: Roboto;
+	font-size: 15px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.32px;
+	color: #1e2432;
+}
+
+.terms-text {
+	color: #60a244;
+}
+.submit-container{
+	text-align: center;
+}
+
+.btn-register {
+	width: 247px;
+	height: 55px;
 }

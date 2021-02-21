@@ -296,6 +296,7 @@
 {{--                                                                <option disabled>Select Country</option>--}}
 {{--                                                                <option value="Ireland" selected>Ireland</option>--}}
 {{--                                                            </select>--}}
+                                                        <label>Country</label>
                                                         <input type="text" class="form-control" :value="location.country" placeholder="Country" required>
                                                     </div>
                                                 </div>
@@ -314,8 +315,8 @@
 {{--                                                                <option selected disabled>Select County</option>--}}
 {{--                                                                <option v-for="county in counties" :value="county">@{{ county }}</option>--}}
 {{--                                                            </select>--}}
-                                                        <label>Country</label>
-                                                        <input type="text" class="form-control" :value="location.county.name" placeholder="Country" required>
+                                                        <label>County</label>
+                                                        <input type="text" class="form-control" :value="JSON.parse(location.county).name" placeholder="County" required>
                                                     </div>
                                                 </div>
                                             </div>

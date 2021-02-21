@@ -43,11 +43,15 @@ class RetailerController extends Controller
         $user->user_role = 'retailer';
         $user->save();
 
+        $stripe_token = $request->stripeToken;
+        if(env('APP_ENV')=='local'||env('APP_ENV')=='development'){
+            $stripe_token = 'tok_visa';
+        }
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
         $customer = $stripe->customers->create([
             'name' => $user->name,
             'email' => $user->email,
-            'source' => $request->stripeToken
+            'source' => $stripe_token
         ]);
 
         $retailer = new Retailer();

@@ -507,9 +507,12 @@
                     }
                 });
 
+                //Temporarily edited as DoOrder only want Dublin
                 let iresh_counties_json = jQuery.getJSON('{{asset('iresh_counties.json')}}', data => {
                     for (let county of data) {
-                        this.counties.push({name: county.city, coordinates: {lat: county.lat, lng: county.lng}});
+                        if(county.city.toLowerCase() == 'dublin') {
+                            this.counties.push({name: county.city, coordinates: {lat: county.lat, lng: county.lng}});
+                        }
                     }
                 });
 

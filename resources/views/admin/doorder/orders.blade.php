@@ -252,12 +252,12 @@
                 var orders_data = {!! json_encode($orders) !!};
 
                 for(let order of orders_data.data) {
-                    let fulfil_time= moment().add(order.fulfilment, 'minutes');
+                    let fulfil_time= moment(order.created_at).add(order.fulfilment, 'minutes');
                     let duration = moment.duration(fulfil_time.diff(moment.now())).asMinutes();
                     if (duration <= 0) {
                         order.fulfilment_at = 'Fulfilled'
                     } else {
-                        order.fulfilment_at = fulfil_time.format('hh:mm A');
+                        order.fulfilment_at = fulfil_time.format('HH:mm');
                     }
                 }
 

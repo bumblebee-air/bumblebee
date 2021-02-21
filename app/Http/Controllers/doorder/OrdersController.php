@@ -5,6 +5,7 @@ namespace App\Http\Controllers\doorder;
 use App\Order;
 use App\User;
 use App\UserFirebaseToken;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redis;
@@ -20,7 +21,7 @@ class OrdersController extends Controller
         }
 
         foreach ($orders as $order) {
-            $order->time = $order->created_at->format('h:i');
+            $order->time = $order->created_at->format('H:i');
             $order->driver = $order->orderDriver ? $order->orderDriver->name : null;
         }
         return view('admin.doorder.orders', ['orders' => $orders]);

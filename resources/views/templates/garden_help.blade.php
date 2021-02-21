@@ -12,6 +12,8 @@
     <link href="{{asset('css/material-dashboard.min.css')}}" rel="stylesheet">
     <link href="{{asset('css/gardenhelp-styles.css')}}" rel="stylesheet">
     <link href="{{asset('css/gaedenhelp-butttons-styles.css')}}" rel="stylesheet">
+     <link href="{{asset('css/select2.min.css')}}" rel="stylesheet">
+   
 
     <!--Sweet Alert-->
     <script src="https://unpkg.com/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
@@ -44,6 +46,8 @@
 <script src="{{asset('js/ct-material/perfect-scrollbar.jquery.min.js')}}"></script>
 <script src="{{asset('js/ct-material/material-dashboard.min.js')}}"></script>
 <script src="{{asset('js/bootstrap-datetimepicker.min.js')}}"></script>
+
+<script src="{{asset('js/select2.min.js')}}"></script>
 
 {{--<script src="http://demos.creative-tim.com/material-kit/assets/js/material.min.js"></script>--}}
 {{--<script src="http://demos.creative-tim.com/material-kit/assets/js/material-kit.js"></script>--}}

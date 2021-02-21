@@ -32,7 +32,7 @@ Contractors Registration') @section('styles')
 		<div class="main main-raised">
 			<div class="h-100 row align-items-center">
 				<div class="col-md-12 text-center">
-					<img src="{{asset('images/gardenhelp/Garden-help-new-Logo.png')}}"
+					<img src="{{asset('images/gardenhelp/Garden-help-new-logo.png')}}"
 						style="height: 150px" alt="GardenHelp">
 				</div>
 			</div>

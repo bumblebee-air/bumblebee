@@ -4,245 +4,25 @@
 
 @section('styles')
     <style>
-        html, body {
-            height: 100%;
-        }
-
-        .title {
-            color: #62a043;
-            font-weight: bold;
-        }
-
-        .sub-title {
-            font-weight: bold;
-        }
-
-        .container {
-            /*padding-left: 12px;*/
-            /*padding-right: 12px;*/
-
-            padding-left: 0px;
-            padding-right: 0px;
-        }
-
-        .main {
-            background-color: white;
-            border-bottom-left-radius: 30px;
-            border-bottom-right-radius: 30px;
-            padding-top: 10px;
-            padding-left: 23px;
-            padding-right: 23px;
-            padding-bottom: 35px;
-            margin-bottom: 20px;
-        }
-
-        .modal-content {
-            border-radius: 20px!important;
-            box-shadow: 0 20px 20px 0 rgba(0, 0, 0, 0.08)!important;
-            padding-left: 12px;
-            padding-right: 12px;
-        }
-
-        .modal-body .row .d-flex{
-            padding-bottom: 13px;
-        }
-        .modal-title {
-            font-weight: bold;
-        }
-
-        .form-check-label {
-            font-family: Roboto;
-            font-size: 17px !important;
-            font-weight: normal;
-            font-stretch: normal;
-            font-style: normal;
-            line-height: normal !important;
-            letter-spacing: 0.32px;
-
-        }
-
-        .modal-button-close {
-            width: 57px;
-            height: 45px;
-            font-family: Roboto;
-            font-size: 18px;
-            font-weight: 500;
-            font-stretch: normal;
-            font-style: normal;
-            line-height: 2.5;
-            letter-spacing: 0.17px;
-            color: #767676;
-        }
-
-        .modal-button-done {
-            width: 43px;
-            height: 45px;
-            font-family: Roboto;
-            font-size: 18px;
-            font-weight: 500;
-            font-stretch: normal;
-            font-style: normal;
-            line-height: 2.5;
-            letter-spacing: 0.17px;
-            color: #60a244 !important;
-        }
-
-        .modal-button-done:disabled {
-            color: #999 !important;
-        }
-
-        .content-card {
-            border-radius: 20px;
-            box-shadow: 0 20px 20px 0 rgba(0, 0, 0, 0.08);
-            background-color: #ffffff;
-            margin-top: 10px;
-            padding-top: 25px;
-        }
-
-        .my-check-box-label {
-            font-family: Roboto;
-            font-size: 17px;
-            font-weight: normal;
-            font-stretch: normal;
-            font-style: normal;
-            line-height: normal;
-            letter-spacing: 0.32px;
-            color: #acb1c0!important;
-        }
-
-        .my-check-box-label-checked {
-            color: #6c707c!important;
-            font-weight: bold!important;
-        }
-
-        .my-check-box {
-            width: 15px;
-            height: 15px;
-            color: #c3c7d2;
-            margin-right: 10px;
-        }
-        .checked {
-            color: #60a244;
-        }
-
-        .add-other-button {
-            position: absolute;
-            right: 0;
-            color: gray;
-            margin-top: 10px;
-            margin-right: 15px;
-            color: #c3c7d2!important;
-            transition: 0.3s ease-in-out;
-        }
-
-        .inputFileVisible {
-            background-image: none;
-        }
-
-        .circle {
-            border-color: #60a244!important;
-        }
-
-        .check {
-            background-color: #60a244!important;
-        }
-
-        .form-check-label {
-            font-size: 17px;
-            letter-spacing: 0.32px;
-            color: #1e2432;
-
-        }
-
-        .terms {
-            font-size: 13px;
-            font-weight: 500;
-            letter-spacing: 0.32px;
-            color: #1e2432;
-            padding-right: 29px;
-            padding-left: 29px;
-        }
-        .terms-text {
-            color: #60a244;
-        }
-
-        .submit-btn {
-            height: 48px;
-            border-radius: 24px;
-            background-color: #60a244!important;
-            font-size: 14px;
-            font-weight: bold;
-            line-height: 0.79;
-            letter-spacing: 0.32px;
-            text-align: center;
-            color: #ffffff!important;
-        }
-
-        .submit-container {
-            padding-left: 29px;
-            padding-right: 29px;
-        }
-
-        .select-icon {
-            position: absolute;
-            right: 0;
-            color: gray;
-            margin-top: 10px;
-            margin-right: 15px;
-            color: #c3c7d2!important;
-            transition: 0.3s ease-in-out;
-            font-size: 20px;
-        }
-
-        /*.bootstrap-select>.dropdown-toggle.bs-placeholder {*/
-        /*    color: white;*/
-        /*}*/
-
-        /*Map Caculater Style*/
-        #panel {
-            width: 200px;
-            font-family: Arial, sans-serif;
-            font-size: 13px;
-            float: right;
-            margin: 10px;
-        }
-
-        #color-palette {
-            clear: both;
-        }
-
-        .color-button {
-            width: 14px;
-            height: 14px;
-            font-size: 0;
-            margin: 2px;
-            float: left;
-            cursor: pointer;
-        }
-
-        #delete-button {
-            margin-top: 5px;
-        }
-
-        .bootstrap-select .btn.dropdown-toggle.select-with-transition {
-            background-image: none!important;
-        }
-    </style>
+       
+            </style>
 @endsection
 
 @section('content')
+
     <div class="container" id="app">
         <form action="{{route('postCustomerRegistration', 'garden-help')}}" method="POST" enctype="multipart/form-data" autocomplete="off">
             {{csrf_field()}}
             <div class="main main-raised">
                 <div class="h-100 row align-items-center">
-                    <div class="col-md-12 text-center">
-                        <img src="{{asset('images/gardenhelp/Garden-help-new-logo.png')}}" width="130" alt="GardenHelp">
-                    </div>
+                   <div class="col-md-12 text-center">
+					<img src="{{asset('images/gardenhelp/Garden-help-new-logo.png')}}"
+						style="height: 150px" alt="GardenHelp">
+				</div>
                 </div>
                 <div class="container">
                     <div class="section">
-                        <h4 class="title">Customer Registration Form</h4>
+                        <h4 class="registerTitle">Customer Registration Form</h4>
                     </div>
                     @if(count($errors))
                         <div class="alert alert-danger" role="alert">
@@ -254,13 +34,14 @@
                         </div>
                     @endif
 
+
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="form-group bmd-form-group">
-{{--                                <label class="bmd-label-floating">Location</label>--}}
-{{--                                <input type="text" class="form-control" name="name" value="{{old('name')}}" required>--}}
-                                <select name="work_location" data-style="select-with-transition" class="form-control selectpicker" @change="changeLocation">
-                                    <option disabled selected>Location</option>
+                            <div class="form-group ">
+                               <label for="work_location" class="">Location</label>
+							      <select id="work_location" name="work_location" 
+							       class="form-control js-example-basic-single " onchange="changeLocation()">
+                                    <option disabled selected value="" >Select location</option>
                                     <option value="Limerick">Limerick</option>
                                     <option value="Drumcondra">Drumcondra</option>
                                     <option value="Dún Laoghaire">Dún Laoghaire</option>
@@ -272,23 +53,23 @@
                                 </select>
                             </div>
                         </div>
-
+                        
                         <div class="col-md-12">
-                            <div class="form-group bmd-form-group">
-                                {{--                                <label class="bmd-label-floating">Location</label>--}}
-                                {{--                                <input type="text" class="form-control" name="name" value="{{old('name')}}" required>--}}
-                                <select name="type_of_work" data-style="select-with-transition" class="form-control selectpicker" v-model="type_of_work" @change="changeWorkType()">
-                                    <option disabled selected>Type of work</option>
+                            <div class="form-group ">
+                             <label for="type_of_work" class="">Type of work
+                                <select id="type_of_work" name="type_of_work" 
+                                class="form-control js-example-basic-single" v-model="type_of_work" onchange="changeWorkType()">
+                                    <option disabled selected value="" >Select type of work</option>
                                     <option value="Residential">Residential</option>
                                     <option value="Commercial">Commercial</option>
-                                </select>
+                                </select></label>
                             </div>
                         </div>
                     </div>
 
                     <div class="row" v-if="type_of_work == 'Residential'">
                         <div class="col-md-12">
-                            <h5 class="sub-title">Property Information</h5>
+                            <h5 class="registerSubTitle">Property Information</h5>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
@@ -298,7 +79,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                                <label>Email Address</label>
+                                <label>Email address</label>
                                 <input type="email" class="form-control" name="email" value="{{old('email')}}" required>
                             </div>
                         </div>
@@ -337,7 +118,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                                <label>Confirm Password</label>
+                                <label>Confirm password</label>
                                 <input type="password" class="form-control" name="password_confirmation" value="{{old('password_confirmation')}}" required>
                             </div>
                         </div>
@@ -345,11 +126,11 @@
 
                     <div class="row" v-if="type_of_work == 'Commercial'">
                         <div class="col-md-12">
-                            <h5 class="sub-title">Business Details</h5>
+                            <h5 class="registerSubTitle">Business Details</h5>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                                <label>Business Name</label>
+                                <label class="bmd-form-floating">Business Name</label>
                                 <input type="text" class="form-control" name="name" value="{{old('name')}}" required>
                             </div>
                         </div>
@@ -361,7 +142,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                                <label>Company Email</label>
+                                <label>Company email</label>
                                 <input type="email" class="form-control" name="email" value="{{old('email')}}" required>
                             </div>
                         </div>
@@ -369,18 +150,18 @@
                             <div class="form-group">
                                 <label>Contact through</label>
                                 <div class="d-flex">
-                                    <div class="contact-through d-flex pr-5" @click="changeContact('email')">
+                                    <div class="contact-through d-flex pr-5" onclick="changeContact('email')">
                                         <div id="check" :class="contact_through == 'email' ? 'my-check-box checked' : 'my-check-box'">
                                             <i class="fas fa-check-square"></i>
                                         </div>
                                         Email
                                     </div>
 
-                                    <div class="contact-through d-flex" @click="changeContact('phone')">
+                                    <div class="contact-through d-flex" onclick="changeContact('phone')">
                                         <div id="check" :class="contact_through == 'phone' ? 'my-check-box checked' : 'my-check-box'">
                                             <i class="fas fa-check-square"></i>
                                         </div>
-                                        Phone Calls
+                                        Phone calls
                                     </div>
                                     <input type="hidden" v-model="contact_through" name="contact_through">
                                 </div>
@@ -388,13 +169,13 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                                <label>Contact Person Name</label>
+                                <label>Contact person name</label>
                                 <input type="text" class="form-control" name="contact_name" value="{{old('contact_name')}}" required>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                                <label>Contact Person Number</label>
+                                <label>Contact person number</label>
                                 <input type="password" class="form-control" name="contact_number" value="{{old('contact_number')}}" required>
                             </div>
                         </div>
@@ -413,15 +194,15 @@
                 </div>
             </div>
 
-            <div class="main main-raised content-card" v-if="type_of_work == 'Residential'">
+            <div class="main main-radius main-raised content-card" v-if="type_of_work == 'Residential'">
                 <div class="container">
                     <div class="section">
-                        <h5 class="sub-title">Services Details</h5>
+                        <h5 class="registerSubTitle">Services Details</h5>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                                <label for="type_of_experience">Service Type</label>
+                                <label for="type_of_experience">Service type</label>
                                 <div class="d-flex justify-content-between" @click="openModal('service_type')">
                                     <input name="service_types" type="text" class="form-control" id="service_type_input" v-model="service_types_input" {{old('service_details')}} required>
                                     <a class="select-icon">
@@ -434,15 +215,15 @@
                 </div>
             </div>
 
-            <div class="main main-raised content-card" v-if="type_of_work == 'Residential'">
+            <div class="main main-radius main-raised content-card" v-if="type_of_work == 'Residential'">
                 <div class="container">
                     <div class="section">
-                        <h5 class="sub-title">Property Information</h5>
+                        <h5 class="registerSubTitle">Property Information</h5>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-{{--                                <label class="bmd-label-floating" for="location">Location</label>--}}
+                               <label class="" for="location">Location</label>
                                 <input type="text" class="form-control" id="location" name="location" value="{{old('location')}}" required>
                                 <input type="hidden" id="location_coordinates" name="location_coordinates">
                             </div>
@@ -453,10 +234,10 @@
                                 <div id="map" style="height: 400px; margin-top: 0"></div>
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <div class="form-group form-file-upload form-file-multiple bmd-form-group">
+                        <div class="col-md-12 mb-3">
+                            <div class="form-group form-file-upload form-file-multiple ">
                                 <label class="bmd-label-static" for="photographs_of_property">
-                                    Upload Photographs of Property
+                                    Upload photographs of property
                                 </label>
                                 <br>
                                 <input id="property_photo" name="property_photo" type="file" class="inputFileHidden" @change="onChangeFile($event, 'property_photo_input')">
@@ -470,6 +251,7 @@
                                 </div>
                             </div>
                         </div>
+                      
 
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
@@ -566,16 +348,19 @@
             </div>
             <br>
             <div class="row">
-                <div class="col-md-12">
-                    <p class="terms">
-                        By clicking Submit, you agree to our <span class="terms-text">Terms & Conditions</span> and that you have read our <span class="terms-text">Privacy Policy</span>
-                    </p>
-                </div>
+            <div class="col-md-12 mb-3 ml-2">
+				<p class="terms">
+					By clicking Submit, you agree to our <a class="terms-text" href="#">Terms
+						& Conditions</a> and that you have read our <a
+						class="terms-text" href="#">Privacy Policy</a>
+				</p>
+			</div>
 
-                <div class="col-md-12 submit-container">
-                    <button class="btn btn-success btn-block submit-btn" type="submit">Signup</button>
+			<div class="col-md-12 mb-3 submit-container">
+				<button class="btn btn-gardenhelp-green btn-register" type="submit">Signup</button>
+			</div>
+			
                 </div>
-            </div>
         </form>
         <a id="addOtherLocationBtn" data-toggle="modal"
            data-target="#addOtherLocationModal" style="display: none"></a>
@@ -585,7 +370,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title text-left" id="type_of_experienceLabel">Type of work experience</h5>
+                        <h5 class="modal-title text-left registerModalTitle" id="type_of_experienceLabel">Type of work experience</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -593,7 +378,7 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-12 d-flex justify-content-between">
-                                <input type="text" class="form-control" placeholder="Add Other">
+                                <input type="text" class="form-control add-other-input" placeholder="Add other">
                             </div>
                         </div>
                     </div>
@@ -618,7 +403,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title text-left" id="type_of_experienceLabel">Site Details</h5>
+                        <h5 class="modal-title text-left registerModalTitle" id="type_of_experienceLabel">Site Details</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -655,7 +440,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title text-left" id="type_of_experienceLabel">Service Type</h5>
+                        <h5 class="modal-title text-left registerModalTitle" id="type_of_experienceLabel">Service Type</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -670,7 +455,7 @@
                             </div>
                             <div class="col-md-12" data-toggle="collapse" href="#otherServicesCollapse" role="button" aria-expanded="false" aria-controls="otherServicesCollapse">
                                 <div class="d-flex justify-content-between">
-                                    <h5 class="modal-title text-left" id="type_of_experienceLabel">Other Service</h5>
+                                    <h5 class="modal-title text-left registerModalTitle" id="type_of_experienceLabel">Other Service</h5>
                                     <a class="select-icon" style="margin-top: 3px; color: black!important">
                                         <i class="fas fa-caret-down"></i>
                                     </a>
@@ -702,10 +487,64 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/bootstrap-selectpicker.js') }}"></script>
+    <script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
     <script>
+    $(document).ready(function() {
+    $(".js-example-basic-single").select2();
+});
+function changeWorkType(){
+console.log("Sadasfsafsafsgdg");
+console.log($("#type_of_work").val());
+app.type_of_work=$("#type_of_work").val();
+
+if ($("#type_of_work").val() == 'Residential') {
+                        setTimeout(() => {
+                            window.initMap();
+                            $('#last_services').datetimepicker({
+                                icons: {
+                                    time: "fa fa-clock",
+                                    date: "fa fa-calendar",
+                                    up: "fa fa-chevron-up",
+                                    down: "fa fa-chevron-down",
+                                    previous: 'fa fa-chevron-left',
+                                    next: 'fa fa-chevron-right',
+                                    today: 'fa fa-screenshot',
+                                    clear: 'fa fa-trash',
+                                    close: 'fa fa-remove'
+                                }
+                            });
+                        }, 500)
+                    } else {
+                        setTimeout(() => {
+                            $('#available_date_time').datetimepicker({
+                                icons: {
+                                    time: "fa fa-clock",
+                                    date: "fa fa-calendar",
+                                    up: "fa fa-chevron-up",
+                                    down: "fa fa-chevron-down",
+                                    previous: 'fa fa-chevron-left',
+                                    next: 'fa fa-chevron-right',
+                                    today: 'fa fa-screenshot',
+                                    clear: 'fa fa-trash',
+                                    close: 'fa fa-remove'
+                                }
+                            });
+                        });
+                    }
+}
+function  changeLocation() {
+
+                    if($("#work_location").val() == 'Other') {
+                        $('#addOtherLocationBtn').click();
+                    }
+}
+function changeContact(cont){
+console.log("change contact "+cont);
+app.contact_through=cont;
+}
+    
         var app = new Vue({
             el: '#app',
             data: {
@@ -868,6 +707,7 @@
                     $('#' + type + '_btn_modal').click();
                 },
                 changeSelectedValue(type) {
+                	console.log(type);
                     let input = '';
                     let list = '';
                     if (type === 'service_details') {

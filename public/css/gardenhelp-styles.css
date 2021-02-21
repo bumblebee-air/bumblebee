@@ -40,7 +40,7 @@ input {
 	color: #acb1c0 !important;
 }
 /************ end login *****************/
-input {
+input,.select2-container--default .select2-selection--single .select2-selection__rendered  {
 	font-family: Roboto;
 	font-size: 17px !important;
 	font-weight: normal;
@@ -102,9 +102,7 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	background-color: white;
 	border-bottom-left-radius: 30px;
 	border-bottom-right-radius: 30px;
-	padding-top: 10px;
-	padding-left: 23px;
-	padding-right: 23px;
+	padding: 10px 23px 23px 35px;
 }
 
 .modal-content {
@@ -147,7 +145,7 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	padding: 0 !important;
 }
 
-.my-check-box-label {
+.my-check-box-label, .customer-register-label {
 	font-family: Roboto;
 	font-size: 17px !important;
 	font-weight: normal;
@@ -156,6 +154,10 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	line-height: normal;
 	letter-spacing: 0.32px;
 	color: #acb1c0 !important;
+}
+.select2-container--default .select2-selection--single{
+	border: none !important;
+	border-bottom: solid 1px #eaecef !important;
 }
 
 .my-check-box-label-checked {
@@ -169,7 +171,7 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	color: #c3c7d2;
 }
 
-.my-check-box .checked {
+.my-check-box .checked,  .checked {
 	color: #60a244;
 }
 
@@ -234,4 +236,36 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 .btn-register {
 	width: 247px;
 	height: 55px;
+}
+.main-radius{
+	border-radius: 30px !important;
+	margin-top: 20px;
+}
+
+/************************* datetime picker **************************/
+.bootstrap-datetimepicker-widget table td.active:hover>div, .bootstrap-datetimepicker-widget table td.active>div{
+	background-color: #60a244 !important;
+	
+}
+.bootstrap-datetimepicker-widget a[data-action] span,
+.bootstrap-datetimepicker-widget a[data-action]:hover span{
+	color: #60a244 !important;
+}
+
+.bootstrap-datetimepicker-widget table td.today>div:before {
+    border-bottom-color: #60a244 !important;
+}
+
+.bootstrap-datetimepicker-widget .btn.btn-primary.focus,
+.bootstrap-datetimepicker-widget .btn.btn-primary {
+    color: #fff;
+    background-color: #60a244 !important;
+    border-color: #60a244 !important;
+}
+.bootstrap-datetimepicker-widget .btn.btn-primary.focus,
+.bootstrap-datetimepicker-widget .btn.btn-primary:focus,
+.bootstrap-datetimepicker-widget .btn.btn-primary:hover {
+    color: #fff;
+    background-color: #60a244 !important;
+    border-color: #487834 !important;
 }

@@ -188,9 +188,12 @@
                     console.log(date);
                     let dateTime = '';
                     let parseDate = new Date(date);
-                    dateTime += parseDate.getFullYear() + '/';
+                    if(date==null || date==''){
+                        parseDate = new Date();
+                    }
+                    dateTime += parseDate.getDate() + '/';
                     dateTime += parseDate.getMonth() + '/';
-                    dateTime += parseDate.getDay() + ' ';
+                    dateTime += parseDate.getFullYear() + ' ';
                     dateTime += parseDate.getHours() + ':';
                     dateTime += parseDate.getMinutes();
                     return dateTime;

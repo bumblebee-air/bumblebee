@@ -463,6 +463,15 @@
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 
     <script>
+        let business_hours_initial_array = [
+            {"isActive":true,"timeFrom":null,"timeTill":null},
+            {"isActive":true,"timeFrom":null,"timeTill":null},
+            {"isActive":true,"timeFrom":null,"timeTill":null},
+            {"isActive":true,"timeFrom":null,"timeTill":null},
+            {"isActive":true,"timeFrom":null,"timeTill":null},
+            {"isActive":true,"timeFrom":null,"timeTill":null},
+            {"isActive":true,"timeFrom":null,"timeTill":null}
+        ];
         var app = new Vue({
             el: '#app',
             data() {
@@ -519,6 +528,7 @@
                 this.addIntelInput();
 
                 window['business_hours_container1'] = $('#business_hours_container1').businessHours({
+                    operationTime: business_hours_initial_array,
                     dayTmpl:'<div class="dayContainer" style="width: 80px;">' +
                         '<div data-original-title="" class="colorBox"><input type="checkbox" class="invisible operationState"></div>' +
                         '<div class="weekday"></div>' +
@@ -618,6 +628,7 @@
                 addBusinessHoursContainer() {
                     let latest_key = this.locations.length;
                     window['business_hours_container' + latest_key] = $('#business_hours_container' + latest_key).businessHours({
+                        operationTime: business_hours_initial_array,
                         dayTmpl:'<div class="dayContainer" style="width: 80px;">' +
                             '<div data-original-title="" class="colorBox"><input type="checkbox" class="invisible operationState"></div>' +
                             '<div class="weekday"></div>' +

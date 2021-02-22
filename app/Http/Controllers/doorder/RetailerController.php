@@ -7,6 +7,7 @@ use App\Retailer;
 use App\User;
 use App\UserClient;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Stripe;
 use Twilio\Rest\Client;
@@ -76,7 +77,22 @@ class RetailerController extends Controller
                 'client_id' => $client->id
             ]);
         }
-
+        if(env('APP_ENV')=='production'){
+            try{
+                Mail::send('email.doorder_new_request', [
+                    'request_type' => 'retailer',
+                    'request_name' => $retailer->name,
+                    'request_url_view' => url('doorder/retailers/requests/'.$retailer->id)
+                ],
+                    function ($message) {
+                        $message->from('no-reply@doorder.eu', 'DoOrder platform');
+                        $message->to(env('DOORDER_NOTIF_EMAIL','doorderdelivery@gmail.com'),
+                            'DoOrder')->subject('New retailer registration request');
+                    });
+            }catch (\Exception $exception){
+                \Log::error($exception->getMessage(),$exception->getTrace());
+            }
+        }
         alert()->success('You are registered successfully');
         return redirect()->back();
     }

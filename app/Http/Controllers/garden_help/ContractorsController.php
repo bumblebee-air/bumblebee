@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\garden_help;
 
 use App\Contractor;
+use App\Customer;
 use App\Mail\ContractorRegistrationMail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Alert;
+use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Str;
+use Twilio\Rest\Client;
 
 class ContractorsController extends Controller
 {
@@ -122,5 +126,118 @@ class ContractorsController extends Controller
             alert()->success('Contractor accepted successfully');
         }
         return redirect()->route('garden_help_getContractorsRequests', 'garden-help');
+    }
+
+    public function getJobsList(Request $request) {
+        $availableJobs = Customer::where('type', 'job')->
+            whereNull('contractor_id')->get();
+        $myJobs = Customer::where('type', 'job')->
+        where('contractor_id', $request->user()->id)->get();
+
+        return response()->json([
+            'available_jobs' => $availableJobs,
+            'my_jobs' => $myJobs,
+        ]);
+    }
+
+    public function updateOrderDriverStatus(Request $request) {
+        $erorrs = Validator::make($request->all(), [
+            'job_id' => 'required',
+            'status' => 'required|in:accept,reject,on_route,arrived,completed'
+        ]);
+
+        if ($erorrs->fails()) {
+            return response()->json([
+                'errors' => 1,
+                'message' => 'There is an invalid parameter',
+            ], 402);
+        }
+        //Check if this job exists
+        $job = Customer::where('id', $request->order_id)
+            ->where('type', 'job')->first();
+
+        if($job) {
+            if (!in_array($request->status, ['accept', 'reject'])) {
+                if($job->contractor_id != $request->user()->id){
+                    return response()->json([
+                        'message' => 'This order does not belong to this driver',
+                        'error' => 1
+                    ],403);
+                }
+                if ($request->status == 'on_route') {
+                    $job->status = $request->status;
+                } elseif ($request->status=='arrived') {
+                    $job->status = $request->status;
+                    //Send the customer order url for tracking & qr code
+//                    $order->customer_confirmation_code = Str::random(8);
+//                    $order->delivery_confirmation_code = Str::random(32);
+//                    $retailer_name = $order->retailer_name;
+//                    $sid    = env('TWILIO_SID', '');
+//                    $token  = env('TWILIO_AUTH', '');
+//                    $twilio = new Client($sid, $token);
+//                    //url('customer/delivery_confirmation/' . $order->customer_confirmation_code)
+//                    $twilio->messages->create($order->customer_phone,
+//                        [
+//                            "from" => "DoOrder",
+//                            "body" => "Hi $order->customer_name, your order from $retailer_name is on its way, open the link to track it and confirm the delivery afterwards. " . url('customer/order/' . $order->customer_confirmation_code)
+//                        ]
+//                    );
+                } elseif($request->status=='completed'){
+                    $job->status = $request->status;
+                }
+                $job->save();
+                if ($request->status!='delivery_arrived') {
+                    Redis::publish('garden-help-channel', json_encode([
+                        'event' => 'update-job-status',
+                        'data' => [
+                            'id' => $job->id,
+                            'status' => $job->status,
+                            'contactor' => $job->contractor ? $job->contractor->name : null,
+                        ]
+                    ]));
+                }
+                return response()->json([
+                    'message' => 'The job\'s status has been updated successfully',
+                    'delivery_confirmation_code' => $request->status == 'completed' ? $order->delivery_confirmation_code : null,
+                    'error' => 0
+                ]);
+            } else {
+                if($request->status == 'accept'){
+                    if($job->contractor_id != null && $job->contractor_id != $request->user()->id){
+                        return response()->json([
+                            'message' => 'This job has already been taken by another contractor',
+                            'error' => 1
+                        ], 403);
+                    }
+                    $job->status = 'matched';
+                } elseif ($request->status == 'reject'){
+                    if($job->driver != $request->user()->id){
+                        return response()->json([
+                            'message' => 'This job does not belong to this contractor',
+                            'error' => 1
+                        ], 403);
+                    }
+                    $job->status = 'ready';
+                    $job->contractor_id = null;
+                }
+                $job->save();
+                Redis::publish('garden-help-channel', json_encode([
+                    'event' => 'update-job-status',
+                    'data' => [
+                        'id' => $job->id,
+                        'status' => $job->status,
+                        'contactor' => $job->contractor ? $job->contractor->name : null,
+                    ]
+                ]));
+                return response()->json([
+                    'message' => 'The job\'s status has been updated successfully',
+                    'error' => 0
+                ]);
+            }
+        }
+        return response()->json([
+            'errors' => 1,
+            'message' => 'No job was found with this ID'
+        ], 403);
     }
 }

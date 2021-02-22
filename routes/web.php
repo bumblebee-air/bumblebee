@@ -265,6 +265,10 @@ Route::group(['prefix' => '{client_name}'], function () {
 Route::get('driver_app', function () {
     return view('templates/driver_app');
 });
+//GardenHelp App
+Route::get('contractors_app', function () {
+    return view('templates/garden_help_app');
+});
 
 Route::get('customer/order/{customer_confirmation_code}', 'doorder\CustomerController@getCustomerOrderPage');
 Route::get('customer/tracking/{customer_confirmation_code}', 'doorder\CustomerController@getOrderTracking');

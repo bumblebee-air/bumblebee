@@ -15,12 +15,12 @@
     <!-- iOS Safari -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="#f7dc69">
-    <link rel="icon" type="image/jpeg" href="{{asset('images/doorder-favicon.svg')}}">
-    <title>DoOrder | Driver App</title>
+    <link rel="icon" type="image/jpeg" href="{{asset('images/garden-help-fav.png')}}">
+    <title>GardenHelp | Contractors App</title>
 
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/fontawesome/all.css')}}">
-    <link rel="stylesheet" href="{{asset('css/doorder_app.css')}}">
+    <link rel="stylesheet" href="{{asset('css/garden_help_app.css')}}">
     <style>
         .access_location {
             position: fixed;
@@ -64,7 +64,7 @@
         </transition>
     </div>
 
-    <script src="{{asset('js/doorder_app.js')}}"></script>
+    <script src="{{asset('js/garden_help_app.js')}}"></script>
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
 
 {{--    @if(config('app.env') == 'local')--}}

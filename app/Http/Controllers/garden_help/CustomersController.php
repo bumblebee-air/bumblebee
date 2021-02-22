@@ -35,18 +35,18 @@ class CustomersController extends Controller
                 'name' => 'required',
                 'email' => 'required|unique:users',
                 'contact_through' => 'required',
-                'phone' => 'required',
+                'phone' => 'required_if:type_of_work,Residential',
                 'password' => 'required_if:type_of_work,Residential|confirmed',
                 'service_types' => 'required_if:type_of_work,Residential',
                 'location' => 'required_if:type_of_work,Residential',
                 'location_coordinates' => 'required_if:type_of_work,Residential',
                 'property_photo' => 'required_if:type_of_work,Residential',
                 'is_first_time' => 'required_if:type_of_work,Residential',
-                'last_services' => 'required_if:type_of_work,Residential',
-                'site_details' => 'required_if:type_of_work,Residential',
+                'last_services' => 'required_if:is_first_time,0',
+                'site_details' => 'required_if:is_first_time,0',
                 'is_parking_site' => 'required_if:type_of_work,Residential',
                 'contact_name' => 'required_if:type_of_work,Commercial',
-                'contact_phone' => 'required_if:type_of_work,Commercial',
+                'contact_number' => 'required_if:type_of_work,Commercial',
                 'available_date_time' => 'required_if:type_of_work,Commercial',
             ]);
 
@@ -83,5 +83,12 @@ class CustomersController extends Controller
         }
         alert()->success('We will Get back to you shortly on the Company Email.', 'Thank you for filling the Registration Form');
         return redirect()->back();
+    }
+    
+    
+    public function getCustomersRequests() {
+        
+        $customers_requests = Customer::paginate(20);
+        return view('admin.garden_help.customers.requests', ['customers_requests' => $customers_requests]);
     }
 }

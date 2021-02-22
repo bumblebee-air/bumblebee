@@ -515,6 +515,13 @@
                         <p> Contractors Requests </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{route('garden_help_getCustomerssRequests', 'garden-help')}}">
+                        {{--                            <i class="fas fa-plus-circle"></i>--}}
+                        <img style="width: 15px; height: 20px" class="my-nav-icon" src="{{asset('images/gardenhelp_icons/Requests.png')}}" alt="Contractors Requests">
+                        <p> Customers Requests </p>
+                    </a>
+                </li>
                 <li class="nav-item ">
                     <a class="nav-link d-flex" href="{{url('logout')}}">
                         {{--                            <i class="fas fa-sign-out-alt"></i>--}}

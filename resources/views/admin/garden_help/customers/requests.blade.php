@@ -1,6 +1,6 @@
 @extends('templates.dashboard')
 
-@section('title', 'GardenHelp | Contractors Requests')
+@section('title', 'GardenHelp | Customers Requests')
 
 @section('page-styles')
     <style>
@@ -28,7 +28,7 @@
                                     <div class="card-icon">
                                         <img class="page_icon" src="{{asset('images/gardenhelp_icons/Requests-white.png')}}">
                                     </div>
-                                    <h4 class="card-title ">Contractors Requests</h4>
+                                    <h4 class="card-title ">Customers Requests</h4>
                                 </div>
                                 <div class="col-6 col-sm-6 mt-4">
                                     <div class="row justify-content-end">
@@ -38,12 +38,12 @@
                                                 Request Received
                                             </div>
                                             <div class="status_item">
-                                                <img class="status_icon" src="{{asset('images/doorder_icons/order_status_on_route_pickup.png')}}" alt="Missing Data">
-                                                Missing Data
+                                                <img class="status_icon" src="{{asset('images/doorder_icons/order_status_picked_up.png')}}" alt="Quotation Sent">
+                                                Quotation Sent
                                             </div>
                                             <div class="status_item">
-                                                <img class="status_icon" src="{{asset('images/doorder_icons/order_status_delivered.png')}}" alt="Request completed">
-                                                Request Completed
+                                                <img class="status_icon" src="{{asset('images/doorder_icons/order_status_delivered.png')}}" alt="Service booked">
+                                                Service booked
                                             </div>
                                         </div>
                                     </div>
@@ -55,42 +55,42 @@
                                         <table class="table">
                                             <thead>
                                                 <th>Date/Time</th>
-                                                <th>Level</th>
-                                                <th>Contractor Name</th>
-                                                <th>Request No</th>
+                                                <th>Type</th>
+                                                <th>Customer Name</th>
+                                                <th>Job No</th>
                                                 <th>Status</th>
                                                 <th>Stage</th>
-                                                <th>Address</th>
+                                                <th>Location</th>
                                             </thead>
 
                                             <tbody>
-                                                @if(count($contractors_requests) > 0)
-                                                    @foreach($contractors_requests as $contractor)
-                                                        <tr class="order-row" onclick="window.location = '{{route('garden_help_getContractorSingleRequest',['garden-help', $contractor->id])}}'">
+                                               @if(count($customers_requests) > 0)
+                                                    @foreach($customers_requests as $customer)
+                                                        <tr class="order-row" onclick="window.location = '{{route('garden_help_getcustomerSingleRequest',['garden-help', $customer->id])}}'">
                                                             <td>
-                                                                {{$contractor->created_at}}
+                                                                {{$customer->created_at}}
                                                             </td>
-                                                            <td>Level {{$contractor->experience_level_value}}</td>
-                                                            <td>{{$contractor->name}}</td>
-                                                            <td>{{$contractor->id}}</td>
+                                                            <td> {{$customer->type_of_work}}</td>
+                                                            <td>{{$customer->name}}</td>
+                                                            <td>{{$customer->id}}</td>
                                                             <td>
-                                                                @if($contractor->status == 'received')
+                                                                @if($customer->status == 'received')
                                                                     <img class="status_icon" src="{{asset('images/doorder_icons/order_status_matched.png')}}" alt="Request received">
-                                                                @elseif($contractor->status == 'missing')
-                                                                    <img class="status_icon" src="{{asset('images/doorder_icons/order_status_on_route_pickup.png')}}" alt="Missing Data">
+                                                                @elseif($customer->status == 'missing')
+                                                                    <img class="status_icon" src="{{asset('images/doorder_icons/order_status_picked_up.png')}}" alt="Quotation Sent">
                                                                 @else
-                                                                    <img class="status_icon" src="{{asset('images/doorder_icons/order_status_delivered.png')}}" alt="Request completed">
+                                                                    <img class="status_icon" src="{{asset('images/doorder_icons/order_status_delivered.png')}}" alt="Service booked">
                                                                 @endif
                                                             </td>
                                                             <td>
                                                                 @php($i = '33.34')
                                                                 <div class="progress m-auto">
                                                                     <div class="progress-bar" role="progressbar" 
-                                                                    style="width: {{($contractor->status == 'received' ? 1 : ($contractor->status == 'missing' ? 2 : 3)) *$i}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                    style="width: {{($customer->status == 'received' ? 1 : ($customer->status == 'missing' ? 2 : 3)) *$i}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </td>
                                                             <td>
-                                                                {{$contractor->address}}
+                                                                {{$customer->work_location}}
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -104,7 +104,7 @@
                                             </tbody>
                                         </table>
                                         <nav aria-label="pagination" class="float-right">
-                                            {{$contractors_requests->links('vendor.pagination.bootstrap-4')}}
+                                         {{$customers_requests->links('vendor.pagination.bootstrap-4')}}  
                                         </nav>
                                     </div>
                                 </div>

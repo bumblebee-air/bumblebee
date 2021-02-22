@@ -176,7 +176,7 @@
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
                                 <label>Contact person number</label>
-                                <input type="password" class="form-control" name="contact_number" value="{{old('contact_number')}}" required>
+                                <input type="text" class="form-control" name="contact_number" value="{{old('contact_number')}}" required>
                             </div>
                         </div>
                         <div class="col-md-12">

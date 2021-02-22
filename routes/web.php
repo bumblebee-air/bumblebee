@@ -219,6 +219,11 @@ Route::group(['prefix' => '{client_name}'], function () {
             Route::get('requests/{id}', 'garden_help\ContractorsController@getSingleRequest')->name('garden_help_getContractorSingleRequest');
             Route::post('requests/{id}', 'garden_help\ContractorsController@postSingleRequest')->name('garden_help_postContractorSingleRequest');
         });
+            Route::group(['prefix' => 'customers'], function () {
+                Route::get('requests', 'garden_help\CustomersController@getCustomersRequests')->name('garden_help_getCustomerssRequests');
+                Route::get('requests/{id}', 'garden_help\CustomersController@getSingleRequest')->name('garden_help_getcustomerSingleRequest');
+                Route::post('requests/{id}', 'garden_help\CustomersController@postSingleRequest')->name('garden_help_postCustomerSingleRequest');
+            });
     });
     /*
      * DoOrder Routes

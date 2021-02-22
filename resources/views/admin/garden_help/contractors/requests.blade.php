@@ -24,19 +24,18 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header card-header-icon card-header-rose row">
-                                <div class="col-12 col-sm-4">
+                                <div class="col-12 col-sm-6">
                                     <div class="card-icon">
-                                        {{--                                    <i class="material-icons">home_work</i>--}}
                                         <img class="page_icon" src="{{asset('images/gardenhelp_icons/Requests-white.png')}}">
                                     </div>
                                     <h4 class="card-title ">Contractors Requests</h4>
                                 </div>
-                                <div class="col-6 col-sm-8 mt-4">
+                                <div class="col-6 col-sm-6 mt-4">
                                     <div class="row justify-content-end">
                                         <div class="status">
                                             <div class="status_item">
                                                 <img class="status_icon" src="{{asset('images/doorder_icons/order_status_ready.png')}}" alt="Request received">
-                                                Request received
+                                                Request Received
                                             </div>
                                             <div class="status_item">
                                                 <img class="status_icon" src="{{asset('images/doorder_icons/order_status_on_route_pickup.png')}}" alt="Missing Data">
@@ -44,7 +43,7 @@
                                             </div>
                                             <div class="status_item">
                                                 <img class="status_icon" src="{{asset('images/doorder_icons/order_status_delivered.png')}}" alt="Request completed">
-                                                Request completed
+                                                Request Completed
                                             </div>
                                         </div>
                                     </div>
@@ -57,6 +56,7 @@
                                             <thead>
                                                 <th>Date/Time</th>
                                                 <th>Level</th>
+                                                <th>Contractor Name</th>
                                                 <th>Request No</th>
                                                 <th>Status</th>
                                                 <th>Stage</th>
@@ -71,6 +71,7 @@
                                                                 {{$contractor->created_at}}
                                                             </td>
                                                             <td>Level {{$contractor->experience_level_value}}</td>
+                                                            <td>{{$contractor->name}}</td>
                                                             <td>{{$contractor->id}}</td>
                                                             <td>
                                                                 @if($contractor->status == 'received')
@@ -84,7 +85,8 @@
                                                             <td>
                                                                 @php($i = '33.34')
                                                                 <div class="progress m-auto">
-                                                                    <div class="progress-bar" role="progressbar" style="width: {{($contractor->status == 'received' ? 1 : ($contractor->status == 'missing' ? 2 : 3)) *$i}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                    <div class="progress-bar" role="progressbar" 
+                                                                    style="width: {{($contractor->status == 'received' ? 1 : ($contractor->status == 'missing' ? 2 : 3)) *$i}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </td>
                                                             <td>

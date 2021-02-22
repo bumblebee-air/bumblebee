@@ -1,20 +1,21 @@
 html {
 	-webkit-font-smoothing: none;
 }
+
 body {
 	font-family: Roboto
 }
 
 .sidebar .user .photo img {
-	width: 100px!important;
-	height: 100px!important;
+	width: 100px !important;
+	height: 100px !important;
 }
 
 .sidebar .user .photo {
-	padding:0 20px;
+	padding: 0 20px;
 }
 
-li .nav-link p{
+li .nav-link p {
 	font-family: Roboto;
 	font-size: 16px;
 	font-weight: normal;
@@ -35,22 +36,21 @@ li .nav-link:hover {
 }
 
 li .nav-link:hover p {
-	color: #FFFFFF!important;
+	color: #FFFFFF !important;
 }
 
 li .nav-link:hover a i {
-	color: #b1b1b1!important;
+	color: #b1b1b1 !important;
 }
 
-
-.sidebar[data-background-color=doorder-color]
-{
+.sidebar[data-background-color=doorder-color] {
 	background-color: rgba(68, 68, 68, 0.6)
 }
 
 .card-icon {
-	background: #60a244!important;
-	box-shadow: 0 4px 20px 0 rgba(0,0,0,.14), 0 7px 10px -5px #60a244 !important;
+	background: #60a244 !important;
+	box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px #60a244
+		!important;
 }
 
 .page_icon {
@@ -58,15 +58,17 @@ li .nav-link:hover a i {
 }
 
 .card .card-header.card-header-icon .card-title {
+	font-family: Roboto;
 	font-size: 21px;
 	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
 	line-height: 2.14;
 	letter-spacing: 0.2px;
 	color: #60a244;
 }
 
 .card-header h4 {
-	font-family: Quicksand;
 	/*margin: 0 0 38px 78px;*/
 	font-size: 21px;
 	font-weight: 500;
@@ -76,8 +78,8 @@ li .nav-link:hover a i {
 }
 
 .status_icon {
-	width: 13px;
-	height: 13px;
+	width: 18px;
+	height: 18px;
 	/*margin: 0 11px 0 0;*/
 	margin-right: 3px;
 }
@@ -99,33 +101,48 @@ li .nav-link:hover a i {
 	display: flex;
 	flex-wrap: wrap;
 	/*padding-right: 5px;*/
-	margin-top: 20px;
+	margin-top: 10px;
 }
 
 .status_item {
-	/*margin: -29px 0 0 11px;*/
-	margin-right: 10px;
-	font-size: 10px;
-	font-weight: bold;
+	margin: 0 0 0 11px;
+	font-family: Roboto;
+	font-size: 12px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: normal;
 	color: #656565;
 }
 
 th {
-	font-size: 16px!important;
-	font-weight: 700!important;
-	color: #656565;
+	font-size: 16px !important;
 	text-align: center;
 	word-wrap: normal;
 	white-space: nowrap;
+	font-family: Roboto;
+	font-size: 16px !important;
+	font-weight: bold !important;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #656565;
 }
 
 td {
 	text-align: center;
-	max-width: 165px;
-	min-width: 100px;
-	font-size: 14px;
-	color: #656565;
 	line-height: 1.07;
+	font-family: Roboto;
+	font-size: 14px !important;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	text-align: center;
+	color: #656565;
 }
 
 .order_status_icon {
@@ -151,14 +168,13 @@ td {
 }
 
 .sidebar-background {
-	background-position-x: 53%!important;
-	background-position-y: 10%!important;
+	background-position-x: 53% !important;
+	background-position-y: 10% !important;
 	/*background-size: auto!important;*/
 }
 
-
-.sidebar .user .photo-full{
-	box-shadow: none!important;
+.sidebar .user .photo-full {
+	box-shadow: none !important;
 }
 
 .sidebar .nav-link p {
@@ -192,7 +208,7 @@ td {
 	padding-left: 0px;
 }
 
-.form-control,.form-control:invalid, .is-focused .form-control  {
+.form-control, .form-control:invalid, .is-focused .form-control {
 	background-image: none;
 	box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
 }
@@ -200,6 +216,7 @@ td {
 .is-focused {
 	box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
 }
+
 .form-group label {
 	margin-left: 15px;
 	font-size: 14px;
@@ -224,7 +241,6 @@ td {
 /*    background-image: none!important;*/
 /*    padding-left: 14px;*/
 /*}*/
-
 .bootstrap-select .btn.dropdown-toggle.select-with-transition {
 	background-image: none;
 }
@@ -239,13 +255,14 @@ td {
 	color: #000000;
 	text-transform: capitalize;
 }
+
 .filter-option {
-	padding-top: 5px!important;
-	padding-left: 14px!important;
+	padding-top: 5px !important;
+	padding-left: 14px !important;
 }
 
 .card-body {
-	padding-top: 40px!important;
+	padding-top: 40px !important;
 }
 
 .card-body .container {
@@ -260,9 +277,10 @@ td {
 	padding-right: 20px;
 }
 
-.form-check .form-check-input:checked~.circle {
+.form-check .form-check-input:checked ~.circle {
 	border: solid 1px #e8ca49;
 }
+
 .radio-container .form-check .circle .check {
 	background-color: #e8ca49;
 }
@@ -279,7 +297,7 @@ td {
 	color: #ffffff;
 }
 
-.bootstrap-select .dropdown-item.active{
+.bootstrap-select .dropdown-item.active {
 	background: #e8ca49;
 }
 
@@ -288,14 +306,17 @@ td {
 	color: #ffffff
 }
 
-.pagination>.page-item.active>a, .pagination>.page-item.active>a:focus, .pagination>.page-item.active>a:hover, .pagination>.page-item.active>span, .pagination>.page-item.active>span:focus, .pagination>.page-item.active>span:hover {
+.pagination>.page-item.active>a, .pagination>.page-item.active>a:focus,
+	.pagination>.page-item.active>a:hover, .pagination>.page-item.active>span,
+	.pagination>.page-item.active>span:focus, .pagination>.page-item.active>span:hover
+	{
 	background-color: #f7dc69;
 	font-weight: bold;
 }
-.pagination>.page-item>.page-link, .pagination>.page-item>span {
-	border-radius: 6px!important;
-}
 
+.pagination>.page-item>.page-link, .pagination>.page-item>span {
+	border-radius: 6px !important;
+}
 
 .garden-btn {
 	border-radius: 24px;
@@ -310,12 +331,12 @@ td {
 }
 
 .btn-primary {
-	background-color: #60a244!important;
+	background-color: #60a244 !important;
 }
 
 .garden-btn-lg {
-	width: 347px!important;
-	height: 50px!important;
+	width: 347px !important;
+	height: 50px !important;
 }
 
 .sidebar .sidebar-background:after {

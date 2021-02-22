@@ -145,7 +145,7 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	padding: 0 !important;
 }
 
-.my-check-box-label, .customer-register-label {
+.my-check-box-label, .customer-register-label, .requestLabel{
 	font-family: Roboto;
 	font-size: 17px !important;
 	font-weight: normal;
@@ -154,6 +154,16 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	line-height: normal;
 	letter-spacing: 0.32px;
 	color: #acb1c0 !important;
+}
+ .requestSpan{
+	font-family: Roboto;
+	font-size: 16.5px !important;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.32px;
+	color: #1e2432 !important;
 }
 .select2-container--default .select2-selection--single{
 	border: none !important;
@@ -234,12 +244,19 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 }
 
 .btn-register {
-	width: 247px;
-	height: 55px;
+	width: 247px !important;
+	height: 55px !important;
 }
 .main-radius{
 	border-radius: 30px !important;
 	margin-top: 20px;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #60a244 !important;
+}
+.requestDownloadLink{
+	font-size: 16.5px !important;
 }
 
 /************************* datetime picker **************************/

@@ -71,163 +71,156 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="first_name" class="control-label">Name:</label>
-                                                <input id="first_name" type="text" class="form-control" value="{{$contractor_request->name}}" required>
+                                            <div class="form-group row">
+                                                <label class="requestLabel col-md-3 col-12">Name:</label>
+                                                <span class="requestSpan col-md-8 col-12">{{$contractor_request->name}} </span>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="first_name" class="control-label">Email:</label>
-                                                <input id="first_name" type="text" class="form-control" value="{{$contractor_request->email}}" required>
+                                            <div class="form-group row">
+                                                <label  class="requestLabel col-md-3 col-12">Email:</label>
+                                               <span class="requestSpan col-md-8 col-12">{{$contractor_request->email}}</span>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="first_name" class="control-label">Phone Number:</label>
-                                                <input id="first_name" type="text" class="form-control" value="{{$contractor_request->email}}" required>
+                                            <div class="form-group row">
+                                                <label class="requestLabel col-md-3 col-12">Phone number:</label>
+                                               <span class="requestSpan col-md-8 col-12">{{$contractor_request->email}}</span>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="first_name" class="control-label">Experience Level:</label>
-                                                <input id="first_name" type="text" class="form-control" value="{{$contractor_request->experience_level}}" required>
+                                            <div class="form-group row">
+                                                <label class="requestLabel col-md-3 col-12">Experience level:</label>
+                                                <span class="requestSpan col-md-8 col-12">{{$contractor_request->experience_level}}</span>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="first_name" class="control-label">Age Card / Passport:</label>
+                                            <div class="form-group row">
+                                                <label class="requestLabel  col-12">Age card / Passport:</label>
                                                 <div class="col">
-                                                    <img src="{{asset($contractor_request->age_proof)}}" style="width: 500px;">
+                                                    <img src="{{asset($contractor_request->age_proof)}}" style="width: 200px;height: 200px">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="first_name" class="control-label">Type of Work Experience:</label>
-                                                <div class="col">
-                                                    <input id="first_name" type="text" class="form-control" value="{{$contractor_request->type_of_work_exp}}" required>
+                                            <div class="form-group row">
+                                                <label class="requestLabel col-md-3 col-12">Type of work experience:</label>
+                                                <span class="requestSpan col-md-8 col-12">{{$contractor_request->type_of_work_exp}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-12">
+                                            <div class="form-group row">
+                                                <label class="requestLabel col-12">CV:</label>
+                                                <div class="col-12">
+                                                    <a target="_blank" href="{{asset($contractor_request->cv)}}" class="btn btn-primary ">Click here To CV file</a>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label for="first_name" class="control-label">CV:</label>
+                                        <div class="col-lg-3 col-12">
+                                            <div class="form-group row">
+                                                <label  class="requestLabel  col-12">Job reference:</label>
                                                 <div class="col">
-{{--                                                    <input id="first_name" type="text" class="form-control" value="{{$contractor_request->type_of_work_exp}}" required>--}}
-                                                    <a target="_blank" href="{{asset($contractor_request->cv)}}" class="btn btn-primary">Click Here To CV File</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label for="first_name" class="control-label">Job Reference:</label>
-                                                <div class="col">
-{{--                                                    <input id="first_name" type="text" class="form-control" value="{{$contractor_request->type_of_work_exp}}" required>--}}
-                                                    <a target="_blank" href="{{asset($contractor_request->job_reference)}}" class="btn btn-primary">Click Here To Job Reference File</a>
+                                                    <a target="_blank" href="{{asset($contractor_request->job_reference)}}" class="btn btn-primary ">Click here to job reference file</a>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="first_name" class="control-label">Available Tool and Equipment:</label>
-                                                <div class="col">
-                                                    <input id="first_name" type="text" class="form-control" value="{{$contractor_request->available_equipments}}" required>
-                                                </div>
+                                            <div class="form-group row">
+                                                <label  class="requestLabel col-md-3 col-12">Available tool and equipment:</label>
+                                                 <span class="requestSpan col-md-8 col-12" >{{$contractor_request->available_equipments}}</span>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="first_name" class="control-label">Other Details:</label>
+                                        	<div class=" row"> <div class="col-md-3">
+                                           <h5 class="registerSubTitle">Other Details</h5></div></div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group row">
+                                                <label class="requestLabel col-md-3 col-12">Address:</label>
+                                                 <span class="requestSpan col-md-8 col-12">{{$contractor_request->address}}</span>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="first_name" class="control-label">Address:</label>
-                                                <input id="first_name" type="text" class="form-control" value="{{$contractor_request->address}}" required>
+                                            <div class="form-group row">
+                                                <label class="requestLabel col-md-3 col-12">Company number:</label>
+                                                 <span class="requestSpan col-md-8 col-12">{{$contractor_request->company_number ? $contractor_request->company_number : 'N/A'}}</span>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="first_name" class="control-label">Company number (If registered):</label>
-                                                <input id="first_name" type="text" class="form-control" value="{{$contractor_request->company_number ? $contractor_request->company_number : 'N/A'}}" required>
+                                            <div class="form-group row">
+                                                <label class="requestLabel col-md-3 col-12">VAT number:</label>
+                                                 <span class="requestSpan col-md-8 col-12">{{$contractor_request->vat_number ? $contractor_request->vat_number : 'N/A'}}</span>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="first_name" class="control-label">VAT number (If registered):</label>
-                                                <input id="first_name" type="text" class="form-control" value="{{$contractor_request->vat_number ? $contractor_request->vat_number : 'N/A'}}" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="first_name" class="control-label">Insurance Document:</label>
-                                                <input id="first_name" type="text" class="form-control" value="{{$contractor_request->vat_number ? $contractor_request->vat_number : 'N/A'}}" required>
+                                            <div class="form-group row">
+                                                <label class="requestLabel col-md-3 col-12">Insurance Document:</label>
+                                                 <span class="requestSpan col-md-8 col-12">{{$contractor_request->vat_number ? $contractor_request->vat_number : 'N/A'}}</span>
                                             </div>
                                         </div>
                                         @if($contractor_request->experience_level_value != 1)
                                             <div class="col-12">
-                                                <div class="form-group">
-                                                    <label for="first_name" class="control-label">What type of charge? :</label>
-                                                    <input id="first_name" type="text" class="form-control" value="{{$contractor_request->charge_type}}" required>
+                                                <div class="form-group row">
+                                                    <label class="requestLabel col-md-3 col-12">What type of charge? :</label>
+                                                     <span class="requestSpan col-md-8 col-12">{{$contractor_request->charge_type}}</span>
                                                 </div>
                                             </div>
                                             <div class="col-12">
-                                                <div class="form-group">
-                                                    <label for="first_name" class="control-label">What rate of charge? :</label>
-                                                    <input id="first_name" type="text" class="form-control" value="{{$contractor_request->charge_rate}}" required>
+                                                <div class="form-group row">
+                                                    <label class="requestLabel col-md-3 col-12">What rate of charge? :</label>
+                                                     <span class="requestSpan col-md-8 col-12">{{$contractor_request->charge_rate}}</span>
                                                 </div>
                                             </div>
                                             <div class="col-12">
-                                                <div class="form-group">
-                                                    <label for="first_name" class="control-label">Do you charge a call out fee? :</label>
-                                                    <input id="first_name" type="text" class="form-control" value="{{$contractor_request->has_callout_fee ? 'Yes' : 'No'}}" required>
+                                                <div class="form-group row">
+                                                    <label class="requestLabel col-md-3 col-12">Do you charge a call out fee? :</label>
+                                                     <span class="requestSpan col-md-8 col-12">{{$contractor_request->has_callout_fee ? 'Yes' : 'No'}}</span>
                                                 </div>
                                             </div>
                                             @if($contractor_request->has_callout_fee)
                                                 <div class="col-12">
-                                                    <div class="form-group">
-                                                        <label for="first_name" class="control-label">Call out fee charge:</label>
-                                                        <input id="first_name" type="text" class="form-control" value="{{$contractor_request->callout_fee_value}}" required>
+                                                    <div class="form-group row">
+                                                        <label class="requestLabel col-md-3 col-12">Call out fee charge:</label>
+                                                         <span class="requestSpan col-md-8 col-12">{{$contractor_request->callout_fee_value}}</span>
                                                     </div>
                                                 </div>
                                             @endif
 
                                             <div class="col-12">
-                                                <div class="form-group">
-                                                    <label for="first_name" class="control-label">Rate of green waste:</label>
-                                                    <input id="first_name" type="text" class="form-control" value="{{$contractor_request->rate_of_green_waste}}" required>
+                                                <div class="form-group row">
+                                                    <label class="requestLabel col-md-3 col-12">Rate of green waste:</label>
+                                                    < <span class="requestSpan col-md-8 col-12">{{$contractor_request->rate_of_green_waste}}</span>
                                                 </div>
                                             </div>
                                             <div class="col-12">
-                                                <div class="form-group">
-                                                    <label for="first_name" class="control-label">Green waste collection method:</label>
-                                                    <input id="first_name" type="text" class="form-control" value="{{$contractor_request->green_waste_collection_method}}" required>
+                                                <div class="form-group row">
+                                                    <label class="requestLabel col-md-3 col-12">Green waste collection method:</label>
+                                                     <span class="requestSpan col-md-8 col-12">{{$contractor_request->green_waste_collection_method}}</span>
                                                 </div>
                                             </div>
                                         @endif
                                         <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="first_name" class="control-label">Do you have Access to a smartphone?:</label>
-                                                <input id="first_name" type="text" class="form-control" value="{{$contractor_request->has_smartphone ? 'Yes' : 'No'}}" required>
+                                            <div class="form-group row">
+                                                <label class="requestLabel col-md-3 col-12">Do you have access to a smartphone?:</label>
+                                                 <span class="requestSpan col-md-8 col-12">{{$contractor_request->has_smartphone ? 'Yes' : 'No'}}</span>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="first_name" class="control-label">Type of Transport:</label>
-                                                <input id="first_name" type="text" class="form-control" value="{{$contractor_request->type_of_transport}}" required>
+                                            <div class="form-group row">
+                                                <label class="requestLabel col-md-3 col-12">Type of transport:</label>
+                                                 <span class="requestSpan col-md-8 col-12">{{$contractor_request->type_of_transport}}</span>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="first_name" class="control-label">Social Media Profiles (optional):</label>
-                                                <input id="first_name" type="text" class="form-control" value="{{$contractor_request->social_profile ? $contractor_request->social_profile : 'N/A'}}" required>
+                                            <div class="form-group row">
+                                                <label class="requestLabel col-md-3 col-12">Social media profiles:</label>
+                                                 <span class="requestSpan col-md-8 col-12">{{$contractor_request->social_profile ? $contractor_request->social_profile : 'N/A'}}</span>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="first_name" class="control-label">Website Address (optional):</label>
-                                                <input id="first_name" type="text" class="form-control" value="{{$contractor_request->website_address ? $contractor_request->website_address : 'N/A'}}" required>
+                                            <div class="form-group row">
+                                                <label class="requestLabel col-md-3 col-12">Website address:</label>
+                                                <span class="requestSpan col-md-8 col-12">{{$contractor_request->website_address ? $contractor_request->website_address : 'N/A'}}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -238,15 +231,16 @@
                             <div class="col-sm-6 text-center">
                                 <form id="order-form" method="POST" action="">
                                     {{csrf_field()}}
-                                    <button class="btn bt-submit">Accept</button>
+                                    <button class="btn btn-register btn-gardenhelp-green" style="float: right;">Accept</button>
                                 </form>
                             </div>
                             <div class="col-sm-6 text-center">
-                                <button class="btn bt-submit btn-danger" data-toggle="modal" data-target="#rejection-reason-modal">Reject</button>
+                                <button class="btn btn-register btn-gardenhelp-danger"  style="float: left"
+                                data-toggle="modal" data-target="#rejection-reason-modal">Reject</button>
                             </div>
                         </div>
 
-                        <!-- Rejection Reason modal -->
+								   <!-- Rejection Reason modal -->
                         <div class="modal fade" id="rejection-reason-modal" tabindex="-1" role="dialog" aria-labelledby="assign-deliverer-label" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -260,7 +254,7 @@
                                         <div class="col-md-12">
                                             <form id="request-rejection" method="POST" action="{{route('garden_help_postContractorSingleRequest', ['garden-help', $contractor_request->id])}}">
                                                 {{csrf_field()}}
-                                                <div class="text-center" style="  font-size: 30px;
+                                                <div class="text-center" style="font-family:Roboto;  font-size: 30px;
                                                                                   font-weight: bold;
                                                                                   font-stretch: normal;
                                                                                   font-style: normal;
@@ -271,16 +265,22 @@
                                                     <br>
                                                     Rejected
                                                 </div>
-                                                <div class="form-group bmd-form-group">
-                                                    <label>Please add reason for rejection</label>
+                                                <div class="form-group ">
+                                                    <label class="">Please add reason for rejection</label>
                                                     <textarea class="form-control" name="rejection_reason" rows="4" required></textarea>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
-                                    <div class="modal-footer d-flex justify-content-around">
-                                        <button type="button" class="btn btn-primary garden-btn-lg garden-btn" onclick="$('form#request-rejection').submit()">Send</button>
-                                        <button type="button" class="btn btn-danger garden-btn-lg garden-btn" data-dismiss="modal">Close</button>
+                                    <div class="modal-footer d-flex justify-content-around ">
+                                       <div class="row">
+                              			  <div class="col-sm-6 col-12">
+                                            <button type="button" class="btn btn-register btn-gardenhelp-green " 
+                                            onclick="$('form#request-rejection').submit()">Send</button></div>
+                                            
+                               			 <div class="col-sm-6 col-12">
+                               			 	<button type="button" class="btn btn-register btn-gardenhelp-danger  " 
+                                            data-dismiss="modal">Close</button></div></div>
                                     </div>
                                 </div>
                             </div>

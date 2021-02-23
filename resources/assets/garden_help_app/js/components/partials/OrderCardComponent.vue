@@ -84,10 +84,11 @@
             },
             setDistance(position) {
                 var directionsService = new this.google.maps.DirectionsService();
+                var job_coordinates = JSON.parse(this.order_data.location_coordinates);
 
                 var request = {
                     origin : new this.google.maps.LatLng(position.coords.latitude, position.coords.longitude),
-                    destination : new this.google.maps.LatLng(this.order_data.pickup_lat, this.order_data.pickup_lon),
+                    destination : new this.google.maps.LatLng(parseFloat(job_coordinates.lat), parseFloat(job_coordinates.lon)),
                     travelMode : this.google.maps.TravelMode.DRIVING
                 };
 

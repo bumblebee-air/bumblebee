@@ -333,16 +333,16 @@
             },
             setDistance(position) {
                 var directionsService = new this.google.maps.DirectionsService();
+                var job_coordinates = JSON.parse(this.job_data.location_coordinates);
 
                 var request = {
                     origin : new this.google.maps.LatLng(position.coords.latitude, position.coords.longitude),
-                    destination : new this.google.maps.LatLng(this.job_data.pickup_lat, this.job_data.pickup_lon),
+                    destination : new this.google.maps.LatLng(parseFloat(job_coordinates.lat), parseFloat(job_coordinates.lon)),
                     travelMode : this.google.maps.TravelMode.WALKING
                 };
 
                 directionsService.route(request, (response, status) => {
                     if (status == this.google.maps.DirectionsStatus.OK) {
-                        console.log(response);
                         this.distance = response.routes[0].legs[0].distance.text;
                         this.duration = response.routes[0].legs[0].duration.text;
                     } else {

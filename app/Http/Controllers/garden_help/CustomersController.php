@@ -91,4 +91,38 @@ class CustomersController extends Controller
         $customers_requests = Customer::paginate(20);
         return view('admin.garden_help.customers.requests', ['customers_requests' => $customers_requests]);
     }
+    
+    public function getSingleRequest($client_name, $id) {
+        $customer_request = Customer::find($id);
+        $customer_request->email = $customer_request->user->email;
+        $customer_request->address = "";
+       // dd($customer_request);
+        if (!$customer_request) {
+            abort(404);
+        }
+        if($customer_request->type_of_work=="Commercial"){
+            return view('admin.garden_help.customers.single_request', ['customer_request' => $customer_request]);
+        }else{
+            return view('admin.garden_help.customers.single_request_residential', ['customer_request' => $customer_request]);            
+        }
+    }
+    
+    public function postSingleRequest(Request $request, $client_name, $id) {
+        $singleRequest = Customer::find($id);
+        if (!$singleRequest) {
+            abort(404);
+        }
+        if ($request->rejection_reason) {
+            $singleRequest->rejection_reason = $request->rejection_reason;
+            //$singleRequest->status = 'missing';
+            //$singleRequest->save();
+            alert()->success('Customer rejected successfully');
+        } else {
+            //$singleRequest->status = 'completed';
+            //$singleRequest->save();
+           
+            alert()->success('Customer accepted successfully');
+        }
+        return redirect()->route('garden_help_getCustomerssRequests', 'garden-help');
+    }
 }

@@ -8,8 +8,8 @@ class Customer extends Model
 {
     protected $table = 'customers_registrations';
 
-    public function contractor(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(User::class, 'contractor_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

@@ -11,6 +11,7 @@ use Alert;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
 use Twilio\Rest\Client;
+use Validator;
 
 class ContractorsController extends Controller
 {
@@ -140,10 +141,37 @@ class ContractorsController extends Controller
         ]);
     }
 
-    public function updateOrderDriverStatus(Request $request) {
+    public function getJobDetails(Request $request) {
+        $job_id = $request->get('job_id');
+        $job = Customer::find($job_id);
+        if(!$job){
+            $response = [
+                'order' => [],
+                'message' => 'No order was found with this ID',
+                'error' => 1
+            ];
+            return response()->json($response)->setStatusCode(403);
+        } else if ($job->type == 'request') {
+            $response = [
+                'order' => [],
+                'message' => 'No order was found with this ID',
+                'error' => 1
+            ];
+            return response()->json($response)->setStatusCode(403);
+        }
+
+        $response = [
+            'job' => $job,
+            'message' => 'Job retrieved successfully',
+            'error' => 0
+        ];
+        return response()->json($response)->setStatusCode(200);
+    }
+
+    public function updateJobDriverStatus(Request $request) {
         $erorrs = Validator::make($request->all(), [
             'job_id' => 'required',
-            'status' => 'required|in:accept,reject,on_route,arrived,completed'
+            'status' => 'required|in:accepted,rejected,on_route,arrived,completed'
         ]);
 
         if ($erorrs->fails()) {
@@ -153,11 +181,10 @@ class ContractorsController extends Controller
             ], 402);
         }
         //Check if this job exists
-        $job = Customer::where('id', $request->order_id)
+        $job = Customer::where('id', $request->job_id)
             ->where('type', 'job')->first();
-
         if($job) {
-            if (!in_array($request->status, ['accept', 'reject'])) {
+            if (!in_array($request->status, ['accepted', 'rejected'])) {
                 if($job->contractor_id != $request->user()->id){
                     return response()->json([
                         'message' => 'This order does not belong to this driver',
@@ -198,11 +225,11 @@ class ContractorsController extends Controller
                 }
                 return response()->json([
                     'message' => 'The job\'s status has been updated successfully',
-                    'delivery_confirmation_code' => $request->status == 'completed' ? $order->delivery_confirmation_code : null,
+                    'delivery_confirmation_code' => /*$request->status == 'completed' ? $order->delivery_confirmation_code : null */ Str::random(6),
                     'error' => 0
                 ]);
             } else {
-                if($request->status == 'accept'){
+                if($request->status == 'accepted'){
                     if($job->contractor_id != null && $job->contractor_id != $request->user()->id){
                         return response()->json([
                             'message' => 'This job has already been taken by another contractor',
@@ -210,7 +237,8 @@ class ContractorsController extends Controller
                         ], 403);
                     }
                     $job->status = 'matched';
-                } elseif ($request->status == 'reject'){
+                    $job->contractor_id = $request->user()->id;
+                } elseif ($request->status == 'rejected'){
                     if($job->driver != $request->user()->id){
                         return response()->json([
                             'message' => 'This job does not belong to this contractor',

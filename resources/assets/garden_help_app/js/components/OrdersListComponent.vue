@@ -10,14 +10,14 @@
         </ul>
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="orders-requests" role="tabpanel" aria-labelledby="orders-list-tab">
-                <order-card-component v-for="(order, index) in orders_requests" :key="index" :order_data="order"></order-card-component>
-                <div v-if="orders_requests.length == 0">
+                <order-card-component v-for="(item, index) in available_jobs" :key="index" :order_data="item"></order-card-component>
+                <div v-if="available_jobs.length == 0">
                     <empty-component></empty-component>
                 </div>
             </div>
             <div class="tab-pane fade" id="my-orders" role="tabpanel" aria-labelledby="my-orders-tab">
-                <order-card-component v-for="(order, index) in my_orders" :key="index" :order_data="order"></order-card-component>
-                <div v-if="my_orders.length == 0">
+                <order-card-component v-for="(item, index) in my_jobs" :key="index" :order_data="item"></order-card-component>
+                <div v-if="my_jobs.length == 0">
                     <empty-component></empty-component>
                 </div>
             </div>
@@ -47,41 +47,41 @@
     export default {
         data() {
             return ({
-                orders_requests: [],
-                my_orders: []
+                available_jobs: [],
+                my_jobs: []
             })
         },
         mounted() {
-            this.getOrdersData();
+            this.getJobsData();
             this.timer = setInterval(() => {
-                this.getOrdersData();
+                this.getJobsData();
             }, 30000);
         },
         destroyed() {
             clearInterval(this.timer);
         },
         methods: {
-            getOrdersData() {
+            getJobsData() {
                 let user = JSON.parse(localStorage.getItem('user'));
-                axios.get(process.env.MIX_API_URL + 'orders-list', {
+                axios.get(process.env.MIX_API_URL + 'jobs-list', {
                     headers: {
                         Accept: "application/json",
                         Authorization: user.access_token
                     }
                 }).then(
-                    res => this.fetchOrdersDataResponse(res)
+                    res => this.fetchJobsDataResponse(res)
                 ).catch(
-                    err => this.fetchOrdersDataError(err)
+                    err => this.fetchJobsDataError(err)
                 );
             },
-            fetchOrdersDataResponse(res) {
-                this.my_orders = [];
-                this.orders_requests = [];
-                this.orders_requests = res.data.available_orders;
-                this.my_orders = res.data.driver_orders;
+            fetchJobsDataResponse(res) {
+                this.my_jobs = [];
+                this.available_jobs = [];
+                this.available_jobs = res.data.available_jobs;
+                this.my_jobs = res.data.my_jobs;
                 $('#loading').fadeOut();
             },
-            fetchOrdersDataError(err) {
+            fetchJobsDataError(err) {
                 console.log(err)
             }
         }

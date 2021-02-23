@@ -52,6 +52,11 @@ Route::group(['middleware' => "auth:api"],function () {
     Route::post('driver-location-update','doorder\DriversController@updateDriverLocation');
     Route::post('skip-delivery-confirmation','doorder\DriversController@skipDeliveryConfirmation');
     Route::post('update-driver-firebase-token','doorder\DriversController@updateDriverFirebaseToken');
+
+    //GardenHelp
+    Route::get('jobs-list','garden_help\ContractorsController@getJobsList');
+    Route::post('job-details','garden_help\ContractorsController@getJobDetails');
+    Route::post('contractor-status-update','garden_help\ContractorsController@updateJobDriverStatus');
 });
 
 Route::post('stripe-account-update','StripeController@accountUpdateWebhook');

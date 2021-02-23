@@ -3,7 +3,7 @@
         <loading-component></loading-component>
         <nav class="navbar navbar-light bg-light d-flex justify-content-center">
             <a class="navbar-brand d-flex justify-content-center order-status my-auto" href="#">
-                <div v-for="(status, index) in job_status" v-if="order_data.status == status.status">
+                <div v-for="(status, index) in job_status" v-if="job_data.status == status.status">
                     <i class="fas fa-circle" :style="'color:' + status.color "></i>
                     {{status.text}}
                 </div>
@@ -65,11 +65,11 @@
                                     Delivery Information
                                 </p>
 <!--                                <p class="order-number">-->
-<!--                                    {{this.order_data.order_id}}-->
+<!--                                    {{this.job_data.order_id}}-->
 <!--                                </p>-->
                                 <p class="request-date">
                                   <i class="fas fa-calendar-alt"></i>
-                                  Friday 23/10/2020  10:00 am
+                                  {{ job_data.created_at | moment("dddd, MMMM Do YYYY, h:mm a")}}
                                 </p>
                             </div>
                             <div class="col-2 d-flex justify-content-end align-items-center">
@@ -93,7 +93,7 @@
                                     Job Location
                                 </p>
                                 <p class="order-address-value">
-                                    {{order_data.pickup_address}}
+                                    {{job_data.location}}
                                 </p>
                             </div>
                         </div>
@@ -107,12 +107,12 @@
                             Service Type
                           </p>
                           <p class="order-address-value">
-                            Garden Maintenance, Landscaping
+                            {{ job_data.service_types }}
                           </p>
                         </div>
                       </div>
 
-<!--                        <div class="row" v-if="order_data.status != 'ready' && order_data.status != 'assigned'">-->
+<!--                        <div class="row" v-if="job_data.status != 'ready' && job_data.status != 'assigned'">-->
 <!--                            <div class="col-2">-->
 <!--                                <img src="images/doorder_driver_assets/pickup-address-pin.png" class="pickup-icon" alt="pickup-icon">-->
 <!--                            </div>-->
@@ -121,7 +121,7 @@
 <!--                                    Delivery Address-->
 <!--                                </p>-->
 <!--                                <p class="order-address-value">-->
-<!--                                    {{order_data.customer_address}}-->
+<!--                                    {{job_data.customer_address}}-->
 <!--                                </p>-->
 <!--                            </div>-->
 <!--                        </div>-->
@@ -149,10 +149,10 @@
 <!--                                    Package details-->
 <!--                                </p>-->
 <!--                                <p class="order-address-value">-->
-<!--                                  {{order_data.weight ? order_data.weight + ' / ' : ''}}  {{!order_data.fragile ? 'Not' : ''}} Fragile / {{order_data.dimensions ? order_data.dimensions : 'N/A Dimensions'}}-->
-<!--                                  <br v-if="order_data.notes != ''">-->
-<!--                                  <br v-if="order_data.notes != ''">-->
-<!--                                  {{order_data.notes != '' ? 'Notes: ' + order_data.notes : ''}}-->
+<!--                                  {{job_data.weight ? job_data.weight + ' / ' : ''}}  {{!job_data.fragile ? 'Not' : ''}} Fragile / {{job_data.dimensions ? job_data.dimensions : 'N/A Dimensions'}}-->
+<!--                                  <br v-if="job_data.notes != ''">-->
+<!--                                  <br v-if="job_data.notes != ''">-->
+<!--                                  {{job_data.notes != '' ? 'Notes: ' + job_data.notes : ''}}-->
 <!--                                </p>-->
 <!--                            </div>-->
 <!--                            <div>-->
@@ -165,7 +165,7 @@
                     </div>
                 </div>
                 <div class="order-details-cart-actions">
-                    <div class="row accept-reject-container" v-if="order_data.status == 'ready' || order_data.status == 'assigned'">
+                    <div class="row accept-reject-container" v-if="job_data.status == 'ready' || job_data.status == 'assigned'">
                         <div class="col-md-12">
                           <button class="btn btn-lg doorder-btn block" @click="openConfirmationDialog('accepted')">
                             Accept
@@ -179,7 +179,7 @@
                         </div>
                     </div>
                     <div class="order-details-button-container" v-else>
-                        <button v-for="(status, index) in job_status" v-if="order_data.status == status.status" :class="'btn order-details-button ' + job_status[index + 1].status " @click="openConfirmationDialog(job_status[index + 1].status)">
+                        <button v-for="(status, index) in job_status" v-if="job_data.status == status.status" :class="'btn order-details-button ' + job_status[index + 1].status " @click="openConfirmationDialog(job_status[index + 1].status)">
                             {{ job_status[index + 1].text}}
                         </button>
                     </div>
@@ -217,7 +217,7 @@
                     // },
                 },
                 currentTouchStartY: '',
-                order_data: '',
+                job_data: '',
                 job_status: [
                     {
                         status: 'ready',
@@ -279,13 +279,13 @@
             }
         },
         mounted() {
-            this.getOrderData();
+            this.getJobData();
         },
         methods: {
-            getOrderData() {
+            getJobData() {
                 let user = JSON.parse(localStorage.getItem('user'));
-                axios.post(process.env.MIX_API_URL + 'order-details',{
-                    order_id: this.$route.params.id
+                axios.post(process.env.MIX_API_URL + 'job-details',{
+                    job_id: this.$route.params.id
                 },
                 {
                     headers: {
@@ -293,35 +293,36 @@
                         Authorization: user.access_token
                     }
                 }).then(
-                    res => this.fetchOrderDataResponse(res)
+                    res => this.fetchJobDataResponse(res)
                 ).catch(
-                    err => this.fetchOrderDataError(err)
+                    err => this.fetchJobDataError(err)
                 );
             },
-            fetchOrderDataResponse(res) {
-                this.order_data = res.data.order;
-                if (this.order_data.status == 'delivered') {
+            fetchJobDataResponse(res) {
+                this.job_data = res.data.job;
+                if (this.job_data.status == 'completed') {
                     this.navigateToOrderDelivered(res.data.order.delivery_confirmation_code);
                 } else {
                     // this.markers.pickup_location.position = {
-                    //     lat: parseFloat(this.order_data.pickup_lat),
-                    //     lng: parseFloat(this.order_data.pickup_lon)
+                    //     lat: parseFloat(this.job_data.pickup_lat),
+                    //     lng: parseFloat(this.job_data.pickup_lon)
                     // };
-                    if (this.order_data.status != 'ready' && this.order_data.status != 'assigned') {
+                    // if (this.job_data.status != 'ready' && this.job_data.status != 'assigned') {
+                      let job_coordinates = JSON.parse(this.job_data.location_coordinates);
                         this.markers.customer_location.position = {
-                            lat: parseFloat(this.order_data.customer_address_lat),
-                            lng: parseFloat(this.order_data.customer_address_lon)
+                            lat: parseFloat(job_coordinates.lat),
+                            lng: parseFloat(job_coordinates.lon)
                         };
-                    }
-                    this.getOrderPassedTime(this.order_data.created_at).then(data => {
-                        this.durationTime = data;
-                    });
+                    // }
+                    // this.getOrderPassedTime(this.job_data.created_at).then(data => {
+                    //     this.durationTime = data;
+                    // });
                     this.setCardMaxHeight();
                     this.getCurrentLocation();
                     $('#loading').fadeOut();
                 }
             },
-            fetchOrderDataError(err) {
+            fetchJobDataError(err) {
                 console.log(err.response.status);
             },
             getCurrentLocation() {
@@ -335,7 +336,7 @@
 
                 var request = {
                     origin : new this.google.maps.LatLng(position.coords.latitude, position.coords.longitude),
-                    destination : new this.google.maps.LatLng(this.order_data.pickup_lat, this.order_data.pickup_lon),
+                    destination : new this.google.maps.LatLng(this.job_data.pickup_lat, this.job_data.pickup_lon),
                     travelMode : this.google.maps.TravelMode.WALKING
                 };
 
@@ -355,7 +356,7 @@
                     lng: parseFloat(position.coords.longitude),
                 };
                 // this.watchUserPosition();
-                // this.getDrivingDistance(position.coords.latitude, position.coords.longitude, this.order_data.pickup_lat, this.order_data.pickup_lon)
+                // this.getDrivingDistance(position.coords.latitude, position.coords.longitude, this.job_data.pickup_lat, this.job_data.pickup_lon)
                 //     .then(data => {
                 //         this.distance = data.distance;
                 //         this.duration = data.duration;
@@ -391,11 +392,11 @@
                     $('#expanded-card').height($('#expanded-card').height() - 2)
                 }
             },
-            updateOrderStatus(orderStatus) {
+            updateJobStatus(jobStatus) {
                 let user = JSON.parse(localStorage.getItem('user'));
-                axios.post(process.env.MIX_API_URL + 'driver-status-update',{
-                        order_id: this.$route.params.id,
-                        status: orderStatus,
+                axios.post(process.env.MIX_API_URL + 'contractor-status-update',{
+                        job_id: this.$route.params.id,
+                        status: jobStatus,
                     },
                     {
                         headers: {
@@ -403,22 +404,22 @@
                             Authorization: user.access_token
                         }
                     })
-                    .then(res => this.fetchUpdateStatusResponse(res, orderStatus))
+                    .then(res => this.fetchUpdateStatusResponse(res, jobStatus))
                     .catch(err => this.fetchUpdateStatusError(err));
             },
-            fetchUpdateStatusResponse(res, orderStatus) {
-                if (orderStatus == 'delivery_arrived') {
+            fetchUpdateStatusResponse(res, jobStatus) {
+                if (jobStatus == 'completed') {
                     this.navigateToOrderDelivered(res.data.delivery_confirmation_code);
-                } else if (orderStatus == 'accepted') {
-                    this.order_data.status = 'matched';
-                    this.markers.customer_location.position = {
-                        lat: parseFloat(this.order_data.customer_address_lat),
-                        lng: parseFloat(this.order_data.customer_address_lon),
-                    };
-                    this.setCardMaxHeight();
-                    this.mapFitBound();
+                } else if (jobStatus == 'accepted') {
+                    this.job_data.status = 'matched';
+                    // this.markers.customer_location.position = {
+                    //     lat: parseFloat(this.job_data.customer_address_lat),
+                    //     lng: parseFloat(this.job_data.customer_address_lon),
+                    // };
+                    // this.setCardMaxHeight();
+                    // this.mapFitBound();
                 } else {
-                    this.order_data.status = orderStatus;
+                    this.job_data.status = jobStatus;
                 }
                 Vue.$toast.success(res.data.message, {
                     position: 'top'
@@ -447,9 +448,9 @@
             getInfoWindowContent(marker, index) {
                 let address = '';
                 if (index == 'pickup_location') {
-                    address = this.order_data.pickup_address
+                    address = this.job_data.pickup_address
                 } else if (index == 'customer_location') {
-                    address = this.order_data.customer_address
+                    address = this.job_data.customer_address
                 } else {
                     return ('<p>I\'m Here</p>');
                 }
@@ -467,7 +468,7 @@
                 });
             },
             setCardMaxHeight() {
-                if (this.order_data.status != 'ready') {
+                if (this.job_data.status != 'ready') {
                     this.maxHeight = 30;
                 } else {
                     this.maxHeight = 25;
@@ -477,10 +478,10 @@
                 this.$router.push({
                     name: 'order-delivered',
                     params: {
-                        order_id: this.order_data.order_id,
+                        order_id: this.job_data.order_id,
                         delivery_confirmation_code,
-                        id: this.order_data.id,
-                        delivery_confirmation_status: this.order_data.delivery_confirmation_status
+                        id: this.job_data.id,
+                        delivery_confirmation_status: this.job_data.delivery_confirmation_status
                     }
                 })
             },
@@ -513,7 +514,7 @@
                          */
                         callback: confirm => {
                             if (confirm) {
-                                this.updateOrderStatus(ordersStatus);
+                                this.updateJobStatus(ordersStatus);
                             }
                         }
                     }
@@ -532,7 +533,7 @@
                 //Get Lat Lang
                 let lat = '';
                 let lng = '';
-                if (this.order_data.status == 'picked_up' || this.order_data.status == 'on_route') {
+                if (this.job_data.status == 'picked_up' || this.job_data.status == 'on_route') {
                     lat = this.markers['customer_location'].position.lat;
                     lng = this.markers['customer_location'].position.lng;
                 } else {
@@ -713,15 +714,15 @@
     }
 
     .on_route {
-        background-color: #ef9065;
+        background-color: #8d6f3a;
     }
 
-    .delivered {
+    .completed {
         background-color: #60a244
     }
 
-    .delivery_arrived {
-        background-color: #60a244
+    .arrived {
+        background-color: #5590f5
     }
 
     .ready, .matched .assigned {

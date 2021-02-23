@@ -1,9 +1,9 @@
 <template>
-    <div class="order-cart" @click="navigateToOrderDetails()">
+    <div class="order-cart" @click="navigateToJobDetails()">
         <div class="row">
             <div class="col-9">
                 <p class="order-address">
-                    From: {{ order_data.pickup_address }}
+                    From: {{ order_data.location }}
                 </p>
 <!--                <p class="order-address">-->
 <!--                    To: {{ order_data.customer_address }}-->
@@ -15,7 +15,7 @@
 <!--                </p>-->
                 <p class="request-date">
                   <i class="fas fa-calendar-alt"></i>
-                  Friday 23/10/2020  10:00 am
+                  {{ order_data.created_at | moment("dddd, MMMM Do YYYY, h:mm a")}}
                 </p>
             </div>
 
@@ -64,17 +64,17 @@
                 this.durationTime = data;
             });
             this.getCurrentLocation();
-            if (this.order_data.fulfilment != '' && this.order_data.fulfilment != null) {
-              this.count_down_date = Vue.moment(this.order_data.created_at).add(parseInt(this.order_data.fulfilment), 'minutes').toISOString();
-              this.timecount = setInterval(() => {
-                this.count_down_timer = Vue.moment(this.count_down_date).diff(Vue.moment());
-                let duration = Vue.moment.duration(this.count_down_timer)
-                this.count_down_timer_text = duration._data.hours + ':' + duration._data.minutes
-              }, 1000);
-            }
+            // if (this.order_data.fulfilment != '' && this.order_data.fulfilment != null) {
+            //   this.count_down_date = Vue.moment(this.order_data.created_at).add(parseInt(this.order_data.fulfilment), 'minutes').toISOString();
+            //   this.timecount = setInterval(() => {
+            //     this.count_down_timer = Vue.moment(this.count_down_date).diff(Vue.moment());
+            //     let duration = Vue.moment.duration(this.count_down_timer)
+            //     this.count_down_timer_text = duration._data.hours + ':' + duration._data.minutes
+            //   }, 1000);
+            // }
         },
         methods: {
-            navigateToOrderDetails() {
+            navigateToJobDetails() {
                 this.$router.push({name: 'order-details', params: {
                     id: this.order_data.id,
                 }});

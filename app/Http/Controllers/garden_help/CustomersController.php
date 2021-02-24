@@ -83,6 +83,8 @@ class CustomersController extends Controller
             $customer->contact_name = $request->contact_name;
             $customer->contact_number = $request->contact_number;
             $customer->available_date_time = $request->available_date_time;
+            $customer->area_coordinates = $request->area_coordinates;
+            $customer->address = $request->address;
             $customer->save();
 
             //Sending Redis event
@@ -93,7 +95,7 @@ class CustomersController extends Controller
                     'created_at' => $customer->created_at,
                     'type_of_work' => ucfirst($customer->type_of_work),
                     'name' => $customer->name,
-                    'status' => $customer->status,
+                    'status' => 'received',
                     'work_location' => ucfirst($customer->work_location),
                 ]
             ]));

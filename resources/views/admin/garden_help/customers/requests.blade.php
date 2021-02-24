@@ -121,7 +121,7 @@
             mounted() {
                 socket.on('garden-help-channel:new-request', (data) => {
                     let decodedData = JSON.parse(data);
-                    decodedData.created_at = moment(decodedData.created_at).format('YYYY-MM-DD HH:mm')
+                    decodedData.data..created_at = moment(decodedData.created_at).format('YYYY-MM-DD HH:mm');
                     this.requests.data.unshift(decodedData.data);
                 });
 

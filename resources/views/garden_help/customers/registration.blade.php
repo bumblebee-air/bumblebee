@@ -3,9 +3,12 @@
 @section('title', 'GardenHelp | Customers Registration')
 
 @section('styles')
+    <link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
     <style>
-       
-            </style>
+        .iti {
+            width: 100%;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -39,7 +42,7 @@
                         <div class="col-md-12">
                             <div class="form-group ">
                                <label for="work_location" class="">Location</label>
-							      <select id="work_location" name="work_location" 
+							      <select id="work_location" name="work_location"
 							       class="form-control js-example-basic-single " onchange="changeLocation()">
                                     <option disabled selected value="" >Select location</option>
                                     <option value="Limerick">Limerick</option>
@@ -53,11 +56,11 @@
                                 </select>
                             </div>
                         </div>
-                        
+
                         <div class="col-md-12">
                             <div class="form-group ">
                              <label for="type_of_work" class="">Type of work
-                                <select id="type_of_work" name="type_of_work" 
+                                <select id="type_of_work" name="type_of_work"
                                 class="form-control js-example-basic-single" v-model="type_of_work" onchange="changeWorkType()">
                                     <option disabled selected value="" >Select type of work</option>
                                     <option value="Residential">Residential</option>
@@ -107,7 +110,7 @@
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
                                 <label>Phone</label>
-                                <input type="tel" class="form-control" name="phone" value="{{old('phone')}}" required>
+                                <input type="tel" class="form-control" id="phone" name="phone" value="{{old('phone')}}" required>
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -176,7 +179,7 @@
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
                                 <label>Contact person number</label>
-                                <input type="text" class="form-control" name="contact_number" value="{{old('contact_number')}}" required>
+                                <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('contact_number')}}" required>
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -232,6 +235,7 @@
                             <div class="form-group bmd-form-group">
                                 <div id="area"></div>
                                 <div id="map" style="height: 400px; margin-top: 0"></div>
+                                <input type="hidden" id="area_coordinates" name="area_coordinates">
                             </div>
                         </div>
                         <div class="col-md-12 mb-3">
@@ -251,7 +255,7 @@
                                 </div>
                             </div>
                         </div>
-                      
+
 
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
@@ -348,19 +352,18 @@
             </div>
             <br>
             <div class="row">
-            <div class="col-md-12 mb-3 ml-2">
-				<p class="terms">
-					By clicking Submit, you agree to our <a class="terms-text" href="#">Terms
-						& Conditions</a> and that you have read our <a
-						class="terms-text" href="#">Privacy Policy</a>
-				</p>
-			</div>
-
-			<div class="col-md-12 mb-3 submit-container">
-				<button class="btn btn-gardenhelp-green btn-register" type="submit">Signup</button>
-			</div>
-			
+                <div class="col-md-12 mb-3 ml-2">
+                    <p class="terms">
+                        By clicking Submit, you agree to our <a class="terms-text" href="#">Terms
+                            & Conditions</a> and that you have read our <a
+                            class="terms-text" href="#">Privacy Policy</a>
+                    </p>
                 </div>
+
+                <div class="col-md-12 mb-3 submit-container">
+                    <button class="btn btn-gardenhelp-green btn-register" type="submit">Signup</button>
+                </div>
+            </div>
         </form>
         <a id="addOtherLocationBtn" data-toggle="modal"
            data-target="#addOtherLocationModal" style="display: none"></a>
@@ -488,62 +491,75 @@
 
 @section('scripts')
     <script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+    <script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>
 
     <script>
     $(document).ready(function() {
-    $(".js-example-basic-single").select2();
-});
-function changeWorkType(){
-console.log("Sadasfsafsafsgdg");
-console.log($("#type_of_work").val());
-app.type_of_work=$("#type_of_work").val();
+        $(".js-example-basic-single").select2();
+    });
+        function changeWorkType(){
+            console.log("Sadasfsafsafsgdg");
+            console.log($("#type_of_work").val());
+            app.type_of_work=$("#type_of_work").val();
 
-if ($("#type_of_work").val() == 'Residential') {
-                        setTimeout(() => {
-                            window.initMap();
-                            $('#last_services').datetimepicker({
-                                icons: {
-                                    time: "fa fa-clock",
-                                    date: "fa fa-calendar",
-                                    up: "fa fa-chevron-up",
-                                    down: "fa fa-chevron-down",
-                                    previous: 'fa fa-chevron-left',
-                                    next: 'fa fa-chevron-right',
-                                    today: 'fa fa-screenshot',
-                                    clear: 'fa fa-trash',
-                                    close: 'fa fa-remove'
-                                }
-                            });
-                        }, 500)
-                    } else {
-                        setTimeout(() => {
-                            $('#available_date_time').datetimepicker({
-                                icons: {
-                                    time: "fa fa-clock",
-                                    date: "fa fa-calendar",
-                                    up: "fa fa-chevron-up",
-                                    down: "fa fa-chevron-down",
-                                    previous: 'fa fa-chevron-left',
-                                    next: 'fa fa-chevron-right',
-                                    today: 'fa fa-screenshot',
-                                    clear: 'fa fa-trash',
-                                    close: 'fa fa-remove'
-                                }
-                            });
-                        });
-                    }
-}
-function  changeLocation() {
+            if ($("#type_of_work").val() == 'Residential') {
+                setTimeout(() => {
+                    window.initMap();
+                    $('#last_services').datetimepicker({
+                        icons: {
+                            time: "fa fa-clock",
+                            date: "fa fa-calendar",
+                            up: "fa fa-chevron-up",
+                            down: "fa fa-chevron-down",
+                            previous: 'fa fa-chevron-left',
+                            next: 'fa fa-chevron-right',
+                            today: 'fa fa-screenshot',
+                            clear: 'fa fa-trash',
+                            close: 'fa fa-remove'
+                        }
+                    });
+                    addIntelInput('phone', 'phone');
+                }, 500)
+            } else {
+                setTimeout(() => {
+                    $('#available_date_time').datetimepicker({
+                        icons: {
+                            time: "fa fa-clock",
+                            date: "fa fa-calendar",
+                            up: "fa fa-chevron-up",
+                            down: "fa fa-chevron-down",
+                            previous: 'fa fa-chevron-left',
+                            next: 'fa fa-chevron-right',
+                            today: 'fa fa-screenshot',
+                            clear: 'fa fa-trash',
+                            close: 'fa fa-remove'
+                        }
+                    });
+                    addIntelInput('contact_number', 'contact_number');
+                });
+            }
+        }
+        function  changeLocation() {
+            if($("#work_location").val() == 'Other') {
+                $('#addOtherLocationBtn').click();
+            }
+        }
+        function changeContact(cont){
+        console.log("change contact "+cont);
+        app.contact_through=cont;
+        }
 
-                    if($("#work_location").val() == 'Other') {
-                        $('#addOtherLocationBtn').click();
-                    }
-}
-function changeContact(cont){
-console.log("change contact "+cont);
-app.contact_through=cont;
-}
+        function addIntelInput(input_id, input_name) {
+            let phone_input = document.querySelector("#" + input_id);
+            window.intlTelInput(phone_input, {
+                hiddenInput: input_name,
+                initialCountry: 'IE',
+                separateDialCode: true,
+                preferredCountries: ['IE', 'GB'],
+                utilsScript: "{{asset('js/intlTelInput/utils.js')}}"
+            });
+        }
     
         var app = new Vue({
             el: '#app',
@@ -662,7 +678,7 @@ app.contact_through=cont;
                 is_first_time: '',
                 is_parking_site: '',
                 contact_through: '',
-                service_types_input:'',
+                service_types_input: '',
                 site_details_input: '',
                 property_photo_input: ''
             },
@@ -681,7 +697,8 @@ app.contact_through=cont;
                             close: 'fa fa-remove'
                         }
                     });
-                } else {
+                    this.addIntelInput('contact_number', 'contact_number');
+                } else if (this.type_of_work == 'Residential') {
                     $('#last_services').datetimepicker({
                         icons: {
                             time: "fa fa-clock",
@@ -695,11 +712,12 @@ app.contact_through=cont;
                             close: 'fa fa-remove'
                         }
                     });
+                    this.addIntelInput('phone', 'phone');
                 }
             },
             methods: {
                 changeLocation(e) {
-                    if(e.target.value == 'Other') {
+                    if (e.target.value == 'Other') {
                         $('#addOtherLocationBtn').click();
                     }
                 },
@@ -707,27 +725,27 @@ app.contact_through=cont;
                     $('#' + type + '_btn_modal').click();
                 },
                 changeSelectedValue(type) {
-                	console.log(type);
+                    console.log(type);
                     let input = '';
                     let list = '';
                     if (type === 'service_details') {
                         let service_types_input = '';
                         list = this.service_types;
-                        for(let item of list) {
-                            item.is_checked === true ? service_types_input += (service_types_input == '' ? item.title : ', ' + item.title ) : '';
+                        for (let item of list) {
+                            item.is_checked === true ? service_types_input += (service_types_input == '' ? item.title : ', ' + item.title) : '';
                         }
-                        for(let item of this.other_service_types) {
-                            item.is_checked === true ? service_types_input += (service_types_input == '' ? item.title : ', ' + item.title ) : '';
+                        for (let item of this.other_service_types) {
+                            item.is_checked === true ? service_types_input += (service_types_input == '' ? item.title : ', ' + item.title) : '';
                         }
                         this.service_types_input = service_types_input;
                     } else if (type === 'site_details') {
                         let site_details_input = '';
                         list = this.site_details;
-                        for(let item of list) {
-                            item.is_checked === true ? site_details_input += (site_details_input == '' ? item.title : ', ' + item.title ) : '';
+                        for (let item of list) {
+                            item.is_checked === true ? site_details_input += (site_details_input == '' ? item.title : ', ' + item.title) : '';
                         }
-                        for(let item of this.other_service_types) {
-                            item.is_checked === true ? site_details_input += (site_details_input == '' ? item.title : ', ' + item.title ) : '';
+                        for (let item of this.other_service_types) {
+                            item.is_checked === true ? site_details_input += (site_details_input == '' ? item.title : ', ' + item.title) : '';
                         }
                         this.site_details_input = site_details_input;
                     }
@@ -735,7 +753,7 @@ app.contact_through=cont;
                 addFile(id) {
                     $('#' + id).click();
                 },
-                onChangeFile(e ,id) {
+                onChangeFile(e, id) {
                     $("#" + id).val(e.target.files[0].name);
                 },
                 changeContact(value) {
@@ -745,7 +763,10 @@ app.contact_through=cont;
                     type.is_checked = !type.is_checked;
                 },
                 changeWorkType() {
-                    if (this.type_of_work == 'Residential') {
+                    alert('ss');
+                    // app.type_of_work = $("#type_of_work").val();
+
+                    if ($("#type_of_work").val() == 'Residential') {
                         setTimeout(() => {
                             window.initMap();
                             $('#last_services').datetimepicker({
@@ -761,6 +782,7 @@ app.contact_through=cont;
                                     close: 'fa fa-remove'
                                 }
                             });
+                            this.addIntelInput('phone', 'phone');
                         }, 500)
                     } else {
                         setTimeout(() => {
@@ -777,6 +799,7 @@ app.contact_through=cont;
                                     close: 'fa fa-remove'
                                 }
                             });
+                            this.addIntelInput('contact_number', 'contact_number');
                         });
                     }
                 },
@@ -847,7 +870,7 @@ app.contact_through=cont;
                     bounds.extend({lat: place_lat, lng: place_lon})
                     this.map.fitBounds(bounds);
 
-                    document.getElementById("location_coordinates").value = '{"lat": ' + place_lat.toFixed(5) + ', "lon": ' + place_lon.toFixed(5) +'}';
+                    document.getElementById("location_coordinates").value = '{"lat": ' + place_lat.toFixed(5) + ', "lon": ' + place_lon.toFixed(5) + '}';
                 }
             });
 
@@ -873,7 +896,7 @@ app.contact_through=cont;
                 map: this.map
             });
 
-            google.maps.event.addListener(drawingManager, 'overlaycomplete', function(e) {
+            google.maps.event.addListener(drawingManager, 'overlaycomplete', function (e) {
                 if (e.type != google.maps.drawing.OverlayType.MARKER) {
                     // Switch back to non-drawing mode after drawing a shape.
                     drawingManager.setDrawingMode(null);
@@ -882,13 +905,15 @@ app.contact_through=cont;
                     // mouses down on it.
                     var newShape = e.overlay;
                     newShape.type = e.type;
-                    google.maps.event.addListener(newShape, 'click', function() {
+                    google.maps.event.addListener(newShape, 'click', function () {
                         setSelection(newShape);
                     });
                     var area = google.maps.geometry.spherical.computeArea(newShape.getPath());
                     let property_size = $("#property_size");
+                    let area_coordinates = $("#area_coordinates");
                     property_size.val(area.toFixed(0) + ' Square Meters');
                     property_size.parent().addClass('is-filled');
+                    area_coordinates.val(JSON.stringify(newShape.getPath().getArray()));
                     setSelection(newShape);
                 }
             });
@@ -962,6 +987,8 @@ app.contact_through=cont;
             if (selectedShape) {
                 selectedShape.setMap(null);
                 let property_size = $("#property_size");
+                let area_coordinates = $("#area_coordinates");
+                area_coordinates.val('');
                 property_size.val('');
                 property_size.parent().removeClass('is-filled');
             }

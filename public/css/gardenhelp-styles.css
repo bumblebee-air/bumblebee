@@ -97,6 +97,17 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	letter-spacing: 0.17px;
 	color: #000000;
 }
+.requestSubTitle{
+	font-family: Roboto;
+  font-size: 18px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #656565;
+  margin-bottom: 0 !important;
+}
 
 .main {
 	background-color: white;
@@ -155,6 +166,16 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	letter-spacing: 0.32px;
 	color: #acb1c0 !important;
 }
+.requestLabelGreen{
+	 font-family: Roboto;
+  font-size: 17px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 0.32px;
+  color: #60a244;
+}
  .requestSpan{
 	font-family: Roboto;
 	font-size: 16.5px !important;
@@ -164,6 +185,16 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	line-height: normal;
 	letter-spacing: 0.32px;
 	color: #1e2432 !important;
+}
+.requestSpanGreen{
+	 font-family: Roboto;
+  font-size: 17px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 0.32px;
+  color: #60a244;
 }
 .customerRequestSpan{
 	font-family: Roboto;
@@ -175,8 +206,18 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	letter-spacing: 0.32px;
 	color: #1e2432 !important;
 	padding: 7px 10px !important;
+	height: auto;
 }
-
+.cardTitleGreen{
+	 font-family: Roboto;
+  font-size: 18px !important;
+  font-weight: 500 !important;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2.5;
+  letter-spacing: 0.17px;
+  color: #60a244 !important;
+}
 .select2-container--default .select2-selection--single{
 	border: none !important;
 	border-bottom: solid 1px #eaecef !important;

@@ -72,7 +72,7 @@
 
                     <div class="row" v-if="type_of_work == 'Residential'">
                         <div class="col-md-12">
-                            <h5 class="registerSubTitle">Property Information</h5>
+                            <h5 class="registerSubTitle">Person Details</h5>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
@@ -133,7 +133,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                                <label class="bmd-form-floating">Business Name</label>
+                                <label class="bmd-form-floating">Business name</label>
                                 <input type="text" class="form-control" name="name" value="{{old('name')}}" required>
                             </div>
                         </div>
@@ -226,7 +226,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                               <label class="" for="location">Location</label>
+                               <label class="" for="location">Address</label>
                                 <input type="text" class="form-control" id="location" name="location" value="{{old('location')}}" required>
                                 <input type="hidden" id="location_coordinates" name="location_coordinates">
                             </div>

@@ -84,10 +84,12 @@ class CustomersController extends Controller
             $customer->contact_number = $request->contact_number;
             $customer->available_date_time = $request->available_date_time;
             $customer->area_coordinates = $request->area_coordinates;
-            $customer->address = $request->address;
+          //  $customer->address = $request->address;
             $customer->save();
 
+          
             //Sending Redis event
+            try{
             Redis::publish('garden-help-channel', json_encode([
                 'event' => 'new-request',
                 'data' => [
@@ -99,6 +101,9 @@ class CustomersController extends Controller
                     'work_location' => ucfirst($customer->work_location),
                 ]
             ]));
+            } catch (\Exception $exception){
+                \Log::error('Publish Redis new order notification from external shop API failed');
+            }
         }
         alert()->success('We will Get back to you shortly on the Company Email.', 'Thank you for filling the Registration Form');
         return redirect()->back();
@@ -113,7 +118,6 @@ class CustomersController extends Controller
     public function getSingleRequest($client_name, $id) {
         $customer_request = Customer::find($id);
         $customer_request->email = $customer_request->user->email;
-        $customer_request->address = "";
        // dd($customer_request);
         if (!$customer_request) {
             abort(404);
@@ -139,7 +143,7 @@ class CustomersController extends Controller
             //$singleRequest->status = 'completed';
             //$singleRequest->save();
            
-            alert()->success('Customer accepted successfully');
+            alert()->success('The Quotation was sent successfully to the client');
         }
         return redirect()->route('garden_help_getCustomerssRequests', 'garden-help');
     }

@@ -5,7 +5,9 @@ namespace App\Http\Controllers\garden_help;
 use App\Customer;
 use App\Http\Controllers\Controller;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
 
 
@@ -54,6 +56,7 @@ class CustomersController extends Controller
             $user = new User();
             $user->name = $request->name;
             $user->email = $request->email;
+            $user->phone = $request->phone;
             $user->password = $request->password ? bcrypt($request->password) : bcrypt(Str::random(8));
             $user->user_role = 'customer';
             $user->save();
@@ -72,6 +75,7 @@ class CustomersController extends Controller
             $customer->location = $request->location;
             $customer->location_coordinates = $request->location_coordinates;
             $customer->property_photo = $request->hasFile('property_photo') ? $request->file('property_photo')->store('uploads/customers_uploads') : null;
+            $customer->property_size = $request->property_size;
             $customer->is_first_time = $request->is_first_time;
             $customer->last_service = $request->last_services;
             $customer->site_details = $request->site_details;
@@ -80,6 +84,19 @@ class CustomersController extends Controller
             $customer->contact_number = $request->contact_number;
             $customer->available_date_time = $request->available_date_time;
             $customer->save();
+
+            //Sending Redis event
+            Redis::publish('garden-help-channel', json_encode([
+                'event' => 'new-request',
+                'data' => [
+                    'id' => $customer->id,
+                    'created_at' => $customer->created_at,
+                    'type_of_work' => ucfirst($customer->type_of_work),
+                    'name' => $customer->name,
+                    'status' => $customer->status,
+                    'work_location' => ucfirst($customer->work_location),
+                ]
+            ]));
         }
         alert()->success('We will Get back to you shortly on the Company Email.', 'Thank you for filling the Registration Form');
         return redirect()->back();
@@ -87,8 +104,7 @@ class CustomersController extends Controller
     
     
     public function getCustomersRequests() {
-        
-        $customers_requests = Customer::paginate(20);
+        $customers_requests = Customer::orderBy('id', 'desc')->paginate(20);
         return view('admin.garden_help.customers.requests', ['customers_requests' => $customers_requests]);
     }
     

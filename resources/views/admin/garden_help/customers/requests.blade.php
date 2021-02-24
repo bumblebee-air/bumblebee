@@ -64,43 +64,33 @@
                                             </thead>
 
                                             <tbody>
-                                               @if(count($customers_requests) > 0)
-                                                    @foreach($customers_requests as $customer)
-                                                        <tr class="order-row" onclick="window.location = '{{route('garden_help_getcustomerSingleRequest',['garden-help', $customer->id])}}'">
-                                                            <td>
-                                                                {{$customer->created_at}}
-                                                            </td>
-                                                            <td> {{$customer->type_of_work}}</td>
-                                                            <td>{{$customer->name}}</td>
-                                                            <td>{{$customer->id}}</td>
-                                                            <td>
-                                                                @if($customer->status == 'received')
-                                                                    <img class="status_icon" src="{{asset('images/doorder_icons/order_status_matched.png')}}" alt="Request received">
-                                                                @elseif($customer->status == 'missing')
-                                                                    <img class="status_icon" src="{{asset('images/doorder_icons/order_status_picked_up.png')}}" alt="Quotation Sent">
-                                                                @else
-                                                                    <img class="status_icon" src="{{asset('images/doorder_icons/order_status_delivered.png')}}" alt="Service booked">
-                                                                @endif
-                                                            </td>
-                                                            <td>
-                                                                @php($i = '33.34')
-                                                                <div class="progress m-auto">
-                                                                    <div class="progress-bar" role="progressbar" 
-                                                                    style="width: {{($customer->status == 'received' ? 1 : ($customer->status == 'missing' ? 2 : 3)) *$i}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                {{$customer->work_location}}
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                @else
-                                                    <tr>
-                                                        <td colspan="8" class="text-center">
-                                                            <strong>No data found.</strong>
-                                                        </td>
-                                                    </tr>
-                                                @endif
+                                                <tr v-if="requests.data.length > 0" v-for="item in requests.data" class="order-row" @click="openRequest(item.id)">
+                                                    <td>
+                                                        @{{item.created_at}}
+                                                    </td>
+                                                    <td>@{{ item.type_of_work }}</td>
+                                                    <td>@{{item.name}}</td>
+                                                    <td>@{{item.id}}</td>
+                                                    <td>
+                                                        <img class="status_icon" src="{{asset('images/doorder_icons/order_status_matched.png')}}" alt="Request received" v-if="item.status === 'received'">
+                                                        <img class="status_icon" src="{{asset('images/doorder_icons/order_status_picked_up.png')}}" alt="Quotation Sent" v-else-if="item.status === 'missing'">
+                                                        <img class="status_icon" src="{{asset('images/doorder_icons/order_status_delivered.png')}}" alt="Service booked" v-else>
+                                                    </td>
+                                                    <td>
+                                                        <div class="progress m-auto">
+                                                            <div class="progress-bar" role="progressbar"
+                                                            :style="'width:'  + (item.status === 'received' ? 1 : (item.status === 'missing' ? 2 : 3)) * stage + '%'" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        @{{item.work_location}}
+                                                    </td>
+                                                </tr>
+                                                <tr v-else>
+                                                    <td colspan="8" class="text-center">
+                                                        <strong>No data found.</strong>
+                                                    </td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                         <nav aria-label="pagination" class="float-right">
@@ -116,6 +106,40 @@
 
         </div>
     </div>
+@endsection
+
+@section('page-scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
+    <script>
+        Vue.use(VueToast);
+        var app = new Vue({
+            el: '#app',
+            data: {
+                requests: '',
+                stage: 33.34
+            },
+            mounted() {
+                socket.on('garden-help-channel:new-request', (data) => {
+                    let decodedData = JSON.parse(data);
+                    decodedData.created_at = moment(decodedData.created_at).format('YYYY-MM-DD HH:mm')
+                    this.requests.data.unshift(decodedData.data);
+                });
+
+                var requests = {!! json_encode($customers_requests) !!};
+
+                for(let item of requests.data) {
+                    item.created_at = moment(item.created_at).format('YYYY-MM-DD HH:mm')
+                }
+
+                this.requests = requests;
+            },
+            methods: {
+                openRequest(request_id){
+                    window.location.href = "{{url('garden-help/customers/requests')}}/"+request_id;
+                }
+            }
+        });
+    </script>
 @endsection
 
 

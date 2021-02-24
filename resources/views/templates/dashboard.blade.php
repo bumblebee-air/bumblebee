@@ -84,11 +84,13 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/vue-toast-notification/dist/theme-sugar.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/vue-toast-notification"></script>
+<script>
+    let updateAudio = new Audio('{{asset("audio/update.mp3")}}');
+    let notificationAudio = new Audio('{{asset("audio/notification.mp3")}}');
+</script>
 
 @if(Auth::guard('doorder')->check() && auth()->user() && auth()->user()->user_role != "retailer")
     <script>
-        let updateAudio = new Audio('{{asset("audio/update.mp3")}}');
-        let notificationAudio = new Audio('{{asset("audio/notification.mp3")}}');
         let socket = io.connect(window.location.protocol+'//' + window.location.hostname + ':8890');
         Vue.use(VueToast);
 
@@ -130,6 +132,44 @@
 @elseif(Auth::guard('garden-help')->check())
     <script>
         $('.sidebar').attr('data-background-color', 'white');
+        //Socket Script
+        // let socket = io.connect(window.location.protocol+'//' + window.location.hostname + ':8890');
+        let socket = io.connect('http://localhost:8890');
+        // Vue.use(VueToast);
+        //
+        // socket.on('doorder-channel:new-order', (data) => {
+        //     let decodedData = JSON.parse(data);
+        //     Vue.$toast.info('There is a new request.', {
+        //         // optional options Object
+        //         position: 'top-right',
+        //         duration: 3600000,
+        //
+        //         onClick: () => this.onClickToast(decodedData)
+        //     });
+        //     notificationAudio.play();
+        // });
+        // function onClickToast(decodedData) {
+        //     swal({
+        //         text: "There is a new order! with order No# " + decodedData.data.order_id,
+        //         icon: "info",
+        //         buttons: {
+        //             accept: {
+        //                 text: "View order",
+        //                 value: "view",
+        //                 className: 'btn btn-primary'
+        //             },
+        //             reject: {
+        //                 text: "Close",
+        //                 value: "cancel",
+        //                 className: 'btn btn-default'
+        //             }
+        //         }
+        //     }).then(function (input) {
+        //         if (input === 'view') {
+        //             console.log('View Page');
+        //         }
+        //     });
+        // }
     </script>
 @endif
 

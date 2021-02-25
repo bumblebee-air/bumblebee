@@ -40,7 +40,8 @@ input {
 	color: #acb1c0 !important;
 }
 /************ end login *****************/
-input,.select2-container--default .select2-selection--single .select2-selection__rendered  {
+input, .select2-container--default .select2-selection--single .select2-selection__rendered
+	{
 	font-family: Roboto;
 	font-size: 17px !important;
 	font-weight: normal;
@@ -97,16 +98,17 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	letter-spacing: 0.17px;
 	color: #000000;
 }
-.requestSubTitle{
+
+.requestSubTitle {
 	font-family: Roboto;
-  font-size: 18px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: #656565;
-  margin-bottom: 0 !important;
+	font-size: 18px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #656565;
+	margin-bottom: 0 !important;
 }
 
 .main {
@@ -156,7 +158,7 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	padding: 0 !important;
 }
 
-.my-check-box-label, .customer-register-label, .requestLabel{
+.my-check-box-label, .customer-register-label, .requestLabel {
 	font-family: Roboto;
 	font-size: 17px !important;
 	font-weight: normal;
@@ -166,17 +168,19 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	letter-spacing: 0.32px;
 	color: #acb1c0 !important;
 }
-.requestLabelGreen{
-	 font-family: Roboto;
-  font-size: 17px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: 0.32px;
-  color: #60a244;
+
+.requestLabelGreen {
+	font-family: Roboto;
+	font-size: 17px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.32px;
+	color: #60a244;
 }
- .requestSpan{
+
+.requestSpan {
 	font-family: Roboto;
 	font-size: 16.5px !important;
 	font-weight: normal;
@@ -186,17 +190,19 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	letter-spacing: 0.32px;
 	color: #1e2432 !important;
 }
-.requestSpanGreen{
-	 font-family: Roboto;
-  font-size: 17px;
-  font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: 0.32px;
-  color: #60a244;
+
+.requestSpanGreen {
+	font-family: Roboto;
+	font-size: 17px;
+	font-weight: bold;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.32px;
+	color: #60a244;
 }
-.customerRequestSpan{
+
+.customerRequestSpan {
 	font-family: Roboto;
 	font-size: 16.5px !important;
 	font-weight: normal;
@@ -208,17 +214,19 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	padding: 7px 10px !important;
 	height: auto;
 }
-.cardTitleGreen{
-	 font-family: Roboto;
-  font-size: 18px !important;
-  font-weight: 500 !important;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 2.5;
-  letter-spacing: 0.17px;
-  color: #60a244 !important;
+
+.cardTitleGreen {
+	font-family: Roboto;
+	font-size: 18px !important;
+	font-weight: 500 !important;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 2.5;
+	letter-spacing: 0.17px;
+	color: #60a244 !important;
 }
-.select2-container--default .select2-selection--single{
+
+.select2-container--default .select2-selection--single {
 	border: none !important;
 	border-bottom: solid 1px #eaecef !important;
 }
@@ -234,7 +242,7 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	color: #c3c7d2;
 }
 
-.my-check-box .checked,  .checked {
+.my-check-box .checked, .checked {
 	color: #60a244;
 }
 
@@ -277,7 +285,7 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	color: #1e2432;
 }
 
-.terms {  
+.terms {
 	margin: 0 0 10px;
 	font-family: Roboto;
 	font-size: 15px;
@@ -292,7 +300,8 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 .terms-text {
 	color: #60a244;
 }
-.submit-container{
+
+.submit-container {
 	text-align: center;
 }
 
@@ -300,49 +309,72 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	width: 247px !important;
 	height: 55px !important;
 }
-.main-radius{
+
+.main-radius {
 	border-radius: 30px !important;
 	margin-top: 20px;
 }
 
-.select2-container--default .select2-results__option--highlighted[aria-selected] {
-    background-color: #60a244 !important;
+.select2-container--default .select2-results__option--highlighted[aria-selected]
+	{
+	background-color: #60a244 !important;
 }
-.requestDownloadLink{
+
+.requestDownloadLink {
 	font-size: 16.5px !important;
 }
 
-@media (max-width: 767px){
-            .container-fluid{ 
-            padding-left: 0px !important;
-            padding-right: 0px !important;
-            }
+@media ( max-width : 767px) {
+	.container-fluid {
+		padding-left: 0px !important;
+		padding-right: 0px !important;
+	}
 }
 
-/************************* datetime picker **************************/
-.bootstrap-datetimepicker-widget table td.active:hover>div, .bootstrap-datetimepicker-widget table td.active>div{
-	background-color: #60a244 !important;
-	
+.table {
+	table-layout: fixed;
 }
+
+/* .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, */
+/* 	.table>thead>tr>td, .table>thead>tr>th { */
+/* 	border-left: 1px solid; */
+/* 	border-color: #e9e8e8 !important; */
+/* } */
+
+
+/* thead tr th { */
+/* 	border-top: 1px solid #e9e8e8 !important; */
+/* 	text-align: center; */
+/* } */
+
+
+
+/************************* datetime picker **************************/
+.bootstrap-datetimepicker-widget table td.active:hover>div,
+	.bootstrap-datetimepicker-widget table td.active>div {
+	background-color: #60a244 !important;
+}
+
 .bootstrap-datetimepicker-widget a[data-action] span,
-.bootstrap-datetimepicker-widget a[data-action]:hover span{
+	.bootstrap-datetimepicker-widget a[data-action]:hover span {
 	color: #60a244 !important;
 }
 
 .bootstrap-datetimepicker-widget table td.today>div:before {
-    border-bottom-color: #60a244 !important;
+	border-bottom-color: #60a244 !important;
 }
 
 .bootstrap-datetimepicker-widget .btn.btn-primary.focus,
-.bootstrap-datetimepicker-widget .btn.btn-primary {
-    color: #fff;
-    background-color: #60a244 !important;
-    border-color: #60a244 !important;
+	.bootstrap-datetimepicker-widget .btn.btn-primary {
+	color: #fff;
+	background-color: #60a244 !important;
+	border-color: #60a244 !important;
 }
+
 .bootstrap-datetimepicker-widget .btn.btn-primary.focus,
-.bootstrap-datetimepicker-widget .btn.btn-primary:focus,
-.bootstrap-datetimepicker-widget .btn.btn-primary:hover {
-    color: #fff;
-    background-color: #60a244 !important;
-    border-color: #487834 !important;
+	.bootstrap-datetimepicker-widget .btn.btn-primary:focus,
+	.bootstrap-datetimepicker-widget .btn.btn-primary:hover {
+	color: #fff;
+	background-color: #60a244 !important;
+	border-color: #487834 !important;
 }

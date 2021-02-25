@@ -84,7 +84,7 @@ class CustomersController extends Controller
             $customer->contact_number = $request->contact_number;
             $customer->available_date_time = $request->available_date_time;
             $customer->area_coordinates = $request->area_coordinates;
-          //  $customer->address = $request->address;
+            $customer->address = $request->address;
             $customer->save();
 
           

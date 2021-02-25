@@ -108,7 +108,8 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	line-height: normal;
 	letter-spacing: normal;
 	color: #656565;
-	margin-bottom: 0 !important;
+	margin-top: 15px !important;
+	margin-bottom: 15px !important;
 }
 
 .main {
@@ -211,7 +212,7 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	line-height: normal;
 	letter-spacing: 0.32px;
 	color: #1e2432 !important;
-	padding: 7px 10px !important;
+	/* padding: 7px 10px !important; */
 	height: auto;
 }
 

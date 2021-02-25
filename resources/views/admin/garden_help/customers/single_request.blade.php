@@ -77,13 +77,13 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-12">
-                                            <div class="form-group row">
+                                            <div class=" row">
                                                 <label class="requestLabel col-12">Location:
                                                 <span class="form-control customerRequestSpan col-12">{{$customer_request->work_location}} </span></label>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group row">
+                                            <div class=" row">
                                                 <label  class="requestLabel col-12">Type of work:
                                                <span class="form-control customerRequestSpan col-12">{{$customer_request->type_of_work}}</span></label>
                                             </div>
@@ -95,37 +95,37 @@
                                            <h5 class="requestSubTitle">Business Details</h5></div></div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group row">
+                                            <div class=" row">
                                                 <label class="requestLabel col-12">Business name:
                                                  <span class="form-control customerRequestSpan col-12">{{$customer_request->name}}</span></label>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group row">
+                                            <div class=" row">
                                                 <label class="requestLabel col-12">Address:
                                                  <span class="form-control customerRequestSpan col-12">{{$customer_request->address}}</span></label>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group row">
+                                            <div class=" row">
                                                 <label class="requestLabel col-12">Company email:
                                                  <span class="form-control customerRequestSpan col-12">{{$customer_request->email}}</span></label>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group row">
+                                            <div class=" row">
                                                 <label class="requestLabel col-12">Contact through:
                                                  <span class="form-control customerRequestSpan col-12">{{$customer_request->contact_through}}</span></label>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group row">
+                                            <div class=" row">
                                                 <label class="requestLabel col-12">Contact person name:
                                                  <span class="form-control customerRequestSpan col-12">{{$customer_request->contact_name}}</span></label>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group row ">
+                                            <div class=" row ">
                                                 <label class="requestLabel  col-12">Contact person number:
                                                  <span class="form-control customerRequestSpan  col-12">{{$customer_request->contact_number}}</span></label>
                                             </div>

@@ -7,46 +7,65 @@ body {
 }
 
 .sidebar .user .photo img {
-	width: 100px !important;
-	height: 100px !important;
+	width: 130px !important;
+	height: 130px !important;
 }
 
+.sidebar .user  {
+	padding-bottom: 0 !important;
+}
 .sidebar .user .photo {
-	padding: 0 20px;
+	padding: 0 10px;
 }
 
 li .nav-link p {
 	font-family: Roboto;
-	font-size: 16px;
-	font-weight: normal;
+	font-size: 16px !important;
+	font-weight: 400;
 	font-stretch: normal;
 	font-style: normal;
 	line-height: 2.81;
 	letter-spacing: 0.15px;
-	color: #b1b1b1;
+	color: #fff;
 }
 
 li .nav-link:hover {
-	border-radius: 12px !important;
+	border-radius: 15px !important;
 	background-color: #60a244 !important;
 	color: #FFFFFF !important;
-	font-size: 14px;
-	font-weight: 500;
-	line-height: 1.5;
+	font-size: 16px;
+	font-weight: 400;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 2.81;
+	letter-spacing: 0.15px;
 }
 
 li .nav-link:hover p {
 	color: #FFFFFF !important;
 }
+.sidebar .nav li .dropdown-menu a, .sidebar .nav li a {
+	font-size: 16px !important;
+}
 
 li .nav-link:hover a i {
 	color: #b1b1b1 !important;
+}
+.sidebar .nav li .dropdown-menu a, .sidebar .nav li a {
+    color: #fff !important; 
 }
 
 .sidebar[data-background-color=doorder-color] {
 	background-color: rgba(68, 68, 68, 0.6)
 }
+.collapse p {
+	padding-left: 0 !important;
+}
 
+.sidebar .nav li.active>[data-toggle=collapse] {
+    background-color: #fff !important;
+    
+}
 .card-icon {
 	background: #60a244 !important;
 	box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px #60a244
@@ -179,12 +198,15 @@ td {
 
 .sidebar .nav-link p {
 	padding-left: 15px;
+	width: 100%;
 }
 
 .sidebar .user:after {
 	background-color: transparent;
 }
-
+.sidebar .sidebar-wrapper {
+    height: 620px !important;
+}
 .form-head span {
 	width: 23px;
 	height: 23px;

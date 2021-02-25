@@ -73,14 +73,14 @@ Request') @section('page-styles')
 									<div class="col-md-7 col-sm-6 col-12">
 										<div class="row">
 											<div class="col-12">
-												<div class="form-group row">
+												<div class=" row">
 													<label class="requestLabel col-12">Location: <span
 														class="form-control customerRequestSpan col-12">{{$customer_request->work_location}}
 													</span></label>
 												</div>
 											</div>
 											<div class="col-12">
-												<div class="form-group row">
+												<div class=" row">
 													<label class="requestLabel col-12">Type of work: <span
 														class="form-control customerRequestSpan col-12">{{$customer_request->type_of_work}}</span></label>
 												</div>
@@ -95,25 +95,25 @@ Request') @section('page-styles')
 												</div>
 											</div>
 											<div class="col-12">
-												<div class="form-group row">
+												<div class=" row">
 													<label class="requestLabel col-12">Name: <span
 														class="form-control customerRequestSpan col-12">{{$customer_request->name}}</span></label>
 												</div>
 											</div>
 											<div class="col-12">
-												<div class="form-group row">
+												<div class=" row">
 													<label class="requestLabel col-12">Email: <span
 														class="form-control customerRequestSpan col-12">{{$customer_request->email}}</span></label>
 												</div>
 											</div>
 											<div class="col-12">
-												<div class="form-group row">
+												<div class=" row">
 													<label class="requestLabel col-12">Contact through: <span
 														class="form-control customerRequestSpan col-12">{{$customer_request->contact_through}}</span></label>
 												</div>
 											</div>
 											<div class="col-12">
-												<div class="form-group row ">
+												<div class=" row ">
 													<label class="requestLabel  col-12">Phone number: <span
 														class="form-control customerRequestSpan  col-12">{{$customer_request->phone_number}}</span></label>
 												</div>
@@ -126,7 +126,7 @@ Request') @section('page-styles')
 												</div>
 											</div>
 											<div class="col-12">
-												<div class="form-group row">
+												<div class=" row">
 													<label class="requestLabel col-12">Service type: <span
 														class="form-control customerRequestSpan col-12">{{$customer_request->service_types}}</span></label>
 												</div>
@@ -140,13 +140,13 @@ Request') @section('page-styles')
 												</div>
 											</div>
 											<div class="col-12">
-												<div class="form-group row">
+												<div class=" row">
 													<label class="requestLabel col-12">Address: <span
 														class="form-control customerRequestSpan col-12">{{$customer_request->location}}</span></label>
 												</div>
 											</div>
 											<div class="col-12">
-												<div class="form-group row">
+												<div class=" row">
 													<label class="requestLabel col-12">Property Image</label>
 													<div class="col">
 														<img src="{{asset($customer_request->property_photo)}}"
@@ -157,13 +157,13 @@ Request') @section('page-styles')
 
 
 											<div class="col-12">
-												<div class="form-group row">
+												<div class=" row">
 													<label class="requestLabel col-12">Property size: <span
 														class="form-control customerRequestSpan col-12">{{$customer_request->property_size}}</span></label>
 												</div>
 											</div>
 											<div class="col-12">
-												<div class="form-group row">
+												<div class=" row">
 													<label class="requestLabel col-12">Is this the first time
 														you do service for your property?: <span
 														class="form-control customerRequestSpan col-12">{{$customer_request->is_first_time
@@ -173,7 +173,7 @@ Request') @section('page-styles')
 											</div>
 											@if($customer_request->is_first_time != 1)
 											<div class="col-12">
-												<div class="form-group row">
+												<div class=" row">
 													<label class="requestLabel col-12">When Was the last
 														Service?: <span
 														class="form-control customerRequestSpan col-12">{{$customer_request->last_service}}</span>
@@ -181,14 +181,14 @@ Request') @section('page-styles')
 												</div>
 											</div>
 											<div class="col-12">
-												<div class="form-group row">
+												<div class=" row">
 													<label class="requestLabel col-12">Site details: <span
 														class="form-control customerRequestSpan col-12">{{$customer_request->site_details}}</span></label>
 												</div>
 											</div>
 											@endif
 											<div class="col-12">
-												<div class="form-group row">
+												<div class=" row">
 													<label class="requestLabel col-12">Is there a parking
 														access on site?: <span
 														class="form-control customerRequestSpan col-12">{{$customer_request->is_parking_access
@@ -203,27 +203,32 @@ Request') @section('page-styles')
 										<div id="map" style="height: 100%; margin-top: 0"></div>
 									</div>
 								</div>
-								
+
 							</div>
 						</div>
 					</div>
 
 					<div class="card">
-						<div class="card-header ">
-							<h4 class="card-title cardTitleGreen">Estimated Price Quotation</h4>
-						</div>
 						<div class="card-body" style="padding-top: 0 !important;">
 							<div class="container" style="padding-bottom: 10px !important;">
 								<div class="row">
 									<div class="col-12">
+										<div class=" row">
+											<div class="col-12">
+												<h5 class="cardTitleGreen requestSubTitle ">Estimated Price Quotation</h5>
+											</div>
+										</div>
+									</div>
+									<div class="col-12">
 										<div class="row">
 											<div class="col-md-3 col-6">
-												<label class="requestLabelGreen">Garden maintenance (monthly)</label>
+												<label class="requestLabelGreen">Garden maintenance
+													(monthly)</label>
 											</div>
 											<div class="col-md-3 col-6">
 												<span class="requestSpanGreen">€100</span>
 											</div>
-										</div>			
+										</div>
 										<div class="row">
 											<div class="col-md-3 col-6">
 												<label class="requestLabelGreen">Grass cutting</label>
@@ -231,7 +236,7 @@ Request') @section('page-styles')
 											<div class="col-md-3 col-6">
 												<span class="requestSpanGreen">€25</span>
 											</div>
-										</div>			
+										</div>
 										<div class="row">
 											<div class="col-md-3 col-6">
 												<label class="requestLabelGreen">Gutter clearing</label>
@@ -239,7 +244,7 @@ Request') @section('page-styles')
 											<div class="col-md-3 col-6">
 												<span class="requestSpanGreen">€70</span>
 											</div>
-										</div>				
+										</div>
 										<div class="row" style="margin-top: 15px">
 											<div class="col-md-3 col-6">
 												<label class="requestSpanGreen">Total</label>
@@ -247,7 +252,7 @@ Request') @section('page-styles')
 											<div class="col-md-3 col-6">
 												<span class="requestSpanGreen">€195</span>
 											</div>
-										</div>									
+										</div>
 									</div>
 								</div>
 							</div>
@@ -259,7 +264,7 @@ Request') @section('page-styles')
 							<form id="order-form" method="POST" action="">
 								{{csrf_field()}}
 								<button class="btn btn-register btn-gardenhelp-green"
-									style="float: right;">Send email</button>
+									style="float: right;">Send quotation</button>
 							</form>
 						</div>
 						<div class="col-sm-6 text-center">

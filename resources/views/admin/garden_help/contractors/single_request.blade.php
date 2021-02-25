@@ -50,6 +50,14 @@
         .modal-header .close i {
             font-size: 10px !important;
         }
+        
+        .rowDownloadFile label{
+            margin-bottom: 0 !important;
+        }
+        .rowDownloadFile .aDiv, .rowDownloadFile a{
+            margin-top: 0 !important;
+        }
+        
     </style>
 @endsection
 
@@ -71,31 +79,32 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-12">
-                                            <div class="form-group row">
-                                                <label class="requestLabel col-md-3 col-12">Name:</label>
-                                                <span class="requestSpan col-md-8 col-12">{{$contractor_request->name}} </span>
+                                            <div class="row">
+                                                <label class="requestLabel col-12">Name:
+                                                <span class="form-control customerRequestSpan col-12">{{$contractor_request->name}} </span></label>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <label  class="requestLabel  col-12">Email:
+                                               <span class="form-control customerRequestSpan col-12">{{$contractor_request->email}}</span></label>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group row">
-                                                <label  class="requestLabel col-md-3 col-12">Email:</label>
-                                               <span class="requestSpan col-md-8 col-12">{{$contractor_request->email}}</span>
+                                            <div class="row">
+                                                <label class="requestLabel col-12">Phone number:
+                                               <span class="form-control customerRequestSpan col-12">{{$contractor_request->email}}</span></label>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group row">
-                                                <label class="requestLabel col-md-3 col-12">Phone number:</label>
-                                               <span class="requestSpan col-md-8 col-12">{{$contractor_request->email}}</span>
+                                            <div class="row">
+                                                <label class="requestLabel col-12">Experience level:
+                                                <span class="form-control customerRequestSpan col-12">{{$contractor_request->experience_level}}</span></label>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group row">
-                                                <label class="requestLabel col-md-3 col-12">Experience level:</label>
-                                                <span class="requestSpan col-md-8 col-12">{{$contractor_request->experience_level}}</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group row">
+                                            <div class=" row">
                                                 <label class="requestLabel  col-12">Age card / Passport:</label>
                                                 <div class="col">
                                                     <img src="{{asset($contractor_request->age_proof)}}" style="width: 200px;height: 200px">
@@ -103,124 +112,135 @@
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group row">
-                                                <label class="requestLabel col-md-3 col-12">Type of work experience:</label>
-                                                <span class="requestSpan col-md-8 col-12">{{$contractor_request->type_of_work_exp}}</span>
+                                            <div class=" row">
+                                                <label class="requestLabel col-12">Type of work experience:
+                                                <span class="form-control customerRequestSpan col-12">{{$contractor_request->type_of_work_exp}}</span></label>
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-12">
-                                            <div class="form-group row">
+                                            <div class=" row rowDownloadFile">
                                                 <label class="requestLabel col-12">CV:</label>
-                                                <div class="col-12">
+                                                <div class="col-12 aDiv">
                                                     <a target="_blank" href="{{asset($contractor_request->cv)}}" class="btn btn-primary ">Click here To CV file</a>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-12">
-                                            <div class="form-group row">
+                                            <div class=" row rowDownloadFile">
                                                 <label  class="requestLabel  col-12">Job reference:</label>
-                                                <div class="col">
+                                                <div class="col aDiv">
                                                     <a target="_blank" href="{{asset($contractor_request->job_reference)}}" class="btn btn-primary ">Click here to job reference file</a>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group row">
-                                                <label  class="requestLabel col-md-3 col-12">Available tool and equipment:</label>
-                                                 <span class="requestSpan col-md-8 col-12" >{{$contractor_request->available_equipments}}</span>
+                                            <div class=" row">
+                                                <label  class="requestLabel  col-12">Available tool and equipment:
+                                                 <span class="form-control customerRequestSpan col-12" >{{$contractor_request->available_equipments}}</span></label>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                        	<div class=" row"> <div class="col-md-3">
+                                        	<div class=" row"> <div class="col-md-12">
                                            <h5 class="registerSubTitle">Other Details</h5></div></div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group row">
-                                                <label class="requestLabel col-md-3 col-12">Address:</label>
-                                                 <span class="requestSpan col-md-8 col-12">{{$contractor_request->address}}</span>
+                                            <div class=" row">
+                                                <label class="requestLabel  col-12">Address:
+                                                 <span class="form-control customerRequestSpan col-12">{{$contractor_request->address}}</span></label>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group row">
-                                                <label class="requestLabel col-md-3 col-12">Company number:</label>
-                                                 <span class="requestSpan col-md-8 col-12">{{$contractor_request->company_number ? $contractor_request->company_number : 'N/A'}}</span>
+                                            <div class=" row">
+                                                <label class="requestLabel  col-12">Company number:
+                                                 <span class="form-control customerRequestSpan col-12">
+                                                 {{$contractor_request->company_number ? $contractor_request->company_number : 'N/A'}}</span></label>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group row">
-                                                <label class="requestLabel col-md-3 col-12">VAT number:</label>
-                                                 <span class="requestSpan col-md-8 col-12">{{$contractor_request->vat_number ? $contractor_request->vat_number : 'N/A'}}</span>
+                                            <div class=" row">
+                                                <label class="requestLabel  col-12">VAT number:
+                                                 <span class="form-control customerRequestSpan col-12">
+                                                 {{$contractor_request->vat_number ? $contractor_request->vat_number : 'N/A'}}</span></label>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group row">
-                                                <label class="requestLabel col-md-3 col-12">Insurance Document:</label>
-                                                 <span class="requestSpan col-md-8 col-12">{{$contractor_request->vat_number ? $contractor_request->vat_number : 'N/A'}}</span>
+                                            <div class=" row">
+                                                <label class="requestLabel  col-12">Insurance Document:
+                                                 <span class="form-control customerRequestSpan col-12">
+                                                 {{$contractor_request->vat_number ? $contractor_request->vat_number : 'N/A'}}</span></label>
                                             </div>
                                         </div>
                                         @if($contractor_request->experience_level_value != 1)
                                             <div class="col-12">
-                                                <div class="form-group row">
-                                                    <label class="requestLabel col-md-3 col-12">What type of charge? :</label>
-                                                     <span class="requestSpan col-md-8 col-12">{{$contractor_request->charge_type}}</span>
+                                                <div class=" row">
+                                                    <label class="requestLabel  col-12">What type of charge? :
+                                                     <span class="form-control customerRequestSpan col-12">{{$contractor_request->charge_type}}</span></label>
                                                 </div>
                                             </div>
                                             <div class="col-12">
-                                                <div class="form-group row">
-                                                    <label class="requestLabel col-md-3 col-12">What rate of charge? :</label>
-                                                     <span class="requestSpan col-md-8 col-12">{{$contractor_request->charge_rate}}</span>
+                                                <div class=" row">
+                                                    <label class="requestLabel  col-12">What rate of charge? :
+                                                     <span class="form-control customerRequestSpan col-12">{{$contractor_request->charge_rate}}</span></label>
                                                 </div>
                                             </div>
                                             <div class="col-12">
-                                                <div class="form-group row">
-                                                    <label class="requestLabel col-md-3 col-12">Do you charge a call out fee? :</label>
-                                                     <span class="requestSpan col-md-8 col-12">{{$contractor_request->has_callout_fee ? 'Yes' : 'No'}}</span>
+                                                <div class="row">
+                                                    <label class="requestLabel  col-12">Do you charge a call out fee? :
+                                                     <span class="form-control customerRequestSpan col-12">
+                                                     {{$contractor_request->has_callout_fee ? 'Yes' : 'No'}}</span></label>
                                                 </div>
                                             </div>
                                             @if($contractor_request->has_callout_fee)
                                                 <div class="col-12">
-                                                    <div class="form-group row">
-                                                        <label class="requestLabel col-md-3 col-12">Call out fee charge:</label>
-                                                         <span class="requestSpan col-md-8 col-12">{{$contractor_request->callout_fee_value}}</span>
+                                                    <div class="row">
+                                                        <label class="requestLabel col-12">Call out fee charge:
+                                                         <span class="form-control customerRequestSpan col-12">
+                                                         {{$contractor_request->callout_fee_value}}</span></label>
                                                     </div>
                                                 </div>
                                             @endif
 
                                             <div class="col-12">
-                                                <div class="form-group row">
-                                                    <label class="requestLabel col-md-3 col-12">Rate of green waste:</label>
-                                                    < <span class="requestSpan col-md-8 col-12">{{$contractor_request->rate_of_green_waste}}</span>
+                                                <div class="row">
+                                                    <label class="requestLabel col-12">Rate of green waste:
+                                                    < <span class="form-control customerRequestSpan col-12">
+                                                    {{$contractor_request->rate_of_green_waste}}</span></label>
                                                 </div>
                                             </div>
                                             <div class="col-12">
-                                                <div class="form-group row">
-                                                    <label class="requestLabel col-md-3 col-12">Green waste collection method:</label>
-                                                     <span class="requestSpan col-md-8 col-12">{{$contractor_request->green_waste_collection_method}}</span>
+                                                <div class=" row">
+                                                    <label class="requestLabel  col-12">Green waste collection method:
+                                                     <span class="form-control customerRequestSpan col-12">
+                                                     {{$contractor_request->green_waste_collection_method}}</span></label>
                                                 </div>
                                             </div>
                                         @endif
                                         <div class="col-12">
-                                            <div class="form-group row">
-                                                <label class="requestLabel col-md-3 col-12">Do you have access to a smartphone?:</label>
-                                                 <span class="requestSpan col-md-8 col-12">{{$contractor_request->has_smartphone ? 'Yes' : 'No'}}</span>
+                                            <div class=" row">
+                                                <label class="requestLabel  col-12">Do you have access to a smartphone?:
+                                                 <span class="form-control customerRequestSpan col-12">
+                                                 {{$contractor_request->has_smartphone ? 'Yes' : 'No'}}</span></label>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group row">
-                                                <label class="requestLabel col-md-3 col-12">Type of transport:</label>
-                                                 <span class="requestSpan col-md-8 col-12">{{$contractor_request->type_of_transport}}</span>
+                                            <div class=" row">
+                                                <label class="requestLabel col-12">Type of transport:
+                                                 <span class="form-control customerRequestSpan col-12">
+                                                 {{$contractor_request->type_of_transport}}</span></label>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group row">
-                                                <label class="requestLabel col-md-3 col-12">Social media profiles:</label>
-                                                 <span class="requestSpan col-md-8 col-12">{{$contractor_request->social_profile ? $contractor_request->social_profile : 'N/A'}}</span>
+                                            <div class=" row">
+                                                <label class="requestLabel  col-12">Social media profiles:
+                                                 <span class="form-control customerRequestSpan col-12">
+                                                 {{$contractor_request->social_profile ? $contractor_request->social_profile : 'N/A'}}</span></label>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group row">
-                                                <label class="requestLabel col-md-3 col-12">Website address:</label>
-                                                <span class="requestSpan col-md-8 col-12">{{$contractor_request->website_address ? $contractor_request->website_address : 'N/A'}}</span>
+                                            <div class=" row">
+                                                <label class="requestLabel col-12">Website address:
+                                                <span class="form-control customerRequestSpan col-12">
+                                                {{$contractor_request->website_address ? $contractor_request->website_address : 'N/A'}}</span></label>
                                             </div>
                                         </div>
                                     </div>

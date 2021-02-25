@@ -48,7 +48,8 @@ class OrdersController extends Controller
             'deliver_by' => 'required',
             'fragile' => 'required',
         ]);
-
+        $current_user = auth()->user();
+        $retailer_profile = $current_user->retailer_profile;
         $order = Order::create([
             'customer_name' => "$request->first_name $request->last_name",
             'order_id' => random_int(000001, 999999),
@@ -65,8 +66,8 @@ class OrdersController extends Controller
             'notes' => $request->notes,
             'deliver_by' => $request->deliver_by,
             'fragile' => $request->fragile,
-            'retailer_name' => auth()->user()->name,
-            'retailer_id' => auth()->user()->retailer_profile->id,
+            'retailer_name' => ($retailer_profile!=null)? $retailer_profile->name : $current_user->name,
+            'retailer_id' => ($retailer_profile!=null)? $retailer_profile->id : '0',
             'status' => 'ready',
             'weight' => $request->weight,
             'dimensions' => $request->dimensions,

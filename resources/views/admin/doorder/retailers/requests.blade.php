@@ -187,15 +187,18 @@
                 parseDateTime(date) {
                     console.log(date);
                     let dateTime = '';
-                    let parseDate = new Date(date);
-                    if(date==null || date==''){
-                        parseDate = new Date();
+                    //let parseDate = new Date();
+                    let date_moment = new moment();
+                    if(date!=null && date!=''){
+                        //parseDate = new Date(date);
+                        date_moment = new moment(date);
                     }
-                    dateTime += parseDate.getDate() + '/';
+                    /*dateTime += parseDate.getDate() + '/';
                     dateTime += parseDate.getMonth() + '/';
                     dateTime += parseDate.getFullYear() + ' ';
                     dateTime += parseDate.getHours() + ':';
-                    dateTime += parseDate.getMinutes();
+                    dateTime += parseDate.getMinutes();*/
+                    dateTime = date_moment.format('DD-MM-YYYY HH:mm');
                     return dateTime;
                 },
                 openRequest(request_id) {

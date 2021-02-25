@@ -179,12 +179,14 @@
                 parseDateTime(date) {
                     console.log(date);
                     let dateTime = '';
-                    let parseDate = new Date(date);
-                    dateTime += parseDate.getFullYear() + '/';
-                    dateTime += parseDate.getMonth() + '/';
-                    dateTime += parseDate.getDay() + ' ';
+                    //let parseDate = new Date(date);
+                    let date_moment = new moment(date);
+                    /*dateTime += parseDate.getDate() + '/';
+                    dateTime += parseDate.getMonth()+1 + '/';
+                    dateTime += parseDate.getFullYear() + ' ';
                     dateTime += parseDate.getHours() + ':';
-                    dateTime += parseDate.getMinutes();
+                    dateTime += parseDate.getMinutes();*/
+                    dateTime = date_moment.format('DD-MM-YYYY HH:mm');
                     return dateTime;
                 }
             }

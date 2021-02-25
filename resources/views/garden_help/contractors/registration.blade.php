@@ -1,5 +1,6 @@
-@extends('templates.garden_help') @section('title', 'GardenHelp |
-Contractors Registration') @section('styles')
+@extends('templates.garden_help')
+@section('title', 'GardenHelp | Contractors Registration')
+@section('styles')
 <style>
 .modal-body .row .d-flex {
 	padding-bottom: 13px;
@@ -24,10 +25,11 @@ Contractors Registration') @section('styles')
 	font-size: 20px;
 }
 </style>
-@endsection @section('content')
+@endsection
+@section('content')
 <div class="container" id="app">
 	<form action="{{route('postContractorRegistration', 'garden-help')}}"
-		method="POST" enctype="multipart/form-data" autocomplete="off">
+		method="POST" enctype="multipart/form-data" autocomplete="off" id="cr_form" @submit="beforeFormSubmitting">
 		{{csrf_field()}}
 		<div class="main main-raised">
 			<div class="h-100 row align-items-center">
@@ -127,6 +129,16 @@ Contractors Registration') @section('styles')
 												</span>
 												</label>
 											</div>
+											<div class="row mt-4">
+												<div class="col d-flex" v-for="type in type_of_work"
+													 v-if="type.level.includes(experience_level) === true"
+													 @click="toggleCheckedValue(type)">
+													<div class="my-check-box mr-1" id="check">
+														<i :class="type.is_checked == true ? 'fas fa-check-square checked' : 'fas fa-check-square'"></i>
+													</div>
+													<label for="my-check-box mr-1" :class="type.is_checked == true ? 'my-check-box-label my-check-box-label-checked' : 'my-check-box-label'">@{{ type.title }}</label>
+												</div>
+											</div>
 										</div>
 										<div class="modal-footer">
 											<button type="button" class="btn btn-link modal-button-close"
@@ -142,8 +154,14 @@ Contractors Registration') @section('styles')
 						</div>
 					</div>
 
-					<div class="col-md-12 mb-3"
-						v-if="experience_level_selected_value == 2 || experience_level_selected_value == 1">
+					<div class="col-md-12 mb-3">
+						<div class="form-group bmd-form-group">
+							 <label class="bmd-label-floating">Hourly Rate</label>
+							<input type="number" class="form-control" id="charge_rate" name="charge_rate" value="{{old('charge_rate')}}" required>
+						</div>
+					</div>
+
+					<div class="col-md-12 mb-3">
 						<div
 							class="form-group form-file-upload form-file-multiple bmd-form-group">
 							<label class="bmd-label-static" for="age_proof"> Upload age card
@@ -170,8 +188,9 @@ Contractors Registration') @section('styles')
 								@click="openModal('type_of_experience')">
 								<input name="type_of_work_exp" type="text" class="form-control"
 									id="type_of_experience" v-model="experience_type_input"
-									required> <a class="select-icon"> <i class="fas fa-caret-down"></i>
-								</a>
+									required>
+								<input type="hidden" v-model="type_of_work_selected_value" name="type_of_work_selected_value">
+								<a class="select-icon"> <i class="fas fa-caret-down"></i></a>
 							</div>
 							<!-- Button trigger modal -->
 							<a id="type_of_experience_btn_modal" data-toggle="modal"
@@ -229,17 +248,13 @@ Contractors Registration') @section('styles')
 							</div>
 						</div>
 					</div>
-					<div class="col-md-12 mb-3"
-						v-if="experience_level_selected_value == 2 || experience_level_selected_value == 1">
+					<div class="col-md-12 mb-3">
 						<div class="form-group form-file-upload form-file-multiple">
-
-							<label class="bmd-label-static" for="cv"> Upload CV </label> <input
-								id="cv" name="cv" type="file" class="inputFileHidden"
-								@change="onChangeFile($event, 'cv_input')">
+							<label class="bmd-label-static" for="cv"> Upload CV @{{experience_level_selected_value == 3 ? '*' : ''}} </label>
+							<input id="cv" name="cv" type="file" class="inputFileHidden" @change="onChangeFile($event, 'cv_input')">
 							<div class="input-group" @click="addFile('cv')">
-								<input type="text" id="cv_input"
-									class="form-control inputFileVisible" placeholder="Upload file"
-									required> <span class="input-group-btn">
+								<input type="text" id="cv_input" class="form-control inputFileVisible" placeholder="Upload file">
+								<span class="input-group-btn">
 									<button type="button" class="btn btn-fab btn-round btn-success">
 										<i class="fas fa-cloud-upload-alt"></i>
 									</button>
@@ -248,8 +263,7 @@ Contractors Registration') @section('styles')
 						</div>
 					</div>
 
-					<div class="col-md-12 mb-3"
-						v-if="experience_level_selected_value == 2 || experience_level_selected_value == 1">
+					<div class="col-md-12 mb-3">
 						<div class="form-group form-file-upload form-file-multiple">
 							<label class="bmd-label-static" for="job_reference"> Upload job
 								references </label> <input id="job_reference"
@@ -257,8 +271,8 @@ Contractors Registration') @section('styles')
 								@change="onChangeFile($event,'job_reference_input')">
 							<div class="input-group" @click="addFile('job_reference')">
 								<input type="text" id="job_reference_input"
-									class="form-control inputFileVisible" placeholder="Upload file"
-									required> <span class="input-group-btn">
+									class="form-control inputFileVisible" placeholder="Upload file">
+								<span class="input-group-btn">
 									<button type="button" class="btn btn-fab btn-round btn-success">
 										<i class="fas fa-cloud-upload-alt"></i>
 									</button>
@@ -267,8 +281,7 @@ Contractors Registration') @section('styles')
 						</div>
 					</div>
 
-					<div class="col-md-12 mb-3"
-						v-if="experience_level_selected_value == 2 || experience_level_selected_value == 1">
+					<div class="col-md-12 mb-3">
 						<div class="form-group bmd-form-group">
 							<label for="available_tools">Available tools and equipment</label>
 							<div class="d-flex justify-content-between"
@@ -458,6 +471,28 @@ Contractors Registration') @section('styles')
 						</div>
 					</div>
 
+					<div class="col-md-12">
+						<div class="form-group">
+							<label>Contact through</label>
+							<div class="d-flex">
+								<div class="contact-through d-flex pr-5" @click="changeContact('whatsapp')">
+									<div id="check" :class="contact_through == 'whatsapp' ? 'my-check-box checked' : 'my-check-box'">
+										<i class="fas fa-check-square"></i>
+									</div>
+									Whatsapp
+								</div>
+
+								<div class="contact-through d-flex" @click="changeContact('sms')">
+									<div id="check" :class="contact_through == 'sms' ? 'my-check-box checked' : 'my-check-box'">
+										<i class="fas fa-check-square"></i>
+									</div>
+									SMS
+								</div>
+								<input type="hidden" v-model="contact_through" name="contact_through">
+							</div>
+						</div>
+					</div>
+
 					<div class="col-md-12 mb-3">
 						<div class="form-group bmd-form-group">
 							<label class="bmd-label-floating" for="transport_types">Type of
@@ -515,73 +550,73 @@ Contractors Registration') @section('styles')
 						</div>
 					</div>
 
-					<div class="col-md-12 mb-3"
-						v-if="experience_level_selected_value == 3">
-						<div class="form-group form-file-upload form-file-multiple">
-							<label class="bmd-label-floating" >What type of charge?</label>
-							<div class="row">
-								<div class="col">
-									<div class="form-check form-check-radio">
-										<label class="form-check-label"> <input
-											class="form-check-input" type="radio" id="exampleRadios2"
-											name="charge_type" value="Hourly" v-model="charge" required>
-											Hourly <span class="circle"> <span class="check"></span>
-										</span>
-										</label>
-									</div>
-								</div>
-								<div class="col">
-									<div class="form-check form-check-radio">
-										<label class="form-check-label"> <input
-											class="form-check-input" type="radio" id="exampleRadios1"
-											name="charge_type" value="Daily" v-model="charge" required>
-											Daily <span class="circle"> <span class="check"></span>
-										</span>
-										</label>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+{{--					<div class="col-md-12 mb-3"--}}
+{{--						v-if="experience_level_selected_value == 3">--}}
+{{--						<div class="form-group form-file-upload form-file-multiple">--}}
+{{--							<label class="bmd-label-floating" >What type of charge?</label>--}}
+{{--							<div class="row">--}}
+{{--								<div class="col">--}}
+{{--									<div class="form-check form-check-radio">--}}
+{{--										<label class="form-check-label"> <input--}}
+{{--											class="form-check-input" type="radio" id="exampleRadios2"--}}
+{{--											name="charge_type" value="Hourly" v-model="charge" required>--}}
+{{--											Hourly <span class="circle"> <span class="check"></span>--}}
+{{--										</span>--}}
+{{--										</label>--}}
+{{--									</div>--}}
+{{--								</div>--}}
+{{--								<div class="col">--}}
+{{--									<div class="form-check form-check-radio">--}}
+{{--										<label class="form-check-label"> <input--}}
+{{--											class="form-check-input" type="radio" id="exampleRadios1"--}}
+{{--											name="charge_type" value="Daily" v-model="charge" required>--}}
+{{--											Daily <span class="circle"> <span class="check"></span>--}}
+{{--										</span>--}}
+{{--										</label>--}}
+{{--									</div>--}}
+{{--								</div>--}}
+{{--							</div>--}}
+{{--						</div>--}}
+{{--					</div>--}}
 
-					<div class="col-md-12 mb-3"
-						v-if="experience_level_selected_value == 3 && charge != ''">
-						<div class="form-group bmd-form-group">
-							{{-- <label class="bmd-label-floating">Social Media Profiles
-								(optional)</label>--}} <input type="text" class="form-control"
-								name="charge_rate" :placeholder="charge + ' Charge'"
-								value="{{old('charge_rate')}}" required>
-						</div>
-					</div>
+{{--					<div class="col-md-12 mb-3"--}}
+{{--						v-if="experience_level_selected_value == 3 && charge != ''">--}}
+{{--						<div class="form-group bmd-form-group">--}}
+{{--							--}}{{-- <label class="bmd-label-floating">Social Media Profiles--}}
+{{--								(optional)</label>--}}{{-- <input type="text" class="form-control"--}}
+{{--								name="charge_rate" :placeholder="charge + ' Charge'"--}}
+{{--								value="{{old('charge_rate')}}" required>--}}
+{{--						</div>--}}
+{{--					</div>--}}
 
-					<div class="col-md-12 mb-3"
-						v-if="experience_level_selected_value == 3">
-						<div class="form-group form-file-upload form-file-multiple">
-							<label class="bmd-label-floating" >Do you charge a call out fee?</label>
-							<div class="row">
-								<div class="col">
-									<div class="form-check form-check-radio">
-										<label class="form-check-label"> <input
-											class="form-check-input" type="radio" id="exampleRadios2"
-											name="has_callout_fee" value="1" v-model="call_out_fee"> Yes
-											<span class="circle"> <span class="check"></span>
-										</span>
-										</label>
-									</div>
-								</div>
-								<div class="col">
-									<div class="form-check form-check-radio">
-										<label class="form-check-label"> <input
-											class="form-check-input" type="radio" id="exampleRadios1"
-											name="has_callout_fee" value="0" v-model="call_out_fee"> No <span
-											class="circle"> <span class="check"></span>
-										</span>
-										</label>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+{{--					<div class="col-md-12 mb-3"--}}
+{{--						v-if="experience_level_selected_value == 3">--}}
+{{--						<div class="form-group form-file-upload form-file-multiple">--}}
+{{--							<label class="bmd-label-floating" >Do you charge a call out fee?</label>--}}
+{{--							<div class="row">--}}
+{{--								<div class="col">--}}
+{{--									<div class="form-check form-check-radio">--}}
+{{--										<label class="form-check-label"> <input--}}
+{{--											class="form-check-input" type="radio" id="exampleRadios2"--}}
+{{--											name="has_callout_fee" value="1" v-model="call_out_fee"> Yes--}}
+{{--											<span class="circle"> <span class="check"></span>--}}
+{{--										</span>--}}
+{{--										</label>--}}
+{{--									</div>--}}
+{{--								</div>--}}
+{{--								<div class="col">--}}
+{{--									<div class="form-check form-check-radio">--}}
+{{--										<label class="form-check-label"> <input--}}
+{{--											class="form-check-input" type="radio" id="exampleRadios1"--}}
+{{--											name="has_callout_fee" value="0" v-model="call_out_fee"> No <span--}}
+{{--											class="circle"> <span class="check"></span>--}}
+{{--										</span>--}}
+{{--										</label>--}}
+{{--									</div>--}}
+{{--								</div>--}}
+{{--							</div>--}}
+{{--						</div>--}}
+{{--					</div>--}}
 
 					{{--
 					<div class="col-md-12 mb-3"
@@ -596,99 +631,99 @@ Contractors Registration') @section('styles')
 					</div>
 					--}}
 
-					<div class="col-md-12 mb-3"
-						v-if="experience_level_selected_value == 3 && call_out_fee === '1'">
-						<div class="form-group bmd-form-group">
-							{{-- <label class="bmd-label-floating">Call out fee charge</label>--}}
-							<input type="text" class="form-control" name="callout_fee_value"
-								placeholder="Call out fee charge"
-								value="{{old('callout_fee_value')}}" required>
-						</div>
-					</div>
+{{--					<div class="col-md-12 mb-3"--}}
+{{--						v-if="experience_level_selected_value == 3 && call_out_fee === '1'">--}}
+{{--						<div class="form-group bmd-form-group">--}}
+{{--							--}}{{-- <label class="bmd-label-floating">Call out fee charge</label>--}}
+{{--							<input type="text" class="form-control" name="callout_fee_value"--}}
+{{--								placeholder="Call out fee charge"--}}
+{{--								value="{{old('callout_fee_value')}}" required>--}}
+{{--						</div>--}}
+{{--					</div>--}}
 
-					<div class="col-md-12 mb-3"
-						v-if="experience_level_selected_value == 3">
-						<div class="form-group bmd-form-group">
-							<label class="">Rates for green waste removal</label>
-							 <input type="text" class="form-control"
-								name="rate_of_green_waste"
-								value="{{old('rate_of_green_waste')}}" required>
-						</div>
-					</div>
-					
+{{--					<div class="col-md-12 mb-3"--}}
+{{--						v-if="experience_level_selected_value == 3">--}}
+{{--						<div class="form-group bmd-form-group">--}}
+{{--							<label class="">Rates for green waste removal</label>--}}
+{{--							 <input type="text" class="form-control"--}}
+{{--								name="rate_of_green_waste"--}}
+{{--								value="{{old('rate_of_green_waste')}}" required>--}}
+{{--						</div>--}}
+{{--					</div>--}}
+{{--					--}}
 
-					<div class="col-md-12 mb-3"
-						v-if="experience_level_selected_value == 3">
-						<div class="form-group bmd-form-group">
-							<label for="green_waste_collection_method">Green waste collection
-								method</label>
-							<div class="d-flex justify-content-between"
-								@click="openModal('green_waste_collection_method')">
-								<input type="text" name="green_waste_collection_method"
-									class="form-control" id="green_waste_collection_method"
-									v-model="green_waste_collection_method_input" required> <a
-									class="select-icon"> <i class="fas fa-caret-down"></i>
-								</a>
-							</div>
-							<!-- Button trigger modal -->
-							<a id="green_waste_collection_method_btn_modal"
-								data-toggle="modal"
-								data-target="#green_waste_collection_methodsModal"
-								style="display: none"></a>
+{{--					<div class="col-md-12 mb-3"--}}
+{{--						v-if="experience_level_selected_value == 3">--}}
+{{--						<div class="form-group bmd-form-group">--}}
+{{--							<label for="green_waste_collection_method">Green waste collection--}}
+{{--								method</label>--}}
+{{--							<div class="d-flex justify-content-between"--}}
+{{--								@click="openModal('green_waste_collection_method')">--}}
+{{--								<input type="text" name="green_waste_collection_method"--}}
+{{--									class="form-control" id="green_waste_collection_method"--}}
+{{--									v-model="green_waste_collection_method_input" required> <a--}}
+{{--									class="select-icon"> <i class="fas fa-caret-down"></i>--}}
+{{--								</a>--}}
+{{--							</div>--}}
+{{--							<!-- Button trigger modal -->--}}
+{{--							<a id="green_waste_collection_method_btn_modal"--}}
+{{--								data-toggle="modal"--}}
+{{--								data-target="#green_waste_collection_methodsModal"--}}
+{{--								style="display: none"></a>--}}
 
-							<!-- Modal -->
-							<div class="modal fade" id="green_waste_collection_methodsModal"
-								tabindex="-1" role="dialog"
-								aria-labelledby="available_toolsLabel" aria-hidden="true">
-								<div class="modal-dialog" role="document">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h5 class="modal-title text-left registerModalTitle"
-												id="green_waste_collection_methodsLabel">Green waste
-												collection method</h5>
-											<button type="button" class="close" data-dismiss="modal"
-												aria-label="Close">
-												<span aria-hidden="true">&times;</span>
-											</button>
-										</div>
-										<div class="modal-body">
-											<div class="row">
-												<div class="col-md-12 d-flex justify-content-between"
-													v-for="method in green_waste_collection_methods"
-													@click="toggleCheckedValue(method)">
-													<label for="my-check-box"
-														:class="method.is_checked === true ? 'my-check-box-label my-check-box-label-checked' : 'my-check-box-label'">@{{
-														method.title }}</label>
-													<div class="my-check-box" id="check">
-														<i
-															:class="method.is_checked === true ? 'fas fa-check-square checked' : 'fas fa-check-square'"></i>
-													</div>
-												</div>
-												<div class="col-md-12 d-flex justify-content-between">
-													<input type="text" class="form-control"
-														placeholder="Add Other"
-														v-model="green_waste_collection_method_other"> <a
-														class="add-other-button"
-														v-if="green_waste_collection_method_other != ''"
-														@click="addOtherInput('green_waste_collection_method')"> <i
-														class="fas fa-arrow-right"></i>
-													</a>
-												</div>
-											</div>
-										</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-link modal-button-close"
-												data-dismiss="modal">Close</button>
-											<button type="button" class="btn btn-link modal-button-done"
-												data-dismiss="modal"
-												@click="changeSelectedValue('green_waste_collection_methods')">
-												Done</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+{{--							<!-- Modal -->--}}
+{{--							<div class="modal fade" id="green_waste_collection_methodsModal"--}}
+{{--								tabindex="-1" role="dialog"--}}
+{{--								aria-labelledby="available_toolsLabel" aria-hidden="true">--}}
+{{--								<div class="modal-dialog" role="document">--}}
+{{--									<div class="modal-content">--}}
+{{--										<div class="modal-header">--}}
+{{--											<h5 class="modal-title text-left registerModalTitle"--}}
+{{--												id="green_waste_collection_methodsLabel">Green waste--}}
+{{--												collection method</h5>--}}
+{{--											<button type="button" class="close" data-dismiss="modal"--}}
+{{--												aria-label="Close">--}}
+{{--												<span aria-hidden="true">&times;</span>--}}
+{{--											</button>--}}
+{{--										</div>--}}
+{{--										<div class="modal-body">--}}
+{{--											<div class="row">--}}
+{{--												<div class="col-md-12 d-flex justify-content-between"--}}
+{{--													v-for="method in green_waste_collection_methods"--}}
+{{--													@click="toggleCheckedValue(method)">--}}
+{{--													<label for="my-check-box"--}}
+{{--														:class="method.is_checked === true ? 'my-check-box-label my-check-box-label-checked' : 'my-check-box-label'">@{{--}}
+{{--														method.title }}</label>--}}
+{{--													<div class="my-check-box" id="check">--}}
+{{--														<i--}}
+{{--															:class="method.is_checked === true ? 'fas fa-check-square checked' : 'fas fa-check-square'"></i>--}}
+{{--													</div>--}}
+{{--												</div>--}}
+{{--												<div class="col-md-12 d-flex justify-content-between">--}}
+{{--													<input type="text" class="form-control"--}}
+{{--														placeholder="Add Other"--}}
+{{--														v-model="green_waste_collection_method_other"> <a--}}
+{{--														class="add-other-button"--}}
+{{--														v-if="green_waste_collection_method_other != ''"--}}
+{{--														@click="addOtherInput('green_waste_collection_method')"> <i--}}
+{{--														class="fas fa-arrow-right"></i>--}}
+{{--													</a>--}}
+{{--												</div>--}}
+{{--											</div>--}}
+{{--										</div>--}}
+{{--										<div class="modal-footer">--}}
+{{--											<button type="button" class="btn btn-link modal-button-close"--}}
+{{--												data-dismiss="modal">Close</button>--}}
+{{--											<button type="button" class="btn btn-link modal-button-done"--}}
+{{--												data-dismiss="modal"--}}
+{{--												@click="changeSelectedValue('green_waste_collection_methods')">--}}
+{{--												Done</button>--}}
+{{--										</div>--}}
+{{--									</div>--}}
+{{--								</div>--}}
+{{--							</div>--}}
+{{--						</div>--}}
+{{--					</div>--}}
 
 					<div class="col-md-12 mb-3">
 						<div class="form-group bmd-form-group">
@@ -724,7 +759,8 @@ Contractors Registration') @section('styles')
 		</div>
 	</form>
 </div>
-@endsection @section('scripts')
+@endsection
+@section('scripts')
 <script src="{{ asset('js/bootstrap-selectpicker.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
@@ -855,7 +891,21 @@ Contractors Registration') @section('styles')
                 ],
                 green_waste_collection_method_input: "{{old('green_waste_collection_method')}}",
                 green_waste_collection_method_other: '',
-                equipments_checked: false
+                equipments_checked: false,
+				type_of_work: [
+					{
+						title: 'Residential',
+						is_checked: JSON.parse("{{old('type_of_work_exp') ? ( strpos(old('type_of_work_exp'), 'Residential') === false ? 'false' : 'true' ) : 'false'}}"),
+						level: ["3"],
+					},
+					{
+						title: 'Commercial',
+						is_checked: JSON.parse("{{old('type_of_work_exp') ? ( strpos(old('type_of_work_exp'), 'Commercial') === false ? 'false' : 'true' ) : 'false'}}"),
+						level: ["3"],
+					},
+				],
+				type_of_work_selected_value: '',
+				contact_through: ''
             },
             mounted() {
 
@@ -871,6 +921,14 @@ Contractors Registration') @section('styles')
                     } else {
                         this.experience_level_input = "Level 3 (+5 Years)";
                         this.experience_level_selected_value = this.experience_level;
+                        let type_of_work_selected_value = [];
+                        for (let item of this.type_of_work) {
+                        	if (item.is_checked === true) {
+								this.experience_level_input +=  ', ' + item.title;
+								type_of_work_selected_value.push(item.title);
+							}
+						}
+                        this.type_of_work_selected_value = type_of_work_selected_value.length > 0 ? JSON.stringify(type_of_work_selected_value) : '';
                     }
                 },
                 openModal(type) {
@@ -944,7 +1002,45 @@ Contractors Registration') @section('styles')
                         this.equipments_checked = true;
                         this.available_tool_input = "I declare I have the correct tools to carry out the type of work I have requested";
                     }
-                }
+                },
+				changeContact(value) {
+					this.contact_through = value;
+				},
+				beforeFormSubmitting(e) {
+                	e.preventDefault();
+                	let cv_input = $('#cv');
+                	let job_ref_input = $('#job_reference');
+                	let hourly_rate =  $('#charge_rate');
+                	if (this.experience_level_selected_value==3) {
+                		if (cv_input.val() == "" || job_ref_input.val() == "") {
+							swal({
+								title: 'There is a missing input',
+								text: "CV and Job reference are required",
+								icon: 'error',
+							})
+							return false;
+						} else if (hourly_rate.val() > 25) {
+							swal({
+								title: 'There is a missing input',
+								text: "Max Hourly Rate for Level 3 Contactor is €20 Per Hour, " +
+										"please change the rate to be able to proceed with the registration form",
+								icon: 'warning',
+							})
+							return false;
+						}
+					} else {
+						if (hourly_rate.val() > 20) {
+							swal({
+								title: 'There is a missing input',
+								text: "Max Hourly Rate for Level " + this.experience_level_selected_value +" Contactor is €20 Per Hour, " +
+										"please change the rate to be able to proceed with the registration form",
+								icon: 'warning',
+							});
+							return false;
+						}
+					}
+                	$('#cr_form').submit();
+				}
             }
         });
     </script>

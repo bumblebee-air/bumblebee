@@ -131,6 +131,24 @@
         .iti {
             width: 100%;
         }
+
+        .transport-tip-button {
+            color: #f7dc69;
+            background-color: white;
+        }
+
+        #transport-tip {
+            width: 347px;
+            padding: 11px 5px;
+            border-radius: 10px;
+            box-shadow: 0 2px 48px 0 rgb(0 0 0 / 8%);
+            background-color: #e8ca49;
+            color: white;
+            z-index: 9999;
+            margin-top: 10px!important;
+            margin-left: 10px!important;
+            display: none;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
     <link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
@@ -284,6 +302,14 @@
                             <div class="col-sm-6">
                                 <div class="form-group bmd-form-group">
                                     <label class="bmd-form-group">Transport Type</label> <span style="color: red">*</span>
+{{--                                    <a href="#" id="transport-tip-button" class="transport-tip-button" aria-describedby="tooltip">--}}
+                                        <i class="fas fa-info-circle transport-tip-button" id="transport-tip-button" aria-describedby="tooltip" @click="fadeTransportTip"></i>
+{{--                                    </a>--}}
+                                    <div id="transport-tip" role="tooltip">
+                                        You must be 18+ years old to apply with a
+                                        scooter or bicycle and 25+ to apply with a
+                                        car or van
+                                    </div>
     {{--                                <input type="text" class="form-control" name="pps_number" value="{{old('pps_number')}}" required>--}}
                                     <select name="transport_type" class="form-control" required>
                                         <option selected disabled>Choose Transportation</option>
@@ -467,6 +493,11 @@
                         this.counties.push({name: county.city, coordinates: {lat: county.lat, lng: county.lng}});
                     }
                 });
+
+                let transport_tip_button = document.querySelector('#transport-tip-button');
+                let transport_tip = document.querySelector('#transport-tip');
+                let popperInstance = Popper.createPopper(transport_tip_button, transport_tip);
+
             },
             methods: {
                 changeContact(contact) {
@@ -509,6 +540,9 @@
                         bounds.extend(latlng_object);
                     }
                     window.googleMaps.fitBounds(bounds);
+                },
+                fadeTransportTip() {
+                    $('#transport-tip').fadeToggle();
                 }
             }
         });

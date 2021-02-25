@@ -884,17 +884,25 @@
             // markers, lines, and shapes.
             drawingManager = new google.maps.drawing.DrawingManager({
                 drawingMode: google.maps.drawing.OverlayType.POLYGON,
-                markerOptions: {
-                    draggable: true
-                },
-                polylineOptions: {
-                    editable: true
-                },
-                rectangleOptions: polyOptions,
-                circleOptions: polyOptions,
+                // markerOptions: {
+                //     draggable: false
+                // },
+                // polylineOptions: {
+                //     editable: true
+                // },
+                // rectangleOptions: polyOptions,
+                // circleOptions: polyOptions,
                 polygonOptions: polyOptions,
+                drawingControl: true,
+                drawingControlOptions: {
+                    drawingModes: ['polygon']
+                },
                 map: this.map
             });
+
+            // drawingManager.setOptions({
+            //
+            // });
 
             google.maps.event.addListener(drawingManager, 'overlaycomplete', function (e) {
                 if (e.type != google.maps.drawing.OverlayType.MARKER) {
@@ -915,6 +923,7 @@
                     property_size.parent().addClass('is-filled');
                     area_coordinates.val(JSON.stringify(newShape.getPath().getArray()));
                     setSelection(newShape);
+
                 }
             });
 
@@ -991,6 +1000,7 @@
                 area_coordinates.val('');
                 property_size.val('');
                 property_size.parent().removeClass('is-filled');
+                clearMarkers();
             }
         }
 

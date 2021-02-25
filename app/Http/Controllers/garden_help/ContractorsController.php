@@ -20,8 +20,7 @@ class ContractorsController extends Controller
         return view('garden_help.contractors.registration');
     }
 
-    public function save(Request $request)
-    {
+    public function save(Request $request) {
         $this->validate($request, [
             'name' => 'required|string',
             'email' => 'required|email',
@@ -29,19 +28,16 @@ class ContractorsController extends Controller
             'experience_level' => 'required|string',
             'experience_level_value' => 'required|string',
             'age_proof' => 'required_if:experience_level_value,==,2|file',
-            'cv' => 'required_if:experience_level_value,==,2|file',
-            'job_reference' => 'required_if:experience_level_value,==,2|file',
+            'cv' => 'required_if:experience_level_value,==,3|file',
+            'job_reference' => 'required_if:experience_level_value,==,3|file',
             'type_of_work_exp' => 'required|string',
             'address' => 'required|string',
             'insurance_document' => 'required|file',
             'has_smartphone' => 'required|boolean',
             'type_of_transport' => 'required|string',
-            'charge_type' => 'required_if:experience_level_value,==,3|string',
-            'charge_rate' => 'required_if:experience_level_value,==,3|string',
-            'has_callout_fee' => 'required_if:experience_level_value,==,3|boolean',
-            'callout_fee_value' => 'required_if:experience_level_value,==,3|string',
+            'charge_rate' => 'required|string',
+            'contact_through' => 'required'
         ]);
-//        dd($request->all());
         //Saving new contractor registration
         $contractor = Contractor::create([
             'name' => $request->name,
@@ -68,6 +64,9 @@ class ContractorsController extends Controller
             'green_waste_collection_method' => $request->green_waste_collection_method,
             'social_profile' => $request->social_profiles,
             'website_address' => $request->website,
+            'type_of_work' => $request->type_of_work,
+            'contact_through' => $request->contact_through,
+            'type_of_work_selected_value' => $request->type_of_work_selected_value
         ]);
 
         \Mail::to(env('GH_NOTIF_EMAIL','kim@bumblebeeai.io'))->send(new ContractorRegistrationMail($contractor));

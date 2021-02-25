@@ -32,6 +32,8 @@ class Contractor extends Model
         'website_address',
         'cv',
         'job_reference',
-        'available_equipments'
+        'available_equipments',
+        'contact_through',
+        'type_of_work_selected_value'
     ];
 }

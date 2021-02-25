@@ -419,13 +419,17 @@
 			</a></li>
 
 			<li class="nav-item"><a class="nav-link d-flex"
-				href="{{url('garden-help/home')}}"> {{-- <i
-					class="fas fa-plus-circle"></i>--}} <img
-					
+				href="{{route('garden_help_getJobsTable', 'garden-help')}}"><img
 					class="my-nav-icon"
 					src="{{asset('images/gardenhelp_icons/Job-Table-white.png')}}"
 					alt="Dashboard">
 					<p>Jobs Table</p>
+			</a></li>
+			
+			<li class="nav-item"><a class="nav-link d-flex"
+				href="{{url('garden-help/home')}}"> <i
+					class="fas fa-plus-circle"></i>
+					<p>Add New Job</p>
 			</a></li>
 
 			<li class="nav-item "><a class="nav-link collapsed d-flex"
@@ -504,22 +508,7 @@
 								</a></li>
 					</ul>
 				</div></li>
-				
-<li class="nav-item "><a class="nav-link collapsed d-flex"
-				data-toggle="collapse" href="#componentsSupportTypesExamples"
-				aria-expanded="false"> <img 
-					class="my-nav-icon"
-					src="{{asset('images/gardenhelp_icons/Support-Types-white.png')}}"
-					alt="">
-					<p style="padding-right: 30px;">
-						Support Types <b class="caret"></b>
-					</p>
-			</a>
-				<div class="collapse" id="componentsSupportTypesExamples">
-					<ul class="nav">
-						
-					</ul>
-				</div></li>	
+			
 				
 				<li class="nav-item"><a class="nav-link d-flex"
 				href="#"> {{-- <i
@@ -531,15 +520,6 @@
 					<p>WhatsApp</p>
 			</a></li>
 			
-			<li class="nav-item"><a class="nav-link d-flex"
-				href="#"> {{-- <i
-					class="fas fa-plus-circle"></i>--}} <img
-					
-					class="my-nav-icon"
-					src="{{asset('images/gardenhelp_icons/General-Enquiries.png')}}"
-					alt="Dashboard">
-					<p>General Enquiries</p>
-			</a></li>
 
 			<li class="nav-item "><a class="nav-link d-flex"
 				href="{{url('logout')}}"> {{-- <i class="fas fa-sign-out-alt"></i>--}}

@@ -226,6 +226,16 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	letter-spacing: 0.17px;
 	color: #60a244 !important;
 }
+.cardTitleGrey{
+	font-family: Roboto;
+	font-size: 18px !important;
+	font-weight: 500 !important;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 2.5;
+	letter-spacing: 0.17px;
+	color: #656565 !important;
+}
 
 .select2-container--default .select2-selection--single {
 	border: none !important;

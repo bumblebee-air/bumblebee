@@ -76,6 +76,11 @@ li .nav-link:hover a i {
 	width: 29px;
 }
 
+.sidebar .nav i{
+	margin-right: 0 !important;
+	color: #fff !important;
+}
+
 .card .card-header.card-header-icon .card-title {
 	font-family: Roboto;
 	font-size: 21px;

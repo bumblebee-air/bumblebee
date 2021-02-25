@@ -51,16 +51,19 @@
 	.open>.dropdown-toggle.btn-gardenhelp-green {
 	background-image: none
 }
+.btn-gardenhelp-green.disabled, .btn-gardenhelp-green:disabled{
+	background-color:  #a3a3a3 !important;
+}
 
-/* .btn-gardenhelp-green.disabled.focus, .btn-gardenhelp-green.disabled:focus, .btn-gardenhelp-green.disabled:hover,
+ .btn-gardenhelp-green.disabled.focus, .btn-gardenhelp-green.disabled:focus, .btn-gardenhelp-green.disabled:hover,
 	.btn-gardenhelp-green[disabled].focus, .btn-gardenhelp-green[disabled]:focus,
 	.btn-gardenhelp-green[disabled]:hover, fieldset[disabled] .btn-gardenhelp-green.focus,
 	fieldset[disabled] .btn-gardenhelp-green:focus, fieldset[disabled] .btn-gardenhelp-green:hover
 	{
-	background-color: #c785c7;
-	border-color: #c785c7;
+	background-color: #a3a3a3;
+	border-color: #a3a3a3;
 }
- */
+ 
 .btn-gardenhelp-danger{
 	color: #fff;
 	background-color: #d85656;

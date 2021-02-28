@@ -181,6 +181,17 @@
             border: none!important;
             max-height: 21px!important;
         }
+
+        .my-check-box {
+            width: 15px;
+            height: 15px;
+            color: #c3c7d2;
+            padding-right: 20px;
+            cursor: pointer;
+        }
+        .my-check-box-checked {
+            color: #f7dc69;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
     <link rel="stylesheet" href="{{asset('css/jquery.businessHours.css')}}">
@@ -407,7 +418,17 @@
                             Payment Details
                         </div>
 
-                        <div class="col-md-12">
+                        <div class="col-12">
+                            <div class="form-group pl-2">
+                                    <div class="d-flex" @click="requireCardDetails()">
+                                    <div id="check" :class="require_card ? 'my-check-box my-check-box-checked' : 'my-check-box'">
+                                        <i class="fas fa-check-square"></i>
+                                    </div>
+                                    Add card details?
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" v-if="require_card===true">
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group bmd-form-group">
@@ -433,11 +454,11 @@
                                         <img src="{{asset('images/pay-with-stripe.png')}}" style="max-width: 100%; max-height: 40px" alt="Pay With Stripe">
                                     </div>
                                 </div>
-                                <input type='hidden' name='stripeToken' v-model="stripeToken"/>
-                                <input type='hidden' id="locations_details" name='locations_details'/>
-                                <input type='hidden' id='contacts_details' name='contacts_details'/>
                             </div>
                         </div>
+                        <input type='hidden' name='stripeToken' v-model="stripeToken"/>
+                        <input type='hidden' id="locations_details" name='locations_details'/>
+                        <input type='hidden' id='contacts_details' name='contacts_details'/>
                     </div>
 
                     <div class="row">
@@ -486,7 +507,8 @@
                         {}
                     ],
                     stripeToken: '',
-                    itn_inputs: []
+                    itn_inputs: [],
+                    require_card: false
                 }
             },
             mounted() {
@@ -640,19 +662,29 @@
                         uncheckedColorClass: 'dayOff',
                     })
                 },
+                requireCardDetails(){
+                    this.require_card = (this.require_card === false)? true : false;
+                },
                 checkPaymentCard(e) {
                     e.preventDefault();
-                    let exp_date = $('#payment_exp_date').val();
-                    let exp_month = exp_date.split('/')[0];
-                    let exp_year = exp_date.split('/')[1];
-                    Stripe.setPublishableKey('{{env('STRIPE_PUBLIC_KEY')}}');
-                    Stripe.createToken({
-                        number: $('#card_number').val(),
-                        cvc: $('#cvc').val(),
-                        exp_month: exp_month,
-                        exp_year: exp_year
-                    }, this.stripeResponseHandler);
-                    return false;
+                    if(this.require_card===true) {
+                        let exp_date = $('#payment_exp_date').val();
+                        let exp_month = exp_date.split('/')[0];
+                        let exp_year = exp_date.split('/')[1];
+                        Stripe.setPublishableKey('{{env('STRIPE_PUBLIC_KEY')}}');
+                        Stripe.createToken({
+                            number: $('#card_number').val(),
+                            cvc: $('#cvc').val(),
+                            exp_month: exp_month,
+                            exp_year: exp_year
+                        }, this.stripeResponseHandler);
+                        return false;
+                    }else{
+                        let the_reg_form = $("#registeration-form");
+                        setTimeout(() => {
+                            the_reg_form.get(0).submit();
+                        }, 300);
+                    }
                 },
                 stripeResponseHandler(status, response) {
                     if (response.error) {

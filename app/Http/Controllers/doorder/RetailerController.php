@@ -43,18 +43,20 @@ class RetailerController extends Controller
         $user->password = bcrypt(Str::random(6));
         $user->user_role = 'retailer';
         $user->save();
-
+        $customer_id= null;
         $stripe_token = $request->stripeToken;
-        if(env('APP_ENV')=='local'||env('APP_ENV')=='development'){
-            $stripe_token = 'tok_visa';
+        if($stripe_token!=null && $stripe_token!='') {
+            if (env('APP_ENV') == 'local' || env('APP_ENV') == 'development') {
+                $stripe_token = 'tok_visa';
+            }
+            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+            $customer = $stripe->customers->create([
+                'name' => $user->name,
+                'email' => $user->email,
+                'source' => $stripe_token
+            ]);
+            $customer_id = $customer->id;
         }
-        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
-        $customer = $stripe->customers->create([
-            'name' => $user->name,
-            'email' => $user->email,
-            'source' => $stripe_token
-        ]);
-
         $retailer = new Retailer();
         $retailer->user_id = $user->id;
         $retailer->name = $request->company_name;
@@ -65,7 +67,7 @@ class RetailerController extends Controller
         $retailer->contacts_details = $request->contacts_details;
 //        $retailer->stripe_token = $stripeToken;
 //        $retailer->customer_id = $customer;
-        $retailer->stripe_customer_id = $customer->id;
+        $retailer->stripe_customer_id = $customer_id;
         $retailer->save();
 
         //Getting Doorder Client

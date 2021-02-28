@@ -680,10 +680,7 @@
                         }, this.stripeResponseHandler);
                         return false;
                     }else{
-                        let the_reg_form = $("#registeration-form");
-                        setTimeout(() => {
-                            the_reg_form.get(0).submit();
-                        }, 300);
+                        this.submitTheRegForm();
                     }
                 },
                 stripeResponseHandler(status, response) {
@@ -691,38 +688,40 @@
                         alert(response.error.message);
                     } else {
                         // token contains id, last4, and card type
-                        var token = response['id'];
-                        this.stripeToken = token;
-                        let location_details = [];
-                        let contacts_details = [];
-                        //Make Location Details Input
-                        for (let item of this.locations) {
-                            location_details.push({
-                                address: $('#location' + (this.locations.indexOf(item) + 1)).val(),
-                                coordinates: $('#location_' + (this.locations.indexOf(item) + 1) + '_coordinates').val(),
-                                eircode: $('#eircode' + (this.locations.indexOf(item) + 1)).val(),
-                                country: $('#country' + (this.locations.indexOf(item) + 1)).val(),
-                                business_hours: $('#business_hours' + (this.locations.indexOf(item) + 1)).val(),
-                                business_hours_json: $('#business_hours_json' + (this.locations.indexOf(item) + 1)).val(),
-                                county: $('#county' + (this.locations.indexOf(item) + 1)).val(),
-                            });
-                        }
-                        for (let item of this.contacts) {
-                            let intl_tel_input_value = this.itn_inputs['contact_number' + (this.contacts.indexOf(item) + 1)]
-                            contacts_details.push({
-                                contact_name: $('#contact_name' + (this.contacts.indexOf(item) + 1)).val(),
-                                contact_phone: intl_tel_input_value.getNumber(),
-                                contact_email: $('#contact_email' + (this.contacts.indexOf(item) + 1)).val(),
-                                contact_location: $('#contact_location' + (this.contacts.indexOf(item) + 1)).val()
-                            });
-                        }
-                        $('#locations_details').val(JSON.stringify(location_details))
-                        $('#contacts_details').val(JSON.stringify(contacts_details))
-                        var $form = $("#registeration-form");
-                        setTimeout(() => {
-                            $form.get(0).submit();
-                        }, 300)
+                        this.stripeToken = response['id'];
+                        this.submitTheRegForm();
                     }
+                },
+                submitTheRegForm(){
+                    let location_details = [];
+                    let contacts_details = [];
+                    //Make Location Details Input
+                    for (let item of this.locations) {
+                        location_details.push({
+                            address: $('#location' + (this.locations.indexOf(item) + 1)).val(),
+                            coordinates: $('#location_' + (this.locations.indexOf(item) + 1) + '_coordinates').val(),
+                            eircode: $('#eircode' + (this.locations.indexOf(item) + 1)).val(),
+                            country: $('#country' + (this.locations.indexOf(item) + 1)).val(),
+                            business_hours: $('#business_hours' + (this.locations.indexOf(item) + 1)).val(),
+                            business_hours_json: $('#business_hours_json' + (this.locations.indexOf(item) + 1)).val(),
+                            county: $('#county' + (this.locations.indexOf(item) + 1)).val(),
+                        });
+                    }
+                    for (let item of this.contacts) {
+                        let intl_tel_input_value = this.itn_inputs['contact_number' + (this.contacts.indexOf(item) + 1)]
+                        contacts_details.push({
+                            contact_name: $('#contact_name' + (this.contacts.indexOf(item) + 1)).val(),
+                            contact_phone: intl_tel_input_value.getNumber(),
+                            contact_email: $('#contact_email' + (this.contacts.indexOf(item) + 1)).val(),
+                            contact_location: $('#contact_location' + (this.contacts.indexOf(item) + 1)).val()
+                        });
+                    }
+                    $('#locations_details').val(JSON.stringify(location_details));
+                    $('#contacts_details').val(JSON.stringify(contacts_details));
+                    var $form = $("#registeration-form");
+                    setTimeout(() => {
+                        $form.get(0).submit();
+                    }, 300);
                 }
             }
         });

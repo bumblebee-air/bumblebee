@@ -254,7 +254,7 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 }
 
 .my-check-box .checked, .checked {
-	color: #60a244;
+	color: #60a244 !important;
 }
 
 .add-other-input {
@@ -357,7 +357,72 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 /* 	border-top: 1px solid #e9e8e8 !important; */
 /* 	text-align: center; */
 /* } */
+.recommendContractor{
+	margin-top: 8px !important;
+	margin-bottom: 5px !important;
+}
+.recommendContractor .card-body{
+	padding: 6px 15px !important;
+	cursor: pointer !important;
+}
+.recommendContractor .card-body label{
+	cursor: pointer !important;
+}
+.recommendContractorNameH6{
+	font-family: Roboto;
+  font-size: 14px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #60a244;
+  margin-bottom: 0px !important;
+}
+.recommendContractorDataP{
+	font-family: Roboto;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #656565;
+  margin-bottom: 1px !important;
+}
+.selected-contractor-card .recommendContractorNameH6{
+	font-family: Roboto;
+  font-size: 18px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #60a244;
+  margin-bottom: 0px !important;
+}
 
+.selected-contractor-card .recommendContractorDataP{
+	font-family: Roboto;
+  font-size: 18px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #656565;
+  margin-bottom: 1px !important;
+}
+.assignContractorHeader
+{font-family: Roboto;
+  font-size: 30px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #60a244;}
 
 
 /************************* datetime picker **************************/

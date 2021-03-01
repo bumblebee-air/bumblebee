@@ -1,11 +1,12 @@
-@extends('templates.dashboard') @section('title', 'GardenHelp | Job') @section('page-styles')
+@extends('templates.dashboard') @section('title', 'GardenHelp | Job')
+@section('page-styles')
 <style>
 .main-panel>.content {
 	margin-top: 0px;
 }
 
 .modal-content {
-	/*padding: 51px 51px 112px 51px;*/
+	padding: 51px !important;
 	border-radius: 30px !important;
 	border: solid 1px #979797 !important;
 	background-color: #ffffff;
@@ -50,8 +51,35 @@
 .modal-header .close i {
 	font-size: 10px !important;
 }
+
+.fa-check-circle {
+	color: #b1b1b1;
+	line-height: 3;
+	font-size: 20px
+}
 </style>
-@endsection @section('page-content')
+
+<style>
+input[type="radio"] {
+	display: none;
+}
+
+.radioLabel {
+	height: 180px;
+	width: 240px;
+	border: 6px solid #18f98d
+}
+
+input[type="radio"]:checked+div, input[type="radio"]:checked+label {
+	background-color: #f7f7f7;
+}
+
+input[type="radio"]:checked+div i {
+	color: #60a244;
+}
+</style>
+@endsection 
+@section('page-content')
 <div class="content">
 	<div class="container-fluid">
 		<div class="container-fluid">
@@ -207,93 +235,131 @@
 						</div>
 					</div>
 
-				<div class="row" style="display: flex;flex-wrap: wrap;">
-					<div class="col-lg-6">
-											<div class="card" style="height: 80%">
-						<div class="card-body" style="padding-top: 0 !important;">
-							<div class="container" style="padding-bottom: 10px !important;">
-								<div class="row">
-									<div class="col-12">
-										<div class=" row">
+					<div class="row ">
+						<div class="col-lg-6 d-flex">
+							<div class="card ">
+								<div class="card-body" style="padding-top: 0 !important;">
+									<div class="container" style="padding-bottom: 10px !important;">
+										<div class="row">
 											<div class="col-12">
-												<h5 class=" requestSubTitle cardTitleGrey">Highly Recommended Contractors</h5>
+												<div class=" row">
+													<div class="col-12">
+														<h5 class=" requestSubTitle cardTitleGrey"
+															style="margin-bottom: 0 !important;">Highly Recommended
+															Contractors</h5>
+													</div>
+												</div>
 											</div>
-										</div>
-									</div>
-									<div class="col-12">
-										
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					</div>
-					<div class="col-lg-6">	
-					<div class="card">
-						<div class="card-body" style="padding-top: 0 !important;">
-							<div class="container" style="padding-bottom: 10px !important;">
-								<div class="row">
-									<div class="col-12">
-										<div class=" row">
 											<div class="col-12">
-												<h5 class="cardTitleGreen requestSubTitle ">Estimated Price Quotation</h5>
-											</div>
-										</div>
-									</div>
-									<div class="col-12">
-										<div class="row">
-											<div class=" col-8">
-												<label class="requestLabelGreen">Garden maintenance
-													(monthly)</label>
-											</div>
-											<div class=" col-4">
-												<span class="requestSpanGreen">€100</span>
-											</div>
-										</div>
-										<div class="row">
-											<div class=" col-8">
-												<label class="requestLabelGreen">Grass cutting</label>
-											</div>
-											<div class=" col-4">
-												<span class="requestSpanGreen">€25</span>
-											</div>
-										</div>
-										<div class="row">
-											<div class=" col-8">
-												<label class="requestLabelGreen">Gutter clearing</label>
-											</div>
-											<div class=" col-4">
-												<span class="requestSpanGreen">€70</span>
-											</div>
-										</div>
-										<div class="row" style="margin-top: 15px">
-											<div class=" col-8">
-												<label class="requestSpanGreen">Total</label>
-											</div>
-											<div class=" col-4">
-												<span class="requestSpanGreen">€195</span>
-											</div>
+												@if(count($contractors) > 0) @foreach($contractors as
+												$contractor)
+												<div class="card recommendContractor">
+													<input type="radio"
+														id="radioInputContractor-{{$contractor['id']}}"
+														name="selected-contractor" value="{{$contractor['id']}}"
+														data-contractor-name="{{$contractor['name']}}"
+														data-contractor-level="{{$contractor['level']}}"
+														data-contractor-away="{{$contractor['away_km']}}"
+														>
+
+
+													<div class="card-body">
+														<div
+															class="col-12  ">
+															<label class="form-check-label w-100 px-0"
+																for="radioInputContractor-{{$contractor['id']}}">
+																<div class="row">
+
+																	<div class="col-10">
+																		<h6 class="recommendContractorNameH6">
+																			{{$contractor['name']}}</h6>
+																		<p class="recommendContractorDataP">{{$contractor['level']}}</p>
+																		<p class="recommendContractorDataP">{{$contractor['away_km']}}
+																			km away</p>
+																	</div>
+																	<div class="col-2" style="text-align: right">
+																		<i class="fas fa-check-circle"></i>
+																	</div>
+																</div>
+															</label>
+														</div>
+
+													</div>
+												</div>
+												@endforeach @endif
+																							</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-					</div>
+						<div class="col-lg-6 d-flex ">
+							<div class="card ">
+								<div class="card-body" style="padding-top: 0 !important;">
+									<div class="container" style="padding-bottom: 10px !important;">
+										<div class="row">
+											<div class="col-12">
+												<div class=" row">
+													<div class="col-12">
+														<h5 class="cardTitleGreen requestSubTitle ">Estimated
+															Price Quotation</h5>
+													</div>
+												</div>
+											</div>
+											<div class="col-12">
+												<div class="row">
+													<div class=" col-8">
+														<label class="requestLabelGreen">Garden maintenance
+															(monthly)</label>
+													</div>
+													<div class=" col-4">
+														<span class="requestSpanGreen">€100</span>
+													</div>
+												</div>
+												<div class="row">
+													<div class=" col-8">
+														<label class="requestLabelGreen">Grass cutting</label>
+													</div>
+													<div class=" col-4">
+														<span class="requestSpanGreen">€25</span>
+													</div>
+												</div>
+												<div class="row">
+													<div class=" col-8">
+														<label class="requestLabelGreen">Gutter clearing</label>
+													</div>
+													<div class=" col-4">
+														<span class="requestSpanGreen">€70</span>
+													</div>
+												</div>
+												<div class="row" style="margin-top: 15px">
+													<div class=" col-8">
+														<label class="requestSpanGreen">Total</label>
+													</div>
+													<div class=" col-4">
+														<span class="requestSpanGreen">€195</span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 
 					<div class="row">
 						<div class="col-sm-6 text-center">
-							<form id="order-form" method="POST" action="">
-								{{csrf_field()}}
-								<button class="btn btn-register btn-gardenhelp-green"
-									style="float: right;" disabled>Send quotation</button>
-							</form>
+							
+								<button class="btn btn-register btn-gardenhelp-green" id="assignContractorBtn"
+									style="float: right;" disabled  onclick="showAssignContractorModal()">
+									Assign Contractor</button>
+							
 						</div>
 						<div class="col-sm-6 text-center">
 							<button class="btn btn-register btn-gardenhelp-danger"
 								style="float: left" data-toggle="modal"
-								data-target="#rejection-reason-modal">Reject</button>
+								data-target="#rejection-reason-modal">Cancel Job</button>
 						</div>
 					</div>
 
@@ -323,10 +389,10 @@
 											<div class="text-center"
 												style="font-family: Roboto; font-size: 30px; font-weight: bold; font-stretch: normal; font-style: normal; line-height: normal; letter-spacing: normal; color: #414141;">
 												<img src="{{asset('images/doorder_icons/red-tick.png')}}"
-													style="width: 160px" alt="Reqject"> <br> Rejected
+													style="width: 160px" alt="Reqject"> <br> Canceled
 											</div>
 											<div class="form-group ">
-												<label class="">Please add reason for rejection</label>
+												<label class="">Please add reason for cancellation</label>
 												<textarea class="form-control" name="rejection_reason"
 													rows="4" required></textarea>
 											</div>
@@ -350,15 +416,94 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div><!-- end reject modal -->
+					<!-- assign contractor modal -->
+                            <div class="modal fade" id="assign-contractor-modal" tabindex="-1" role="dialog" 
+                            aria-labelledby="assign-deliverer-label" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                           
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="modal-dialog-header assignContractorHeader">
+                                                This contractor is successfully selected  <br> and ready to be assigned
+                                            </div>
+
+                                            <div>
+                                                <div class="card-body">
+                                                    <div class="container">
+                                                        <div class="row">
+                                                            <div class="col-md-8 offset-md-2 deliverers-container">
+                                                                <div class="card selected-contractor-card">
+                                                                    <div class="card-header deliverer-details row">
+                                                                        
+																	<div class="col-10">
+																		<h6 class="recommendContractorNameH6">
+																			<span id="contractorNameSpan"></span></h6>
+																		<p class="recommendContractorDataP"><span id="contractorLevelSpan"></span></p>
+																		<p class="recommendContractorDataP"><span id="contractorAwaySpan"></span>
+																			km away</p>
+																	</div>
+																	<div class="col-2" style="text-align: right">
+																		<i class="fas fa-check-circle checked"></i>
+																	</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                                        <form method="POST" id="assign-contractor" action="{{url('garden-help/job/assign')}}">
+                                                                            @csrf
+                                                                            <input type="hidden" id="jobId" name="jobId" value="{{$job->id}}"/>
+                                                                            <input type="hidden" id="contractorId" name="contractorId" required/>
+                                                                        </form>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer d-flex justify-content-around">
+                                            <button type="button" class="btn btn-register btn-gardenhelp-green" onclick="$('form#assign-contractor').submit()">Assign</button>
+                                            <button type="button" class="btn btn-register btn-gardenhelp-danger" data-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- end assign contractor modal -->
 				</div>
 			</div>
 		</div>
 
 	</div>
 </div>
+@endsection
+@section('page-scripts')
 
 <script type="text/javascript">
+
+$(document).ready(function(){
+
+$('input').on('change', function() {
+   //alert($('input[type=radio]:checked').val());
+   $('#assignContractorBtn').prop("disabled", false); 
+});
+});
+
+function showAssignContractorModal(){
+$('#contractorId').val($("input[name='selected-contractor']:checked").val());
+            $('#assign-contractor-modal').modal('show')
+            console.log($("input[name='selected-contractor']:checked"))
+            
+             let selectedInput =$("input[name='selected-contractor']:checked");
+            let contractor_name = selectedInput.data('contractor-name');
+            $('#contractorNameSpan').html(contractor_name);
+            let contractor_level = selectedInput.data('contractor-level');
+            $('#contractorLevelSpan').html(contractor_level);
+            let contractor_away = selectedInput.data('contractor-away');
+            $('#contractorAwaySpan').html(contractor_away);
+            
+            
+}
+
     	function initMap() {
             //Map Initialization
             this.map = new google.maps.Map(document.getElementById('map'), {

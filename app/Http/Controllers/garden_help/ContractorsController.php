@@ -51,6 +51,7 @@ class ContractorsController extends Controller
             'available_equipments' => $request->available_equipments,
             'type_of_work_exp' => $request->type_of_work_exp,
             'address' => $request->address,
+            'address_coordinates' => $request->address_coordinates,
             'company_number' => $request->company_number,
             'vat_number' => $request->vat_number,
             'insurance_document' => $request->file('insurance_document')->store('uploads/contractors_uploads'),

@@ -196,9 +196,7 @@ Route::get('stripe-onboard/stripe/refresh', 'StripeController@getOnboardRefresh'
 Route::get('stripe-onboard/stripe/success', 'StripeController@getOnboardSuccess');
 
 // Clients Login
-Route::group([
-    'prefix' => '{client_name}'
-], function () {
+Route::group(['prefix' => '{client_name}'], function () {
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('clientLogin');
     Route::post('login', 'Auth\LoginController@login')->name('clientLogin');
 
@@ -211,37 +209,30 @@ Route::group([
     Route::get('customers/registration', 'garden_help\CustomersController@getRegistrationForm')->name('getCustomerRegistration');
     Route::post('customers/registration', 'garden_help\CustomersController@postRegistrationForm')->name('postCustomerRegistration');
 
-    Route::group([
-        'middleware' => "auth:garden-help"
-    ], function () {
+    Route::group(['middleware' => "auth:garden-help"], function () {
+
         Route::get('home', 'garden_help\DashboardController@index')->name('garden_help_getDashboard');
-        Route::group([
-            'prefix' => 'contractors'
-        ], function () {
+        Route::group(['prefix' => 'contractors'], function () {
             Route::get('requests', 'garden_help\ContractorsController@getContractorsRequests')->name('garden_help_getContractorsRequests');
             Route::get('requests/{id}', 'garden_help\ContractorsController@getSingleRequest')->name('garden_help_getContractorSingleRequest');
             Route::post('requests/{id}', 'garden_help\ContractorsController@postSingleRequest')->name('garden_help_postContractorSingleRequest');
         });
-        Route::group([
-            'prefix' => 'customers'
-        ], function () {
+        Route::group(['prefix' => 'customers'], function () {
             Route::get('requests', 'garden_help\CustomersController@getCustomersRequests')->name('garden_help_getCustomerssRequests');
             Route::get('requests/{id}', 'garden_help\CustomersController@getSingleRequest')->name('garden_help_getcustomerSingleRequest');
             Route::post('requests/{id}', 'garden_help\CustomersController@postSingleRequest')->name('garden_help_postCustomerSingleRequest');
         });
-        Route::group([
-            'prefix' => 'jobs_table'
-        ], function () {
+        Route::group(['prefix' => 'jobs_table'], function () {
             Route::get('jobs', 'garden_help\JobsController@getJobsTable')->name('garden_help_getJobsTable');
             Route::get('job/{id}', 'garden_help\JobsController@getSingleJob')->name('garden_help_getSingleJob');
             Route::post('job/{id}', 'garden_help\JobsController@postSingleJob')->name('garden_help_postSingleJob');
         });
-        
+
         Route::post('job/assign', 'garden_help\JobsController@assignContractorToJob')->name('garden_help_assignJob');
-        
+
     });
-    
-        
+
+
     /*
      * DoOrder Routes
      */
@@ -254,16 +245,12 @@ Route::group([
     Route::get('retailer/registration', 'doorder\RetailerController@getRetailerRegistrationForm')->name('getRetailerRegistration');
     Route::post('retailer/registration', 'doorder\RetailerController@postRetailerRegistrationForm')->name('postRetailerRegistration');
 
-    Route::group([
-        'middleware' => "auth:doorder"
-    ], function () {
+    Route::group(['middleware' => "auth:doorder"], function () {
         Route::get('dashboard', 'doorder\DashboardController@index')->name('doorder_dashboard');
         Route::get('orders', 'doorder\OrdersController@getOrdersTable')->name('doorder_ordersTable');
         Route::get('single-order/{id}', 'doorder\OrdersController@getSingleOrder')->name('doorder_singleOrder');
 
-        Route::group([
-            'middleware' => "client"
-        ], function () {
+        Route::group(['middleware' => "client"], function () {
             Route::post('order/assign', 'doorder\OrdersController@assignDriverToOrder')->name('doorder_assignOrder');
             Route::get('admin-map', 'doorder\DashboardController@getAdminMap')->name('doorder_adminMap');
             // Drivers
@@ -275,9 +262,7 @@ Route::group([
             Route::get('retailers/requests/{id}', 'doorder\RetailerController@getSingleRequest')->name('doorder_retailers_single_request');
             Route::post('retailers/request/{id}', 'doorder\RetailerController@postSingleRequest')->name('post_doorder_retailers_single_request');
         });
-        Route::group([
-            'middleware' => "retailer"
-        ], function () {
+        Route::group(['middleware' => "retailer"], function () {
             Route::get('orders/add', 'doorder\OrdersController@addNewOrder')->name('doorder_addNewOrder');
             Route::post('orders/save', 'doorder\OrdersController@saveNewOrder')->name('doorder_saveNewOrder');
         });

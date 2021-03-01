@@ -140,7 +140,8 @@
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
                                 <label>Address</label>
-                                <input type="text" class="form-control" name="address" value="{{old('address')}}" required>
+                                <input type="text" class="form-control" id="location" name="location" value="{{old('location')}}" required>
+                                <input type="hidden" id="location_coordinates" name="location_coordinates">
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -523,6 +524,7 @@
                 }, 500)
             } else {
                 setTimeout(() => {
+                    window.initAutoComplete()
                     $('#available_date_time').datetimepicker({
                         icons: {
                             time: "fa fa-clock",
@@ -824,6 +826,25 @@
         });
 
         //Map Js
+        window.initAutoComplete = function initAutoComplete() {
+            //Autocomplete Initialization
+            let location_input = document.getElementById('location');
+            let autocomplete_location = new google.maps.places.Autocomplete(location_input);
+            autocomplete_location.setComponentRestrictions({'country': ['ie']});
+            autocomplete_location.addListener('place_changed', () => {
+                let place = autocomplete_location.getPlace();
+                if (!place.geometry) {
+                    // User entered the name of a Place that was not suggested and
+                    // pressed the Enter key, or the Place Details request failed.
+                    window.alert("No details available for input: '" + place.name + "'");
+                } else {
+                    let place_lat = place.geometry.location.lat();
+                    let place_lon = place.geometry.location.lng();
+
+                    document.getElementById("location_coordinates").value = '{"lat": ' + place_lat.toFixed(5) + ', "lon": ' + place_lon.toFixed(5) + '}';
+                }
+            });
+        }
         window.initMap = function initMap() {
             //Map Initialization
             this.map = new google.maps.Map(document.getElementById('map'), {

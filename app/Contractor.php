@@ -17,6 +17,7 @@ class Contractor extends Model
         'age_proof',
         'type_of_work_exp',
         'address',
+        'address_coordinates',
         'company_number',
         'vat_number',
         'insurance_document',

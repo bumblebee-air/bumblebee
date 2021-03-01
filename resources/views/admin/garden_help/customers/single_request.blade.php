@@ -103,7 +103,7 @@
                                         <div class="col-12">
                                             <div class=" row">
                                                 <label class="requestLabel col-12">Address:
-                                                 <span class="form-control customerRequestSpan col-12">{{$customer_request->address}}</span></label>
+                                                 <span class="form-control customerRequestSpan col-12">{{$customer_request->location}}</span></label>
                                             </div>
                                         </div>
                                         <div class="col-12">

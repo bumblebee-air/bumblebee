@@ -400,9 +400,9 @@
 				<div class="row">
 					<div class="col-md-12 mb-3">
 						<div class="form-group bmd-form-group">
-							<label class="bmd-label-floating" for="address">Address</label>
-							<input id="address" type="text" class="form-control"
-								name="address" value="{{old('address')}}" required>
+							<label for="address">Address</label>
+							<input id="address" type="text" class="form-control" name="address" value="{{old('address')}}" required>
+							<input type="hidden" id="address_coordinates" name="address_coordinates">
 						</div>
 					</div>
 
@@ -1043,5 +1043,28 @@
 				}
             }
         });
+
+		//Map Js
+		window.initAutoComplete = function initAutoComplete() {
+			//Autocomplete Initialization
+			let location_input = document.getElementById('address');
+			let autocomplete_location = new google.maps.places.Autocomplete(location_input);
+			autocomplete_location.setComponentRestrictions({'country': ['ie']});
+			autocomplete_location.addListener('place_changed', () => {
+				let place = autocomplete_location.getPlace();
+				if (!place.geometry) {
+					// User entered the name of a Place that was not suggested and
+					// pressed the Enter key, or the Place Details request failed.
+					window.alert("No details available for input: '" + place.name + "'");
+				} else {
+					let place_lat = place.geometry.location.lat();
+					let place_lon = place.geometry.location.lng();
+
+					document.getElementById("address_coordinates").value = '{"lat": ' + place_lat.toFixed(5) + ', "lon": ' + place_lon.toFixed(5) + '}';
+				}
+			});
+		}
     </script>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=geometry,places,drawing&callback=initAutoComplete"></script>
+
 @endsection

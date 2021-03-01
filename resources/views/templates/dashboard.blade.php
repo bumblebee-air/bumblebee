@@ -75,8 +75,8 @@
 <script src="{{asset('js/moment-timezone.min.js')}}"></script>
 <!--<script src="{{asset('js/ct-material/material-dashboard.min.js')}}"></script>-->
 <script src="{{asset('js/chartist.min.js')}}"></script>
- <script src="{{asset('js/jquery-ui.js')}}"></script>
- <script src="//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<script src="{{asset('js/jquery-ui.js')}}"></script>
+<script src="//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 
 {{--Socket & Vue server --}}
 <script src="{{asset('js/socket.io-3.0.1.min.js')}}"></script>
@@ -133,8 +133,8 @@
     <script>
         $('.sidebar').attr('data-background-color', 'white');
         //Socket Script
-        // let socket = io.connect(window.location.protocol+'//' + window.location.hostname + ':8890');
-        let socket = io.connect('http://localhost:8890');
+        let socket = io.connect(window.location.protocol+'//' + window.location.hostname + ':8890');
+        // let socket = io.connect('http://localhost:8890');
         // Vue.use(VueToast);
         //
         // socket.on('doorder-channel:new-order', (data) => {

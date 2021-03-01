@@ -10,62 +10,11 @@ class JobsController extends Controller
 
     public function getJobsTable()
     {
-        $jobs_table = collect([
-            [
-                'created_at' => '25/2/2021',
-                'scheduled_at' => '1/3/2021 10:00',
-                'service_type' => 'Garden Maintenance',
-                'job_number' => '1',
-                'status' => 'not_assigned',
-                'stage_width'=>0,
-                'customer_name' => 'sara reda'
-            ],[
-                'created_at' => '25/2/2021',
-                'scheduled_at' => '1/3/2021 10:00',
-                'service_type' => 'Garden Maintenance',
-                'job_number' => '2',
-                'status' => 'assigned',
-                'stage_width'=>20,
-                'customer_name' => 'sara reda'
-            ],[
-                'created_at' => '25/2/2021',
-                'scheduled_at' => '1/3/2021 10:00',
-                'service_type' => 'Garden Maintenance',
-                'job_number' => '3',
-                'status' => 'accepted',
-                'stage_width'=>40,
-                'customer_name' => 'sara reda'
-            ], [
-                'created_at' => '25/2/2021',
-                'scheduled_at' => '1/3/2021 10:00',
-                'service_type' => 'Garden Maintenance',
-                'job_number' => '4',
-                'status' => 'on_way_job_location',
-                'stage_width'=>60,
-                'customer_name' => 'sara reda'
-            ],[
-                'created_at' => '25/2/2021',
-                'scheduled_at' => '1/3/2021 10:00',
-                'service_type' => 'Garden Maintenance',
-                'job_number' => '5',
-                'status' => 'arrived_to_job_location',
-                'stage_width'=>80,
-                'customer_name' => 'sara reda'
-            ],[
-                'created_at' => '25/2/2021',
-                'scheduled_at' => '1/3/2021 10:00',
-                'service_type' => 'Garden Maintenance',
-                'job_number' => '6',
-                'status' => 'completed',
-                'stage_width'=>100,
-                'customer_name' => 'sara reda'
-            ]
-        ]);
-       
-        
-        
+        $jobs = Customer::where('type', 'job')
+            ->orderBy('id', 'desc')->paginate(20);
+
         return view('admin.garden_help.jobs_table.jobs', [
-            'jobs_table' => $jobs_table
+            'jobs' => $jobs
         ]);
     }
     
@@ -100,8 +49,6 @@ class JobsController extends Controller
           return view('admin.garden_help.jobs_table.single_job', ['job' => $customer_request,'contractors'=>$contractors]);
         
     }
-    
-    
     
     public function assignContractorToJob(Request $request){
         $job_id = $request->get('jobId');

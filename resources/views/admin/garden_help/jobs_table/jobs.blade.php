@@ -76,48 +76,38 @@
                                                 <th>Customer Name</th>
                                             </thead>
                                             <tbody>
-                                                @if(count($jobs_table) > 0)
-                                                    @foreach($jobs_table as $job)
-                                 
-                                                   <tr class="order-row" onclick="window.location = '{{route('garden_help_getSingleJob',['garden-help', $job['job_number']])}}'">
-                                                            <td>{{$job['created_at']}}</td>
-                                                            <td>{{$job['scheduled_at']}}</td>
-                                                            <td>{{$job['service_type']}}</td>
-                                                            <td>{{$job['job_number']}}</td>
-                                                            <td>
-                                                                @if($job['status'] == 'not_assigned')
-                                                                    <img class="status_icon" src="{{asset('images/doorder_icons/order_status_pending.png')}}" alt="not assigned">
-                                                                @elseif($job['status'] == 'assigned')
-                                                                    <img class="status_icon" src="{{asset('images/doorder_icons/order_status_on_route.png')}}" alt="assigned">
-                                                                @elseif($job['status'] == 'not_assigned')
-                                                                    <img class="status_icon" src="{{asset('images/doorder_icons/order_status_matched.png')}}" alt="accepted">
-                                                                @elseif($job['status'] == 'on_way_job_location')
-                                                                    <img class="status_icon" src="{{asset('images/doorder_icons/order_status_on_route_pickup.png')}}" alt="on way">
-                                                                @elseif($job['status'] == 'arrived_to_job_location')
-                                                                    <img class="status_icon" src="{{asset('images/doorder_icons/order_status_picked_up.png')}}" alt="arrived">
-                                                                @else
-                                                                    <img class="status_icon" src="{{asset('images/doorder_icons/order_status_delivered.png')}}" alt="completed">
-                                                                @endif
-                                                            </td>
-                                                            <td>
-                                                                @php($i = '20')
-                                                                <div class="progress m-auto">
-                                                                    <div class="progress-bar" role="progressbar" 
-                                                                    style="width: {{$job['stage_width']}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                {{$job['customer_name']}}
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                @else
-                                                    <tr>
-                                                        <td colspan="8" class="text-center">
-                                                            <strong>No data found.</strong>
-                                                        </td>
-                                                    </tr>
-                                                @endif
+                                                <tr v-for="job in jobs" v-if="jobs.length" class="order-row" @click="openJob(job.id)">
+                                                    <td>@{{job.created_at}}</td>
+                                                    <td>@{{job.available_date_time}}</td>
+                                                    <td>@{{job.service_types}}</td>
+                                                    <td>@{{job.id}}</td>
+                                                    <td>
+                                                        <img v-if="job.status == 'ready'" class="status_icon" src="{{asset('images/doorder_icons/order_status_pending.png')}}" alt="not assigned">
+                                                        <img v-else-if="job.status == 'assigned'" class="status_icon" src="{{asset('images/doorder_icons/order_status_on_route.png')}}" alt="assigned">
+                                                        <img v-else-if="job.status == 'matched'" class="status_icon" src="{{asset('images/doorder_icons/order_status_matched.png')}}" alt="accepted">
+                                                        <img v-else-if="job.status == 'on_route'" class="status_icon" src="{{asset('images/doorder_icons/order_status_on_route_pickup.png')}}" alt="on way">
+                                                        <img v-else-if="job.status == 'arrived'" class="status_icon" src="{{asset('images/doorder_icons/order_status_picked_up.png')}}" alt="arrived">
+                                                        <img v-else class="status_icon" src="{{asset('images/doorder_icons/order_status_delivered.png')}}" alt="completed">
+                                                    </td>
+                                                    <td>
+                                                        <div class="progress m-auto">
+                                                            <div class="progress-bar" role="progressbar" :style="'width:' + (stage * 0) + '%'" v-if="job.status == 'ready'" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            <div class="progress-bar" role="progressbar" :style="'width:' + (stage * 1) + '%'" v-else-if="job.status == 'assigned'" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            <div class="progress-bar" role="progressbar" :style="'width:' + (stage * 3) + '%'" v-else-if="job.status == 'matched'" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            <div class="progress-bar" role="progressbar" :style="'width:' + (stage * 4) + '%'" v-else-if="job.status == 'on_route'" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            <div class="progress-bar" role="progressbar" :style="'width:' + (stage * 5) + '%'" v-else-if="job.status == 'arrived'" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            <div class="progress-bar" role="progressbar" :style="'width:' + (stage * 6) + '%'" v-else-if="job.status == 'completed'" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        @{{job.name}}
+                                                    </td>
+                                                </tr>
+{{--                                                <tr v-else>--}}
+{{--                                                    <td colspan="8" class="text-center">--}}
+{{--                                                        <strong>No data found.</strong>--}}
+{{--                                                    </td>--}}
+{{--                                                </tr>--}}
                                             </tbody>
                                         </table>
                                         <nav aria-label="pagination" class="float-right">
@@ -132,6 +122,45 @@
 
         </div>
     </div>
+@endsection
+
+@section('page-scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
+    <script>
+        Vue.use(VueToast);
+        var app = new Vue({
+            el: '#app',
+            data: {
+                jobs: {},
+                stage: 16.66
+            },
+            mounted() {
+                socket.on('garden-help-channel:update-job-status', (data) => {
+                    let decodedData = JSON.parse(data);
+                    //Check if job exists
+                    let orderIndex = this.jobs.map(function(x) {return x.id; }).indexOf(decodedData.data.id)
+                    if (orderIndex != -1) {
+                        this.jobs[orderIndex].status = decodedData.data.status;
+                        updateAudio.play();
+                    }
+                });
+
+                var jobs = {!! json_encode($jobs) !!};
+
+                for(let item of jobs.data) {
+                    item.created_at = moment(item.created_at).format('YYYY-MM-DD')
+                    item.available_date_time = moment(item.available_date_time).format('YYYY-MM-DD HH:mm')
+                }
+
+                this.jobs = jobs.data;
+            },
+            methods: {
+                openJob(request_id){
+                    window.location.href = "{{url('garden-help/jobs_table/job')}}/"+request_id;
+                }
+            }
+        });
+    </script>
 @endsection
 
 

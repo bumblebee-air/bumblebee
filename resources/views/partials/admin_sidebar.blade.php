@@ -8,7 +8,7 @@
 	<div class="user" style="z-index: 3">
 		<div class="photo photo-full text-center">
 			<img src="{{asset($admin_nav_logo)}}" title="{{$admin_client_name}}"
-				alt="{{$admin_client_name}}" style="width: 95px; height: 58px;" />
+				alt="{{$admin_client_name}}" />
 		</div>
 		<div class="user-info">
 			<a href="{{url('/')}}" class="username"> <span> </span>
@@ -410,9 +410,7 @@
 		<ul class="nav">
 			<li class="nav-item"><a class="nav-link d-flex"
 				href="{{url('garden-help/home')}}"> {{-- <i
-					class="fas fa-plus-circle"></i>--}} <img
-					
-					class="my-nav-icon"
+					class="fas fa-plus-circle"></i>--}} <img class="my-nav-icon"
 					src="{{asset('images/gardenhelp_icons/Dashboard-white.png')}}"
 					alt="Dashboard">
 					<p>Dashboard</p>
@@ -423,16 +421,24 @@
 					class="my-nav-icon"
 					src="{{asset('images/gardenhelp_icons/Job-Table-white.png')}}"
 					alt="Dashboard">
-					<p>Jobs Table</p>
-			</a></li>
-			
+					<p>Jobs Table</p> </a></li>
+
 			<li class="nav-item"><a class="nav-link d-flex"
-				href="{{url('garden-help/home')}}"> <i
+				href="{{route('garden_help_addNewJob', 'garden-help')}}"> <i
 					class="fas fa-plus-circle"></i>
 					<p>Add New Job</p>
 			</a></li>
 
-			<li class="nav-item "><a class="nav-link collapsed d-flex"
+			<li class="nav-item"><a class="nav-link d-flex"
+				href="{{url('garden-help/home')}}"> <img class="my-nav-icon"
+					src="{{asset('images/gardenhelp_icons/Customers-white.png')}}"
+					alt="">
+					<p style="padding-right: 30px;">
+						Customers 
+					</p>
+			</a></li>
+
+			<!-- 	<li class="nav-item "><a class="nav-link collapsed d-flex"
 				data-toggle="collapse" href="#componentsCustomersExamples"
 				aria-expanded="false"> <img 
 					class="my-nav-icon"
@@ -446,9 +452,19 @@
 					<ul class="nav">
 						
 					</ul>
-				</div></li>
-				
-			<li class="nav-item "><a class="nav-link collapsed d-flex"
+				</div></li> -->
+
+
+			<li class="nav-item"><a class="nav-link d-flex"
+				href="{{url('garden-help/home')}}"> <img class="my-nav-icon"
+					src="{{asset('images/gardenhelp_icons/Contractors-white.png')}}"
+					alt="">
+					<p style="padding-right: 30px;">
+						Contractors 
+					</p>
+			</a></li>
+
+			<!-- 	<li class="nav-item "><a class="nav-link collapsed d-flex"
 				data-toggle="collapse" href="#componentsContractorsExamples"
 				aria-expanded="false"> <img 
 					class="my-nav-icon"
@@ -462,9 +478,18 @@
 					<ul class="nav">
 						
 					</ul>
-				</div></li>
-				
-			<li class="nav-item "><a class="nav-link collapsed d-flex"
+				</div></li>-->
+
+			<li class="nav-item"><a class="nav-link d-flex"
+				href="{{url('garden-help/home')}}"> <img class="my-nav-icon"
+					src="{{asset('images/gardenhelp_icons/Service-types-white.png')}}"
+					alt="">
+					<p style="padding-right: 30px;">
+						Service Types 
+					</p>
+			</a></li>
+
+			<!-- <li class="nav-item "><a class="nav-link collapsed d-flex"
 				data-toggle="collapse" href="#componentsServiceTypesExamples"
 				aria-expanded="false"> <img 
 					class="my-nav-icon"
@@ -478,12 +503,11 @@
 					<ul class="nav">
 						
 					</ul>
-				</div></li>		
+				</div></li>		-->
 
 			<li class="nav-item "><a class="nav-link collapsed d-flex"
 				data-toggle="collapse" href="#componentsExamples"
-				aria-expanded="false"> <img 
-					class="my-nav-icon"
+				aria-expanded="false"> <img class="my-nav-icon"
 					src="{{asset('images/gardenhelp_icons/Requests-white.png')}}"
 					alt="">
 					<p style="padding-right: 30px;">
@@ -494,32 +518,25 @@
 					<ul class="nav">
 						<li class="nav-item "><a class="nav-link d-flex"
 							href="{{route('garden_help_getContractorsRequests', 'garden-help')}}">
-								<p class="sidebar-mini">CR</p> 
-								<p class="sidebar-normal">Contractors Requests
-
-								</p>
-								</a></li>
+								<p class="sidebar-mini">CR</p>
+								<p class="sidebar-normal">Contractors Requests</p>
+						</a></li>
 						<li class="nav-item"><a class="nav-link d-flex"
 							href="{{route('garden_help_getCustomerssRequests', 'garden-help')}}">
-								<p class="sidebar-mini">CR</p> 
-								<p class="sidebar-normal">
-						Customers Requests
-						</p>
-								</a></li>
+								<p class="sidebar-mini">CR</p>
+								<p class="sidebar-normal">Customers Requests</p>
+						</a></li>
 					</ul>
 				</div></li>
-			
-				
-				<li class="nav-item"><a class="nav-link d-flex"
-				href="#"> {{-- <i
-					class="fas fa-plus-circle"></i>--}} <img
-					
-					class="my-nav-icon"
+
+
+			<li class="nav-item"><a class="nav-link d-flex" href="#"> {{-- <i
+					class="fas fa-plus-circle"></i>--}} <img class="my-nav-icon"
 					src="{{asset('images/gardenhelp_icons/WhatsApp.png')}}"
 					alt="Dashboard">
 					<p>WhatsApp</p>
 			</a></li>
-			
+
 
 			<li class="nav-item "><a class="nav-link d-flex"
 				href="{{url('logout')}}"> {{-- <i class="fas fa-sign-out-alt"></i>--}}

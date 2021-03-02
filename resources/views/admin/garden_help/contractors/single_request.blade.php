@@ -117,19 +117,19 @@
                                                 <span class="form-control customerRequestSpan col-12">{{$contractor_request->type_of_work_exp}}</span></label>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-12">
+                                        <div class="col-lg-6 col-12">
                                             <div class=" row rowDownloadFile">
                                                 <label class="requestLabel col-12">CV:</label>
                                                 <div class="col-12 aDiv">
-                                                    <a target="_blank" href="{{asset($contractor_request->cv)}}" class="btn btn-primary ">Click here To CV file</a>
+                                                    <a target="_blank" href="{{asset($contractor_request->cv)}}" class="btn btn-primary clickBtn ">Click here To CV file</a>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-12">
+                                        <div class="col-lg-6 col-12">
                                             <div class=" row rowDownloadFile">
                                                 <label  class="requestLabel  col-12">Job reference:</label>
                                                 <div class="col aDiv">
-                                                    <a target="_blank" href="{{asset($contractor_request->job_reference)}}" class="btn btn-primary ">Click here to job reference file</a>
+                                                    <a target="_blank" href="{{asset($contractor_request->job_reference)}}" class="btn btn-primary clickBtn">Click here to job reference file</a>
                                                 </div>
                                             </div>
                                         </div>

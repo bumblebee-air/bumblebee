@@ -27,6 +27,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     <link href="{{asset('css/gardenhelp-styles.css')}}" rel="stylesheet">
     <link href="{{asset('css/gaedenhelp-butttons-styles.css')}}" rel="stylesheet">
+     <link href="{{asset('css/select2.min.css')}}" rel="stylesheet">
         
     @endif
     <!--DoOrder Custom Style-->
@@ -77,6 +78,8 @@
 <script src="{{asset('js/chartist.min.js')}}"></script>
 <script src="{{asset('js/jquery-ui.js')}}"></script>
 <script src="//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<script src="{{asset('js/bootstrap-datetimepicker.min.js')}}"></script>
+<script src="{{asset('js/select2.min.js')}}"></script>
 
 {{--Socket & Vue server --}}
 <script src="{{asset('js/socket.io-3.0.1.min.js')}}"></script>

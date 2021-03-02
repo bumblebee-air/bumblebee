@@ -7,8 +7,8 @@ body {
 }
 
 .sidebar .user .photo img {
-	width: 130px !important;
-	height: 130px !important;
+	width: 100px !important;
+	height: 100px !important;
 }
 
 .sidebar .user  {
@@ -16,6 +16,9 @@ body {
 }
 .sidebar .user .photo {
 	padding: 0 10px;
+}
+.sidebar .nav {
+    margin-top: 5px !important; 
 }
 
 li .nav-link p {

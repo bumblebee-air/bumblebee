@@ -214,6 +214,7 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	color: #1e2432 !important;
 	/* padding: 7px 10px !important; */
 	height: auto;
+	min-height: 35px;
 }
 
 .cardTitleGreen {
@@ -282,6 +283,9 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	background-image: none;
 }
 
+.card .card-header.card-header-icon i, .card .card-header.card-header-text i{
+	font-size: 28px
+}
 .circle {
 	border-color: #60a244 !important;
 }
@@ -424,6 +428,10 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
   text-align: center;
   color: #60a244;}
 
+.clickBtn{
+	padding: 10px 25px !important;
+	font-size: 13px !important;
+}
 
 /************************* datetime picker **************************/
 .bootstrap-datetimepicker-widget table td.active:hover>div,

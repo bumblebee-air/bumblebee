@@ -500,7 +500,6 @@
         $(document).ready(function () {
 
             $('input').on('change', function () {
-                //alert($('input[type=radio]:checked').val());
                 $('#assignContractorBtn').prop("disabled", false);
             });
         });

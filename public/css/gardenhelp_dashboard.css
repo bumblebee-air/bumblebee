@@ -11,32 +11,35 @@ body {
 	height: 100px !important;
 }
 
-.sidebar .user  {
+.sidebar .user {
 	padding-bottom: 0 !important;
 }
+
 .sidebar .user .photo {
 	padding: 0 10px;
 }
+
 .sidebar .nav {
-    margin-top: 5px !important; 
+	margin-top: 5px !important;
 }
+
 
 li .nav-link p {
 	font-family: Roboto;
-	font-size: 16px !important;
+	font-size: 14.5px !important;
 	font-weight: 400;
 	font-stretch: normal;
 	font-style: normal;
-	line-height: 2.81;
+	line-height: 1.5 !important;
 	letter-spacing: 0.15px;
 	color: #fff;
 }
 
 li .nav-link:hover {
-	border-radius: 15px !important;
+	border-radius: 10px !important;
 	background-color: #60a244 !important;
 	color: #FFFFFF !important;
-	font-size: 16px;
+	font-size: 14.5px;
 	font-weight: 400;
 	font-stretch: normal;
 	font-style: normal;
@@ -47,28 +50,31 @@ li .nav-link:hover {
 li .nav-link:hover p {
 	color: #FFFFFF !important;
 }
+
 .sidebar .nav li .dropdown-menu a, .sidebar .nav li a {
-	font-size: 16px !important;
+	font-size: 14.5px !important;
 }
 
 li .nav-link:hover a i {
 	color: #b1b1b1 !important;
 }
+
 .sidebar .nav li .dropdown-menu a, .sidebar .nav li a {
-    color: #fff !important; 
+	color: #fff !important;
 }
 
 .sidebar[data-background-color=doorder-color] {
 	background-color: rgba(68, 68, 68, 0.6)
 }
+
 .collapse p {
 	padding-left: 0 !important;
 }
 
 .sidebar .nav li.active>[data-toggle=collapse] {
-    background-color: #fff !important;
-    
+	background-color: #fff !important;
 }
+
 .card-icon {
 	background: #60a244 !important;
 	box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px #60a244
@@ -79,9 +85,15 @@ li .nav-link:hover a i {
 	width: 29px;
 }
 
-.sidebar .nav i{
+.sidebar .nav i {
 	margin-right: 0 !important;
 	color: #fff !important;
+	font-size: 20px !important;
+	line-height: 20px !important;
+}
+
+.sidebar .nav .caret {
+	margin-top: 10px !important;
 }
 
 .card .card-header.card-header-icon .card-title {
@@ -118,9 +130,9 @@ li .nav-link:hover a i {
 }
 
 .my-nav-icon {
-	width: 24px;
-	height: 24px;
-	margin-top: 3px;
+	width: 22px;
+	height: 22px;
+	/* margin-top: 3px; */
 }
 
 .status {
@@ -146,8 +158,8 @@ li .nav-link:hover a i {
 th {
 	font-size: 16px !important;
 	text-align: center;
-	word-wrap: normal;
-	white-space: nowrap;
+	word-wrap: break-word !important;
+	/* white-space: nowrap; */
 	font-family: Roboto;
 	font-size: 16px !important;
 	font-weight: bold !important;
@@ -177,7 +189,7 @@ td {
 }
 
 .progress {
-	width: 110px;
+	/* width: 110px; */
 	height: 8px;
 	border-radius: 10px;
 	background-color: #e0e0e0;
@@ -212,9 +224,11 @@ td {
 .sidebar .user:after {
 	background-color: transparent;
 }
+
 .sidebar .sidebar-wrapper {
-    height: 620px !important;
+	height: 620px !important;
 }
+
 .form-head span {
 	width: 23px;
 	height: 23px;

@@ -73,11 +73,15 @@
                                     {{--                                    <i class="material-icons">home_work</i>--}}
                                     <img class="page_icon" src="{{asset('images/gardenhelp_icons/Requests-white.png')}}">
                                 </div>
-                                <h4 class="card-title ">Request Number {{$contractor_request->id}}</h4>
+                                <h4 class="card-title ">Contractor Request No {{$contractor_request->id}}</h4>
                             </div>
                             <div class="card-body">
                                 <div class="container">
                                     <div class="row">
+                                     <div class="col-12">
+                                        	<div class=" row"> <div class="col-md-12">
+                                           <h5 class="registerSubTitle">Comapany/Individual Details</h5></div></div>
+                                        </div>
                                         <div class="col-12">
                                             <div class="row">
                                                 <label class="requestLabel col-12">Name:

@@ -56,4 +56,11 @@ class JobsController extends Controller
     public function addNewJob() {
         return view('admin.garden_help.jobs_table.add_job');
     }
+    
+    public function postNewJob(Request $request) {
+        //dd($request);
+        alert()->success( "The job is added successfully");
+        return redirect()->to('garden-help/jobs_table/add_job');
+        
+    }
 }

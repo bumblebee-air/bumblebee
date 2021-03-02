@@ -431,6 +431,13 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 .clickBtn{
 	padding: 10px 25px !important;
 	font-size: 13px !important;
+	
+}
+.form-group label{
+	margin: 0 !important;
+}
+.form-group{
+	padding-bottom: 0 !important;
 }
 
 /************************* datetime picker **************************/

@@ -65,7 +65,7 @@ Request') @section('page-styles')
 									class="page_icon"
 									src="{{asset('images/gardenhelp_icons/Requests-white.png')}}">
 							</div>
-							<h4 class="card-title ">Job No {{$customer_request->id}}</h4>
+							<h4 class="card-title ">Customer Request Job {{$customer_request->id}}</h4>
 						</div>
 						<div class="card-body">
 							<div class="container">

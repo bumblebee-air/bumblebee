@@ -532,17 +532,14 @@
 
 			<li class="nav-item"><a class="nav-link d-flex" href="#"> {{-- <i
 					class="fas fa-plus-circle"></i>--}} <img class="my-nav-icon"
-					src="{{asset('images/gardenhelp_icons/WhatsApp.png')}}"
+					src="{{asset('images/gardenhelp_icons/WhatsApp-white.png')}}"
 					alt="Dashboard">
 					<p>WhatsApp</p>
 			</a></li>
 
 
 			<li class="nav-item "><a class="nav-link d-flex"
-				href="{{url('logout')}}"> {{-- <i class="fas fa-sign-out-alt"></i>--}}
-					<img style="width: 20px; height: 15px; margin-top: 7px"
-					class="my-nav-icon"
-					src="{{asset('images/gardenhelp_icons/Logout.png')}}" alt="">
+				href="{{url('logout')}}"> <i class="fas fa-sign-out-alt"></i>
 					<p>Logout</p>
 			</a></li>
 		</ul>

@@ -226,6 +226,8 @@ Route::group(['prefix' => '{client_name}'], function () {
             Route::get('jobs', 'garden_help\JobsController@getJobsTable')->name('garden_help_getJobsTable');
             Route::get('job/{id}', 'garden_help\JobsController@getSingleJob')->name('garden_help_getSingleJob');
             Route::post('job/{id}', 'garden_help\JobsController@postSingleJob')->name('garden_help_postSingleJob');
+            Route::get('add_job', 'garden_help\JobsController@addNewJob')->name('garden_help_addNewJob');
+            Route::post('add_job', 'garden_help\JobsController@postNewJob')->name('postAddJob');
         });
 
         Route::post('job/assign', 'garden_help\JobsController@assignContractorToJob')->name('garden_help_assignJob');

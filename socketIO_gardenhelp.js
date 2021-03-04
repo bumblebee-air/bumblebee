@@ -3,8 +3,8 @@ var app = require('express')();
 var https = require('https');
 var fs = require('fs');
 var options = {
-    key: fs.readFileSync('/etc/ssl/private/iot.bumblebeeai.io.key'),
-    cert: fs.readFileSync('/etc/ssl/certs/iot_bumblebeeai_io.crt')
+    key: fs.readFileSync('/etc/ssl/private/star.bumblebeeai.io.key'),
+    cert: fs.readFileSync('/etc/ssl/certs/STAR_bumblebeeai_io.crt')
 };
 
 var server = https.createServer(options, app);

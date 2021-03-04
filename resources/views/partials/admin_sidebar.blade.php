@@ -430,7 +430,7 @@
 			</a></li>
 
 			<li class="nav-item"><a class="nav-link d-flex"
-				href="{{url('garden-help/home')}}"> <img class="my-nav-icon"
+				href="{{url('garden-help/home')}}"> <img class="my-nav-icon my-nav-icon-cutomer"
 					src="{{asset('images/gardenhelp_icons/Customers-white.png')}}"
 					alt="">
 					<p style="padding-right: 30px;">

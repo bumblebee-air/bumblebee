@@ -192,6 +192,24 @@
         .my-check-box-checked {
             color: #f7dc69;
         }
+        .location-tip-button {
+            color: #f7dc69;
+            background-color: white;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+        #location-tip {
+            width: 347px;
+            padding: 11px 5px;
+            border-radius: 10px;
+            box-shadow: 0 2px 48px 0 rgb(0 0 0 / 8%);
+            background-color: #e8ca49;
+            color: white;
+            z-index: 9999;
+            margin-top: 10px!important;
+            margin-left: 10px!important;
+            display: none;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
     <link rel="stylesheet" href="{{asset('css/jquery.businessHours.css')}}">
@@ -296,7 +314,11 @@
                         <span>
                             2
                         </span>
-                            Locations Details <i class="fas fa-plus-circle color-e8ca49" @click="addLocation()"></i>
+                            Locations Details <i class="fas fa-plus-circle color-e8ca49" style="cursor: pointer;margin-left: 5px;" @click="addLocation()"></i>
+                            <i class="fas fa-info-circle location-tip-button" id="location-tip-button" aria-describedby="tooltip" @click="fadeLocationTip"></i>
+                            <div id="location-tip" role="tooltip">
+                                Click on the plus button to add more locations
+                            </div>
                         </div>
 
                         <div class="col-md-12" v-for="(location, index) in locations">
@@ -722,6 +744,9 @@
                     setTimeout(() => {
                         $form.get(0).submit();
                     }, 300);
+                },
+                fadeLocationTip() {
+                    $('#location-tip').fadeToggle();
                 }
             }
         });

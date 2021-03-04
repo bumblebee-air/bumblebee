@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
+use Twilio\Rest\Client;
 
 
 class CustomersController extends Controller
@@ -105,13 +106,14 @@ class CustomersController extends Controller
                 \Log::error('Publish Redis new order notification from external shop API failed');
             }
         }
-        alert()->success('We will Get back to you shortly on the Company Email.', 'Thank you for filling the Registration Form');
+        alert()->success('We will Get back to you shortly.', 'Thank you for filling the Registration Form');
         return redirect()->back();
     }
     
     
     public function getCustomersRequests() {
-        $customers_requests = Customer::orderBy('id', 'desc')->paginate(20);
+        $customers_requests = Customer::orderBy('id', 'desc')
+            ->where('type', 'request')->paginate(20);
         return view('admin.garden_help.customers.requests', ['customers_requests' => $customers_requests]);
     }
     
@@ -140,11 +142,52 @@ class CustomersController extends Controller
             //$singleRequest->save();
             alert()->success('Customer rejected successfully');
         } else {
-            //$singleRequest->status = 'completed';
-            //$singleRequest->save();
+            $singleRequest->status = 'qoute_sent';
+            $singleRequest->save();
+
+            //Sending booking URL via SMS
+            $sid    = env('TWILIO_SID', '');
+            $token  = env('TWILIO_AUTH', '');
+            $twilio = new Client($sid, $token);
+            $twilio->messages->create($singleRequest->phone_number,
+                [
+                    "from" => "GardenHelp",
+                    "body" => "Hi $singleRequest->name, Please visit ". route('garde_help_postServicesBooking', $singleRequest->id) ." to view quotation and book your service.. "
+                ]
+            );
            
             alert()->success('The Quotation was sent successfully to the client');
         }
         return redirect()->route('garden_help_getCustomerssRequests', 'garden-help');
+    }
+
+    public function getServicesBooking($id) {
+        $customer_request = Customer::find($id);
+        if (!$customer_request) {
+            abort(404);
+        }
+        return view('garden_help.customers.service_booking', ['id' => $id, 'customer_request' => $customer_request]);
+    }
+
+    public function postServicesBooking(Request $request, $id) {
+        $customer = Customer::find($id);
+        if (!$customer) {
+            abort(404);
+        }
+        $customer->type = 'job';
+        $customer->status = 'ready';
+        try {
+            Redis::publish('garden-help-channel', json_encode([
+                'event' => 'new-booked-service',
+                'data' => [
+                    'id' => $customer->id,
+                ]
+            ]));
+        } catch(\Exception $e) {
+            \Log::error('Publish Redis for a new booked service');
+        }
+        $customer->save();
+        alert()->success('Your service has been booked successfully', 'Thank You');
+        return redirect()->back();
     }
 }

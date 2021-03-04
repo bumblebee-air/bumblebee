@@ -279,6 +279,8 @@ Route::get('driver_app', function () {
 Route::get('contractors_app', function () {
     return view('templates/garden_help_app');
 });
+Route::get('service-booking/{id}', 'garden_help\CustomersController@getServicesBooking')->name('garde_help_getServicesBooking');
+Route::post('service-booking/{id}', 'garden_help\CustomersController@postServicesBooking')->name('garde_help_postServicesBooking');
 
 Route::get('customer/order/{customer_confirmation_code}', 'doorder\CustomerController@getCustomerOrderPage');
 Route::get('customer/tracking/{customer_confirmation_code}', 'doorder\CustomerController@getOrderTracking');

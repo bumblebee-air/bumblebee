@@ -9,6 +9,7 @@ class Contractor extends Model
     protected $table = 'contractors_registrations';
 
     protected $fillable = [
+        'user_id',
         'name',
         'email',
         'phone_number',
@@ -37,4 +38,8 @@ class Contractor extends Model
         'contact_through',
         'type_of_work_selected_value'
     ];
+
+    public function user() {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

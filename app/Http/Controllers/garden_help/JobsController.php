@@ -46,7 +46,7 @@ class JobsController extends Controller
         }
 
         $job->status = 'assigned';
-        $job->contractor_id = $contractor_id;
+        $job->contractor_id = $contractor->user->id;
         $job->save();
 
         //Redis code

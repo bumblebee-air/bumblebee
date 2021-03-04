@@ -5,6 +5,7 @@ namespace App\Http\Controllers\garden_help;
 use App\Contractor;
 use App\Customer;
 use App\Mail\ContractorRegistrationMail;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Alert;
@@ -38,8 +39,18 @@ class ContractorsController extends Controller
             'charge_rate' => 'required|string',
             'contact_through' => 'required'
         ]);
+
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone_number;
+        $user->password = bcrypt(Str::random(8));
+        $user->user_role = 'contractor';
+        $user->save();
+
         //Saving new contractor registration
         $contractor = Contractor::create([
+            'user_id' => $user->id,
             'name' => $request->name,
             'email' => $request->email,
             'phone_number' => $request->phone_number,

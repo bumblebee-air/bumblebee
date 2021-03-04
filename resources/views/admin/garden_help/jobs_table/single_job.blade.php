@@ -11,7 +11,6 @@
             border: solid 1px #979797 !important;
             background-color: #ffffff;
         }
-
         @media ( min-width: 576px) {
             .modal-dialog {
                 max-width: 972px !important;
@@ -432,9 +431,7 @@
                              aria-labelledby="assign-deliverer-label" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
-                                    <div class="modal-header">
-
-                                    </div>
+                                    
                                     <div class="modal-body">
                                         <div class="modal-dialog-header assignContractorHeader">
                                             This contractor is successfully selected <br> and ready to be assigned
@@ -468,7 +465,7 @@
                                             </div>
 
                                             <form method="POST" id="assign-contractor"
-                                                  action="{{url('garden-help/job/assign')}}">
+                                                  action="{{url('garden-help/job/assign')}}" style="margin-bottom: 0 !important;">
                                                 @csrf
                                                 <input type="hidden" id="jobId" name="jobId" value="{{$job->id}}"/>
                                                 <input type="hidden" id="contractorId" name="contractorId" required/>

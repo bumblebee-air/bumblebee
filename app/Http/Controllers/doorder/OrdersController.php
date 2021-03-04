@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\doorder;
 
+use App\DriverProfile;
 use App\Order;
 use App\User;
 use App\UserFirebaseToken;
@@ -104,7 +105,13 @@ class OrdersController extends Controller
             return redirect()->back();
         }
         //dd($order);
-        $available_drivers = User::where('user_role','=','driver')->get();
+        $accepted_deliverers = DriverProfile::where('is_confirmed','=',1)->get();
+        $user_ids = [];
+        foreach($accepted_deliverers as $deliverer){
+            $user_ids[] = $deliverer->user_id;
+        }
+        //$available_drivers = User::where('user_role','=','driver')->get();
+        $available_drivers = User::whereIn('id',$user_ids)->get();
         $customer_name = explode(' ',$order->customer_name);
         $first_name = $customer_name[0];
         $last_name = isset($customer_name[1])? $customer_name[1] : '';

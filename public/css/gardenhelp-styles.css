@@ -419,7 +419,7 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 }
 .assignContractorHeader
 {font-family: Roboto;
-  font-size: 30px;
+  font-size: 20px;
   font-weight: 500;
   font-stretch: normal;
   font-style: normal;
@@ -440,6 +440,9 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	padding-bottom: 0 !important;
 }
 
+.modal-backdrop {
+  background-color: #000 !important;
+}
 /************************* datetime picker **************************/
 .bootstrap-datetimepicker-widget table td.active:hover>div,
 	.bootstrap-datetimepicker-widget table td.active>div {

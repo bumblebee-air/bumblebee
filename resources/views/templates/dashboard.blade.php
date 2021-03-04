@@ -138,41 +138,68 @@
         //Socket Script
         let socket = io.connect(window.location.protocol+'//' + window.location.hostname + ':8890');
         // let socket = io.connect('http://localhost:8890');
-        // Vue.use(VueToast);
-        //
-        // socket.on('doorder-channel:new-order', (data) => {
-        //     let decodedData = JSON.parse(data);
-        //     Vue.$toast.info('There is a new request.', {
-        //         // optional options Object
-        //         position: 'top-right',
-        //         duration: 3600000,
-        //
-        //         onClick: () => this.onClickToast(decodedData)
-        //     });
-        //     notificationAudio.play();
-        // });
-        // function onClickToast(decodedData) {
-        //     swal({
-        //         text: "There is a new order! with order No# " + decodedData.data.order_id,
-        //         icon: "info",
-        //         buttons: {
-        //             accept: {
-        //                 text: "View order",
-        //                 value: "view",
-        //                 className: 'btn btn-primary'
-        //             },
-        //             reject: {
-        //                 text: "Close",
-        //                 value: "cancel",
-        //                 className: 'btn btn-default'
-        //             }
-        //         }
-        //     }).then(function (input) {
-        //         if (input === 'view') {
-        //             console.log('View Page');
-        //         }
-        //     });
-        // }
+        Vue.use(VueToast);
+
+        socket.on('garden-help-channel:new-customer-request', (data) => {
+            let decodedData = JSON.parse(data);
+            console.log(decodedData);
+            Vue.$toast.info(decodedData.data.toast_text, {
+                // optional options Object
+                position: 'top-right',
+                duration: 3600000,
+
+                onClick: () => this.onClickToast(decodedData)
+            });
+            notificationAudio.play();
+        });
+        socket.on('garden-help-channel:new-booked-service', (data) => {
+            let decodedData = JSON.parse(data);
+            console.log(decodedData);
+            Vue.$toast.info(decodedData.data.toast_text, {
+                // optional options Object
+                position: 'top-right',
+                duration: 3600000,
+
+                onClick: () => this.onClickToast(decodedData)
+            });
+            notificationAudio.play();
+        });
+
+        socket.on('garden-help-channel:new-contractor-request', (data) => {
+            let decodedData = JSON.parse(data);
+            console.log(decodedData);
+            Vue.$toast.info(decodedData.data.toast_text, {
+                // optional options Object
+                position: 'top-right',
+                duration: 3600000,
+
+                onClick: () => this.onClickToast(decodedData)
+            });
+            notificationAudio.play();
+        });
+
+        function onClickToast(decodedData) {
+            swal({
+                text: decodedData.data.alert_text,
+                icon: "info",
+                buttons: {
+                    accept: {
+                        text: "View",
+                        value: "view",
+                        className: 'btn btn-primary'
+                    },
+                    reject: {
+                        text: "Close",
+                        value: "cancel",
+                        className: 'btn btn-default'
+                    }
+                }
+            }).then(function (input) {
+                if (input === 'view') {
+                    window.location = decodedData.data.click_link
+                }
+            });
+        }
     </script>
 @endif
 

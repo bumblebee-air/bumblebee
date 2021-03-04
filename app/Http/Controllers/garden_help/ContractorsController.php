@@ -86,6 +86,16 @@ class ContractorsController extends Controller
             \Mail::to($contractor->email)->send(new ContractorRegistrationMail($contractor));
         }
 
+        Redis::publish('garden-help-channel', json_encode([
+            'event' => 'new-contractor-request',
+            'data' => [
+                'id' => $contractor->id,
+                'toast_text' => 'There is a new contractor request.',
+                'alert_text' => "There is a new contractor request! with order No# $contractor->id",
+                'click_link' => route('garden_help_getContractorSingleRequest' , ['garden-help', $contractor->id]),
+            ]
+        ]));
+
         alert()->success( 'You registration saved successfully');
         return redirect()->back();
     }

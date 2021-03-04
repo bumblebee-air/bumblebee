@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Twilio\Rest\Client;
 
 class JobsController extends Controller
 {
@@ -48,8 +49,24 @@ class JobsController extends Controller
         $job->status = 'assigned';
         $job->contractor_id = $contractor->user->id;
         $job->save();
-
-        //Redis code
+        $user_tokens = $contractor->user->firebase_tokens;
+        if (count($user_tokens) > 0) {
+            self::sendFCM($user_tokens,[
+                'title' => 'Job assigned',
+                'message' => "Job #$job_id has been assigned to you",
+                'order_id' => $job_id
+            ]);
+        }
+        $sid    = env('TWILIO_SID', '');
+        $token  = env('TWILIO_AUTH', '');
+        $twilio = new Client($sid, $token);
+        $twilio->messages->create($contractor->user->phone,
+            [
+                "from" => "GardenHelp",
+                "body" => "Hi $contractor->name, there is an job assigned to you, please open your app. ".
+                    url('contractor_app#/order-details/'.$job_id)
+            ]
+        );
 
         alert()->success( "The job has been successfully assigned to $contractor->name");
         return redirect()->to('garden-help/jobs_table/jobs');

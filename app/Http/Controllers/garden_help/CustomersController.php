@@ -91,17 +91,15 @@ class CustomersController extends Controller
           
             //Sending Redis event
             try{
-            Redis::publish('garden-help-channel', json_encode([
-                'event' => 'new-request',
-                'data' => [
-                    'id' => $customer->id,
-                    'created_at' => $customer->created_at,
-                    'type_of_work' => ucfirst($customer->type_of_work),
-                    'name' => $customer->name,
-                    'status' => 'received',
-                    'work_location' => ucfirst($customer->work_location),
-                ]
-            ]));
+                Redis::publish('garden-help-channel', json_encode([
+                    'event' => 'new-customer-request',
+                    'data' => [
+                        'id' => $customer->id,
+                        'toast_text' => 'There is a new customer request.',
+                        'alert_text' => "There is a new customer request! with order No# $customer->id",
+                        'click_link' => route('garden_help_getcustomerSingleRequest' , ['garden-help', $customer->id]),
+                    ]
+                ]));
             } catch (\Exception $exception){
                 \Log::error('Publish Redis new order notification from external shop API failed');
             }
@@ -181,6 +179,9 @@ class CustomersController extends Controller
                 'event' => 'new-booked-service',
                 'data' => [
                     'id' => $customer->id,
+                    'toast_text' => 'There is a new booked service.',
+                    'alert_text' => "There is a customer has booked a service with service No# $customer->id",
+                    'click_link' => route('garden_help_getSingleJob' , ['garden-help', $customer->id]),
                 ]
             ]));
         } catch(\Exception $e) {

@@ -8,7 +8,7 @@
 	<div class="user" style="z-index: 3">
 		<div class="photo photo-full text-center">
 			<img src="{{asset($admin_nav_logo)}}" title="{{$admin_client_name}}"
-				alt="{{$admin_client_name}}" />
+				alt="{{$admin_client_name}}" id="adminNavLogoImg" />
 		</div>
 		<div class="user-info">
 			<a href="{{url('/')}}" class="username"> <span> </span>

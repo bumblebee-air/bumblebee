@@ -5,6 +5,10 @@ body {
     font-family: Quicksand;
 }
 
+#adminNavLogoImg{
+	width: 100px !important;
+	height: 60px;
+}
 li .nav-link {
     font-family: Quicksand;
 }

@@ -2,6 +2,11 @@ body {
     /*font-size: 18px;*/
 }
 
+#adminNavLogoImg{
+	width: 100px !important;
+	height: 60px;
+}
+
 nav.navbar {
     margin-bottom: 20px;
 }

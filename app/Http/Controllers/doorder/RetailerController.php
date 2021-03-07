@@ -157,9 +157,9 @@ class RetailerController extends Controller
                 $twilio->messages->create($user->phone,
                     [
                         "from" => "DoOrder",
-                        "body" => "Hi $user->name, your retailer profile has been accepted.
-                        Login details are the email: $user->email and the password: $new_pass .
-                        Login page: ".url('doorder/login')
+                        "body" => "Hi $user->name, your retailer profile has been accepted.".
+                        " Login details are the email: $user->email and the password: $new_pass .".
+                        " Login page: ".url('doorder/login')
                     ]
                 );
             } catch (\Exception $exception){

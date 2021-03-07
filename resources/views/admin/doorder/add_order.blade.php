@@ -74,7 +74,7 @@
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label for="email" class="control-label">Email:<span style="color: red">*</span></label>
+                                                    <label for="email" class="control-label">Email:</label>
                                                     <input id="email" type="email" class="form-control" value="{{old('email')}}" name="email">
                                                 </div>
                                             </div>
@@ -99,7 +99,7 @@
 
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label for="eircode" class="control-label">Eircode:</label>
+                                                    <label for="eircode" class="control-label">Eircode:<span style="color: red">*</span></label>
                                                     <input id="eircode" type="text" class="form-control" value="{{old('eircode')}}" name="eircode" required>
                                                 </div>
                                             </div>
@@ -181,7 +181,7 @@
 
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label for="deliver_by" class="control-label">Deliver By:<span style="color: red">*</span></label>
+                                                    <label for="deliver_by" class="control-label">Deliver By:</label>
                                                     <select id="deliver_by" name="deliver_by" data-style="select-with-transition" class="form-control selectpicker">
                                                         <option value="car">Car</option>
                                                         <option value="scooter">Scooter</option>

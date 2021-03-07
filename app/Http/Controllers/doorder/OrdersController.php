@@ -46,7 +46,7 @@ class OrdersController extends Controller
             'customer_lon' => 'required',
             'pickup_address' => 'required',
             'fulfilment' => 'required',
-            'deliver_by' => 'required',
+            //'deliver_by' => 'required',
             'fragile' => 'required',
         ]);
         $current_user = auth()->user();

@@ -195,6 +195,7 @@ Route::get('stripe-onboard/{onboard_code}', 'StripeController@getOnboard');
 Route::get('stripe-onboard/stripe/refresh', 'StripeController@getOnboardRefresh');
 Route::get('stripe-onboard/stripe/success', 'StripeController@getOnboardSuccess');
 
+Route::post('validate-email-phone','HelperController@postValidateEmailAndPhone');
 // Clients Login
 Route::group(['prefix' => '{client_name}'], function () {
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('clientLogin');

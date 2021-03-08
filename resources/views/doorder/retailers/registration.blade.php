@@ -702,7 +702,8 @@
                         }, this.stripeResponseHandler);
                         return false;
                     }else{
-                        this.submitTheRegForm();
+                        //this.submitTheRegForm();
+                        this.validateEmailAndPhone();
                     }
                 },
                 stripeResponseHandler(status, response) {
@@ -711,7 +712,8 @@
                     } else {
                         // token contains id, last4, and card type
                         this.stripeToken = response['id'];
-                        this.submitTheRegForm();
+                        //this.submitTheRegForm();
+                        this.validateEmailAndPhone();
                     }
                 },
                 submitTheRegForm(){
@@ -744,6 +746,53 @@
                     setTimeout(() => {
                         $form.get(0).submit();
                     }, 300);
+                },
+                validateEmailAndPhone(){
+                    let the_email = $('#contact_email1').val();
+                    let intl_tel_input_value = this.itn_inputs['contact_number1'];
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        url: '{{url('validate-email-phone')}}',
+                        data: {
+                            email: the_email,
+                            phone_number: intl_tel_input_value.getNumber()
+                        },
+                        dataType: 'json',
+                        method: 'POST',
+                        success: function (valid_res){
+                            if(valid_res.errors==1){
+                                let error_html = document.createElement('div');
+                                let error_p;
+                                let errors_bag = valid_res.message;
+                                if(errors_bag.email){
+                                    let error_p = document.createElement('p')
+                                    error_p.textContent = errors_bag.email[0];
+                                    error_html.appendChild(error_p);
+                                }
+                                if(errors_bag.phone_number){
+                                    let error_p = document.createElement('p')
+                                    error_p.textContent = errors_bag.phone_number[0];
+                                    error_html.appendChild(error_p);
+                                }
+                                swal({
+                                    title: 'Validation errors',
+                                    content: error_html,
+                                    icon: 'error',
+                                });
+                            }else{
+                                this.submitTheRegForm();
+                            }
+                        }.bind(this), // bind this to enable Vue function calling
+                        error: function(data,status,error){
+                            swal({
+                                title: 'System error',
+                                text: 'A system error has occurred during validating the data',
+                                icon: 'error',
+                            });
+                        }.bind(this)
+                    });
                 },
                 fadeLocationTip() {
                     $('#location-tip').fadeToggle();

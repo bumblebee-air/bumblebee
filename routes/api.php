@@ -57,6 +57,9 @@ Route::group(['middleware' => "auth:api"],function () {
     Route::get('jobs-list','garden_help\ContractorsController@getJobsList');
     Route::post('job-details','garden_help\ContractorsController@getJobDetails');
     Route::post('contractor-status-update','garden_help\ContractorsController@updateJobDriverStatus');
+    Route::post('change-password','garden_help\ContractorsController@changePassword');
+    Route::post('update-profile','garden_help\ContractorsController@updateProfile');
+    Route::get('get-profile','garden_help\ContractorsController@getProfile');
 });
 
 Route::post('stripe-account-update','StripeController@accountUpdateWebhook');

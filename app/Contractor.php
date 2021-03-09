@@ -36,7 +36,9 @@ class Contractor extends Model
         'job_reference',
         'available_equipments',
         'contact_through',
-        'type_of_work_selected_value'
+        'type_of_work_selected_value',
+        'business_hours',
+        'business_hours_json'
     ];
 
     public function user() {

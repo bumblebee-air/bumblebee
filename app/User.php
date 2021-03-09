@@ -49,4 +49,8 @@ class User extends Authenticatable
     public function retailer_profile() {
         return $this->hasOne(Retailer::class, 'user_id');
     }
+
+    public function contractor_profile() {
+        return $this->hasOne(Contractor::class, 'user_id');
+    }
 }

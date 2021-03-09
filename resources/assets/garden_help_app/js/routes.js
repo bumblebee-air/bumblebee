@@ -5,6 +5,7 @@ import OrdersListComponent from "./components/OrdersListComponent";
 import OrderDetailsComponent from "./components/OrderDetailsComponent";
 import OrderDeliveredComponent from "./components/OrderDeliveredComponent";
 import ForgotPasswordComponent from "./components/ForgotPasswordComponent";
+import ProfileComponent from "./components/ProfileComponent";
 
 const router = new VueRouter({
     routes: [
@@ -34,10 +35,19 @@ const router = new VueRouter({
             beforeEnter: (to, from, next) => redirectIfNotAuthed(to, from, next)
         },
         {
+            path: '/profile',
+            name: 'user-profile',
+            component: ProfileComponent,
+            beforeEnter: (to, from, next) => redirectIfNotAuthed(to, from, next)
+        },
+        {
             path: '/',
             name: 'main-app',
             component: AppComponent,
-            beforeEnter: (to, from, next) => redirectIfNotAuthed(to, from, next),
+            beforeEnter: (to, from, next) => {
+                redirectIfNotAuthed(to, from, next);
+                checkIfProfileCompleted(to, from, next);
+            },
             children: [
                 {
                     path: '/',
@@ -70,6 +80,20 @@ function redirectIfNotAuthed(to, from, next) {
         next({name: 'login'})
     } else {
         next();
+    }
+}
+
+function checkIfProfileCompleted(to, from, next) {
+    let user = localStorage.getItem('user');
+    if (user === null) {
+        next({name: 'login'})
+    } else {
+        user = JSON.parse(user);
+        if (user.is_profile_completed === 0) {
+            next({name: 'user-profile'})
+        } else {
+            next();
+        }
     }
 }
 

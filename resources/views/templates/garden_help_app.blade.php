@@ -20,6 +20,7 @@
 
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/fontawesome/all.css')}}">
+    <link rel="stylesheet" href="{{asset('css/jquery.businessHours.css')}}">
     <link rel="stylesheet" href="{{asset('css/garden_help_app.css')}}">
     <style>
         .access_location {
@@ -66,8 +67,9 @@
 
     <script src="{{asset('js/garden_help_app.js')}}"></script>
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('js/jquery.businessHours.min.js')}}"></script>
 
-{{--    @if(config('app.env') == 'local')--}}
+    {{--    @if(config('app.env') == 'local')--}}
 {{--        <script src="{{env('MIX_LOADER_URL')}}:35729/livereload.js"></script>--}}
 {{--    @endif--}}
 </body>

@@ -179,16 +179,6 @@ td {
 	box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
 }
 
-.form-group label {
-	margin-left: 15px;
-	font-size: 14px;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: 0.77px;
-	color: #4d4d4d;
-}
 
 .form-group input {
 	padding-left: 14px;
@@ -251,12 +241,17 @@ td {
 	width: 347px;
 	height: 50px;
 	border-radius: 22px 0 22px 0;
-	box-shadow: 0 12px 36px -12px rgba(76, 151, 161, 0.35);
+/* 	box-shadow: 0 12px 36px -12px rgba(76, 151, 161, 0.35); */
 	background-color: #e8ca49;
 	font-size: 18px;
 	font-weight: 500;
 	letter-spacing: 0.99px;
 	color: #ffffff;
+}
+.btn.btn-default.focus, .btn.btn-default:focus, .btn.btn-default:hover, .btn.focus, .btn:focus, .btn:hover {
+    color: #fff;
+    background-color: #e8ca49;
+    border-color: #e8ca49;
 }
 
 .bootstrap-select .dropdown-item.active {

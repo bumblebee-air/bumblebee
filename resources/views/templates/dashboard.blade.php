@@ -34,7 +34,7 @@
     @if(Auth::guard('doorder')->check())
         <link href="{{asset('css/doorder-styles.css')}}" rel="stylesheet">
         <link href="{{asset('css/doorder_dashboard.css')}}" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Quicksand" />
+        <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
         <link rel="icon" type="image/jpeg" href="{{asset('images/doorder-favicon.svg')}}">
 <!--         <link href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" rel="stylesheet"> -->

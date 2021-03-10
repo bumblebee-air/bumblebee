@@ -273,6 +273,7 @@ Route::group(['prefix' => '{client_name}'], function () {
         });
         
             Route::post('driver/delete', 'doorder\DriversController@deleteDriver')->name('doorder_deleteDriver');
+            Route::post('drivers/{id}', 'doorder\DriversController@saveUpdateDriver')->name('post_doorder_drivers_edit_driver');
     });
 });
 

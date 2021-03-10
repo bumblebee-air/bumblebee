@@ -581,4 +581,12 @@ class DriversController extends Controller
         }
         return view('admin.doorder.drivers.single_driver', ['driver' => $driver]);
     }
+    
+    public function saveUpdateDriver($client_name,$id, Request $request) {
+       // dd($request);
+       
+        alert()->success('Deliverer updated successfully');
+        
+        return redirect()->route('doorder_drivers', 'doorder');
+    }
 }

@@ -266,6 +266,9 @@ Route::group(['prefix' => '{client_name}'], function () {
             Route::get('retailers/requests', 'doorder\RetailerController@getRetailerRequests')->name('doorder_retailers_requests');
             Route::get('retailers/requests/{id}', 'doorder\RetailerController@getSingleRequest')->name('doorder_retailers_single_request');
             Route::post('retailers/request/{id}', 'doorder\RetailerController@postSingleRequest')->name('post_doorder_retailers_single_request');
+            Route::get('retailers', 'doorder\RetailerController@getRetailers')->name('doorder_retailers');
+            Route::get('retailers/{id}', 'doorder\RetailerController@getSingleRetailer')->name('doorder_retailers_single_driver');
+            
         });
         Route::group(['middleware' => "retailer"], function () {
             Route::get('orders/add', 'doorder\OrdersController@addNewOrder')->name('doorder_addNewOrder');
@@ -274,6 +277,9 @@ Route::group(['prefix' => '{client_name}'], function () {
         
             Route::post('driver/delete', 'doorder\DriversController@deleteDriver')->name('doorder_deleteDriver');
             Route::post('drivers/{id}', 'doorder\DriversController@saveUpdateDriver')->name('post_doorder_drivers_edit_driver');
+            
+            Route::post('retailer/delete', 'doorder\RetailerController@deleteRetailer')->name('doorder_deleteRetailer');
+            Route::post('retailers/{id}', 'doorder\RetailerController@saveUpdateRetailer')->name('post_doorder_retailers_single_retailer');
     });
 });
 

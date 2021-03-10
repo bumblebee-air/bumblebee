@@ -168,4 +168,32 @@ class RetailerController extends Controller
         }
         return redirect()->route('doorder_retailers_requests', 'doorder');
     }
+    
+    public function getRetailers($param) {
+       
+        $retailers =     Retailer::paginate(20);
+        
+        return view('admin.doorder.retailers.accepted_retailers', ['retailers' => $retailers]);
+    }
+    public function deleteRetailer(Request $request){
+        
+        alert()->success('Retailer deleted successfully');
+        
+        return redirect()->route('doorder_retailers', 'doorder');
+    }
+    
+    public function getSingleRetailer($client_name, $id) {
+        $retailer = Retailer::find($id);
+        if (!$retailer) {
+            abort(404);
+        }
+        return view('admin.doorder.retailers.single_retailer', ['retailer' => $retailer]);
+    }
+    public function saveUpdateRetailer($client_name,$id, Request $request) {
+         //dd($request);
+        
+        alert()->success('Retailer updated successfully');
+        
+        return redirect()->route('doorder_retailers', 'doorder');
+    }
 }

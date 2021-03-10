@@ -331,7 +331,7 @@
 					<p>Orders Table</p>
 			</a></li>
 			<li class="nav-item"><a class="nav-link d-flex"
-				href="{{route('doorder_ordersTable', 'doorder')}}">
+				href="{{route('doorder_retailers', 'doorder')}}">
 				<img class="my-nav-icon"
 					src="{{asset('images/doorder_icons/Retailer.png')}}"
 					alt="">

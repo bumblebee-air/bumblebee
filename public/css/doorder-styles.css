@@ -154,6 +154,16 @@ h4.card-title {
 	letter-spacing: 0.8px;
 	color: #4d4d4d;
 }
+.locationTitleLabel{
+	font-family: Quicksand;
+  font-size: 15px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.27;
+  letter-spacing: 0.6px;
+  color: #4d4d4d;
+}
 
 .form-head span {
 	width: 23px;
@@ -245,6 +255,7 @@ input.form-control, textarea.form-control {
 	letter-spacing: 0.77px;
 	color: #4d4d4d;
 }
+
 /****************** tables *************************/
 .table {
 	margin-bottom: 0 !important;
@@ -406,6 +417,11 @@ table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after,
 
 tr.order-row:hover, tr.order-row:focus {
 	box-shadow: 5px 5px 18px #88888836, 5px -5px 18px #88888836;
+}
+
+.btn.btn-fab, .btn.btn-just-icon{
+	line-height: 0px !important;
+	height: 20px !important;
 }
 
 /************************* buttons ******************/

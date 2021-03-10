@@ -50,7 +50,7 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header card-header-icon card-header-rose row">
-                                <div class="col-6 col-sm-4">
+                                <div class="col-12 col-sm-4">
                                     <div class="card-icon">
                                         <img class="page_icon" src="{{asset('images/doorder_icons/drivers_requests.png')}}">
                                     </div>

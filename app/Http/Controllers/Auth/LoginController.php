@@ -41,7 +41,7 @@ class LoginController extends Controller
     public function __construct(Request $request)
     {
         $this->middleware('guest')->except('logout');
-        $this->middleware('guest')->except('logout');
+        //$this->middleware('guest')->except('logout');
         if ($request->guard)
             $this->guard = $request->guard;
     }
@@ -84,8 +84,10 @@ class LoginController extends Controller
             $url = 'doorder/login';
         }
 
-        $this->guard()->logout();
-
+        //$this->guard()->logout();
+        Auth::guard('web')->logout();
+        Auth::guard('doorder')->logout();
+        Auth::guard('garden-help')->logout();
         $request->session()->invalidate();
 
         return redirect($url);

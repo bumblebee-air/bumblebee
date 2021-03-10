@@ -260,6 +260,8 @@ Route::group(['prefix' => '{client_name}'], function () {
             Route::get('drivers/requests', 'doorder\DriversController@getDriverRegistrationRequests')->name('doorder_drivers_requests');
             Route::get('drivers/requests/{id}', 'doorder\DriversController@getSingleRequest')->name('doorder_drivers_single_request');
             Route::post('drivers/requests/{id}', 'doorder\DriversController@postSingleRequest')->name('post_doorder_drivers_single_request');
+            Route::get('drivers', 'doorder\DriversController@getDrivers')->name('doorder_drivers');
+            Route::get('drivers/{id}', 'doorder\DriversController@getSingleDriver')->name('doorder_drivers_single_driver');
             // Retailers
             Route::get('retailers/requests', 'doorder\RetailerController@getRetailerRequests')->name('doorder_retailers_requests');
             Route::get('retailers/requests/{id}', 'doorder\RetailerController@getSingleRequest')->name('doorder_retailers_single_request');
@@ -269,6 +271,8 @@ Route::group(['prefix' => '{client_name}'], function () {
             Route::get('orders/add', 'doorder\OrdersController@addNewOrder')->name('doorder_addNewOrder');
             Route::post('orders/save', 'doorder\OrdersController@saveNewOrder')->name('doorder_saveNewOrder');
         });
+        
+            Route::post('driver/delete', 'doorder\DriversController@deleteDriver')->name('doorder_deleteDriver');
     });
 });
 

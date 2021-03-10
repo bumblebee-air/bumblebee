@@ -312,42 +312,39 @@
 		@elseif(Auth::guard('doorder')->check()) @if(auth()->user()->user_role
 		== 'client')
 		<ul class="nav">
+		<li class="nav-item">
+                        <a class="nav-link d-flex" href="{{route('doorder_adminMap', 'doorder')}}">
+                            <img class="my-nav-icon" src="{{asset('images/map_icon_card_white.png')}}" alt="Map">
+                            <p>Map</p>
+                        </a>
+                    </li>
 			<li class="nav-item"><a class="nav-link d-flex" href="{{url('/')}}">
 					{{-- <i class="fas fa-chart-bar"></i>--}} <img class="my-nav-icon"
 					src="{{asset('images/doorder_icons/dashboard.png')}}" alt="">
 					<p>Dashboard</p>
 			</a></li>
-			<!--<li class="nav-item">
-                        <a class="nav-link d-flex" href="{{route('doorder_adminMap', 'doorder')}}">
-                            <img class="my-nav-icon" src="{{asset('images/map_icon_card_white.png')}}" alt="Map">
-                            <p>Map</p>
-                        </a>
-                    </li>-->
 			<li class="nav-item"><a class="nav-link d-flex"
 				href="{{route('doorder_ordersTable', 'doorder')}}"> {{-- <i
 					class="fas fa-chart-bar"></i>--}} <img class="my-nav-icon"
 					src="{{asset('images/doorder_icons/orders_table_white.png')}}"
 					alt="">
-					<p>Order Table</p>
-			</a></li> {{--
-			<li class="nav-item">--}} {{-- <a class="nav-link d-flex"
-				href="{{route('doorder_drivers_requests', 'doorder')}}">--}} {{-- <i
-					class="fas fa-file-alt"></i>--}} {{-- <img
-					style="height: 22px; width: 18px;" class="my-nav-icon"
-					src="{{asset('images/doorder_icons/drivers_requests.png')}}" alt="">--}}
-					{{--
-					<p>Drivers Requests</p>--}} {{--
-			</a>--}} {{--
-			</li>--}} {{--
-			<li class="nav-item">--}} {{-- <a class="nav-link d-flex"
-				href="{{route('doorder_retailers_requests', 'doorder')}}">--}} {{--
-					<i class="fas fa-file-alt"></i>--}} {{-- <img
-					style="height: 22px; width: 18px;" class="my-nav-icon"
-					src="{{asset('images/doorder_icons/drivers_requests.png')}}" alt="">--}}
-					{{--
-					<p>Retailers Requests</p>--}} {{--
-			</a>--}} {{--
-			</li>--}}
+					<p>Orders Table</p>
+			</a></li>
+			<li class="nav-item"><a class="nav-link d-flex"
+				href="{{route('doorder_ordersTable', 'doorder')}}">
+				<img class="my-nav-icon"
+					src="{{asset('images/doorder_icons/Retailer.png')}}"
+					alt="">
+					<p>Retailers</p>
+			</a></li>
+			<li class="nav-item"><a class="nav-link d-flex"
+				href="{{route('doorder_drivers', 'doorder')}}">
+				<img class="my-nav-icon"
+					src="{{asset('images/doorder_icons/Deliverers-white.png')}}"
+					alt="">
+					<p>Deliverers</p>
+			</a></li>
+			
 			<li class="nav-item "><a class="nav-link collapsed d-flex"
 				data-toggle="collapse" href="#componentsExamples"
 				aria-expanded="false"> {{-- <i class="material-icons">apps</i>--}} <img
@@ -371,10 +368,26 @@
 						</a></li>
 					</ul>
 				</div></li>
+				
+				<li class="nav-item"><a class="nav-link d-flex" href="#"> {{-- <i
+					class="fas fa-plus-circle"></i>--}} <img class="my-nav-icon"
+					src="{{asset('images/gardenhelp_icons/WhatsApp-white.png')}}"
+					alt="Dashboard">
+					<p>WhatsApp</p>
+			</a></li>
+			
+				<li class="nav-item"><a class="nav-link d-flex" href="#"> <i
+					class="fas fa-paste"></i>
+					<p>History</p>
+			</a></li>
+			<li class="nav-item"><a class="nav-link d-flex" href="#"> <i
+					class="fas fa-cog"></i>
+					<p>Settings</p>
+			</a></li>
+				
+				
 			<li class="nav-item "><a class="nav-link d-flex"
-				href="{{url('logout')}}"> {{-- <i class="fas fa-sign-out-alt"></i>--}}
-					<img class="my-nav-icon"
-					src="{{asset('images/doorder_icons/logout-outline.png')}}" alt="">
+				href="{{url('logout')}}"> <i class="fas fa-sign-out-alt"></i>
 					<p>Logout</p>
 			</a></li>
 		</ul>

@@ -17,7 +17,7 @@
     <link href="{{asset('css/material-dashboard.min.css')}}" rel="stylesheet">
  	<link rel="stylesheet" href="{{asset('css/jquery-ui.css')}}">
     <link rel="stylesheet" href="{{asset('css/chartist.min.css')}}">
-    <link rel="stylesheet" href="//cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css">
     
     <!--Sweet Alert-->
     <script src="https://unpkg.com/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
@@ -37,6 +37,7 @@
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Quicksand" />
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
         <link rel="icon" type="image/jpeg" href="{{asset('images/doorder-favicon.svg')}}">
+<!--         <link href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" rel="stylesheet"> -->
     @endif
     <!--DoOrder Custom Style-->
 
@@ -80,6 +81,8 @@
 <script src="//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 <script src="{{asset('js/bootstrap-datetimepicker.min.js')}}"></script>
 <script src="{{asset('js/select2.min.js')}}"></script>
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
 
 {{--Socket & Vue server --}}
 <script src="{{asset('js/socket.io-3.0.1.min.js')}}"></script>

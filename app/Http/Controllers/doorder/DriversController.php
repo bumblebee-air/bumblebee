@@ -557,4 +557,28 @@ class DriversController extends Controller
             return response()->json($response)->setStatusCode(422);
         }
     }
+    
+    public function getDrivers(){
+        $drivers = DriverProfile::with('user')
+                    ->where('is_confirmed', true)
+        //            ->whereNull('rejection_reason')
+        ->paginate(20);
+        return view('admin.doorder.drivers.accepted_drivers', ['drivers' => $drivers]);
+    }
+    public function deleteDriver(Request $request){
+       // dd($request->driverId);
+        
+        
+        alert()->success('Deliverer deleted successfully');
+        
+        return redirect()->route('doorder_drivers', 'doorder');
+    }
+    public function getSingleDriver($client_name,$id) {
+        $driver = DriverProfile::find($id);
+        //dd($driver);
+        if (!$driver) {
+            abort(404);
+        }
+        return view('admin.doorder.drivers.single_driver', ['driver' => $driver]);
+    }
 }

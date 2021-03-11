@@ -337,6 +337,8 @@ thead tr th {
 	letter-spacing: normal;
 	text-align: center;
 	color: #b1b1b1;
+	white-space: initial;
+	
 }
 
 tbody tr td {

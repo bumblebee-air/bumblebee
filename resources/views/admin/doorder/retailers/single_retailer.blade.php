@@ -332,12 +332,12 @@
 								<button class="btn bt-submit">Save</button>
 						</div>
 						<div class="col-sm-6 text-center">
-							<button class="btn bt-submit btn-danger" data-toggle="modal"
+							<button class="btn bt-submit btn-danger" type="button" data-toggle="modal"
 								data-target="#delete-retailer-modal">Delete</button>
 						</div>
 					</div>
-</form>
-					<!-- Rejection Reason modal -->
+					</form>
+					<!-- Delete modal -->
 					<div class="modal fade" id="delete-retailer-modal" tabindex="-1"
 						role="dialog" aria-labelledby="delete-retailer-label"
 						aria-hidden="true">
@@ -353,16 +353,14 @@
 								</div>
 								<div class="modal-body">
 									<div class="modal-dialog-header deleteHeader">Are you sure you want
-					to delete this account?</div>
-					
+										to delete this account?</div>
 									<div>
-
-					<form method="POST" id="delete-retailer"
-						action="{{url('doorder/retailer/delete')}}"
-						style="margin-bottom: 0 !important;">
-						@csrf <input type="hidden" id="retailerId" name="retailerId" value="{{$retailer->id}}" />
-					</form>
-				</div>
+										<form method="POST" id="delete-retailer"
+											action="{{url('doorder/retailer/delete')}}"
+											style="margin-bottom: 0 !important;">
+											@csrf <input type="hidden" id="retailerId" name="retailerId" value="{{$retailer->id}}" />
+										</form>
+									</div>
 								</div>
 								<div class="modal-footer d-flex justify-content-around">
 									<button type="button"

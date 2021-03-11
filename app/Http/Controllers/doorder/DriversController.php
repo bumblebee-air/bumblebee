@@ -566,9 +566,21 @@ class DriversController extends Controller
         return view('admin.doorder.drivers.accepted_drivers', ['drivers' => $drivers]);
     }
     public function deleteDriver(Request $request){
-       // dd($request->driverId);
-        
-        
+        // dd($request->driverId);
+        $driver_id = $request->get('driverId');
+        $driver_profile = DriverProfile::find($driver_id);
+        if(!$driver_profile){
+            alert()->error('Deliverer not found!');
+            return redirect()->back();
+        }
+        $user_account = User::find($driver_profile->user_id);
+        if(!$user_account){
+            alert()->error('Deliverer not found!');
+            return redirect()->back();
+        }
+        //delete user and driver entries
+        $driver_profile->delete();
+        $user_account->delete();
         alert()->success('Deliverer deleted successfully');
         
         return redirect()->route('doorder_drivers', 'doorder');
@@ -577,16 +589,18 @@ class DriversController extends Controller
         $driver = DriverProfile::find($id);
         //dd($driver);
         if (!$driver) {
-            abort(404);
+            //abort(404);
+            alert()->error('Deliverer not found!');
+            return redirect()->back();
         }
         return view('admin.doorder.drivers.single_driver', ['driver' => $driver]);
     }
     
     public function saveUpdateDriver($client_name,$id, Request $request) {
-       // dd($request);
-       
-        alert()->success('Deliverer updated successfully');
-        
+        // dd($request);
+        //alert()->success('Deliverer updated successfully');
+        alert()->success('Work in progress');
+
         return redirect()->route('doorder_drivers', 'doorder');
     }
 }

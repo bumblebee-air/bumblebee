@@ -170,13 +170,25 @@ class RetailerController extends Controller
     }
     
     public function getRetailers($param) {
-       
-        $retailers =     Retailer::paginate(20);
+        $retailers = Retailer::paginate(20);
         
         return view('admin.doorder.retailers.accepted_retailers', ['retailers' => $retailers]);
     }
     public function deleteRetailer(Request $request){
-        
+        $retailer_id = $request->get('retailerId');
+        $retailer_profile = Retailer::find($retailer_id);
+        if(!$retailer_profile){
+            alert()->error('Retailer not found!');
+            return redirect()->back();
+        }
+        $user_account = User::find($retailer_profile->user_id);
+        if(!$user_account){
+            alert()->error('Retailer not found!');
+            return redirect()->back();
+        }
+        //delete user and retailer entries
+        $retailer_profile->delete();
+        $user_account->delete();
         alert()->success('Retailer deleted successfully');
         
         return redirect()->route('doorder_retailers', 'doorder');
@@ -185,15 +197,17 @@ class RetailerController extends Controller
     public function getSingleRetailer($client_name, $id) {
         $retailer = Retailer::find($id);
         if (!$retailer) {
-            abort(404);
+            //abort(404);
+            alert()->error('Retailer not found!');
+            return redirect()->back();
         }
         return view('admin.doorder.retailers.single_retailer', ['retailer' => $retailer]);
     }
     public function saveUpdateRetailer($client_name,$id, Request $request) {
-         //dd($request);
-        
-        alert()->success('Retailer updated successfully');
-        
+        //dd($request);
+        //alert()->success('Retailer updated successfully');
+        alert()->success('Work in progress');
+
         return redirect()->route('doorder_retailers', 'doorder');
     }
 }

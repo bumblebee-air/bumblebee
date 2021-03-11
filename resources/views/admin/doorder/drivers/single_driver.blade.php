@@ -386,51 +386,48 @@ $driver->last_name) @section('page-content')
 								<button class="btn bt-submit">Save</button>
 							</div>
 							<div class="col-sm-6 text-center">
-								<button class="btn bt-submit btn-danger" data-toggle="modal"
+								<button class="btn bt-submit btn-danger" type="button" data-toggle="modal"
 									data-target="#delete-driver-modal">Delete</button>
 							</div>
 						</div>
 
 					</form>
 
-					
-<!-- delete driver modal -->
-<div class="modal fade" id="delete-driver-modal" tabindex="-1"
-	role="dialog" aria-labelledby="delete-deliverer-label"
-	aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close d-flex justify-content-center"
-					data-dismiss="modal" aria-label="Close">
-					<i class="fas fa-times"></i>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="modal-dialog-header deleteHeader">Are you sure you want
-					to delete this account?</div>
-
-				<div>
-
-					<form method="POST" id="delete-driver"
-						action="{{url('doorder/driver/delete')}}"
-						style="margin-bottom: 0 !important;">
-						@csrf <input type="hidden" id="driverId" name="driverId" value="{{$driver->id}}" />
-					</form>
-				</div>
-			</div>
-			<div class="modal-footer d-flex justify-content-around">
-				<button type="button"
-					class="btn btn-primary doorder-btn-lg doorder-btn"
-					onclick="$('form#delete-driver').submit()">Yes</button>
-				<button type="button"
-					class="btn btn-danger doorder-btn-lg doorder-btn"
-					data-dismiss="modal">Cancel</button>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- end delete driver modal -->
+					<!-- Delete driver modal -->
+					<div class="modal fade" id="delete-driver-modal" tabindex="-1"
+						role="dialog" aria-labelledby="delete-deliverer-label"
+						aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close d-flex justify-content-center"
+										data-dismiss="modal" aria-label="Close">
+										<i class="fas fa-times"></i>
+									</button>
+								</div>
+								<div class="modal-body">
+									<div class="modal-dialog-header deleteHeader">Are you sure you want
+										to delete this account?</div>
+									<div>
+										<form method="POST" id="delete-driver"
+											action="{{url('doorder/driver/delete')}}"
+											style="margin-bottom: 0 !important;">
+											@csrf <input type="hidden" id="driverId" name="driverId" value="{{$driver->id}}" />
+										</form>
+									</div>
+								</div>
+								<div class="modal-footer d-flex justify-content-around">
+									<button type="button"
+										class="btn btn-primary doorder-btn-lg doorder-btn"
+										onclick="$('form#delete-driver').submit()">Yes</button>
+									<button type="button"
+										class="btn btn-danger doorder-btn-lg doorder-btn"
+										data-dismiss="modal">Cancel</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- end delete driver modal -->
 				</div>
 			</div>
 		</div>

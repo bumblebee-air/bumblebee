@@ -17,16 +17,20 @@ li .nav-link {
 
 li .nav-link:hover {
 	border-radius: 12px !important;
-	background-color: #fafafa !important;
-	color: #e2c447 !important;
+	/* background-color: #fafafa !important; */
+	color: #f7dc69 !important;
 	font-family: Quicksand;
 	font-size: 14px;
 	font-weight: 500;
 	line-height: 1.5;
 }
 
+li .nav-link:hover .my-nav-icon-top {
+	display: inline;
+}
+
 li .nav-link:hover a i {
-	color: #e2c447 !important;
+	color: #f7dc69 !important;
 }
 
 .sidebar[data-background-color=doorder-color] {
@@ -38,6 +42,17 @@ li .nav-link:hover a i {
 	box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px #f7dc69
 		!important;
 }
+
+li .nav-link,.sidebar .nav li .dropdown-menu a, .sidebar .nav li a {
+
+font-family: Quicksand;
+  font-size: 14px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  color: #ffffff;}
 
 .page_icon {
 	width: 39px;
@@ -69,7 +84,15 @@ li .nav-link:hover a i {
 .my-nav-icon {
 	width: 24px;
 	height: 24px;
-	margin-top: 3px;
+	margin-top: 3px; 
+	position: relative;
+        display: inline-block;
+}
+
+.my-nav-icon-top {
+	display: none;
+	position: absolute;
+	z-index: 99;
 }
 
 .status {
@@ -179,7 +202,6 @@ td {
 	box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
 }
 
-
 .form-group input {
 	padding-left: 14px;
 }
@@ -241,17 +263,19 @@ td {
 	width: 347px;
 	height: 50px;
 	border-radius: 22px 0 22px 0;
-/* 	box-shadow: 0 12px 36px -12px rgba(76, 151, 161, 0.35); */
+	/* 	box-shadow: 0 12px 36px -12px rgba(76, 151, 161, 0.35); */
 	background-color: #e8ca49;
 	font-size: 18px;
 	font-weight: 500;
 	letter-spacing: 0.99px;
 	color: #ffffff;
 }
-.btn.btn-default.focus, .btn.btn-default:focus, .btn.btn-default:hover, .btn.focus, .btn:focus, .btn:hover {
-    color: #fff;
-    background-color: #e8ca49;
-    border-color: #e8ca49;
+
+.btn.btn-default.focus, .btn.btn-default:focus, .btn.btn-default:hover,
+	.btn.focus, .btn:focus, .btn:hover {
+	color: #fff;
+	background-color: #e8ca49;
+	border-color: #e8ca49;
 }
 
 .bootstrap-select .dropdown-item.active {

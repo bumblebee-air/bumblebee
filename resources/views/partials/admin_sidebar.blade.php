@@ -314,42 +314,40 @@
 		<ul class="nav">
 		<li class="nav-item">
                         <a class="nav-link d-flex" href="{{route('doorder_adminMap', 'doorder')}}">
-                            <img class="my-nav-icon" src="{{asset('images/map_icon_card_white.png')}}" alt="Map">
+                            <img class="my-nav-icon" src="{{asset('images/doorder_icons/Map.png')}}" alt="Map">
+                            <img class="my-nav-icon my-nav-icon-top" src="{{asset('images/doorder_icons/Map-yellow.png')}}" alt="Map">
                             <p>Map</p>
                         </a>
                     </li>
 			<li class="nav-item"><a class="nav-link d-flex" href="{{url('/')}}">
-					{{-- <i class="fas fa-chart-bar"></i>--}} <img class="my-nav-icon"
-					src="{{asset('images/doorder_icons/dashboard.png')}}" alt="">
+					<img class="my-nav-icon" src="{{asset('images/doorder_icons/dashboard.png')}}" alt="">
+					<img class="my-nav-icon my-nav-icon-top" src="{{asset('images/doorder_icons/Dashboard-yellow.png')}}" alt="">
 					<p>Dashboard</p>
 			</a></li>
 			<li class="nav-item"><a class="nav-link d-flex"
-				href="{{route('doorder_ordersTable', 'doorder')}}"> {{-- <i
-					class="fas fa-chart-bar"></i>--}} <img class="my-nav-icon"
-					src="{{asset('images/doorder_icons/orders_table_white.png')}}"
-					alt="">
+				href="{{route('doorder_ordersTable', 'doorder')}}"> 
+					<img class="my-nav-icon" src="{{asset('images/doorder_icons/orders_table_white.png')}}" alt="">
+					<img class="my-nav-icon my-nav-icon-top" src="{{asset('images/doorder_icons/orders_table.png')}}" alt="">
 					<p>Orders Table</p>
 			</a></li>
 			<li class="nav-item"><a class="nav-link d-flex"
 				href="{{route('doorder_retailers', 'doorder')}}">
-				<img class="my-nav-icon"
-					src="{{asset('images/doorder_icons/Retailer.png')}}"
-					alt="">
+				<img class="my-nav-icon" src="{{asset('images/doorder_icons/Retailer.png')}}" alt="">
+				<img class="my-nav-icon my-nav-icon-top" src="{{asset('images/doorder_icons/Retailer-yellow.png')}}" alt="">
 					<p>Retailers</p>
 			</a></li>
 			<li class="nav-item"><a class="nav-link d-flex"
 				href="{{route('doorder_drivers', 'doorder')}}">
-				<img class="my-nav-icon"
-					src="{{asset('images/doorder_icons/Deliverers-white.png')}}"
-					alt="">
+				<img class="my-nav-icon" src="{{asset('images/doorder_icons/Deliverers-white.png')}}" alt="">
+				<img class="my-nav-icon my-nav-icon-top" src="{{asset('images/doorder_icons/Deliverers-yellow.png')}}" alt="">
 					<p>Deliverers</p>
 			</a></li>
 			
 			<li class="nav-item "><a class="nav-link collapsed d-flex"
 				data-toggle="collapse" href="#componentsExamples"
-				aria-expanded="false"> {{-- <i class="material-icons">apps</i>--}} <img
-					style="height: 22px; width: 18px;" class="my-nav-icon"
-					src="{{asset('images/doorder_icons/drivers_requests.png')}}" alt="">
+				aria-expanded="false">  
+				<img class="my-nav-icon" src="{{asset('images/doorder_icons/Requests.png')}}" alt="" style="width: 20px">
+				<img class="my-nav-icon my-nav-icon-top" src="{{asset('images/doorder_icons/Requests-yellow.png')}}" alt="" style="width: 20px">
 					<p style="padding-right: 30px;">
 						Requests <b class="caret"></b>
 					</p>
@@ -369,25 +367,28 @@
 					</ul>
 				</div></li>
 				
-				<li class="nav-item"><a class="nav-link d-flex" href="#"> {{-- <i
-					class="fas fa-plus-circle"></i>--}} <img class="my-nav-icon"
-					src="{{asset('images/gardenhelp_icons/WhatsApp-white.png')}}"
-					alt="Dashboard">
+				<li class="nav-item"><a class="nav-link d-flex" href="#"> 
+					<img class="my-nav-icon" src="{{asset('images/doorder_icons/Whatsapp.png')}}" alt="whatsapp">
+					<img class="my-nav-icon my-nav-icon-top" src="{{asset('images/doorder_icons/Whatsapp-yellow.png')}}" alt="whatsapp">
 					<p>WhatsApp</p>
 			</a></li>
 			
-				<li class="nav-item"><a class="nav-link d-flex" href="#"> <i
-					class="fas fa-paste"></i>
+				<li class="nav-item"><a class="nav-link d-flex" href="#">
+					<img class="my-nav-icon" src="{{asset('images/doorder_icons/History-white.png')}}" alt="whatsapp">
+					<img class="my-nav-icon my-nav-icon-top" src="{{asset('images/doorder_icons/History-yellow.png')}}" alt="whatsapp">	
 					<p>History</p>
 			</a></li>
-			<li class="nav-item"><a class="nav-link d-flex" href="#"> <i
-					class="fas fa-cog"></i>
+			<li class="nav-item"><a class="nav-link d-flex" href="#"> 
+					<img class="my-nav-icon" src="{{asset('images/doorder_icons/Settings.png')}}" alt="whatsapp">
+					<img class="my-nav-icon my-nav-icon-top" src="{{asset('images/doorder_icons/Settings-yellow.png')}}" alt="whatsapp">
 					<p>Settings</p>
 			</a></li>
 				
 				
 			<li class="nav-item "><a class="nav-link d-flex"
-				href="{{url('logout')}}"> <i class="fas fa-sign-out-alt"></i>
+				href="{{url('logout')}}"> 
+					<img class="my-nav-icon" src="{{asset('images/doorder_icons/logout-outline.png')}}" alt="whatsapp">
+					<img class="my-nav-icon my-nav-icon-top" src="{{asset('images/doorder_icons/logout-outline-yellow.png')}}" alt="whatsapp">
 					<p>Logout</p>
 			</a></li>
 		</ul>

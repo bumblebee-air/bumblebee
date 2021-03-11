@@ -63,8 +63,8 @@ class ShopifyController extends Controller
         $orders = $request->all();
         if (count($orders['shipping_lines']) > 0) {
             $aShippingLine = $orders['shipping_lines'][0];
-            if (strtolower($aShippingLine['code']) == "same day delivery" ||
-                strtolower($aShippingLine['code']) == "doorder") {
+            if(strpos(strtolower($aShippingLine['code']),"same day")!==false ||
+                strpos(strtolower($aShippingLine['code']),"doorder")!==false) {
                 $iLineItemsCount = count($orders['line_items']);
 
                 $aWebhook = [];

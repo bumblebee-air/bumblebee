@@ -431,7 +431,7 @@
 							<div class="input-group" @click="addFile('insurance_document')">
 								<input id="insurance_document_input" type="text"
 									class="form-control inputFileVisible"
-									placeholder="Upload Document" required> <span
+									placeholder="Upload Document"> <span
 									class="input-group-btn">
 									<button type="button" class="btn btn-fab btn-round btn-success">
 										<i class="fas fa-cloud-upload-alt"></i>

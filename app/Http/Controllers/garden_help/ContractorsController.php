@@ -24,8 +24,8 @@ class ContractorsController extends Controller
     public function save(Request $request) {
         $this->validate($request, [
             'name' => 'required|string',
-            'email' => 'required|email',
-            'phone_number' => 'required|string',
+            'email' => 'required|email|unique:users,email',
+            'phone_number' => 'required|string|unique:users,phone',
             'experience_level' => 'required|string',
             'experience_level_value' => 'required|string',
             'age_proof' => 'required_if:experience_level_value,==,2|file',

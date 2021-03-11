@@ -40,7 +40,7 @@
 									<tbody>
 										<tr v-for="retailer in retailers.data"
 											v-if="retailers.data.length > 0" class="order-row"
-											>
+											@click="openViewRetailer(event,retailer.id)">
 											<td>@{{ retailer.business_type}}</td>
 											<td>@{{ retailer.name}}</td>
 											<td>@{{ retailer.nom_business_locations }}</td>
@@ -193,7 +193,17 @@ $('#delete-retailer-modal #retailerId').val(retailerId);
                 },
                 openRetailer(retailer_id) {
                     window.location = "{{url('doorder/retailers/')}}/"+retailer_id
-                }
+                },
+                openViewRetailer(e,retailer_id){
+                  e.preventDefault();
+                	
+                	    if (e.target.cellIndex == undefined) {
+                	    	
+                	    }
+                		else{
+                   			window.location.href = "{{url('doorder/retailers/view/')}}/"+retailer_id;
+                   		}
+                },
             }
         });
     </script>

@@ -201,8 +201,18 @@ class RetailerController extends Controller
             alert()->error('Retailer not found!');
             return redirect()->back();
         }
-        return view('admin.doorder.retailers.single_retailer', ['retailer' => $retailer]);
+        return view('admin.doorder.retailers.single_retailer', ['retailer' => $retailer,'readOnly'=>0]);
     }
+    public function getViewRetailer($client_name,$id) {
+        $retailer = Retailer::find($id);
+        if (!$retailer) {
+            //abort(404);
+            alert()->error('Retailer not found!');
+            return redirect()->back();
+        }
+        return view('admin.doorder.retailers.single_retailer', ['retailer' => $retailer,'readOnly'=>true]);
+    }
+    
     public function saveUpdateRetailer($client_name,$id, Request $request) {
         //dd($request);
         //alert()->success('Retailer updated successfully');

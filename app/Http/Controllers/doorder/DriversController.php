@@ -593,7 +593,17 @@ class DriversController extends Controller
             alert()->error('Deliverer not found!');
             return redirect()->back();
         }
-        return view('admin.doorder.drivers.single_driver', ['driver' => $driver]);
+        return view('admin.doorder.drivers.single_driver', ['driver' => $driver,'readOnly'=>0]);
+    }
+    public function getViewDriver($client_name,$id) {
+        $driver = DriverProfile::find($id);
+        //dd($driver);
+        if (!$driver) {
+            //abort(404);
+            alert()->error('Deliverer not found!');
+            return redirect()->back();
+        }
+        return view('admin.doorder.drivers.single_driver', ['driver' => $driver,'readOnly'=>true]);
     }
     
     public function saveUpdateDriver($client_name,$id, Request $request) {

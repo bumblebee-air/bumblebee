@@ -262,12 +262,14 @@ Route::group(['prefix' => '{client_name}'], function () {
             Route::post('drivers/requests/{id}', 'doorder\DriversController@postSingleRequest')->name('post_doorder_drivers_single_request');
             Route::get('drivers', 'doorder\DriversController@getDrivers')->name('doorder_drivers');
             Route::get('drivers/{id}', 'doorder\DriversController@getSingleDriver')->name('doorder_drivers_single_driver');
+            Route::get('drivers/view/{id}', 'doorder\DriversController@getViewDriver')->name('doorder_drivers_view_driver');
             // Retailers
             Route::get('retailers/requests', 'doorder\RetailerController@getRetailerRequests')->name('doorder_retailers_requests');
             Route::get('retailers/requests/{id}', 'doorder\RetailerController@getSingleRequest')->name('doorder_retailers_single_request');
             Route::post('retailers/request/{id}', 'doorder\RetailerController@postSingleRequest')->name('post_doorder_retailers_single_request');
             Route::get('retailers', 'doorder\RetailerController@getRetailers')->name('doorder_retailers');
             Route::get('retailers/{id}', 'doorder\RetailerController@getSingleRetailer')->name('doorder_retailers_single_driver');
+            Route::get('retailers/view/{id}', 'doorder\RetailerController@getViewRetailer')->name('doorder_retailers_view_retailer');
             
         });
         Route::group(['middleware' => "retailer"], function () {

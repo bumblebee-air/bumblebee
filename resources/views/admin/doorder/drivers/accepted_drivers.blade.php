@@ -47,7 +47,8 @@
 
 									<tbody>
 										<tr v-for="driver in drivers.data"
-											v-if="drivers.data.length > 0" class="order-row">
+											v-if="drivers.data.length > 0" class="order-row"
+											 @click="openViewDriver(event,driver.id)">
 											<td>@{{ JSON.parse(driver.work_location).name}}</td>
 											<td>@{{ driver.first_name}} @{{ driver.last_name }}</td>
 											<td>@{{ driver.address}}</td>
@@ -199,7 +200,17 @@ $('#delete-driver-modal #driverId').val(driverId);
             },
             methods: {
                 openDriver(driver_id){
-                    window.location.href = "{{url('doorder/drivers/')}}/"+driver_id;
+                   window.location.href = "{{url('doorder/drivers/')}}/"+driver_id;
+                },
+                openViewDriver(e,driver_id){
+                  e.preventDefault();
+                	
+                	    if (e.target.cellIndex == undefined) {
+                	    	
+                	    }
+                		else{
+                   			window.location.href = "{{url('doorder/drivers/view/')}}/"+driver_id;
+                   		}
                 },
                 parseDateTime(date) {
                     console.log(date);

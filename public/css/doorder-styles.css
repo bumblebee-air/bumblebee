@@ -154,15 +154,16 @@ h4.card-title {
 	letter-spacing: 0.8px;
 	color: #4d4d4d;
 }
-.locationTitleLabel{
+
+.locationTitleLabel {
 	font-family: Quicksand;
-  font-size: 15px;
-  font-weight: 600;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.27;
-  letter-spacing: 0.6px;
-  color: #4d4d4d;
+	font-size: 15px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.27;
+	letter-spacing: 0.6px;
+	color: #4d4d4d;
 }
 
 .form-head span {
@@ -256,6 +257,22 @@ input.form-control, textarea.form-control {
 	color: #4d4d4d;
 }
 
+.editLinkA {
+	padding: 0; font-family : Quicksand;
+	font-size: 16px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.77px;
+	color: #4d4d4d;
+	margin-right: 35px;
+	font-family: Quicksand;
+}
+
+.editLinkA, .editLinkA:active, .editLinkA:focus, .editLinkA:hover {
+	background: transparent !important;
+}
 /****************** tables *************************/
 .table {
 	margin-bottom: 0 !important;
@@ -338,7 +355,6 @@ thead tr th {
 	text-align: center;
 	color: #b1b1b1;
 	white-space: initial;
-	
 }
 
 tbody tr td {
@@ -409,23 +425,24 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
 	table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_desc:before,
 	table.dataTable thead .sorting_desc_disabled:before {
 	top: auto !important;
-    left: 93%;
-    right: 0;
+	left: 93%;
+	right: 0;
 }
 
 table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after,
 	table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc:after,
 	table.dataTable thead .sorting_desc_disabled:after {
 	top: auto !important;
-    left: 97%;
-    right: 0;
+	left: 97%;
+	right: 0;
 }
 
 tr.order-row:hover, tr.order-row:focus {
+	cursor: pointer;
 	box-shadow: 5px 5px 18px #88888836, 5px -5px 18px #88888836;
 }
 
-.btn.btn-fab, .btn.btn-just-icon{
+.btn.btn-fab, .btn.btn-just-icon {
 	line-height: 0px !important;
 	height: 20px !important;
 }
@@ -449,7 +466,6 @@ tr.order-row:hover, tr.order-row:focus {
 	.show>.btn.dropdown-toggle:hover {
 	background-color: #e8ca49;
 	border-color: #e8ca49;
-	
 }
 /************* modal ********************/
 .deleteHeader {

@@ -6,18 +6,31 @@ $driver->last_name) @section('page-content')
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-12">
-					<form id="save-driver" method="POST"
+					@if($readOnly==0)<form id="save-driver" method="POST"
 						action="{{route('post_doorder_drivers_edit_driver', ['doorder', $driver->id])}}">
+					@endif	
 						{{csrf_field()}}
 						<div class="card">
-							<div class="card-header card-header-icon card-header-rose">
-								<div class="card-icon">
-									<img class="page_icon"
-										src="{{asset('images/doorder_icons/Deliverers-white.png')}}">
+							<div class="card-header card-header-icon card-header-rose row">
+								<div class="col-12 col-sm-4">
+									<div class="card-icon">
+										<img class="page_icon"
+											src="{{asset('images/doorder_icons/Deliverers-white.png')}}">
+									</div>
+									<h4 class="card-title ">{{$driver->first_name}}
+										{{$driver->last_name}}</h4>
 								</div>
-								<h4 class="card-title ">{{$driver->first_name}}
-									{{$driver->last_name}}</h4>
+ 								@if($readOnly==1)
+								<div class="col-6 col-sm-8 mt-5">
+									<div class="row justify-content-end">
+										<a class="editLinkA btn  btn-link btn-primary-doorder  edit" href="{{url('doorder/drivers/')}}/{{$driver->id}}">
+											<p>Edit deliverer</p>
+										</a>
+									</div>
+								</div>
+								@endif
 							</div>
+
 							<div class="card-body">
 								<div class="container">
 									<div class="row">
@@ -363,9 +376,8 @@ $driver->last_name) @section('page-content')
 										<div class="col-sm-6">
 											<div class="form-group bmd-form-group">
 												<label>Work type</label> <input type="text"
-													class="form-control" name="work_type"
-													value="" placeholder="Work type"
-													required>
+													class="form-control" name="work_type" value=""
+													placeholder="Work type" required>
 											</div>
 										</div>
 
@@ -380,18 +392,21 @@ $driver->last_name) @section('page-content')
 								</div>
 							</div>
 						</div>
+						@if($readOnly==0)
 						<div class="row">
 							<div class="col-sm-6 text-center">
 
 								<button class="btn bt-submit">Save</button>
 							</div>
 							<div class="col-sm-6 text-center">
-								<button class="btn bt-submit btn-danger" type="button" data-toggle="modal"
-									data-target="#delete-driver-modal">Delete</button>
+								<button class="btn bt-submit btn-danger" type="button"
+									data-toggle="modal" data-target="#delete-driver-modal">Delete</button>
 							</div>
 						</div>
+						
 
 					</form>
+					@endif
 
 					<!-- Delete driver modal -->
 					<div class="modal fade" id="delete-driver-modal" tabindex="-1"
@@ -400,19 +415,21 @@ $driver->last_name) @section('page-content')
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<button type="button" class="close d-flex justify-content-center"
+									<button type="button"
+										class="close d-flex justify-content-center"
 										data-dismiss="modal" aria-label="Close">
 										<i class="fas fa-times"></i>
 									</button>
 								</div>
 								<div class="modal-body">
-									<div class="modal-dialog-header deleteHeader">Are you sure you want
-										to delete this account?</div>
+									<div class="modal-dialog-header deleteHeader">Are you sure you
+										want to delete this account?</div>
 									<div>
 										<form method="POST" id="delete-driver"
 											action="{{url('doorder/driver/delete')}}"
 											style="margin-bottom: 0 !important;">
-											@csrf <input type="hidden" id="driverId" name="driverId" value="{{$driver->id}}" />
+											@csrf <input type="hidden" id="driverId" name="driverId"
+												value="{{$driver->id}}" />
 										</form>
 									</div>
 								</div>
@@ -436,6 +453,15 @@ $driver->last_name) @section('page-content')
 </div>
 @endsection @section('page-scripts')
 <script>
+$( document ).ready(function() {
+
+var readonly = {!! $readOnly !!};
+if(readonly==1){
+$("input").prop('disabled', true);
+$("textarea").prop('disabled', true);
+}
+});
+
         function initMap() {
             let address_coordinates = JSON.parse({!! json_encode($driver->address_coordinates) !!});
             let work_location_coordinates = JSON.parse({!! json_encode($driver->work_location) !!});

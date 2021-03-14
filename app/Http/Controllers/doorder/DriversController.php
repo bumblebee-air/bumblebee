@@ -451,7 +451,9 @@ class DriversController extends Controller
     public function sendForgotPasswordCode(Request $request) {
         $checkIfUserExists = User::where('phone', $request->phone)->first();
         if ($checkIfUserExists) {
-            $resetPasswordCode = Str::random(6);
+            //$resetPasswordCode = Str::random(6);
+            $rand_code = rand(100000,999999);
+            $resetPasswordCode = strval($rand_code);
             try {
                 $sid = env('TWILIO_SID', '');
                 $token = env('TWILIO_AUTH', '');
@@ -459,8 +461,8 @@ class DriversController extends Controller
                 $twilio->messages->create($checkIfUserExists->phone,
                     [
                         "from" => "DoOrder",
-                        "body" => "Hi $checkIfUserExists->name, this message has been sent upon you request.
-                        This is your reset password code: " . $resetPasswordCode
+                        "body" => "Hi $checkIfUserExists->name, this message has been sent upon you request.".
+                        "This is your reset password code: " . $resetPasswordCode
                     ]
                 );
             } catch (\Exception $exception) {

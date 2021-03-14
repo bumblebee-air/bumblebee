@@ -615,4 +615,77 @@ class DriversController extends Controller
 
         return redirect()->route('doorder_drivers', 'doorder');
     }
+
+    public function changePassword(Request $request) {
+        $errors = \Validator::make($request->all(), [
+            'old_password' => 'required',
+            'new_password' => 'required',
+        ]);
+
+        if ($errors->fails()) {
+            return response()->json([
+                'errors' => 1,
+                'message' => 'There is an invalid parameter',
+            ], 402);
+        }
+
+        if (password_verify($request->old_password, auth()->user()->password)) {
+            User::find(auth()->user()->id)->update([
+                'password' => bcrypt($request->new_password)
+            ]);
+            return response()->json([
+                'errors' => 0,
+                'message' => 'Your password has changed successfully'
+            ]);
+        } else {
+            return response()->json([
+                'errors' => 1,
+                'message' => 'The old password is not matched.'
+            ], 403);
+        }
+    }
+
+    public function updateProfile(Request $request) {
+        $errors = \Validator::make($request->all(), [
+            'business_hours' => 'required',
+            'business_hours_json' => 'required',
+            'name' => 'required',
+        ]);
+
+        if ($errors->fails()) {
+            return response()->json([
+                'errors' => 1,
+                'message' => 'There is an invalid parameter',
+            ], 402);
+        }
+        //Update User Name
+        $user =  User::find(auth()->user()->id);
+        $user->name = $request->name;
+        $user->is_profile_completed = true;
+        $user->save();
+        //Update User profile
+        $driver = DriverProfile::where('user_id', $user->id)->first();
+        $driver->name = $request->name;
+        $driver->business_hours = $request->business_hours;
+        $driver->save();
+        //return json response
+        return response()->json([
+            'errors' => 0,
+            'message' => 'Your profile has updated successfully.'
+        ]);
+    }
+
+    public function getProfile(Request $request) {
+        $driver = DriverProfile::where('user_id', auth()->user()->id)->first();
+        return response()->json([
+            'errors' => 0,
+            'data' => [
+                'full_name' => auth()->user()->name,
+                'phone' => auth()->user()->phone,
+                'email' => auth()->user()->email,
+                'business_hours' => $driver->business_hours,
+                'business_hours_json' => $driver->business_hours_json,
+            ]
+        ]);
+    }
 }

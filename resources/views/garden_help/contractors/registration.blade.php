@@ -1048,6 +1048,15 @@
 		window.initAutoComplete = function initAutoComplete() {
 			//Autocomplete Initialization
 			let location_input = document.getElementById('address');
+			//Mutation observer hack for chrome address autofill issue
+			let observerHackAddress = new MutationObserver(function() {
+				observerHackAddress.disconnect();
+				location_input.setAttribute("autocomplete", "new-password");
+			});
+			observerHackAddress.observe(location_input, {
+				attributes: true,
+				attributeFilter: ['autocomplete']
+			});
 			let autocomplete_location = new google.maps.places.Autocomplete(location_input);
 			autocomplete_location.setComponentRestrictions({'country': ['ie']});
 			autocomplete_location.addListener('place_changed', () => {

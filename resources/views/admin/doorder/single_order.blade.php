@@ -418,6 +418,15 @@
             });
 
             let customer_address = document.getElementById('customer_address');
+            //Mutation observer hack for chrome address autofill issue
+            let observerHackAddress = new MutationObserver(function() {
+                observerHackAddress.disconnect();
+                customer_address.setAttribute("autocomplete", "new-password");
+            });
+            observerHackAddress.observe(customer_address, {
+                attributes: true,
+                attributeFilter: ['autocomplete']
+            });
             let autocomplete = new google.maps.places.Autocomplete(customer_address);
             autocomplete.setComponentRestrictions({'country': ['ie','gb']});
             autocomplete.addListener('place_changed', function () {

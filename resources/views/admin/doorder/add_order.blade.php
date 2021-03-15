@@ -269,6 +269,15 @@
         // }
         function initMap() {
             let customer_address_input = document.getElementById('customer_address');
+            //Mutation observer hack for chrome address autofill issue
+            let observerHackAddress = new MutationObserver(function() {
+                observerHackAddress.disconnect();
+                customer_address_input.setAttribute("autocomplete", "new-password");
+            });
+            observerHackAddress.observe(customer_address_input, {
+                attributes: true,
+                attributeFilter: ['autocomplete']
+            });
             let autocomplete = new google.maps.places.Autocomplete(customer_address_input);
             autocomplete.setComponentRestrictions({'country': ['ie']});
             autocomplete.addListener('place_changed', function () {
@@ -298,6 +307,15 @@
             });
 
             let pickup_address_input = document.getElementById('pickup_address_alt');
+            //Mutation observer hack for chrome address autofill issue
+            let observerHackPickupAddress = new MutationObserver(function() {
+                observerHackPickupAddress.disconnect();
+                pickup_address_input.setAttribute("autocomplete", "new-password");
+            });
+            observerHackPickupAddress.observe(pickup_address_input, {
+                attributes: true,
+                attributeFilter: ['autocomplete']
+            });
             let autocomplete_pickup = new google.maps.places.Autocomplete(pickup_address_input);
             autocomplete_pickup.setComponentRestrictions({'country': ['ie']});
             autocomplete_pickup.addListener('place_changed', function () {

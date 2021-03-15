@@ -162,7 +162,7 @@
     <script src="{{asset('js/moment-timezone.min.js')}}"></script>
     <script src="{{ asset('js/bootstrap-selectpicker.js') }}"></script>
     <script src="{{ asset('js/jquery.matchHeight.js') }}" type="text/javascript"></script>
-    <script type="">
+    <script type="text/javascript">
         var map;
         var directionsService;
         var directionsDisplay;
@@ -183,6 +183,15 @@
             center: {lat: 51.5117884, lng: -0.1429935}
         });
         var input = document.getElementById('address');
+        //Mutation observer hack for chrome address autofill issue
+        let observerHackAddress = new MutationObserver(function() {
+            observerHackAddress.disconnect();
+            input.setAttribute("autocomplete", "new-password");
+        });
+        observerHackAddress.observe(input, {
+            attributes: true,
+            attributeFilter: ['autocomplete']
+        });
         var autocomplete = new google.maps.places.Autocomplete(input);
         autocomplete.setComponentRestrictions({'country': ['ie','gb']});
         a_latlng = null;

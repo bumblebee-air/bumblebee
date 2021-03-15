@@ -539,7 +539,7 @@
                 //Mutation observer hack for chrome address autofill issue
                 let observerHackDriverAddress = new MutationObserver(function() {
                     observerHackDriverAddress.disconnect();
-                    $("#location1").attr("autocomplete", "new-password");
+                    driver_address_input.setAttribute("autocomplete", "new-password");
                 });
                 observerHackDriverAddress.observe(driver_address_input, {
                     attributes: true,
@@ -604,7 +604,7 @@
                     //Mutation observer hack for chrome address autofill issue
                     let observerHackAddress = new MutationObserver(function() {
                         observerHackAddress.disconnect();
-                        $('#location'+latest_key).attr("autocomplete", "new-password");
+                        driver_address_input.setAttribute("autocomplete", "new-password");
                     });
                     observerHackAddress.observe(driver_address_input, {
                         attributes: true,

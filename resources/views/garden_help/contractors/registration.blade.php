@@ -785,7 +785,7 @@
                     {
                         title: 'Garden Maintenance',
                         is_checked: JSON.parse("{{old('type_of_work_exp') ? ( strpos(old('type_of_work_exp'), 'Garden Maintenance') === false  ? 'false' : 'true' ) : 'false'}}"),
-                        level: ["1", "2", "3"]
+                        level: ["2", "3"]
                     },
 					{
 						title: 'Commercial Garden Maintenance',
@@ -795,7 +795,7 @@
                     {
                         title: 'Grass Cutting',
                         is_checked: JSON.parse("{{old('type_of_work_exp') ? ( strpos(old('type_of_work_exp'), 'Grass Cutting') === false ? 'false' : 'true' ) : 'false'}}"),
-                        level: ["2", "3"]
+                        level: ["1", "2", "3"]
                     },
                     {
                         title: 'Fencing',

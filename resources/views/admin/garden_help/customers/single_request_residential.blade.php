@@ -342,7 +342,8 @@ Request') @section('page-styles')
                 zoom: 12,
                 center: {lat: 53.346324, lng: -6.258668},
                 mapTypeId: "terrain",
-            });
+				mapTypeId: 'hybrid'
+			});
             
              // Define the LatLng coordinates for the polygon's path.
    let area_coordinates= {!!$customer_request->area_coordinates!!};      

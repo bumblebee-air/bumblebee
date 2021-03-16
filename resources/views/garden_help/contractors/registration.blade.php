@@ -75,8 +75,8 @@
 					</div>
 					<div class="col-md-12 mb-3">
 						<div class="form-group bmd-form-group">
-							<label for="experience_level" class="bmd-label-floating">Experience
-								Level</label> <input name="experience_level" type="text"
+							<label for="experience_level" class="bmd-label-floating">Years of Experience
+								</label> <input name="experience_level" type="text"
 								class="form-control" id="experience_level"
 								v-model="experience_level_input"
 								@click="openModal('experience_level')" required>
@@ -92,7 +92,7 @@
 									<div class="modal-content">
 										<div class="modal-header">
 											<h5 class="modal-title text-left registerModalTitle"
-												id="experience_levelLabel">Experience level</h5>
+												id="experience_levelLabel">Years of Experience</h5>
 											<button type="button" class="close" data-dismiss="modal"
 												aria-label="Close">
 												<span aria-hidden="true">&times;</span>
@@ -104,7 +104,7 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													name="experience_level_value" id="inlineRadio1"
-													v-model="experience_level" value="1"> Level 1 (0-2 years) <span
+													v-model="experience_level" value="1"> (0-2 years) <span
 													class="circle"> <span class="check"></span>
 												</span>
 												</label>
@@ -114,7 +114,7 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													name="experience_level_value" id="inlineRadio2"
-													v-model="experience_level" value="2"> Level 2 (2-5 years) <span
+													v-model="experience_level" value="2"> (2-5 years) <span
 													class="circle"> <span class="check"></span>
 												</span>
 												</label>
@@ -124,7 +124,7 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													name="experience_level_value" id="inlineRadio2"
-													v-model="experience_level" value="3"> Level 3 (+5 years) <span
+													v-model="experience_level" value="3"> (+5 years) <span
 													class="circle"> <span class="check"></span>
 												</span>
 												</label>
@@ -769,7 +769,7 @@
             el: '#app',
             data: {
                 experience_level: '{{old('experience_level_value') ? old('experience_level_value') : 1}}',
-                experience_level_input: '{{old('experience_level') ?  old('experience_level') : 'Level 1 (0-2 Years)'}}',
+                experience_level_input: '{{old('experience_level') ?  old('experience_level') : '(0-2 Years)'}}',
                 experience_level_selected_value: '{{old('experience_level_value') ? old('experience_level_value') : 1}}',
                 experience_types: [
                     {
@@ -787,35 +787,40 @@
                         is_checked: JSON.parse("{{old('type_of_work_exp') ? ( strpos(old('type_of_work_exp'), 'Garden Maintenance') === false  ? 'false' : 'true' ) : 'false'}}"),
                         level: ["1", "2", "3"]
                     },
+					{
+						title: 'Commercial Garden Maintenance',
+						is_checked: JSON.parse("{{old('type_of_work_exp') ? ( strpos(old('type_of_work_exp'), 'Decking') === false  ? 'false' : 'true' ) : 'false'}}"),
+						level: ["2", "3"],
+					},
                     {
                         title: 'Grass Cutting',
                         is_checked: JSON.parse("{{old('type_of_work_exp') ? ( strpos(old('type_of_work_exp'), 'Grass Cutting') === false ? 'false' : 'true' ) : 'false'}}"),
-                        level: ["1", "2", "3"]
+                        level: ["2", "3"]
                     },
                     {
                         title: 'Fencing',
                         is_checked: JSON.parse("{{old('type_of_work_exp') ? ( strpos(old('type_of_work_exp'), 'Fencing')  === false  ? 'false' : true) : 'false'}}"),
-                        level: ["1", "2", "3"]
+                        level: ["2", "3"]
                     },
                     {
                         title: 'Groundwork',
                         is_checked: JSON.parse("{{old('type_of_work_exp') ? ( strpos(old('type_of_work_exp'), 'Groundwork') === false  ? 'false' : 'true' ) : 'false'}}"),
-                        level: ["1", "2", "3"]
+                        level: ["2", "3"]
                     },
                     {
                         title: 'Hard Landscaping',
                         is_checked: JSON.parse("{{old('type_of_work_exp') ? ( strpos(old('type_of_work_exp'), 'Hard Landscaping') === false  ? 'false' : 'true' ) : 'false'}}"),
-                        level: ["1", "2", "3"],
+                        level: ["2", "3"],
                     },
                     {
                         title: 'Patios',
                         is_checked: JSON.parse("{{old('type_of_work_exp') ? ( strpos(old('type_of_work_exp'), 'Patios') === false  ? 'false' : 'true' ) : 'false'}}"),
-                        level: ["1", "2", "3"],
+                        level: ["2", "3"],
                     },
                     {
                         title: 'Decking',
                         is_checked: JSON.parse("{{old('type_of_work_exp') ? ( strpos(old('type_of_work_exp'), 'Decking') === false  ? 'false' : 'true' ) : 'false'}}"),
-                        level: ["1", "2", "3"],
+                        level: ["2", "3"],
                     },
                 ],
                 experience_type: '{{old('type_of_work_exp')}}',
@@ -913,13 +918,13 @@
             methods: {
                 changeExperienceLevel() {
                     if (this.experience_level == 1) {
-                        this.experience_level_input = "Level 1 (0-2 Years)";
+                        this.experience_level_input = "(0-2 Years)";
                         this.experience_level_selected_value = this.experience_level;
                     } else if (this.experience_level == 2) {
-                        this.experience_level_input = "Level 2 (2-5 Years)";
+                        this.experience_level_input = "(2-5 Years)";
                         this.experience_level_selected_value = this.experience_level;
                     } else {
-                        this.experience_level_input = "Level 3 (+5 Years)";
+                        this.experience_level_input = "(+5 Years)";
                         this.experience_level_selected_value = this.experience_level;
                         let type_of_work_selected_value = [];
                         for (let item of this.type_of_work) {
@@ -1019,20 +1024,30 @@
 								icon: 'error',
 							})
 							return false;
-						} else if (hourly_rate.val() > 25) {
+						} else if (hourly_rate.val() > 30) {
 							swal({
 								title: 'There is a missing input',
-								text: "Max Hourly Rate for Level 3 Contactor is €20 Per Hour, " +
+								text: "Max Hourly Rate for (+5 years) experience is €30 Per Hour, " +
 										"please change the rate to be able to proceed with the registration form",
 								icon: 'warning',
 							})
 							return false;
 						}
-					} else {
+					} else if (this.experience_level_selected_value==2) {
 						if (hourly_rate.val() > 20) {
 							swal({
 								title: 'There is a missing input',
-								text: "Max Hourly Rate for Level " + this.experience_level_selected_value +" Contactor is €20 Per Hour, " +
+								text: "Max Hourly Rate for " + this.experience_level_selected_value +" experience is €20 Per Hour, " +
+										"please change the rate to be able to proceed with the registration form",
+								icon: 'warning',
+							});
+							return false;
+						}
+					} else {
+						if (hourly_rate.val() > 15) {
+							swal({
+								title: 'There is a missing input',
+								text: "Max Hourly Rate for Level " + this.experience_level_selected_value +" experience is €15 Per Hour, " +
 										"please change the rate to be able to proceed with the registration form",
 								icon: 'warning',
 							});

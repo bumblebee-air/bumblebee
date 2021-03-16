@@ -521,7 +521,7 @@
             this.map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 12,
                 center: {lat: 53.346324, lng: -6.258668},
-                mapTypeId: "terrain",
+                mapTypeId: 'hybrid'
             });
 
             // Define the LatLng coordinates for the polygon's path.

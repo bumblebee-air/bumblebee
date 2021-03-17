@@ -1,0 +1,308 @@
+@font-face {
+	font-family: Futura;
+	src: url('/futura/Futura Book font.ttf') format('truetype'),
+		/* Safari, Android, iOS */;
+}
+
+@font-face {
+	font-family: Futura;
+	src: url('/futura/futura light bt.ttf') format('truetype'),
+		/* Safari, Android, iOS */;
+	font-weight: 300;
+}
+
+body {
+	font-family: 'Futura', Fallback, sans-serif !important;
+	background-color: black;
+	background-image: url("../images/doom-yoga/doom-yoga-background.jpg");
+	background-position: center; /* Center the image */
+	background-repeat: no-repeat; /* Do not repeat the image */
+	background-size: cover;
+	color: white !important;
+}
+
+.main {
+	padding-top: 70px;
+	font-family: 'Futura', Fallback, sans-serif !important;
+}
+
+.registerTitle {
+	text-transform: capitalize;
+	margin-top: 20px;
+	font-family: Arbutus Slab;
+	font-size: 25px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.8;
+	letter-spacing: 0.24px;
+	color: #ffffff;
+}
+
+.registerSubTitle {
+	text-transform: capitalize;
+	margin-top: 18px;
+	font-family: Arbutus Slab;
+	font-size: 25px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.8;
+	letter-spacing: 0.24px;
+	color: #ffffff;
+}
+
+.registerSubTitleContact {
+	text-transform: capitalize;
+	margin-top: 18px;
+	font-family: Arbutus Slab;
+	font-size: 25px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.63px;
+	color: #ffffff;
+}
+
+.subscriptionRowDiv {
+	margin-top: 10px;
+	padding: 15px 0;
+	border-radius: 9.7px;
+	border: solid 0.5px #6d6d6d;
+	background-image: linear-gradient(97deg, rgba(109, 109, 109, 0.4),
+		rgba(109, 109, 109, 0.2));
+}
+
+.registerSubscriptionTitleH6 {
+	font-family: Arbutus Slab;
+	font-size: 19px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.26px;
+	color: #ffffff;
+}
+
+.registerSubscriptionDetailsP {
+	font-family: 'Futura', Fallback, sans-serif !important;
+	font-size: 15.3px;
+	font-weight: 300;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.21px;
+	color: #ffffff;
+	margin-bottom: 5px;
+}
+
+.registerSubscriptionFreeP {
+	font-family: 'Futura', Fallback, sans-serif !important;;
+	font-size: 13.9px;
+	font-weight: 300;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.19px;
+	color: #ffffff;
+	margin-bottom: 5px;
+}
+
+.registerSubscriptionFeesP {
+	font-family: Arbutus Slab;
+	font-size: 12.5px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.17px;
+	color: #ffffff;
+	margin-bottom: 5px;
+}
+
+form .form-group {
+	margin: 15px 0 0 !important;
+}
+
+.form-group.formSelectDiv {
+	margin: 0 !important;
+}
+
+.is-filled .bmd-label-floating, .is-focused .bmd-label-floating,
+	.filledInputDiv .bmd-label-floating {
+	font-family: 'Futura', Fallback, sans-serif !important;
+	color: #fff !important;
+	font-size: 13px !important;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.23px;
+	top: -0.75rem;
+}
+
+.bmd-form-group, .bmd-form-group:not(.has-success):not(.has-danger) [class*=" bmd-label"].bmd-label-floating,
+	.bmd-form-group:not(.has-success):not(.has-danger) [class^=bmd-label].bmd-label-floating
+	{
+	font-family: 'Futura', Fallback, sans-serif !important;
+	color: #fff !important;
+	font-size: 20px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.32px;
+}
+
+.radioButtonLabel {
+	font-family: 'Futura', Fallback, sans-serif !important;
+	color: #fff !important;
+	font-size: 15px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.32px;
+}
+
+.contactUsLabel {
+	font-family: 'Futura', Fallback, sans-serif !important;
+	font-size: 21px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.43px;
+	color: #ffffff;
+	margin-left: 10px;
+}
+
+input.form-control {
+	font-family: 'Futura', Fallback, sans-serif !important;;
+	font-size: 20px !important;
+	font-weight: normal !important;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.32px;
+	color: #ffffff;
+}
+
+.select2-results__option {
+	font-family: 'Futura', Fallback, sans-serif !important;;
+	font-size: 20px !important;
+	font-weight: normal !important;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.32px;
+	color: #000;
+}
+
+.select2-results__option:hover {
+	font-family: 'Futura', Fallback, sans-serif !important;;
+	font-size: 17px !important;
+	font-weight: normal !important;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.32px;
+	color: #fff;
+	background-color: #000;
+}
+
+.form-control:focus {
+	color: #fff;
+	background-color: transparent;
+	border-color: #eaecef;
+	outline: 0;
+}
+
+.form-control, .is-focused .form-control {
+	background-image: linear-gradient(0deg, #eaecef 2px, rgba(156, 39, 176, 0)
+		0), linear-gradient(0deg, #d2d2d2 1px, hsla(0, 0%, 82%, 0) 0);
+}
+
+.select2-container .select2-selection--single .select2-selection__rendered
+	{
+	background-color: transparent !important;
+	color: white !important;
+}
+
+.select2-container .select2-selection--single {
+	background: transparent;
+	border: none !important;
+	border-bottom: 1px solid #eaecef !important;
+}
+
+.select2-container .select2-selection--single .select2-selection__rendered
+	{
+	color: white;
+	padding-left: 0 !important;
+}
+
+.select2-container .select2-selection--single .select2-selection__arrow b
+	{
+	border-color: #888 transparent transparent transparent;
+	border-style: solid;
+	border-width: 5px 4px 0 4px;
+	height: 0;
+	left: 50%;
+	margin-left: -4px;
+	margin-top: -2px;
+	position: absolute;
+	top: 50%;
+	width: 0;
+}
+
+.select2-container .select2-selection--single {
+	height: 37px;
+	font-size: 20px;
+	position: relative;
+}
+
+.select2-container .select2-selection--single .select2-selection__arrow
+	{
+	color: #fff;
+	font-size: 1em;
+	padding: 4px 12px;
+	height: 27px;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	width: 20px;
+}
+
+.select2-container .select2-selection--single .select2-selection__arrow b
+	{
+	border-color: red
+}
+.iti__country{
+	color: black;
+}
+.my-check-box .checked, .checked, .my-check-box .checked .fas, .checked .fas
+	{
+	background-image: linear-gradient(to bottom, rgba(56, 226, 233, 0.52),
+		#b850b8) !important;
+	background: -webkit-linear-gradient(to bottom, rgba(56, 226, 233, 0.52),
+		#b850b8);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+p.terms{
+	font-family: 'Futura', Fallback, sans-serif !important;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 0.3px;
+  text-align: center;
+  color: #ffffff;
+}
+a.terms-text{
+	  color: #38e2e9;
+	
+}

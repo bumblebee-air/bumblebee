@@ -285,6 +285,16 @@ Route::group(['prefix' => '{client_name}'], function () {
     });
 });
 
+    /*
+     * Doom Yoga Routes
+     */
+    
+    //Driver Registration
+    Route::get('doom_yoga/customer/registration', 'doom_yoga\CustomerController@getCustomerRegistrationForm')->name('getCustomerRegistrationForm');
+    Route::post('doom_yoga/customer/registration', 'doom_yoga\CustomerController@postCustomerRegistrationForm')->name('postCustomerRegistrationForm');
+    Route::post('doom_yoga/customer/registration/signup', 'doom_yoga\CustomerController@postCustomerRegistrationCardForm')->name('postCustomerRegistrationCardForm');
+    
+
 // DoOrder Routes
 Route::get('driver_app', function () {
     return view('templates/driver_app');

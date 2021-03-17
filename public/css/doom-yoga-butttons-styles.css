@@ -1,0 +1,97 @@
+.btn {
+	padding: 19px 45px;
+	width: 100%;
+	height: 57px;
+	margin-top: 10px;
+	padding: 23px;
+	transition: 0.5s; 
+	box-shadow: 0 6px 9px 0 rgba(0, 0, 0, 0.16);
+	font-family: Arbutus Slab;
+	font-size: 18px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 0.61;
+	letter-spacing: 0.41px;
+	text-align: center;
+	color: #ffffff;
+}
+
+.btn:hover {
+	background-image: linear-gradient(to left, #b850b8, #65dde2) !important;
+	/* change the direction of the change here */
+}
+.btn.disabled, .btn:disabled{
+	
+	opacity: 1 !important
+}
+
+.btn-doomyoga-primary {
+	color: #fff;
+	background-image: linear-gradient(to right, #b850b8, #65dde2) !important;
+	background: -webkit-linear-gradient(to right, right, #b850b8, #65dde2);
+}
+
+.btn-doomyoga-primary.disabled, .btn-doomyoga-primary:disabled {
+	color: #fff;
+	background-image: linear-gradient(to right, #a3a3a3, #a3a3a3) !important;
+	background: -webkit-linear-gradient(to right, #a3a3a3, #a3a3a3);
+}
+
+.btn-doomyoga-primary.disabled.focus, .btn-doomyoga-primary.disabled:focus,
+	.btn-doomyoga-primary.disabled:hover, .btn-doomyoga-primary[disabled].focus,
+	.btn-doomyoga-primary[disabled]:focus, .btn-doomyoga-primary[disabled]:hover,
+	fieldset[disabled] .btn-doomyoga-primary.focus, fieldset[disabled] .btn-doomyoga-primary:focus,
+	fieldset[disabled] .btn-doomyoga-primary:hover {
+	color: #fff;
+	background-image: linear-gradient(to right, #a3a3a3, #a3a3a3) !important;
+	background: -webkit-linear-gradient(to right, #a3a3a3, #a3a3a3);
+}
+/* 
+.btn-doomyoga-primary.focus, .btn-doomyoga-primary:focus {
+	color: #fff;
+	background-color: #487834;
+	border-color: #487834;background-position: right center;
+}
+
+.btn-doomyoga-primary:hover {
+	color: #fff;
+	background-color: #487834;
+	border-color: #487834;
+	background-position: right center;
+}
+
+.btn-doomyoga-primary.active, .btn-doomyoga-primary:active, .open>.dropdown-toggle.btn-doomyoga-primary
+	{
+	color: #fff;
+	background-color: #487834;
+	border-color: #487834;background-position: right center;
+}
+
+.btn-doomyoga-primary.active.focus, .btn-doomyoga-primary.active:focus,
+	.btn-doomyoga-primary.active:hover, .btn-doomyoga-primary:active.focus,
+	.btn-doomyoga-primary:active:focus, .btn-doomyoga-primary:active:hover,
+	.open>.dropdown-toggle.btn-doomyoga-primary.focus, .open>.dropdown-toggle.btn-doomyoga-primary:focus,
+	.open>.dropdown-toggle.btn-doomyoga-primary:hover {
+	color: #fff;
+	background-color: #487834;
+	border-color: #487834;background-position: right center;
+}
+
+.btn-doomyoga-primary.active, .btn-doomyoga-primary:active, .open>.dropdown-toggle.btn-doomyoga-primary
+	{
+	background-image: none
+}
+
+.btn-doomyoga-primary.disabled, .btn-doomyoga-primary:disabled {
+	background-color: #a3a3a3 !important;
+}
+
+.btn-doomyoga-primary.disabled.focus, .btn-doomyoga-primary.disabled:focus,
+	.btn-doomyoga-primary.disabled:hover, .btn-doomyoga-primary[disabled].focus,
+	.btn-doomyoga-primary[disabled]:focus, .btn-doomyoga-primary[disabled]:hover,
+	fieldset[disabled] .btn-doomyoga-primary.focus, fieldset[disabled] .btn-doomyoga-primary:focus,
+	fieldset[disabled] .btn-doomyoga-primary:hover {
+	background-color: #a3a3a3;
+	border-color: #a3a3a3;
+} */

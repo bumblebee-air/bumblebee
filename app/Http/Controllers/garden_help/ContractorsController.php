@@ -4,6 +4,7 @@ namespace App\Http\Controllers\garden_help;
 
 use App\Contractor;
 use App\Customer;
+use App\Helpers\TwilioHelper;
 use App\Mail\ContractorRegistrationMail;
 use App\User;
 use Illuminate\Http\Request;
@@ -124,27 +125,24 @@ class ContractorsController extends Controller
             $singleRequest->status = 'missing';
             $singleRequest->save();
             alert()->success('Contractor rejected successfully');
+            //Sending SMS
+            $body = "Hi ". auth()->user()->name . ",
+             we are sorry, your contractor profile has been rejected.";
+            TwilioHelper::sendSMS('GardenHelp', auth()->user()->phone, $body);
         } else {
             $singleRequest->status = 'completed';
             $singleRequest->save();
-            //update user password send sms to retailer with login details
-//            $new_pass = Str::random(6);
-//            $user->password = bcrypt($new_pass);
-//            $user->save();
-//            try {
-//                $sid = env('TWILIO_SID', '');
-//                $token = env('TWILIO_AUTH', '');
-//                $twilio = new Client($sid, $token);
-//                $twilio->messages->create($user->phone,
-//                    [
-//                        "from" => "DoOrder",
-//                        "body" => "Hi $user->name, your retailer profile has been accepted.
-//                        Login details are the email: $user->email and the password: $new_pass .
-//                        Login page: ".url('doorder/login')
-//                    ]
-//                );
-//            } catch (\Exception $exception){
-//            }
+            //update user password send sms to contractor with login details
+            $user = User::find(auth()->user()->id);
+            $new_pass = Str::random(6);
+            $user->password = bcrypt($new_pass);
+            $user->save();
+            //Sending SMS
+            $body = "Hi $user->name, your contractor profile has been accepted.
+                        Login details are the email: $user->email and the password: $new_pass .
+                        Web app page: ".url('contractor_app');
+            TwilioHelper::sendSMS('GardenHelp', $user->phone, $body);
+
             alert()->success('Contractor accepted successfully');
         }
         return redirect()->route('garden_help_getContractorsRequests', 'garden-help');
@@ -214,22 +212,10 @@ class ContractorsController extends Controller
                 }
                 if ($request->status == 'on_route') {
                     $job->status = $request->status;
+                    $body = "The contractor is on his way to you.";
+                    TwilioHelper::sendSMS('GardenHelp', $job->phone, $body);
                 } elseif ($request->status=='arrived') {
                     $job->status = $request->status;
-                    //Send the customer order url for tracking & qr code
-//                    $order->customer_confirmation_code = Str::random(8);
-//                    $order->delivery_confirmation_code = Str::random(32);
-//                    $retailer_name = $order->retailer_name;
-//                    $sid    = env('TWILIO_SID', '');
-//                    $token  = env('TWILIO_AUTH', '');
-//                    $twilio = new Client($sid, $token);
-//                    //url('customer/delivery_confirmation/' . $order->customer_confirmation_code)
-//                    $twilio->messages->create($order->customer_phone,
-//                        [
-//                            "from" => "DoOrder",
-//                            "body" => "Hi $order->customer_name, your order from $retailer_name is on its way, open the link to track it and confirm the delivery afterwards. " . url('customer/order/' . $order->customer_confirmation_code)
-//                        ]
-//                    );
                 } elseif($request->status=='completed'){
                     $job->status = $request->status;
                 }
@@ -259,6 +245,9 @@ class ContractorsController extends Controller
                     }
                     $job->status = 'matched';
                     $job->contractor_id = $request->user()->id;
+                    //Sending Twilio SMS
+                    $body = "Your request has accepted by: " . $request->user()->name . " and has been scheduled in " . $job->available_date_time;
+                    TwilioHelper::sendSMS('GardenHelp', $job->phone, $body);
                 } elseif ($request->status == 'rejected'){
                     if($job->driver != $request->user()->id){
                         return response()->json([

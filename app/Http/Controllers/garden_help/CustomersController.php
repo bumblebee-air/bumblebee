@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\garden_help;
 
 use App\Customer;
+use App\GardenServiceType;
 use App\Http\Controllers\Controller;
 use App\User;
 use Carbon\Carbon;
@@ -15,7 +16,12 @@ use Twilio\Rest\Client;
 class CustomersController extends Controller
 {
     public function getRegistrationForm() {
-        return view('garden_help.customers.registration');
+        $services = GardenServiceType::all();
+        foreach ($services as $item) {
+            $item->title = $item->name;
+            $item->is_checked = $item->false;
+        }
+        return view('garden_help.customers.registration', ['services' => $services]);
     }
 
     public function postRegistrationForm(Request $request) {
@@ -150,7 +156,7 @@ class CustomersController extends Controller
             $twilio->messages->create($singleRequest->phone_number,
                 [
                     "from" => "GardenHelp",
-                    "body" => "Hi $singleRequest->name, Please visit ". route('garde_help_postServicesBooking', $singleRequest->id) ." to view quotation and book your service.. "
+                    "body" => "Hi $singleRequest->name, Please visit ". route('garde_help_postServicesBooking', $singleRequest->id) ." to view quotation and book your service. "
                 ]
             );
            

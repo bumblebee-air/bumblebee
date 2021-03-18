@@ -45,15 +45,12 @@
 							      <select id="work_location" name="work_location"
 							       class="form-control js-example-basic-single " onchange="changeLocation()">
                                     <option disabled selected value="" >Select location</option>
-                                    <option value="Limerick">Limerick</option>
-                                    <option value="Drumcondra">Drumcondra</option>
-                                    <option value="Dún Laoghaire">Dún Laoghaire</option>
-                                    <option value="Smithfield">Smithfield</option>
-                                    <option value="Clontarf">Clontarf</option>
-                                    <option value="Blackrock">Blackrock</option>
-                                    <option value="Glasnevin">Glasnevin</option>
-                                    <option value="Other">Other</option>
-                                </select>
+                                    <option value="Dublin">Dublin</option>
+                                    <option value="Carlow">Carlow</option>
+                                    <option value="Kilkenny">Kilkenny</option>
+                                    <option value="Kildare">Kildare</option>
+{{--                                    <option value="Other">Other</option>--}}
+                                  </select>
                             </div>
                         </div>
 
@@ -457,23 +454,23 @@
                                     <i :class="type.is_checked == true ? 'fas fa-check-square checked' : 'fas fa-check-square'"></i>
                                 </div>
                             </div>
-                            <div class="col-md-12" data-toggle="collapse" href="#otherServicesCollapse" role="button" aria-expanded="false" aria-controls="otherServicesCollapse">
-                                <div class="d-flex justify-content-between">
-                                    <h5 class="modal-title text-left registerModalTitle" id="type_of_experienceLabel">Other Service</h5>
-                                    <a class="select-icon" style="margin-top: 3px; color: black!important">
-                                        <i class="fas fa-caret-down"></i>
-                                    </a>
-                                </div>
-                                <br>
-                            </div>
-                            <div class="collapse" id="otherServicesCollapse" style="max-height: 300px; overflow: scroll; width: 100%;">
-                                <div class="col-md-12 d-flex justify-content-between" v-for="type in other_service_types"  @click="toggleCheckedValue(type)">
-                                    <label for="my-check-box" :class="type.is_checked == true ? 'my-check-box-label my-check-box-label-checked' : 'my-check-box-label'">@{{ type.title }}</label>
-                                    <div class="my-check-box" id="check">
-                                        <i :class="type.is_checked == true ? 'fas fa-check-square checked' : 'fas fa-check-square'"></i>
-                                    </div>
-                                </div>
-                            </div>
+{{--                            <div class="col-md-12" data-toggle="collapse" href="#otherServicesCollapse" role="button" aria-expanded="false" aria-controls="otherServicesCollapse">--}}
+{{--                                <div class="d-flex justify-content-between">--}}
+{{--                                    <h5 class="modal-title text-left registerModalTitle" id="type_of_experienceLabel">Other Service</h5>--}}
+{{--                                    <a class="select-icon" style="margin-top: 3px; color: black!important">--}}
+{{--                                        <i class="fas fa-caret-down"></i>--}}
+{{--                                    </a>--}}
+{{--                                </div>--}}
+{{--                                <br>--}}
+{{--                            </div>--}}
+{{--                            <div class="collapse" id="otherServicesCollapse" style="max-height: 300px; overflow: scroll; width: 100%;">--}}
+{{--                                <div class="col-md-12 d-flex justify-content-between" v-for="type in other_service_types"  @click="toggleCheckedValue(type)">--}}
+{{--                                    <label for="my-check-box" :class="type.is_checked == true ? 'my-check-box-label my-check-box-label-checked' : 'my-check-box-label'">@{{ type.title }}</label>--}}
+{{--                                    <div class="my-check-box" id="check">--}}
+{{--                                        <i :class="type.is_checked == true ? 'fas fa-check-square checked' : 'fas fa-check-square'"></i>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
 
                         </div>
                     </div>
@@ -567,90 +564,91 @@
             el: '#app',
             data: {
                 type_of_work: '',
-                service_types: [
-                    {
-                        title: 'Garden Maintenance',
-                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Garden Maintenance') === false ? 'false' : 'true' ) : 'false'}}"),
-                    },
-                    {
-                        title: 'Grass Cutting',
-                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Grass Cutting') === false ? 'false' : 'true' ) : 'false'}}"),
-                    },
-                ],
-                other_service_types: [
-                    {
-                        title: 'Landscaping/Garden Design',
-                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Landscaping/Garden Design') === false ? 'false' : 'true' ) : 'false'}}"),
-                    },
-                    {
-                        title: 'Tree Surgery/Stump Removal',
-                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Tree Surgery/Stump Removal') === false ? 'false' : 'true' ) : 'false'}}"),
-                    },
-                    {
-                        title: 'Fencing',
-                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Fencing') === false ? 'false' : 'true' ) : 'false'}}"),
-                    },
-                    {
-                        title: 'Decking',
-                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Decking') === false ? 'false' : 'true' ) : 'false'}}"),
-                    },
-                    {
-                        title: 'Decking Repairs',
-                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Decking Repairs') === false ? 'false' : 'true' ) : 'false'}}"),
-                    },
-                    {
-                        title: 'Strimming',
-                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Strimming') === false ? 'false' : 'true' ) : 'false'}}"),
-                    },
-                    {
-                        title: 'Power Washing',
-                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Power Washing') === false ? 'false' : 'true' ) : 'false'}}"),
-                    },
-                    {
-                        title: 'Shed Repairs',
-                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Shed Repairs') === false ? 'false' : 'true' ) : 'false'}}"),
-                    },
-                    {
-                        title: 'Flat Pack Garden Furniture Assembly',
-                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Flat Pack Garden Furniture Assembly') === false ? 'false' : 'true' ) : 'false'}}"),
-                    },
-                    {
-                        title: 'Green Waste Removal',
-                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Green Waste Removal') === false ? 'false' : 'true' ) : 'false'}}"),
-                    },
-                    {
-                        title: 'Patio Installation',
-                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Patio Installation') === false ? 'false' : 'true' ) : 'false'}}"),
-                    },
-                    {
-                        title: 'Lawn Fertilization',
-                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Lawn Fertilization') === false ? 'false' : 'true' ) : 'false'}}"),
-                    },
-                    {
-                        title: 'Garden Painting',
-                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Garden Painting') === false ? 'false' : 'true' ) : 'false'}}"),
-                    },
-                    {
-                        title: 'Gutter VAC',
-                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Gutter VAC') === false ? 'false' : 'true' ) : 'false'}}"),
-                    },
-                    {
-                        title: 'Leaf blowing',
-                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Leaf blowing') === false ? 'false' : 'true' ) : 'false'}}"),
-                    },
-                    {
-                        title: 'Mulching',
-                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Mulching') === false ? 'false' : 'true' ) : 'false'}}"),
-                    },
-                    {
-                        title: 'Power Washing',
-                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Power Washing') === false ? 'false' : 'true' ) : 'false'}}"),
-                    },
-                    {
-                        title: 'Hedge Cutting',
-                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Hedge Cutting') === false ? 'false' : 'true' ) : 'false'}}"),
-                    },
-                ],
+                service_types: {!! json_encode($services) !!},
+                {{--[--}}
+                {{--    {--}}
+                {{--        title: 'Garden Maintenance',--}}
+                {{--        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Garden Maintenance') === false ? 'false' : 'true' ) : 'false'}}"),--}}
+                {{--    },--}}
+                {{--    {--}}
+                {{--        title: 'Grass Cutting',--}}
+                {{--        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Grass Cutting') === false ? 'false' : 'true' ) : 'false'}}"),--}}
+                {{--    },--}}
+                {{--],--}}
+                {{--other_service_types: [--}}
+                {{--    {--}}
+                {{--        title: 'Landscaping/Garden Design',--}}
+                {{--        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Landscaping/Garden Design') === false ? 'false' : 'true' ) : 'false'}}"),--}}
+                {{--    },--}}
+                {{--    {--}}
+                {{--        title: 'Tree Surgery/Stump Removal',--}}
+                {{--        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Tree Surgery/Stump Removal') === false ? 'false' : 'true' ) : 'false'}}"),--}}
+                {{--    },--}}
+                {{--    {--}}
+                {{--        title: 'Fencing',--}}
+                {{--        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Fencing') === false ? 'false' : 'true' ) : 'false'}}"),--}}
+                {{--    },--}}
+                {{--    {--}}
+                {{--        title: 'Decking',--}}
+                {{--        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Decking') === false ? 'false' : 'true' ) : 'false'}}"),--}}
+                {{--    },--}}
+                {{--    {--}}
+                {{--        title: 'Decking Repairs',--}}
+                {{--        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Decking Repairs') === false ? 'false' : 'true' ) : 'false'}}"),--}}
+                {{--    },--}}
+                {{--    {--}}
+                {{--        title: 'Strimming',--}}
+                {{--        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Strimming') === false ? 'false' : 'true' ) : 'false'}}"),--}}
+                {{--    },--}}
+                {{--    {--}}
+                {{--        title: 'Power Washing',--}}
+                {{--        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Power Washing') === false ? 'false' : 'true' ) : 'false'}}"),--}}
+                {{--    },--}}
+                {{--    {--}}
+                {{--        title: 'Shed Repairs',--}}
+                {{--        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Shed Repairs') === false ? 'false' : 'true' ) : 'false'}}"),--}}
+                {{--    },--}}
+                {{--    {--}}
+                {{--        title: 'Flat Pack Garden Furniture Assembly',--}}
+                {{--        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Flat Pack Garden Furniture Assembly') === false ? 'false' : 'true' ) : 'false'}}"),--}}
+                {{--    },--}}
+                {{--    {--}}
+                {{--        title: 'Green Waste Removal',--}}
+                {{--        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Green Waste Removal') === false ? 'false' : 'true' ) : 'false'}}"),--}}
+                {{--    },--}}
+                {{--    {--}}
+                {{--        title: 'Patio Installation',--}}
+                {{--        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Patio Installation') === false ? 'false' : 'true' ) : 'false'}}"),--}}
+                {{--    },--}}
+                {{--    {--}}
+                {{--        title: 'Lawn Fertilization',--}}
+                {{--        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Lawn Fertilization') === false ? 'false' : 'true' ) : 'false'}}"),--}}
+                {{--    },--}}
+                {{--    {--}}
+                {{--        title: 'Garden Painting',--}}
+                {{--        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Garden Painting') === false ? 'false' : 'true' ) : 'false'}}"),--}}
+                {{--    },--}}
+                {{--    {--}}
+                {{--        title: 'Gutter VAC',--}}
+                {{--        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Gutter VAC') === false ? 'false' : 'true' ) : 'false'}}"),--}}
+                {{--    },--}}
+                {{--    {--}}
+                {{--        title: 'Leaf blowing',--}}
+                {{--        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Leaf blowing') === false ? 'false' : 'true' ) : 'false'}}"),--}}
+                {{--    },--}}
+                {{--    {--}}
+                {{--        title: 'Mulching',--}}
+                {{--        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Mulching') === false ? 'false' : 'true' ) : 'false'}}"),--}}
+                {{--    },--}}
+                {{--    {--}}
+                {{--        title: 'Power Washing',--}}
+                {{--        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Power Washing') === false ? 'false' : 'true' ) : 'false'}}"),--}}
+                {{--    },--}}
+                {{--    {--}}
+                {{--        title: 'Hedge Cutting',--}}
+                {{--        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Hedge Cutting') === false ? 'false' : 'true' ) : 'false'}}"),--}}
+                {{--    },--}}
+                {{--],--}}
                 site_details: [
                     {
                         title: 'Pets',
@@ -736,9 +734,9 @@
                         for (let item of list) {
                             item.is_checked === true ? service_types_input += (service_types_input == '' ? item.title : ', ' + item.title) : '';
                         }
-                        for (let item of this.other_service_types) {
-                            item.is_checked === true ? service_types_input += (service_types_input == '' ? item.title : ', ' + item.title) : '';
-                        }
+                        // for (let item of this.other_service_types) {
+                        //     item.is_checked === true ? service_types_input += (service_types_input == '' ? item.title : ', ' + item.title) : '';
+                        // }
                         this.service_types_input = service_types_input;
                     } else if (type === 'site_details') {
                         let site_details_input = '';

@@ -214,9 +214,27 @@ class RetailerController extends Controller
     }
     
     public function saveUpdateRetailer($client_name,$id, Request $request) {
-        //dd($request);
-        //alert()->success('Retailer updated successfully');
-        alert()->success('Work in progress');
+        //dd($request->all());
+        $retailer_id = $request->get('retailer_id');
+        $retailer = Retailer::find($retailer_id);
+        if(!$retailer){
+            alert()->error('Retailer not found!');
+            return redirect()->back();
+        }
+        $retailer->name = $request->get('company_name');
+        $retailer->company_website = $request->get('company_website');
+        $retailer->business_type = $request->get('business_type');
+        $retailer->nom_business_locations = $request->get('number_business_locations');
+        //$retailer->locations_details = $request->locations_details;
+        //$retailer->contacts_details = $request->contacts_details;
+        //$retailer->stripe_customer_id = $customer_id;
+        $retailer->shopify_store_domain = $request->get('shopify_store_domain');
+        $retailer->shopify_app_api_key = $request->get('shopify_app_api_key');
+        $retailer->shopify_app_password = $request->get('shopify_app_password');
+        $retailer->shopify_app_secret = $request->get('shopify_app_secret');
+        $retailer->save();
+        alert()->success('Retailer updated successfully');
+        //alert()->success('Work in progress');
 
         return redirect()->route('doorder_retailers', 'doorder');
     }

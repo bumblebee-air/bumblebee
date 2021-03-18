@@ -25,7 +25,9 @@
 					@if($readOnly==0)
 					<form id="order-form" method="POST"
 						action="{{route('post_doorder_retailers_single_retailer', ['doorder', $retailer->id])}}">
-						@endif {{csrf_field()}}
+						@endif
+						{{csrf_field()}}
+						<input type="hidden" name="retailer_id" value="{{$retailer->id}}">
 						<div class="card">
 							<div class="card-header card-header-icon card-header-rose row">
 								<div class="col-12 col-sm-4">
@@ -302,7 +304,7 @@
 														<label>Shop URL</label> <input type="text"
 															class="form-control" name="shopify_store_domain"
 															value="{{$retailer->shopify_store_domain}}"
-															placeholder="Shop URL" required>
+															placeholder="Shop URL">
 													</div>
 												</div>
 
@@ -311,7 +313,7 @@
 														<label>App API key</label> <input type="text"
 															class="form-control" name="shopify_app_api_key"
 															value="{{$retailer->shopify_app_api_key}}"
-															placeholder="App API key" required>
+															placeholder="App API key">
 													</div>
 												</div>
 
@@ -320,7 +322,7 @@
 														<label>App password</label> <input type="text"
 															class="form-control" name="shopify_app_password"
 															value="{{$retailer->shopify_app_password}}"
-															placeholder="App password" required>
+															placeholder="App password">
 													</div>
 												</div>
 
@@ -329,7 +331,7 @@
 														<label>App secret</label> <input type="text"
 															class="form-control" name="shopify_app_secret"
 															value="{{$retailer->shopify_app_secret}}"
-															placeholder="App secret" required>
+															placeholder="App secret">
 													</div>
 												</div>
 											</div>

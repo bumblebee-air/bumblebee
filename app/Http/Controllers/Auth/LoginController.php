@@ -62,7 +62,7 @@ class LoginController extends Controller
 
     public function showLoginForm($client_name = null)
     {
-        if(request()->getHost() == 'admin.doorder.eu' || str_contains(request()->url(),'doorder/login')) {
+        if(strpos(request()->getHost(),'doorder.eu')!==false || str_contains(request()->url(),'doorder/login')) {
             return view("auth.doorder.login");
         } else if(str_contains(request()->url(),'garden-help/login')) {
             return view("auth.garden_help.login");
@@ -80,7 +80,7 @@ class LoginController extends Controller
     {
         $url = '/';
 
-        if (request()->getHost() == 'admin.doorder.eu') {
+        if (strpos(request()->getHost(),'doorder.eu')!==false) {
             $url = 'doorder/login';
         }
 

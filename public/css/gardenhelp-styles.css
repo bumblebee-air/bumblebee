@@ -112,11 +112,46 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	margin-bottom: 15px !important;
 }
 
+.addServiceTypeSubTitle {
+	font-family: Roboto;
+	font-size: 18px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 2.81;
+	letter-spacing: 0.15px;
+	color: #60a244;
+	display: inline;
+}
+
+.cardBodyAddServiceType {
+	padding-top: 15px !important;
+}
+
+.addRatePropertySizeCircle {
+	color: #60a244;
+	font-size: 18px;
+}
+
+.removeRatePropertySizeCircle {
+	color: #df5353;
+	font-size: 18px;
+}
+
+
 .main {
 	background-color: white;
 	border-bottom-left-radius: 30px;
 	border-bottom-right-radius: 30px;
 	padding: 10px 23px 23px 35px;
+}
+
+@media ( min-width : 576px) {
+	.modal-dialog {
+		max-width: 972px !important;
+		margin-left: 16.75rem !important;
+		margin-right: 16.75rem !important;
+	}
 }
 
 .modal-content {
@@ -157,6 +192,27 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 
 .modal-dialog .modal-footer {
 	padding: 0 !important;
+}
+
+.modal-dialog-header {
+	font-size: 25px;
+	font-weight: 500;
+	line-height: 1.2;
+	text-align: center;
+	color: #60a244;
+}
+
+.deleteHeader {
+	margin: 25px 0 29px 27px;
+	font-family: Roboto;
+	font-size: 25px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.2;
+	letter-spacing: normal;
+	text-align: center;
+	color: #60a244;
 }
 
 .my-check-box-label, .customer-register-label, .requestLabel {
@@ -227,7 +283,8 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	letter-spacing: 0.17px;
 	color: #60a244 !important;
 }
-.cardTitleGrey{
+
+.cardTitleGrey {
 	font-family: Roboto;
 	font-size: 18px !important;
 	font-weight: 500 !important;
@@ -283,9 +340,11 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	background-image: none;
 }
 
-.card .card-header.card-header-icon i, .card .card-header.card-header-text i{
+.card .card-header.card-header-icon i, .card .card-header.card-header-text i
+	{
 	font-size: 28px
 }
+
 .circle {
 	border-color: #60a244 !important;
 }
@@ -356,92 +415,99 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 /* 	border-color: #e9e8e8 !important; */
 /* } */
 
-
 /* thead tr th { */
 /* 	border-top: 1px solid #e9e8e8 !important; */
 /* 	text-align: center; */
 /* } */
-.recommendContractor{
+.recommendContractor {
 	margin-top: 8px !important;
 	margin-bottom: 5px !important;
 }
-.recommendContractor .card-body{
+
+.recommendContractor .card-body {
 	padding: 6px 15px !important;
 	cursor: pointer !important;
 }
-.recommendContractor .card-body label{
+
+.recommendContractor .card-body label {
 	cursor: pointer !important;
 }
-.recommendContractorNameH6{
+
+.recommendContractorNameH6 {
 	font-family: Roboto;
-  font-size: 14px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: #60a244;
-  margin-bottom: 0px !important;
-}
-.recommendContractorDataP{
-	font-family: Roboto;
-  font-size: 14px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: #656565;
-  margin-bottom: 1px !important;
-}
-.selected-contractor-card .recommendContractorNameH6{
-	font-family: Roboto;
-  font-size: 18px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: #60a244;
-  margin-bottom: 0px !important;
+	font-size: 14px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #60a244;
+	margin-bottom: 0px !important;
 }
 
-.selected-contractor-card .recommendContractorDataP{
+.recommendContractorDataP {
 	font-family: Roboto;
-  font-size: 18px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: #656565;
-  margin-bottom: 1px !important;
+	font-size: 14px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #656565;
+	margin-bottom: 1px !important;
 }
-.assignContractorHeader
-{font-family: Roboto;
-  font-size: 20px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: center;
-  color: #60a244;}
 
-.clickBtn{
+.selected-contractor-card .recommendContractorNameH6 {
+	font-family: Roboto;
+	font-size: 18px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #60a244;
+	margin-bottom: 0px !important;
+}
+
+.selected-contractor-card .recommendContractorDataP {
+	font-family: Roboto;
+	font-size: 18px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #656565;
+	margin-bottom: 1px !important;
+}
+
+.assignContractorHeader {
+	font-family: Roboto;
+	font-size: 20px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	text-align: center;
+	color: #60a244;
+}
+
+.clickBtn {
 	padding: 10px 25px !important;
 	font-size: 13px !important;
-	
 }
-.form-group label{
+
+.form-group label {
 	margin: 0 !important;
 }
-.form-group{
+
+.form-group {
 	padding-bottom: 0 !important;
 }
 
 .modal-backdrop {
-  background-color: #000 !important;
+	background-color: #000 !important;
 }
 /************************* datetime picker **************************/
 .bootstrap-datetimepicker-widget table td.active:hover>div,

@@ -495,11 +495,11 @@
 				</div></li>-->
 
 			<li class="nav-item"><a class="nav-link d-flex"
-				href="{{url('garden-help/home')}}"> <img class="my-nav-icon"
+				href="{{route('garden_help_getServiceTypes', 'garden-help')}}"> <img class="my-nav-icon"
 					src="{{asset('images/gardenhelp_icons/Service-types-white.png')}}"
 					alt="">
 					<p style="padding-right: 30px;">
-						Service Types 
+						Service Types  
 					</p>
 			</a></li>
 

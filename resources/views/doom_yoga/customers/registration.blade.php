@@ -148,7 +148,7 @@ input[type="radio"]:checked+div i, input[type="radio"]:checked+div i:before
 								for="radioInputSubscriptionMonthly">
 								<div class="row subscriptionRowDiv">
 
-									<div class="col-1" style="text-align: right">
+									<div class="col-1" style="text-align: center">
 										<i class="far fa-circle"></i>
 									</div>
 									<div class="col-11">
@@ -171,7 +171,7 @@ input[type="radio"]:checked+div i, input[type="radio"]:checked+div i:before
 								for="radioInputSubscriptionAnnual">
 								<div class="row subscriptionRowDiv">
 
-									<div class="col-1" style="text-align: right">
+									<div class="col-1" style="text-align: center">
 										<i class="far fa-circle"></i>
 									</div>
 									<div class="col-11">
@@ -191,7 +191,7 @@ input[type="radio"]:checked+div i, input[type="radio"]:checked+div i:before
 			</div>
 		</div>
 
-		<div class="row">
+		<div class="row mt-5">
 
 			<div class="col-12 col-md-4 offset-md-4 mb-3 submit-container">
 				<button class="btn btn-doomyoga-primary " type="submit">Continue</button>

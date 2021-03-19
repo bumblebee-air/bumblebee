@@ -230,6 +230,15 @@ Route::group(['prefix' => '{client_name}'], function () {
             Route::get('add_job', 'garden_help\JobsController@addNewJob')->name('garden_help_addNewJob');
             Route::post('add_job', 'garden_help\JobsController@postNewJob')->name('postAddJob');
         });
+            Route::group(['prefix' => 'service_types'], function () {
+                Route::get('list', 'garden_help\ServiceTypesController@getServiceTypesTable')->name('garden_help_getServiceTypes');
+                Route::get('type/{id}', 'garden_help\ServiceTypesController@getSingleServiceType')->name('garden_help_getSingleServiceType');
+                Route::get('edit_service_type/{id}', 'garden_help\ServiceTypesController@getSingleServiceTypeEdit')->name('garden_help_getSingleServiceTypeEdit');
+                Route::get('add_service_type', 'garden_help\ServiceTypesController@addServiceType')->name('garden_help_addServiceType');
+                Route::post('add_service_type', 'garden_help\ServiceTypesController@postAddServiceType')->name('garden_help_postAddServiceType');
+                Route::post('edit_service_type', 'garden_help\ServiceTypesController@postEditServiceType')->name('garden_help_postEditServiceType');
+                Route::post('delete_service_type', 'garden_help\ServiceTypesController@postDeleteServiceType')->name('garden_help_postDeleteServiceType');
+            });
 
         Route::post('job/assign', 'garden_help\JobsController@assignContractorToJob')->name('garden_help_assignJob');
 

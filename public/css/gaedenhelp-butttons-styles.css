@@ -118,3 +118,29 @@
 }
  */
  
+.btn-link-gardenhelp{
+	color: #60a244 !important;
+} 
+.btn.btn-fab, .btn.btn-just-icon {
+	font-size: 20px !important;
+}
+.addServiceButton{
+	font-size: 12px;
+	padding: 10px;
+	width: 170px;
+	height: 40px;
+	border-radius: 19px !important;
+}
+
+.editLinkA {
+	color: #60a244 !important;
+	font-family: Roboto;
+	padding: 0 !important;
+	font-size: 16px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.77px;
+	margin-right: 35px;
+}

@@ -82,7 +82,7 @@ li .nav-link:hover a i {
 }
 
 .page_icon {
-	width: 29px;
+	width: 34px;
 }
 
 .sidebar .nav i {
@@ -165,7 +165,6 @@ th {
 	word-wrap: break-word !important;
 	/* white-space: nowrap; */
 	font-family: Roboto;
-	font-size: 14px !important;
 	font-weight: bold !important;
 	font-stretch: normal;
 	font-style: normal;
@@ -178,7 +177,7 @@ td {
 	text-align: center;
 	line-height: 1.07;
 	font-family: Roboto;
-	font-size: 13px !important;
+	font-size: 14px !important;
 	font-weight: normal;
 	font-stretch: normal;
 	font-style: normal;

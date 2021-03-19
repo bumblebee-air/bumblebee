@@ -7,6 +7,7 @@ use App\Customer;
 use App\Helpers\TwilioHelper;
 use App\Mail\ContractorRegistrationMail;
 use App\User;
+use App\UserClient;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Alert;
@@ -48,6 +49,15 @@ class ContractorsController extends Controller
         $user->password = bcrypt(Str::random(8));
         $user->user_role = 'contractor';
         $user->save();
+
+        $client = \App\Client::where('name', 'GardenHelp')->first();
+        if($client) {
+            //Making Client Relation
+            UserClient::create([
+                'user_id' => $user->id,
+                'client_id' => $client->id
+            ]);
+        }
 
         //Saving new contractor registration
         $contractor = Contractor::create([

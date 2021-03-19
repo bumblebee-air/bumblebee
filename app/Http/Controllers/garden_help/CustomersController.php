@@ -6,6 +6,7 @@ use App\Customer;
 use App\GardenServiceType;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\UserClient;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
@@ -67,6 +68,15 @@ class CustomersController extends Controller
             $user->password = $request->password ? bcrypt($request->password) : bcrypt(Str::random(8));
             $user->user_role = 'customer';
             $user->save();
+
+            $client = \App\Client::where('name', 'GardenHelp')->first();
+            if($client) {
+                //Making Client Relation
+                UserClient::create([
+                    'user_id' => $user->id,
+                    'client_id' => $client->id
+                ]);
+            }
 
             //Create Customer
             $customer = new Customer();

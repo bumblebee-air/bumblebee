@@ -70,7 +70,7 @@ class RetailerController extends Controller
         $retailer->stripe_customer_id = $customer_id;
         $retailer->save();
 
-        //Getting Doorder Client
+        //Getting Doorder Client and linking the user to the client
         $client = \App\Client::where('name', 'DoOrder')->first();
         if($client) {
             //Making Client Relation

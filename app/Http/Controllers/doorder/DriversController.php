@@ -8,6 +8,7 @@ use App\KPITimestamp;
 use App\Managers\StripeManager;
 use App\Order;
 use App\User;
+use App\UserClient;
 use App\UserFirebaseToken;
 use App\UserPasswordReset;
 use Carbon\Carbon;
@@ -361,6 +362,15 @@ class DriversController extends Controller
         $user->password = bcrypt(Str::random(6));
         $user->user_role = 'driver';
         $user->save();
+
+        $client = \App\Client::where('name', 'DoOrder')->first();
+        if($client) {
+            //Making Client Relation
+            UserClient::create([
+                'user_id' => $user->id,
+                'client_id' => $client->id
+            ]);
+        }
 
         $profile = new DriverProfile();
         $profile->user_id = $user->id;

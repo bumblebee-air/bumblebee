@@ -609,9 +609,40 @@ class DriversController extends Controller
     }
     
     public function saveUpdateDriver($client_name,$id, Request $request) {
-        // dd($request);
-        //alert()->success('Deliverer updated successfully');
-        alert()->success('Work in progress');
+        //dd($request->all());
+        $driver_id = $request->get('driver_id');
+        $profile = DriverProfile::find($driver_id);
+        if(!$profile) {
+            alert()->error('Deliverer not found!');
+            return redirect()->back();
+        }
+        $profile->first_name = $request->get('first_name');
+        $profile->last_name = $request->get('last_name');
+        $profile->contact_channel = $request->get('contact_channel');
+        $profile->dob = $request->get('birthdate');
+        $profile->address = $request->get('address');
+        //$profile->address_coordinates = $request->get('address_coordinates');
+        $profile->country = $request->get('country');
+        $profile->postcode = $request->get('postcode');
+        $profile->pps_number = $request->get('pps_number');
+        $profile->emergency_contact_name = $request->get('emergency_contact_name');
+        $profile->emergency_contact_number = $request->get('emergency_contact_number');
+        $profile->transport = $request->get('transport');
+        $profile->max_package_size = $request->get('max_package_size');
+        $profile->work_radius = $request->get('work_radius');
+        if($request->get('working_days_hours')!=null) {
+            $profile->business_hours = $request->get('working_days_hours');
+        }
+        //$profile->work_location = $request->get('work_location')!=null ? $request->get('work_location') : '{"name":"N/A","coordinates":{"lat":"0","lng":"0"}}';
+        /*$profile->legal_word_evidence = $request->proof_id ? $request->file('proof_id')->store('uploads/doorder_drivers_registration') : null;
+        $profile->driver_license = $request->proof_driving_license ? $request->file('proof_driving_license')->store('uploads/doorder_drivers_registration') : null;
+        $profile->driver_license_back = $request->proof_driving_license_back ? $request->file('proof_driving_license_back')->store('uploads/doorder_drivers_registration') : null;
+        $profile->address_proof = $request->proof_address ? $request->file('proof_address')->store('uploads/doorder_drivers_registration') : null;
+        $profile->insurance_proof = $request->proof_insurance ? $request->file('proof_address')->store('uploads/doorder_drivers_registration') : null;*/
+        $profile->save();
+
+        alert()->success('Deliverer updated successfully');
+        //alert()->success('Work in progress');
 
         return redirect()->route('doorder_drivers', 'doorder');
     }

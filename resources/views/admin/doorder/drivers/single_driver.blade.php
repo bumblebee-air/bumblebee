@@ -10,6 +10,7 @@ $driver->last_name) @section('page-content')
 						action="{{route('post_doorder_drivers_edit_driver', ['doorder', $driver->id])}}">
 					@endif	
 						{{csrf_field()}}
+						<input type="hidden" name="driver_id" value="{{$driver->id}}"/>
 						<div class="card">
 							<div class="card-header card-header-icon card-header-rose row">
 								<div class="col-12 col-sm-4">
@@ -123,7 +124,7 @@ $driver->last_name) @section('page-content')
 											<div class="form-group bmd-form-group">
 												<label>Country</label> <input type="text"
 													class="form-control" name="country"
-													value="{{$driver->country}}" placeholder="Country" required>
+													value="{{$driver->country}}" placeholder="Country">
 											</div>
 										</div>
 										<div class="col-sm-6">
@@ -139,7 +140,7 @@ $driver->last_name) @section('page-content')
 												<label>Emergency contact name</label> <input type="text"
 													class="form-control" name="emergency_contact_name"
 													value="{{$driver->emergency_contact_name}}"
-													placeholder="Emergency contact name" required>
+													placeholder="Emergency contact name">
 											</div>
 										</div>
 
@@ -149,7 +150,7 @@ $driver->last_name) @section('page-content')
 													type="text" class="form-control"
 													name="emergency_contact_number"
 													value="{{$driver->emergency_contact_number}}"
-													placeholder="Emergency contact phone number" required>
+													placeholder="Emergency contact phone number">
 											</div>
 										</div>
 									</div>
@@ -210,7 +211,7 @@ $driver->last_name) @section('page-content')
 													<div class="form-group bmd-form-group">
 														<label>Radius</label> <input class="form-control"
 															name="work_radius" value="{{$driver->work_radius}}"
-															placeholder="Radius" required>
+															placeholder="Radius">
 													</div>
 
 												</div>
@@ -377,7 +378,7 @@ $driver->last_name) @section('page-content')
 											<div class="form-group bmd-form-group">
 												<label>Work type</label> <input type="text"
 													class="form-control" name="work_type" value=""
-													placeholder="Work type" required>
+													placeholder="Work type">
 											</div>
 										</div>
 
@@ -385,7 +386,7 @@ $driver->last_name) @section('page-content')
 											<div class="form-group bmd-form-group">
 												<label>Working days/hours</label>
 												<textarea class="form-control" name="working_days_hours"
-													placeholder="Working days/hours" required></textarea>
+													placeholder="Working days/hours"></textarea>
 											</div>
 										</div>
 									</div>

@@ -236,7 +236,7 @@ Route::group(['prefix' => '{client_name}'], function () {
                 Route::get('edit_service_type/{id}', 'garden_help\ServiceTypesController@getSingleServiceTypeEdit')->name('garden_help_getSingleServiceTypeEdit');
                 Route::get('add_service_type', 'garden_help\ServiceTypesController@addServiceType')->name('garden_help_addServiceType');
                 Route::post('add_service_type', 'garden_help\ServiceTypesController@postAddServiceType')->name('garden_help_postAddServiceType');
-                Route::post('edit_service_type', 'garden_help\ServiceTypesController@postEditServiceType')->name('garden_help_postEditServiceType');
+                Route::post('edit_service_type/{id}', 'garden_help\ServiceTypesController@postEditServiceType')->name('garden_help_postEditServiceType');
                 Route::post('delete_service_type', 'garden_help\ServiceTypesController@postDeleteServiceType')->name('garden_help_postDeleteServiceType');
             });
 

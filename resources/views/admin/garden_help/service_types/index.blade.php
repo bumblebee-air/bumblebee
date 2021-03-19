@@ -54,7 +54,7 @@ tr.order-row:hover, tr.order-row:focus {
 											$type)
 											<tr class="order-row"
 												@click="openServiceType(event,{{$type['id']}})">
-												<td>{{$type['service_type']}}</td>
+												<td>{{$type['name']}}</td>
 												<td>{{$type['min_hours']}}</td>
 												<td>{{$type['rate_per_hour']}}</td>
 												<td>{{$type['max_property_size']}}</td>
@@ -75,63 +75,12 @@ tr.order-row:hover, tr.order-row:focus {
 											</tr>
 											@endif
 
-											<!-- 											<tr v-for="job in jobs" v-if="jobs.length"  -->
-											<!-- 												@click="openJob(job.id)"> -->
-											<!-- 												<td>@{{job.created_at}}</td> -->
-											<!-- 												<td>@{{job.available_date_time}}</td> -->
-											<!-- 												<td>@{{job.service_types}}</td> -->
-											<!-- 												<td>@{{job.id}}</td> -->
-											<!-- 												<td><img v-if="job.status == 'ready'" class="status_icon" -->
-											<!-- 													src="{{asset('images/doorder_icons/order_status_pending.png')}}" -->
-											<!-- 													alt="not assigned"> <img -->
-											<!-- 													v-else-if="job.status == 'assigned'" class="status_icon" -->
-											<!-- 													src="{{asset('images/doorder_icons/order_status_on_route.png')}}" -->
-											<!-- 													alt="assigned"> <img v-else-if="job.status == 'matched'" -->
-											<!-- 													class="status_icon" -->
-											<!-- 													src="{{asset('images/doorder_icons/order_status_matched.png')}}" -->
-											<!-- 													alt="accepted"> <img v-else-if="job.status == 'on_route'" -->
-											<!-- 													class="status_icon" -->
-											<!-- 													src="{{asset('images/doorder_icons/order_status_on_route_pickup.png')}}" -->
-											<!-- 													alt="on way"> <img v-else-if="job.status == 'arrived'" -->
-											<!-- 													class="status_icon" -->
-											<!-- 													src="{{asset('images/doorder_icons/order_status_picked_up.png')}}" -->
-											<!-- 													alt="arrived"> <img v-else class="status_icon" -->
-											<!-- 													src="{{asset('images/doorder_icons/order_status_delivered.png')}}" -->
-											<!-- 													alt="completed"></td> -->
-											<!-- 												<td> -->
-											<!-- 													<div class="progress m-auto"> -->
-											<!-- 														<div class="progress-bar" role="progressbar" -->
-											<!-- 															:style="'width:' + (stage * 0) + '%'" -->
-											<!-- 															v-if="job.status == 'ready'" aria-valuenow="100" -->
-											<!-- 															aria-valuemin="0" aria-valuemax="100"></div> -->
-											<!-- 														<div class="progress-bar" role="progressbar" -->
-											<!-- 															:style="'width:' + (stage * 1) + '%'" -->
-											<!-- 															v-else-if="job.status == 'assigned'" aria-valuenow="100" -->
-											<!-- 															aria-valuemin="0" aria-valuemax="100"></div> -->
-											<!-- 														<div class="progress-bar" role="progressbar" -->
-											<!-- 															:style="'width:' + (stage * 3) + '%'" -->
-											<!-- 															v-else-if="job.status == 'matched'" aria-valuenow="100" -->
-											<!-- 															aria-valuemin="0" aria-valuemax="100"></div> -->
-											<!-- 														<div class="progress-bar" role="progressbar" -->
-											<!-- 															:style="'width:' + (stage * 4) + '%'" -->
-											<!-- 															v-else-if="job.status == 'on_route'" aria-valuenow="100" -->
-											<!-- 															aria-valuemin="0" aria-valuemax="100"></div> -->
-											<!-- 														<div class="progress-bar" role="progressbar" -->
-											<!-- 															:style="'width:' + (stage * 5) + '%'" -->
-											<!-- 															v-else-if="job.status == 'arrived'" aria-valuenow="100" -->
-											<!-- 															aria-valuemin="0" aria-valuemax="100"></div> -->
-											<!-- 														<div class="progress-bar" role="progressbar" -->
-											<!-- 															:style="'width:' + (stage * 6) + '%'" -->
-											<!-- 															v-else-if="job.status == 'completed'" aria-valuenow="100" -->
-											<!-- 															aria-valuemin="0" aria-valuemax="100"></div> -->
-											<!-- 													</div> -->
-											<!-- 												</td> -->
-											<!-- 												<td>@{{job.name}}</td> -->
-											<!-- 											</tr> -->
-
 										</tbody>
 									</table>
-									<nav aria-label="pagination" class="float-right"></nav>
+									<nav aria-label="pagination" class="float-right">
+									
+                                         {{$service_types->links('vendor.pagination.bootstrap-4')}} 
+									</nav>
 								</div>
 							</div>
 						</div>

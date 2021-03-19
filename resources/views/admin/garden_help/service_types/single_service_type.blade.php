@@ -49,8 +49,9 @@ Service Type') @section('page-styles')
 		<div class="container-fluid" id="app">
 			@if($readOnly==0)
 			<form id="order-form" method="POST"
-				action="{{route('garden_help_postEditServiceType','garden-help')}}">
-				@endif {{csrf_field()}}
+				action="{{route('garden_help_postEditServiceType',['garden-help',$service_type->id])}}">
+				@endif 
+				{{csrf_field()}}
 				<div class="row">
 					<div class="col-md-12">
 						<div class="card">
@@ -61,8 +62,8 @@ Service Type') @section('page-styles')
 											src="{{asset('images/gardenhelp_icons/Service-types-white.png')}}">
 									</div>
 									<h4 class="card-title ">Edit Service Type</h4>
-									{{$readOnly}} <input type="hidden" name="serviceTypeId"
-										value="{{$service_type_id}}">
+									<input type="hidden" name="serviceTypeId"
+										value="{{$service_type->id}}">
 								</div>
 
 
@@ -70,7 +71,7 @@ Service Type') @section('page-styles')
 								<div class="col-6 col-sm-8 mt-5">
 									<div class="row justify-content-end">
 										<a class="editLinkA btn  btn-link   edit"
-											href="{{url('garden-help/service_types/edit_service_type/')}}/{{$service_type_id}}">
+											href="{{url('garden-help/service_types/edit_service_type/')}}/{{$service_type->id}}">
 											<p>Edit service type</p>
 										</a>
 									</div>
@@ -84,14 +85,14 @@ Service Type') @section('page-styles')
 											<div class="form-group bmd-form-group">
 												<label class="">Service type</label> <input type="text"
 													class="form-control" name="service_type"
-													value="{{$service_type}}" required>
+													value="{{$service_type->name}}" required>
 											</div>
 										</div>
 										<div class="col-md-12">
 											<div class="form-group bmd-form-group">
 												<label>Min hours</label> <input type="number"
 													class="form-control" name="min_hours"
-													value="{{$min_hours}}" required>
+													value="{{$service_type->min_hours}}" required>
 											</div>
 										</div>
 
@@ -100,6 +101,7 @@ Service Type') @section('page-styles')
 								</div>
 							</div>
 						</div>
+
 
 						<div class="card" v-for="(rate, index) in ratePropertySizes"
 							:id="'ratePropertyCardDiv'+(index)">
@@ -129,7 +131,7 @@ Service Type') @section('page-styles')
 										</div>
 										<div class="col-md-12">
 											<div class="form-group bmd-form-group">
-												<label>Max property size (MSQ)</label> <input type="text"
+												<label>Max property size (MSQ)</label> <input type="number"
 													class="form-control" :name="'max_property_size' + (index)"
 													:id="'max_property_size' + (index)"
 													:value="rate.max_property_size" required>

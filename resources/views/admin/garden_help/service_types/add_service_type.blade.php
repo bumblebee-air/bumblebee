@@ -113,7 +113,7 @@ Service Type') @section('page-styles')
 										</div>
 										<div class="col-md-12">
 											<div class="form-group bmd-form-group">
-												<label>Max property size (MSQ)</label> <input type="text"
+												<label>Max property size (MSQ)</label> <input type="number"
 													class="form-control"
 													:name="'max_property_size' + (index)"
 													:id="'max_property_size' + (index)"

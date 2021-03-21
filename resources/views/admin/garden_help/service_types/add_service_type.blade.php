@@ -74,7 +74,7 @@ Service Type') @section('page-styles')
 										<div class="col-md-12">
 											<div class="form-group bmd-form-group">
 												<label>Min hours</label> <input type="number"
-													class="form-control" name="min_hours"
+													class="form-control" name="min_hours" step="any"
 													value="{{old('min_hours')}}" required>
 											</div>
 										</div>
@@ -85,7 +85,8 @@ Service Type') @section('page-styles')
 							</div>
 						</div>
 
-						<div class="card" v-for="(rate, index) in ratePropertySizes" :id="'ratePropertyCardDiv'+(index)">
+						<div class="card" v-for="(rate, index) in ratePropertySizes"
+							:id="'ratePropertyCardDiv'+(index)">
 
 							<div class="card-body cardBodyAddServiceType">
 								<div class="container">
@@ -96,8 +97,7 @@ Service Type') @section('page-styles')
 												class="fas fa-plus-circle addRatePropertySizeCircle"
 												style="cursor: pointer; margin-left: 5px;"
 												@click="addRatePropertySize()"></i>
-											</span>
-											<span v-if="index>0"> <i
+											</span> <span v-if="index>0"> <i
 												class="fas fa-minus-circle removeRatePropertySizeCircle"
 												style="cursor: pointer; margin-left: 5px;"
 												@click="removeRatePropertySize(index)"></i>
@@ -113,11 +113,23 @@ Service Type') @section('page-styles')
 										</div>
 										<div class="col-md-12">
 											<div class="form-group bmd-form-group">
-												<label>Max property size (MSQ)</label> <input type="number"
-													class="form-control"
-													:name="'max_property_size' + (index)"
-													:id="'max_property_size' + (index)"
-													value="{{old('max_property_size')}}" required>
+												<label>Max property size (MSQ)</label>
+												<div class="row">
+													<div class=" col-6 w-100">
+														<input type="number" class="form-control"
+															:name="'max_property_size_from' + (index)"
+															:id="'max_property_size_from' + (index)"
+															value="{{old('max_property_size_from')}}" required
+															placeholder="From">
+													</div>
+													<div class=" col-6 w-100">
+														<input type="number" class="form-control "
+															:name="'max_property_size_to' + (index)"
+															:id="'max_property_size_to' + (index)"
+															value="{{old('max_property_size_to')}}" required
+															placeholder="To">
+													</div>
+												</div>
 											</div>
 										</div>
 

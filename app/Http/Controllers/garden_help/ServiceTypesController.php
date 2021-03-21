@@ -49,17 +49,19 @@ class ServiceTypesController extends Controller
 
     public function postAddServiceType(Request $request)
     {
+        //dd($request);
         $this->validate($request, [
             'service_type' => 'required',
             'min_hours' => 'required|integer',
             'rate_per_hour0' => 'required|integer',
-            'max_property_size0' => 'required'
+            'max_property_size_from0' => 'required|integer',
+            'max_property_size_to0' => 'required|integer'
         ]);
         GardenServiceType::create([
             'name' => $request->service_type,
             'min_hours' => $request->min_hours,
             'rate_per_hour' => $request->rate_per_hour0,
-            'max_property_size' => $request->max_property_size0
+            'max_property_size' => $request->max_property_size_from0
         ]);
         alert()->success('Service type has been saved successfully');
 

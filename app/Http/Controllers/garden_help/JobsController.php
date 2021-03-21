@@ -14,35 +14,76 @@ class JobsController extends Controller
 
     public function getJobsTable()
     {
-        $jobs = Customer::where('type', 'job')
-            ->orderBy('id', 'desc')->paginate(20);
+        $jobs = Customer::where('type', 'job')->orderBy('id', 'desc')->paginate(20);
 
         return view('admin.garden_help.jobs_table.jobs', [
             'jobs' => $jobs
         ]);
     }
-    
-    public function getSingleJob($client_name, $id) {
+
+    public function getSingleJob($client_name, $id)
+    {
         $customer_request = Customer::find($id);
-        $customer_request->email = $customer_request->user->email;
+        if ($customer_request->user != null) {
+            $customer_request->email = $customer_request->user->email;
+        }
         // dd($customer_request);
-        if (!$customer_request) {
+        if (! $customer_request) {
             abort(404);
         }
-        
-        $contractors = Contractor::where('status', 'completed')->get();
 
-        return view('admin.garden_help.jobs_table.single_job', ['job' => $customer_request,'contractors'=>$contractors]);
+        $contractors = Contractor::where('status', 'completed')->get();
+        // dd($customer_request);
+        if ($customer_request->status != 'ready' ) {
+            $contractor = new Contractor();
+            $contractor->name = "sara reda";
+            $contractor->experience_level = "0-2 years";
+            $contractor->km_away = 0;
+            return view('admin.garden_help.jobs_table.single_job', [
+                'job' => $customer_request,
+                'contractor' => $contractor,
+                'contractors' => [],
+                'reassign'=>0
+            ]);
+        } else {
+            return view('admin.garden_help.jobs_table.single_job', [
+                'job' => $customer_request,
+                'contractors' => $contractors,
+                'reassign'=>0
+            ]);
+        }
     }
-    
-    public function assignContractorToJob(Request $request){
+
+    public function getSingleJobReassign($client_name, $id)
+    {
+        $customer_request = Customer::find($id);
+        if ($customer_request->user != null) {
+            $customer_request->email = $customer_request->user->email;
+        }
+        // dd($customer_request);
+        if (! $customer_request) {
+            abort(404);
+        }
+
+        $contractors = Contractor::where('status', 'completed')->get();
+        // dd($customer_request);
+
+        return view('admin.garden_help.jobs_table.single_job', [
+            'job' => $customer_request,
+            'contractors' => $contractors,
+            'reassign'=>1
+        ]);
+    }
+
+    public function assignContractorToJob(Request $request)
+    {
         $job_id = $request->get('jobId');
         $contractor_id = $request->get('contractorId');
 
         $job = Customer::find($job_id);
         $contractor = Contractor::find($contractor_id);
 
-        if (!$job) {
+        if (! $job) {
             abort(404);
         }
 
@@ -51,35 +92,34 @@ class JobsController extends Controller
         $job->save();
         $user_tokens = $contractor->user->firebase_tokens;
         if (count($user_tokens) > 0) {
-            self::sendFCM($user_tokens,[
+            self::sendFCM($user_tokens, [
                 'title' => 'Job assigned',
                 'message' => "Job #$job_id has been assigned to you",
                 'order_id' => $job_id
             ]);
         }
-        $sid    = env('TWILIO_SID', '');
-        $token  = env('TWILIO_AUTH', '');
+        $sid = env('TWILIO_SID', '');
+        $token = env('TWILIO_AUTH', '');
         $twilio = new Client($sid, $token);
-        $twilio->messages->create($contractor->user->phone,
-            [
-                "from" => "GardenHelp",
-                "body" => "Hi $contractor->name, there is an job assigned to you, please open your app. ".
-                    url('contractor_app#/order-details/'.$job_id)
-            ]
-        );
+        $twilio->messages->create($contractor->user->phone, [
+            "from" => "GardenHelp",
+            "body" => "Hi $contractor->name, there is an job assigned to you, please open your app. " . url('contractor_app#/order-details/' . $job_id)
+        ]);
 
-        alert()->success( "The job has been successfully assigned to $contractor->name");
+        alert()->success("The job has been successfully assigned to $contractor->name");
         return redirect()->to('garden-help/jobs_table/jobs');
     }
 
-    public function addNewJob() {
+    public function addNewJob()
+    {
         return view('admin.garden_help.jobs_table.add_job');
     }
-    
-    public function postNewJob(Request $request) {
-//        dd($request->all());
+
+    public function postNewJob(Request $request)
+    {
+        // dd($request->all());
         $this->validate($request, [
-            'work_location' => 'required',
+            'work_location' => 'required'
         ]);
         if ($request->work_location == 'other') {
             $this->validate($request, [
@@ -97,7 +137,7 @@ class JobsController extends Controller
                 'email' => 'required|unique:users',
                 'contact_through' => 'required',
                 'phone' => 'required_if:type_of_work,Residential',
-//                'password' => 'required_if:type_of_work,Residential|confirmed',
+                // 'password' => 'required_if:type_of_work,Residential|confirmed',
                 'service_types' => 'required_if:type_of_work,Residential',
                 'location' => 'required_if:type_of_work,Residential',
                 'location_coordinates' => 'required_if:type_of_work,Residential',
@@ -108,21 +148,21 @@ class JobsController extends Controller
                 'is_parking_site' => 'required_if:type_of_work,Residential',
                 'contact_name' => 'required_if:type_of_work,Commercial',
                 'contact_number' => 'required_if:type_of_work,Commercial',
-                'available_date_time' => 'required_if:type_of_work,Commercial',
+                'available_date_time' => 'required_if:type_of_work,Commercial'
             ]);
 
-            //Create User
-//            $user = new User();
-//            $user->name = $request->name;
-//            $user->email = $request->email;
-//            $user->phone = $request->phone;
-//            $user->password = $request->password ? bcrypt($request->password) : bcrypt(Str::random(8));
-//            $user->user_role = 'customer';
-//            $user->save();
+            // Create User
+            // $user = new User();
+            // $user->name = $request->name;
+            // $user->email = $request->email;
+            // $user->phone = $request->phone;
+            // $user->password = $request->password ? bcrypt($request->password) : bcrypt(Str::random(8));
+            // $user->user_role = 'customer';
+            // $user->save();
 
-            //Create Customer
+            // Create Customer
             $customer = new Customer();
-//            $customer->user_id = $user->id;
+            // $customer->user_id = $user->id;
             $customer->work_location = $request->work_location;
             $customer->type_of_work = $request->type_of_work;
             $customer->name = $request->name;
@@ -130,7 +170,7 @@ class JobsController extends Controller
             $customer->status = 'ready';
             $customer->contact_through = $request->contact_through;
             $customer->phone_number = $request->phone;
-//            $customer->password = $request->password;
+            // $customer->password = $request->password;
             $customer->service_types = $request->service_types;
             $customer->location = $request->location;
             $customer->location_coordinates = $request->location_coordinates;
@@ -147,8 +187,7 @@ class JobsController extends Controller
             $customer->address = $request->address;
             $customer->save();
         }
-        alert()->success( "The job is added successfully");
+        alert()->success("The job is added successfully");
         return redirect()->to('garden-help/jobs_table/add_job');
-        
     }
 }

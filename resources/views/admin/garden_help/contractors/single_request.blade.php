@@ -98,12 +98,12 @@
                                         <div class="col-12">
                                             <div class="row">
                                                 <label class="requestLabel col-12">Phone number:
-                                               <span class="form-control customerRequestSpan col-12">{{$contractor_request->email}}</span></label>
+                                               <span class="form-control customerRequestSpan col-12">{{$contractor_request->phone_number}}</span></label>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="row">
-                                                <label class="requestLabel col-12">Experience level:
+                                                <label class="requestLabel col-12">Years of experience:
                                                 <span class="form-control customerRequestSpan col-12">{{$contractor_request->experience_level}}</span></label>
                                             </div>
                                         </div>

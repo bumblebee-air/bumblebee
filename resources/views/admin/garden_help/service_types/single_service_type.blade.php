@@ -91,7 +91,7 @@ Service Type') @section('page-styles')
 										<div class="col-md-12">
 											<div class="form-group bmd-form-group">
 												<label>Min hours</label> <input type="number"
-													class="form-control" name="min_hours"
+													class="form-control" name="min_hours" step="any"
 													value="{{$service_type->min_hours}}" required>
 											</div>
 										</div>

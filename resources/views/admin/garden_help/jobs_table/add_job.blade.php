@@ -3,9 +3,10 @@ Job') @section('page-styles')
 <link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
 
 <style>
-.main-panel > .content {
-            margin-top: 0px;
-        }
+.main-panel>.content {
+	margin-top: 0px;
+}
+
 @media ( max-width : 767px) {
 	.container-fluid {
 		padding-left: 0px !important;
@@ -37,8 +38,9 @@ Job') @section('page-styles')
 	margin-top: 25px !important;
 	margin-bottom: 10px !important;
 }
-.form-control, .form-control:invalid, .is-focused .form-control{
-    box-shadow: none !important;
+
+.form-control, .form-control:invalid, .is-focused .form-control {
+	box-shadow: none !important;
 }
 </style>
 @endsection @section('page-content')
@@ -207,6 +209,16 @@ Job') @section('page-styles')
 															class="form-control" id="contact_number"
 															name="contact_number" value="{{old('contact_number')}}"
 															required>
+													</div>
+												</div>
+												<div class="col-md-12">
+													<div class="form-group bmd-form-group is-filled">
+														<label for="available_date_time">Select from the available
+															date & time</label> 
+															<input name="available_date_time" type="text"
+																class="form-control datetimepicker"
+																id="available_date_time"
+																 required> 
 													</div>
 												</div>
 
@@ -485,44 +497,51 @@ Job') @section('page-styles')
 		</div>
 	</div>
 	<!-- end modal service type -->
-	
-	  <!-- Button trigger Site Details modal -->
-        <a id="site_details_btn_modal" data-toggle="modal"
-           data-target="#site_detailsModal" style="display: none"></a>
 
-        <!-- Last Services Modal -->
-        <div class="modal fade" id="site_detailsModal" tabindex="-1" role="dialog"
-             aria-labelledby="type_of_experienceLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title text-left registerModalTitle" id="type_of_experienceLabel">Site Details</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-12 d-flex justify-content-between" v-for="item in site_details"  @click="toggleCheckedValue(item)">
-                                <label for="my-check-box" :class="item.is_checked == true ? 'my-check-box-label my-check-box-label-checked' : 'my-check-box-label'">@{{ item.title }}</label>
-                                <div class="my-check-box" id="check">
-                                    <i :class="item.is_checked == true ? 'fas fa-check-square checked' : 'fas fa-check-square'"></i>
-                                </div>
-                            </div>
+	<!-- Button trigger Site Details modal -->
+	<a id="site_details_btn_modal" data-toggle="modal"
+		data-target="#site_detailsModal" style="display: none"></a>
 
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-link modal-button-close" data-dismiss="modal">Close
-                        </button>
-                        <button type="button" class="btn btn-link modal-button-done" data-dismiss="modal" @click="changeSelectedValue('site_details')">
-                            Done
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- end modal site details -->
+	<!-- Last Services Modal -->
+	<div class="modal fade" id="site_detailsModal" tabindex="-1"
+		role="dialog" aria-labelledby="type_of_experienceLabel"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title text-left registerModalTitle"
+						id="type_of_experienceLabel">Site Details</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12 d-flex justify-content-between"
+							v-for="item in site_details" @click="toggleCheckedValue(item)">
+							<label for="my-check-box"
+								:class="item.is_checked == true ? 'my-check-box-label my-check-box-label-checked' : 'my-check-box-label'">@{{
+								item.title }}</label>
+							<div class="my-check-box" id="check">
+								<i
+									:class="item.is_checked == true ? 'fas fa-check-square checked' : 'fas fa-check-square'"></i>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link modal-button-close"
+						data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-link modal-button-done"
+						data-dismiss="modal" @click="changeSelectedValue('site_details')">
+						Done</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end modal site details -->
 </div>
 
 @endsection @section('page-scripts')

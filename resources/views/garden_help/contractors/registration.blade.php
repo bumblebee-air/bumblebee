@@ -75,7 +75,7 @@
 					</div>
 					<div class="col-md-12 mb-3">
 						<div class="form-group bmd-form-group">
-							<label for="experience_level" class="bmd-label-floating">Years of Experience
+							<label for="experience_level" class="bmd-label-floating">Years of experience
 								</label> <input name="experience_level" type="text"
 								class="form-control" id="experience_level"
 								v-model="experience_level_input"

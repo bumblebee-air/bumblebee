@@ -70,7 +70,7 @@
                                                             <td>
                                                                 {{$contractor->created_at}}
                                                             </td>
-                                                            <td>Level {{$contractor->experience_level_value}}</td>
+                                                            <td> {{$contractor->experience_level}}</td>
                                                             <td>{{$contractor->name}}</td>
                                                             <td>{{$contractor->id}}</td>
                                                             <td>

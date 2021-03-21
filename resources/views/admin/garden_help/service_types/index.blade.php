@@ -42,11 +42,11 @@ tr.order-row:hover, tr.order-row:focus {
 									<table class="table">
 										<thead>
 											<tr>
-												<th>Service Type</th>
-												<th>Min Hours</th>
-												<th>Rate Per Hour</th>
-												<th>Max property size (MSQ)</th>
-												<th>Action</th>
+												<th style="width: 20%">Service Type</th>
+												<th style="width: 20%">Min Hours</th>
+												<th style="width: 20%">Rate Per Hour</th>
+												<th style="width: 20%">Max property size (MSQ)</th>
+												<th style="width: 20%">Action</th>
 											</tr>
 										</thead>
 										<tbody>

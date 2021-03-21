@@ -17,12 +17,20 @@ class StripeManager
         $this->stripe_key = $stripe_key;
     }
 
-    public function createCustomAccount($user,$business_type='individual'){
+    public function createCustomAccount($user,$business_type='individual',$merchant_code=null){
         /*Stripe merchant code for 'Motor Freight Carriers and Trucking
             - Local and Long Distance, Moving and Storage Companies,
             and Local Delivery Services'*/
+        $product_description = 'Service Supplier';
+        $company_name = 'DoOrder';
+        if($merchant_code==null) {
+            $merchant_code = 4214;
+            $product_description = $company_name.' package delivery service';
+        } elseif($merchant_code==5261){
+            $company_name = 'GardenHelp';
+            $product_description = $company_name.' garden maintenance';
+        }
         $account_type = 'express';
-        $merchant_code = 4214;
         $user_name = explode(' ',$user->name);
         $first_name = $user_name[0];
         $last_name = isset($user_name[1])? $user_name[1] : '';
@@ -50,7 +58,7 @@ class StripeManager
             'business_profile'=> [
                 'mcc' => $merchant_code,
                 'name' => $first_name.' '.$last_name,
-                'product_description' => 'DoOrder package delivery service'
+                'product_description' => $product_description
             ]
         ]);
         //dd($stripe_account);
@@ -72,7 +80,7 @@ class StripeManager
         $message_body = 'Hi '.$first_name.', Click on the following link to start your Stripe account on-boarding: '.
             url('stripe-onboard/'.$onboard_code);
         $message = $twilio->messages->create($phone,
-            ["from" => "DoOrder",
+            ["from" => $company_name,
                 "body" => $message_body]
         );
         return $stripe_account;

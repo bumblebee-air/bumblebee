@@ -79,6 +79,39 @@ Service Type') @section('page-styles')
 											</div>
 										</div>
 
+										<div class="col-md-12 mb-3">
+											<div class="form-group ">
+												<label class="bmd-label-floating" for="">Is this service
+													recurring?</label>
+												<div class="row">
+													<div class="col">
+														<div class="form-check form-check-radio">
+															<label class="form-check-label"> <input
+																class="form-check-input" type="radio"
+																id="is_service_recurring1" name="is_service_recurring"
+																value="1" {{old('is_service_recurring') ===
+																'1' ? 'checked' : ''}} required> Yes <span
+																class="circle"> <span class="check"></span>
+															</span>
+															</label>
+														</div>
+													</div>
+													<div class="col">
+														<div class="form-check form-check-radio">
+															<label class="form-check-label"> <input
+																class="form-check-input" type="radio"
+																id="is_service_recurring0" name="is_service_recurring"
+																value="0" {{old('is_service_recurring') ===
+																'0' ? 'checked' : ''}} required> No <span class="circle">
+																	<span class="check"></span>
+															</span>
+															</label>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+
 
 									</div>
 								</div>

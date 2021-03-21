@@ -95,6 +95,38 @@ Service Type') @section('page-styles')
 													value="{{$service_type->min_hours}}" required>
 											</div>
 										</div>
+											<div class="col-md-12 mb-3">
+											<div class="form-group ">
+												<label class="bmd-label-floating" for="">Is this service
+													recurring?</label>
+												<div class="row">
+													<div class="col">
+														<div class="form-check form-check-radio">
+															<label class="form-check-label"> <input
+																class="form-check-input" type="radio"
+																id="is_service_recurring1" name="is_service_recurring"
+																value="1" {{$service_type->is_service_recurring ===
+																1 ? 'checked' : ''}} > Yes <span
+																class="circle"> <span class="check"></span>
+															</span>
+															</label>
+														</div>
+													</div>
+													<div class="col">
+														<div class="form-check form-check-radio">
+															<label class="form-check-label"> <input
+																class="form-check-input" type="radio"
+																id="is_service_recurring0" name="is_service_recurring"
+																value="0" {{$service_type->is_service_recurring ===
+																0 ? 'checked' : ''}} > No <span class="circle">
+																	<span class="check"></span>
+															</span>
+															</label>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
 
 
 									</div>
@@ -124,17 +156,32 @@ Service Type') @section('page-styles')
 										<div class="col-md-12">
 											<div class="form-group bmd-form-group">
 												<label class="">Rate per hour</label> <input type="number"
-													class="form-control" :name="'rate_per_hour' + (index)"
+													class="form-control" :name="'rate_per_hour' + (index)" 
 													:id="'rate_per_hour' + (index)" :value="rate.rate_per_hour"
 													required>
 											</div>
 										</div>
 										<div class="col-md-12">
 											<div class="form-group bmd-form-group">
-												<label>Max property size (MSQ)</label> <input type="number"
-													class="form-control" :name="'max_property_size' + (index)"
-													:id="'max_property_size' + (index)"
-													:value="rate.max_property_size" required>
+												<label>Max property size (MSQ)</label> 
+													
+												<div class="row">
+													<div class=" col-6 w-100">
+														<input type="number" class="form-control"
+															:name="'max_property_size_from' + (index)"
+															:id="'max_property_size_from' + (index)"
+															:value="rate.max_property_size_from" required
+															placeholder="From">
+													</div>
+													<div class=" col-6 w-100">
+														<input type="number" class="form-control "
+															:name="'max_property_size_to' + (index)"
+															:id="'max_property_size_to' + (index)"
+															:value="rate.max_property_size_from" required
+															placeholder="To">
+													</div>
+												</div>
+													
 											</div>
 										</div>
 

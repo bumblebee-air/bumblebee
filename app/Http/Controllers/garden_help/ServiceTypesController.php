@@ -74,10 +74,11 @@ class ServiceTypesController extends Controller
         if (! $service_type) {
             abort(404);
         }
+        $service_type->is_service_recurring =1;
         $ratePropertySizes = collect([
             [
                 'rate_per_hour' => $service_type->rate_per_hour,
-                'max_property_size' => $service_type->max_property_size
+                'max_property_size_from' => $service_type->max_property_size
             ]
         ]);
         return view('admin.garden_help.service_types.single_service_type', [
@@ -97,9 +98,10 @@ class ServiceTypesController extends Controller
         $ratePropertySizes = collect([
             [
                 'rate_per_hour' => $service_type->rate_per_hour,
-                'max_property_size' => $service_type->max_property_size
+                'max_property_size_from' => $service_type->max_property_size
             ]
         ]);
+        $service_type->is_service_recurring =0;
         return view('admin.garden_help.service_types.single_service_type', [
             'service_type' => $service_type,
             'readOnly' => 0,

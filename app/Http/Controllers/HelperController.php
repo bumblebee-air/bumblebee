@@ -18,4 +18,9 @@ class HelperController extends Controller
         }
         return response()->json(['errors'=>0,'message'=>'All clear']);
     }
+
+    public function logFrontendError(Request $request){
+        $error_string = json_encode($request->all());
+        \Log::error('Frontend error: '.$error_string);
+    }
 }

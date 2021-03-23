@@ -785,11 +785,32 @@
                                 this.submitTheRegForm();
                             }
                         }.bind(this), // bind this to enable Vue function calling
-                        error: function(data,status,error){
+                        error: function(xhr,status,error){
                             swal({
                                 title: 'System error',
                                 text: 'A system error has occurred during validating the data',
                                 icon: 'error',
+                            });
+                            $.ajax({
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                },
+                                url: '{{url('frontend/error')}}',
+                                data: {
+                                    response: xhr.responseText,
+                                    text_status: status,
+                                    error_thrown: error,
+                                    queryString: document.location.search,
+                                    url: document.location.pathname,
+                                    referrer: document.referrer,
+                                    userAgent: navigator.userAgent
+                                },
+                                dataType: 'json',
+                                method: 'POST',
+                                success: function(res){}.bind(this),
+                                error: function(xhr_request){
+                                    //fail silently
+                                }.bind(this)
                             });
                         }.bind(this)
                     });

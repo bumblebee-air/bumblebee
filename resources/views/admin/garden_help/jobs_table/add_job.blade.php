@@ -70,14 +70,10 @@ Job') @section('page-styles')
 															id="work_location" name="work_location"
 															class="form-control js-example-basic-single ">
 															<option disabled selected value="">Select location</option>
-															<option value="Limerick">Limerick</option>
-															<option value="Drumcondra">Drumcondra</option>
-															<option value="Dún Laoghaire">Dún Laoghaire</option>
-															<option value="Smithfield">Smithfield</option>
-															<option value="Clontarf">Clontarf</option>
-															<option value="Blackrock">Blackrock</option>
-															<option value="Glasnevin">Glasnevin</option>
-															<option value="Other">Other</option>
+															<option value="Dublin">Dublin</option>
+															<option value="Carlow">Carlow</option>
+															<option value="Kilkenny">Kilkenny</option>
+															<option value="Kildare">Kildare</option>
 														</select>
 													</div>
 												</div>

@@ -448,10 +448,33 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-md-12 d-flex justify-content-between" v-for="type in service_types"  @click="toggleCheckedValue(type)">
-                                <label for="my-check-box" :class="type.is_checked == true ? 'my-check-box-label my-check-box-label-checked' : 'my-check-box-label'">@{{ type.title }}</label>
-                                <div class="my-check-box" id="check">
-                                    <i :class="type.is_checked == true ? 'fas fa-check-square checked' : 'fas fa-check-square'"></i>
+                            <div class="col-md-12" v-for="(type, index) in service_types">
+                                <div class="d-flex justify-content-between" @click="toggleCheckedValue(type)">
+                                    <label for="my-check-box" :class="type.is_checked == true ? 'my-check-box-label my-check-box-label-checked' : 'my-check-box-label'">@{{ type.title }}</label>
+                                    <div class="my-check-box" id="check">
+                                        <i :class="type.is_checked == true ? 'fas fa-check-square checked' : 'fas fa-check-square'"></i>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 d-flex" v-if="type.is_checked == true && type.is_service_recurring == true">
+                                    <div class="form-check form-check-radio form-check-inline d-flex justify-content-between">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="radio"
+                                                    :name="'is_recurring' + index" id="inlineRadio1"
+                                                     value="1" v-model="type.is_recurring" checked> Recurring <span
+                                                    class="circle"> <span class="check"></span>
+												</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="form-check form-check-radio form-check-inline d-flex justify-content-between">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="radio"
+                                                   :name="'is_recurring' + index" id="inlineRadio1"
+                                                   value="0" v-model="type.is_recurring"> Once <span
+                                                    class="circle"> <span class="check"></span>
+												</span>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
 {{--                            <div class="col-md-12" data-toggle="collapse" href="#otherServicesCollapse" role="button" aria-expanded="false" aria-controls="otherServicesCollapse">--}}
@@ -489,7 +512,7 @@
 
 @section('scripts')
     <script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>
 
     <script>

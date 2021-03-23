@@ -11,7 +11,7 @@ class GardenServiceType extends Model
     protected $fillable = [
         'name',
         'min_hours',
-        'rate_per_hour',
-        'max_property_size',
+        'is_service_recurring',
+        'rate_property_sizes',
     ];
 }

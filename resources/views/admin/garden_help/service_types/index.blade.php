@@ -10,7 +10,8 @@ tr.order-row:hover, tr.order-row:focus {
 	box-shadow: 5px 5px 18px #88888836, 5px -5px 18px #88888836;
 }
 </style>
-@endsection @section('page-content')
+@endsection
+@section('page-content')
 
 <div class="content">
 	<div class="container-fluid">
@@ -30,7 +31,7 @@ tr.order-row:hover, tr.order-row:focus {
 								<div class="row justify-content-end">
 									<div>
 										<a href="{{route('garden_help_addServiceType', 'garden-help')}}"
-											class="btn   btn-gardenhelp-green addServiceButton">Add New Service</a>
+											class="btn btn-gardenhelp-green addServiceButton">Add New Service</a>
 									</div>
 
 								</div>
@@ -50,25 +51,29 @@ tr.order-row:hover, tr.order-row:focus {
 											</tr>
 										</thead>
 										<tbody>
-											@if(count($service_types)>0) @foreach($service_types as
-											$type)
-											<tr class="order-row"
-												@click="openServiceType(event,{{$type['id']}})">
-												<td>{{$type['name']}}</td>
-												<td>{{$type['min_hours']}}</td>
-												<td>{{$type['rate_per_hour']}}</td>
-												<td>{{$type['max_property_size']}}</td>
-												<td><a
-													class="btn  btn-link btn-link-gardenhelp btn-just-icon edit"
-													@click="editServiceType({{$type['id']}})"><i
-														class="fas fa-pen-fancy"></i></a>
-													<button type="button"
-														class="btn btn-link btn-danger btn-just-icon remove"
+											@if(count($service_types)>0)
+												@foreach($service_types as $type)
+											<tr class="order-row">
+												<td @click="openServiceType({{$type['id']}})">{{$type['name']}}</td>
+												<td @click="openServiceType({{$type['id']}})">{{$type['min_hours']}}</td>
+												<td @click="openServiceType({{$type['id']}})">
+													{{$type->rate_hours}}
+												</td>
+												<td @click="openServiceType({{$type['id']}})">
+													{{$type->property_sizes}}
+												</td>
+												<td>
+													<a class="btn  btn-link btn-link-gardenhelp btn-just-icon edit"
+													@click="editServiceType({{$type['id']}})">
+														<i class="fas fa-pen-fancy"></i></a>
+													<a class="btn btn-link btn-danger btn-just-icon remove"
 														@click="clickDeleteServiceType({{$type['id']}})">
 														<i class="fas fa-trash-alt"></i>
-													</button></td>
+													</a>
+												</td>
 											</tr>
-											@endforeach @else
+											@endforeach
+											@else
 											<tr>
 												<td colspan="8" class="text-center"><strong>No data found.</strong>
 												</td>
@@ -109,7 +114,6 @@ tr.order-row:hover, tr.order-row:focus {
 					to delete this service type?</div>
 
 				<div>
-
 					<form method="POST" id="delete-service-type"
 						action="{{url('garden_help/service_types/delete_service_type')}}"
 						style="margin-bottom: 0 !important;">
@@ -138,29 +142,22 @@ tr.order-row:hover, tr.order-row:focus {
         Vue.use(VueToast);
         var app = new Vue({
             el: '#app',
-            data: {
-            },
+            data: {},
             mounted() {
-               
+
             },
             methods: {
-                openServiceType(e,type_id){
-                	
-                     if (e.target.cellIndex == undefined) {
-                	    	
-                	    }
-                		else{
-                			window.location.href = "{{url('garden-help/service_types/type')}}/"+type_id;
-                   		}
+                openServiceType(type_id) {
+					window.location.href = "{{url('garden-help/service_types/type')}}/"+type_id;
                 },
-                editServiceType(type_id){
+                editServiceType(type_id) {
                 	//alert("edit "+type_id);
                 	window.location.href = "{{url('garden-help/service_types/edit_service_type')}}/"+type_id;
                 }, 
                 clickDeleteServiceType(type_id){
                     $('#delete-service-type-modal').modal('show')
 					$('#delete-service-type-modal #typeId').val(type_id);
-                }
+                },
             }
         });
     </script>

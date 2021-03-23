@@ -21,6 +21,7 @@ class CustomersController extends Controller
         foreach ($services as $item) {
             $item->title = $item->name;
             $item->is_checked = $item->false;
+            $item->is_recurring = "0";
         }
         return view('garden_help.customers.registration', ['services' => $services]);
     }

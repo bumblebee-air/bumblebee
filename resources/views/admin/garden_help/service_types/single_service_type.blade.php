@@ -46,10 +46,10 @@ Service Type') @section('page-styles')
 @endsection @section('page-content')
 <div class="content">
 	<div class="container-fluid">
-		<div class="container-fluid" id="app">
+		<div class="container-fluid">
 			@if($readOnly==0)
-			<form id="order-form" method="POST"
-				action="{{route('garden_help_postEditServiceType',['garden-help',$service_type->id])}}">
+			<form method="POST"
+				action="{{route('garden_help_postEditServiceType',['garden-help',$service_type->id])}}" id="service_type_form" @submit="beforeFormSubmit">
 				@endif 
 				{{csrf_field()}}
 				<div class="row">
@@ -136,55 +136,54 @@ Service Type') @section('page-styles')
 
 
 						<div class="card" v-for="(rate, index) in ratePropertySizes"
-							:id="'ratePropertyCardDiv'+(index)">
+							 :id="'ratePropertyCardDiv'+(index)">
+
 							<div class="card-body cardBodyAddServiceType">
 								<div class="container">
 									<div class="row">
 										<div class="col-md-12">
 											<h5 class="addServiceTypeSubTitle">Rate And Property Size</h5>
-											
-						@if($readOnly==0)<span v-if="index==0"> <i
-												class="fas fa-plus-circle addRatePropertySizeCircle"
-												style="cursor: pointer; margin-left: 5px;"
-												@click="addRatePropertySize()"></i>
+											<span v-if="index==0">
+                                                <i class="fas fa-plus-circle addRatePropertySizeCircle"
+												   style="cursor: pointer; margin-left: 5px;"
+												   @click="addRatePropertySize()"></i>
 											</span> <span v-if="index>0"> <i
-												class="fas fa-minus-circle removeRatePropertySizeCircle"
-												style="cursor: pointer; margin-left: 5px;"
-												@click="removeRatePropertySize(index)"></i>
-											</span>@endif
+														class="fas fa-minus-circle removeRatePropertySizeCircle"
+														style="cursor: pointer; margin-left: 5px;"
+														@click="removeRatePropertySize(index)"></i>
+											</span>
 										</div>
 										<div class="col-md-12">
 											<div class="form-group bmd-form-group">
-												<label class="">Rate per hour</label> <input type="number"
-													class="form-control" :name="'rate_per_hour' + (index)" 
-													:id="'rate_per_hour' + (index)" :value="rate.rate_per_hour"
-													required>
+												<label class="">Rate per hour</label>
+												<input type="number"
+													   class="form-control" :name="'rate_per_hour' + (index)"
+													   :id="'rate_per_hour' + (index)"
+													   v-model="rate.rate_per_hour" required>
 											</div>
 										</div>
 										<div class="col-md-12">
 											<div class="form-group bmd-form-group">
-												<label>Max property size (MSQ)</label> 
-													
+												<label>Max property size (MSQ)</label>
 												<div class="row">
 													<div class=" col-6 w-100">
 														<input type="number" class="form-control"
-															:name="'max_property_size_from' + (index)"
-															:id="'max_property_size_from' + (index)"
-															:value="rate.max_property_size_from" required
-															placeholder="From">
+															   :name="'max_property_size_from' + (index)"
+															   :id="'max_property_size_from' + (index)" required
+															   placeholder="From" v-model="rate.max_property_size_from">
 													</div>
 													<div class=" col-6 w-100">
 														<input type="number" class="form-control "
-															:name="'max_property_size_to' + (index)"
-															:id="'max_property_size_to' + (index)"
-															:value="rate.max_property_size_from" required
-															placeholder="To">
+															   :name="'max_property_size_to' + (index)"
+															   :id="'max_property_size_to' + (index)" required
+															   placeholder="To" v-model="rate.max_property_size_to">
 													</div>
 												</div>
-													
 											</div>
 										</div>
 
+										{{-- Rate Property Size input--}}
+										<input type="hidden" name="rate_property_sizes" v-model="ratePropertySizesString">
 									</div>
 								</div>
 							</div>
@@ -194,10 +193,8 @@ Service Type') @section('page-styles')
 						@if($readOnly==0)
 						<div class="row">
 							<div class="col-12 text-center">
-
 								<button id="addNewServiceTypeBtn"
 									class="btn btn-register btn-gardenhelp-green" id="">Edit</button>
-
 							</div>
 						</div>
 						@endif
@@ -215,7 +212,8 @@ Service Type') @section('page-styles')
 
 <div></div>
 
-@endsection @section('page-scripts')
+@endsection
+@section('page-scripts')
 <script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>
@@ -224,36 +222,43 @@ Service Type') @section('page-styles')
     $(document).ready(function() {
         $(".js-example-basic-single").select2();
   
-var readonly = {!! $readOnly !!};
-if(readonly==1){
-$("input").prop('disabled', true);
-$("textarea").prop('disabled', true);
-}
-});
+		var readonly = {!! $readOnly !!};
+		if(readonly==1){
+			$("input").prop('disabled', true);
+			$("textarea").prop('disabled', true);
+		}
+	});
         
-        var app = new Vue({
-            el: '#app',
-             data() {
-                return {
-                  
-                    
-                    ratePropertySizes: {!! json_encode($ratePropertySizes) !!},
-                }
-            },
-            mounted() {
-            },
-            methods: {
-               
-               addRatePropertySize() {
-                    this.ratePropertySizes.push({})
-                },
-                removeRatePropertySize(index){
-                	$("#ratePropertyCardDiv"+index).remove();
-                }
-            }
-        });
+	var app = new Vue({
+		el: '#app',
+		 data: {
+				ratePropertySizes: {!! old('rate_property_sizes') ? old('rate_property_sizes') : $service_type->rate_property_sizes !!},
+				ratePropertySizesString: ''
+		},
+		mounted() {
+		},
+		methods: {
+		    addRatePropertySize() {
+				this.ratePropertySizes.push({
+					rate_per_hour: '',
+					max_property_size_from: '',
+					max_property_size_to: ''
+				})
+			},
+			removeRatePropertySize(index){
+				this.ratePropertySizes.splice(index, 1);
+			},
+			beforeFormSubmit(e) {
+				e.preventDefault();
+				this.ratePropertySizesString = JSON.stringify(this.ratePropertySizes);
+				setTimeout(() => {
+					$('#service_type_form').submit();
+				}, 300)
+			}
+		}
+	});
 
       
-    </script>
+</script>
 
 @endsection

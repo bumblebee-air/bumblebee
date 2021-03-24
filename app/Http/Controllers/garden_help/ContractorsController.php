@@ -151,7 +151,7 @@ class ContractorsController extends Controller
             //Sending SMS
             $body = "Hi $user->name, your contractor profile has been accepted. ".
                 "Login details are the email: $user->email and the password: $new_pass . ".
-                "Web app: ".url('contractor_app');
+                "Web app: ".url('contractors_app');
             TwilioHelper::sendSMS('GardenHelp', $singleRequest->phone_number, $body);
 
             try{

@@ -442,40 +442,32 @@ Job') @section('page-styles')
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<div class="col-md-12 d-flex justify-content-between"
-							v-for="type in service_types" @click="toggleCheckedValue(type)">
-							<label for="my-check-box"
-								:class="type.is_checked == true ? 'my-check-box-label my-check-box-label-checked' : 'my-check-box-label'">@{{
-								type.title }}</label>
-							<div class="my-check-box" id="check">
-								<i
-									:class="type.is_checked == true ? 'fas fa-check-square checked' : 'fas fa-check-square'"></i>
-							</div>
-						</div>
-						<div class="col-md-12" data-toggle="collapse"
-							href="#otherServicesCollapse" role="button" aria-expanded="false"
-							aria-controls="otherServicesCollapse">
-							<div class="d-flex justify-content-between">
-								<h5 class="modal-title text-left registerModalTitle"
-									id="type_of_experienceLabel">Other Service</h5>
-								<a class="select-icon"
-									style="margin-top: 3px; color: black !important"> <i
-									class="fas fa-caret-down"></i>
-								</a>
-							</div>
-							<br>
-						</div>
-						<div class="collapse" id="otherServicesCollapse"
-							style="max-height: 300px; overflow: scroll; width: 100%;">
-							<div class="col-md-12 d-flex justify-content-between"
-								v-for="type in other_service_types"
-								@click="toggleCheckedValue(type)">
-								<label for="my-check-box"
-									:class="type.is_checked == true ? 'my-check-box-label my-check-box-label-checked' : 'my-check-box-label'">@{{
-									type.title }}</label>
+						<div class="col-md-12" v-for="(type, index) in service_types">
+							<div class="d-flex justify-content-between" @click="toggleCheckedValue(type)">
+								<label for="my-check-box" :class="type.is_checked == true ? 'my-check-box-label my-check-box-label-checked' : 'my-check-box-label'">@{{ type.title }}</label>
 								<div class="my-check-box" id="check">
-									<i
-										:class="type.is_checked == true ? 'fas fa-check-square checked' : 'fas fa-check-square'"></i>
+									<i :class="type.is_checked == true ? 'fas fa-check-square checked' : 'fas fa-check-square'"></i>
+								</div>
+							</div>
+							<div class="col-md-12 d-flex" v-if="type.is_checked == true && type.is_service_recurring == true">
+								<div class="form-check form-check-radio form-check-inline d-flex justify-content-between">
+									<label class="form-check-label">
+										<input class="form-check-input" type="radio"
+											   :name="'is_recurring' + index" id="inlineRadio1"
+											   value="1" v-model="type.is_recurring" checked> Recurring <span
+												class="circle"> <span class="check"></span>
+												</span>
+									</label>
+								</div>
+
+								<div class="form-check form-check-radio form-check-inline d-flex justify-content-between">
+									<label class="form-check-label">
+										<input class="form-check-input" type="radio"
+											   :name="'is_recurring' + index" id="inlineRadio1"
+											   value="0" v-model="type.is_recurring"> Once <span
+												class="circle"> <span class="check"></span>
+												</span>
+									</label>
 								</div>
 							</div>
 						</div>
@@ -614,16 +606,7 @@ Job') @section('page-styles')
             el: '#app',
             data: {
                 type_of_work: '',
-                service_types: [
-                    {
-                        title: 'Garden Maintenance',
-                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Garden Maintenance') === false ? 'false' : 'true' ) : 'false'}}"),
-                    },
-                    {
-                        title: 'Grass Cutting',
-                        is_checked: JSON.parse("{{old('service_types') ? ( strpos(old('service_types'), 'Grass Cutting') === false ? 'false' : 'true' ) : 'false'}}"),
-                    },
-                ],
+                service_types: {!! json_encode($services) !!},
                 other_service_types: [
                     {
                         title: 'Landscaping/Garden Design',

@@ -3,6 +3,7 @@ namespace App\Http\Controllers\garden_help;
 
 use App\Contractor;
 use App\Customer;
+use App\GardenServiceType;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
@@ -112,7 +113,13 @@ class JobsController extends Controller
 
     public function addNewJob()
     {
-        return view('admin.garden_help.jobs_table.add_job');
+        $services = GardenServiceType::all();
+        foreach ($services as $item) {
+            $item->title = $item->name;
+            $item->is_checked = $item->false;
+            $item->is_recurring = "0";
+        }
+        return view('admin.garden_help.jobs_table.add_job', ['services' => $services]);
     }
 
     public function postNewJob(Request $request)

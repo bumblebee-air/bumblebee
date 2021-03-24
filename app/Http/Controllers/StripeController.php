@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Managers\StripeManager;
 use App\StripeAccount;
 use App\User;
 use Illuminate\Http\Request;
@@ -129,11 +130,14 @@ class StripeController extends Controller
         //\Log::info(json_encode($request->all()));
         $account_ready_flag = true;
         $account_id = $request->get('account');
+        $data = $request->get('data');
+        if($account_id==null){
+            $account_id = $data['object']['id'];
+        }
         $stripe_account = StripeAccount::where('account_id','=',$account_id)->first();
         if(!$stripe_account){
             return response()->json('No account was found with this ID!');
         }
-        $data = $request->get('data');
         $account_requirements = $data['object']['requirements'];
         $currently_due_reqs = $account_requirements['currently_due'];
         if(count($currently_due_reqs)>0){
@@ -147,6 +151,10 @@ class StripeController extends Controller
         }
         $stripe_account->onboard_status = ($account_ready_flag==true)? 'complete' : 'incomplete';
         $stripe_account->save();
+        if($account_ready_flag==true){
+            $str_man = new StripeManager();
+            $str_man->stripeAccountOnboardComplete($account_id);
+        }
         return response()->json('Webhook received successfully');
     }
 }

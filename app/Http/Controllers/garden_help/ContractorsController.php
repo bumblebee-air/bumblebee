@@ -145,22 +145,12 @@ class ContractorsController extends Controller
             $singleRequest->save();
             //update user password send sms to contractor with login details
             $user = User::find($singleRequest->user_id);
-            $new_pass = Str::random(6);
-            $user->password = bcrypt($new_pass);
-            $user->save();
-            //Sending SMS
-            $body = "Hi $user->name, your contractor profile has been accepted. ".
-                "Login details are the email: $user->email and the password: $new_pass . ".
-                "Web app: ".url('contractors_app');
-            TwilioHelper::sendSMS('GardenHelp', $singleRequest->phone_number, $body);
-
             try{
                 $stripe_manager = new StripeManager();
                 $stripe_account = $stripe_manager->createCustomAccount($user,'individual',5261);
             }catch(\Exception $exception){
                 \Log::error($exception->getMessage(),$exception->getTrace());
             }
-
             alert()->success('Contractor accepted successfully');
         }
         return redirect()->route('garden_help_getContractorsRequests', 'garden-help');

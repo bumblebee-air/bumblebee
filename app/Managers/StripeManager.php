@@ -2,7 +2,10 @@
 
 namespace App\Managers;
 
+use App\Helpers\TwilioHelper;
 use App\StripeAccount;
+use App\User;
+use Illuminate\Support\Str;
 use Stripe\StripeClient;
 use Twilio\Rest\Client;
 
@@ -84,5 +87,41 @@ class StripeManager
                 "body" => $message_body]
         );
         return $stripe_account;
+    }
+
+    public function stripeAccountOnboardComplete($stripe_account_id){
+        $stripe_account = StripeAccount::where('account_id','=',$stripe_account_id)->first();
+        if(!$stripe_account){
+            return false;
+        }
+        $user = $stripe_account->user;
+        if(!$user){
+            return false;
+        }
+        $user_client = $user->client;
+        if(!$user_client){
+            return false;
+        }
+        $client = $user_client->client;
+        if(!$client){
+            return false;
+        }
+        $client_name = strtolower($client->name);
+        if($client_name=='gardenhelp'){
+            try {
+                $new_pass = Str::random(6);
+                $user->password = bcrypt($new_pass);
+                $user->save();
+                //Sending SMS
+                $body = "Hi $user->name, your contractor profile has been accepted. " .
+                    "Login details are the email: $user->email and the password: $new_pass . " .
+                    "Web app: " . url('contractors_app');
+                TwilioHelper::sendSMS('GardenHelp', $user->phone, $body);
+            }catch(\Exception $exception){
+                \Log::error($exception->getMessage(),$exception->getTrace());
+            }
+        }/*elseif($client_name=='doorder'){
+        }*/
+        return true;
     }
 }

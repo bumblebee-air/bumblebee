@@ -134,7 +134,7 @@ class JobsController extends Controller
             $this->validate($request, [
                 'type_of_work' => 'required|in:Commercial,Residential',
                 'name' => 'required',
-                'email' => 'required|unique:users',
+                'email' => 'required',
                 'contact_through' => 'required',
                 'phone' => 'required_if:type_of_work,Residential',
                 // 'password' => 'required_if:type_of_work,Residential|confirmed',

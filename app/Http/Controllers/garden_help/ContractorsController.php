@@ -137,14 +137,14 @@ class ContractorsController extends Controller
             $singleRequest->save();
             alert()->success('Contractor rejected successfully');
             //Sending SMS
-            $body = "Hi ". auth()->user()->name . ",
+            $body = "Hi ". $singleRequest->name . ",
              we are sorry, your contractor profile has been rejected.";
-            TwilioHelper::sendSMS('GardenHelp', auth()->user()->phone, $body);
+            TwilioHelper::sendSMS('GardenHelp', $singleRequest->phone_number, $body);
         } else {
             $singleRequest->status = 'completed';
             $singleRequest->save();
             //update user password send sms to contractor with login details
-            $user = User::find(auth()->user()->id);
+            $user = User::find($singleRequest->user_id);
             $new_pass = Str::random(6);
             $user->password = bcrypt($new_pass);
             $user->save();
@@ -152,7 +152,7 @@ class ContractorsController extends Controller
             $body = "Hi $user->name, your contractor profile has been accepted. ".
                 "Login details are the email: $user->email and the password: $new_pass . ".
                 "Web app: ".url('contractor_app');
-            TwilioHelper::sendSMS('GardenHelp', $user->phone, $body);
+            TwilioHelper::sendSMS('GardenHelp', $singleRequest->phone_number, $body);
 
             try{
                 $stripe_manager = new StripeManager();

@@ -206,13 +206,7 @@
 	var app = new Vue({
 		el: '#app',
 		 data: {
-			ratePropertySizes: {!! old('rate_property_sizes') ? old('rate_property_sizes') : json_encode('[
-				[
-					rate_per_hour: "",
-					max_property_size_from: "",
-					max_property_size_to: ""
-				}
-			]') !!},
+			ratePropertySizes: {!! old('rate_property_sizes') ? old('rate_property_sizes') : '[{"rate_per_hour":"","max_property_size_from":"","max_property_size_to":""}]' !!},
 			ratePropertySizesString: ''
 		},
 		mounted() {

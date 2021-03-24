@@ -104,7 +104,7 @@ class JobsController extends Controller
         $twilio = new Client($sid, $token);
         $twilio->messages->create($contractor->user->phone, [
             "from" => "GardenHelp",
-            "body" => "Hi $contractor->name, there is an job assigned to you, please open your app. " . url('contractor_app#/order-details/' . $job_id)
+            "body" => "Hi $contractor->name, there is an job assigned to you, please open your app. " . url('contractors_app#/order-details/' . $job_id)
         ]);
 
         alert()->success("The job has been successfully assigned to $contractor->name");

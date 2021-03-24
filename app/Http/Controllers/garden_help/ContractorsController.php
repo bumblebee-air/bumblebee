@@ -231,7 +231,7 @@ class ContractorsController extends Controller
                 if ($request->status == 'on_route') {
                     $job->status = $request->status;
                     $body = "The contractor is on his way to you.";
-                    TwilioHelper::sendSMS('GardenHelp', $job->phone, $body);
+                    TwilioHelper::sendSMS('GardenHelp', $job->phone_number, $body);
                 } elseif ($request->status=='arrived') {
                     $job->status = $request->status;
                 } elseif($request->status=='completed'){

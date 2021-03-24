@@ -93,13 +93,6 @@ class ContractorsController extends Controller
             'type_of_work_selected_value' => $request->type_of_work_selected_value
         ]);
 
-        try{
-            $stripe_manager = new StripeManager();
-            $stripe_account = $stripe_manager->createCustomAccount($user,'individual',5261);
-        }catch(\Exception $exception){
-            \Log::error($exception->getMessage(),$exception->getTrace());
-        }
-
         \Mail::to(env('GH_NOTIF_EMAIL','kim@bumblebeeai.io'))->send(new ContractorRegistrationMail($contractor));
         if($contractor->email!=null && $contractor->email!=''){
             \Mail::to($contractor->email)->send(new ContractorRegistrationMail($contractor));
@@ -160,6 +153,13 @@ class ContractorsController extends Controller
                 "Login details are the email: $user->email and the password: $new_pass . ".
                 "Web app: ".url('contractor_app');
             TwilioHelper::sendSMS('GardenHelp', $user->phone, $body);
+
+            try{
+                $stripe_manager = new StripeManager();
+                $stripe_account = $stripe_manager->createCustomAccount($user,'individual',5261);
+            }catch(\Exception $exception){
+                \Log::error($exception->getMessage(),$exception->getTrace());
+            }
 
             alert()->success('Contractor accepted successfully');
         }

@@ -320,3 +320,5 @@ Route::get('customer/order/{customer_confirmation_code}', 'doorder\CustomerContr
 Route::get('customer/tracking/{customer_confirmation_code}', 'doorder\CustomerController@getOrderTracking');
 Route::get('customer/delivery_confirmation/{customer_confirmation_code}', 'doorder\CustomerController@getDeliveryConfirmationURL')->name('getDeliveryConfirmationURL');
 Route::post('customer/delivery_confirmation', 'doorder\CustomerController@postDeliveryConfirmationURL')->name('postDeliveryConfirmationURL');
+//Frontend error logging route
+Route::post('frontend/error','HelperController@logFrontendError');

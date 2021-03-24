@@ -767,9 +767,9 @@
                         for (let item of list) {
                             item.is_checked === true ? site_details_input += (site_details_input == '' ? item.title : ', ' + item.title) : '';
                         }
-                        for (let item of this.other_service_types) {
-                            item.is_checked === true ? site_details_input += (site_details_input == '' ? item.title : ', ' + item.title) : '';
-                        }
+                        // for (let item of this.other_service_types) {
+                        //     item.is_checked === true ? site_details_input += (site_details_input == '' ? item.title : ', ' + item.title) : '';
+                        // }
                         this.site_details_input = site_details_input;
                     }
                 },

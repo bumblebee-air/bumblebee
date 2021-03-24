@@ -180,17 +180,17 @@
                                 <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('contact_number')}}" required>
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <div class="form-group bmd-form-group is-filled">
-                                <label for="available_date_time">Select from the available date & time</label>
+{{--                        <div class="col-md-12">--}}
+{{--                            <div class="form-group bmd-form-group is-filled">--}}
+{{--                                <label for="available_date_time">Select from the available date & time</label>--}}
 {{--                                <div class="d-flex justify-content-between">--}}
-                                    <input name="available_date_time" type="text" class="form-control datetimepicker" id="available_date_time" {{old('available_date_time')}} required>
+{{--                                    <input name="available_date_time" type="text" class="form-control datetimepicker" id="available_date_time" {{old('available_date_time')}} required>--}}
 {{--                                    <a class="select-icon">--}}
 {{--                                        <i class="fas fa-caret-down"></i>--}}
 {{--                                    </a>--}}
 {{--                                </div>--}}
-                            </div>
-                        </div>
+{{--                            </div>--}}
+{{--                        </div>--}}
                     </div>
                 </div>
             </div>

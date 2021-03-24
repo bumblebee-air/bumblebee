@@ -385,6 +385,18 @@ Job') @section('page-styles')
 													</div>
 												</div>
 
+												<div class="col-md-12">
+													<div class="form-group bmd-form-group is-filled">
+														<label for="available_date_time">Schedual at</label>
+														{{--                                <div class="d-flex justify-content-between">--}}
+														<input name="available_date_time" type="text" class="form-control datetimepicker" id="available_date_time" {{old('available_date_time')}} required>
+														{{--                                    <a class="select-icon">--}}
+														{{--                                        <i class="fas fa-caret-down"></i>--}}
+														{{--                                    </a>--}}
+														{{--                                </div>--}}
+													</div>
+												</div>
+
 
 											</div>
 
@@ -562,6 +574,20 @@ Job') @section('page-styles')
                             close: 'fa fa-remove'
                         }
                     });
+
+					$('#available_date_time').datetimepicker({
+						icons: {
+							time: "fa fa-clock",
+							date: "fa fa-calendar",
+							up: "fa fa-chevron-up",
+							down: "fa fa-chevron-down",
+							previous: 'fa fa-chevron-left',
+							next: 'fa fa-chevron-right',
+							today: 'fa fa-screenshot',
+							clear: 'fa fa-trash',
+							close: 'fa fa-remove'
+						}
+					});
                     addIntelInput('phone', 'phone');
                 }, 500)
             } else {

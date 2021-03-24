@@ -259,11 +259,27 @@ td {
 	background-image: none;
 	box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
 }
-
+.inputFileHidden{
+	
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+	
+}
 .is-focused {
 	box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
 }
 
+.form-control:focus {
+	border-bottom: 2px solid #60a244 !important;
+	box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14) !important;
+}
 .form-group label {
 	margin-left: 15px;
 	font-size: 14px;
@@ -328,11 +344,11 @@ td {
 }
 
 .form-check .form-check-input:checked ~.circle {
-	border: solid 1px #e8ca49;
+	border: solid 1px #60a244;
 }
 
 .radio-container .form-check .circle .check {
-	background-color: #e8ca49;
+	background-color: #60a244;
 }
 
 .bt-submit {
@@ -348,11 +364,11 @@ td {
 }
 
 .bootstrap-select .dropdown-item.active {
-	background: #e8ca49;
+	background: #60a244;
 }
 
 .bootstrap-select .dropdown-item:hover {
-	background: #e8ca49;
+	background: #60a244;
 	color: #ffffff
 }
 
@@ -360,8 +376,9 @@ td {
 	.pagination>.page-item.active>a:hover, .pagination>.page-item.active>span,
 	.pagination>.page-item.active>span:focus, .pagination>.page-item.active>span:hover
 	{
-	background-color: #f7dc69;
+	background-color: #60a244;
 	font-weight: bold;
+	box-shadow: none !important;
 }
 
 .pagination>.page-item>.page-link, .pagination>.page-item>span {

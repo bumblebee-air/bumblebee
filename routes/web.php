@@ -217,6 +217,11 @@ Route::group(['prefix' => '{client_name}'], function () {
             Route::get('requests', 'garden_help\ContractorsController@getContractorsRequests')->name('garden_help_getContractorsRequests');
             Route::get('requests/{id}', 'garden_help\ContractorsController@getSingleRequest')->name('garden_help_getContractorSingleRequest');
             Route::post('requests/{id}', 'garden_help\ContractorsController@postSingleRequest')->name('garden_help_postContractorSingleRequest');
+            Route::get('contractors_list', 'garden_help\ContractorsController@getContractorsList')->name('garden_help_getContractorsList');
+            Route::get('view/{id}', 'garden_help\ContractorsController@getSingleContractor')->name('garden_help_getContractorSingleView');
+            Route::get('edit/{id}', 'garden_help\ContractorsController@getSingleContractorEdit')->name('garden_help_getContractorSingleEdit');
+            Route::post('edit/{id}', 'garden_help\ContractorsController@postEditContractor')->name('garden_help_postEditContractor');
+            Route::post('delete', 'garden_help\ContractorsController@postDeleteContractor')->name('garden_help_postDeleteContractor');
         });
         Route::group(['prefix' => 'customers'], function () {
             Route::get('requests', 'garden_help\CustomersController@getCustomersRequests')->name('garden_help_getCustomerssRequests');

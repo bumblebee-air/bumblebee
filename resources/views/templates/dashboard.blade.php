@@ -22,10 +22,10 @@
     <!--Sweet Alert-->
     <script src="https://unpkg.com/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
     @if(Auth::guard('garden-help')->check())
-        <link href="{{asset('css/gardenhelp_dashboard.css')}}" rel="stylesheet">
         <link rel="icon" type="image/jpeg" href="{{asset('images/garden-help-fav.png')}}">    
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     <link href="{{asset('css/gardenhelp-styles.css')}}" rel="stylesheet">
+        <link href="{{asset('css/gardenhelp_dashboard.css')}}" rel="stylesheet">
     <link href="{{asset('css/gaedenhelp-butttons-styles.css')}}" rel="stylesheet">
      <link href="{{asset('css/select2.min.css')}}" rel="stylesheet">
         

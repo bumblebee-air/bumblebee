@@ -39,10 +39,6 @@
 	margin-top: 25px !important;
 	margin-bottom: 10px !important;
 }
-
-.form-control, .form-control:invalid, .is-focused .form-control {
-	box-shadow: none !important;
-}
 </style>
 @endsection
 @section('page-content')

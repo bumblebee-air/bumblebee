@@ -28,7 +28,7 @@
 											<th class="filterhead">Business Type</th>
 											<th class="filterhead">Retailer Name</th>
 											<th class="filterhead">Locations No.</th>
-											<th class="filterhead">Actions</th>
+											<th class="filterhead">Actions</th></tr>
 										<tr class="theadColumnsNameTr">
 											<th>Business Type</th>
 											<th>Retailer Name</th>
@@ -55,7 +55,7 @@
 										</tr>
 
 										<tr v-else>
-											<td colspan="8" class="text-center"><strong>No data found.</strong>
+											<td colspan="4" class="text-center"><strong>No data found.</strong>
 											</td>
 										</tr>
 									</tbody>

@@ -470,7 +470,7 @@
 
 
 			<li class="nav-item"><a class="nav-link d-flex"
-				href="{{url('garden-help/home')}}"> <img class="my-nav-icon"
+				href="{{route('garden_help_getContractorsList', 'garden-help')}}"> <img class="my-nav-icon"
 					src="{{asset('images/gardenhelp_icons/Contractors-white.png')}}"
 					alt="">
 					<p style="padding-right: 30px;">

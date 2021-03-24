@@ -367,4 +367,45 @@ class ContractorsController extends Controller
             ]
         ]);
     }
+    
+    
+    public function getContractorsList()
+    {
+        $contractors = Contractor::where('status', 'completed')->paginate(20);
+        return view('admin.garden_help.contractors.completed_contractors', [
+            'contractors' => $contractors
+        ]);
+    }
+    
+    public function getSingleContractor($client,$id){
+        $contractor = Contractor::find($id);
+        if (!$contractor) {
+            abort(404);
+        }
+        return view('admin.garden_help.contractors.single_contractor', ['contractor' => $contractor,
+            'readOnly' => 1]);
+    }
+    
+    public function getSingleContractorEdit($client,$id){
+        $contractor = Contractor::find($id);
+        if (!$contractor) {
+            abort(404);
+        }
+        return view('admin.garden_help.contractors.single_contractor', ['contractor' => $contractor,
+            'readOnly' => 0]);
+    }
+    
+    public function postEditContractor(Request $request){
+        //dd($request);
+        
+        alert()->success( 'Contractor updated successfully');
+        return redirect()->to('garden-help/contractors/contractors_list');
+    }
+    
+    public function postDeleteContractor(Request $request)
+    {
+        // dd($request);
+        alert()->success('Contractor deleted successfully');
+        return redirect()->back();
+    }
 }

@@ -265,7 +265,7 @@ class ContractorsController extends Controller
                     $job->contractor_id = $request->user()->id;
                     //Sending Twilio SMS
                     $body = "Your request has accepted by: " . $request->user()->name . " and has been scheduled in " . $job->available_date_time;
-                    TwilioHelper::sendSMS('GardenHelp', $job->phone, $body);
+                    TwilioHelper::sendSMS('GardenHelp', $job->phone_number, $body);
                 } elseif ($request->status == 'rejected'){
                     if($job->driver != $request->user()->id){
                         return response()->json([

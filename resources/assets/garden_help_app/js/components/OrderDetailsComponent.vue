@@ -62,7 +62,7 @@
                         <div class="row">
                             <div class="col-10">
                                 <p class="delivery-info">
-                                    Delivery Information
+                                    Job Information
                                 </p>
 <!--                                <p class="order-number">-->
 <!--                                    {{this.job_data.order_id}}-->
@@ -488,8 +488,8 @@
             openConfirmationDialog(ordersStatus) {
                 let message = '';
                 let status = {
-                    accepted: 'Are you sure you want to accept this Delivery?',
-                    rejected: 'Are you sure you want to reject this Delivery?',
+                    accepted: 'Are you sure you want to accept this Job?',
+                    rejected: 'Are you sure you want to reject this Job?',
                 };
                 if (ordersStatus == 'accepted' || ordersStatus == 'rejected') {
                     message = status[ordersStatus];

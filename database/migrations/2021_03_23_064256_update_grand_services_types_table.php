@@ -14,8 +14,8 @@ class UpdateGrandServicesTypesTable extends Migration
     public function up()
     {
         Schema::table('garden_services_types', function (Blueprint $table) {
-//            $table->dropColumn('rate_per_hour');
-//            $table->dropColumn('max_property_size');
+            $table->dropColumn('rate_per_hour');
+            $table->dropColumn('max_property_size');
             $table->text('rate_property_sizes')->after('min_hours');
             $table->tinyInteger('is_service_recurring')->after('rate_property_sizes');
         });

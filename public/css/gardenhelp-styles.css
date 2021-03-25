@@ -40,10 +40,10 @@ input {
 	color: #acb1c0 !important;
 }
 /************ end login *****************/
-
 .main-panel>.content {
 	margin-top: 0px;
 }
+
 input, .select2-container--default .select2-selection--single .select2-selection__rendered
 	{
 	font-family: Roboto;
@@ -67,11 +67,16 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	color: #acb1c0;
 }
 
-.is-focused [class*=" bmd-label"], .is-focused [class^=bmd-label] {
+.is-focused [class*=" bmd-label"], .is-focused [class^=bmd-label],
+	.is-filled [class*=" bmd-label"], .is-filled [class^=bmd-label] {
 	color: #acb1c0 !important;
-	top:-1.2rem;
+	top: -1.25rem !important;
 }
 
+.bmd-form-group.is-focused .bmd-label-floating, .bmd-form-group.is-filled .bmd-label-floating
+	{
+	top: -1.25rem !important;
+}
 
 .form-check .form-check-label {
 	font-size: 16px !important;
@@ -137,7 +142,6 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	color: #df5353;
 	font-size: 18px;
 }
-
 
 .main {
 	background-color: white;
@@ -297,7 +301,11 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 
 .select2-container--default .select2-selection--single {
 	border: none !important;
-	border-bottom: solid 1px #eaecef !important;
+	/* border-bottom: solid 1px #eaecef !important; */
+	background-image: none;
+	box-shadow: 0 2px 48px 0 rgb(0 0 0/ 8%);
+	height: 35px !important;
+	padding: 5px 0;
 }
 
 .my-check-box-label-checked {
@@ -539,7 +547,6 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	border-color: #487834 !important;
 }
 
-
 .form-control, .form-control:invalid, .is-focused .form-control {
 	background-image: none;
 	box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
@@ -548,11 +555,11 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 .is-focused {
 	box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
 }
+
 .form-control:focus {
 	border-bottom: 2px solid #60a244 !important;
 	box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14) !important;
 }
-
 
 /******************** tables *******************/
 .table {
@@ -601,6 +608,28 @@ th select {
 	border-radius: 7px !important
 }
 
+#yearsOfExperience select {
+	font-family: Roboto !important;
+	font-size: 13.5px !important;
+	font-weight: normal !important;
+	font-stretch: normal !important;
+	font-style: normal !important;
+	line-height: normal !important;
+	letter-spacing: 0.55px;
+	color: #72777b !important;
+	width: 200px !important;
+	height: auto !important;
+	padding: 5px 3px;
+	border-radius: 7px !important;
+	border: 1px solid #eee !important;
+	box-shadow: 0 1px 34px 0 rgba(0, 0, 0, 0.08) !important;
+	background-color: white !important;
+	background-image: none !important;
+	border-radius: 7px !important;
+	color: #4d4d4d;
+	border-radius: 7px !important
+}
+
 div.dataTables_wrapper div.dataTables_length select {
 	border: none !important;
 	box-shadow: 0 1px 34px 0 rgba(0, 0, 0, 0.08);
@@ -609,3 +638,24 @@ div.dataTables_wrapper div.dataTables_length select {
 	font-size: 14px;
 }
 
+table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before,
+	table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_desc:before,
+	table.dataTable thead .sorting_desc_disabled:before {
+	top: auto !important;
+	left: 93%;
+	right: 0;
+}
+
+table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after,
+	table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc:after,
+	table.dataTable thead .sorting_desc_disabled:after {
+	top: auto !important;
+	left: 97%;
+	right: 0;
+}
+
+.gardenHelpTable>tbody>tr>td, .gardenHelpTable>tbody>tr>th,
+	.gardenHelpTable>tfoot>tr>td, .gardenHelpTable>tfoot>tr>th,
+	.gardenHelpTable>thead>tr>td, .gardenHelpTable>thead>tr>th {
+	padding: 12px 8px !important;
+}

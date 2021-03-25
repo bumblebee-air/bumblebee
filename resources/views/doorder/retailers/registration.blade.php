@@ -314,7 +314,7 @@
                         <span>
                             2
                         </span>
-                            Locations Details <i class="fas fa-plus-circle color-e8ca49" style="cursor: pointer;margin-left: 5px;" @click="addLocation()"></i>
+                            Location Details <i class="fas fa-plus-circle color-e8ca49" style="cursor: pointer;margin-left: 5px;" @click="addLocation()"></i>
                             <i class="fas fa-info-circle location-tip-button" id="location-tip-button" aria-describedby="tooltip" @click="fadeLocationTip"></i>
                             <div id="location-tip" role="tooltip">
                                 Click on the plus button to add more locations
@@ -466,13 +466,13 @@
 
                                 <div class="col-sm-6">
                                     <div class="form-group bmd-form-group">
-                                        <input type="text" class="form-control" id="payment_exp_date" value="{{old('payment_exp_date')}}" placeholder="Expire Date" required>
+                                        <input type="text" class="form-control" id="payment_exp_date" value="{{old('payment_exp_date')}}" placeholder="Expiry Date (MM/YY)" required>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-6">
                                     <div class="form-group bmd-form-group">
-{{--                                        <input type="text" class="form-control" name="payment_exp_date" value="{{old('payment_exp_date')}}" placeholder="Expire Date" required>--}}
+{{--                                        <input type="text" class="form-control" name="payment_exp_date" value="{{old('payment_exp_date')}}" placeholder="Expiry Date (MM/YY)" required>--}}
                                         <img src="{{asset('images/pay-with-stripe.png')}}" style="max-width: 100%; max-height: 40px" alt="Pay With Stripe">
                                     </div>
                                 </div>
@@ -485,9 +485,9 @@
 
                     <div class="row">
                         <div class="col-md-12 terms-container">
-                            By clicking ‘Submit’, I hereby acknowledge and agree that I have read and understood
-                            <a href="#" style="color: #e8ca49">DoOrder Privacy Policy</a>. DoOrder use cookies to personalise your experience. For our full
-                            <a href="#" style="color: #e8ca49">Cookies Policy</a>.
+                            By clicking 'Submit', I hereby acknowledge and agree that I have read and understand
+                            <a href="https://44fc5dd5-ecb5-4c2e-bb94-31bcbc8408a1.filesusr.com/ugd/0b2e42_1b6020943d804795becb839f2c103421.pdf" style="color: #e8ca49">DoOrder's Privacy Policy</a>. DoOrder uses Cookies to personalise your
+                            experience. For DoOrder's full Cookies Policy, please <a href="https://44fc5dd5-ecb5-4c2e-bb94-31bcbc8408a1.filesusr.com/ugd/0b2e42_64b44367a7ab4471b94569c71c610c6e.pdf" style="color: #e8ca49">click here</a>.
                         </div>
 
                         <div class="col-md-12">

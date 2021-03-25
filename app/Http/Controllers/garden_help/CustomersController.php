@@ -27,7 +27,6 @@ class CustomersController extends Controller
     }
 
     public function postRegistrationForm(Request $request) {
-//        dd($request->all());
         $this->validate($request, [
             'work_location' => 'required',
         ]);
@@ -46,7 +45,7 @@ class CustomersController extends Controller
                 'name' => 'required',
                 'email' => 'required|unique:users',
                 'contact_through' => 'required',
-                'phone' => 'required_if:type_of_work,Residential',
+                'phone' => 'required_if:type_of_work,Residential|unique:users',
                 'password' => 'required_if:type_of_work,Residential|confirmed',
                 'service_types' => 'required_if:type_of_work,Residential',
                 'location' => 'required_if:type_of_work,Residential',
@@ -59,6 +58,7 @@ class CustomersController extends Controller
                 'contact_name' => 'required_if:type_of_work,Commercial',
                 'contact_number' => 'required_if:type_of_work,Commercial',
                 'available_date_time' => 'required_if:type_of_work,Commercial',
+                'service_types_json' => 'required_if:type_of_work,Residential',
             ]);
 
             //Create User
@@ -103,8 +103,8 @@ class CustomersController extends Controller
             $customer->available_date_time = $request->available_date_time;
             $customer->area_coordinates = $request->area_coordinates;
             $customer->address = $request->address;
+            $customer->service_types_json = $request->service_types_json;
             $customer->save();
-
           
             //Sending Redis event
             try{

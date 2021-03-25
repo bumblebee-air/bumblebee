@@ -133,7 +133,9 @@
                 });
             },
             fetchSkipDeliveryConfirmationError(err) {
-                console.log(err)
+              if (err.response.status === 401) {
+                this.unauthorizedUser();
+              }
             },
             subscribeIntoConfirmationChannel() {
                 this.socketInstance.on('doorder-channel:delivery-confirmation-order-id-' + this.id, (data) => {

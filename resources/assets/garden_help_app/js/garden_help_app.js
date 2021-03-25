@@ -112,7 +112,11 @@ Vue.mixin({
                         Accept: "application/json",
                         Authorization: user.access_token
                     }
-                })
+                }).then(res => {}).catch(err => {
+                    if (err.response.status === 401) {
+                        this.unauthorizedUser();
+                    }
+                });
         },
         logout() {
             this.$confirm({
@@ -129,6 +133,10 @@ Vue.mixin({
                     }
                 }
             })
+        },
+        unauthorizedUser() {
+            localStorage.removeItem('user');
+            this.$router.push({name: 'login'})
         }
     }
 });

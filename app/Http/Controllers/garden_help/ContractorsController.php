@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Alert;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Twilio\Rest\Client;
 use Validator;
@@ -228,7 +229,7 @@ class ContractorsController extends Controller
             ])) {
                 if ($job->contractor_id != $request->user()->id) {
                     return response()->json([
-                        'message' => 'This order does not belong to this driver',
+                        'message' => 'This job does not belong to this contractor',
                         'error' => 1
                     ], 403);
                 }
@@ -239,7 +240,21 @@ class ContractorsController extends Controller
                 } elseif ($request->status == 'arrived') {
                     $job->status = $request->status;
                 } elseif ($request->status == 'completed') {
+                    //Saving Job Image
+                    if ($request->job_image) {
+                        $base64_image = $request->job_image;
+                        $base64_image_format = '';
+                        if (preg_match('/^data:image\/(\w+);base64,/', $base64_image, $base64_image_format)) {
+                            $data = substr($base64_image, strpos($base64_image, ',') + 1);
+                            $data = base64_decode($data);
+                            $base64_image_path = 'uploads/jobs_uploads/' . Str::random(10).".$base64_image_format[1]";
+                            Storage::disk('local')->put($base64_image_path, $data);
+                            $job->job_image = $base64_image_path;
+                        }
+                    }
                     $job->status = $request->status;
+                    $job->skip_reason = $request->skip_reason;
+                    $job->job_services_types_json = $request->job_services_types_json;
                 }
                 $job->save();
                 if ($request->status != 'delivery_arrived') {

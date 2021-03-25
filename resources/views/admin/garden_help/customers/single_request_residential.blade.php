@@ -220,37 +220,21 @@ Request') @section('page-styles')
 										</div>
 									</div>
 									<div class="col-12">
-										<div class="row">
+										<div class="row" v-for="type in services_types">
 											<div class="col-md-3 col-6">
-												<label class="requestLabelGreen">Garden maintenance
-													(monthly)</label>
+												<label class="requestLabelGreen">@{{ type.title }}</label>
 											</div>
 											<div class="col-md-3 col-6">
-												<span class="requestSpanGreen">€100</span>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-md-3 col-6">
-												<label class="requestLabelGreen">Grass cutting</label>
-											</div>
-											<div class="col-md-3 col-6">
-												<span class="requestSpanGreen">€25</span>
+												<span class="requestSpanGreen">€@{{ getPropertySizeRate(type) }}</span>
 											</div>
 										</div>
-										<div class="row">
-											<div class="col-md-3 col-6">
-												<label class="requestLabelGreen">Gutter clearing</label>
-											</div>
-											<div class="col-md-3 col-6">
-												<span class="requestSpanGreen">€70</span>
-											</div>
-										</div>
+
 										<div class="row" style="margin-top: 15px">
 											<div class="col-md-3 col-6">
 												<label class="requestSpanGreen">Total</label>
 											</div>
 											<div class="col-md-3 col-6">
-												<span class="requestSpanGreen">€195</span>
+												<span class="requestSpanGreen">€@{{ getTotalPrice() }}</span>
 											</div>
 										</div>
 									</div>
@@ -334,45 +318,95 @@ Request') @section('page-styles')
 
 	</div>
 </div>
+@endsection
 
-<script type="text/javascript">
-    	function initMap() {
-            //Map Initialization
-            this.map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 12,
-                center: {lat: 53.346324, lng: -6.258668},
-                mapTypeId: "terrain",
+@section('page-scripts')
+	<script>
+		function initMap() {
+			//Map Initialization
+			this.map = new google.maps.Map(document.getElementById('map'), {
+				zoom: 12,
+				center: {lat: 53.346324, lng: -6.258668},
+				mapTypeId: "terrain",
 				mapTypeId: 'hybrid'
 			});
-            
-             // Define the LatLng coordinates for the polygon's path.
-   let area_coordinates= {!!$customer_request->area_coordinates!!};      
-   console.log(area_coordinates);    
-  const polygonCoords = [area_coordinates ];
-  // Construct the polygon.
-  const polygon = new google.maps.Polygon({
-    paths: polygonCoords,
-    strokeColor:"#0068b8",
-    strokeOpacity: 0.26,
-    strokeWeight: 2,
-    fillColor: "#0068b8",
-    fillOpacity: 0.35,
-  });
-  polygon.setMap(map);
-  // Create the bounds object
-    var bounds = new google.maps.LatLngBounds();
 
-    // Get paths from polygon and set event listeners for each path separately
-    polygon.getPath().forEach(function (path, index) {
-    
-        bounds.extend(path);
-    });
-    
-    // Fit Polygon path bounds
-    map.fitBounds(bounds);
-        }    
-    </script>
+			// Define the LatLng coordinates for the polygon's path.
+			let area_coordinates = {!!$customer_request->area_coordinates!!};
+			const polygonCoords = [area_coordinates];
+			// Construct the polygon.
+			const polygon = new google.maps.Polygon({
+				paths: polygonCoords,
+				strokeColor: "#0068b8",
+				strokeOpacity: 0.26,
+				strokeWeight: 2,
+				fillColor: "#0068b8",
+				fillOpacity: 0.35,
+			});
+			polygon.setMap(map);
+			// Create the bounds object
+			var bounds = new google.maps.LatLngBounds();
 
-<script async defer
-	src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=geometry,places,drawing&callback=initMap"></script>
+			// Get paths from polygon and set event listeners for each path separately
+			polygon.getPath().forEach(function (path, index) {
+
+				bounds.extend(path);
+			});
+
+			// Fit Polygon path bounds
+			map.fitBounds(bounds);
+		}
+
+		new Vue({
+			el: '#app',
+			data: {
+				services_types: {!! $customer_request->services_types_json !!},
+			},
+			mounted() {
+
+			},
+			methods: {
+				getPropertySizeRate(type) {
+					let property_size = "{{$customer_request->property_size}}";
+					property_size = property_size.replace(' Square Meters', '');
+					let rate_property_sizes = JSON.parse(type.rate_property_sizes);
+					for (let rate of rate_property_sizes) {
+						console.log(rate)
+						let size_from = rate.max_property_size_from;
+						let size_to = rate.max_property_size_to;
+						let rate_per_hour = rate.rate_per_hour;
+						console.log('ss')
+						if (parseInt(property_size) >= parseInt(size_from) && parseInt(property_size) <= parseInt(size_to)) {
+							let service_price = parseInt(rate_per_hour) * parseInt(type.min_hours);
+							console.log(this.total_price, service_price);
+							this.total_price += service_price;
+							return service_price;
+						}
+					}
+				},
+				getTotalPrice() {
+					let property_size = "{{$customer_request->property_size}}";
+					property_size = property_size.replace(' Square Meters', '');
+					let total_price = 0
+					for (let type of this.services_types) {
+						let rate_property_sizes = JSON.parse(type.rate_property_sizes);
+						for (let rate of rate_property_sizes) {
+							console.log(rate)
+							let size_from = rate.max_property_size_from;
+							let size_to = rate.max_property_size_to;
+							let rate_per_hour = rate.rate_per_hour;
+							console.log('ss')
+							if (parseInt(property_size) >= parseInt(size_from) && parseInt(property_size) <= parseInt(size_to)) {
+								let service_price = parseInt(rate_per_hour) * parseInt(type.min_hours);
+								total_price += service_price;
+							}
+						}
+					}
+					return total_price;
+				}
+			}
+		});
+	</script>
+
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=geometry,places,drawing&callback=initMap"></script>
 @endsection

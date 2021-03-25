@@ -228,6 +228,9 @@ export default {
               });
             })
             .catch(err => {
+              if (err.response.status === 401) {
+                this.unauthorizedUser();
+              }
               Vue.$toast.error(err.response.data.message, {
                 position: 'top'
               });

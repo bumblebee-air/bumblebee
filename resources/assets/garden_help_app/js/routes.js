@@ -6,6 +6,7 @@ import OrderDetailsComponent from "./components/OrderDetailsComponent";
 import OrderDeliveredComponent from "./components/OrderDeliveredComponent";
 import ForgotPasswordComponent from "./components/ForgotPasswordComponent";
 import ProfileComponent from "./components/ProfileComponent";
+import JobFinalizingComponent from './components/JobFinalizingComponent';
 
 const router = new VueRouter({
     routes: [
@@ -38,6 +39,12 @@ const router = new VueRouter({
             path: '/profile',
             name: 'user-profile',
             component: ProfileComponent,
+            beforeEnter: (to, from, next) => redirectIfNotAuthed(to, from, next)
+        },
+        {
+            path: '/job-finalizing',
+            name: 'job-finalizing',
+            component: JobFinalizingComponent,
             beforeEnter: (to, from, next) => redirectIfNotAuthed(to, from, next)
         },
         {

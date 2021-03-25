@@ -1,29 +1,33 @@
 @extends('templates.garden_help')
 @section('title', 'GardenHelp | Contractors Registration')
 @section('styles')
+<link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
 <style>
-.modal-body .row .d-flex {
-	padding-bottom: 13px;
-}
+	.iti {
+		width: 100%;
+	}
+	.modal-body .row .d-flex {
+		padding-bottom: 13px;
+	}
 
-.content-card {
-	border-radius: 20px;
-	box-shadow: 0 20px 20px 0 rgba(0, 0, 0, 0.08);
-	background-color: #ffffff;
-	margin-top: 10px;
-	padding-top: 25px;
-}
+	.content-card {
+		border-radius: 20px;
+		box-shadow: 0 20px 20px 0 rgba(0, 0, 0, 0.08);
+		background-color: #ffffff;
+		margin-top: 10px;
+		padding-top: 25px;
+	}
 
-.select-icon {
-	position: absolute;
-	right: 0;
-	color: gray;
-	margin-top: 10px;
-	margin-right: 15px;
-	color: #c3c7d2 !important;
-	transition: 0.3s ease-in-out;
-	font-size: 20px;
-}
+	.select-icon {
+		position: absolute;
+		right: 0;
+		color: gray;
+		margin-top: 10px;
+		margin-right: 15px;
+		color: #c3c7d2 !important;
+		transition: 0.3s ease-in-out;
+		font-size: 20px;
+	}
 </style>
 @endsection
 @section('content')
@@ -68,9 +72,11 @@
 					</div>
 					<div class="col-md-12 mb-3">
 						<div class="form-group bmd-form-group">
-							<label class="bmd-label-floating">Phone number</label> <input
-								type="tel" class="form-control" name="phone_number"
+							<label>Phone number</label>
+							<input
+								type="tel" class="form-control" id="phone_number"
 								value="{{old('phone_number')}}" required>
+							<input type="hidden" name="phone_number">
 						</div>
 					</div>
 					<div class="col-md-12 mb-3">
@@ -763,6 +769,7 @@
 @section('scripts')
 <script src="{{ asset('js/bootstrap-selectpicker.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>
 
 <script>
         var app = new Vue({
@@ -913,7 +920,15 @@
 				contact_through: ''
             },
             mounted() {
-
+            	let phone_input = document.getElementById('phone_number');
+            	let input_name = 'phone_number';
+				window.intlTelInput(phone_input, {
+					hiddenInput: input_name,
+					initialCountry: 'IE',
+					separateDialCode: true,
+					preferredCountries: ['IE', 'GB'],
+					utilsScript: "{{asset('js/intlTelInput/utils.js')}}"
+				});
             },
             methods: {
                 changeExperienceLevel() {

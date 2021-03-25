@@ -323,7 +323,9 @@
                 }
             },
             fetchJobDataError(err) {
-                console.log(err.response.status);
+              if (err.response.status === 401) {
+                this.unauthorizedUser();
+              }
             },
             getCurrentLocation() {
                 this.getGeolocationPosition().then(position => {
@@ -426,6 +428,9 @@
                 });
             },
             fetchUpdateStatusError(err) {
+              if (err.response.status === 401) {
+                this.unauthorizedUser();
+              }
                 Vue.$toast.error(err.response.data.message, {
                     position: 'top'
                 });
@@ -514,7 +519,15 @@
                          */
                         callback: confirm => {
                             if (confirm) {
+                              if (ordersStatus == 'completed') {
+                                this.$router.push({name: 'job-finalizing', params: {
+                                    id: this.job_data.id,
+                                    services_types: this.job_data.services_types_json,
+                                  }});
+
+                              } else {
                                 this.updateJobStatus(ordersStatus);
+                              }
                             }
                         }
                     }

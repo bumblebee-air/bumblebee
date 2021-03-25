@@ -205,7 +205,8 @@
                             <div class="form-group bmd-form-group">
                                 <label for="type_of_experience">Service type</label>
                                 <div class="d-flex justify-content-between" @click="openModal('service_type')">
-                                    <input name="service_types" type="text" class="form-control" id="service_type_input" v-model="service_types_input" {{old('service_details')}} required>
+                                    <input name="service_types" type="text" class="form-control" id="service_type_input" v-model="service_types_input" required>
+                                    <input type="hidden" name="service_types_json" v-model="JSON.stringify(service_types_json)">
                                     <a class="select-icon">
                                         <i class="fas fa-caret-down"></i>
                                     </a>
@@ -703,7 +704,8 @@
                 contact_through: '',
                 service_types_input: '',
                 site_details_input: '',
-                property_photo_input: ''
+                property_photo_input: '',
+                service_types_json: []
             },
             mounted() {
                 if (this.type_of_work == 'Commercial') {
@@ -753,14 +755,14 @@
                     let list = '';
                     if (type === 'service_details') {
                         let service_types_input = '';
+                        let service_types_json = [];
                         list = this.service_types;
                         for (let item of list) {
                             item.is_checked === true ? service_types_input += (service_types_input == '' ? item.title : ', ' + item.title) : '';
+                            item.is_checked === true ? service_types_json.push(item) : '';
                         }
-                        // for (let item of this.other_service_types) {
-                        //     item.is_checked === true ? service_types_input += (service_types_input == '' ? item.title : ', ' + item.title) : '';
-                        // }
                         this.service_types_input = service_types_input;
+                        this.service_types_json = service_types_json;
                     } else if (type === 'site_details') {
                         let site_details_input = '';
                         list = this.site_details;

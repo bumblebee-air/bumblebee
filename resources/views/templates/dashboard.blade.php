@@ -24,6 +24,7 @@
     @if(Auth::guard('garden-help')->check())
         <link rel="icon" type="image/jpeg" href="{{asset('images/garden-help-fav.png')}}">    
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link href="{{asset('css/gardenhelp-styles.css')}}" rel="stylesheet">
         <link href="{{asset('css/gardenhelp_dashboard.css')}}" rel="stylesheet">
     <link href="{{asset('css/gaedenhelp-butttons-styles.css')}}" rel="stylesheet">

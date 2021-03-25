@@ -27,7 +27,7 @@ body, html {
 input {
 	font-size: 16px !important;
 	letter-spacing: 0.3px;
-	color: #ccb13e !important;
+	color: #60a244 !important;
 }
 
 @media screen and (min-width: 900px) {
@@ -40,6 +40,10 @@ input {
 	color: #acb1c0 !important;
 }
 /************ end login *****************/
+
+.main-panel>.content {
+	margin-top: 0px;
+}
 input, .select2-container--default .select2-selection--single .select2-selection__rendered
 	{
 	font-family: Roboto;

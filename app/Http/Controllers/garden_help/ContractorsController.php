@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\garden_help;
 
 use App\Contractor;
@@ -19,12 +18,14 @@ use Validator;
 
 class ContractorsController extends Controller
 {
+
     public function index()
     {
         return view('garden_help.contractors.registration');
     }
 
-    public function save(Request $request) {
+    public function save(Request $request)
+    {
         $this->validate($request, [
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email',
@@ -52,15 +53,15 @@ class ContractorsController extends Controller
         $user->save();
 
         $client = \App\Client::where('name', 'GardenHelp')->first();
-        if($client) {
-            //Making Client Relation
+        if ($client) {
+            // Making Client Relation
             UserClient::create([
                 'user_id' => $user->id,
                 'client_id' => $client->id
             ]);
         }
 
-        //Saving new contractor registration
+        // Saving new contractor registration
         $contractor = Contractor::create([
             'user_id' => $user->id,
             'name' => $request->name,
@@ -93,8 +94,8 @@ class ContractorsController extends Controller
             'type_of_work_selected_value' => $request->type_of_work_selected_value
         ]);
 
-        \Mail::to(env('GH_NOTIF_EMAIL','kim@bumblebeeai.io'))->send(new ContractorRegistrationMail($contractor));
-        if($contractor->email!=null && $contractor->email!=''){
+        \Mail::to(env('GH_NOTIF_EMAIL', 'kim@bumblebeeai.io'))->send(new ContractorRegistrationMail($contractor));
+        if ($contractor->email != null && $contractor->email != '') {
             \Mail::to($contractor->email)->send(new ContractorRegistrationMail($contractor));
         }
 
@@ -104,31 +105,40 @@ class ContractorsController extends Controller
                 'id' => $contractor->id,
                 'toast_text' => 'There is a new contractor request.',
                 'alert_text' => "There is a new contractor request! with order No# $contractor->id",
-                'click_link' => route('garden_help_getContractorSingleRequest' , ['garden-help', $contractor->id]),
+                'click_link' => route('garden_help_getContractorSingleRequest', [
+                    'garden-help',
+                    $contractor->id
+                ])
             ]
         ]));
 
-        alert()->success( 'You registration saved successfully');
+        alert()->success('You registration saved successfully');
         return redirect()->back();
     }
 
-    public function getContractorsRequests() {
-
+    public function getContractorsRequests()
+    {
         $contractors_requests = Contractor::paginate(20);
-        return view('admin.garden_help.contractors.requests', ['contractors_requests' => $contractors_requests]);
+        return view('admin.garden_help.contractors.requests', [
+            'contractors_requests' => $contractors_requests
+        ]);
     }
 
-    public function getSingleRequest($client_name, $id) {
+    public function getSingleRequest($client_name, $id)
+    {
         $contractor_request = Contractor::find($id);
-        if (!$contractor_request) {
+        if (! $contractor_request) {
             abort(404);
         }
-        return view('admin.garden_help.contractors.single_request', ['contractor_request' => $contractor_request]);
+        return view('admin.garden_help.contractors.single_request', [
+            'contractor_request' => $contractor_request
+        ]);
     }
 
-    public function postSingleRequest(Request $request, $client_name, $id) {
+    public function postSingleRequest(Request $request, $client_name, $id)
+    {
         $singleRequest = Contractor::find($id);
-        if (!$singleRequest) {
+        if (! $singleRequest) {
             abort(404);
         }
         if ($request->rejection_reason) {
@@ -136,42 +146,43 @@ class ContractorsController extends Controller
             $singleRequest->status = 'missing';
             $singleRequest->save();
             alert()->success('Contractor rejected successfully');
-            //Sending SMS
-            $body = "Hi ". $singleRequest->name . ",
+            // Sending SMS
+            $body = "Hi " . $singleRequest->name . ",
              we are sorry, your contractor profile has been rejected.";
             TwilioHelper::sendSMS('GardenHelp', $singleRequest->phone_number, $body);
         } else {
             $singleRequest->status = 'completed';
             $singleRequest->save();
-            //update user password send sms to contractor with login details
+            // update user password send sms to contractor with login details
             $user = User::find($singleRequest->user_id);
-            try{
+            try {
                 $stripe_manager = new StripeManager();
-                $stripe_account = $stripe_manager->createCustomAccount($user,'individual',5261);
-            }catch(\Exception $exception){
-                \Log::error($exception->getMessage(),$exception->getTrace());
+                $stripe_account = $stripe_manager->createCustomAccount($user, 'individual', 5261);
+            } catch (\Exception $exception) {
+                \Log::error($exception->getMessage(), $exception->getTrace());
             }
             alert()->success('Contractor accepted successfully');
         }
         return redirect()->route('garden_help_getContractorsRequests', 'garden-help');
     }
 
-    public function getJobsList(Request $request) {
-        $availableJobs = Customer::where('type', 'job')->
-            whereNull('contractor_id')->get();
-        $myJobs = Customer::where('type', 'job')->
-        where('contractor_id', $request->user()->id)->get();
+    public function getJobsList(Request $request)
+    {
+        $availableJobs = Customer::where('type', 'job')->whereNull('contractor_id')->get();
+        $myJobs = Customer::where('type', 'job')->where('contractor_id', $request->user()->id)
+            ->get();
 
         return response()->json([
             'available_jobs' => $availableJobs,
-            'my_jobs' => $myJobs,
+            'my_jobs' => $myJobs
         ]);
     }
 
-    public function getJobDetails(Request $request) {
+    public function getJobDetails(Request $request)
+    {
         $job_id = $request->get('job_id');
         $job = Customer::find($job_id);
-        if(!$job){
+        if (! $job) {
             $response = [
                 'order' => [],
                 'message' => 'No order was found with this ID',
@@ -195,7 +206,8 @@ class ContractorsController extends Controller
         return response()->json($response)->setStatusCode(200);
     }
 
-    public function updateJobDriverStatus(Request $request) {
+    public function updateJobDriverStatus(Request $request)
+    {
         $erorrs = Validator::make($request->all(), [
             'job_id' => 'required',
             'status' => 'required|in:accepted,rejected,on_route,arrived,completed'
@@ -204,37 +216,39 @@ class ContractorsController extends Controller
         if ($erorrs->fails()) {
             return response()->json([
                 'errors' => 1,
-                'message' => 'There is an invalid parameter',
+                'message' => 'There is an invalid parameter'
             ], 402);
         }
-        //Check if this job exists
-        $job = Customer::where('id', $request->job_id)
-            ->where('type', 'job')->first();
-        if($job) {
-            if (!in_array($request->status, ['accepted', 'rejected'])) {
-                if($job->contractor_id != $request->user()->id){
+        // Check if this job exists
+        $job = Customer::where('id', $request->job_id)->where('type', 'job')->first();
+        if ($job) {
+            if (! in_array($request->status, [
+                'accepted',
+                'rejected'
+            ])) {
+                if ($job->contractor_id != $request->user()->id) {
                     return response()->json([
                         'message' => 'This order does not belong to this driver',
                         'error' => 1
-                    ],403);
+                    ], 403);
                 }
                 if ($request->status == 'on_route') {
                     $job->status = $request->status;
                     $body = "The contractor is on his way to you.";
                     TwilioHelper::sendSMS('GardenHelp', $job->phone_number, $body);
-                } elseif ($request->status=='arrived') {
+                } elseif ($request->status == 'arrived') {
                     $job->status = $request->status;
-                } elseif($request->status=='completed'){
+                } elseif ($request->status == 'completed') {
                     $job->status = $request->status;
                 }
                 $job->save();
-                if ($request->status!='delivery_arrived') {
+                if ($request->status != 'delivery_arrived') {
                     Redis::publish('garden-help-channel', json_encode([
                         'event' => 'update-job-status',
                         'data' => [
                             'id' => $job->id,
                             'status' => $job->status,
-                            'contactor' => $job->contractor ? $job->contractor->name : null,
+                            'contactor' => $job->contractor ? $job->contractor->name : null
                         ]
                     ]));
                 }
@@ -244,8 +258,8 @@ class ContractorsController extends Controller
                     'error' => 0
                 ]);
             } else {
-                if($request->status == 'accepted'){
-                    if($job->contractor_id != null && $job->contractor_id != $request->user()->id){
+                if ($request->status == 'accepted') {
+                    if ($job->contractor_id != null && $job->contractor_id != $request->user()->id) {
                         return response()->json([
                             'message' => 'This job has already been taken by another contractor',
                             'error' => 1
@@ -253,11 +267,11 @@ class ContractorsController extends Controller
                     }
                     $job->status = 'matched';
                     $job->contractor_id = $request->user()->id;
-                    //Sending Twilio SMS
+                    // Sending Twilio SMS
                     $body = "Your request has accepted by: " . $request->user()->name . " and has been scheduled in " . $job->available_date_time;
                     TwilioHelper::sendSMS('GardenHelp', $job->phone_number, $body);
-                } elseif ($request->status == 'rejected'){
-                    if($job->driver != $request->user()->id){
+                } elseif ($request->status == 'rejected') {
+                    if ($job->driver != $request->user()->id) {
                         return response()->json([
                             'message' => 'This job does not belong to this contractor',
                             'error' => 1
@@ -272,7 +286,7 @@ class ContractorsController extends Controller
                     'data' => [
                         'id' => $job->id,
                         'status' => $job->status,
-                        'contactor' => $job->contractor ? $job->contractor->name : null,
+                        'contactor' => $job->contractor ? $job->contractor->name : null
                     ]
                 ]));
                 return response()->json([
@@ -287,16 +301,17 @@ class ContractorsController extends Controller
         ], 403);
     }
 
-    public function changePassword(Request $request) {
+    public function changePassword(Request $request)
+    {
         $errors = \Validator::make($request->all(), [
             'old_password' => 'required',
-            'new_password' => 'required',
+            'new_password' => 'required'
         ]);
 
         if ($errors->fails()) {
             return response()->json([
                 'errors' => 1,
-                'message' => 'There is an invalid parameter',
+                'message' => 'There is an invalid parameter'
             ], 402);
         }
 
@@ -316,30 +331,31 @@ class ContractorsController extends Controller
         }
     }
 
-    public function updateProfile(Request $request) {
+    public function updateProfile(Request $request)
+    {
         $errors = \Validator::make($request->all(), [
             'business_hours' => 'required',
             'business_hours_json' => 'required',
-            'name' => 'required',
+            'name' => 'required'
         ]);
 
         if ($errors->fails()) {
             return response()->json([
                 'errors' => 1,
-                'message' => 'There is an invalid parameter',
+                'message' => 'There is an invalid parameter'
             ], 402);
         }
-        //Update User Name
-        $user =  User::find(auth()->user()->id);
+        // Update User Name
+        $user = User::find(auth()->user()->id);
         $user->name = $request->name;
         $user->is_profile_completed = true;
         $user->save();
-        //Update User profile
+        // Update User profile
         $contractor = Contractor::where('user_id', $user->id)->first();
         $contractor->update([
             'name' => $request->name,
             'business_hours' => $request->business_hours,
-            'business_hours_json' => json_encode($request->business_hours_json),
+            'business_hours_json' => json_encode($request->business_hours_json)
         ]);
         return response()->json([
             'errors' => 0,
@@ -347,18 +363,18 @@ class ContractorsController extends Controller
         ]);
     }
 
-    public function getProfile(Request $request) {
+    public function getProfile(Request $request)
+    {
         return response()->json([
             'errors' => 0,
             'data' => [
                 'full_name' => auth()->user()->name,
                 'phone' => auth()->user()->phone,
-                'email' => auth()->user()->email,
+                'email' => auth()->user()->email
             ]
         ]);
     }
-    
-    
+
     public function getContractorsList()
     {
         $contractors = Contractor::where('status', 'completed')->paginate(20);
@@ -366,36 +382,47 @@ class ContractorsController extends Controller
             'contractors' => $contractors
         ]);
     }
-    
-    public function getSingleContractor($client,$id){
+
+    public function getSingleContractor($client, $id)
+    {
         $contractor = Contractor::find($id);
-        if (!$contractor) {
+        if (! $contractor) {
             abort(404);
         }
-        return view('admin.garden_help.contractors.single_contractor', ['contractor' => $contractor,
-            'readOnly' => 1]);
+        return view('admin.garden_help.contractors.single_contractor', [
+            'contractor' => $contractor,
+            'readOnly' => 1
+        ]);
     }
-    
-    public function getSingleContractorEdit($client,$id){
+
+    public function getSingleContractorEdit($client, $id)
+    {
         $contractor = Contractor::find($id);
-        if (!$contractor) {
+        if (! $contractor) {
             abort(404);
         }
-        return view('admin.garden_help.contractors.single_contractor', ['contractor' => $contractor,
-            'readOnly' => 0]);
+        return view('admin.garden_help.contractors.single_contractor', [
+            'contractor' => $contractor,
+            'readOnly' => 0
+        ]);
     }
-    
-    public function postEditContractor(Request $request){
-        //dd($request);
-        
-        alert()->success( 'Contractor updated successfully');
+
+    public function postEditContractor(Request $request)
+    {
+        // dd($request);
+        alert()->success('Contractor updated successfully');
         return redirect()->to('garden-help/contractors/contractors_list');
     }
-    
+
     public function postDeleteContractor(Request $request)
     {
         // dd($request);
         alert()->success('Contractor deleted successfully');
         return redirect()->back();
+    }
+
+    public function getContractorsRoster()
+    {
+        return view('admin.garden_help.contractors.roster');
     }
 }

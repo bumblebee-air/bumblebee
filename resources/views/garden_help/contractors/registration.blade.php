@@ -28,6 +28,9 @@
 		transition: 0.3s ease-in-out;
 		font-size: 20px;
 	}
+	.bmd-form-group .bmd-label-static {
+		top: -1rem !important;
+	}
 </style>
 @endsection
 @section('content')
@@ -187,17 +190,16 @@
 							</div>
 						</div>
 					</div>
+					
 					<div class="col-md-12 mb-3">
 						<div class="form-group bmd-form-group">
-							<label for="type_of_experience">Type of work experience </label>
-							<div class="d-flex justify-content-between"
-								@click="openModal('type_of_experience')">
-								<input name="type_of_work_exp" type="text" class="form-control"
-									id="type_of_experience" v-model="experience_type_input"
+							<label  class="" for="type_of_experience">Type of work experience </label>
+							<input name="type_of_work_exp" type="text" class="form-control"
+									id="type_of_experience" v-model="experience_type_input" @click="openModal('type_of_experience')"
 									required>
+							
 								<input type="hidden" v-model="type_of_work_selected_value" name="type_of_work_selected_value">
-								<a class="select-icon"> <i class="fas fa-caret-down"></i></a>
-							</div>
+							
 							<!-- Button trigger modal -->
 							<a id="type_of_experience_btn_modal" data-toggle="modal"
 								data-target="#type_of_experienceModal" style="display: none"></a>
@@ -255,8 +257,8 @@
 						</div>
 					</div>
 					<div class="col-md-12 mb-3">
-						<div class="form-group form-file-upload form-file-multiple">
-							<label class="bmd-label-static" for="cv"> Upload CV @{{experience_level_selected_value == 3 ? '*' : ''}} </label>
+						<div class="form-group form-file-upload form-file-multiple bmd-form-group">
+							<label class="" for="cv"> Upload CV @{{experience_level_selected_value == 3 ? '*' : ''}} <br> </label>
 							<input id="cv" name="cv" type="file" class="inputFileHidden" @change="onChangeFile($event, 'cv_input')">
 							<div class="input-group" @click="addFile('cv')">
 								<input type="text" id="cv_input" class="form-control inputFileVisible" placeholder="Upload file">
@@ -271,8 +273,8 @@
 
 					<div class="col-md-12 mb-3">
 						<div class="form-group form-file-upload form-file-multiple">
-							<label class="bmd-label-static" for="job_reference"> Upload job
-								references </label> <input id="job_reference"
+							<label class="" for="job_reference"> Upload job
+								references  <br></label> <input id="job_reference"
 								name="job_reference" type="file" class="inputFileHidden"
 								@change="onChangeFile($event,'job_reference_input')">
 							<div class="input-group" @click="addFile('job_reference')">
@@ -428,7 +430,7 @@
 								value="{{old('vat_number')}}">
 						</div>
 					</div>
-					<div class="col-md-12 mb-3">
+					<div class="col-md-12 mb-1">
 						<div class="form-group form-file-upload form-file-multiple">
 							<label for="vat-number">Upload insurance document</label> <input
 								name="insurance_document" id="insurance_document" type="file"
@@ -446,7 +448,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-12 mb-3">
+					<div class="col-md-12 mb-1">
 						<div class="form-group ">
 							<label class="bmd-label-floating" for="">Do you have a
 								smartphone?</label>
@@ -477,7 +479,7 @@
 						</div>
 					</div>
 
-					<div class="col-md-12">
+					<div class="col-md-12 mb-3">
 						<div class="form-group">
 							<label>Contact through</label>
 							<div class="d-flex">
@@ -501,7 +503,7 @@
 
 					<div class="col-md-12 mb-3">
 						<div class="form-group bmd-form-group">
-							<label class="bmd-label-floating" for="transport_types">Type of
+							<label class="" for="transport_types">Type of
 								Transport</label>
 							<div class="d-flex justify-content-between">
 								<input type="text" class="form-control" id="transport_types"

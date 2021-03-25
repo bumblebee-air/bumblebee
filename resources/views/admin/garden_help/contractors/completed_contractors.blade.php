@@ -44,7 +44,7 @@ tr.order-row:hover, tr.order-row:focus {
 												<th class="filterhead">Actions</th>
 											</tr>
 											<tr class="theadColumnsNameTr">
-												<th>Date/Time</th>
+												<th style="width: 16%">Date/Time</th>
 												<th>Years Of Experience</th>
 												<th>Contractor Name</th>
 												<th>Request No</th>
@@ -74,11 +74,7 @@ tr.order-row:hover, tr.order-row:focus {
 														<i class="fas fa-trash-alt"></i>
 													</button></td>
 											</tr>
-											@endforeach @else
-											<tr>
-												<td colspan="8" class="text-center"><strong>No data found.</strong>
-												</td>
-											</tr>
+											@endforeach
 											@endif
 										</tbody>
 									</table>

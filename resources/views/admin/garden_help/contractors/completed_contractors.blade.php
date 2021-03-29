@@ -53,14 +53,14 @@ tr.order-row:hover, tr.order-row:focus {
 										cellspacing="0" width="100%" style="width: 100%">
 
 										<thead>
-											<tr>
-												<th class="filterhead">Date/Time</th>
-												<th class="filterhead">Years Of Experience</th>
-												<th class="filterhead">Contractor Name</th>
-												<th class="filterhead">Request No</th>
-												<th class="filterhead">Address</th>
-												<th class="filterhead">Actions</th>
-											</tr>
+<!-- 											<tr> -->
+<!-- 												<th class="filterhead">Date/Time</th> -->
+<!-- 												<th class="filterhead">Years Of Experience</th> -->
+<!-- 												<th class="filterhead">Contractor Name</th> -->
+<!-- 												<th class="filterhead">Request No</th> -->
+<!-- 												<th class="filterhead">Address</th> -->
+<!-- 												<th class="filterhead">Actions</th> -->
+<!-- 											</tr> -->
 											<tr class="theadColumnsNameTr">
 												<th style="width: 16%">Date/Time</th>
 												<th>Years Of Experience</th>

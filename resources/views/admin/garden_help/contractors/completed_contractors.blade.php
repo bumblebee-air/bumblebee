@@ -9,6 +9,22 @@ tr.order-row:hover, tr.order-row:focus {
 	cursor: pointer;
 	box-shadow: 5px 5px 18px #88888836, 5px -5px 18px #88888836;
 }
+
+#yearsOfExperience {
+	font-family: Roboto;
+	font-size: 12px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.66px;
+	color: #4d4d4d;
+}
+
+#selectFilter {
+	display: inline-block;
+	width: 200px;
+}
 </style>
 @endsection @section('page-content')
 
@@ -31,9 +47,11 @@ tr.order-row:hover, tr.order-row:focus {
 						<div class="card-body">
 							<div class="container">
 								<div class="table-responsive">
+									<p id="yearsOfExperience"></p>
 									<table id="contractorsTable"
-										class="table table-no-bordered table-hover garden-helpTable"
+										class="table table-no-bordered table-hover gardenHelpTable"
 										cellspacing="0" width="100%" style="width: 100%">
+
 										<thead>
 											<tr>
 												<th class="filterhead">Date/Time</th>
@@ -74,8 +92,7 @@ tr.order-row:hover, tr.order-row:focus {
 														<i class="fas fa-trash-alt"></i>
 													</button></td>
 											</tr>
-											@endforeach
-											@endif
+											@endforeach @endif
 										</tbody>
 									</table>
 									<nav aria-label="pagination" class="float-right">
@@ -113,27 +130,25 @@ tr.order-row:hover, tr.order-row:focus {
 					<form method="POST" id="delete-contractor"
 						action="{{url('garden-help/contractors/delete')}}"
 						style="margin-bottom: 0 !important;">
-						@csrf <input type="hidden" id="contractorId" name="contractorId" value="" />
+						@csrf <input type="hidden" id="contractorId" name="contractorId"
+							value="" />
 					</form>
 				</div>
 			</div>
 			<div class="modal-footer d-flex justify-content-around">
-				<button type="button"
-					class="btn  btn-register btn-gardenhelp-green"
+				<button type="button" class="btn  btn-register btn-gardenhelp-green"
 					onclick="$('form#delete-contractor').submit()">Yes</button>
 				<button type="button"
 					class="btn btn-register  btn-gardenhelp-danger"
 					data-dismiss="modal">Cancel</button>
 			</div>
-			
-			
+
+
 		</div>
 	</div>
 </div>
 <!-- end delete contractor modal -->
-@endsection
-
-@section('page-scripts')
+@endsection @section('page-scripts')
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -154,10 +169,26 @@ $(document).ready(function() {
     	} ],
     	
         initComplete: function () {
+         var column = this.api().column(1);
+                  var select = $('<select id="selectFilter" class="form-control"><option value="">Select years of experience</option></select>')
+                    .appendTo( $('#yearsOfExperience').empty().text('Filter ') )
+                    .on( 'change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                        );
+                  column
+                    .search( val ? '^'+val+'$' : '', true, false )
+                    .draw();
+                      
+                  } );
+                  column.data().unique().sort().each( function ( d, j ) {
+                    select.append( '<option value="'+d+'">'+d+'</option>' );
+                  } );    
         }
     });
     
-      $(".filterhead").each(function (i) {
+    
+     $(".filterhead").each(function (i) {
                  if (i == 1  ) {
                      var select = $('<select ><option value="">Select '+$(this).text()+'</option></select>')
                          .appendTo($(this).empty())
@@ -172,6 +203,7 @@ $(document).ready(function() {
                     $(this).empty();
                  }
              });
+                      
     
 } );
 

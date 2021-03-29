@@ -240,14 +240,14 @@ class ContractorsController extends Controller
                 } elseif ($request->status == 'arrived') {
                     $job->status = $request->status;
                 } elseif ($request->status == 'completed') {
-                    //Saving Job Image
+                    // Saving Job Image
                     if ($request->job_image) {
                         $base64_image = $request->job_image;
                         $base64_image_format = '';
                         if (preg_match('/^data:image\/(\w+);base64,/', $base64_image, $base64_image_format)) {
                             $data = substr($base64_image, strpos($base64_image, ',') + 1);
                             $data = base64_decode($data);
-                            $base64_image_path = 'uploads/jobs_uploads/' . Str::random(10).".$base64_image_format[1]";
+                            $base64_image_path = 'uploads/jobs_uploads/' . Str::random(10) . ".$base64_image_format[1]";
                             Storage::disk('local')->put($base64_image_path, $data);
                             $job->job_image = $base64_image_path;
                         }
@@ -436,8 +436,65 @@ class ContractorsController extends Controller
         return redirect()->back();
     }
 
-    public function getContractorsRoster()
+    public function getContractorsRoster(Request $request)
     {
-        return view('admin.garden_help.contractors.roster');
+        $level1 = new Item();
+        $level1->title = "3 contractors";
+        $level1->start = "2021-03-03";
+        $level1->className = "level1";
+
+        $level2 = new Item();
+        $level2->title = "5 contractors";
+        $level2->start = "2021-03-03";
+        $level2->className = "level2";
+
+        $level3 = new Item();
+        $level3->title = "2 contractors";
+        $level3->start = "2021-03-03";
+        $level3->className = "level3";
+
+        $events = array(
+            $level1,
+            $level2,
+            $level3
+        );
+        // dd($events);
+        // dd(json_encode($events));
+
+        return view('admin.garden_help.contractors.roster', [
+            'events' => json_encode($events)
+        ]);
     }
+
+    public function postContractorsRoster(Request $request)
+    {
+        $date = $request->get('date');
+        
+         
+        $level1 = new Item();
+        $level1->title = "John Dow / Level 1 / 09:00-17:00 / Quarry Hill,Limerick,Ireland";
+        $level1->className = "level1";
+        
+        $level2 = new Item();
+        $level2->title = "John Dow / Level 2 / 09:00-17:00 / Quarry Hill,Limerick,Ireland";
+        $level2->className = "level2";
+        
+        $level3 = new Item();
+        $level3->title = "John Dow / Level 3 / 09:00-17:00 / Quarry Hill,Limerick,Ireland";
+        $level3->className = "level3";
+        
+        $events = array(
+            $level1,
+            $level2,
+            $level3
+        );
+        
+        return response()->json(array('date'=> $date, 'events'=>$events), 200);
+    }
+}
+
+class Item
+{
+
+    public $title, $start, $className;
 }

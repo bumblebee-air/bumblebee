@@ -223,6 +223,7 @@ Route::group(['prefix' => '{client_name}'], function () {
             Route::post('edit/{id}', 'garden_help\ContractorsController@postEditContractor')->name('garden_help_postEditContractor');
             Route::post('delete', 'garden_help\ContractorsController@postDeleteContractor')->name('garden_help_postDeleteContractor');
             Route::get('roster', 'garden_help\ContractorsController@getContractorsRoster')->name('garden_help_getContractorsRoster');
+            Route::get('roster-data', 'garden_help\ContractorsController@postContractorsRoster')->name('garden_help_postContractorsRoster');
         });
         Route::group(['prefix' => 'customers'], function () {
             Route::get('requests', 'garden_help\CustomersController@getCustomersRequests')->name('garden_help_getCustomerssRequests');

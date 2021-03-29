@@ -706,7 +706,9 @@ class DriversController extends Controller
         $user->save();
         //Update User profile
         $driver = DriverProfile::where('user_id', $user->id)->first();
-        $driver->name = $request->name;
+        $name_split = explode(' ',$request->name);
+        $driver->first_name = $name_split[0];
+        $driver->last_name = isset($name_split[1])? $name_split[1] : '';
         $driver->business_hours = $request->business_hours;
         $driver->save();
         //return json response

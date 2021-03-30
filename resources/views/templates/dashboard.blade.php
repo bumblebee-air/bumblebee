@@ -40,7 +40,16 @@
         <link rel="icon" type="image/jpeg" href="{{asset('images/doorder-favicon.svg')}}">
 <!--         <link href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" rel="stylesheet"> -->
     @endif
-    <!--DoOrder Custom Style-->
+    <!--DoomYoga Custom Style-->
+    @if(Auth::guard('doom-yoga')->check())
+    <link href="{{asset('css/doom-yoga-styles.css')}}" rel="stylesheet">
+    <link href="{{asset('css/doom-yoga-butttons-styles.css')}}" rel="stylesheet">
+     <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Arbutus+Slab&display=swap" rel="stylesheet">
+    
+    <!-- favicon -->
+    <link rel="icon" type="image/jpeg" href="{{asset('images/doom-yoga/doom-yoga-logo.png')}}">
+    @endif
 
     @yield('page-styles')
     <!-- Fonts -->

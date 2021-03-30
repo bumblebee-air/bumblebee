@@ -579,6 +579,22 @@
 					<p>Logout</p>
 			</a></li>
 		</ul>
+		@elseif(Auth::guard('doom-yoga')->check())
+		<ul class="nav">
+			<li class="nav-item"><a class="nav-link d-flex"
+				href="{{url('garden-help/home')}}"> {{-- <i
+					class="fas fa-plus-circle"></i>--}} <img class="my-nav-icon"
+					src="{{asset('images/gardenhelp_icons/Dashboard-white.png')}}"
+					alt="Dashboard">
+					<p>Dashboard Y</p>
+			</a></li>
+			<li class="nav-item "><a class="nav-link d-flex"
+				href="{{url('logout')}}"> {{-- <i class="fas fa-sign-out-alt"></i>--}}
+					<img class="my-nav-icon"
+					src="{{asset('images/doorder_icons/logout-outline.png')}}" alt="">
+					<p>Logout</p>
+			</a></li>
+		</ul>	
 		@endif
 	</div>
 	@if($admin_nav_background_image!=null)

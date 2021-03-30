@@ -34,7 +34,7 @@ input[type="radio"]:checked+div i, input[type="radio"]:checked+div i:before
 </style>
 @endsection @section('content')
 
-<div class="container" id="app">
+<div class="container " id="app">
 	<form action="{{route('postCustomerRegistrationForm', 'doom_yoga')}}"
 		method="POST" enctype="multipart/form-data" autocomplete="off">
 		{{csrf_field()}}

@@ -50,14 +50,19 @@ class LoginController extends Controller
         if ($this->guard == 'garden-help') {
             return 'garden-help/home';
         }
+        if ($this->guard == 'doom-yoga') {
+            return 'doom-yoga/customers/registrations';
+        }
     }
 
     protected function authenticated(Request $request, $user)
     {
+        
         if ($user->user_role == "driver") {
             \Session::flash('error', 'You are not allowed to login the portal');
             $this->logout($request);
         }
+        //dd($user);
     }
 
     public function showLoginForm($client_name = null)
@@ -66,7 +71,9 @@ class LoginController extends Controller
             return view("auth.doorder.login");
         } else if(str_contains(request()->url(),'garden-help/login')) {
             return view("auth.garden_help.login");
-        } else {
+        }else if(str_contains(request()->url(),'doom-yoga/login')) {
+            return view("auth.doom_yoga.login");
+        }else {
             return view('auth.login');
         }
     }
@@ -88,6 +95,7 @@ class LoginController extends Controller
         Auth::guard('web')->logout();
         Auth::guard('doorder')->logout();
         Auth::guard('garden-help')->logout();
+        Auth::guard('doom-yoga')->logout();
         $request->session()->invalidate();
 
         return redirect($url);

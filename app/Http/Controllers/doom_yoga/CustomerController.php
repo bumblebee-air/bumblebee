@@ -22,4 +22,7 @@ class CustomerController extends Controller
         return redirect()->back();
     }
     
+    public function getCustomersRegistrations () {
+        return view('admin.doom_yoga.customers.registrations');
+    }
 }

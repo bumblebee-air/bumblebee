@@ -307,9 +307,10 @@ Route::group(['prefix' => '{client_name}'], function () {
      */
     
     //Driver Registration
-    Route::get('doom_yoga/customer/registration', 'doom_yoga\CustomerController@getCustomerRegistrationForm')->name('getCustomerRegistrationForm');
-    Route::post('doom_yoga/customer/registration', 'doom_yoga\CustomerController@postCustomerRegistrationForm')->name('postCustomerRegistrationForm');
-    Route::post('doom_yoga/customer/registration/signup', 'doom_yoga\CustomerController@postCustomerRegistrationCardForm')->name('postCustomerRegistrationCardForm');
+    Route::get('doom-yoga/customer/registration', 'doom_yoga\CustomerController@getCustomerRegistrationForm')->name('getCustomerRegistrationForm');
+    Route::post('doom-yoga/customer/registration', 'doom_yoga\CustomerController@postCustomerRegistrationForm')->name('postCustomerRegistrationForm');
+    Route::post('doom-yoga/customer/registration/signup', 'doom_yoga\CustomerController@postCustomerRegistrationCardForm')->name('postCustomerRegistrationCardForm');
+    Route::get('doom-yoga/customers/registrations', 'doom_yoga\CustomerController@getCustomersRegistrations')->name('getCustomersRegistrations');
     
 
 // DoOrder Routes

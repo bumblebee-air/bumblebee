@@ -11,7 +11,112 @@
 	font-weight: 300;
 }
 
+html {
+	height: 100%
+}
+
 body {
+	font-family: 'Futura', Fallback, sans-serif !important;
+	background-color: #000;
+}
+
+/************ Login *******************/
+.bg-cover {
+	background-size: cover !important;
+}
+
+.btn-text-shadow {
+	text-shadow: 1px 1px 2px #000000;
+}
+
+.card-login {
+	background-color: rgba(19, 19, 19, 0.76);
+}
+
+.form-signin .input-group-text img {
+	width: 20px;
+}
+
+.btn-login {
+	width: 350px !important;
+	height: 50px !important;
+	font-family: Arbutus Slab;
+	font-size: 16px !important;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 0.85;
+	letter-spacing: 0.37px;
+	text-align: center;
+	color: #ffffff;
+}
+
+.form-signin .input-group input {
+	background: none !important;
+	background-image: linear-gradient(0deg, #d8d8d8 2px, rgba(216, 216, 216, 0)
+		0), linear-gradient(0deg, #d2d2d2 1px, hsla(0, 0%, 82%, 0) 0)
+		!important;
+}
+
+.form-signin .input-group-focus input, .input-group input:focus {
+	color: #fff;
+	background: none !important;
+	background-color: transparent;
+	background-image: linear-gradient(0deg, #000 2px, rgba(0, 0, 0, 0) 0),
+		linear-gradient(0deg, #d2d2d2 1px, hsla(0, 0%, 82%, 0) 0) !important;
+	outline: 0;
+	background-color: transparent;
+}
+
+.form-signin .input-group input, .input-group input::placeholder {
+	font-family: 'Futura', Fallback, sans-serif !important;;
+	font-size: 16px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.3px;
+	color: #ffffff;
+}
+
+.form-signin .form-check-sign .check {
+	border-radius: 2px;
+	border: solid 1px #979797;
+	margin-right: 10px;
+}
+
+.form-check .form-check-input:checked ~.form-check-sign .check {
+	background: #979797 !important;
+}
+
+.form-check .form-check-label {
+	font-family: 'Futura', Fallback, sans-serif !important;;
+	font-size: 13px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.24px;
+	color: #ffffff;
+}
+
+@media screen and (min-width: 1200px) {
+	.card-login {
+		padding: 20px 180px;
+	}
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199.5px) {
+	.card-login {
+		padding: 20px 100px;
+	}
+}
+
+.material-icons {
+	color: #acb1c0 !important;
+}
+/************ end login *****************/
+#containerPageBackgrundDiv {
 	font-family: 'Futura', Fallback, sans-serif !important;
 	background-color: black;
 	background-image: url("../images/doom-yoga/doom-yoga-background.jpg");
@@ -278,9 +383,11 @@ input.form-control {
 	{
 	border-color: red
 }
-.iti__country{
+
+.iti__country {
 	color: black;
 }
+
 .my-check-box .checked, .checked, .my-check-box .checked .fas, .checked .fas
 	{
 	background-image: linear-gradient(to bottom, rgba(56, 226, 233, 0.52),
@@ -291,18 +398,18 @@ input.form-control {
 	-webkit-text-fill-color: transparent;
 }
 
-p.terms{
+p.terms {
 	font-family: 'Futura', Fallback, sans-serif !important;
-  font-size: 16px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: 0.3px;
-  text-align: center;
-  color: #ffffff;
+	font-size: 16px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.3px;
+	text-align: center;
+	color: #ffffff;
 }
-a.terms-text{
-	  color: #38e2e9;
-	
+
+a.terms-text {
+	color: #38e2e9;
 }

@@ -29,8 +29,9 @@
 </head>
 <body>
 @include('sweet::alert')
-
+<div class="container-fluid h-100 p-0" id="containerPageBackgrundDiv">
 @yield('content')
+</div>
 <!-- Scripts -->
 <script src="{{asset('js/jquery.min.js')}}"></script>
 <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>

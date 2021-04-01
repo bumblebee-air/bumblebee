@@ -14,7 +14,7 @@
 @endsection
 
 @section('content')
-    <form action="{{route('garde_help_postServicesBooking', $id)}}" method="POST" enctype="multipart/form-data" autocomplete="off">
+    <form action="{{route('garde_help_postServicesBooking', $id)}}" method="POST" enctype="multipart/form-data" autocomplete="off" id="booking-form" onsubmit="stripeCreateToken(event)">
         {{csrf_field()}}
         <div class="main main-raised">
             <div class="h-100 row align-items-center">
@@ -115,34 +115,13 @@
                         <h5 class="registerSubTitle">Billing Information</h5>
                     </div>
                     <div class="col-md-12">
-                        <div class="form-group ">
-                            <label class="bmd-label-floating">Name on card</label>
-                            <input name="name_on_card" type="text" class="form-control" id="service_type_input"/>
-                        </div>
+                        <div class="payment-input" id="card-number"></div>
                     </div>
-                    <div class="col-md-12">
-                        <div class="form-group ">
-                            <label class="bmd-label-floating">Card Number</label>
-                            <input name="car_number" type="text" class="form-control" id="service_type_input"/>
-                        </div>
+                    <div class="col">
+                        <div class="payment-input" id="card-expiry"></div>
                     </div>
-                    <div class="col mt-1">
-                        <div class="form-group ">
-                            <label class="bmd-label-floating">CVC</label>
-                            <input name="cvc_code" type="text" class="form-control" id="service_type_input"/>
-                        </div>
-                    </div>
-                    <div class="col mt-1">
-                        <div class="form-group ">
-                            <label class="bmd-label-floating">Exp.Month</label>
-                            <input name="exp_month" type="text" class="form-control" id="service_type_input"/>
-                        </div>
-                    </div>
-                    <div class="col mt-1">
-                        <div class="form-group ">
-                            <label class="bmd-label-floating">Exp.Year</label>
-                            <input name="exp_year" type="text" class="form-control" id="service_type_input"/>
-                        </div>
+                    <div class="col">
+                        <div class="payment-input" id="card-cvc"></div>
                     </div>
                 </div>
             </div>
@@ -159,4 +138,125 @@
         </div>
     </form>
 
+@endsection
+
+@section('scripts')
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        var stripe = Stripe("{{env('STRIPE_PUBLIC_KEY')}}");
+
+        var elements = stripe.elements({
+            fonts: [
+                {
+                    cssSrc: 'https://fonts.googleapis.com/css?family=Roboto',
+                },
+            ],
+            // Stripe's examples are localized to specific languages, but if
+            // you wish to have Elements automatically detect your user's locale,
+            // use `locale: 'auto'` instead.
+            locale: 'auto'
+        });
+
+        var elementStyles = {
+            iconStyle: "solid",
+            style: {
+                base: {
+                    iconColor: "#fff",
+                    color: "#fff",
+                    fontWeight: 400,
+                    fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif",
+                    fontSize: "16px",
+                    fontSmoothing: "antialiased",
+                    borderBottom: "solid 1px #eaecef",
+                    padding: "10px",
+
+                    "::placeholder": {
+                        color: "#BFAEF6"
+                    },
+                    ":-webkit-autofill": {
+                        color: "#fce883"
+                    }
+                },
+                invalid: {
+                    iconColor: "#FFC7EE",
+                    color: "#FFC7EE"
+                }
+            }
+        };
+
+        var elementClasses = {
+            focus: 'focus',
+            empty: 'empty',
+            invalid: 'invalid',
+        };
+
+        var cardNumber = elements.create('cardNumber', {
+            style: elementStyles,
+            classes: elementClasses,
+        });
+        // Add an instance of the card Element into the `card-element` <div>
+        cardNumber.mount('#card-number');
+
+        var cardExpiry = elements.create('cardExpiry', {
+            style: elementStyles,
+            classes: elementClasses,
+        });
+
+        cardExpiry.mount('#card-expiry');
+
+        var cardCvc = elements.create('cardCvc', {
+            style: elementStyles,
+            classes: elementClasses,
+        });
+        cardCvc.mount('#card-cvc');
+
+
+        function stripeTokenHandler(token) {
+            // Insert the token ID into the form so it gets submitted to the server
+            document.createElement('input');
+            var form = document.getElementById('booking-form');
+            var hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'stripeToken');
+            hiddenInput.setAttribute('value', token.id);
+            form.appendChild(hiddenInput);
+            // Submit the form
+
+            setTimeout(form.submit(), 300);
+
+        }
+        function createToken() {
+            stripe.createToken(cardNumber).then(function(result) {
+                if (result.error) {
+                    // Inform the user if there was an error
+                    var errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = result.error.message;
+                    console.log(result.error.message);
+                } else {
+                    // Send the token to your server
+                    stripeTokenHandler(result.token);
+                }
+            });
+        }
+
+        function stripeCreateToken(event){
+            event.preventDefault();
+            createToken();
+        }
+
+
+        $(document).ready(function () {
+            $('#payment_type').on('change', function () {
+                var selectVal = jQuery("#payment_type option:selected").val();
+                //var form = document.getElementById('payment-form');
+                if( selectVal == "Credit Card" ){
+                    $('.check').hide();
+                    $('.cc').show();
+                }else{
+                    $('.cc').hide();
+                    $('.check').show();
+                }
+            });
+        });
+    </script>
 @endsection

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\garden_help;
 
 use App\Customer;
+use App\CustomerExtraData;
 use App\GardenServiceType;
 use App\Http\Controllers\Controller;
 use App\User;
@@ -189,8 +190,27 @@ class CustomersController extends Controller
         if (!$customer) {
             abort(404);
         }
+        $this->validate($request, [
+            'stripeToken' => 'required'
+        ]);
         $customer->type = 'job';
         $customer->status = 'ready';
+
+        //Create Stripe Customer
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+        $stripe_customer = $stripe->customers->create([
+            'name' => $customer->user->name,
+            'email' => $customer->user->email,
+            'source' => $request->stripeToken
+        ]);
+        $stripe_customer_id = $stripe_customer->id;
+        //Saving customer id
+        CustomerExtraData::create([
+            'user_id' => $customer->user_id,
+            'job_id' => $customer->id,
+            'stripe_customer_id' => $stripe_customer_id
+        ]);
+
         try {
             Redis::publish('garden-help-channel', json_encode([
                 'event' => 'new-booked-service',

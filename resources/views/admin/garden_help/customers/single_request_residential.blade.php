@@ -395,7 +395,6 @@ Request') @section('page-styles')
 							let size_from = rate.max_property_size_from;
 							let size_to = rate.max_property_size_to;
 							let rate_per_hour = rate.rate_per_hour;
-							console.log('ss')
 							if (parseInt(property_size) >= parseInt(size_from) && parseInt(property_size) <= parseInt(size_to)) {
 								let service_price = parseInt(rate_per_hour) * parseInt(type.min_hours);
 								total_price += service_price;

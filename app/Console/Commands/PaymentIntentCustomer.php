@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Customer;
 use App\Helpers\ServicesTypesHelper;
 use App\Helpers\StripePaymentHelper;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class PaymentIntentCustomer extends Command
@@ -43,6 +44,8 @@ class PaymentIntentCustomer extends Command
         $customers = Customer::where('type', 'job')
             ->whereNull('payment_intent_id')
             ->where('is_paid', false)
+            ->whereDate('available_date_time', '<=' ,Carbon::now()->toDateTimeString())
+            ->whereDate('available_date_time', '>=' ,Carbon::now()->addDays(6)->toDateTimeString())
             ->get();
 
         foreach ($customers as $customer) {

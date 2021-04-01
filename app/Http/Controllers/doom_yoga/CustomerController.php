@@ -23,6 +23,27 @@ class CustomerController extends Controller
     }
     
     public function getCustomersRegistrations () {
-        return view('admin.doom_yoga.customers.registrations');
+        
+        $registrationsList = collect([
+            [
+                'dateTime' => '01/09/2020 10:00',
+                'firstName' => 'Jane',
+                'lastName' => 'Dow',
+                'subscriptionType' =>'Monthly subscription',
+                'level'=>'Beginner',
+                'contactThrough'=>'WhatsApp'
+            ],[
+                'dateTime' => '01/09/2020 10:00',
+                'firstName' => 'Jane',
+                'lastName' => 'Dow',
+                'subscriptionType' =>'Monthly subscription',
+                'level'=>'Beginner',
+                'contactThrough'=>'WhatsApp'
+            ]
+        ]);
+        
+        return view('admin.doom_yoga.customers.registrations', [
+            'registrationsList' => $registrationsList
+        ]);
     }
 }

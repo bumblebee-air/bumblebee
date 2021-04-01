@@ -582,16 +582,45 @@
 		@elseif(Auth::guard('doom-yoga')->check())
 		<ul class="nav">
 			<li class="nav-item"><a class="nav-link d-flex"
-				href="{{url('garden-help/home')}}"> {{-- <i
-					class="fas fa-plus-circle"></i>--}} <img class="my-nav-icon"
-					src="{{asset('images/gardenhelp_icons/Dashboard-white.png')}}"
+				href="">  <img class="my-nav-icon"
+					src="{{asset('images/doom-yoga/New-Event.png')}}"
 					alt="Dashboard">
-					<p>Dashboard Y</p>
+					<p>New Event </p>
+			</a></li>
+			<li class="nav-item"><a class="nav-link d-flex"
+				href="">  <img class="my-nav-icon"
+					src="{{asset('images/doom-yoga/My-Events.png')}}"
+					alt="Dashboard">
+					<p>My Events </p>
+			</a></li>
+			<li class="nav-item"><a class="nav-link d-flex"
+				href="">  <img class="my-nav-icon"
+					src="{{asset('images/doom-yoga/Dashboard.png')}}"
+					alt="Dashboard">
+					<p>Dashboard </p>
+			</a></li>
+			<li class="nav-item"><a class="nav-link d-flex"
+				href="{{route('getCustomersRegistrations', 'doom-yoga')}}">  <img class="my-nav-icon"
+					src="{{asset('images/doom-yoga/Registrations.png')}}"
+					alt="Dashboard">
+					<p>Registrations </p>
+			</a></li>
+			<li class="nav-item"><a class="nav-link d-flex"
+				href="">  <img class="my-nav-icon"
+					src="{{asset('images/doom-yoga/WhatsApp.png')}}"
+					alt="Dashboard">
+					<p>Whatsapp </p>
+			</a></li>
+			<li class="nav-item"><a class="nav-link d-flex"
+				href="">  <img class="my-nav-icon"
+					src="{{asset('images/doom-yoga/Settings.png')}}"
+					alt="Dashboard">
+					<p>Settings </p>
 			</a></li>
 			<li class="nav-item "><a class="nav-link d-flex"
-				href="{{url('logout')}}"> {{-- <i class="fas fa-sign-out-alt"></i>--}}
+				href="{{url('logout')}}"> 
 					<img class="my-nav-icon"
-					src="{{asset('images/doorder_icons/logout-outline.png')}}" alt="">
+					src="{{asset('images/doom-yoga/Logout.png')}}" alt="">
 					<p>Logout</p>
 			</a></li>
 		</ul>	

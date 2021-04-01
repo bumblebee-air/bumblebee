@@ -157,19 +157,23 @@ class CustomersController extends Controller
             //$singleRequest->save();
             alert()->success('Customer rejected successfully');
         } else {
-            $singleRequest->status = 'qoute_sent';
+            $singleRequest->status = 'quote_sent';
             $singleRequest->save();
 
-            //Sending booking URL via SMS
-            $sid    = env('TWILIO_SID', '');
-            $token  = env('TWILIO_AUTH', '');
-            $twilio = new Client($sid, $token);
-            $twilio->messages->create($singleRequest->phone_number,
-                [
-                    "from" => "GardenHelp",
-                    "body" => "Hi $singleRequest->name, Please visit ". route('garde_help_postServicesBooking', $singleRequest->id) ." to view quotation and book your service. "
-                ]
-            );
+            try {
+                //Sending booking URL via SMS
+                $sid = env('TWILIO_SID', '');
+                $token = env('TWILIO_AUTH', '');
+                $twilio = new Client($sid, $token);
+                $twilio->messages->create($singleRequest->phone_number,
+                    [
+                        "from" => "GardenHelp",
+                        "body" => "Hi $singleRequest->name, Please visit " . route('garde_help_getServicesBooking', $singleRequest->id) . " to view quotation and book your service. "
+                    ]
+                );
+            }catch(\Exception $exception){
+                \Log::error($exception->getMessage(),$exception->getTrace());
+            }
            
             alert()->success('The Quotation was sent successfully to the client');
         }
@@ -196,8 +200,8 @@ class CustomersController extends Controller
                 'event' => 'new-booked-service',
                 'data' => [
                     'id' => $customer->id,
-                    'toast_text' => 'There is a new booked service.',
-                    'alert_text' => "There is a customer has booked a service with service No# $customer->id",
+                    'toast_text' => 'A new service has been booked.',
+                    'alert_text' => "A customer has booked a service with service No# $customer->id",
                     'click_link' => route('garden_help_getSingleJob' , ['garden-help', $customer->id]),
                 ]
             ]));

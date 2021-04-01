@@ -138,9 +138,15 @@ class DriversController extends Controller
                 $token  = env('TWILIO_AUTH', '');
                 $twilio = new Client($sid, $token);
                 //url('customer/delivery_confirmation/' . $order->customer_confirmation_code)
+                $sender_name = "DoOrder";
+                foreach($this->unallowed_sms_alpha_codes as $country_code){
+                    if(strpos($order->customer_phone,$country_code)!==false){
+                        $sender_name = env('TWILIO_NUMBER','DoOrder');
+                    }
+                }
                 $twilio->messages->create($order->customer_phone,
                     [
-                        "from" => "DoOrder",
+                        "from" => $sender_name,
                         "body" => "Hi $order->customer_name, your order from $retailer_name is on its way, open the link to track it and confirm the delivery afterwards. " . url('customer/order/' . $order->customer_confirmation_code)
                     ]
                 );
@@ -443,9 +449,15 @@ class DriversController extends Controller
                 $sid = env('TWILIO_SID', '');
                 $token = env('TWILIO_AUTH', '');
                 $twilio = new Client($sid, $token);
+                $sender_name = "DoOrder";
+                foreach($this->unallowed_sms_alpha_codes as $country_code){
+                    if(strpos($user->phone,$country_code)!==false){
+                        $sender_name = env('TWILIO_NUMBER','DoOrder');
+                    }
+                }
                 $twilio->messages->create($user->phone,
                     [
-                        "from" => "DoOrder",
+                        "from" => $sender_name,
                         "body" => "Hi $user->name, your deliverer profile has been accepted.
                         Your login details are your phone and the password: $new_pass .
                         Login page: ".url('driver_app')
@@ -468,9 +480,15 @@ class DriversController extends Controller
                 $sid = env('TWILIO_SID', '');
                 $token = env('TWILIO_AUTH', '');
                 $twilio = new Client($sid, $token);
+                $sender_name = "DoOrder";
+                foreach($this->unallowed_sms_alpha_codes as $country_code){
+                    if(strpos($checkIfUserExists->phone,$country_code)!==false){
+                        $sender_name = env('TWILIO_NUMBER','DoOrder');
+                    }
+                }
                 $twilio->messages->create($checkIfUserExists->phone,
                     [
-                        "from" => "DoOrder",
+                        "from" => $sender_name,
                         "body" => "Hi $checkIfUserExists->name, this message has been sent upon you request.".
                         "This is your reset password code: " . $resetPasswordCode
                     ]

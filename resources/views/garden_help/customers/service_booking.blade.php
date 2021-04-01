@@ -46,7 +46,7 @@
                     </div>
                     <div class="col-md-12">
                         <div class="form-group ">
-                            <label>Schedualed at</label>
+                            <label>Scheduled at</label>
                             <div class="input-value">
                                 {{$customer_request->available_date_time}}
                             </div>

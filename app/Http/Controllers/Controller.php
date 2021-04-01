@@ -11,6 +11,8 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    public $unallowed_sms_alpha_codes = ['+91'];
+
     public static function sendFCM($user_tokens, $data, $message = null) {
 
         $url = 'https://fcm.googleapis.com/fcm/send';

@@ -23,6 +23,7 @@ body {
 .main-panel>.content {
 	margin-top: 0px;
 }
+
 /************ Login *******************/
 .bg-cover {
 	background-size: cover !important;
@@ -92,7 +93,7 @@ body {
 	background: #979797 !important;
 }
 
-.form-check .form-check-label {
+.registerDoomYogaDiv .form-check .form-check-label {
 	font-family: 'Futura', Fallback, sans-serif !important;;
 	font-size: 13px;
 	font-weight: normal;
@@ -286,7 +287,7 @@ form .form-group {
 	margin-left: 10px;
 }
 
-input.form-control {
+.registerDoomYogaDiv input.form-control {
 	font-family: 'Futura', Fallback, sans-serif !important;;
 	font-size: 20px !important;
 	font-weight: normal !important;
@@ -320,16 +321,19 @@ input.form-control {
 	background-color: #000;
 }
 
-.form-control:focus {
+.registerDoomYogaDiv .form-control:focus {
 	color: #fff;
 	background-color: transparent;
 	border-color: #eaecef;
 	outline: 0;
 }
 
-.form-control, .is-focused .form-control {
+.registerDoomYogaDiv .form-control, .registerDoomYogaDiv .is-focused .form-control
+	{
+	background: none;
+	box-shadow: none;
 	background-image: linear-gradient(0deg, #eaecef 2px, rgba(156, 39, 176, 0)
-		0), linear-gradient(0deg, #d2d2d2 1px, hsla(0, 0%, 82%, 0) 0);
+		0), linear-gradient(0deg, #d2d2d2 1px, hsla(0, 0%, 82%, 0) 0) !important;
 }
 
 .select2-container .select2-selection--single .select2-selection__rendered
@@ -418,7 +422,7 @@ a.terms-text {
 }
 
 .card-title {
-	font-family: 'Futura', Fallback, sans-serif !important ;
+	font-family: 'Futura', Fallback, sans-serif !important;
 	font-size: 21px;
 	font-weight: normal !important;
 	font-stretch: normal;
@@ -427,7 +431,6 @@ a.terms-text {
 	letter-spacing: 1.3px;
 	color: #7b7b7b !important;
 	text-transform: uppercase;
-	
 }
 /***************** sidebar **********************/
 .sidebar[data-background-color=black] .sidebar-background:after {
@@ -568,26 +571,27 @@ li .nav-link:hover a i {
 	table-layout: fixed;
 }
 
-th
-{font-family: 'Futura', Fallback, sans-serif !important;;
-  font-size: 14px !important;
-  font-weight: normal !important;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: 1.3px;
-  color: #656565;
-  text-transform: uppercase;
+th {
+	font-family: 'Futura', Fallback, sans-serif !important;;
+	font-size: 14px !important;
+	font-weight: normal !important;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 1.3px;
+	color: #656565;
+	text-transform: uppercase;
 }
-td{
+
+td {
 	font-family: 'Futura', Fallback, sans-serif !important;
-  font-size: 14px !important;
-  font-weight: normal !important;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: #656565;
+	font-size: 14px !important;
+	font-weight: normal !important;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #656565;
 }
 
 div.dataTables_wrapper div.dataTables_filter input {
@@ -680,4 +684,193 @@ table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after,
 	.gardenHelpTable>tfoot>tr>td, .gardenHelpTable>tfoot>tr>th,
 	.gardenHelpTable>thead>tr>td, .gardenHelpTable>thead>tr>th {
 	padding: 12px 8px !important;
+}
+
+/********************* forms ******************/
+.form-head span {
+	width: 23px;
+	height: 23px;
+	background-color: #4f4f4f;
+	border-top-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	margin-right: 10px;
+	padding-top: 5px;
+	font-family: 'Futura', Fallback, sans-serif !important;;
+	font-size: 12px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.92px;
+	text-align: center;
+	color: #ffffff;
+}
+
+.formSubTitleH5 {
+	font-family: 'Futura', Fallback, sans-serif !important;
+	font-size: 16px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.5;
+	letter-spacing: 1.3px;
+	color: #4d4d4d;
+	text-transform: uppercase;
+}
+
+.formLabel {
+	font-family: 'Futura', Fallback, sans-serif !important;
+	font-size: 14px !important;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal !important;
+	letter-spacing: 0.77px;
+	color: #4d4d4d !important;
+}
+
+.form-control, .form-control:invalid, .is-focused .form-control {
+	background-image: none;
+	box-shadow: 0 2px 48px 0 rgb(0 0 0/ 8%);
+}
+
+input.form-control, textarea.form-control {
+	padding: 11px 14px 11px 14px;
+	border-radius: 5px;
+	box-shadow: 0 2px 48px 0 rgb(0 0 0/ 8%);
+	background-color: #ffffff;
+	font-family: 'Futura', Fallback, sans-serif !important;
+	font-size: 14px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.77px;
+	color: #4d4d4d;
+	width: 100%;
+	height: auto;
+}
+
+.form-control:focus {
+	color: #4d4d4d;
+	background-color: transparent;
+	outline: 0;
+	border-bottom: 2px solid #686868 !important;
+	box-shadow: 0 4px 20px 0 rgb(0 0 0/ 14%) !important;
+}
+
+.radio-container {
+	padding-left: 20px;
+}
+
+.form-check .form-check-label .circle .check {
+	height: 15px;
+	width: 15px;
+	border-radius: 100%;
+	background-color: #4f4f4f;
+}
+
+.form-check .form-check-input:checked ~.circle {
+	border: solid 1px #979797;
+}
+
+.form-check .form-check-label {
+	font-family: 'Futura', Fallback, sans-serif !important;;
+	font-size: 14px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.26px;
+	color: #1e2432;
+}
+
+
+/************ modal ************/
+
+.modalHeaderH2 h2{
+	font-family: 'Futura', Fallback, sans-serif !important;
+  font-size: 25px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 1.3px;
+  color: #414141;}
+
+@media ( min-width : 576px) {
+	.modal-dialog {
+		max-width: 972px !important;
+		margin-left: 16.75rem !important;
+		margin-right: 16.75rem !important;
+	}
+}
+
+.modal-content {
+	border-radius: 20px !important;
+	box-shadow: 0 20px 20px 0 rgba(0, 0, 0, 0.08) !important;
+	padding: 25px;
+}
+
+.modal-dialog .modal-header .close {
+	top: auto !important;
+}
+
+.modal-button-close {
+	font-family: 'Futura', Fallback, sans-serif !important;
+	font-size: 18px !important;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 2.5 !important;
+	letter-spacing: 0.17px !important;
+	color: #767676 !important;
+}
+
+.modal-footer .btn{
+	width: 260px !important;
+	margin: 0 !important;
+}
+
+.modal-dialog .modal-footer {
+	padding: 0 !important;
+}
+
+.modal-dialog-header {
+	text-align: center;
+}
+
+
+/************************* datetime picker **************************/
+.bootstrap-datetimepicker-widget table td.active:hover>div,
+	.bootstrap-datetimepicker-widget table td.active>div {
+	background-color: #4f4f4f !important;
+	box-shadow: 0 4px 20px 0 rgb(0 0 0 / 14%), 0 7px 10px -5px rgb(79 79 79 / 40%);
+}
+.bootstrap-datetimepicker-widget table td span.active {
+    background-color: #4f4f4f;
+}
+.bootstrap-datetimepicker-widget a[data-action] span,
+	.bootstrap-datetimepicker-widget a[data-action]:hover span {
+	color: #4f4f4f !important;
+}
+
+.bootstrap-datetimepicker-widget table td.today>div:before {
+	border-bottom-color: #4f4f4f !important;
+}
+
+.bootstrap-datetimepicker-widget .btn.btn-primary.focus,
+	.bootstrap-datetimepicker-widget .btn.btn-primary {
+	color: #fff;
+	background-color: #4f4f4f !important;
+	border-color: #4f4f4f !important;
+	box-shadow: 0 4px 20px 0 rgb(0 0 0 / 14%), 0 7px 10px -5px rgb(79 79 79 / 40%);
+}
+
+.bootstrap-datetimepicker-widget .btn.btn-primary.focus,
+	.bootstrap-datetimepicker-widget .btn.btn-primary:focus,
+	.bootstrap-datetimepicker-widget .btn.btn-primary:hover {
+	color: #fff;
+	background-color: #4f4f4f!important;
+	border-color: #404040 !important;
 }

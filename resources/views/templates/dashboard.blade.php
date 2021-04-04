@@ -44,6 +44,7 @@
     @if(Auth::guard('doom-yoga')->check())
     <link href="{{asset('css/doom-yoga-styles.css')}}" rel="stylesheet">
     <link href="{{asset('css/doom-yoga-butttons-styles.css')}}" rel="stylesheet">
+     <link href="{{asset('css/select2.min.css')}}" rel="stylesheet">
      <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Arbutus+Slab&display=swap" rel="stylesheet">
     

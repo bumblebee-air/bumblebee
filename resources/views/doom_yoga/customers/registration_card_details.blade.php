@@ -1,7 +1,7 @@
 @extends('templates.doom_yoga') @section('title', 'Doom Yoga | Customers
 Registration') @section('styles') @endsection @section('content')
 
-<div class="container" id="app">
+<div class="container registerDoomYogaDiv" id="app">
 	<form action="{{route('postCustomerRegistrationCardForm', 'doom_yoga')}}"
 		method="POST" enctype="multipart/form-data" autocomplete="off">
 		{{csrf_field()}}

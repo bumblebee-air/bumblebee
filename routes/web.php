@@ -308,7 +308,13 @@ Route::group(['prefix' => '{client_name}'], function () {
         Route::post('customer/registration/signup', 'doom_yoga\CustomerController@postCustomerRegistrationCardForm')->name('postCustomerRegistrationCardForm');
         
         Route::group(['middleware' => "auth:doom-yoga"], function () {
-            Route::get('customers/registrations', 'doom_yoga\CustomerController@getCustomersRegistrations')->name('getCustomersRegistrations');   
+            Route::get('customers/registrations', 'doom_yoga\CustomerController@getCustomersRegistrations')->name('getCustomersRegistrations'); 
+            
+            Route::group(['prefix' => 'events'], function () {
+                Route::get('add_event', 'doom_yoga\EventsController@addNewEvent')->name('getNewEventDoomYoga');
+                Route::post('add_event', 'doom_yoga\EventsController@postNewEvent')->name('postNewEventDoomYoga');
+            });
+            
         });
 });
 

@@ -1,10 +1,6 @@
 @extends('templates.dashboard') @section('title', 'Do OmYoga |
 Registrations') @section('page-styles')
 <style>
-.main-panel>.content {
-	margin-top: 0px;
-}
-
 tr.order-row:hover, tr.order-row:focus {
 	cursor: pointer;
 	box-shadow: 5px 5px 18px #88888836, 5px -5px 18px #88888836;

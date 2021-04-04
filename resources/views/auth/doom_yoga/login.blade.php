@@ -7,7 +7,9 @@
       body{
         height: 100%
       }
-        
+        .form-check-label{
+            color:#fff !important;
+        }
     </style>
 
 @endsection

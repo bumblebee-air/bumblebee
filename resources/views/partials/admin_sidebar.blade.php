@@ -582,7 +582,7 @@
 		@elseif(Auth::guard('doom-yoga')->check())
 		<ul class="nav">
 			<li class="nav-item"><a class="nav-link d-flex"
-				href="">  <img class="my-nav-icon"
+				href="{{route('getNewEventDoomYoga', 'doom-yoga')}}">  <img class="my-nav-icon"
 					src="{{asset('images/doom-yoga/New-Event.png')}}"
 					alt="Dashboard">
 					<p>New Event </p>

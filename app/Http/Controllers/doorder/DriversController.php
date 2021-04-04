@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Twilio\Rest\Client;
 
@@ -341,25 +342,47 @@ class DriversController extends Controller
         return view('doorder.drivers.registration');
     }
 
-    public function postDriverRegistration(Request $request)
-    {
-        $this->validate($request, [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required|unique:users',
-            'phone_number' => 'required|unique:users,phone',
-            'contact_through' => 'required',
-            'birthdate' => 'required',
-            'address' => 'required',
-            'pps_number' => 'required',
-            'emergency_contact_name' => 'required',
-            'emergency_contact_number' => 'required',
-            'transport_type' => 'required',
-            'max_package_size' => 'required',
-            'work_location' => 'required',
-            'proof_id' => 'required',
-            'proof_address' => 'required',
-        ]);
+    public function postDriverRegistration(Request $request){
+        $request_url = $request->url();
+        try {
+            $this->validate($request, [
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'email' => 'required|unique:users',
+                'phone_number' => 'required|unique:users,phone',
+                'contact_through' => 'required',
+                'birthdate' => 'required',
+                'address' => 'required',
+                'pps_number' => 'required',
+                'emergency_contact_name' => 'required',
+                'emergency_contact_number' => 'required',
+                'transport_type' => 'required',
+                'max_package_size' => 'required',
+                'work_location' => 'required',
+                'proof_id' => 'required',
+                'proof_address' => 'required',
+            ]);
+        } catch (ValidationException $e) {
+            if(strpos($request_url,'api/')!==false){
+                $error_string = 'The following inputs have errors';
+                foreach($e->errors() as $validate_err){
+                    $error_string .= ', '.$validate_err;
+                }
+                $response = [
+                    'message' => $error_string,
+                    'error' => 1
+                ];
+                return response()->json($response)->setStatusCode(422);
+            }else{
+                $error_html = '<h3>The following inputs have errors</h3> <p><ul>';
+                foreach($e->errors() as $validate_err){
+                    $error_html .= '<li>'.$validate_err.'</li>';
+                }
+                $error_html .= '</ul></p>';
+                alert()->error($error_html);
+                return redirect()->back()->withInput();
+            }
+        }
 
         $user = new User();
         $user->name = "$request->first_name $request->last_name";
@@ -401,8 +424,15 @@ class DriversController extends Controller
 
         $stripe_manager = new StripeManager();
         $stripe_account = $stripe_manager->createCustomAccount($user);
-        alert()->success('Your profile has been registered successfully, the administration will review your request soon');
-
+        if(strpos($request_url,'api/')!==false){
+            $response = [
+                'message' => 'Your profile has been registered successfully, the administration will review your request soon',
+                'error' => 0
+            ];
+            return response()->json($response);
+        }else{
+            alert()->success('Your profile has been registered successfully, the administration will review your request soon');
+        }
         return redirect()->back();
     }
 
@@ -458,9 +488,9 @@ class DriversController extends Controller
                 $twilio->messages->create($user->phone,
                     [
                         "from" => $sender_name,
-                        "body" => "Hi $user->name, your deliverer profile has been accepted.
-                        Your login details are your phone and the password: $new_pass .
-                        Login page: ".url('driver_app')
+                        "body" => "Hi $user->name, your deliverer profile has been accepted. ".
+                        "Your login details are your phone and the password: $new_pass . ".
+                        "Login page: ".url('driver_app')
                     ]
                 );
             } catch (\Exception $exception){

@@ -57,6 +57,7 @@ Route::group(['middleware' => "auth:api"],function () {
     Route::post('update-driver-password','doorder\DriversController@changePassword');
     Route::get('get-driver-profile','doorder\DriversController@getProfile');
     Route::post('update-driver-profile','doorder\DriversController@updateProfile');
+    Route::post('driver-registration','doorder\DriversController@postDriverRegistration');
 
     //GardenHelp
     Route::get('jobs-list','garden_help\ContractorsController@getJobsList');

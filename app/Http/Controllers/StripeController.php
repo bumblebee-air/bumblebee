@@ -126,7 +126,7 @@ class StripeController extends Controller
         $logo = '';
         $favicon = '';
         $request_url = request()->url();
-        if(strpos($request_url,'doorder.com')!==false){
+        if(strpos($request_url,'doorder')!==false){
             $logo = asset('images/doorder-logo.png');
             $favicon = asset('images/doorder-favicon.svg');
         }

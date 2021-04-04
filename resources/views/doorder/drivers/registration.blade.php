@@ -337,15 +337,15 @@
                                 <div class="form-group pl-2">
                                     <div class="contact-through d-flex" @click="changeRadiusStatus()">
                                         <div id="check" :class="has_radius ? 'my-check-box my-check-box-checked' : 'my-check-box'">
-                                            <i class="fas fa-check-square"></i>
+                                            <i :class="has_radius ? 'fas fa-check-square' : 'far fa-square'"></i>
                                         </div>
-                                        I want to have a radius from my address (KM Unit)
+                                        I want to have a radius from my address (KM)
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group" v-if="has_radius">
-                                    {{--                                    <label class="bmd-form-group">Emergency Contact Number</label>--}}
+                                    {{--<label class="bmd-form-group">Emergency Contact Number</label>--}}
                                     <input type="number" class="form-control" id="work_radius" name="work_radius" placeholder="Work Radius (Km unit)" v-model="work_radius" @change="changeRadiusValue()" required>
                                 </div>
                             </div>
@@ -429,7 +429,7 @@
                                 <div class="col-md-12">
                                     <div class="contact-through d-flex pr-5" @click="changeHasInsurace">
                                         <div id="check" :class="hasInsurance ? 'my-check-box my-check-box-checked' : 'my-check-box'">
-                                            <i class="fas fa-check-square"></i>
+                                            <i :class="hasInsurance ? 'fas fa-check-square' : 'far fa-square'"></i>
                                         </div>
                                         I have business insurance
                                     </div>
@@ -456,9 +456,11 @@
 
                         <div class="row">
                             <div class="col-md-12 terms-container">
-                                By clicking ‘Submit’, I hereby acknowledge and agree that I have read and understood
-                                <a href="#" style="color: #e8ca49">DoOrder Privacy Policy</a>. DoOrder use cookies to personalise your experience. For our full
-                                <a href="#" style="color: #e8ca49">Cookies Policy</a>.
+                                By clicking 'Submit', I hereby acknowledge and agree that I have read and understood
+                                <a href="https://44fc5dd5-ecb5-4c2e-bb94-31bcbc8408a1.filesusr.com/ugd/0b2e42_1b6020943d804795becb839f2c103421.pdf" style="color: #e8ca49"
+                                target="_blank">DoOrder's Privacy Policy</a>. DoOrder uses Cookies to personalise your
+                                experience. For DoOrder's full Cookies Policy, please <a href="https://44fc5dd5-ecb5-4c2e-bb94-31bcbc8408a1.filesusr.com/ugd/0b2e42_64b44367a7ab4471b94569c71c610c6e.pdf" style="color: #e8ca49"
+                                target="_blank">click here</a>.
                             </div>
 
                             <div class="col-md-12">
@@ -490,7 +492,10 @@
             mounted() {
                 let iresh_counties_json = jQuery.getJSON('{{asset('iresh_counties.json')}}', data => {
                     for (let county of data) {
-                        this.counties.push({name: county.city, coordinates: {lat: county.lat, lng: county.lng}});
+                        //Limit available work location temporarily to Dublin
+                        if(county.city.toLowerCase()=='dublin') {
+                            this.counties.push({name: county.city, coordinates: {lat: county.lat, lng: county.lng}});
+                        }
                     }
                 });
 

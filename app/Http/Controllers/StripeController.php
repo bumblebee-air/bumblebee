@@ -123,7 +123,16 @@ class StripeController extends Controller
     }
 
     public function getOnboardSuccess(){
-        return view('stripe_onboard',['title'=>'Success', 'text'=>'The Stripe on-boarding form has been submitted successfully, please make sure that there were no missing data']);
+        $logo = '';
+        $favicon = '';
+        $request_url = request()->url();
+        if(strpos($request_url,'doorder.com')!==false){
+            $logo = asset('images/doorder-logo.png');
+            $favicon = asset('images/doorder-favicon.svg');
+        }
+        return view('stripe_onboard',['title'=>'Success',
+            'text'=>'The Stripe on-boarding form has been submitted successfully, please make sure that there were no missing data',
+            'logo'=>$logo, 'favicon'=>$favicon]);
     }
 
     public function accountUpdateWebhook(Request $request){

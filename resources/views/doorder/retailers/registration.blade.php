@@ -485,7 +485,7 @@
 
                     <div class="row">
                         <div class="col-md-12 terms-container">
-                            By clicking 'Submit', I hereby acknowledge and agree that I have read and understand
+                            By clicking 'Submit', I hereby acknowledge and agree that I have read and understood
                             <a href="https://44fc5dd5-ecb5-4c2e-bb94-31bcbc8408a1.filesusr.com/ugd/0b2e42_1b6020943d804795becb839f2c103421.pdf" style="color: #e8ca49"
                             target="_blank">DoOrder's Privacy Policy</a>. DoOrder uses Cookies to personalise your
                             experience. For DoOrder's full Cookies Policy, please <a href="https://44fc5dd5-ecb5-4c2e-bb94-31bcbc8408a1.filesusr.com/ugd/0b2e42_64b44367a7ab4471b94569c71c610c6e.pdf" style="color: #e8ca49"

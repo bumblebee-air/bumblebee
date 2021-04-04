@@ -16,4 +16,16 @@
 @endsection
 
 @section('page-scripts')
+    <script type="text/javascript">
+        $(document).ready(function(){
+            let logo_rep = '{{$logo}}';
+            if(logo_rep!=null && logo_rep!=''){
+                $('.navbar #page-logo').attr('src',logo_rep);
+            }
+            let favicon_rep = '{{$favicon}}';
+            if(favicon_rep!=null && favicon_rep!=''){
+                $('#page-favicon').attr('href',favicon_rep);
+            }
+        });
+    </script>
 @endsection

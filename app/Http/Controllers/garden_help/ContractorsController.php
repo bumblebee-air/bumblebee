@@ -3,6 +3,8 @@ namespace App\Http\Controllers\garden_help;
 
 use App\Contractor;
 use App\Customer;
+use App\Helpers\ServicesTypesHelper;
+use App\Helpers\StripePaymentHelper;
 use App\Helpers\TwilioHelper;
 use App\Mail\ContractorRegistrationMail;
 use App\Managers\StripeManager;
@@ -255,6 +257,17 @@ class ContractorsController extends Controller
                     $job->status = $request->status;
                     $job->skip_reason = $request->skip_reason;
                     $job->job_services_types_json = $request->job_services_types_json;
+                    //Capture the payment intent
+                    $actual_services_amount = ServicesTypesHelper::getJobServicesTypesAmount($job, true);
+                    $services_amount = ServicesTypesHelper::getJobServicesTypesAmount($job);
+                    if ($actual_services_amount > $services_amount) {
+                        if (StripePaymentHelper::cancelPaymentIntent($job->payment_intent_id)) {
+                            StripePaymentHelper::chargePayment($actual_services_amount, $job->stripe_customer->stripe_customer_id);
+                        }
+                    } else {
+                        StripePaymentHelper::capturePaymentIntent($job->payment_intent_id);
+                    }
+                    $job->is_paid = true;
                 }
                 $job->save();
                 if ($request->status != 'delivery_arrived') {

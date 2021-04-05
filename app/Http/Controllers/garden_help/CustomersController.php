@@ -201,12 +201,17 @@ class CustomersController extends Controller
         $customer->status = 'ready';
 
         //Create Stripe Customer
-        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
-        $stripe_customer = $stripe->customers->create([
-            'name' => $customer->user->name,
-            'email' => $customer->user->email,
-            'source' => $request->stripeToken
-        ]);
+        try {
+            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+            $stripe_customer = $stripe->customers->create([
+                'name' => $customer->user->name,
+                'email' => $customer->user->email,
+                'source' => $request->stripeToken
+            ]);
+        } catch (\Exception $e) {
+            alert()->error($e->getMessage());
+            return redirect()->back();
+        }
         $stripe_customer_id = $stripe_customer->id;
         //Saving customer id
         CustomerExtraData::create([

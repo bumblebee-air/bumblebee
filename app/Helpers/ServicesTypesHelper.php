@@ -8,12 +8,16 @@ use App\Customer;
 class ServicesTypesHelper {
 
 
-    public static function getJobServicesTypesAmount(Customer $customer): float
+    public static function getJobServicesTypesAmount(Customer $customer, $isActual = false): float
     {
         $amount = 0.0;
 
         //Calc Amount
-        $job_services = json_decode($customer->services_types_json, true);
+        if ($isActual) {
+            $job_services = $customer->job_services_types_json;
+        } else {
+            $job_services = json_decode($customer->services_types_json, true);
+        }
         foreach ($job_services as $job_service) {
             $property_size = str_replace(' Square Meters', '', $customer->property_size);
             $rate_property_sizes = json_decode($job_service['rate_property_sizes'], true);

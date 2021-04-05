@@ -44,18 +44,20 @@ class PaymentIntentCustomer extends Command
         $customers = Customer::where('type', 'job')
             ->whereNull('payment_intent_id')
             ->where('is_paid', false)
-            ->whereDate('available_date_time', '<=' ,Carbon::now()->toDateTimeString())
-            ->whereDate('available_date_time', '>=' ,Carbon::now()->addDays(6)->toDateTimeString())
+//            ->whereDate('available_date_time', '>=' ,Carbon::now()->toDateTimeString())
+//            ->whereDate('available_date_time', '<=' ,Carbon::now()->addDays(6)->toDateTimeString())
             ->get();
 
         foreach ($customers as $customer) {
             //Get Amount
-            if ($customer->services_types_json && $customer->stripe_customer) {
-                $amount = ServicesTypesHelper::getJobServicesTypesAmount($customer);
-                $payment_intent = StripePaymentHelper::paymentIntent($amount, $customer->stripe_customer->stripe_customer_id);
-                if($payment_intent) {
-                    $customer->payment_intent_id = $payment_intent->id;
-                    $customer->save();
+            if (Carbon::parse($customer->available_date_time)->toDateTimeString() >= Carbon::now()->toDateTimeString() && Carbon::parse('available_date_time')->toDateTimeString() <= Carbon::now()->addDays(6)->toDateTimeString()) {
+                if ($customer->services_types_json && $customer->stripe_customer) {
+                    $amount = ServicesTypesHelper::getJobServicesTypesAmount($customer);
+                    $payment_intent = StripePaymentHelper::paymentIntent($amount, $customer->stripe_customer->stripe_customer_id);
+                    if($payment_intent) {
+                        $customer->payment_intent_id = $payment_intent->id;
+                        $customer->save();
+                    }
                 }
             }
         }

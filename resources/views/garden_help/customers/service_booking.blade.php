@@ -69,37 +69,21 @@
                                 </div>
                             </div>
                             <div class="col-12">
-                                <div class="row">
-                                    <div class=" col-8">
-                                        <label class="requestLabelGreen">Garden maintenance
-                                            (monthly)</label>
+                                <div class="row" v-for="type in services_types">
+                                    <div class="col-md-3 col-6">
+                                        <label class="requestLabelGreen">@{{ type.title }}</label>
                                     </div>
-                                    <div class=" col-4">
-                                        <span class="requestSpanGreen">€100</span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class=" col-8">
-                                        <label class="requestLabelGreen">Grass cutting</label>
-                                    </div>
-                                    <div class=" col-4">
-                                        <span class="requestSpanGreen">€25</span>
+                                    <div class="col-md-3 col-6">
+                                        <span class="requestSpanGreen">€@{{ getPropertySizeRate(type) }}</span>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class=" col-8">
-                                        <label class="requestLabelGreen">Gutter clearing</label>
-                                    </div>
-                                    <div class=" col-4">
-                                        <span class="requestSpanGreen">€70</span>
-                                    </div>
-                                </div>
+
                                 <div class="row" style="margin-top: 15px">
-                                    <div class=" col-8">
+                                    <div class="col-md-3 col-6">
                                         <label class="requestSpanGreen">Total</label>
                                     </div>
-                                    <div class=" col-4">
-                                        <span class="requestSpanGreen">€195</span>
+                                    <div class="col-md-3 col-6">
+                                        <span class="requestSpanGreen">€@{{ getTotalPrice() }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -257,6 +241,55 @@
                     $('.check').show();
                 }
             });
+        });
+
+        new Vue({
+            el: '#app',
+            data: {
+                services_types: {!! $customer_request->services_types_json !!},
+            },
+            mounted() {
+
+            },
+            methods: {
+                getPropertySizeRate(type) {
+                    let property_size = "{{$customer_request->property_size}}";
+                    property_size = property_size.replace(' Square Meters', '');
+                    let rate_property_sizes = JSON.parse(type.rate_property_sizes);
+                    for (let rate of rate_property_sizes) {
+                        console.log(rate)
+                        let size_from = rate.max_property_size_from;
+                        let size_to = rate.max_property_size_to;
+                        let rate_per_hour = rate.rate_per_hour;
+                        console.log('ss')
+                        if (parseInt(property_size) >= parseInt(size_from) && parseInt(property_size) <= parseInt(size_to)) {
+                            let service_price = parseInt(rate_per_hour) * parseInt(type.min_hours);
+                            console.log(this.total_price, service_price);
+                            this.total_price += service_price;
+                            return service_price;
+                        }
+                    }
+                },
+                getTotalPrice() {
+                    let property_size = "{{$customer_request->property_size}}";
+                    property_size = property_size.replace(' Square Meters', '');
+                    let total_price = 0
+                    for (let type of this.services_types) {
+                        let rate_property_sizes = JSON.parse(type.rate_property_sizes);
+                        for (let rate of rate_property_sizes) {
+                            console.log(rate)
+                            let size_from = rate.max_property_size_from;
+                            let size_to = rate.max_property_size_to;
+                            let rate_per_hour = rate.rate_per_hour;
+                            if (parseInt(property_size) >= parseInt(size_from) && parseInt(property_size) <= parseInt(size_to)) {
+                                let service_price = parseInt(rate_per_hour) * parseInt(type.min_hours);
+                                total_price += service_price;
+                            }
+                        }
+                    }
+                    return total_price;
+                }
+            }
         });
     </script>
 @endsection

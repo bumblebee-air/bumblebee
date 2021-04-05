@@ -34,8 +34,11 @@
 <body>
 @include('sweet::alert')
 
-@yield('content')
+<div id="app">
+    @yield('content')
+</div>
 <!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
 <script src="{{asset('js/jquery.min.js')}}"></script>
 <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('js/popper.min.js')}}"></script>

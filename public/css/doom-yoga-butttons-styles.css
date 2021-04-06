@@ -6,7 +6,7 @@
 	transition: 0.5s;
 	box-shadow: 0 6px 9px 0 rgba(0, 0, 0, 0.16);
 	font-family: Arbutus Slab;
-	font-size: 18px;
+	font-size: 18px !important;
 	font-weight: normal;
 	font-stretch: normal;
 	font-style: normal;

@@ -287,7 +287,7 @@ form .form-group {
 	margin-left: 10px;
 }
 
-.registerDoomYogaDiv input.form-control {
+.registerDoomYogaDiv input.form-control,.contactUsThroughLabel {
 	font-family: 'Futura', Fallback, sans-serif !important;;
 	font-size: 20px !important;
 	font-weight: normal !important;
@@ -295,7 +295,7 @@ form .form-group {
 	font-style: normal;
 	line-height: normal;
 	letter-spacing: 0.32px;
-	color: #ffffff;
+	color: #ffffff !important;
 }
 
 .select2-results__option {
@@ -333,7 +333,8 @@ form .form-group {
 	background: none;
 	box-shadow: none;
 	background-image: linear-gradient(0deg, #eaecef 2px, rgba(156, 39, 176, 0)
-		0), linear-gradient(0deg, #d2d2d2 1px, hsla(0, 0%, 82%, 0) 0) !important;
+		0), linear-gradient(0deg, #d2d2d2 1px, hsla(0, 0%, 82%, 0) 0)
+		!important;
 }
 
 .select2-container .select2-selection--single .select2-selection__rendered
@@ -405,13 +406,14 @@ form .form-group {
 	-webkit-text-fill-color: transparent;
 }
 
+.contactThroughInput:checked ~.my-check-box i {
+	color: white;
+}
 
-.contactThroughInput:checked~.my-check-box i{
-color: white;
+.contactUsLabel i {
+	color: rgba(109, 109, 109, 0.9);
 }
-.contactUsLabel i{
-color: rgba(109, 109, 109, 0.9);
-}
+
 p.terms {
 	font-family: 'Futura', Fallback, sans-serif !important;
 	font-size: 16px;
@@ -424,9 +426,9 @@ p.terms {
 	color: #ffffff;
 }
 
-.getUpdatesLabel{
+.getUpdatesLabel {
 	font-family: 'Futura', Fallback, sans-serif !important;
-	font-size: 16px;
+	font-size: 19px;
 	font-weight: normal;
 	font-stretch: normal;
 	font-style: normal;
@@ -435,31 +437,33 @@ p.terms {
 	color: #ffffff;
 	margin-left: 10px;
 }
-.getUpdatesLabel i{
-color: rgba(109, 109, 109, 0.9);
+
+.getUpdatesLabel i {
+	color: rgba(109, 109, 109, 0.9);
 }
 
 a.terms-text {
 	color: #fff;
 	font-weight: bold;
 }
-.registerSpan{
+
+.registerSpan {
 	padding: 19px 45px;
-    width: 100%;
-    margin-top: 10px;
-    /* padding: 23px; */
-    transition: 0.5s;
-    box-shadow: 0 6px 9px 0 rgb(0 0 0 / 16%);
-    font-family: Arbutus Slab;
-    font-size: 18px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 0.61;
-    letter-spacing: 0.41px;
-    text-align: center;
-    color: #ffffff;
-    text-transform: uppercase;
+	width: 100%;
+	margin-top: 10px;
+	/* padding: 23px; */
+	transition: 0.5s;
+	box-shadow: 0 6px 9px 0 rgb(0 0 0/ 16%);
+	font-family: Arbutus Slab;
+	font-size: 18px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 0.61;
+	letter-spacing: 0.41px;
+	text-align: center;
+	color: #ffffff;
+	text-transform: uppercase;
 }
 
 .card-title {
@@ -472,6 +476,41 @@ a.terms-text {
 	letter-spacing: 1.3px;
 	color: #7b7b7b !important;
 	text-transform: uppercase;
+}
+
+.eventDetailsTitle {
+	font-family: 'Futura', Fallback, sans-serif;
+	font-size: 25px;
+	font-weight: 300;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 2.5;
+	letter-spacing: 1.3px;
+	color: #ffffff;
+	text-transform: uppercase;
+}
+
+.eventDetailsLabel {
+	font-family: 'Futura', Fallback, sans-serif;
+	font-size: 20px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 1.3px;
+	color: #ffffff;
+	text-transform: uppercase;
+}
+.eventDetailsSpan{
+	font-family: 'Futura', Fallback, sans-serif;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 0.28px;
+  color: #ffffff;
+	
 }
 /***************** sidebar **********************/
 .sidebar[data-background-color=black] .sidebar-background:after {
@@ -826,18 +865,17 @@ input.form-control, textarea.form-control {
 	color: #1e2432;
 }
 
-
 /************ modal ************/
-
-.modalHeaderH2 h2{
+.modalHeaderH2 h2 {
 	font-family: 'Futura', Fallback, sans-serif !important;
-  font-size: 25px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: 1.3px;
-  color: #414141;}
+	font-size: 25px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 1.3px;
+	color: #414141;
+}
 
 @media ( min-width : 576px) {
 	.modal-dialog {
@@ -868,7 +906,7 @@ input.form-control, textarea.form-control {
 	color: #767676 !important;
 }
 
-.modal-footer .btn{
+.modal-footer .btn {
 	width: 260px !important;
 	margin: 0 !important;
 }
@@ -881,16 +919,18 @@ input.form-control, textarea.form-control {
 	text-align: center;
 }
 
-
 /************************* datetime picker **************************/
 .bootstrap-datetimepicker-widget table td.active:hover>div,
 	.bootstrap-datetimepicker-widget table td.active>div {
 	background-color: #4f4f4f !important;
-	box-shadow: 0 4px 20px 0 rgb(0 0 0 / 14%), 0 7px 10px -5px rgb(79 79 79 / 40%);
+	box-shadow: 0 4px 20px 0 rgb(0 0 0/ 14%), 0 7px 10px -5px
+		rgb(79 79 79/ 40%);
 }
+
 .bootstrap-datetimepicker-widget table td span.active {
-    background-color: #4f4f4f;
+	background-color: #4f4f4f;
 }
+
 .bootstrap-datetimepicker-widget a[data-action] span,
 	.bootstrap-datetimepicker-widget a[data-action]:hover span {
 	color: #4f4f4f !important;
@@ -905,13 +945,14 @@ input.form-control, textarea.form-control {
 	color: #fff;
 	background-color: #4f4f4f !important;
 	border-color: #4f4f4f !important;
-	box-shadow: 0 4px 20px 0 rgb(0 0 0 / 14%), 0 7px 10px -5px rgb(79 79 79 / 40%);
+	box-shadow: 0 4px 20px 0 rgb(0 0 0/ 14%), 0 7px 10px -5px
+		rgb(79 79 79/ 40%);
 }
 
 .bootstrap-datetimepicker-widget .btn.btn-primary.focus,
 	.bootstrap-datetimepicker-widget .btn.btn-primary:focus,
 	.bootstrap-datetimepicker-widget .btn.btn-primary:hover {
 	color: #fff;
-	background-color: #4f4f4f!important;
+	background-color: #4f4f4f !important;
 	border-color: #404040 !important;
 }

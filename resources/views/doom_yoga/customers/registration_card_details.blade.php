@@ -73,9 +73,9 @@ Registration') @section('styles') @endsection @section('content')
 				</p>
 			</div>
 		</div>
-		<div class="row">
+		<div class="row mt-5 mb-3">
 			<div class="col-12 col-md-4 offset-md-4 mb-3 submit-container">
-				<button class="btn btn-doomyoga-primary " type="submit">Sign up</button>
+				<button class="btn btn-doomyoga-login btn-login" type="submit">Sign up</button>
 			</div>
 		</div>
 	</form>

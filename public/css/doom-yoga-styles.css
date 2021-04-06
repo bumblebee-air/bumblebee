@@ -405,6 +405,13 @@ form .form-group {
 	-webkit-text-fill-color: transparent;
 }
 
+
+.contactThroughInput:checked~.my-check-box i{
+color: white;
+}
+.contactUsLabel i{
+color: rgba(109, 109, 109, 0.9);
+}
 p.terms {
 	font-family: 'Futura', Fallback, sans-serif !important;
 	font-size: 16px;
@@ -417,8 +424,42 @@ p.terms {
 	color: #ffffff;
 }
 
+.getUpdatesLabel{
+	font-family: 'Futura', Fallback, sans-serif !important;
+	font-size: 16px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.43px;
+	color: #ffffff;
+	margin-left: 10px;
+}
+.getUpdatesLabel i{
+color: rgba(109, 109, 109, 0.9);
+}
+
 a.terms-text {
-	color: #38e2e9;
+	color: #fff;
+	font-weight: bold;
+}
+.registerSpan{
+	padding: 19px 45px;
+    width: 100%;
+    margin-top: 10px;
+    /* padding: 23px; */
+    transition: 0.5s;
+    box-shadow: 0 6px 9px 0 rgb(0 0 0 / 16%);
+    font-family: Arbutus Slab;
+    font-size: 18px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 0.61;
+    letter-spacing: 0.41px;
+    text-align: center;
+    color: #ffffff;
+    text-transform: uppercase;
 }
 
 .card-title {

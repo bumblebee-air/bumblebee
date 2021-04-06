@@ -34,7 +34,7 @@ input[type="radio"]:checked+div i, input[type="radio"]:checked+div i:before
 </style>
 @endsection @section('content')
 
-<div class="container registerDoomYogaDiv" id="app" >
+<div class="container registerDoomYogaDiv" id="app">
 	<form action="{{route('postCustomerRegistrationForm', 'doom_yoga')}}"
 		method="POST" enctype="multipart/form-data" autocomplete="off">
 		{{csrf_field()}}
@@ -85,8 +85,8 @@ input[type="radio"]:checked+div i, input[type="radio"]:checked+div i:before
 
 					<div class="col-md-12">
 						<div class="form-group formSelectDiv  filledInputDiv">
-							<label for="level" class="bmd-label-floating">Level</label>
-							<select id="level" name="level"
+							<label for="level" class="bmd-label-floating">Level</label> <select
+								id="level" name="level"
 								class="form-control js-example-basic-single ">
 								<option disabled selected value="">Select level</option>
 								<option value="Beginner">Beginner</option>
@@ -116,85 +116,113 @@ input[type="radio"]:checked+div i, input[type="radio"]:checked+div i:before
 					<div class="col-md-12">
 						<div class="form-group ">
 							<div class="d-flex">
-								<div class="contact-through d-flex pr-5"
-									@click="changeContact('whatsapp')">
-									<div id="check"
-										:class="contact_through == 'whatsapp' ? 'my-check-box checked mr-1' : 'my-check-box mr-1'">
-										<i class="fas fa-check-square"></i>
+								<div class="contact-through d-flex pr-5">
+									<div class="form-check">
+										<label class="contactUsLabel"><input type="checkbox"
+											class="form-check-input contactThroughInput"
+											name="contact_through[]" id="whatsapp" value="whatsapp" v-model="contact_through"> <span id="check"
+											class="my-check-box"> <i class="fas fa-check-square"></i>
+										</span> Whatsapp</label>
 									</div>
-									<label class="contactUsLabel">Whatsapp</label>
 								</div>
-								<div class="contact-through d-flex"
-									@click="changeContact('sms')">
-									<div id="check"
-										:class="contact_through == 'sms' ? 'my-check-box checked mr-1' : 'my-check-box mr-1'">
-										<i class="fas fa-check-square"></i>
+								<div class="contact-through d-flex pr-5">
+									<div class="form-check">
+										<label class="contactUsLabel"><input type="checkbox"
+											class="form-check-input contactThroughInput"
+											name="contact_through[]" id="sms" value="sms" v-model="contact_through"> <span id="check"
+											class="my-check-box"> <i class="fas fa-check-square"></i>
+										</span> SMS</label>
 									</div>
-									<label class="contactUsLabel">SMS</label>
 								</div>
-								<input type="hidden" v-model="contact_through"
-									name="contact_through">
+								<div class="contact-through d-flex pr-5">
+									<div class="form-check">
+										<label class="contactUsLabel"><input type="checkbox"
+											class="form-check-input contactThroughInput"
+											name="contact_through[]" id="email" value="email" v-model="contact_through"> <span id="check"
+											class="my-check-box"> <i class="fas fa-check-square"></i>
+										</span> Email</label>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
 					<div class="col-md-12">
-						<h5 class="registerSubTitle">Choose Subscription</h5>
-					</div>
-					<div class="col-12  mt-2">
-						<input type="radio" id="radioInputSubscriptionMonthly"
-							name="subscription" value="monthly">
-						<div>
-							<label class="form-check-label w-100 px-0"
-								for="radioInputSubscriptionMonthly">
-								<div class="row subscriptionRowDiv">
-
-									<div class="col-1" style="text-align: center">
-										<i class="far fa-circle"></i>
-									</div>
-									<div class="col-11">
-										<h6 class="registerSubscriptionTitleH6">Doom Yoga - Monthly
-											Subscription</h6>
-										<p class="registerSubscriptionDetailsP">Gain access to the
-											music library, class and events</p>
-										<p class="registerSubscriptionFreeP">Free for 7 days</p>
-										<p class="registerSubscriptionFeesP">£ 30/month after trial</p>
+						<div class="form-group ">
+							<div class="d-flex">
+								<div class="contact-through d-flex ">
+									<div class="form-check">
+										<label class="getUpdatesLabel"><input type="checkbox"
+											class="form-check-input contactThroughInput"
+											name="get_updates" value="1"> <span id="check"
+											class="my-check-box"> <i class="fas fa-check-square"></i>
+										</span> I want to get updates about upcoming events and classes</label>
 									</div>
 								</div>
-							</label>
+							</div>
 						</div>
 					</div>
-					<div class="col-12 mt-2 ">
-						<input type="radio" id="radioInputSubscriptionAnnual"
-							name="subscription" value="annual">
-						<div>
-							<label class="form-check-label w-100 px-0"
-								for="radioInputSubscriptionAnnual">
-								<div class="row subscriptionRowDiv">
+					<!-- 					<div class="col-md-12"> -->
+					<!-- 						<h5 class="registerSubTitle">Choose Subscription</h5> -->
+					<!-- 					</div> -->
+					<!-- 					<div class="col-12  mt-2"> -->
+					<!-- 						<input type="radio" id="radioInputSubscriptionMonthly" -->
+					<!-- 							name="subscription" value="monthly"> -->
+					<!-- 						<div> -->
+					<!-- 							<label class="form-check-label w-100 px-0" -->
+					<!-- 								for="radioInputSubscriptionMonthly"> -->
+					<!-- 								<div class="row subscriptionRowDiv"> -->
 
-									<div class="col-1" style="text-align: center">
-										<i class="far fa-circle"></i>
-									</div>
-									<div class="col-11">
-										<h6 class="registerSubscriptionTitleH6">Doom Yoga - Annual
-											Subscription</h6>
-										<p class="registerSubscriptionDetailsP">Gain access to the
-											music library, class and events</p>
-										<p class="registerSubscriptionFreeP">Free for 7 days</p>
-										<p class="registerSubscriptionFeesP">£ 300/year after trial</p>
-									</div>
-								</div>
-							</label>
-						</div>
-					</div>
+					<!-- 									<div class="col-1" style="text-align: center"> -->
+					<!-- 										<i class="far fa-circle"></i> -->
+					<!-- 									</div> -->
+					<!-- 									<div class="col-11"> -->
+					<!-- 										<h6 class="registerSubscriptionTitleH6">Doom Yoga - Monthly -->
+					<!-- 											Subscription</h6> -->
+					<!-- 										<p class="registerSubscriptionDetailsP">Gain access to the -->
+					<!-- 											music library, class and events</p> -->
+					<!-- 										<p class="registerSubscriptionFreeP">Free for 7 days</p> -->
+					<!-- 										<p class="registerSubscriptionFeesP">£ 30/month after trial</p> -->
+					<!-- 									</div> -->
+					<!-- 								</div> -->
+					<!-- 							</label> -->
+					<!-- 						</div> -->
+					<!-- 					</div> -->
+					<!-- 					<div class="col-12 mt-2 "> -->
+					<!-- 						<input type="radio" id="radioInputSubscriptionAnnual" -->
+					<!-- 							name="subscription" value="annual"> -->
+					<!-- 						<div> -->
+					<!-- 							<label class="form-check-label w-100 px-0" -->
+					<!-- 								for="radioInputSubscriptionAnnual"> -->
+					<!-- 								<div class="row subscriptionRowDiv"> -->
+
+					<!-- 									<div class="col-1" style="text-align: center"> -->
+					<!-- 										<i class="far fa-circle"></i> -->
+					<!-- 									</div> -->
+					<!-- 									<div class="col-11"> -->
+					<!-- 										<h6 class="registerSubscriptionTitleH6">Doom Yoga - Annual -->
+					<!-- 											Subscription</h6> -->
+					<!-- 										<p class="registerSubscriptionDetailsP">Gain access to the -->
+					<!-- 											music library, class and events</p> -->
+					<!-- 										<p class="registerSubscriptionFreeP">Free for 7 days</p> -->
+					<!-- 										<p class="registerSubscriptionFeesP">£ 300/year after trial</p> -->
+					<!-- 									</div> -->
+					<!-- 								</div> -->
+					<!-- 							</label> -->
+					<!-- 						</div> -->
+					<!-- 					</div> -->
 				</div>
 
 			</div>
 		</div>
 
-		<div class="row mt-5">
-
-			<div class="col-12 col-md-4 offset-md-4 mb-3 submit-container">
-				<button class="btn btn-doomyoga-primary " type="submit">Continue</button>
+		<div class="row mt-5 mb-1">
+			<div class="col-12 col-md-4 offset-md-4 mb-1 submit-container">
+				<button class="btn btn-doomyoga-login btn-login" type="submit">Continue</button>
+			</div>
+		</div>
+		<div class="row mt-2 mb-3">
+			<div class="col-12 col-md-4 offset-md-4 mb-3 submit-container text-center">
+				<span class="registerSpan" >Guest Checkout</span>
 			</div>
 		</div>
 	</form>
@@ -228,19 +256,13 @@ function addIntelInput(input_id, input_name) {
         var app = new Vue({
             el: '#app',
             data: {
-				contact_through: '',
+				contact_through: [],
             },
             mounted() {
                 
             },
             methods: {
                 
-                changeContact(value) {
-                    this.contact_through = value;
-                },
-                toggleCheckedValue(type) {
-                    type.is_checked = !type.is_checked;
-                },
 
             }
         }); 

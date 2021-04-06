@@ -12,7 +12,6 @@ class CustomerController extends Controller
     }
     
     public function postCustomerRegistrationForm(Request $request) {
-        
         return view('doom_yoga.customers.registration_card_details');
     }
     

@@ -185,12 +185,13 @@ font-size: 12px !important;
 <script src="{{asset('js/calender-design.js')}}"></script>
 
 <script type="text/javascript">
+	let contractors = [];
 	$(document).ready(function() {
 	    var date = new Date();
 		var d = date.getDate();
 		var m = date.getMonth();
 		var y = date.getFullYear();
-		
+
 		/*  className colors
 		
 		className: default(transparent), important(red), chill(pink), success(green), info(blue)
@@ -281,50 +282,57 @@ font-size: 12px !important;
 				
 			},
 			
-			events: {!! $events !!},
-			
+			{{--events: {!! $events !!},--}}
+			events: function(start_date, end_date, callback) {
+				$.ajax({
+					type:'GET',
+					url: '{{url("garden-help/contractors/roster-events")}}'+'?start_date='+Math.round(start_date.getTime() / 1000)+'&end_date='+Math.round(end_date.getTime() / 1000),
+					success:function(data) {
+						contractors = data.contractors;
+						callback(data.events);
+					}
+				});
+			},
+
 			 eventClick: function(calEvent, jsEvent, view) {
                getDetialsOfDate(calEvent.start);            
  			 }	,
  			 dayClick: function(date, allDay, jsEvent, view) {
                getDetialsOfDate(date);
-              },	
+			 },
 		});
 		
 		
 	});
 	
 	function getDetialsOfDate(date){
-		let d = new Date(date).toISOString().split('T')[0];
-		console.log(d)
-		
-		$.ajax({
-                   type:'GET',
-                   url: '{{url("garden-help/contractors/roster-data")}}'+'?date='+date,
-                   success:function(data) {
-                     
-                     	var events = data.events;
-                     	var ulContent = '';
-                     	for(var i=0; i<events.length; i++){
-                     		ulContent = ulContent+ '<li class="list-group-item '+events[i].className+'"> '+events[i].title +'  </li>';
-                     	}
-                     	
-                     	var selectedDate = new Date(date);
-                     	var d = selectedDate.getDate();
-                		var m = selectedDate.getMonth();
-                		var y = selectedDate.getFullYear();
-                     	const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-                     	var monthName = months[m];
-                     	const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-                     	var dayName = days[selectedDate.getDay()]
-                     
-                     	$('#calendar-modal').modal('show');
-                     	$('#calendar-modal #dateSpan').html(dayName+', '+monthName+' '+d+', '+y);
-                     	
-                     	$('#dateDetailsUl').html(ulContent);
-                      
-                   }
-            	});
+		//Get Date Format
+		var selectedDate = new Date(date);
+		var d = selectedDate.getDate();
+		var m = selectedDate.getMonth();
+		var y = selectedDate.getFullYear();
+
+		var ulContent = '';
+		let key = y+'-'+pad2(m+1)+'-'+pad2(d);
+		let contractors_data = contractors[key];
+		for(var i=0; i< contractors_data.length; i++){
+			ulContent = ulContent+ '<li class="list-group-item '+contractors_data[i].className+'"> '+contractors_data[i].title +'  </li>';
+		}
+
+
+		const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+		var monthName = months[m];
+		const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+		var dayName = days[selectedDate.getDay()]
+
+		$('#calendar-modal').modal('show');
+		$('#calendar-modal #dateSpan').html(dayName+', '+monthName+' '+d+', '+y);
+
+		$('#dateDetailsUl').html(ulContent);
+	}
+
+	function pad2(number) {
+		return (number < 10 ? '0' : '') + number
 	}
 </script>
 @endsection

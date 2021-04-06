@@ -10,6 +10,7 @@ use App\Mail\ContractorRegistrationMail;
 use App\Managers\StripeManager;
 use App\User;
 use App\UserClient;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Alert;
@@ -451,63 +452,59 @@ class ContractorsController extends Controller
 
     public function getContractorsRoster(Request $request)
     {
-        $level1 = new Item();
-        $level1->title = "3 contractors";
-        $level1->start = "2021-03-03";
-        $level1->className = "level1";
+        return view('admin.garden_help.contractors.roster');
+    }
 
-        $level2 = new Item();
-        $level2->title = "5 contractors";
-        $level2->start = "2021-03-03";
-        $level2->className = "level2";
+    public function getContractorsRosterEvents(Request $request)
+    {
+        $this->validate($request, [
+            'start_date' => 'required',
+            'end_date' => 'required',
+        ]);
+        $start_date = Carbon::createFromTimestamp($request->start_date);
+        $end_date = Carbon::createFromTimestamp($request->end_date);
+        $days_count = $start_date->diffInDays($end_date) + 1;
+        $contractors = Contractor::where('status', 'completed')->get();
+        $events_array = [];
+        $current_contractors = [];
+        for ($i = 1; $i < $days_count; $i++) {
 
-        $level3 = new Item();
-        $level3->title = "2 contractors";
-        $level3->start = "2021-03-03";
-        $level3->className = "level3";
+            $currentDate = Carbon::parse($start_date)->addDays($i);
+            $currentDayName = $currentDate->format('l');
+            $contractors_count_lvl1 = 0;
+            $contractors_count_lvl2 = 0;
+            $contractors_count_lvl3 = 0;
+            $list_of_contractors = [];
 
-        $events = array(
-            $level1,
-            $level2,
-            $level3
-        );
-        // dd($events);
-        // dd(json_encode($events));
 
-        return view('admin.garden_help.contractors.roster', [
-            'events' => json_encode($events)
+            foreach ($contractors as $contractor) {
+                if ($contractor->business_hours_json) {
+                    $contractor_business_hours = json_decode($contractor->business_hours_json, true);
+                    if($contractor_business_hours[$currentDayName]['isActive']){
+                        $contractor_level = "contractors_count_lvl$contractor->experience_level_value";
+                        $$contractor_level++;
+                        $list_of_contractors[]=[
+                            'title' => "$contractor->name / $contractor->experience_level / ".$contractor_business_hours[$currentDayName]['timeFrom']."-".$contractor_business_hours[$currentDayName]['timeTill']." / $contractor->address",
+                            'className' => "level$contractor->experience_level_value"
+                        ];
+                    }
+                }
+            }
+            for ($x=1; $x < 4; $x++) {
+                $contractors_count_lvl = "contractors_count_lvl$x";
+                if ($$contractors_count_lvl > 0) {
+                    $events_array[] = [
+                        'title' => $$contractors_count_lvl." contractors",
+                        'start' => $currentDate->format('Y-m-d'),
+                        'className' => "level$x",
+                    ];
+                }
+            }
+            $current_contractors[$currentDate->format('Y-m-d')] = $list_of_contractors;
+        }
+        return response()->json([
+            'events' => $events_array,
+            'contractors' => $current_contractors
         ]);
     }
-
-    public function postContractorsRoster(Request $request)
-    {
-        $date = $request->get('date');
-        
-         
-        $level1 = new Item();
-        $level1->title = "John Dow / Level 1 / 09:00-17:00 / Quarry Hill,Limerick,Ireland";
-        $level1->className = "level1";
-        
-        $level2 = new Item();
-        $level2->title = "John Dow / Level 2 / 09:00-17:00 / Quarry Hill,Limerick,Ireland";
-        $level2->className = "level2";
-        
-        $level3 = new Item();
-        $level3->title = "John Dow / Level 3 / 09:00-17:00 / Quarry Hill,Limerick,Ireland";
-        $level3->className = "level3";
-        
-        $events = array(
-            $level1,
-            $level2,
-            $level3
-        );
-        
-        return response()->json(array('date'=> $date, 'events'=>$events), 200);
-    }
-}
-
-class Item
-{
-
-    public $title, $start, $className;
 }

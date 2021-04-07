@@ -366,7 +366,13 @@ class DriversController extends Controller
             if(strpos($request_url,'api/')!==false){
                 $error_string = 'The following inputs have errors';
                 foreach($e->errors() as $validate_err){
-                    $error_string .= ', '.$validate_err;
+                    if (is_array($validate_err)) {
+                        foreach($validate_err as $err) {
+                            $error_string .= ', ' . $err;
+                        }
+                    } else {
+                        $error_string .= ', '.$validate_err;
+                    }
                 }
                 $response = [
                     'message' => $error_string,
@@ -376,7 +382,13 @@ class DriversController extends Controller
             }else{
                 $error_html = '<h3>The following inputs have errors</h3> <p><ul>';
                 foreach($e->errors() as $validate_err){
-                    $error_html .= '<li>'.$validate_err.'</li>';
+                    if (is_array($validate_err)) {
+                        foreach($validate_err as $err) {
+                            $error_html .= '<li>'.$err.'</li>';
+                        }
+                    } else {
+                        $error_html .= '<li>'.$validate_err.'</li>';
+                    }
                 }
                 $error_html .= '</ul></p>';
                 alert()->error($error_html);
@@ -384,13 +396,21 @@ class DriversController extends Controller
             }
         }
 
-        $user = new User();
-        $user->name = "$request->first_name $request->last_name";
-        $user->email = $request->email;
-        $user->phone = $request->phone_number;
-        $user->password = bcrypt(Str::random(6));
-        $user->user_role = 'driver';
-        $user->save();
+        try {
+            $user = new User();
+            $user->name = "$request->first_name $request->last_name";
+            $user->email = $request->email;
+            $user->phone = $request->phone_number;
+            $user->password = bcrypt(Str::random(6));
+            $user->user_role = 'driver';
+            $user->save();
+        } catch(\Exception $exception){
+            $response = [
+                'message' => $exception->getMessage(),
+                'error' => 1
+            ];
+            return response()->json($response)->setStatusCode(422);
+        }
 
         $client = \App\Client::where('name', 'DoOrder')->first();
         if($client) {

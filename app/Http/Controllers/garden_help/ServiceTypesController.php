@@ -93,7 +93,7 @@ class ServiceTypesController extends Controller
         }
         $this->validate($request, [
             'service_type' => 'required',
-            'min_hours' => 'required|integer',
+            'min_hours' => 'required|regex:/^\d*(\.\d{2})?$/',
             'rate_property_sizes' => 'required',
             'is_service_recurring' => 'required',
         ]);

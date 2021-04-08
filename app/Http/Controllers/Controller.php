@@ -19,6 +19,12 @@ class Controller extends BaseController
 
         $fields = array (
             'registration_ids' => $user_tokens,
+            'notification' => [
+                'title' => $data['title'],
+                'body' => $data['message'],
+                'sound' => 'default',
+                'badge' => '1'
+            ],
             'data' => $data
         );
         $fields = json_encode($fields);

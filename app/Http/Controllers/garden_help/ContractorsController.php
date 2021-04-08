@@ -272,6 +272,10 @@ class ContractorsController extends Controller
                                 ]);
                             }
                         }
+                    } else if ($actual_services_amount < $services_amount) {
+                        if (StripePaymentHelper::cancelPaymentIntent($job->payment_intent_id)) {
+                            StripePaymentHelper::chargePayment($actual_services_amount, $job->stripe_customer->stripe_customer_id);
+                        }
                     } else {
                         StripePaymentHelper::capturePaymentIntent($job->payment_intent_id);
                     }

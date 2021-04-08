@@ -41,6 +41,7 @@ Route::post('shopify/order', 'ShopifyController@receiveOrder');
 Route::post('shopify/fulfill-order', 'ShopifyController@fulfillOrder');
 Route::post('fulfill-order', 'OrdersController@fulfillOrder');
 
+Route::post('driver-registration','doorder\DriversController@postDriverRegistration');
 Route::post('driver-login','doorder\DriversController@driversLogin');
 Route::post('driver-forgot-password','doorder\DriversController@sendForgotPasswordCode');
 Route::post('driver-check-code','doorder\DriversController@checkForgotPasswordCode');
@@ -57,7 +58,6 @@ Route::group(['middleware' => "auth:api"],function () {
     Route::post('update-driver-password','doorder\DriversController@changePassword');
     Route::get('get-driver-profile','doorder\DriversController@getProfile');
     Route::post('update-driver-profile','doorder\DriversController@updateProfile');
-    Route::post('driver-registration','doorder\DriversController@postDriverRegistration');
 
     //GardenHelp
     Route::get('jobs-list','garden_help\ContractorsController@getJobsList');

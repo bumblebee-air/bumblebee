@@ -262,8 +262,15 @@ class ContractorsController extends Controller
                     $actual_services_amount = ServicesTypesHelper::getJobServicesTypesAmount($job, true);
                     $services_amount = ServicesTypesHelper::getJobServicesTypesAmount($job);
                     if ($actual_services_amount > $services_amount) {
-                        if (StripePaymentHelper::cancelPaymentIntent($job->payment_intent_id)) {
-                            StripePaymentHelper::chargePayment($actual_services_amount, $job->stripe_customer->stripe_customer_id);
+                        if (StripePaymentHelper::chargePayment($actual_services_amount, $job->stripe_customer->stripe_customer_id)) {
+                            StripePaymentHelper::cancelPaymentIntent($job->payment_intent_id);
+                        } else {
+                            if (StripePaymentHelper::capturePaymentIntent($job->payment_intent_id)) {
+                                $job->payment_details_object = json_encode([
+                                    'payment_type' => 'partial', //paid, partial
+                                    'residualـvalue' => $actual_services_amount - $services_amount
+                                ]);
+                            }
                         }
                     } else {
                         StripePaymentHelper::capturePaymentIntent($job->payment_intent_id);
@@ -271,6 +278,7 @@ class ContractorsController extends Controller
                     $job->is_paid = true;
                 }
                 $job->save();
+                dd('ss');
                 if ($request->status != 'delivery_arrived') {
                     Redis::publish('garden-help-channel', json_encode([
                         'event' => 'update-job-status',

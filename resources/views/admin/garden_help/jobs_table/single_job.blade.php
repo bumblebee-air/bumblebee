@@ -251,40 +251,38 @@ input[type="radio"]:checked+div i {
 													</div>
 												</div>
 											</div>
-											<div class="col-12">
-												@if(count($contractors) > 0) @foreach($contractors as
-												$contractor)
-												<div class="card recommendContractor">
-													<input type="radio"
-														id="radioInputContractor-{{$contractor->id}}"
-														name="selected-contractor" value="{{$contractor->id}}"
-														data-contractor-name="{{$contractor->name}}"
-														data-contractor-level="{{$contractor->experience_level}}"
-														data-contractor-away="0">
+											<div class="col-12" id="contractors-list">
+												@if(count($contractors) > 0)
+												@foreach($contractors as $contractor)
+													<div class="card recommendContractor" id="contractor-row-{{$contractor->id}}" data-sort="0">
+														<input type="radio"
+															id="radioInputContractor-{{$contractor->id}}"
+															name="selected-contractor" value="{{$contractor->id}}"
+															data-contractor-name="{{$contractor->name}}"
+															data-contractor-level="{{$contractor->experience_level}}"
+															data-contractor-away="0">
+														<div class="card-body">
+															<div class="col-12  ">
+																<label class="form-check-label w-100 px-0"
+																	for="radioInputContractor-{{$contractor->id}}">
+																	<div class="row">
 
-													<div class="card-body">
-														<div class="col-12  ">
-															<label class="form-check-label w-100 px-0"
-																for="radioInputContractor-{{$contractor->id}}">
-																<div class="row">
-
-																	<div class="col-10">
-																		<h6 class="recommendContractorNameH6">
-																			{{$contractor->name}}</h6>
-																		<p class="recommendContractorDataP">{{$contractor->experience_level}}</p>
-																		<p class="recommendContractorDataP"
-																			id="km-away-{{$contractor->id}}">0 km away</p>
+																		<div class="col-10">
+																			<h6 class="recommendContractorNameH6">
+																				{{$contractor->name}}</h6>
+																			<p class="recommendContractorDataP">{{$contractor->experience_level}}</p>
+																			<p class="recommendContractorDataP" id="km-away-{{$contractor->id}}">0 km away</p>
+																		</div>
+																		<div class="col-2" style="text-align: right">
+																			<i class="fas fa-check-circle"></i>
+																		</div>
 																	</div>
-																	<div class="col-2" style="text-align: right">
-																		<i class="fas fa-check-circle"></i>
-																	</div>
-																</div>
-															</label>
+																</label>
+															</div>
 														</div>
-
 													</div>
-												</div>
-												@endforeach @endif
+												@endforeach
+												@endif
 											</div>
 										</div>
 									</div>
@@ -340,7 +338,8 @@ input[type="radio"]:checked+div i {
 								</div>
 							</div>
 						</div>
-						@endif @if($job->status =='completed')
+						@endif
+						@if($job->status =='completed')
 
 						<div class="col-lg-6  ">
 							<div class="card ">
@@ -626,13 +625,11 @@ input[type="radio"]:checked+div i {
 					property_size = property_size.replace(' Square Meters', '');
 					let rate_property_sizes = JSON.parse(type.rate_property_sizes);
 					for (let rate of rate_property_sizes) {
-						console.log(rate)
 						let size_from = rate.max_property_size_from;
 						let size_to = rate.max_property_size_to;
 						let rate_per_hour = rate.rate_per_hour;
 						if (parseInt(property_size) >= parseInt(size_from) && parseInt(property_size) <= parseInt(size_to)) {
 							let service_price = parseInt(rate_per_hour) * parseInt(type.min_hours);
-							console.log(this.total_price, service_price);
 							this.total_price += service_price;
 							return service_price;
 						}
@@ -646,7 +643,6 @@ input[type="radio"]:checked+div i {
 					for (let type of services_types) {
 						let rate_property_sizes = JSON.parse(type.rate_property_sizes);
 						for (let rate of rate_property_sizes) {
-							console.log(rate)
 							let size_from = rate.max_property_size_from;
 							let size_to = rate.max_property_size_to;
 							let rate_per_hour = rate.rate_per_hour;
@@ -686,7 +682,6 @@ input[type="radio"]:checked+div i {
 
             // Define the LatLng coordinates for the polygon's path.
             let area_coordinates = {!!$job->area_coordinates!!};
-            console.log(area_coordinates);
             const polygonCoords = [area_coordinates];
             // Construct the polygon.
             const polygon = new google.maps.Polygon({
@@ -714,15 +709,36 @@ input[type="radio"]:checked+div i {
             let contractors = {!! json_encode($contractors) !!};
             let job = {!! json_encode($job) !!};
             let job_coordinates = JSON.parse(job.location_coordinates);
+            let assigned_contractor = {!! json_encode($contractor) !!};
 
-            for (let contractor of contractors) {
-                let contractor_location = JSON.parse(contractor.address_coordinates);
-                let from = new google.maps.LatLng(contractor_location.lat, contractor_location.lon)
-                let to = new google.maps.LatLng(job_coordinates.lat, job_coordinates.lon);
-                let distance = google.maps.geometry.spherical.computeDistanceBetween(from, to) / 1000;
-                $('#km-away-' + contractor.id).text(distance.toFixed(0) + ' km away');
-                $('#radioInputContractor-' + contractor.id).attr('data-contractor-away', distance.toFixed(0) + ' km away');
-            }
+            if (contractors.length > 0) {
+				for (let contractor of contractors) {
+					let contractor_location = JSON.parse(contractor.address_coordinates);
+					let from = new google.maps.LatLng(contractor_location.lat, contractor_location.lon)
+					let to = new google.maps.LatLng(job_coordinates.lat, job_coordinates.lon);
+					let distance = google.maps.geometry.spherical.computeDistanceBetween(from, to) / 1000;
+					$('#km-away-' + contractor.id).text(distance.toFixed(0) + ' km away');
+					$('#contractor-row-' + contractor.id).data('sort', distance.toFixed(0));
+					$('#radioInputContractor-' + contractor.id).attr('data-contractor-away', distance.toFixed(0) + ' km away');
+				}
+			} else {
+				let contractor_location = JSON.parse(assigned_contractor.address_coordinates);
+				let from = new google.maps.LatLng(contractor_location.lat, contractor_location.lon)
+				let to = new google.maps.LatLng(job_coordinates.lat, job_coordinates.lon);
+				let distance = google.maps.geometry.spherical.computeDistanceBetween(from, to) / 1000;
+				$('#km-away-' + assigned_contractor.id).text(distance.toFixed(0) + ' km away');
+				$('#contractor-row-' + assigned_contractor.id).data('sort', distance.toFixed(0));
+				$('#radioInputContractor-' + assigned_contractor.id).attr('data-contractor-away', distance.toFixed(0) + ' km away');
+			}
+
+            //Arranging Contractors
+			var contractors_list = $('#contractors-list').children()
+			let result = contractors_list.sort(function (a, b) {
+				var contentA =parseInt( $(a).data('sort'));
+				var contentB =parseInt( $(b).data('sort'));
+				return (contentA < contentB) ? -1 : (contentA > contentB) ? 1 : 0;
+			});
+			$('#contractors-list').html(result);
         }
     </script>
 

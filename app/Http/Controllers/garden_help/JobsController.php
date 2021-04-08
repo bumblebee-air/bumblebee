@@ -36,10 +36,7 @@ class JobsController extends Controller
         $contractors = Contractor::where('status', 'completed')->get();
         // dd($customer_request);
         if ($customer_request->status != 'ready' ) {
-            $contractor = new Contractor();
-            $contractor->name = "sara reda";
-            $contractor->experience_level = "0-2 years";
-            $contractor->km_away = 0;
+            $contractor = Contractor::where('user_id', $customer_request->contractor_id)->first();
             return view('admin.garden_help.jobs_table.single_job', [
                 'job' => $customer_request,
                 'contractor' => $contractor,

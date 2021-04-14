@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\doorder;
 
 use App\DriverProfile;
+use App\Helpers\EnvClientsHelper;
 use App\Order;
 use App\User;
 use App\UserFirebaseToken;
@@ -147,8 +148,8 @@ class OrdersController extends Controller
                 'order_id' => $order->id
             ]);
         }
-        $sid    = env('TWILIO_SID', '');
-        $token  = env('TWILIO_AUTH', '');
+        $sid    = EnvClientsHelper::getEnvDataFunction(2, 'TWILIO_SID');
+        $token  = EnvClientsHelper::getEnvDataFunction(2, 'TWILIO_AUTH');
         $twilio = new Client($sid, $token);
         $twilio->messages->create($driver->phone,
             [

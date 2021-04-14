@@ -3,6 +3,7 @@ namespace App\Http\Controllers\garden_help;
 
 use App\Contractor;
 use App\Customer;
+use App\Helpers\EnvClientsHelper;
 use App\Helpers\ServicesTypesHelper;
 use App\Helpers\StripePaymentHelper;
 use App\Helpers\TwilioHelper;
@@ -98,7 +99,7 @@ class ContractorsController extends Controller
             'type_of_work_selected_value' => $request->type_of_work_selected_value
         ]);
 
-        \Mail::to(env('GH_NOTIF_EMAIL', 'kim@bumblebeeai.io'))->send(new ContractorRegistrationMail($contractor));
+        \Mail::to(EnvClientsHelper::getEnvDataFunction(1, 'GH_NOTIF_EMAIL'))->send(new ContractorRegistrationMail($contractor));
         if ($contractor->email != null && $contractor->email != '') {
             \Mail::to($contractor->email)->send(new ContractorRegistrationMail($contractor));
         }

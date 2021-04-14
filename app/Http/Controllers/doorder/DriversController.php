@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\doorder;
 
 use App\DriverProfile;
+use App\Helpers\EnvClientsHelper;
 use App\Helpers\SecurityHelper;
 use App\KPITimestamp;
 use App\Managers\StripeManager;
@@ -135,14 +136,14 @@ class DriversController extends Controller
                 $order->customer_confirmation_code = Str::random(8);
                 $order->delivery_confirmation_code = Str::random(32);
                 $retailer_name = $order->retailer_name;
-                $sid    = env('TWILIO_SID', '');
-                $token  = env('TWILIO_AUTH', '');
+                $sid    = EnvClientsHelper::getEnvDataFunction(2, 'TWILIO_SID');
+                $token  = EnvClientsHelper::getEnvDataFunction(2, 'TWILIO_AUTH');
                 $twilio = new Client($sid, $token);
                 //url('customer/delivery_confirmation/' . $order->customer_confirmation_code)
                 $sender_name = "DoOrder";
                 foreach($this->unallowed_sms_alpha_codes as $country_code){
                     if(strpos($order->customer_phone,$country_code)!==false){
-                        $sender_name = env('TWILIO_NUMBER','DoOrder');
+                        $sender_name = EnvClientsHelper::getEnvDataFunction(2, 'TWILIO_NUMBER');
                     }
                 }
                 $twilio->messages->create($order->customer_phone,
@@ -496,13 +497,13 @@ class DriversController extends Controller
             $user->password = bcrypt($new_pass);
             $user->save();
             try {
-                $sid = env('TWILIO_SID', '');
-                $token = env('TWILIO_AUTH', '');
+                $sid = EnvClientsHelper::getEnvDataFunction(2, 'TWILIO_SID');
+                $token = EnvClientsHelper::getEnvDataFunction(2, 'TWILIO_STWILIO_AUTHID');
                 $twilio = new Client($sid, $token);
                 $sender_name = "DoOrder";
                 foreach($this->unallowed_sms_alpha_codes as $country_code){
                     if(strpos($user->phone,$country_code)!==false){
-                        $sender_name = env('TWILIO_NUMBER','DoOrder');
+                        $sender_name = EnvClientsHelper::getEnvDataFunction(2, 'TWILIO_NUMBER');
                     }
                 }
                 $twilio->messages->create($user->phone,
@@ -527,13 +528,13 @@ class DriversController extends Controller
             $rand_code = rand(100000,999999);
             $resetPasswordCode = strval($rand_code);
             try {
-                $sid = env('TWILIO_SID', '');
-                $token = env('TWILIO_AUTH', '');
+                $sid = EnvClientsHelper::getEnvDataFunction(2, 'TWILIO_SID');
+                $token = EnvClientsHelper::getEnvDataFunction(2, 'TWILIO_AUTH');
                 $twilio = new Client($sid, $token);
                 $sender_name = "DoOrder";
                 foreach($this->unallowed_sms_alpha_codes as $country_code){
                     if(strpos($checkIfUserExists->phone,$country_code)!==false){
-                        $sender_name = env('TWILIO_NUMBER','DoOrder');
+                        $sender_name = EnvClientsHelper::getEnvDataFunction(2, 'TWILIO_NUMBER');
                     }
                 }
                 $twilio->messages->create($checkIfUserExists->phone,

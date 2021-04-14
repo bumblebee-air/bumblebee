@@ -4,7 +4,9 @@ namespace App\Http\Controllers\garden_help;
 
 use App\Customer;
 use App\CustomerExtraData;
+use App\EnvData;
 use App\GardenServiceType;
+use App\Helpers\EnvClientsHelper;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\UserClient;
@@ -163,8 +165,8 @@ class CustomersController extends Controller
 
             try {
                 //Sending booking URL via SMS
-                $sid = env('TWILIO_SID', '');
-                $token = env('TWILIO_AUTH', '');
+                $sid = EnvClientsHelper::getEnvDataFunction(1, 'TWILIO_SID');
+                $token = EnvClientsHelper::getEnvDataFunction(1, 'TWILIO_AUTH');
                 $twilio = new Client($sid, $token);
                 $twilio->messages->create($singleRequest->phone_number,
                     [
@@ -202,7 +204,7 @@ class CustomersController extends Controller
 
         //Create Stripe Customer
         try {
-            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+            $stripe = new \Stripe\StripeClient(EnvClientsHelper::getEnvDataFunction(1, 'STRIPE_SECRET'));
             $stripe_customer = $stripe->customers->create([
                 'name' => $customer->user->name,
                 'email' => $customer->user->email,

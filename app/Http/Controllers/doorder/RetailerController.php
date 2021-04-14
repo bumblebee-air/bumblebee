@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\doorder;
 
+use App\Helpers\EnvClientsHelper;
 use App\Http\Controllers\Controller;
 use App\Retailer;
 use App\User;
@@ -49,7 +50,7 @@ class RetailerController extends Controller
             if (env('APP_ENV') == 'local' || env('APP_ENV') == 'development') {
                 $stripe_token = 'tok_visa';
             }
-            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+            $stripe = new \Stripe\StripeClient(EnvClientsHelper::getEnvDataFunction(2, 'STRIPE_SECRET'));
             $customer = $stripe->customers->create([
                 'name' => $user->name,
                 'email' => $user->email,
@@ -88,7 +89,7 @@ class RetailerController extends Controller
                 ],
                     function ($message) {
                         $message->from('no-reply@doorder.eu', 'DoOrder platform');
-                        $message->to(env('DOORDER_NOTIF_EMAIL','doorderdelivery@gmail.com'),
+                        $message->to(EnvClientsHelper::getEnvDataFunction(2, 'DOORDER_NOTIF_EMAIL'),
                             'DoOrder')->subject('New retailer registration request');
                     });
             }catch (\Exception $exception){
@@ -106,7 +107,7 @@ class RetailerController extends Controller
 
     public function chargeRetailer($amount, $currency, $stripeTokenforCharge, $description)
     {
-        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        Stripe\Stripe::setApiKey(EnvClientsHelper::getEnvDataFunction(2, 'STRIPE_SECRET'));
         $stripe_charge = Stripe\Charge::create ([
                 "amount" => $amount,
                 "currency" => $currency,
@@ -151,8 +152,8 @@ class RetailerController extends Controller
             $user->password = bcrypt($new_pass);
             $user->save();
             try {
-                $sid = env('TWILIO_SID', '');
-                $token = env('TWILIO_AUTH', '');
+                $sid = EnvClientsHelper::getEnvDataFunction(2, 'TWILIO_SID');
+                $token = EnvClientsHelper::getEnvDataFunction(2, 'TWILIO_AUTH');
                 $twilio = new Client($sid, $token);
                 $twilio->messages->create($user->phone,
                     [

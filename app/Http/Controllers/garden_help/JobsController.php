@@ -4,6 +4,7 @@ namespace App\Http\Controllers\garden_help;
 use App\Contractor;
 use App\Customer;
 use App\GardenServiceType;
+use App\Helpers\EnvClientsHelper;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
@@ -96,8 +97,8 @@ class JobsController extends Controller
                 'order_id' => $job_id
             ]);
         }
-        $sid = env('TWILIO_SID', '');
-        $token = env('TWILIO_AUTH', '');
+        $sid = EnvClientsHelper::getEnvDataFunction(1, 'TWILIO_SID');
+        $token = EnvClientsHelper::getEnvDataFunction(1, 'TWILIO_AUTH');
         $twilio = new Client($sid, $token);
         $twilio->messages->create($contractor->user->phone, [
             "from" => "GardenHelp",

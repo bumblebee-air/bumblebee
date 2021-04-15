@@ -249,6 +249,12 @@ class DriversController extends Controller
         $current_user = \Auth::user();
         $driver_id = $current_user->id;
         $coordinates = $request->get('coordinates');
+        //Check for these parameters if present to use instead
+        $lat = $request->get('lat');
+        $lng = $request->get('lng');
+        if($lat!=null && $lat!='' && $lng!=null && $lng!=''){
+            $coordinates = ['lat'=>$lat, 'lng'=>$lng];
+        }
         $driver_profile = DriverProfile::where('user_id','=',$driver_id)->first();
         if(!$driver_profile){
             $driver_profile = new DriverProfile();

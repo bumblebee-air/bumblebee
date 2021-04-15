@@ -127,7 +127,7 @@
 @section('scripts')
     <script src="https://js.stripe.com/v3/"></script>
     <script>
-        var stripe = Stripe("{{env('STRIPE_PUBLIC_KEY')}}");
+        var stripe = Stripe("{{\App\Helpers\EnvClientsHelper::getEnvDataFunction(1, 'STRIPE_PUBLIC_KEY')}}");
 
         var elements = stripe.elements({
             fonts: [

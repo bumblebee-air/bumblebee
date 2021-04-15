@@ -24,11 +24,11 @@
     <!--Sweet Alert-->
     <script src="https://unpkg.com/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
     <!--Sweet Alert-->
-    @if(env('ROLLBAR_TOKEN')!=null)
+    @if(\App\Helpers\EnvClientsHelper::getEnvDataFunction(2 ,'ROLLBAR_TOKEN')!=null)
     <!-- Rollbar -->
     <script>
         var _rollbarConfig = {
-            accessToken: "{{env('ROLLBAR_TOKEN')}}",
+            accessToken: "{{\App\Helpers\EnvClientsHelper::getEnvDataFunction(2,'ROLLBAR_TOKEN')}}",
             captureUncaught: true,
             captureUnhandledRejections: true,
             payload: {

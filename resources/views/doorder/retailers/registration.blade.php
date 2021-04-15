@@ -695,7 +695,7 @@
                         let exp_date = $('#payment_exp_date').val();
                         let exp_month = exp_date.split('/')[0];
                         let exp_year = exp_date.split('/')[1];
-                        Stripe.setPublishableKey('{{env('STRIPE_PUBLIC_KEY')}}');
+                        Stripe.setPublishableKey('{{\App\Helpers\EnvClientsHelper::getEnvDataFunction(1, 'STRIPE_PUBLIC_KEY')}}');
                         Stripe.createToken({
                             number: $('#card_number').val(),
                             cvc: $('#cvc').val(),

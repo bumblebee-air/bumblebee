@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Helpers\EnvClientsHelper;
 use App\StripePaymentLog;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -61,7 +62,7 @@ class ChargeRetailer extends Command
             $stripe_charge_status = '';
             if ($retailer->stripe_customer_id &&  $amount > 0) {
                 try {
-                    Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+                    Stripe\Stripe::setApiKey(EnvClientsHelper::getEnvDataFunction(2, 'STRIPE_SECRET'));
                     $stripe_charge = Stripe\Charge::create ([
                         "amount" => $amount,
                         "currency" => $currency,

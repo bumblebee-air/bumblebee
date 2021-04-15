@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Helpers\EnvClientsHelper;
 use App\Order;
 use App\StripeAccount;
 use App\StripePaymentLog;
@@ -87,7 +88,7 @@ class PayoutDeliverer extends Command
             $description = 'Payed out deliverer: ' . $deliverer['name'] . ' for ' . $deliverer['order_count'] . ' orders.';
             if (isset($deliverer['stripe_account_id']) && $deliverer['stripe_account_id']!=null &&  $amount > 0) {
                 try {
-                    Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+                    Stripe\Stripe::setApiKey(EnvClientsHelper::getEnvDataFunction(2, 'STRIPE_SECRET'));
                     $stripe_payout = Stripe\Transfer::create ([
                         "amount" => $amount,
                         "currency" => $currency,

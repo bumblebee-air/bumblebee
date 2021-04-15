@@ -16,4 +16,8 @@ class Customer extends Model
     public function stripe_customer() {
         return $this->hasOne(CustomerExtraData::class, 'job_id');
     }
+
+    public function main_service() {
+        $this->morphOne(ClientsMainService::class, 'service');
+    }
 }

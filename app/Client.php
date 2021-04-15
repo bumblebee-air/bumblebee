@@ -10,4 +10,8 @@ class Client extends Model
     {
         return $this->hasOne('App\User', 'id', 'user_id');
     }
+
+    public function main_services() {
+        return $this->hasMany(ClientsMainService::class, 'client_id');
+    }
 }

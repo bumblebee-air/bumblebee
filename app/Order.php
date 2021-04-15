@@ -36,4 +36,8 @@ class Order extends Model
     public function orderDriver() {
         return $this->belongsTo(User::class, 'driver');
     }
+
+    public function main_service() {
+        $this->morphOne(ClientsMainService::class, 'service');
+    }
 }

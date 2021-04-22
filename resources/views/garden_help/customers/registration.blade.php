@@ -360,7 +360,7 @@
                 </div>
 
                 <div class="col-md-12 mb-3 submit-container">
-                    <button class="btn btn-gardenhelp-green btn-register" type="submit">Signup</button>
+                    <button class="btn btn-gardenhelp-green btn-register" type="submit">Get Quote Now</button>
                 </div>
             </div>
         </form>

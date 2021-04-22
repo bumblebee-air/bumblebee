@@ -282,7 +282,6 @@ class ContractorsController extends Controller
                     $job->is_paid = true;
                 }
                 $job->save();
-                dd('ss');
                 if ($request->status != 'delivery_arrived') {
                     Redis::publish('garden-help-channel', json_encode([
                         'event' => 'update-job-status',

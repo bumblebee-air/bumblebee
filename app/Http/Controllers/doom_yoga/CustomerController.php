@@ -45,4 +45,18 @@ class CustomerController extends Controller
             'registrationsList' => $registrationsList
         ]);
     }
+    
+    public function getCustomerLogin(){
+        return view('doom_yoga.customers.login');
+    }
+    
+    public function postCustomerLogin(Request $request){
+        //dd($request);
+        return redirect()->route('getCustomerAccount', 'doom-yoga');
+        
+    }
+    
+    public function getCustomerAccount(){
+        return view('doom_yoga.customers.account_home');        
+    }
 }

@@ -119,7 +119,39 @@ body {
 .material-icons {
 	color: #acb1c0 !important;
 }
+
+.loginLogo {
+	height: 165px;
+}
+
+@media screen and (max-width: 767.5px) {
+	.loginLogo {
+		height: 100px;
+	}
+	.input-group .input-group-text {
+		padding: 0 15px 0 0 !important;
+	}
+}
+
+.signupLink {
+	font-family: 'Futura', Fallback, sans-serif !important;;
+	font-size: 14px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.24px;
+	color: #e6e6e6;
+	text-decoration: underline;
+}
+
+.signupLink:hover, .signupLink:focus {
+	color: #e6e6e6;
+}
 /************ end login *****************/
+.containerDivLinkCustomer{
+}
+
 #containerPageBackgrundDiv {
 	font-family: 'Futura', Fallback, sans-serif !important;
 	background-color: black;
@@ -287,7 +319,7 @@ form .form-group {
 	margin-left: 10px;
 }
 
-.registerDoomYogaDiv input.form-control,.contactUsThroughLabel {
+.registerDoomYogaDiv input.form-control, .contactUsThroughLabel {
 	font-family: 'Futura', Fallback, sans-serif !important;;
 	font-size: 20px !important;
 	font-weight: normal !important;
@@ -501,16 +533,16 @@ a.terms-text {
 	color: #ffffff;
 	text-transform: uppercase;
 }
-.eventDetailsSpan{
+
+.eventDetailsSpan {
 	font-family: 'Futura', Fallback, sans-serif;
-  font-size: 16px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: 0.28px;
-  color: #ffffff;
-	
+	font-size: 16px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.28px;
+	color: #ffffff;
 }
 /***************** sidebar **********************/
 .sidebar[data-background-color=black] .sidebar-background:after {

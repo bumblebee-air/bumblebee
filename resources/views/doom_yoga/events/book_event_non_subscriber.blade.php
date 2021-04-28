@@ -29,26 +29,27 @@ Booking') @section('styles')
 						<li>{{$error}}</li> @endforeach
 					</ul>
 				</div>
-				@endif <input type="hidden" name="id" value="{{$event->id}}">
+				@endif
+				<input type="hidden" name="id" value="{{$event->id}}">
 
 				<div class="row">
 
 					<div class="col-md-12">
 						<div class="form-group ">
 							<label class="eventDetailsLabel">Event name</label>
-							<p class="eventDetailsSpan">{{ $event->event_name}}</p>
+							<p class="eventDetailsSpan">{{ $event->name}}</p>
 						</div>
 					</div>
 					<div class="col-md-12">
 						<div class="form-group ">
 							<label class="eventDetailsLabel">Description</label>
-							<p class="eventDetailsSpan">{{ $event->description}}</p>
+							<p class="eventDetailsSpan">{{ $event->short_description}}</p>
 						</div>
 					</div>
 					<div class="col-md-12">
 						<div class="form-group ">
 							<label class="eventDetailsLabel">Date & Time</label>
-							<p class="eventDetailsSpan">{{ $event->dateTime}}</p>
+							<p class="eventDetailsSpan">{{ \Carbon\Carbon::parse($event->date_Time)->format('Y/m/d H:m A')}}</p>
 						</div>
 					</div>
 					<div class="col-md-12">
@@ -60,7 +61,7 @@ Booking') @section('styles')
 					<div class="col-md-12">
 						<div class="form-group ">
 							<label class="eventDetailsLabel">Duration</label>
-							<p class="eventDetailsSpan">{{ $event->duration}}</p>
+							<p class="eventDetailsSpan">{{ $event->duration}} Mins</p>
 						</div>
 					</div>
 					<div class="col-md-12">
@@ -72,7 +73,7 @@ Booking') @section('styles')
 					<div class="col-md-12">
 						<div class="form-group bmd-form-group">
 							<label class="eventDetailsLabel">Price per class</label>
-							<p class="eventDetailsSpan">{{ $event->pricePerClass}}</p>
+							<p class="eventDetailsSpan">£{{ $event->price}}</p>
 						</div>
 					</div>
 				</div>

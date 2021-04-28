@@ -63,8 +63,8 @@ input[type="radio"]:checked+div i, input[type="radio"]:checked+div i:before
 					<div class="col-md-12">
 						<div class="form-group bmd-form-group">
 							<label class="bmd-label-floating">First name</label> <input
-								type="text" class="form-control" name="fisrt_name"
-								value="{{old('fisrt_name')}}" required>
+								type="text" class="form-control" name="first_name"
+								value="{{old('first_name')}}" required>
 						</div>
 					</div>
 					<div class="col-md-12">

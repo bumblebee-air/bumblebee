@@ -45,16 +45,21 @@ tr.order-row:hover, tr.order-row:focus {
 
 										<tbody>
 											@if(count($registrationsList) > 0)
-											@foreach($registrationsList as $item)
-											<tr class="order-row">
-												<td>{{$item['dateTime']}}</td>
-												<td>{{$item['firstName']}}</td>
-												<td>{{$item['lastName']}}</td>
-												<td>{{$item['subscriptionType']}}</td>
-												<td>{{$item['level']}}</td>
-												<td>{{$item['contactThrough']}}</td>
-											</tr>
-											@endforeach @endif
+												@foreach($registrationsList as $item)
+												<tr class="order-row">
+													<td>{{$item->created_at->toDateTimeString()}}</td>
+													<td>{{$item->first_name}}</td>
+													<td>{{$item->last_name}}</td>
+													<td>{{$item->subscription_type}}</td>
+													<td>{{$item->level}}</td>
+													<td>
+														@foreach(json_decode($item->contact_through) as $contact)
+														{{$contact}},
+														@endforeach
+													</td>
+												</tr>
+												@endforeach
+											@endif
 										</tbody>
 									</table>
 									<nav aria-label="pagination" class="float-right"></nav>

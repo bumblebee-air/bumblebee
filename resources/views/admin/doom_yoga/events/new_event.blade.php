@@ -333,7 +333,7 @@ Event') @section('page-styles')
 											<div class="form-group bmd-form-group">
 												<label class="formLabel">Price in £</label> <input
 													type="number" step="any" class="form-control"
-													name="stream_password" required>
+													name="price" required>
 											</div>
 										</div>
 									</div>

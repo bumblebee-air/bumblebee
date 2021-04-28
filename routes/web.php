@@ -195,9 +195,11 @@ Route::get('stripe-onboard/{onboard_code}', 'StripeController@getOnboard');
 Route::get('stripe-onboard/stripe/refresh', 'StripeController@getOnboardRefresh');
 Route::get('stripe-onboard/stripe/success', 'StripeController@getOnboardSuccess');
 
-Route::post('validate-email-phone','HelperController@postValidateEmailAndPhone');
+Route::post('validate-email-phone', 'HelperController@postValidateEmailAndPhone');
 // Clients Login
-Route::group(['prefix' => '{client_name}'], function () {
+Route::group([
+    'prefix' => '{client_name}'
+], function () {
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('clientLogin');
     Route::post('login', 'Auth\LoginController@login')->name('clientLogin');
 
@@ -210,10 +212,14 @@ Route::group(['prefix' => '{client_name}'], function () {
     Route::get('customers/registration', 'garden_help\CustomersController@getRegistrationForm')->name('getCustomerRegistration');
     Route::post('customers/registration', 'garden_help\CustomersController@postRegistrationForm')->name('postCustomerRegistration');
 
-    Route::group(['middleware' => "auth:garden-help"], function () {
+    Route::group([
+        'middleware' => "auth:garden-help"
+    ], function () {
 
         Route::get('home', 'garden_help\DashboardController@index')->name('garden_help_getDashboard');
-        Route::group(['prefix' => 'contractors'], function () {
+        Route::group([
+            'prefix' => 'contractors'
+        ], function () {
             Route::get('requests', 'garden_help\ContractorsController@getContractorsRequests')->name('garden_help_getContractorsRequests');
             Route::get('requests/{id}', 'garden_help\ContractorsController@getSingleRequest')->name('garden_help_getContractorSingleRequest');
             Route::post('requests/{id}', 'garden_help\ContractorsController@postSingleRequest')->name('garden_help_postContractorSingleRequest');
@@ -226,12 +232,16 @@ Route::group(['prefix' => '{client_name}'], function () {
             Route::get('roster-events', 'garden_help\ContractorsController@getContractorsRosterEvents')->name('garden_help_getContractorsRosterEvents');
             Route::get('roster-data', 'garden_help\ContractorsController@postContractorsRoster')->name('garden_help_postContractorsRoster');
         });
-        Route::group(['prefix' => 'customers'], function () {
+        Route::group([
+            'prefix' => 'customers'
+        ], function () {
             Route::get('requests', 'garden_help\CustomersController@getCustomersRequests')->name('garden_help_getCustomerssRequests');
             Route::get('requests/{id}', 'garden_help\CustomersController@getSingleRequest')->name('garden_help_getcustomerSingleRequest');
             Route::post('requests/{id}', 'garden_help\CustomersController@postSingleRequest')->name('garden_help_postCustomerSingleRequest');
         });
-        Route::group(['prefix' => 'jobs_table'], function () {
+        Route::group([
+            'prefix' => 'jobs_table'
+        ], function () {
             Route::get('jobs', 'garden_help\JobsController@getJobsTable')->name('garden_help_getJobsTable');
             Route::get('job/{id}', 'garden_help\JobsController@getSingleJob')->name('garden_help_getSingleJob');
             Route::post('job/{id}', 'garden_help\JobsController@postSingleJob')->name('garden_help_postSingleJob');
@@ -239,26 +249,26 @@ Route::group(['prefix' => '{client_name}'], function () {
             Route::get('add_job', 'garden_help\JobsController@addNewJob')->name('garden_help_addNewJob');
             Route::post('add_job', 'garden_help\JobsController@postNewJob')->name('postAddJob');
         });
-            Route::group(['prefix' => 'service_types'], function () {
-                Route::get('list', 'garden_help\ServiceTypesController@getServiceTypesTable')->name('garden_help_getServiceTypes');
-                Route::get('type/{id}', 'garden_help\ServiceTypesController@getSingleServiceType')->name('garden_help_getSingleServiceType');
-                Route::get('edit_service_type/{id}', 'garden_help\ServiceTypesController@getSingleServiceTypeEdit')->name('garden_help_getSingleServiceTypeEdit');
-                Route::get('add_service_type', 'garden_help\ServiceTypesController@addServiceType')->name('garden_help_addServiceType');
-                Route::post('add_service_type', 'garden_help\ServiceTypesController@postAddServiceType')->name('garden_help_postAddServiceType');
-                Route::post('edit_service_type/{id}', 'garden_help\ServiceTypesController@postEditServiceType')->name('garden_help_postEditServiceType');
-                Route::post('delete_service_type', 'garden_help\ServiceTypesController@postDeleteServiceType')->name('garden_help_postDeleteServiceType');
-            });
+        Route::group([
+            'prefix' => 'service_types'
+        ], function () {
+            Route::get('list', 'garden_help\ServiceTypesController@getServiceTypesTable')->name('garden_help_getServiceTypes');
+            Route::get('type/{id}', 'garden_help\ServiceTypesController@getSingleServiceType')->name('garden_help_getSingleServiceType');
+            Route::get('edit_service_type/{id}', 'garden_help\ServiceTypesController@getSingleServiceTypeEdit')->name('garden_help_getSingleServiceTypeEdit');
+            Route::get('add_service_type', 'garden_help\ServiceTypesController@addServiceType')->name('garden_help_addServiceType');
+            Route::post('add_service_type', 'garden_help\ServiceTypesController@postAddServiceType')->name('garden_help_postAddServiceType');
+            Route::post('edit_service_type/{id}', 'garden_help\ServiceTypesController@postEditServiceType')->name('garden_help_postEditServiceType');
+            Route::post('delete_service_type', 'garden_help\ServiceTypesController@postDeleteServiceType')->name('garden_help_postDeleteServiceType');
+        });
 
         Route::post('job/assign', 'garden_help\JobsController@assignContractorToJob')->name('garden_help_assignJob');
-
     });
-
 
     /*
      * DoOrder Routes
      */
 
-    //Driver Registration
+    // Driver Registration
     Route::get('driver_registration', 'doorder\DriversController@getDriverRegistration')->name('getDriverRegistration');
     Route::post('driver_registration', 'doorder\DriversController@postDriverRegistration')->name('postDriverRegistration');
 
@@ -266,12 +276,16 @@ Route::group(['prefix' => '{client_name}'], function () {
     Route::get('retailer/registration', 'doorder\RetailerController@getRetailerRegistrationForm')->name('getRetailerRegistration');
     Route::post('retailer/registration', 'doorder\RetailerController@postRetailerRegistrationForm')->name('postRetailerRegistration');
 
-    Route::group(['middleware' => "auth:doorder"], function () {
+    Route::group([
+        'middleware' => "auth:doorder"
+    ], function () {
         Route::get('dashboard', 'doorder\DashboardController@index')->name('doorder_dashboard');
         Route::get('orders', 'doorder\OrdersController@getOrdersTable')->name('doorder_ordersTable');
         Route::get('single-order/{id}', 'doorder\OrdersController@getSingleOrder')->name('doorder_singleOrder');
 
-        Route::group(['middleware' => "client"], function () {
+        Route::group([
+            'middleware' => "client"
+        ], function () {
             Route::post('order/assign', 'doorder\OrdersController@assignDriverToOrder')->name('doorder_assignOrder');
             Route::get('admin-map', 'doorder\DashboardController@getAdminMap')->name('doorder_adminMap');
             // Drivers
@@ -288,45 +302,53 @@ Route::group(['prefix' => '{client_name}'], function () {
             Route::get('retailers', 'doorder\RetailerController@getRetailers')->name('doorder_retailers');
             Route::get('retailers/{id}', 'doorder\RetailerController@getSingleRetailer')->name('doorder_retailers_single_driver');
             Route::get('retailers/view/{id}', 'doorder\RetailerController@getViewRetailer')->name('doorder_retailers_view_retailer');
-            
         });
-        Route::group(['middleware' => "retailer"], function () {
+        Route::group([
+            'middleware' => "retailer"
+        ], function () {
             Route::get('orders/add', 'doorder\OrdersController@addNewOrder')->name('doorder_addNewOrder');
             Route::post('orders/save', 'doorder\OrdersController@saveNewOrder')->name('doorder_saveNewOrder');
         });
-        
-            Route::post('driver/delete', 'doorder\DriversController@deleteDriver')->name('doorder_deleteDriver');
-            Route::post('drivers/{id}', 'doorder\DriversController@saveUpdateDriver')->name('post_doorder_drivers_edit_driver');
-            
-            Route::post('retailer/delete', 'doorder\RetailerController@deleteRetailer')->name('doorder_deleteRetailer');
-            Route::post('retailers/{id}', 'doorder\RetailerController@saveUpdateRetailer')->name('post_doorder_retailers_single_retailer');
-    });
-        /*
-         * Doom Yoga Routes
-         */
-        Route::get('customer/registration', 'doom_yoga\CustomerController@getCustomerRegistrationForm')->name('getCustomerRegistrationForm');
-        Route::post('customer/registration', 'doom_yoga\CustomerController@postCustomerRegistrationForm')->name('postCustomerRegistrationForm');
-        Route::post('customer/registration/signup', 'doom_yoga\CustomerController@postCustomerRegistrationCardForm')->name('postCustomerRegistrationCardForm');
-        
-        Route::get('event_booking', 'doom_yoga\EventsController@getEventBooking')->name('getYogaEventBooking');
-        Route::post('event_booking', 'doom_yoga\EventsController@postEventBooking')->name('postYogaEventBooking');
-        Route::post('event_booking', 'doom_yoga\EventsController@postSignupEventBooking')->name('postYogaSignupEventBooking');
-        
-        
-        Route::group(['middleware' => "auth:doom-yoga"], function () {
-            Route::get('customers/registrations', 'doom_yoga\CustomerController@getCustomersRegistrations')->name('getCustomersRegistrations'); 
-            
-            Route::group(['prefix' => 'events'], function () {
-                Route::get('add_event', 'doom_yoga\EventsController@addNewEvent')->name('getNewEventDoomYoga');
-                Route::post('add_event', 'doom_yoga\EventsController@postNewEvent')->name('postNewEventDoomYoga');
-            });
-            
-        });
-});
 
-   
+        Route::post('driver/delete', 'doorder\DriversController@deleteDriver')->name('doorder_deleteDriver');
+        Route::post('drivers/{id}', 'doorder\DriversController@saveUpdateDriver')->name('post_doorder_drivers_edit_driver');
+
+        Route::post('retailer/delete', 'doorder\RetailerController@deleteRetailer')->name('doorder_deleteRetailer');
+        Route::post('retailers/{id}', 'doorder\RetailerController@saveUpdateRetailer')->name('post_doorder_retailers_single_retailer');
+    });
+    /*
+     * Doom Yoga Routes
+     */
+    Route::get('customer/registration', 'doom_yoga\CustomerController@getCustomerRegistrationForm')->name('getCustomerRegistrationForm');
+    Route::post('customer/registration', 'doom_yoga\CustomerController@postCustomerRegistrationForm')->name('postCustomerRegistrationForm');
+    Route::post('customer/registration/signup', 'doom_yoga\CustomerController@postCustomerRegistrationCardForm')->name('postCustomerRegistrationCardForm');
+
+    Route::get('event_booking', 'doom_yoga\EventsController@getEventBooking')->name('getYogaEventBooking');
+    Route::post('event_booking', 'doom_yoga\EventsController@postEventBooking')->name('postYogaEventBooking');
+    Route::post('event_booking', 'doom_yoga\EventsController@postSignupEventBooking')->name('postYogaSignupEventBooking');
+
+    Route::group([
+        'middleware' => "auth:doom-yoga"
+    ], function () {
+        Route::get('customers/registrations', 'doom_yoga\CustomerController@getCustomersRegistrations')->name('getCustomersRegistrations');
+
+        Route::group([
+            'prefix' => 'events'
+        ], function () {
+            Route::get('add_event', 'doom_yoga\EventsController@addNewEvent')->name('getNewEventDoomYoga');
+            Route::post('add_event', 'doom_yoga\EventsController@postNewEvent')->name('postNewEventDoomYoga');
+        });
+
+        Route::get('spotify_test', 'doom_yoga\TestController@getPlaylist')->name('getPlayList');
+        Route::get('video_library', 'doom_yoga\TestController@getVideoLibrary')->name('getVideoLibrary');
+    });
+
+    Route::get('customer/login', 'doom_yoga\CustomerController@getCustomerLogin')->name('getCustomerLogin');
+    Route::post('customer/login', 'doom_yoga\CustomerController@postCustomerLogin')->name('postCustomerLogin');
     
+    Route::get('customer/account', 'doom_yoga\CustomerController@getCustomerAccount')->name('getCustomerAccount');
     
+});
 
 // DoOrder Routes
 Route::get('driver_app', function () {
@@ -343,5 +365,5 @@ Route::get('customer/order/{customer_confirmation_code}', 'doorder\CustomerContr
 Route::get('customer/tracking/{customer_confirmation_code}', 'doorder\CustomerController@getOrderTracking');
 Route::get('customer/delivery_confirmation/{customer_confirmation_code}', 'doorder\CustomerController@getDeliveryConfirmationURL')->name('getDeliveryConfirmationURL');
 Route::post('customer/delivery_confirmation', 'doorder\CustomerController@postDeliveryConfirmationURL')->name('postDeliveryConfirmationURL');
-//Frontend error logging route
-Route::post('frontend/error','HelperController@logFrontendError');
+// Frontend error logging route
+Route::post('frontend/error', 'HelperController@logFrontendError');

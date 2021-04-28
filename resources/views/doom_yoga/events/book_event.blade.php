@@ -26,12 +26,9 @@ Booking') @section('styles')
 						<li>{{$error}}</li> @endforeach
 					</ul>
 				</div>
-				@endif
-				
-				<input ty>
-				
+				@endif <input type="hidden" name="id" value="{{$event->id}}">
 				<div class="row">
-					
+
 					<div class="col-md-12">
 						<div class="form-group ">
 							<label class="eventDetailsLabel">Event name</label>

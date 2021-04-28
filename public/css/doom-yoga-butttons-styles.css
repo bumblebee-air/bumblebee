@@ -90,7 +90,7 @@
 	width: auto;
 	background: #000;
 	border: solid 1.5px #ffffff;
-	box-shadow: none!important;
+	box-shadow: none !important;
 }
 
 .btn-doomyoga-black:hover {
@@ -146,3 +146,35 @@
 	background-color: #a3a3a3;
 	border-color: #a3a3a3;
 } */
+.btn-customer-account {
+	width: 95%;
+	padding: 60px 100px;
+	box-shadow: 0 2px 5px 0 rgba(221, 221, 221, 0.5);
+	border: solid 0.7px #ffffff;
+	background-color: rgba(255, 255, 255, 0.6);
+	font-family: 'Futura', Fallback, sans-serif !important;;
+	font-size: 23.4px !important;
+	font-weight: normal !important;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.44px;
+	color: #000000 !important;
+	text-transform: uppercase;
+	box-shadow: 0 2px 5px 0 rgba(221, 221, 221, 0.5);
+}
+
+@media screen and (max-width: 767.5px) {
+	.btn-customer-account {
+		padding: 40px 60px;
+		font-size: 20px !important;
+		letter-spacing: 0.38px;
+	}
+}
+
+.btn-customer-account:hover {
+	box-shadow: 0 2px 5px 0 #dddddd;
+	border: solid 0.7px #000000;
+	background-color: rgba(0, 0, 0, 0.6);
+	color: #ffffff !important;
+}

@@ -149,7 +149,8 @@ body {
 	color: #e6e6e6;
 }
 /************ end login *****************/
-.containerDivLinkCustomer{
+.containerDivLinkCustomer {
+	
 }
 
 #containerPageBackgrundDiv {
@@ -987,4 +988,98 @@ input.form-control, textarea.form-control {
 	color: #fff;
 	background-color: #4f4f4f !important;
 	border-color: #404040 !important;
+}
+
+/**********************************/
+.accountTitle {
+	text-transform: uppercase;
+	margin-top: 20px;
+	font-family: 'Futura', Fallback, sans-serif !important;
+	font-size: 24.7px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 1.61px;
+	color: #ffffff;
+}
+
+.accountSubTitle {
+	font-family: 'Futura', Fallback, sans-serif !important;
+	font-size: 20px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 1.3px;
+	color: #ffffff;
+}
+
+.videoTitleP {
+	font-family: 'Futura', Fallback, sans-serif !important;
+	font-size: 14.7px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #ffffff;
+}
+
+.videoDurationP {
+	font-family: 'Futura', Fallback, sans-serif !important;
+	font-size: 9.5px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #9191a1;
+}
+
+.showAllMessageSpan {
+	font-family: 'Futura', Fallback, sans-serif !important;
+	font-size: 11px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #ffffff;
+}
+
+@media screen and (max-width: 767.5px) {
+	.accountTitle {
+		font-size: 20px
+	}
+	.btn.btn-doomyoga-account {
+		font-size: 15px !important;
+		float: none !important;
+	}
+	.accountButtonContainerDiv {
+		text-align: center;
+	}
+	.accountSubTitle {
+		font-size: 15px;
+	}
+	.category-videos img {
+		width: 150px;
+		height: 75px
+	}
+	.videoTitleP {
+		font-size: 11.9px;
+	}
+	.videoTitleDuration {
+		font-size: 6.8px;
+	}
+	.showAllMessageSpan {
+		font-size: 10px
+	}
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199.5px) {
+	.category-videos img {
+		width: 150px;
+		height: 75px
+	}
 }

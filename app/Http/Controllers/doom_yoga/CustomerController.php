@@ -3,14 +3,19 @@
 namespace App\Http\Controllers\doom_yoga;
 
 use App\DoomYogaCustomer;
+use App\Helpers\StripePaymentHelper;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-    public function getCustomerRegistrationForm() {
-        return view('doom_yoga.customers.registration');
+    public function getCustomerRegistrationForm(Request $request) {
+//        return view('doom_yoga.customers.registration');
+        return view('doom_yoga.customers.registration_card_details', [
+            'customer_id' => '',
+            'price_id' => '',
+        ]);
     }
     
     public function postCustomerRegistrationForm(Request $request) {
@@ -40,7 +45,10 @@ class CustomerController extends Controller
             'phone' => $request->phone_number,
             'contact_through' => json_encode($request->contact_through),
         ]);
-        return view('doom_yoga.customers.registration_card_details');
+        return view('doom_yoga.customers.registration_card_details', [
+            'customer_id' => $createNewUser->id,
+            'price_id' => $request->price_id
+        ]);
     }
     
     public function postCustomerRegistrationCardForm(Request $request)
@@ -48,6 +56,18 @@ class CustomerController extends Controller
         /*
          * Stripe Code
          */
+        $customer = DoomYogaCustomer::find($request->customer_id);
+        if (!$customer) {
+            abort(404);
+        }
+        //Create Stripe Customer
+        $stripe_customer_id = StripePaymentHelper::createCustomer("$customer->first_name $customer->last_name", $customer->email, $request->stripeToken);
+        if ($stripe_customer_id) {
+            $customer->customer_id = $stripe_customer_id;
+            $customer->save();
+            //Create customer subscription
+            StripePaymentHelper::createCustomerSubscription($stripe_customer_id, $request->price_id);
+        }
         alert()->success('You are registered successfully');
         return redirect()->back();
     }

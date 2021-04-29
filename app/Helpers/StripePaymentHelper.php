@@ -63,9 +63,39 @@ class StripePaymentHelper
             $payment_cancelation = $stripe->paymentIntents->cancel($intent_id);
             return true;
         } catch (\Exception $e) {
-            dd($e->getMessage());
             Log::error($e->getMessage());
             return false;
+        }
+    }
+
+    public static function createCustomer($name, $email, $stripeToken):string {
+        try {
+            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+            $stripe_customer = $stripe->customers->create([
+                'name' => $name,
+                'email' => $email,
+                'source' => $stripeToken
+            ]);
+            return $stripe_customer->id;
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return '';
+        }
+    }
+
+    public static function createCustomerSubscription($customer_id, $price_id):string {
+        try {
+            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+            $subscription = $stripe->subscriptions->create([
+                'customer' => $customer_id,
+                'items' => [
+                    ['price' => $price_id],
+                ],
+            ]);
+            return $subscription->id;
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return '';
         }
     }
 }

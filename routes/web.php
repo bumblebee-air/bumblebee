@@ -345,6 +345,7 @@ Route::group([
     Route::post('customer/login', 'doom_yoga\CustomerController@postCustomerLogin')->name('postCustomerLogin');
     
     Route::get('customer/account', 'doom_yoga\CustomerController@getCustomerAccount')->name('getCustomerAccount');
+    Route::get('customer/video_library', 'doom_yoga\CustomerController@getVideoLibrary')->name('getVideoLibrary');
     
 });
 

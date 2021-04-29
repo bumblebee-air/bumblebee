@@ -79,7 +79,7 @@
 							<input
 								type="tel" class="form-control" id="phone_number"
 								value="{{old('phone_number')}}" required>
-							<input type="hidden" name="phone_number">
+							<!--<input type="hidden" name="phone_number">-->
 						</div>
 					</div>
 					<div class="col-md-12 mb-3">
@@ -1071,7 +1071,9 @@
 							return false;
 						}
 					}
-                	$('#cr_form').submit();
+                	setTimeout(()=>{
+						$('#cr_form').submit();
+					},300);
 				}
             }
         });

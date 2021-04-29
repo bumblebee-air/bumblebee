@@ -28,6 +28,7 @@ class CustomersController extends Controller
     }
 
     public function postRegistrationForm(Request $request) {
+        dd($request->all());
         $this->validate($request, [
             'work_location' => 'required',
         ]);
@@ -66,7 +67,7 @@ class CustomersController extends Controller
             $user = new User();
             $user->name = $request->name;
             $user->email = $request->email;
-            $user->phone = $request->phone;
+            $user->phone = ($request->type_of_work=='Commercial')? $request->contact_number : $request->phone;
             $user->password = $request->password ? bcrypt($request->password) : bcrypt(Str::random(8));
             $user->user_role = 'customer';
             $user->save();

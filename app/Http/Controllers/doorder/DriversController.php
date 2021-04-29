@@ -148,7 +148,7 @@ class DriversController extends Controller
                 $twilio->messages->create($order->customer_phone,
                     [
                         "from" => $sender_name,
-                        "body" => "Hi $order->customer_name, your order from $retailer_name is on its way, open the link to track it and confirm the delivery afterwards. " . url('customer/order/' . $order->customer_confirmation_code)
+                        "body" => "Hi $order->customer_name, DoOrder’s same day delivery service has your order and its on its way, open the link to track it and confirm the delivery afterwards. " . url('customer/order/' . $order->customer_confirmation_code)
                     ]
                 );
             } elseif($status=='delivery_arrived'){

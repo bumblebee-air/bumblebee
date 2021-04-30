@@ -45,10 +45,10 @@ body {
 					<a class="btn btn-customer-account" href="{{route('getVideoLibrary','doom-yoga')}}">MOVEMENT</a>
 				</div>
 				<div class="col-md-4 containerDivLinkCustomer">
-					<a class="btn btn-customer-account">MEDITATION</a>
+					<a class="btn btn-customer-account" href="{{route('getMeditationLibrary','doom-yoga')}}">MEDITATION</a>
 				</div>
 				<div class="col-md-4 containerDivLinkCustomer">
-					<a class="btn btn-customer-account">Music</a>
+					<a class="btn btn-customer-account" href="{{route('getMusicLibrary','doom-yoga')}}">Music</a>
 				</div>
 			</div>
 

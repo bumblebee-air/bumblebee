@@ -136,6 +136,13 @@ class CustomerController extends Controller
             'categories' => json_encode($categories)
         ]);
     }
+    public function getMusicLibrary(){
+        return view('doom_yoga.customers.music_library');
+    }
+    
+    public function getMeditationLibrary() {
+        return view('doom_yoga.customers.meditation_library');
+    }
 }
 
 class CategoryData

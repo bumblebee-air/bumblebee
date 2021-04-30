@@ -346,6 +346,8 @@ Route::group([
     
     Route::get('customer/account', 'doom_yoga\CustomerController@getCustomerAccount')->name('getCustomerAccount');
     Route::get('customer/video_library', 'doom_yoga\CustomerController@getVideoLibrary')->name('getVideoLibrary');
+    Route::get('customer/music_library', 'doom_yoga\CustomerController@getMusicLibrary')->name('getMusicLibrary');
+    Route::get('customer/meditation_library', 'doom_yoga\CustomerController@getMeditationLibrary')->name('getMeditationLibrary');
     
 });
 

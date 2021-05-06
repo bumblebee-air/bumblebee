@@ -73,7 +73,7 @@
                                                     <td>@{{item.id}}</td>
                                                     <td>
                                                         <img class="status_icon" src="{{asset('images/doorder_icons/order_status_matched.png')}}" alt="Request received" v-if="item.status === 'received'">
-                                                        <img class="status_icon" src="{{asset('images/doorder_icons/order_status_picked_up.png')}}" alt="Quotation Sent" v-else-if="item.status === 'quote_send'">
+                                                        <img class="status_icon" src="{{asset('images/doorder_icons/order_status_picked_up.png')}}" alt="Quotation Sent" v-else-if="item.status === 'quote_sent'">
                                                         <img class="status_icon" src="{{asset('images/doorder_icons/order_status_delivered.png')}}" alt="Service booked" v-else>
                                                     </td>
                                                     <td>

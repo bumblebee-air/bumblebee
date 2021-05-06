@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\doom_yoga;
 
 use App\DoomYogaCustomer;
@@ -10,11 +9,14 @@ use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-    public function getCustomerRegistrationForm(Request $request) {
+
+    public function getCustomerRegistrationForm(Request $request)
+    {
         return view('doom_yoga.customers.registration');
     }
-    
-    public function postCustomerRegistrationForm(Request $request) {
+
+    public function postCustomerRegistrationForm(Request $request)
+    {
         $this->validate($request, [
             'first_name' => 'required',
             'last_name' => 'required',
@@ -22,7 +24,7 @@ class CustomerController extends Controller
             'email' => 'required|unique:users',
             'phone_number' => 'required|unique:users,phone',
             'contact_through' => 'required',
-            'password' => 'required',
+            'password' => 'required'
         ]);
         $createNewUser = new User();
         $createNewUser->name = "$request->first_name $request->last_name";
@@ -39,74 +41,76 @@ class CustomerController extends Controller
             'email' => $request->email,
             'user_id' => $createNewUser->id,
             'phone' => $request->phone_number,
-            'contact_through' => json_encode($request->contact_through),
+            'contact_through' => json_encode($request->contact_through)
         ]);
         return view('doom_yoga.customers.registration_card_details', [
             'customer_id' => $createNewUser->id,
             'price_id' => $request->price_id
         ]);
     }
-    
+
     public function postCustomerRegistrationCardForm(Request $request)
     {
         /*
          * Stripe Code
          */
         $customer = DoomYogaCustomer::find($request->customer_id);
-        if (!$customer) {
+        if (! $customer) {
             abort(404);
         }
-        //Create Stripe Customer
+        // Create Stripe Customer
         $stripe_customer_id = StripePaymentHelper::createCustomer("$customer->first_name $customer->last_name", $customer->email, $request->stripeToken);
         if ($stripe_customer_id) {
             $customer->customer_id = $stripe_customer_id;
             $customer->save();
-            //Create customer subscription
+            // Create customer subscription
             StripePaymentHelper::createCustomerSubscription($stripe_customer_id, $request->price_id);
         }
         alert()->success('You are registered successfully');
         return redirect()->back();
     }
-    
-    public function getCustomersRegistrations () {
-        
-//        $registrationsList = collect([
-//            [
-//                'dateTime' => '01/09/2020 10:00',
-//                'firstName' => 'Jane',
-//                'lastName' => 'Dow',
-//                'subscriptionType' =>'Monthly subscription',
-//                'level'=>'Beginner',
-//                'contactThrough'=>'WhatsApp'
-//            ],[
-//                'dateTime' => '01/09/2020 10:00',
-//                'firstName' => 'Jane',
-//                'lastName' => 'Dow',
-//                'subscriptionType' =>'Monthly subscription',
-//                'level'=>'Beginner',
-//                'contactThrough'=>'WhatsApp'
-//            ]
-//        ]);
+
+    public function getCustomersRegistrations()
+    {
+
+        // $registrationsList = collect([
+        // [
+        // 'dateTime' => '01/09/2020 10:00',
+        // 'firstName' => 'Jane',
+        // 'lastName' => 'Dow',
+        // 'subscriptionType' =>'Monthly subscription',
+        // 'level'=>'Beginner',
+        // 'contactThrough'=>'WhatsApp'
+        // ],[
+        // 'dateTime' => '01/09/2020 10:00',
+        // 'firstName' => 'Jane',
+        // 'lastName' => 'Dow',
+        // 'subscriptionType' =>'Monthly subscription',
+        // 'level'=>'Beginner',
+        // 'contactThrough'=>'WhatsApp'
+        // ]
+        // ]);
         $registrationsList = DoomYogaCustomer::paginate(50);
 
-        
         return view('admin.doom_yoga.customers.registrations', [
             'registrationsList' => $registrationsList
         ]);
     }
-    
-    public function getCustomerLogin(){
+
+    public function getCustomerLogin()
+    {
         return view('doom_yoga.customers.login');
     }
-    
-    public function postCustomerLogin(Request $request){
-        //dd($request);
+
+    public function postCustomerLogin(Request $request)
+    {
+        // dd($request);
         return redirect()->route('getCustomerAccount', 'doom-yoga');
-        
     }
-    
-    public function getCustomerAccount(){
-        return view('doom_yoga.customers.account_home');        
+
+    public function getCustomerAccount()
+    {
+        return view('doom_yoga.customers.account_home');
     }
 
     public function getVideoLibrary()
@@ -136,12 +140,23 @@ class CustomerController extends Controller
             'categories' => json_encode($categories)
         ]);
     }
-    public function getMusicLibrary(){
+
+    public function getMusicLibrary()
+    {
         return view('doom_yoga.customers.music_library');
     }
-    
-    public function getMeditationLibrary() {
-        return view('doom_yoga.customers.meditation_library');
+
+    public function getMeditationLibrary()
+    {
+        $audioData1 = new AudioData(1, "All This Is - Joe L.'s Studio", "02:46", "JLS_ATI");
+        $audioData2 = new AudioData(2, "The Forsaken - Broadwing Studio (Final Mix)", "08:31", "BS_TF");
+        $audioData3 = new AudioData(3, "All The King's Men - Broadwing Studio (Final Mix)", "05:02", "BS_ATKM");
+        
+        $audios = array($audioData1,$audioData2,$audioData3);
+
+        return view('doom_yoga.customers.meditation_library', [
+            'audios' => json_encode($audios),'mediaPath'=>'//archive.org/download/mythium/'
+        ]);
     }
 }
 
@@ -168,5 +183,19 @@ class VideoData
         $this->posterImageUrl = $posterImageUrl;
         $this->title = $title;
         $this->duration = $duration;
+    }
+}
+
+class AudioData
+{
+
+    public $track, $name, $length, $file;
+
+    function __construct($track, $name, $length, $file)
+    {
+        $this->track = $track;
+        $this->name = $name;
+        $this->length = $length;
+        $this->file = $file;
     }
 }

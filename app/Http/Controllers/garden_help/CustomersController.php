@@ -28,7 +28,6 @@ class CustomersController extends Controller
     }
 
     public function postRegistrationForm(Request $request) {
-        dd($request->all());
         $this->validate($request, [
             'work_location' => 'required',
         ]);

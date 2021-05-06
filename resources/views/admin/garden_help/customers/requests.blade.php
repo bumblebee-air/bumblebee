@@ -79,7 +79,7 @@
                                                     <td>
                                                         <div class="progress m-auto">
                                                             <div class="progress-bar" role="progressbar"
-                                                            :style="'width:'  + (item.status === 'received' ? 1 : (item.status === 'missing' ? 2 : 3)) * stage + '%'" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            :style="'width:'  + (item.status === 'received' ? 1 : (item.status === 'quote_sent' ? 2 : 3)) * stage + '%'" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                                         </div>
                                                     </td>
                                                     <td>

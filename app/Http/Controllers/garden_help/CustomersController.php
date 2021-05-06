@@ -105,7 +105,7 @@ class CustomersController extends Controller
             $customer->available_date_time = $request->available_date_time;
             $customer->area_coordinates = $request->area_coordinates;
             $customer->address = $request->address;
-            $customer->service_types_json = $request->service_types_json;
+            $customer->services_types_json = $request->service_types_json;
             $customer->save();
           
             //Sending Redis event

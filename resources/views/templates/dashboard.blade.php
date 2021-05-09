@@ -111,7 +111,7 @@
         let socket = io.connect(window.location.protocol+'//' + window.location.hostname + ':8890');
         Vue.use(VueToast);
 
-        socket.on('doorder-channel:new-order', (data) => {
+        socket.on('doorder-channel:new-order'+'-'+'{{env('APP_ENV','dev')}}', (data) => {
             let decodedData = JSON.parse(data);
             Vue.$toast.info('There is a new order.', {
                 // optional options Object
@@ -154,7 +154,7 @@
         // let socket = io.connect('http://localhost:8890');
         Vue.use(VueToast);
 
-        socket.on('garden-help-channel:new-customer-request', (data) => {
+        socket.on('garden-help-channel:new-customer-request'+'-'+'{{env('APP_ENV','dev')}}', (data) => {
             let decodedData = JSON.parse(data);
             console.log(decodedData);
             Vue.$toast.info(decodedData.data.toast_text, {
@@ -166,7 +166,7 @@
             });
             notificationAudio.play();
         });
-        socket.on('garden-help-channel:new-booked-service', (data) => {
+        socket.on('garden-help-channel:new-booked-service'+'-'+'{{env('APP_ENV','dev')}}', (data) => {
             let decodedData = JSON.parse(data);
             console.log(decodedData);
             Vue.$toast.info(decodedData.data.toast_text, {
@@ -179,7 +179,7 @@
             notificationAudio.play();
         });
 
-        socket.on('garden-help-channel:new-contractor-request', (data) => {
+        socket.on('garden-help-channel:new-contractor-request'+'-'+'{{env('APP_ENV','dev')}}', (data) => {
             let decodedData = JSON.parse(data);
             console.log(decodedData);
             Vue.$toast.info(decodedData.data.toast_text, {

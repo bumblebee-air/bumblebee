@@ -110,7 +110,7 @@ class CustomersController extends Controller
             //Sending Redis event
             try{
                 Redis::publish('garden-help-channel', json_encode([
-                    'event' => 'new-customer-request',
+                    'event' => 'new-customer-request'.'-'.env('APP_ENV','dev'),
                     'data' => [
                         'id' => $customer->id,
                         'toast_text' => 'There is a new customer request.',
@@ -222,7 +222,7 @@ class CustomersController extends Controller
 
         try {
             Redis::publish('garden-help-channel', json_encode([
-                'event' => 'new-booked-service',
+                'event' => 'new-booked-service'.'-'.env('APP_ENV','dev'),
                 'data' => [
                     'id' => $customer->id,
                     'toast_text' => 'A new service has been booked.',

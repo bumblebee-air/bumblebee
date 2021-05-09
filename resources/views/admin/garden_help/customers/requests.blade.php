@@ -119,7 +119,7 @@
                 stage: 33.34
             },
             mounted() {
-                socket.on('garden-help-channel:new-request', (data) => {
+                socket.on('garden-help-channel:new-request'+'-'+'{{env('APP_ENV','dev')}}', (data) => {
                     let decodedData = JSON.parse(data);
                     decodedData.data.created_at = moment(decodedData.created_at).format('YYYY-MM-DD HH:mm');
                     this.requests.data.unshift(decodedData.data);

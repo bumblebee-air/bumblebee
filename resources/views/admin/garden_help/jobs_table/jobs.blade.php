@@ -135,7 +135,7 @@
                 stage: 16.66
             },
             mounted() {
-                socket.on('garden-help-channel:update-job-status', (data) => {
+                socket.on('garden-help-channel:update-job-status'+'-'+'{{env('APP_ENV','dev')}}', (data) => {
                     let decodedData = JSON.parse(data);
                     //Check if job exists
                     let orderIndex = this.jobs.map(function(x) {return x.id; }).indexOf(decodedData.data.id)

@@ -234,13 +234,13 @@
             mounted() {
                 let orders_socket = io.connect(window.location.protocol+'//' + window.location.hostname + ':8890');
                 @if(Auth::guard('doorder')->check() && auth()->user() && auth()->user()->user_role != "retailer")
-                    orders_socket.on('doorder-channel:new-order', (data) => {
+                    orders_socket.on('doorder-channel:new-order'+'-'+'{{env('APP_ENV','dev')}}', (data) => {
                         let decodedData = JSON.parse(data)
                         this.orders.data.unshift(decodedData.data);
                     });
                 @endif
 
-                orders_socket.on('doorder-channel:update-order-status', (data) => {
+                orders_socket.on('doorder-channel:update-order-status'+'-'+'{{env('APP_ENV','dev')}}', (data) => {
                     let decodedData = JSON.parse(data);
                     console.log(decodedData);
                     // this.orders.data.filter(x => x.id === decodedData.data.id).map(x => x.foo);

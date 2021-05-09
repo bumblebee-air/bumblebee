@@ -85,7 +85,7 @@ class OrdersController extends Controller
         }
         try {
             Redis::publish('doorder-channel', json_encode([
-                'event' => 'new-order',
+                'event' => 'new-order'.'-'.env('APP_ENV','dev'),
                 'data' => [
                     'id' => $order->id,
                     'time' => $order->created_at->format('h:i'),

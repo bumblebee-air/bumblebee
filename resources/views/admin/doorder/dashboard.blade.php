@@ -449,7 +449,7 @@ new Chartist.Bar('.ct-chart', data, options, responsiveOptions);
 
         let map_socket = io.connect(window.location.protocol+'//' + window.location.hostname + ':8890');
 
-        map_socket.on('doorder-channel:update-driver-location', (data) => {
+        map_socket.on('doorder-channel:update-driver-location'+'-'+'{{env('APP_ENV','dev')}}', (data) => {
             let decodedData = JSON.parse(data);
             console.log('driver location update');
             let the_data = decodedData.data;

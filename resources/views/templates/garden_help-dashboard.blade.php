@@ -88,7 +88,7 @@
         let socket = io.connect(window.location.protocol+'//' + window.location.hostname + ':8890');
         Vue.use(VueToast);
 
-        socket.on('doorder-channel:new-order', (data) => {
+        socket.on('doorder-channel:new-order'+'-'+'{{env('APP_ENV','dev')}}', (data) => {
             let decodedData = JSON.parse(data);
             Vue.$toast.info('There is a new order.', {
                 // optional options Object

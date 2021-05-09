@@ -158,7 +158,7 @@ class DriversController extends Controller
             $order->save();
             if ($status!='delivery_arrived') {
                 Redis::publish('doorder-channel', json_encode([
-                    'event' => 'update-order-status',
+                    'event' => 'update-order-status'.'-'.env('APP_ENV','dev'),
                     'data' => [
                         'id' => $order->id,
                         'status' => $order->status,
@@ -203,7 +203,7 @@ class DriversController extends Controller
             $order->save();
             $timestamps->save();
             Redis::publish('doorder-channel', json_encode([
-                'event' => 'update-order-status',
+                'event' => 'update-order-status'.'-'.env('APP_ENV','dev'),
                 'data' => [
                     'id' => $order->id,
                     'status' => $order->status,
@@ -267,7 +267,7 @@ class DriversController extends Controller
         $lat = $coordinates['lat'];
         $lon = $coordinates['lng'];
         Redis::publish('doorder-channel', json_encode([
-            'event' => 'update-driver-location',
+            'event' => 'update-driver-location'.'-'.env('APP_ENV','dev'),
             'data' => [
                 'driver_id' => $driver_id,
                 'driver_name' => $current_user->name,
@@ -306,7 +306,7 @@ class DriversController extends Controller
         $timestamps->save();
 
         Redis::publish('doorder-channel', json_encode([
-            'event' => 'new-order',
+            'event' => 'new-order'.'-'.env('APP_ENV','dev'),
             'data' => [
                 'id' => $order->id,
                 'time' => $order->created_at->format('h:i'),

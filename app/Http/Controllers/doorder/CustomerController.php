@@ -98,7 +98,7 @@ class CustomerController extends Controller
         $timestamps->save();
 
         \Redis::publish('doorder-channel', json_encode([
-            'event' => "delivery-confirmation-order-id-$checkIfCodeExists->id",
+            'event' => "delivery-confirmation-order-id-$checkIfCodeExists->id".'-'.env('APP_ENV','dev'),
             'data' => [
                 'message' => 'Customer has confirmed the delivery successfully',
             ]

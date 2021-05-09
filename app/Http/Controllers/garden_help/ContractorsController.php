@@ -104,7 +104,7 @@ class ContractorsController extends Controller
         }
 
         Redis::publish('garden-help-channel', json_encode([
-            'event' => 'new-contractor-request',
+            'event' => 'new-contractor-request'.'-'.env('APP_ENV','dev'),
             'data' => [
                 'id' => $contractor->id,
                 'toast_text' => 'There is a new contractor request.',
@@ -284,7 +284,7 @@ class ContractorsController extends Controller
                 $job->save();
                 if ($request->status != 'delivery_arrived') {
                     Redis::publish('garden-help-channel', json_encode([
-                        'event' => 'update-job-status',
+                        'event' => 'update-job-status'.'-'.env('APP_ENV','dev'),
                         'data' => [
                             'id' => $job->id,
                             'status' => $job->status,
@@ -322,7 +322,7 @@ class ContractorsController extends Controller
                 }
                 $job->save();
                 Redis::publish('garden-help-channel', json_encode([
-                    'event' => 'update-job-status',
+                    'event' => 'update-job-status'.'-'.env('APP_ENV','dev'),
                     'data' => [
                         'id' => $job->id,
                         'status' => $job->status,

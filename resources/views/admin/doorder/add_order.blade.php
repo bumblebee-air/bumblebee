@@ -151,7 +151,7 @@
                                                         <option value="">Select package weight</option>
                                                         <option value="Very Light">Very Light</option>
                                                         <option value="Light">Light</option>
-                                                        <option value="Medium Weight">Medium Weight</option>
+                                                        <option value="Medium">Medium</option>
                                                         <option value="Very Heavy">Very Heavy</option>
                                                     </select>
                                                 </div>
@@ -161,7 +161,7 @@
                                                 <div class="form-group">
                                                     <label for="dimensions" class="control-label">Package Dimensions<span style="color: red">*</span></label>
 {{--                                                    <input id="dimensions" type="text" name="dimensions" class="form-control" value="{{old('dimensions')}}" required>--}}
-                                                    <select id="weight" name="weight" data-style="select-with-transition" class="form-control selectpicker" required>
+                                                    <select id="dimensions" name="dimensions" data-style="select-with-transition" class="form-control selectpicker" required>
                                                         <option value="">Select package size</option>
                                                         <option value="Small Bag">Small Bag</option>
                                                         <option value="Medium Bag">Medium Bag</option>

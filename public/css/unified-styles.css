@@ -464,7 +464,7 @@ table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after,
 	background-color: #d58242 !important;
 }
 
-input.form-control, textarea.form-control {
+input.form-control, textarea.form-control,select.form-control {
 	padding: 11px 14px 11px 14px;
 	border-radius: 5px;
 	box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
@@ -478,4 +478,26 @@ input.form-control, textarea.form-control {
 	color: #656565;
 	width: 100%;
 	height: auto;
+}
+
+.select2-container--default .select2-selection--multiple,
+.select2-container .select2-selection--single{
+	padding: 11px 14px 11px 14px;
+	border: none !important;
+	border-radius: 5px;
+	box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
+	background-color: #ffffff;
+	font-size: 14px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.66px;
+	color: #656565;
+	width: 100%;
+	height: auto;
+}
+
+.select2-container--default.select2-container--disabled .select2-selection--multiple{
+	background-color: #fff !important;
 }

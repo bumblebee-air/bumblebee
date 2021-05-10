@@ -233,12 +233,20 @@ $(document).ready(function() {
                             $(this).val()
                         );
                   column
-                    .search( val ? '^'+val+'$' : '', true, false )
+                    .search( val  )
                     .draw();
                       
                   } );
                   column.data().unique().sort().each( function ( d, j ) {
-                    select.append( '<option value="'+d+'">'+d+'</option>' );
+//                   console.log(d);
+//                     select.append( '<option value="'+d+'">'+d+'</option>' );
+ var nameArr = d.split(",");
+        nameArr.forEach(function(number) {                
+            var optionExists = ($("#language option[value='"+number+"']").length > 0);
+            if(!optionExists){
+                select.append( '<option value="'+number+'">'+number+'</option>' );
+            }                    
+        });   
                   } );    
                   
               // filter contract

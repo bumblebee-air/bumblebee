@@ -44,6 +44,18 @@
 	color: #ffffff;
 }
 
+.editLinkA {
+	color: #d58242 !important;
+	padding: 0 !important;
+	font-size: 16px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.77px;
+	margin-right: 35px;
+}
+
 .btn-unified-primary {
 	color: #fff;
 	background-color: #d58242;

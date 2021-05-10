@@ -16,7 +16,7 @@ class EventsController extends Controller
 
     public function postNewEvent(Request $request)
     {
-//        dd($request->all());
+        // dd($request->all());
         $createNewEvent = new DoomYogaEvent();
         $createNewEvent->name = $request->event_name;
         $createNewEvent->type = $request->event_type;
@@ -35,6 +35,7 @@ class EventsController extends Controller
         $createNewEvent->ticket_price_setting = $request->ticket_price_settings;
         $createNewEvent->price = $request->price;
         $createNewEvent->save();
+
         return response()->json(array(
             "msg" => "The Event Was Created Successfully",
             "eventId" => $createNewEvent->id
@@ -43,44 +44,69 @@ class EventsController extends Controller
 
     public function getEventBooking($client_name, $id)
     {
-        ///// if subscriber
-       /*  $event = new Event();
-        $event->id = 1;
-        $event->event_name = 'Humble Heart';
-        $event->description = 'A slow and steady paced practice. tension releasing a dynamic flow leads into relaxing meditative long holds bringing balance and equanimity ending the practice deep in sound and silence.';
-        $event->dateTime = 'Tuesdays / 6PM -7PM UK GMT ';
-        $event->place = 'On Zoom';
-        $event->duration = '60 mins';
-        $event->level = 'All Levels are welcome';
-        return view('doom_yoga.events.book_event', [
-            'event' => $event
-        ]); */
-        
-        ///// if non subscriber
+        // /// if subscriber
+        /*
+         * $event = new Event();
+         * $event->id = 1;
+         * $event->event_name = 'Humble Heart';
+         * $event->description = 'A slow and steady paced practice. tension releasing a dynamic flow leads into relaxing meditative long holds bringing balance and equanimity ending the practice deep in sound and silence.';
+         * $event->dateTime = 'Tuesdays / 6PM -7PM UK GMT ';
+         * $event->place = 'On Zoom';
+         * $event->duration = '60 mins';
+         * $event->level = 'All Levels are welcome';
+         * return view('doom_yoga.events.book_event', [
+         * 'event' => $event
+         * ]);
+         */
+
+        // /// if non subscriber
         $event = DoomYogaEvent::find($id);
-        if (!$event) {
+        if (! $event) {
             abort(404);
         }
         return view('doom_yoga.events.book_event_non_subscriber', [
             'event' => $event
         ]);
     }
-    
-    public function postEventBooking(Request $request){
+
+    public function postEventBooking(Request $request)
+    {
         dd($request);
-//        alert()->success('The event was booked successfully');
+        // alert()->success('The event was booked successfully');
         return redirect()->back();
     }
-    
-    public function postSignupEventBooking(Request $request){
-        
+
+    public function postSignupEventBooking(Request $request)
+    {
         alert()->success('The event was booked successfully.');
         return redirect()->back();
     }
+
+    public function getEvents()
+    {
+        $event1= new Event(1, "Humble Heart", "01/09/2020 10:00", 30,   "Regular Event", "No", 3, "Yes");
+        $event2= new Event(2, "Bloom Bliss", "01/09/2020 11:00", 60,   "Class", "No", 10, "No");
+        
+        $events = array($event1,$event2);
+        
+        return view('admin.doom_yoga.events.my_events',['myevents'=>$events]);
+    }
 }
 
-//class Event
-//{
-//
-//    public $id, $event_name, $description, $dateTime, $place, $duration, $level,$pricePerClass;
-//}
+class Event
+{
+
+    public $id, $event_name, $dateTime, $durationInMins,   $event_type, $eventInPerson, $attending, $reccuring;
+
+    public function __construct($id, $event_name, $dateTime, $durationInMins,   $event_type, $eventInPerson, $attending, $reccuring)
+    {
+        $this->id = $id;
+        $this->event_name = $event_name;
+        $this->dateTime = $dateTime;
+        $this->durationInMins = $durationInMins;
+        $this->event_type = $event_type;
+        $this->eventInPerson = $eventInPerson;
+        $this->attending = $attending;
+        $this->reccuring = $reccuring;
+    }
+}

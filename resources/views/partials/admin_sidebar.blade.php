@@ -588,7 +588,7 @@
 					<p>New Event </p>
 			</a></li>
 			<li class="nav-item"><a class="nav-link d-flex"
-				href="">  <img class="my-nav-icon"
+				href="{{route('getEventsDoomYoga', 'doom-yoga')}}">  <img class="my-nav-icon"
 					src="{{asset('images/doom-yoga/My-Events.png')}}"
 					alt="Dashboard">
 					<p>My Events </p>

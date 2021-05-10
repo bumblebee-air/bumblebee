@@ -694,6 +694,7 @@ th {
 	letter-spacing: 1.3px;
 	color: #656565;
 	text-transform: uppercase;
+	text-align: center;
 }
 
 td {
@@ -705,6 +706,7 @@ td {
 	line-height: normal;
 	letter-spacing: normal;
 	color: #656565;
+	text-align: center;
 }
 
 div.dataTables_wrapper div.dataTables_filter input {
@@ -797,6 +799,15 @@ table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after,
 	.gardenHelpTable>tfoot>tr>td, .gardenHelpTable>tfoot>tr>th,
 	.gardenHelpTable>thead>tr>td, .gardenHelpTable>thead>tr>th {
 	padding: 12px 8px !important;
+}
+
+.pagination>.page-item.active>a, .pagination>.page-item.active>a:focus,
+	.pagination>.page-item.active>a:hover, .pagination>.page-item.active>span,
+	.pagination>.page-item.active>span:focus, .pagination>.page-item.active>span:hover
+	{
+	border-color: #4f4f4f ;
+	background-color: #4f4f4f ;
+	box-shadow: none !important;
 }
 
 /********************* forms ******************/

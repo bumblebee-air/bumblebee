@@ -50,6 +50,17 @@
     
     <!-- favicon -->
     <link rel="icon" type="image/jpeg" href="{{asset('images/doom-yoga/doom-yoga-logo.png')}}">
+     @endif
+     @if(Auth::guard('unified')->check())
+   
+    <link href="{{asset('css/unified-styles.css')}}" rel="stylesheet">
+    <link href="{{asset('css/unified-butttons-styles.css')}}" rel="stylesheet">
+     <link href="{{asset('css/select2.min.css')}}" rel="stylesheet">
+     <!-- Fonts -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- favicon -->
+    <link rel="icon" type="image/jpeg" href="{{asset('images/unified/Slider-logo.png')}}">
     @endif
 
     @yield('page-styles')

@@ -1,0 +1,155 @@
+.btn {
+	border-radius: 17px;
+}
+
+.btn-import {
+	width: 160px;
+	padding: 14px 30px;
+	border-radius: 17px;
+	font-family: 'Roboto', sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 0.64;
+	letter-spacing: 0.27px;
+	text-align: center;
+	color: #ffffff;
+}
+
+.singlePageButton {
+	width: 230px;
+	padding: 15px 30px;
+	border-radius: 24px;
+	font-size: 14px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 0.79;
+	letter-spacing: 0.32px;
+	text-align: center;
+	color: #ffffff;
+}
+
+.modal-btn {
+	padding: 18px 30px;
+	font-size: 16px;
+	border-radius: 24px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 0.79;
+	letter-spacing: 0.32px;
+	text-align: center;
+	color: #ffffff;
+}
+
+.btn-unified-primary {
+	color: #fff;
+	background-color: #d58242;
+	border-color: #d58242
+}
+
+.btn-unified-primary.focus, .btn-unified-primary:focus {
+	color: #fff;
+	background-color: #b24d00;
+	border-color: #b24d00;
+}
+
+.btn-unified-primary:hover {
+	color: #fff;
+	background-color: #b24d00;
+	border-color: #b24d00
+}
+
+.btn-unified-primary.active, .btn-unified-primary:active, .open>.dropdown-toggle.btn-unified-primary
+	{
+	color: #fff;
+	background-color: #b24d00;
+	border-color: #b24d00
+}
+
+.btn-unified-primary.active.focus, .btn-unified-primary.active:focus,
+	.btn-unified-primary.active:hover, .btn-unified-primary:active.focus,
+	.btn-unified-primary:active:focus, .btn-unified-primary:active:hover,
+	.open>.dropdown-toggle.btn-unified-primary.focus, .open>.dropdown-toggle.btn-unified-primary:focus,
+	.open>.dropdown-toggle.btn-unified-primary:hover {
+	color: #fff;
+	background-color: #b24d00;
+	border-color: #b24d00
+}
+
+.btn-unified-primary.active, .btn-unified-primary:active, .open>.dropdown-toggle.btn-unified-primary
+	{
+	background-image: none
+}
+
+.btn-unified-primary.disabled, .btn-unified-primary:disabled {
+	background-color: #a3a3a3 !important;
+}
+
+.btn-unified-primary.disabled.focus, .btn-unified-primary.disabled:focus,
+	.btn-unified-primary.disabled:hover, .btn-unified-primary[disabled].focus,
+	.btn-unified-primary[disabled]:focus, .btn-unified-primary[disabled]:hover,
+	fieldset[disabled] .btn-unified-primary.focus, fieldset[disabled] .btn-unified-primary:focus,
+	fieldset[disabled] .btn-unified-primary:hover {
+	background-color: #a3a3a3;
+	border-color: #a3a3a3;
+}
+
+.btn-unified-danger {
+	color: #fff;
+	background-color: #d85656;
+	border-color: #d85656
+}
+
+.btn-unified-danger.focus, .btn-unified-danger:focus {
+	color: #fff;
+	background-color: #af4747;
+	border-color: #af4747
+}
+
+.btn-unified-danger:hover {
+	color: #fff;
+	background-color: #af4747;
+	border-color: #af4747
+}
+
+.btn-unified-danger.active, .btn-unified-danger:active, .open>.dropdown-toggle.btn-unified-danger
+	{
+	color: #fff;
+	background-color: #af4747;
+	border-color: #af4747
+}
+
+.btn-unified-danger.active.focus, .btn-unified-danger.active:focus,
+	.btn-unified-danger.active:hover, .btn-unified-danger:active.focus,
+	.btn-unified-danger:active:focus, .btn-unified-danger:active:hover,
+	.open>.dropdown-toggle.btn-unified-danger.focus, .open>.dropdown-toggle.btn-unified-danger:focus,
+	.open>.dropdown-toggle.btn-unified-danger:hover {
+	color: #fff;
+	background-color: #af4747;
+	border-color: #af4747
+}
+
+.btn-unified-danger.active, .btn-unified-danger:active, .open>.dropdown-toggle.btn-unified-danger
+	{
+	background-image: none
+}
+
+/* .btn-unified-danger.disabled.focus, .btn-unified-danger.disabled:focus, .btn-unified-danger.disabled:hover,
+	.btn-unified-danger[disabled].focus, .btn-unified-danger[disabled]:focus,
+	.btn-unified-danger[disabled]:hover, fieldset[disabled] .btn-unified-danger.focus,
+	fieldset[disabled] .btn-unified-danger:focus, fieldset[disabled] .btn-unified-danger:hover
+	{
+	background-color: #c785c7;
+	border-color: #c785c7;
+}
+ */
+.btn-link-unified {
+	color: #60a244 !important;
+}
+
+.btn.btn-fab, .btn.btn-just-icon {
+	font-size: 20px !important;
+}

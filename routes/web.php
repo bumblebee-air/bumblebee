@@ -349,6 +349,22 @@ Route::group([
     Route::get('customer/music_library', 'doom_yoga\CustomerController@getMusicLibrary')->name('getMusicLibrary');
     Route::get('customer/meditation_library', 'doom_yoga\CustomerController@getMeditationLibrary')->name('getMeditationLibrary');
     
+    Route::group(['middleware' => "auth:unified"], function () {
+        Route::group([
+            'prefix' => 'customers'
+        ], function () {
+            Route::get('list', 'unified\CustomerController@getCustomersList')->name('unified_getCustomersList');
+            Route::post('delete', 'unified\CustomerController@deleteCustomer')->name('unifiedDeleteCustomer');
+            Route::get('view/{id}', 'unified\CustomerController@getSingleCustomer')->name('unified_getCustomerSingleView');
+            Route::get('edit/{id}', 'unified\CustomerController@getSingleCustomerEdit')->name('unified_getCustomerSingleEdit');
+            Route::post('edit/{id}', 'unified\CustomerController@postEditCustomer')->name('unified_postCustomerSingleEdit');
+            Route::post('import', 'unified\CustomerController@postCustomersImport')->name('unified_postCustomersImport');
+        });
+        
+        
+    });
+        
+    
 });
 
 // DoOrder Routes

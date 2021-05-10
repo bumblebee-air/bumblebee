@@ -624,6 +624,62 @@
 					<p>Logout</p>
 			</a></li>
 		</ul>	
+		@elseif(Auth::guard('unified')->check())
+				<ul class="nav">
+			<li class="nav-item"><a class="nav-link d-flex"
+				href="">  <img class="my-nav-icon"
+					src="{{asset('images/unified/Dashboard.png')}}"
+					alt="Dashboard">
+					<p>Dashboard </p>
+			</a></li>
+			<li class="nav-item"><a class="nav-link d-flex"
+				href="">  <img class="my-nav-icon"
+					src="{{asset('images/unified/Calendar.png')}}"
+					alt="Calendar">
+					<p>Calendar </p>
+			</a></li>
+			<li class="nav-item"><a class="nav-link d-flex"
+				href="">  <img class="my-nav-icon"
+					src="{{asset('images/unified/Jobs Table.png')}}"
+					alt="Jobs Table">
+					<p>Jobs Table </p>
+			</a></li>
+			<li class="nav-item"><a class="nav-link d-flex"
+				href="">  <img class="my-nav-icon"
+					src="{{asset('images/unified/Add.png')}}"
+					alt="Add New Job">
+					<p>Add New Job / Contract </p>
+			</a></li>
+			<li class="nav-item"><a class="nav-link d-flex"
+				href="{{route('unified_getCustomersList', 'unified')}}">  <img class="my-nav-icon"
+					src="{{asset('images/unified/Customer.png')}}"
+					alt="Customers">
+					<p>Customers </p>
+			</a></li>
+			<li class="nav-item"><a class="nav-link d-flex"
+				href="">  <img class="my-nav-icon"
+					src="{{asset('images/unified/Engineers.png')}}"
+					alt="Engineers">
+					<p>Engineers </p>
+			</a></li><li class="nav-item"><a class="nav-link d-flex"
+				href="">  <img class="my-nav-icon"
+					src="{{asset('images/unified/Add Service Form.png')}}"
+					alt="Add Service Form">
+					<p>Add Service Form </p>
+			</a></li>
+			<li class="nav-item"><a class="nav-link d-flex"
+				href="">  <img class="my-nav-icon-request"
+					src="{{asset('images/unified/Job Requests.png')}}"
+					alt="Calendar">
+					<p>Job Requests </p>
+			</a></li>
+			<li class="nav-item "><a class="nav-link d-flex"
+				href="{{url('logout')}}"> 
+					<img class="my-nav-icon"
+					src="{{asset('images/unified/Logout.png')}}" alt="">
+					<p>Logout</p>
+			</a></li>
+		</ul>
 		@endif
 	</div>
 	@if($admin_nav_background_image!=null)

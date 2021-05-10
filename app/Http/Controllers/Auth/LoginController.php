@@ -52,6 +52,8 @@ class LoginController extends Controller
         }
         if ($this->guard == 'doom-yoga') {
             return 'doom-yoga/customers/registrations';
+        }if ($this->guard == 'unified') {
+            return 'unified/customers/list';
         }
     }
 
@@ -73,6 +75,8 @@ class LoginController extends Controller
             return view("auth.garden_help.login");
         }else if(str_contains(request()->url(),'doom-yoga/login')) {
             return view("auth.doom_yoga.login");
+        }else if(str_contains(request()->url(),'unified/login')) {
+            return view("auth.unified.login");
         }else {
             return view('auth.login');
         }
@@ -96,6 +100,7 @@ class LoginController extends Controller
         Auth::guard('doorder')->logout();
         Auth::guard('garden-help')->logout();
         Auth::guard('doom-yoga')->logout();
+        Auth::guard('unified')->logout();
         $request->session()->invalidate();
 
         return redirect($url);

@@ -52,6 +52,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'unified' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
         'api' => [
             'driver' => 'passport',
             'provider' => 'users',

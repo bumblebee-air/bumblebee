@@ -573,7 +573,15 @@ var eventId;
         data: $(this).serialize(),
         success: function(data) {
        
-        console.log(data.eventId);
+        console.log(data.subscribers);
+        
+         $("#selectedSubscribersSelect").html("");
+        for(var i=0; i<data.subscribers.length; i++){
+        $("#selectedSubscribersSelect").append('<option value="'+data.subscribers[i].id+'">'+data.subscribers[i].name+'</option>');
+        }
+
+
+        
         eventId = data.eventId;
 $('#success-new-event-modal').modal('show')
 $('#success-new-event-modal #successMessageHeaderDiv').html(data.msg);

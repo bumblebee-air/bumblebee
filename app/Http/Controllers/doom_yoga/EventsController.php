@@ -36,10 +36,15 @@ class EventsController extends Controller
         $createNewEvent->price = $request->price;
         $createNewEvent->save();
         // $createNewEvent->id = 1;
-
+         
+         $subscriberData1 = new SubscriberData(1, "Jane Dow");
+         $subscriberData2 = new SubscriberData(2, "Adam Andrews");
+         $subscribers = array($subscriberData1,$subscriberData2);
+         
         return response()->json(array(
             "msg" => "The Event Was Created Successfully",
-            "eventId" => $createNewEvent->id
+            "eventId" => $createNewEvent->id,
+            "subscribers" => $subscribers
         ));
     }
 
@@ -122,4 +127,13 @@ class Event
         $this->attending = $attending;
         $this->reccuring = $reccuring;
     }
+}
+
+class SubscriberData{
+    public $id,$name;
+    public function __construct($id,$name){
+        $this->id=$id;
+        $this->name=$name;
+    }
+    
 }

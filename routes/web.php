@@ -336,6 +336,7 @@ Route::group([
             Route::get('add_event', 'doom_yoga\EventsController@addNewEvent')->name('getNewEventDoomYoga');
             Route::post('add_event', 'doom_yoga\EventsController@postNewEvent')->name('postNewEventDoomYoga');
             Route::get('my_events', 'doom_yoga\EventsController@getEvents')->name('getEventsDoomYoga');
+            Route::post('share_event', 'doom_yoga\EventsController@postShareEvent')->name('postShareEventDoomYoga');
         });
 
         Route::get('spotify_test', 'doom_yoga\TestController@getPlaylist')->name('getPlayList');

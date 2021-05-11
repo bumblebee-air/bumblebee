@@ -35,11 +35,19 @@ class EventsController extends Controller
         $createNewEvent->ticket_price_setting = $request->ticket_price_settings;
         $createNewEvent->price = $request->price;
         $createNewEvent->save();
+        // $createNewEvent->id = 1;
 
         return response()->json(array(
             "msg" => "The Event Was Created Successfully",
             "eventId" => $createNewEvent->id
         ));
+    }
+
+    public function postShareEvent(Request $request)
+    {
+        // dd($request);
+        alert()->success('The event  shared successfully');
+        return redirect()->back();
     }
 
     public function getEventBooking($client_name, $id)
@@ -84,21 +92,26 @@ class EventsController extends Controller
 
     public function getEvents()
     {
-        $event1= new Event(1, "Humble Heart", "01/09/2020 10:00", 30,   "Regular Event", "No", 3, "Yes");
-        $event2= new Event(2, "Bloom Bliss", "01/09/2020 11:00", 60,   "Class", "No", 10, "No");
-        
-        $events = array($event1,$event2);
-        
-        return view('admin.doom_yoga.events.my_events',['myevents'=>$events]);
+        $event1 = new Event(1, "Humble Heart", "01/09/2020 10:00", 30, "Regular Event", "No", 3, "Yes");
+        $event2 = new Event(2, "Bloom Bliss", "01/09/2020 11:00", 60, "Class", "No", 10, "No");
+
+        $events = array(
+            $event1,
+            $event2
+        );
+
+        return view('admin.doom_yoga.events.my_events', [
+            'myevents' => $events
+        ]);
     }
 }
 
 class Event
 {
 
-    public $id, $event_name, $dateTime, $durationInMins,   $event_type, $eventInPerson, $attending, $reccuring;
+    public $id, $event_name, $dateTime, $durationInMins, $event_type, $eventInPerson, $attending, $reccuring;
 
-    public function __construct($id, $event_name, $dateTime, $durationInMins,   $event_type, $eventInPerson, $attending, $reccuring)
+    public function __construct($id, $event_name, $dateTime, $durationInMins, $event_type, $eventInPerson, $attending, $reccuring)
     {
         $this->id = $id;
         $this->event_name = $event_name;

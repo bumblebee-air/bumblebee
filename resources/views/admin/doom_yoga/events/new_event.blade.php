@@ -1,6 +1,79 @@
 @extends('templates.dashboard') @section('title', 'Do OmYoga | New
 Event') @section('page-styles')
 <style>
+.select2-container {
+	padding: 5px;
+	border-radius: 10px;
+	box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
+	background-color: #ffffff;
+	font-size: 14px !important;
+	font-weight: normal !important;
+}
+
+.select2-container--default .select2-selection--multiple,
+	.select2-container .select2-selection--single {
+	width: 100% !important;
+	height: auto;
+}
+
+.select2-results__option {
+	font-family: 'Futura', Fallback, sans-serif !important;;
+	font-size: 14px !important;
+	font-weight: normal !important;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.77px;
+	color: #4d4d4d;
+}
+
+.select2-results__option:hover {
+	font-family: 'Futura', Fallback, sans-serif !important;;
+	font-size: 14px !important;
+	font-weight: normal !important;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.32px;
+	color: #4d4d4d;
+	background-color: grey;
+}
+
+.select2-container .select2-selection--single {
+	border-bottom: none !important;
+}
+
+.select2-container .select2-selection--single .select2-selection__rendered
+	{
+	color: #4d4d4d !important;
+	font-size: 14px !important;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--multiple,
+	.select2-container--default .select2-selection--multiple {
+	border: none !important;
+}
+
+.modal-dialog .modal-header .close {
+	top: 20px !important;
+}
+
+.modal-header .close {
+	width: 15px;
+	height: 15px;
+	margin: 39px 37px 35px 49px;
+	background-color: #4f4f4f;
+	border-radius: 30px;
+	color: white !important;
+	padding: 0.6rem;
+	opacity: 1 !important;
+	width: 15px;
+}
+
+.modal-header .close i {
+	font-size: 10px !important;
+	margin: -5px;
+}
 </style>
 @endsection @section('page-content')
 
@@ -47,6 +120,8 @@ Event') @section('page-styles')
 										</div>
 									</div>
 									<div class="row">
+
+
 										<div class="col-sm-6">
 											<div class="form-group bmd-form-group">
 												<label class="formLabel">Event Name</label> <input
@@ -84,7 +159,7 @@ Event') @section('page-styles')
 											<div class="form-group bmd-form-group">
 												<label class="formLabel">Short description</label>
 												<textarea class="form-control" name="short_description"
-													rows="5" required> </textarea>
+													rows="5" required></textarea>
 											</div>
 										</div>
 										<div class="col-sm-6">
@@ -332,8 +407,8 @@ Event') @section('page-styles')
 										<div class="col-sm-6">
 											<div class="form-group bmd-form-group">
 												<label class="formLabel">Price in £</label> <input
-													type="number" step="any" class="form-control"
-													name="price" required>
+													type="number" step="any" class="form-control" name="price"
+													required>
 											</div>
 										</div>
 									</div>
@@ -373,7 +448,8 @@ Event') @section('page-styles')
 			</div>
 			<div class="modal-body text-center">
 
-				<img class="" src="{{asset('images/doom-yoga/successfully.png')}}" width="160">
+				<img class="" src="{{asset('images/doom-yoga/successfully.png')}}"
+					width="160">
 				<div class="modal-dialog-header modalHeaderH2 mt-4 mb-5">
 					<h2 id="successMessageHeaderDiv"></h2>
 				</div>
@@ -381,11 +457,83 @@ Event') @section('page-styles')
 
 			</div>
 			<div class="modal-footer d-flex justify-content-around">
-				<a href="{{route('getNewEventDoomYoga', 'doom-yoga')}}" class="btn  btn-doomyoga-grey"
-					>Done</a>
-				<button type="button"
-					class="btn btn-doomyoga-black">Share event</button>
+				<a href="{{route('getNewEventDoomYoga', 'doom-yoga')}}"
+					class="btn  btn-doomyoga-grey">Done</a>
+				<button type="button" class="btn btn-doomyoga-black"
+					onclick="clickShareEvent()">Share event</button>
 			</div>
+
+
+		</div>
+	</div>
+</div>
+<!-- share event modal -->
+<div class="modal fade" id="share-event-modal" tabindex="-1"
+	role="dialog" aria-labelledby="share-event-label" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content p-5">
+			<div class="modal-header">
+				<button type="button" class="close d-flex justify-content-center"
+					data-dismiss="modal" aria-label="Close">
+					<i class="fas fa-times"></i>
+				</button>
+			</div>
+			<form action="{{route('postShareEventDoomYoga', 'doom-yoga')}}"
+				method="POST" id="shareEventForm" autocomplete="off">
+				{{csrf_field()}}
+				<div class="modal-body ">
+					<input type="hidden" name="eventId" id="eventId">
+					<div class="row justify-content-md-center">
+						<div class="col-md-5 col-sm-6 mt-2">
+							<label class="eventShareLabel">Share event with</label>
+						</div>
+						<div class="col-md-5 col-sm-6">
+							<div class="form-group bmd-form-group">
+								<select class="form-control" name="share_with"
+									id="shareWithSelect" onchange="shangeShareSelect()">
+									<option value="all" selected="selected">All</option>
+									<option value="level">Level</option>
+									<option value="selected_subscribers">Selected subscribers</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row mt-2">
+						<div class="col-md-5 offset-md-6 col-sm-6   offset-sm-6"
+							id="levelSelectDiv" style="display: none;">
+
+							<select class="form-control" name="level" id="levelSelect">
+								<option value="">Select level</option>
+								<option value="Beginner">Beginner</option>
+								<option value="Intermediate">Intermediate</option>
+								<option value="Advanced">Advanced</option>
+							</select>
+
+						</div>
+					</div>
+					<div class="row mt-2">
+						<div class="col-md-5 offset-md-6 col-sm-6  offset-sm-6"
+							id="selectedSubscribersSelectDiv" style="display: none;">
+
+							<select class="form-control" name="selected_subscribers[]"
+								id="selectedSubscribersSelect" multiple="multiple">
+								<option value="1">Jane Dow</option>
+								<option value="2">Adam Andrews</option>
+							</select>
+						</div>
+					</div>
+
+
+				</div>
+				<div class="modal-footer " style="display: block !important;">
+					<div class="row mt-2">
+						<div class="col-md-5 offset-md-6 col-sm-6   offset-sm-6">
+
+							<button type="submit" class="btn btn-doomyoga-grey">Share</button>
+						</div>
+					</div>
+				</div>
+			</form>
 
 
 		</div>
@@ -394,7 +542,14 @@ Event') @section('page-styles')
 @endsection @section('page-scripts')
 
 <script type="text/javascript">
+
+var eventId;
  $(document).ready(function() {
+ $('#share-event-modal select').css('width', '100%');
+ $('#shareWithSelect').select2({    minimumResultsForSearch: -1}).val('all');
+ $('#levelSelect').select2({    minimumResultsForSearch: -1,placeholder:'Select level' });
+  $('#selectedSubscribersSelect').select2({ dropdownParent: "#share-event-modal" });
+  
         $('#date_time').datetimepicker({
 						icons: {
 							time: "fa fa-clock",
@@ -418,12 +573,32 @@ Event') @section('page-styles')
         data: $(this).serialize(),
         success: function(data) {
        
-        
+        console.log(data.eventId);
+        eventId = data.eventId;
 $('#success-new-event-modal').modal('show')
 $('#success-new-event-modal #successMessageHeaderDiv').html(data.msg);
         }
     });
 });			
     });
+    
+function clickShareEvent(){
+$('#success-new-event-modal').modal('hide')
+$('#share-event-modal').modal('show')
+$('#share-event-modal #eventId').val(eventId);
+}    
+
+
+
+function shangeShareSelect(){
+	var shareSelectVal = $("#shareWithSelect").val();
+	if(shareSelectVal=='level'){
+    	$("#levelSelectDiv").css('display','block');
+    	$("#selectedSubscribersSelectDiv").css('display','none');
+	}else if(shareSelectVal=='selected_subscribers'){
+    	$("#levelSelectDiv").css('display','none');
+    	$("#selectedSubscribersSelectDiv").css('display','block');
+	}
+}
 </script>
 @endsection

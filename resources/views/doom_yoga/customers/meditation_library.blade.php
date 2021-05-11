@@ -3,12 +3,23 @@ Meditation Library') @section('styles')
 
 <style>
 body {
-	background-color: grey !important;
+	height: inherit;
 }
 
 #containerPageBackgrundDiv {
 	background-image: none !important;
-	background-color: grey !important;
+	background-color: #dedede !important;
+}
+
+#myVideo {
+	object-fit: cover;
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	min-width: 100%;
+	min-height: 100%;
 }
 
 .main {
@@ -212,8 +223,8 @@ audio {
 	padding: 21px 0;
 }
 
-#plList li:hover { 
-background-color: #00000021;
+#plList li:hover {
+	background-color: #00000021;
 }
 
 .plItem {
@@ -269,7 +280,6 @@ a[id^="btn"]::-moz-focus-inner {
 	padding: 0;
 }
 
-
 /* Audio Player Media Queries
 ================================================== */
 
@@ -285,7 +295,6 @@ a[id^="btn"]::-moz-focus-inner {
 	audio {
 		width: 85%;
 	}
-	
 	#npTitle {
 		width: 245px;
 	}
@@ -304,8 +313,15 @@ a[id^="btn"]::-moz-focus-inner {
 @endsection @section('content')
 
 <div class="container-fluid " id="app">
+	<video playsinline autoplay="autoplay" muted="muted" loop="loop"
+		id="myVideo">
+		<source src="{{asset('videos/doom-yoga/meditation_video.mp4')}}"
+			type="video/mp4">
+		Your browser does not support HTML5 video.
+	</video>
 
-	<div class="mt-4 mt-md-5">
+	<div class="main main-raised">
+
 		<div class="h-100 row align-items-center">
 			<div class="col-md-12 text-center">
 				<a href="{{route('getCustomerAccount','doom-yoga')}}"><img
@@ -330,8 +346,9 @@ a[id^="btn"]::-moz-focus-inner {
 								</div>
 								<div id="audiowrap">
 									<div id="audio0">
-										<audio preload id="audio1" controls="controls" controlsList="nodownload">Your browser
-											does not support HTML5 Audio!
+										<audio preload id="audio1" controls="controls"
+											controlsList="nodownload">Your browser does not support HTML5
+											Audio!
 										</audio>
 									</div>
 									<div id="tracks">
@@ -340,7 +357,7 @@ a[id^="btn"]::-moz-focus-inner {
 								</div>
 								<div id="plwrap">
 									<ul id="plList">
-									
+
 										<li v-for="audio in audios">
 											<div class="plItem">
 												<div class="plNum">@{{audio.track}}.</div>

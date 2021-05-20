@@ -5,11 +5,45 @@ use App\Customer;
 use App\Http\Controllers\Controller;
 use App\Imports\UnifiedCustomersImport;
 use App\UnifiedCustomer;
+use App\User;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
 class CustomerController extends Controller
 {
+    public $services_types;
+    public function __construct() {
+        $this->services_types = $services_types = collect([
+            [
+                'id' => 1,
+                'name' => 'hosted_pbx'
+            ],
+            [
+                'id' => 2,
+                'name' => 'access_control'
+            ],
+            [
+                'id' => 3,
+                'name' => 'cctv'
+            ],
+            [
+                'id' => 4,
+                'name' => 'fire_alarm'
+            ],
+            [
+                'id' => 5,
+                'name' => 'intruder_alarm'
+            ],
+            [
+                'id' => 6,
+                'name' => 'wifi_data'
+            ],
+            [
+                'id' => 7,
+                'name' => 'structured_cabling_system'
+            ],
+        ]);
+    }
 
     public function getCustomersList()
     {
@@ -43,53 +77,97 @@ class CustomerController extends Controller
 
     public function deleteCustomer(Request $request)
     {
-        // dd($request->get('customerId'));
+        $customer = UnifiedCustomer::find($request->customerId);
+        if (!$customer) {
+            abort(404);
+        }
+        $user = User::find($customer->user_id);
+        if ($user) {
+            $user->delete();
+        } else {
+            $customer->delete();
+        }
         alert()->success('Customer deleted successfully');
-
         return redirect()->route('unified_getCustomersList', 'unified');
     }
 
     public function getSingleCustomer($client_name, $id)
     {
-        $customer1 = new CustomerData($id, "ACCA Ireland", "hosted_/_pbx", true, "The Liberties", "52 Dolphins Barn Street, The Liberties", "Shane Martin", "shane.martin@accaglobal.com");
-        $customer1->postcode = "D01 R5P3";
-        $customer1->phone = "01234567899";
-        $customer1->mobile = "01234567899";
-        $customer1->selectedServiceType = '[2,3]';
-        //dd($customer1);
-        $serviceType1 = new ServiceTypeData(1, "CCTV");
-        $serviceType2 = new ServiceTypeData(2, "Fire alram");
-        $serviceType3 = new ServiceTypeData(3, "Intruder_alarm");
-        $serviceTypes = array($serviceType1,$serviceType2,$serviceType3);
+        $customer = UnifiedCustomer::find($id);
+        if (!$customer) {
+            abort(404);
+        }
+        $selectedServiceType = [];
+        $customer->hosted_pbx ? $selectedServiceType = 1 : '';
+        $customer->access_control ? $selectedServiceType = 2 : '';
+        $customer->cctv ? $selectedServiceType = 3 : '';
+        $customer->fire_alarm ? $selectedServiceType = 4 : '';
+        $customer->intruder_alarm ? $selectedServiceType = 5 : '';
+        $customer->wifi_data ? $selectedServiceType = 6 : '';
+        $customer->structured_cabling_system ? $selectedServiceType = 7 : '';
+        $customer->contract ? $selectedServiceType = 8 : '';
+
+        $customer->selectedServiceType = $selectedServiceType;
         return view('admin.unified.customers.single_customer', [
-            'customer' => $customer1,'readOnly'=>1,'serviceTypes'=>$serviceTypes
+            'customer' => $customer,'readOnly'=>1,'serviceTypes'=>$this->services_types
         ]);
     }
 
     public function getSingleCustomerEdit($client_name, $id)
     {
-        $customer1 = new CustomerData($id, "ACCA Ireland", "hosted_/_pbx", true, "The Liberties", "52 Dolphins Barn Street, The Liberties", "Shane Martin", "shane.martin@accaglobal.com");
-        $customer1->postcode = "D01 R5P3";
-        $customer1->phone = "01234567888";
-        $customer1->mobile = "01234567899";
-        $customer1->selectedServiceType = '[2,3]';
-       // dd($customer1);
-       
-        $serviceType1 = new ServiceTypeData(1, "CCTV");
-        $serviceType2 = new ServiceTypeData(2, "Fire alram");
-        $serviceType3 = new ServiceTypeData(3, "Intruder_alarm");
-        $serviceTypes = array($serviceType1,$serviceType2,$serviceType3);
-        
+        $customer = UnifiedCustomer::find($id);
+        if (!$customer) {
+            abort(404);
+        }
+        $selectedServiceType = [];
+        $customer->hosted_pbx ? $selectedServiceType[] = 1 : '';
+        $customer->access_control ? $selectedServiceType[] = 2 : '';
+        $customer->cctv ? $selectedServiceType[] = 3 : '';
+        $customer->fire_alarm ? $selectedServiceType[] = 4 : '';
+        $customer->intruder_alarm ? $selectedServiceType[] = 5 : '';
+        $customer->wifi_data ? $selectedServiceType[] = 6 : '';
+        $customer->structured_cabling_system ? $selectedServiceType[] = 7 : '';
+
+        $customer->selectedServiceType = $selectedServiceType;
         return view('admin.unified.customers.single_customer', [
-            'customer' => $customer1,'readOnly'=>0,'serviceTypes'=>$serviceTypes
+            'customer' => $customer,'readOnly'=>0,'serviceTypes'=>$this->services_types
         ]);
     }
     
     public function postEditCustomer(Request $request){
-       //dd($request);
-        
+        $customer = UnifiedCustomer::find($request->customer_id);
+        if (!$customer) {
+            abort(404);
+        }
+        //Check services Types
+        $selected_services_types_array = json_decode($request->serviceTypeSelectValues);
+        foreach ( $this->services_types as $service_type) {
+            $service_type_name = $service_type['name'];
+            $service_type_key = array_search($service_type['id'], $selected_services_types_array);
+            if ($service_type_key !== false) {
+                $customer[$service_type_name] = true;
+            } else {
+                $customer[$service_type_name] = false;
+            }
+        }
+        $customer->name = $request->name;
+        $customer->contact = $request->contact;
+        $customer->contract = $request->contract;
+        $customer->street_1 = $request->address;
+        $customer->email = $request->email;
+        $customer->post_code = $request->postcode;
+        $customer->phone = $request->phone;
+        $customer->mobile = $request->mobile;
+        $customer->save();
+
+        $user = User::find($customer->user_id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->mobile;
+        $user->save();
+
         alert()->success('Customer updated successfully');
-        
+
         return redirect()->route('unified_getCustomersList', 'unified');
     }
 }

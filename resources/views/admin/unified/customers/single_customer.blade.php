@@ -14,8 +14,8 @@
 			<div class="row">
 				<div class="col-md-12">
 					@if($readOnly==0)
-					<form id="order-form" method="POST"
-						action="{{route('unified_postCustomerSingleEdit', ['unified', $customer->id])}}">
+					<form id="customer-form" method="POST"
+						action="{{route('unified_postCustomerSingleEdit', ['unified', $customer->id])}}" @submit="onSubmitForm">
 						@endif {{csrf_field()}} <input type="hidden" name="customer_id"
 							value="{{$customer->id}}">
 						<div class="card">
@@ -68,10 +68,14 @@
 														<label>Service type</label> 
 															<select
 															class="form-control" id="serviceTypeSelect"
-															multiple="multiple"> @if(count($serviceTypes) > 0)
-															@foreach($serviceTypes as $serviceType)
-															<option value="{{$serviceType->id}}">
-																{{$serviceType->name}}</option> @endforeach @endif
+															multiple="multiple">
+															@if(count($serviceTypes) > 0)
+																@foreach($serviceTypes as $serviceType)
+																	<option value="{{$serviceType['id']}}">
+																		{{$serviceType['name']}}
+																	</option>
+																@endforeach
+															@endif
 														</select>
 													</div>
 												</div>
@@ -80,7 +84,7 @@
 													<div class="form-group bmd-form-group">
 														<label>Address</label>
 														<textarea class="form-control" name="address" id="address"
-															placeholder="Address" required> {{$customer->address}}</textarea>
+															placeholder="Address" required> {{$customer->street_1}}</textarea>
 													</div>
 												</div>
 												<div class="col-sm-12">
@@ -144,7 +148,7 @@
 													<div class="form-group bmd-form-group">
 														<label>Postcode</label> <input type="text"
 															class="form-control" name="postcode"
-															value="{{$customer->postcode}}" placeholder="Postcode"
+															value="{{$customer->post_code}}" placeholder="Postcode"
 															required>
 													</div>
 												</div>
@@ -177,6 +181,7 @@
 									data-target="#delete-customer-modal">Delete</button>
 							</div>
 						</div>
+							<input type="hidden" name="serviceTypeSelectValues" id="serviceTypeSelectValues">
 					</form>
 					@endif
 					<!-- Delete modal -->
@@ -202,8 +207,9 @@
 					<form method="POST" id="delete-customer"
 						action="{{url('unified/customers/delete')}}"
 						style="margin-bottom: 0 !important;">
-						@csrf <input type="hidden" id="customerId" name="customerId"
-							value="" />
+						@csrf
+						<input type="hidden" id="customerId" name="customerId"
+							value="{{$customer->id}}" />
 					</form>
 				</div>
 			</div>
@@ -228,21 +234,42 @@
 
 <script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>
 <script>
+
+	var app = new Vue({
+		el: '#app',
+		data: {
+
+		},
+		methods: {
+			onSubmitForm(e) {
+				e.preventDefault();
+				$('#serviceTypeSelectValues').val(JSON.stringify($('#serviceTypeSelect').val()));
+				setTimeout(() => {
+					$('#customer-form').submit();
+				}, 300);
+			}
+		}
+	});
+
 $( document ).ready(function() {
 
-var readonly = {!! $readOnly !!};
-if(readonly==1){
-$("input").prop('disabled', true);
-$("textarea").prop('disabled', true);
-$("select").prop('disabled', true);
-}
-$("#serviceTypeSelect").select2({
-  placeholder: 'Select service type',
-  tags: true
-}).val({!! $customer->selectedServiceType !!}).change();
+	var readonly = {!! $readOnly !!};
+	if(readonly==1){
+	$("input").prop('disabled', true);
+	$("textarea").prop('disabled', true);
+	$("select").prop('disabled', true);
+	}
+	$("#serviceTypeSelect").select2({
+	  placeholder: 'Select service type',
+	  tags: true
+	}).val({!! json_encode($customer->selectedServiceType) !!}).change();
 
-        addIntelInput('phone','phone');
-        addIntelInput('mobile','mobile');
+	addIntelInput('phone','phone');
+	addIntelInput('mobile','mobile');
+
+	function onSubmitForm() {
+		console.log($('#serviceTypeSelect').val());
+	}
 
 });
    

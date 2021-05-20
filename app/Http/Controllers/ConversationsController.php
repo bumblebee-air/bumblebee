@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Client;
 use App\ServiceType;
+use App\UserClient;
 use Illuminate\Http\Request;
 use Session;
 use App\User;
@@ -121,7 +122,8 @@ class ConversationsController extends Controller
         $client->user_id = $user->id;
         $client->name = $name;
         $client->sector = $sector;
-
+        $client->nav_highlight_color = $nav_highlight_color;
+        $client->save();
         if($logo != null) {
             $logo_extension = $logo->getClientOriginalExtension();
             $file_name = 'client_'.$client->id.'_logo.'.$logo_extension;
@@ -129,6 +131,7 @@ class ConversationsController extends Controller
             $file_path = $folder . $file_name;
             $logo->move(public_path().$folder, $file_name);
             $client->logo = $file_path;
+            $client->save();
         }
         if($nav_background != null) {
             $nav_background_extension = $nav_background->getClientOriginalExtension();
@@ -137,10 +140,14 @@ class ConversationsController extends Controller
             $file_path = $folder . $file_name;
             $nav_background->move(public_path().$folder, $file_name);
             $client->nav_background_image = $file_path;
+            $client->save();
         }
-        $client->nav_highlight_color = $nav_highlight_color;
 
-        $client->save();
+        //Link user and client entries
+        $user_client_link = new UserClient();
+        $user_client_link->user_id = $user->id;
+        $user_client_link->client_id = $client->id;
+        $user_client_link->save();
 
         // send registration mail to user
         \Mail::send([], [], function ($message) use($email, $userName, $password) {

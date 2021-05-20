@@ -1,8 +1,12 @@
 <?php
 namespace App\Http\Controllers\unified;
 
+use App\Customer;
 use App\Http\Controllers\Controller;
+use App\Imports\UnifiedCustomersImport;
+use App\UnifiedCustomer;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CustomerController extends Controller
 {
@@ -12,18 +16,28 @@ class CustomerController extends Controller
         $customer1 = new CustomerData(1, "ACCA Ireland", "Intruder_alarm", true, "The Liberties", "52 Dolphins Barn Street, The Liberties", "Shane Martin", "shane.martin@accaglobal.com");
         $customer2 = new CustomerData(2, "ACCA Ireland", "CCTV,Fire alram", false, "The Liberties", "52 Dolphins Barn Street, The Liberties", "Shane Martin", "shane.martin@accaglobal.com");
 
-        $customers = array(
-            $customer1,
-            $customer2
-        );
+        $customers = UnifiedCustomer::all();
+        foreach ($customers as $customer) {
+            $customer->serviceType = $customer->hosted_pbx ? 'hosted_pbx, ' : '';
+            $customer->serviceType .= $customer->access_control ? 'access_control, ' : '';
+            $customer->serviceType .= $customer->cctv ? 'cctv, ' : '';
+            $customer->serviceType .= $customer->fire_alarm ? 'fire_alarm, ' : '';
+            $customer->serviceType .= $customer->intruder_alarm ? 'intruder_alarm, ' : '';
+            $customer->serviceType .= $customer->wifi_data ? 'wifi_data, ' : '';
+            $customer->serviceType .= $customer->structured_cabling_system ? 'structured_cabling_system, ' : '';
+
+            if ($customer->serviceType == '') {
+                $customer->serviceType = 'N/A';
+            }
+        }
         return view('admin.unified.customers.list', [
-            'customers' => ($customers)
+            'customers' => $customers
         ]);
     }
 
     public function postCustomersImport(Request $request)
     {
-        // dd($request->all());
+        Excel::import(new UnifiedCustomersImport(), $request->file('customers-file'));
         return redirect()->to('unified/customers/list');
     }
 

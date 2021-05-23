@@ -44,9 +44,9 @@ class CustomersController extends Controller
             $this->validate($request, [
                 'type_of_work' => 'required|in:Commercial,Residential',
                 'name' => 'required',
-                'email' => 'required|unique:users',
+                'email' => 'required',
                 'contact_through' => 'required',
-                'phone' => 'required_if:type_of_work,Residential|unique:users',
+                'phone' => 'required_if:type_of_work,Residential',
                 'password' => 'required_if:type_of_work,Residential|confirmed',
                 'service_types' => 'required_if:type_of_work,Residential',
                 'location' => 'required_if:type_of_work,Residential',
@@ -62,14 +62,28 @@ class CustomersController extends Controller
                 'service_types_json' => 'required_if:type_of_work,Residential',
             ]);
 
-            //Create User
-            $user = new User();
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->phone = ($request->type_of_work=='Commercial')? $request->contact_number : $request->phone;
-            $user->password = $request->password ? bcrypt($request->password) : bcrypt(Str::random(8));
-            $user->user_role = 'customer';
-            $user->save();
+            $user = User::where('email','=',$request->email)
+                ->where('phone','=',$request->phone)->first();
+            if(!$user) {
+                $check_phone = User::where('phone','=',$request->phone)->first();
+                if($check_phone!=null){
+                    alert()->error('This phone number is already registered with another email!');
+                    return redirect()->back()->withInput();
+                }
+                $check_email = User::where('email','=',$request->email)->first();
+                if($check_email!=null){
+                    alert()->error('This email is already registered with another phone number!');
+                    return redirect()->back()->withInput();
+                }
+                //Create User
+                $user = new User();
+                $user->name = $request->name;
+                $user->email = $request->email;
+                $user->phone = ($request->type_of_work == 'Commercial') ? $request->contact_number : $request->phone;
+                $user->password = $request->password ? bcrypt($request->password) : bcrypt(Str::random(8));
+                $user->user_role = 'customer';
+                $user->save();
+            }
 
             $client = \App\Client::where('name', 'GardenHelp')->first();
             if($client) {

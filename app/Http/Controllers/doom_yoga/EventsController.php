@@ -20,7 +20,7 @@ class EventsController extends Controller
         $createNewEvent = new DoomYogaEvent();
         $createNewEvent->name = $request->event_name;
         $createNewEvent->type = $request->event_type;
-        $createNewEvent->level = $request->level;
+        //$createNewEvent->level = $request->level;
         $createNewEvent->short_description = $request->short_description;
         $createNewEvent->max_participants = $request->max_participants;
         $createNewEvent->date_Time = Carbon::parse($request->date_time)->toDateTimeString();

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class MakePhoneNullableOnUsersPhoneNumberTable extends Migration
+class MakeEventsLevelNullable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class MakePhoneNullableOnUsersPhoneNumberTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('phone')->nullable()->change();
+        Schema::table('doom_yoga_events', function (Blueprint $table) {
+            $table->string('level')->nullable()->change();
         });
     }
 
@@ -25,8 +25,8 @@ class MakePhoneNullableOnUsersPhoneNumberTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('phone')->nullable(false)->change();
+        Schema::table('doom_yoga_events', function (Blueprint $table) {
+            $table->string('level')->nullable(false)->change();
         });
     }
 }

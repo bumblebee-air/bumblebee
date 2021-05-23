@@ -34,7 +34,7 @@ class CustomerController extends Controller
         $createNewUser->password = bcrypt($request->password);
         $createNewUser->save();
 
-        DoomYogaCustomer::create([
+        $doom_yoga_customer = DoomYogaCustomer::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'level' => $request->level,
@@ -44,19 +44,17 @@ class CustomerController extends Controller
             'contact_through' => json_encode($request->contact_through)
         ]);
         return view('doom_yoga.customers.registration_card_details', [
-            'customer_id' => $createNewUser->id,
+            'customer_id' => $doom_yoga_customer->id,
             'price_id' => $request->price_id
         ]);
     }
 
     public function postCustomerRegistrationCardForm(Request $request)
     {
-        /*
-         * Stripe Code
-         */
+        //Stripe Code
         $customer = DoomYogaCustomer::find($request->customer_id);
-        if (! $customer) {
-            abort(404);
+        if (!$customer) {
+            alert()->error('No customer was found with this ID!');
         }
         // Create Stripe Customer
         $stripe_customer_id = StripePaymentHelper::createCustomer("$customer->first_name $customer->last_name", $customer->email, $request->stripeToken);

@@ -87,7 +87,7 @@ input[type="radio"]:checked+div i, input[type="radio"]:checked+div i:before
 						<div class="form-group formSelectDiv  filledInputDiv">
 							<label for="level" class="bmd-label-floating">Level</label> <select
 								id="level" name="level"
-								class="form-control js-example-basic-single ">
+								class="form-control js-example-basic-single" required>
 								<option disabled selected value="">Select level</option>
 								<option value="Beginner">Beginner</option>
 								<option value="Intermediate">Intermediate</option>

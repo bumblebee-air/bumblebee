@@ -22,7 +22,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Arbutus+Slab&display=swap" rel="stylesheet">
     
     <!-- favicon -->
-    <link rel="icon" type="image/jpeg" href="{{asset('images/doom-yoga-logo.png')}}">
+    <link rel="icon" type="image/jpeg" href="{{asset('images/doom-yoga/doom-yoga-logo.png')}}">
 
 
     @yield('styles')

@@ -130,7 +130,7 @@ input[type="radio"]:checked+div i {
 											<div class="col-12">
 												<div class=" row">
 													<label class="requestLabel col-12">Email: <span
-														class="form-control customerRequestSpan col-12">{{$job->email}}</span></label>
+														class="form-control customerRequestSpan col-12">{{$job->user->email}}</span></label>
 												</div>
 											</div>
 											<div class="col-12">
@@ -254,7 +254,7 @@ input[type="radio"]:checked+div i {
 											<div class="col-12" id="contractors-list">
 												@if(count($contractors) > 0)
 												@foreach($contractors as $contractor)
-													<div class="card recommendContractor" id="contractor-row-{{$contractor->id}}" data-sort="0">
+													<div class="card recommendContractor" id="contractor-row-{{$contractor->id}}" data-sort="0" @click="selectContractor">
 														<input type="radio"
 															id="radioInputContractor-{{$contractor->id}}"
 															name="selected-contractor" value="{{$contractor->id}}"
@@ -289,8 +289,7 @@ input[type="radio"]:checked+div i {
 								</div>
 							</div>
 						</div>
-						@elseif( ($job->status !='ready' || $job->status =='completed')
-						&& $reassign == 0)
+						@elseif( ($job->status !='ready' || $job->status =='completed') && $reassign == 0)
 						<div class="col-lg-6 "
 							v-if="job.status != 'ready' || job.status =='completed'">
 							<div class="card ">
@@ -399,7 +398,7 @@ input[type="radio"]:checked+div i {
 														<label class="requestSpanGreen">Total</label>
 													</div>
 													<div class="col-4">
-														<span class="requestSpanGreen">€@{{ getTotalPrice(true) }}</span>
+														<span class="requestSpanGreen">€@{{ getTotalPrice(true) + getVat(13.5, getTotalPrice(true)) }}</span>
 													</div>
 												</div>
 											</div>
@@ -432,12 +431,21 @@ input[type="radio"]:checked+div i {
 													</div>
 												</div>
 
+												<div class="row">
+													<div class="col-md-3 col-6">
+														<label class="requestLabelGreen">Vat</label>
+													</div>
+													<div class="col-md-3 col-6">
+														<span class="requestSpanGreen">€@{{ getVat(13.5, getTotalPrice()) }} (13.5%)</span>
+													</div>
+												</div>
+
 												<div class="row" style="margin-top: 15px">
 													<div class="col-md-3 col-6">
 														<label class="requestSpanGreen">Total</label>
 													</div>
 													<div class="col-md-3 col-6">
-														<span class="requestSpanGreen">€@{{ getTotalPrice() }}</span>
+														<span class="requestSpanGreen">€@{{ getTotalPrice() + getVat(13.5, getTotalPrice()) }}</span>
 													</div>
 												</div>
 											</div>
@@ -600,12 +608,12 @@ input[type="radio"]:checked+div i {
 
 <script type="text/javascript">
 
-        $(document).ready(function () {
-
-            $('input').on('change', function () {
-                $('#assignContractorBtn').prop("disabled", false);
-            });
-        });
+        // $(document).ready(function () {
+		//
+        //     $('input').on('change', function () {
+        //         $('#assignContractorBtn').prop("disabled", false);
+        //     });
+        // });
          var app = new Vue({
             el: '#app',
             data: {
@@ -620,6 +628,9 @@ input[type="radio"]:checked+div i {
                 this.reassign = {!! $reassign !!}
             },
             methods: {
+				selectContractor() {
+					$('#assignContractorBtn').prop("disabled", false);
+				},
 				getPropertySizeRate(type) {
 					let property_size = "{{$job->property_size}}";
 					property_size = property_size.replace(' Square Meters', '');
@@ -641,18 +652,23 @@ input[type="radio"]:checked+div i {
 					let total_price = 0
 					let services_types = isActual === true ? this.actual_services_types : this.services_types;
 					for (let type of services_types) {
-						let rate_property_sizes = JSON.parse(type.rate_property_sizes);
-						for (let rate of rate_property_sizes) {
-							let size_from = rate.max_property_size_from;
-							let size_to = rate.max_property_size_to;
-							let rate_per_hour = rate.rate_per_hour;
-							if (parseInt(property_size) >= parseInt(size_from) && parseInt(property_size) <= parseInt(size_to)) {
-								let service_price = parseInt(rate_per_hour) * parseInt(type.min_hours);
-								total_price += service_price;
+						if (type.is_checked) {
+							let rate_property_sizes = JSON.parse(type.rate_property_sizes);
+							for (let rate of rate_property_sizes) {
+								let size_from = rate.max_property_size_from;
+								let size_to = rate.max_property_size_to;
+								let rate_per_hour = rate.rate_per_hour;
+								if (parseInt(property_size) >= parseInt(size_from) && parseInt(property_size) <= parseInt(size_to)) {
+									let service_price = parseInt(rate_per_hour) * parseInt(type.min_hours);
+									total_price += service_price;
+								}
 							}
 						}
 					}
-					return total_price;
+					return parseFloat(total_price);
+				},
+				getVat(percentage, total_price) {
+					return parseFloat(((percentage/100)*total_price).toFixed(2));
 				}
             }
         });
@@ -668,8 +684,6 @@ input[type="radio"]:checked+div i {
             $('#contractorLevelSpan').html(contractor_level);
             let contractor_away = selectedInput.data('contractor-away');
             $('#contractorAwaySpan').html(contractor_away);
-
-
         }
 
         function initMap() {

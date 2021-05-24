@@ -280,8 +280,8 @@ Job') @section('page-styles')
 													<div class="form-group bmd-form-group">
 														<label>Property size</label> <input type="text"
 															class="form-control" id="property_size"
-															name="property_size" value="{{old('property_size')}}"
-															required>
+															name="property_size"
+															required v-model="property_size">
 													</div>
 												</div>
 
@@ -409,17 +409,61 @@ Job') @section('page-styles')
 										</div>
 
 									</div>
-
 								</div>
 							</div>
 						</div>
 
-
 						<div class="row">
-							<div class="col-12 text-center">
+							<div class="col-lg-12  ">
+								<div class="card ">
+									<div class="card-body" style="padding-top: 0 !important;">
+										<div class="container" style="padding-bottom: 10px !important;">
+											<div class="row">
+												<div class="col-12">
+													<div class=" row">
+														<div class="col-12">
+															<h5 class="cardTitleGreen requestSubTitle ">Estimated
+																Price Quotation</h5>
+														</div>
+													</div>
+												</div>
+												<div class="col-12">
+													<div class="row" v-for="type in service_types" v-if="type.is_checked">
+														<div class="col-md-3 col-6">
+															<label class="requestLabelGreen">@{{ type.title }}</label>
+														</div>
+														<div class="col-md-3 col-6">
+															<span class="requestSpanGreen">€@{{ getPropertySizeRate(type) }}</span>
+														</div>
+													</div>
 
+													<div class="row">
+														<div class="col-md-3 col-6">
+															<label class="requestLabelGreen">VAT</label>
+														</div>
+														<div class="col-md-3 col-6">
+															<span class="requestSpanGreen">€@{{ getVat(13.5, getTotalPrice()) }} (13.5%)</span>
+														</div>
+													</div>
+
+													<div class="row" style="margin-top: 15px">
+														<div class="col-md-3 col-6">
+															<label class="requestSpanGreen">Total</label>
+														</div>
+														<div class="col-md-3 col-6">
+															<span class="requestSpanGreen">€@{{ getTotalPrice() + getVat(13.5, getTotalPrice()) }}</span>
+														</div>
+													</div>
+													<input type="hidden" name="services_types_json" v-model="JSON.stringify(services_types_json)">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-12 text-center">
 								<button id="addNewJobBtn"
-									class="btn btn-register btn-gardenhelp-green" id="" disabled>Add
+									class="btn btn-register btn-gardenhelp-green" disabled>Add
 									new job</button>
 
 							</div>
@@ -738,7 +782,9 @@ Job') @section('page-styles')
                 contact_through: '',
                 service_types_input: '',
                 site_details_input: '',
-                property_photo_input: ''
+                property_photo_input: '',
+				property_size: "{{old('property_size') ? old('property_size') : ''}}",
+				services_types_json: []
             },
             mounted() {
                 if (this.type_of_work == 'Commercial') {
@@ -774,6 +820,46 @@ Job') @section('page-styles')
                 }
             },
             methods: {
+				getVat(percentage, total_price) {
+					return parseFloat(((percentage/100) * total_price).toFixed(2));
+				},
+				getPropertySizeRate(type) {
+					let property_size = this.property_size;
+					property_size = property_size.replace(' Square Meters', '');
+					let rate_property_sizes = JSON.parse(type.rate_property_sizes);
+					for (let rate of rate_property_sizes) {
+						let size_from = rate.max_property_size_from;
+						let size_to = rate.max_property_size_to;
+						let rate_per_hour = rate.rate_per_hour;
+						if (parseInt(property_size) >= parseInt(size_from) && parseInt(property_size) <= parseInt(size_to)) {
+							let service_price = parseInt(rate_per_hour) * parseInt(type.min_hours);
+							this.total_price += service_price;
+							console.log('service_price ' + service_price);
+							return service_price;
+						}
+					}
+				},
+				getTotalPrice(isActual = false) {
+					let property_size = this.property_size;
+					property_size = property_size.replace(' Square Meters', '');
+					let total_price = 0
+					let services_types = isActual === true ? this.actual_services_types : this.service_types;
+					for (let type of services_types) {
+						if (type.is_checked) {
+							let rate_property_sizes = JSON.parse(type.rate_property_sizes);
+							for (let rate of rate_property_sizes) {
+								let size_from = rate.max_property_size_from;
+								let size_to = rate.max_property_size_to;
+								let rate_per_hour = rate.rate_per_hour;
+								if (parseInt(property_size) >= parseInt(size_from) && parseInt(property_size) <= parseInt(size_to)) {
+									let service_price = parseInt(rate_per_hour) * parseInt(type.min_hours);
+									total_price += service_price;
+								}
+							}
+						}
+					}
+					return parseFloat(total_price);
+				},
                 changeLocation(e) {
                     if (e.target.value == 'Other') {
                         $('#addOtherLocationBtn').click();
@@ -783,7 +869,6 @@ Job') @section('page-styles')
                     $('#' + type + '_btn_modal').click();
                 },
                 changeSelectedValue(type) {
-                    console.log(type);
                     let input = '';
                     let list = '';
                     if (type === 'service_details') {
@@ -791,6 +876,7 @@ Job') @section('page-styles')
                         list = this.service_types;
                         for (let item of list) {
                             item.is_checked === true ? service_types_input += (service_types_input == '' ? item.title : ', ' + item.title) : '';
+							item.is_checked === true ? this.services_types_json.push(item) : '';
                         }
                         for (let item of this.other_service_types) {
                             item.is_checked === true ? service_types_input += (service_types_input == '' ? item.title : ', ' + item.title) : '';
@@ -1016,7 +1102,7 @@ Job') @section('page-styles')
                     var area = google.maps.geometry.spherical.computeArea(newShape.getPath());
                     let property_size = $("#property_size");
                     let area_coordinates = $("#area_coordinates");
-                    property_size.val(area.toFixed(0) + ' Square Meters');
+                    app.property_size = area.toFixed(0) + ' Square Meters';
                     property_size.parent().addClass('is-filled');
                     area_coordinates.val(JSON.stringify(newShape.getPath().getArray()));
                     setSelection(newShape);
@@ -1095,7 +1181,7 @@ Job') @section('page-styles')
                 let property_size = $("#property_size");
                 let area_coordinates = $("#area_coordinates");
                 area_coordinates.val('');
-                property_size.val('');
+                app.property_size = '';
                 property_size.parent().removeClass('is-filled');
                 clearMarkers();
             }

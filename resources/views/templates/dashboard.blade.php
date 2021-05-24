@@ -203,6 +203,21 @@
             notificationAudio.play();
         });
 
+        socket.on('garden-help-channel:update-job-status'+'-'+'{{env('APP_ENV','dev')}}', (data) => {
+            let decodedData = JSON.parse(data);
+            console.log(decodedData)
+            if (decodedData.data.status === 'ready' || decodedData.data.status === 'matched') {
+                Vue.$toast.info(decodedData.data.toast_text, {
+                    // optional options Object
+                    position: 'top-right',
+                    duration: 3600000,
+
+                    onClick: () => this.onClickToast(decodedData)
+                });
+                notificationAudio.play();
+            }
+        });
+
         function onClickToast(decodedData) {
             swal({
                 text: decodedData.data.alert_text,

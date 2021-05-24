@@ -6,6 +6,8 @@ use App\Customer;
 use App\GardenServiceType;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\UserClient;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Twilio\Rest\Client;
@@ -121,7 +123,6 @@ class JobsController extends Controller
 
     public function postNewJob(Request $request)
     {
-        // dd($request->all());
         $this->validate($request, [
             'work_location' => 'required'
         ]);
@@ -155,18 +156,41 @@ class JobsController extends Controller
                 'available_date_time' => 'required_if:type_of_work,Commercial'
             ]);
 
-            // Create User
-            // $user = new User();
-            // $user->name = $request->name;
-            // $user->email = $request->email;
-            // $user->phone = $request->phone;
-            // $user->password = $request->password ? bcrypt($request->password) : bcrypt(Str::random(8));
-            // $user->user_role = 'customer';
-            // $user->save();
+            $user = User::where('email','=',$request->email)
+                ->where('phone','=',$request->phone)->first();
+            if(!$user) {
+                $check_phone = User::where('phone','=',$request->phone)->first();
+                if($check_phone!=null){
+                    alert()->error('This phone number is already registered with another email!');
+                    return redirect()->back()->withInput();
+                }
+                $check_email = User::where('email','=',$request->email)->first();
+                if($check_email!=null){
+                    alert()->error('This email is already registered with another phone number!');
+                    return redirect()->back()->withInput();
+                }
+                //Create User
+                $user = new User();
+                $user->name = $request->name;
+                $user->email = $request->email;
+                $user->phone = ($request->type_of_work == 'Commercial') ? $request->contact_number : $request->phone;
+                $user->password = $request->password ? bcrypt($request->password) : bcrypt(Str::random(8));
+                $user->user_role = 'customer';
+                $user->save();
+
+                $client = \App\Client::where('name', 'GardenHelp')->first();
+                if($client) {
+                    //Making Client Relation
+                    UserClient::create([
+                        'user_id' => $user->id,
+                        'client_id' => $client->id
+                    ]);
+                }
+            }
 
             // Create Customer
             $customer = new Customer();
-            // $customer->user_id = $user->id;
+             $customer->user_id = $user->id;
             $customer->work_location = $request->work_location;
             $customer->type_of_work = $request->type_of_work;
             $customer->name = $request->name;
@@ -189,6 +213,7 @@ class JobsController extends Controller
             $customer->available_date_time = $request->available_date_time;
             $customer->area_coordinates = $request->area_coordinates;
             $customer->address = $request->address;
+            $customer->services_types_json = $request->services_types_json;
             $customer->save();
         }
         alert()->success("The job is added successfully");

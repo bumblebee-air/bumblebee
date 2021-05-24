@@ -78,12 +78,21 @@
                                     </div>
                                 </div>
 
+                                <div class="row">
+                                    <div class="col-md-3 col-6">
+                                        <label class="requestLabelGreen">Vat</label>
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <span class="requestSpanGreen">€@{{ getVat(13.5, getTotalPrice()) }} (13.5%)</span>
+                                    </div>
+                                </div>
+
                                 <div class="row" style="margin-top: 15px">
                                     <div class="col-md-3 col-6">
                                         <label class="requestSpanGreen">Total</label>
                                     </div>
                                     <div class="col-md-3 col-6">
-                                        <span class="requestSpanGreen">€@{{ getTotalPrice() }}</span>
+                                        <span class="requestSpanGreen">€@{{ (getTotalPrice() + getVat(13.5, getTotalPrice())).toFixed(2) }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -287,8 +296,11 @@
                             }
                         }
                     }
-                    return total_price;
-                }
+                    return parseFloat(total_price);
+                },
+                getVat(percentage, total_price) {
+                    return parseFloat(((percentage/100) * total_price).toFixed(2));
+                },
             }
         });
     </script>

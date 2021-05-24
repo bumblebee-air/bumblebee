@@ -87,7 +87,7 @@ tr.order-row:hover, tr.order-row:focus {
 												alt="NoContract"> @endif
 											</td>
 											<td><span data-toggle="tooltip" data-placement="top"
-												title="{{$customer->address}}">{{$customer->location}}</span></td>
+												title="{{$customer->address}}">{{$customer->country}}</span></td>
 											<td>{{$customer->contact}}</td>
 											<td>{{$customer->email}}</td>
 											<td><a

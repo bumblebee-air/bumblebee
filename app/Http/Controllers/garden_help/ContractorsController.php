@@ -261,14 +261,16 @@ class ContractorsController extends Controller
                     //Capture the payment intent
                     $actual_services_amount = ServicesTypesHelper::getJobServicesTypesAmount($job, true);
                     $services_amount = ServicesTypesHelper::getJobServicesTypesAmount($job);
+                    $services_amount_vat = ServicesTypesHelper::getVat(13.5, $services_amount);
+                    $total_amount = $actual_services_amount + $services_amount_vat;
                     if ($actual_services_amount > $services_amount) {
-                        if (StripePaymentHelper::chargePayment($actual_services_amount, $job->stripe_customer->stripe_customer_id)) {
+                        if (StripePaymentHelper::chargePayment($total_amount, $job->stripe_customer->stripe_customer_id)) {
                             StripePaymentHelper::cancelPaymentIntent($job->payment_intent_id);
                         } else {
                             if (StripePaymentHelper::capturePaymentIntent($job->payment_intent_id)) {
                                 $job->payment_details_object = json_encode([
                                     'payment_type' => 'partial', //paid, partial
-                                    'residualـvalue' => $actual_services_amount - $services_amount
+                                    'residualـvalue' => $actual_services_amount - $total_amount
                                 ]);
                             }
                         }
@@ -321,12 +323,15 @@ class ContractorsController extends Controller
                     $job->contractor_id = null;
                 }
                 $job->save();
+
                 Redis::publish('garden-help-channel', json_encode([
                     'event' => 'update-job-status'.'-'.env('APP_ENV','dev'),
                     'data' => [
                         'id' => $job->id,
                         'status' => $job->status,
-                        'contactor' => $job->contractor ? $job->contractor->name : null
+                        'contactor' => $job->contractor ? $job->contractor->name : null,
+                        'toast_text' => "A contractor has updated a job status",
+                        'alert_text' => $request->status == "matched" ? "A contractor has accepted a job #$job->id" : "A contractor has rejected a job #$job->id",
                     ]
                 ]));
                 return response()->json([

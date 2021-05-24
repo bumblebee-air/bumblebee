@@ -53,7 +53,8 @@ class PaymentIntentCustomer extends Command
 //            dd(Carbon::parse($customer->available_date_time)->toDateTimeString(), Carbon::now()->toDateTimeString(), Carbon::parse($customer->available_date_time)->addDays(6)->toDateTimeString());
             if ($customer->available_date_time && Carbon::now()->getTimestamp() >= Carbon::parse($customer->available_date_time)->getTimestamp() && Carbon::now()->getTimestamp() <= Carbon::parse($customer->available_date_time)->addDays(6)->getTimestamp()) {
                 if ($customer->services_types_json && $customer->stripe_customer) {
-                    $amount = ServicesTypesHelper::getJobServicesTypesAmount($customer);
+                    $service_types_amount = ServicesTypesHelper::getJobServicesTypesAmount($customer);
+                    $amount = $service_types_amount + ServicesTypesHelper::getVat(13.5, $service_types_amount);
                     $payment_intent = StripePaymentHelper::paymentIntent($amount, $customer->stripe_customer->stripe_customer_id);
                     if($payment_intent) {
                         $customer->payment_intent_id = $payment_intent->id;

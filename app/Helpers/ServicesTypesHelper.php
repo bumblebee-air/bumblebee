@@ -33,4 +33,8 @@ class ServicesTypesHelper {
         }
         return $amount;
     }
+
+    public static function getVat($percentage, $amount) {
+        return ($percentage/100)*$amount;
+    }
 }

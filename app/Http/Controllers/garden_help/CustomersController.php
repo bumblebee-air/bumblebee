@@ -83,15 +83,15 @@ class CustomersController extends Controller
                 $user->password = $request->password ? bcrypt($request->password) : bcrypt(Str::random(8));
                 $user->user_role = 'customer';
                 $user->save();
-            }
 
-            $client = \App\Client::where('name', 'GardenHelp')->first();
-            if($client) {
-                //Making Client Relation
-                UserClient::create([
-                    'user_id' => $user->id,
-                    'client_id' => $client->id
-                ]);
+                $client = \App\Client::where('name', 'GardenHelp')->first();
+                if($client) {
+                    //Making Client Relation
+                    UserClient::create([
+                        'user_id' => $user->id,
+                        'client_id' => $client->id
+                    ]);
+                }
             }
 
             //Create Customer

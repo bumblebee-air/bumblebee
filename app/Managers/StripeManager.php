@@ -109,14 +109,16 @@ class StripeManager
         $client_name = strtolower($client->name);
         if($client_name=='gardenhelp'){
             try {
-                $new_pass = Str::random(6);
-                $user->password = bcrypt($new_pass);
-                $user->save();
-                //Sending SMS
-                $body = "Hi $user->name, your contractor profile has been accepted. " .
-                    "Login details are the email: $user->email and the password: $new_pass . " .
-                    "Web app: " . url('contractors_app');
-                TwilioHelper::sendSMS('GardenHelp', $user->phone, $body);
+                if ($user->contractor_profile->status != 'completed') {
+                    $new_pass = Str::random(6);
+                    $user->password = bcrypt($new_pass);
+                    $user->save();
+                    $body = "Hi $user->name, your contractor profile has been accepted. " .
+                        "Login details are the email: $user->email and the password: $new_pass . " .
+                        "Web app: " . url('contractors_app');
+                    //Sending SMS
+                    TwilioHelper::sendSMS('GardenHelp', $user->phone, $body);
+                }
             }catch(\Exception $exception){
                 \Log::error($exception->getMessage(),$exception->getTrace());
             }

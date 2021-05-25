@@ -185,7 +185,7 @@
                                                     <select id="deliver_by" name="deliver_by" data-style="select-with-transition" class="form-control selectpicker">
                                                         <option value="car">Car</option>
                                                         <option value="scooter">Scooter</option>
-                                                        <option value="van">Van</option>
+{{--                                                        <option value="van">Van</option>--}}
                                                         <option value="bicycle">Bicycle</option>
                                                     </select>
                                                 </div>

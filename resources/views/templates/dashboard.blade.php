@@ -73,7 +73,7 @@
     @endif
 </head>
 
-<body>
+<body class="menu-on-left">
 
 @include('sweet::alert')
 
@@ -85,6 +85,18 @@
     @include('partials.flash')
     @include('partials.admin_sidebar')
     <div class="main-panel">
+    {{--navbar--}}
+        <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top">
+            <div class="container-fluid justify-content-end">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="navbar-toggler-icon icon-bar"></span>
+                    <span class="navbar-toggler-icon icon-bar"></span>
+                    <span class="navbar-toggler-icon icon-bar"></span>
+                </button>
+            </div>
+        </nav>
+    {{--navbar--}}
         @yield('page-content')
     </div>
 </div>
@@ -113,6 +125,26 @@
 <link href="https://cdn.jsdelivr.net/npm/vue-toast-notification/dist/theme-sugar.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/vue-toast-notification"></script>
 <script>
+    $(document).ready(function () {
+        $('.navbar-toggler').click(function () {
+            // $('body').toggleClass('menu-on-left');
+            // $(this).toggleClass('toggled');
+            var mobile_menu_visible;
+            var e;
+            $toggle = $(this), mobile_menu_visible = 1 == mobile_menu_visible ? ($("html").removeClass("nav-open"), $(".close-layer").remove(), setTimeout(function() {
+                $toggle.removeClass("toggled");
+                $('body').removeClass('menu-on-left');
+            }, 400), 0) : (setTimeout(function() {
+                $toggle.addClass("toggled");
+            }, 430), e = $('<div class="close-layer"></div>'), 0 != $("body").find(".main-panel").length ? e.appendTo(".main-panel") : $("body").hasClass("off-canvas-sidebar") && e.appendTo(".wrapper-full-page"), setTimeout(function() {
+                e.addClass("visible")
+            }, 100), e.click(function() {
+                $("html").removeClass("nav-open"), mobile_menu_visible = 0, e.removeClass("visible"), setTimeout(function() {
+                    e.remove(), $toggle.removeClass("toggled");
+                }, 400)
+            }), $("html").addClass("nav-open"), 1)
+        });
+    })
     let updateAudio = new Audio('{{asset("audio/update.mp3")}}');
     let notificationAudio = new Audio('{{asset("audio/notification.mp3")}}');
 </script>

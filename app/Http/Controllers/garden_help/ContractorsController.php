@@ -531,4 +531,33 @@ class ContractorsController extends Controller
             'contractors' => $current_contractors
         ]);
     }
+
+    public function getContractorsFee(Request $request) {
+        $client_id = $request->user()->client->client_id;
+        $setting = ClientSetting::where('client_id', $client_id)->get();
+        return view('admin.garden_help.contractors.fee_list', [
+            'settings' => $setting
+        ]);
+    }
+
+    public function editContractorsFee(Request $request) {
+        $fee = ClientSetting::where('name', $request->fee_name)->where('client_id', $request->user()->client->client_id)->first();
+        if (!$fee) {
+            abort(404);
+        }
+        return view('admin.garden_help.contractors.fee_edit', [
+            'fee' => $fee
+        ]);
+    }
+
+    public function updateContractorsFee(Request $request) {
+        $fee = ClientSetting::find($request->id);
+        if (!$fee) {
+            abort(404);
+        }
+        $fee->the_value = $request->the_value;
+        $fee->save();
+        alert()->success('Fee has updated successfully');
+        return redirect()->route('garden_help_getContractorsFee', 'garden-help');
+    }
 }

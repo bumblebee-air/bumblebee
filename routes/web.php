@@ -224,6 +224,9 @@ Route::group([
             Route::get('requests/{id}', 'garden_help\ContractorsController@getSingleRequest')->name('garden_help_getContractorSingleRequest');
             Route::post('requests/{id}', 'garden_help\ContractorsController@postSingleRequest')->name('garden_help_postContractorSingleRequest');
             Route::get('contractors_list', 'garden_help\ContractorsController@getContractorsList')->name('garden_help_getContractorsList');
+            Route::get('fee_list', 'garden_help\ContractorsController@getContractorsFee')->name('garden_help_getContractorsFee');
+            Route::get('edit_fee', 'garden_help\ContractorsController@editContractorsFee')->name('garden_help_editContractorsFee');
+            Route::post('update_fee', 'garden_help\ContractorsController@updateContractorsFee')->name('garden_help_updateContractorsFee');
             Route::get('view/{id}', 'garden_help\ContractorsController@getSingleContractor')->name('garden_help_getContractorSingleView');
             Route::get('edit/{id}', 'garden_help\ContractorsController@getSingleContractorEdit')->name('garden_help_getContractorSingleEdit');
             Route::post('edit/{id}', 'garden_help\ContractorsController@postEditContractor')->name('garden_help_postEditContractor');

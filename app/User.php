@@ -53,4 +53,8 @@ class User extends Authenticatable
     public function contractor_profile() {
         return $this->hasOne(Contractor::class, 'user_id');
     }
+
+    public function stripe_account() {
+        return $this->hasOne(StripeAccount::class, 'user_id');
+    }
 }

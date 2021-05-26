@@ -16,4 +16,8 @@ class Customer extends Model
     public function stripe_customer() {
         return $this->hasOne(CustomerExtraData::class, 'job_id');
     }
+
+    public function contractor() {
+        return $this->belongsTo(User::class, 'contractor_id');
+    }
 }

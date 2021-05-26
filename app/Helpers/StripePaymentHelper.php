@@ -23,16 +23,21 @@ class StripePaymentHelper
             ]);
             return $payment_intent;
         } catch (\Exception $e) {
-            dd($e->getMessage());
             Log::error($e->getMessage());
             return null;
         }
     }
 
-    public static function capturePaymentIntent($intent_id) {
+    public static function capturePaymentIntent($intent_id, $amount = null) {
         try {
+            $options = [];
+            if ($amount > 0 && $amount != null) {
+                $options = [
+                    'amount_to_capture' => $amount * 100
+                ];
+            }
             $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
-            $payment_intent_capture = $stripe->paymentIntents->capture($intent_id);
+            $payment_intent_capture = $stripe->paymentIntents->capture($intent_id, $options);
             return $payment_intent_capture;
         } catch (\Exception $e) {
             Log::error($e->getMessage());
@@ -97,5 +102,24 @@ class StripePaymentHelper
             Log::error($e->getMessage());
             return '';
         }
+    }
+
+    public static function transferPaymentToConnectedAccount($connected_account_id, $amount, $currency = 'eur'):string {
+        try {
+            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+            $transfer = $stripe->transfers->create([
+                'amount' => $amount * 100,
+                'currency' => $currency,
+                'destination' => $connected_account_id,
+            ]);
+            return $transfer->id;
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return '';
+        }
+    }
+
+    public static function getPercentageOfTotalPrice($total_price, $percentage) {
+        return ($percentage / 100 ) * $total_price;
     }
 }

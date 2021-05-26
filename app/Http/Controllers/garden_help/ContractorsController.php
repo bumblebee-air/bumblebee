@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\garden_help;
 
+use App\ClientSetting;
 use App\Contractor;
 use App\Customer;
 use App\Helpers\ServicesTypesHelper;
@@ -259,10 +260,11 @@ class ContractorsController extends Controller
                     $job->skip_reason = $request->skip_reason;
                     $job->job_services_types_json = $request->job_services_types_json;
                     //Capture the payment intent
-                    $actual_services_amount = ServicesTypesHelper::getJobServicesTypesAmount($job, true);
                     $services_amount = ServicesTypesHelper::getJobServicesTypesAmount($job);
                     $services_amount_vat = ServicesTypesHelper::getVat(13.5, $services_amount);
+                    $actual_services_amount = ServicesTypesHelper::getJobServicesTypesAmount($job, true) + $services_amount_vat;
                     $total_amount = $actual_services_amount + $services_amount_vat;
+                    $client_setting = '';
                     if ($actual_services_amount > $services_amount) {
                         if (StripePaymentHelper::chargePayment($total_amount, $job->stripe_customer->stripe_customer_id)) {
                             StripePaymentHelper::cancelPaymentIntent($job->payment_intent_id);
@@ -275,12 +277,18 @@ class ContractorsController extends Controller
                             }
                         }
                     } else if ($actual_services_amount < $services_amount) {
-                        if (StripePaymentHelper::cancelPaymentIntent($job->payment_intent_id)) {
-                            StripePaymentHelper::chargePayment($actual_services_amount, $job->stripe_customer->stripe_customer_id);
-                        }
+                        StripePaymentHelper::capturePaymentIntent($job->payment_intent_id, $actual_services_amount);
                     } else {
                         StripePaymentHelper::capturePaymentIntent($job->payment_intent_id);
                     }
+                    //Transfer to the connected account
+                    if ($job->contractor->contractor_profile && $job->contractor->contractor_profile->experience_level_value) {
+                        $client_setting = ClientSetting::where('name', "lvl_".$job->contractor->contractor_profile->experience_level_value."_percentage")->first();
+                        if ($client_setting) {
+                            StripePaymentHelper::transferPaymentToConnectedAccount($request->user()->stripe_account->account_id, round(($client_setting->the_value / 100 ) * $actual_services_amount));
+                        }
+                    }
+                    return response()->json([], 500);
                     $job->is_paid = true;
                 }
                 $job->save();

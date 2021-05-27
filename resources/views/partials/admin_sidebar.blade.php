@@ -387,14 +387,16 @@
 					<p>WhatsApp</p>
 			</a></li>
 
-			<li class="nav-item"><a class="nav-link d-flex" href="#"> <img
-					class="my-nav-icon"
+			<li class="nav-item">
+				<a class="nav-link d-flex" href="{{route('doorder_ordersHistoryTable', 'doorder')}}">
+					<img class="my-nav-icon"
 					src="{{asset('images/doorder_icons/History-white.png')}}"
 					alt="whatsapp"> <img class="my-nav-icon my-nav-icon-top"
 					src="{{asset('images/doorder_icons/History-yellow.png')}}"
 					alt="whatsapp">
 					<p>History</p>
-			</a></li>
+				</a>
+			</li>
 			<li class="nav-item"><a class="nav-link d-flex" href="#"> <img
 					class="my-nav-icon"
 					src="{{asset('images/doorder_icons/Settings.png')}}" alt="whatsapp">
@@ -494,14 +496,33 @@
 					<p style="padding-right: 30px;">Contractors Roster</p>
 			</a></li>
 
-			<li class="nav-item"><a class="nav-link d-flex"
-				href="{{route('garden_help_getContractorsList', 'garden-help')}}"> <img
-					class="my-nav-icon"
-					src="{{asset('images/gardenhelp_icons/Contractors-white.png')}}"
-					alt="">
-					<p style="padding-right: 30px;">Contractors</p>
-			</a></li>
-			<!-- 	<li class="nav-item "><a class="nav-link collapsed d-flex"
+			<li class="nav-item ">
+				<a class="nav-link collapsed d-flex"
+				   data-toggle="collapse" href="#contractors-collapse"
+				   aria-expanded="false"> <img class="my-nav-icon"
+											   src="{{asset('images/gardenhelp_icons/Requests-white.png')}}"
+											   alt="">
+					<p style="padding-right: 30px;">
+						Contractors<b class="caret"></b>
+					</p>
+				</a>
+				<div class="collapse" id="contractors-collapse">
+					<ul class="nav">
+						<li class="nav-item "><a class="nav-link d-flex"
+												 href="{{route('garden_help_getContractorsList', 'garden-help')}}">
+								<p class="sidebar-mini">CL</p>
+								<p class="sidebar-normal">Contractors List</p>
+							</a></li>
+						<li class="nav-item"><a class="nav-link d-flex"
+												href="{{route('garden_help_getContractorsFee', 'garden-help')}}">
+								<p class="sidebar-mini">CF</p>
+								<p class="sidebar-normal">Customers Fee</p>
+							</a>
+						</li>
+					</ul>
+				</div></li>
+
+		<!-- 	<li class="nav-item "><a class="nav-link collapsed d-flex"
 				data-toggle="collapse" href="#componentsContractorsExamples"
 				aria-expanded="false"> <img 
 					class="my-nav-icon"
@@ -541,7 +562,8 @@
 					</ul>
 				</div></li>		-->
 
-			<li class="nav-item "><a class="nav-link collapsed d-flex"
+			<li class="nav-item ">
+				<a class="nav-link collapsed d-flex"
 				data-toggle="collapse" href="#componentsExamples"
 				aria-expanded="false"> <img class="my-nav-icon"
 					src="{{asset('images/gardenhelp_icons/Requests-white.png')}}"

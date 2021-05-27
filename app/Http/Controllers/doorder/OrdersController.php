@@ -18,7 +18,7 @@ class OrdersController extends Controller
         if (auth()->user()->user_role == 'retailer') {
             $orders = Order::where('retailer_id', auth()->user()->retailer_profile->id)->orderBy('id', 'desc')->paginate(20);
         } else {
-            $orders = Order::orderBy('id', 'desc')->paginate(20);
+            $orders = Order::where('is_archived', false)->orderBy('id', 'desc')->paginate(20);
         }
 
         foreach ($orders as $order) {
@@ -159,5 +159,30 @@ class OrdersController extends Controller
         );
         alert()->success( "The order has been successfully assigned to $driver->name");
         return redirect()->to('doorder/orders');
+    }
+
+    public function getOrdersHistoryTable(Request $request) {
+        $orders = Order::query();
+        $orders = $orders->where('is_archived', true);
+        if ($request->has('from')) {
+            $orders = $orders->whereDate('created_at', '>=', $request->from);
+        }
+
+        if ($request->has('to')) {
+            $orders = $orders->whereDate('created_at', '<=', $request->to);
+        }
+        $orders = $orders->paginate(50);
+
+        foreach ($orders as $order) {
+            $order->time = $order->created_at->format('d M H:i');
+            $order->driver = $order->orderDriver ? $order->orderDriver->name : null;
+        }
+
+
+        if ($request->has('export')) {
+            //export
+        } else {
+            return view('admin.doorder.orders_history', ['orders' => $orders]);
+        }
     }
 }

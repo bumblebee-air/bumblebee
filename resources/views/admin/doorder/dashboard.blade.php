@@ -272,7 +272,7 @@ background-size: cover;
             });
             
             $('#deliverersChargesPerWeekTable').DataTable({
-             	"paging":   false,
+             	"paging":   true,
         		"ordering": false,
         		"info":     false,
         		"scrollY":        "450px",
@@ -287,7 +287,7 @@ background-size: cover;
              
              
              $('#retailersChargesPerMonthTable').DataTable({
-             	"paging":   false,
+             	"paging":   true,
         		"ordering": false,
         		"info":     false,
         		"scrollY":        "450px",

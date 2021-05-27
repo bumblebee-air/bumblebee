@@ -14,7 +14,10 @@ body {
 li .nav-link {
 	font-family: Quicksand;
 }
-
+.sidebar .nav i
+{
+	margin-right: 0 !important;
+}
 li .nav-link:hover {
 	border-radius: 12px !important;
 	/* background-color: #fafafa !important; */
@@ -29,7 +32,7 @@ li .nav-link:hover .my-nav-icon-top {
 	display: inline;
 }
 
-li .nav-link:hover a i {
+li .nav-link:hover  i{
 	color: #f7dc69 !important;
 }
 

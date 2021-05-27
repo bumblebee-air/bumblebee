@@ -319,6 +319,10 @@ Route::group([
 
         Route::post('retailer/delete', 'doorder\RetailerController@deleteRetailer')->name('doorder_deleteRetailer');
         Route::post('retailers/{id}', 'doorder\RetailerController@saveUpdateRetailer')->name('post_doorder_retailers_single_retailer');
+        
+        Route::get('invoice', 'doorder\InvoiceController@getInvoiceList')->name('doorder_getInvoiceList');
+        
+        
     });
     /*
      * Doom Yoga Routes

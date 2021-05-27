@@ -841,7 +841,7 @@ function clickAddScheduledJob(){
 
 function clickEditScheduledJob(jobId){
 
-	console.log("click edit job")
+	//console.log("click edit job")
 	//console.log(jobId);
 	var token ='{{csrf_token()}}';
 	
@@ -880,7 +880,7 @@ function clickEditScheduledJob(jobId){
             }
             
             
-	console.log("change company edittttt ")
+	//console.log("change company edittttt ")
             var serviceTypesDivHtml = '';
             for(var i=0; i<job.serviceTypes.length; i++){
             	serviceTypesDivHtml += '<input type="radio" name="selectedServiceType" title="'+job.serviceTypes[i].name
@@ -1007,7 +1007,7 @@ function changeCompany(){
        	data: {_token: token, companyId:companyVal},
         success: function(data) {
        
-            console.log(data);
+          //  console.log(data);
             var company = data.company;
             $('#calendar-modal-add-job #email').val(company.email);
             $('#calendar-modal-add-job #mobile').val(company.mobile);
@@ -1021,9 +1021,9 @@ function changeCompany(){
             }
             
             
-            console.log(":D:D " +$('#calendar-modal-add-job #serviceIdHidden').val());
+           // console.log(":D:D " +$('#calendar-modal-add-job #serviceIdHidden').val());
             var serviceIdHidden =$('#calendar-modal-add-job #serviceIdHidden').val();
-            console.log(serviceIdHidden)
+            //console.log(serviceIdHidden)
             var serviceTypesDivHtml = '';
             if(serviceIdHidden==0){
             	console.log("0000 "+serviceIdHidden)
@@ -1031,12 +1031,12 @@ function changeCompany(){
                 	serviceTypesDivHtml += '<input type="radio" name="selectedServiceType" title="'+company.serviceType[i].name
                 							+'" value="'+company.serviceType[i].id+'" id="serviceType'+company.serviceType[i].id+ '" >';
                 }
-                console.log(serviceTypesDivHtml)
+                //console.log(serviceTypesDivHtml)
                 $("#selectedServiceTypesDiv").html(serviceTypesDivHtml);
                 $("#selectedServiceTypesDiv").zInput();
                 
             }else{
-            	console.log("sasdas "+serviceIdHidden)
+            	//console.log("sasdas "+serviceIdHidden)
                 for(var i=0; i<company.serviceType.length; i++){
                 	if(company.serviceType[i].id==serviceIdHidden){
                 		serviceTypesDivHtml += '<input type="radio" name="selectedServiceType" title="'+company.serviceType[i].name
@@ -1080,7 +1080,7 @@ function changeCompanyEdit(){
 	var companyVal = $("#companyNameSelectEdit").val();
 	//console.log(companyVal);
 	var token ='{{csrf_token()}}';
-	console.log("change company edit")
+	//console.log("change company edit")
 	 $.ajax({
         type: "POST",
         method:"post",
@@ -1101,7 +1101,7 @@ function changeCompanyEdit(){
             	$('#calendar-modal-edit-job #contractNoEdit').prop("checked",true);
             }
             
-	console.log("change company edit scuccess")
+	//console.log("change company edit scuccess")
             
             var serviceTypesDivHtml = '';
             for(var i=0; i<company.serviceType.length; i++){

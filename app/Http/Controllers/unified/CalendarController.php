@@ -28,7 +28,7 @@ class CalendarController extends Controller
             $service7
         );
 
-        $event1 = new EventData(1, "1", "2021-05-05", "2021-05-05", "#41aec2bf");
+        $event1 = new EventData(1, "1", "2021-05-05", "2021-05-05", "#41aec2bf"); // background: servicedata->borderColor+'bf'
         $event1->serviceId = 3;
         $event2 = new EventData(2, "4", "2021-05-05", "2021-05-05", "#5fc97cbf");
         $event2->serviceId = 4;
@@ -160,7 +160,7 @@ class CalendarController extends Controller
         $jobsList = array();
 
         if ($serviceId == 0) {
-            $job1 = new EventData(1, "ACCA Ireland / Fire Alarm / 09:00 / Enginner: John Dow", null, null, "#5fc97c66");
+            $job1 = new EventData(1, "ACCA Ireland / Fire Alarm / 09:00 / Enginner: John Dow", null, null, "#5fc97c66"); //// background: servicedata->borderColor+'66'
             $job2 = new EventData(2, "Bag City Wholesale / Fire Alarm / 09:00 / Enginner: Peter Adams", null, null, "#5fc97c66");
             $job3 = new EventData(3, "AB Logistics / Hosted/Cpbx / 010:00 / Enginner: John Dow", null, null, "#d9535366");
             $job4 = new EventData(4, "Bag City Wholesale / CCTV / 13:00 / Enginner: Andy Anderson", null, null, "#41aec266");
@@ -177,7 +177,8 @@ class CalendarController extends Controller
         } else {
             $job1 = new EventData(1, "ACCA Ireland / Fire Alarm / 09:00 / Enginner: John Dow", null, null, "#5fc97c66");
             $job2 = new EventData(2, "Bag City Wholesale / Fire Alarm / 09:00 / Enginner: Peter Adams", null, null, "#5fc97c66");
-           $jobsList = array(
+            $jobsList = array($job1,
+                $job2
             );
            $titleModal = "Fire Alarm "; // service name
         }

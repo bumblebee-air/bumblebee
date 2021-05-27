@@ -1,0 +1,446 @@
+.iti {
+	width: 100%;
+}
+
+#wrap {
+	width: 1100px;
+	margin: 0 auto;
+}
+
+#external-events {
+	float: left;
+	width: 150px;
+	padding: 0 10px;
+	text-align: left;
+}
+
+#external-events h4 {
+	font-size: 16px;
+	margin-top: 0;
+	padding-top: 1em;
+}
+
+.external-event { /* try to mimick the look of a real event */
+	margin: 10px 0;
+	padding: 2px 4px;
+	background: #3366CC;
+	color: #fff;
+	font-size: .85em;
+	cursor: pointer;
+}
+
+#external-events p {
+	margin: 1.5em 0;
+	font-size: 11px;
+	color: #666;
+}
+
+#external-events p input {
+	margin: 0;
+	vertical-align: middle;
+}
+
+#calendar {
+	/* 		float: right; */
+	/* margin: 0 auto;
+	width: 92%; */
+	background-color: #FFFFFF;
+	border-radius: 6px;
+	box-shadow: 0 20px 20px 0 rgba(0, 0, 0, 0.08);
+	-webkit-box-shadow: 0px 0px 21px 2px rgba(0, 0, 0, 0.18);
+	-moz-box-shadow: 0px 0px 21px 2px rgba(0, 0, 0, 0.18);
+	box-shadow: 0px 0px 21px 2px rgba(0, 0, 0, 0.18);
+}
+
+.fc-header td, .fc th {
+	border-style: none !important;
+}
+
+.modal-dialog {
+	width: 70% !important;
+	margin: auto !important;
+	margin-top: 60px !important;
+}
+
+@media ( max-width : 767.5px) {
+	.modal-dialog {
+		width: 90% !important;
+		margin: auto !important;
+	}
+	.modal-content {
+		padding: 20px !important;
+	}
+}
+
+@media ( min-width :768px ) and ( max-width : 991.5px) {
+	.modal-dialog {
+		width: 85% !important;
+		margin: auto !important;
+		margin-top: 40px !important;
+	}
+	.modal-content {
+		padding: 20px !important;
+	}
+}
+
+.modal-dialog .modal-header {
+	padding: 0 !important;
+}
+
+.list-group-item {
+	padding: 15px;
+	margin: 5px 10px;
+	border-radius: 10px !important;
+	font-family: Roboto;
+	font-size: 18px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.35;
+	letter-spacing: -0.33px;
+	color: #000000;
+}
+
+.servicesCalendarTitleH3 {
+	font-family: 'Roboto', sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.64;
+	letter-spacing: 1.84px;
+	color: #888888;
+	text-transform: uppercase;
+}
+
+.servicesCalendarUl {
+	list-style: none;
+	padding: 0;
+}
+
+.serviceColorLiDiv {
+	width: 100%;
+	min-height: 35px;
+	margin-right: 15px;
+}
+
+.serviceNameCalendarP {
+	font-family: Roboto;
+	font-size: 11px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.37;
+	letter-spacing: 1.3px;
+	color: #222222;
+	margin-bottom: 2px;
+}
+
+.serviceJobsCalendarP {
+	font-family: Roboto;
+	font-size: 8px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.89;
+	letter-spacing: 1.59px;
+	color: #888888;
+	margin-bottom: 0;
+	text-transform: uppercase;
+}
+
+.modal-content {
+	padding: 25px 40px 30px 40px;
+}
+
+.modal-header {
+	display: block !important;
+}
+
+.addJobModalHeader {
+	margin: 25px;
+	font-family: Roboto;
+	font-size: 25px;
+	font-weight: 300;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 0.6;
+	letter-spacing: 0.63px;
+	color: #222222;
+}
+
+.addJobSubTitleModal {
+	margin-top: 0;
+	font-family: Roboto;
+	font-size: 18px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 2.5;
+	letter-spacing: 0.17px;
+	color: #d58242;
+}
+
+.modal-body {
+	padding-top: 0 !important;
+}
+
+.select2-container {
+	width: 100% !important;
+	padding: 0;
+}
+
+.iti--allow-dropdown input, .iti--allow-dropdown input[type=text],
+	.iti--allow-dropdown input[type=tel], .iti--separate-dial-code input,
+	.iti--separate-dial-code input[type=text], .iti--separate-dial-code input[type=tel]
+	{
+	padding-left: 100px !important;
+}
+
+#calendar {
+	padding-top: 15px;
+}
+
+button:focus {
+	outline: none !important;
+}
+
+.fc-toolbar .fc-left h2 {
+	margin-top: 10px;
+	white-space: nowrap;
+	font-weight: 100;
+	margin-bottom: 10px;
+	font-family: Roboto;
+	font-size: 18px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 0.84;
+	letter-spacing: 0.45px;
+	color: #222222;
+}
+
+.fc-center {
+	margin-top: 2px;
+}
+
+.fc-button-group {
+	margin-left: -20%;
+}
+
+.fc-state-default {
+	padding: 0.4rem !important;
+	color: #888 !important;
+	opacity: 1 !important;
+	box-shadow: none !important;
+	background: none !important;
+}
+
+.fc-state-default:hover {
+	background-color: #d5824226 !important;
+}
+
+.fc-row.fc-widget-header {
+	box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.05);
+}
+
+.fc-day-header {
+	background-color: #f4f4f4 !important;
+	font-family: Roboto;
+	font-size: 11px !important;
+	font-weight: bold !important;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.83;
+	letter-spacing: 1.1px;
+	color: #222222;
+}
+
+.fc-center .fc-button {
+	padding: 4px !important;
+	margin-left: 1rem !important;
+	font-family: Roboto;
+	font-size: 12px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.26;
+	letter-spacing: 1.2px;
+	text-align: center;
+	color: #222222 !important;
+	text-transform: capitalize;
+	border-radius: 2px
+}
+
+.fc-state-down, .fc-state-active {
+	background-color: #fff !important;
+	border-bottom: 2px solid #d58242 !important;
+	box-shadow: none !important;
+}
+
+.fc-state-disabled {
+	background-color: #fff !important;
+	border-bottom: 2px solid #d58242 !important;
+	box-shadow: none !important;
+}
+
+.fc td.fc-today {
+	border-style: solid !important;
+	border-right-style: none !important;
+}
+
+.fc-day-top .fc-day-number {
+	padding: 5px;
+	font-size: 16px !important;
+	font-weight: normal !important;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1;
+	letter-spacing: 0.4px;
+	color: #aaa;
+}
+
+.fc-sat .fc-day-number, .fc-sun .fc-day-number {
+	color: #222 !important;
+}
+
+.fc-today .fc-day-number {
+	font-weight: bold !important;
+	color: #d58242 !important;
+}
+
+td.fc-day {
+	/* background: #f4f4f4bf !important; */
+	background: #fafafa !important;
+}
+
+.fc-event-time, .fc-event-title {
+	font-family: Roboto;
+}
+
+.fc-event-inner {
+	background: none !important;
+}
+
+.fc-event {
+	color: transparent !important;
+	border-radius: 50%;
+	width: 25px !important;
+	height: 25px;
+	border-radius: 50%;
+	display: inline-block;
+}
+
+.fc th, .fc td {
+	border-right: none;
+}
+
+td {
+	text-align: inherit !important;
+}
+
+tr:first-child>td>.fc-day-grid-event {
+	border: 0 !important;
+	box-shadow: none !important;
+}
+
+.fc-day-grid-event .fc-content {
+	padding: 2px;
+	text-align: center;
+	font-size: 13px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.73;
+	letter-spacing: 0.27px;
+	color: #333;
+}
+
+input[type="checkbox"] {
+	display: none;
+}
+
+input[type="checkbox"]:checked+label i {
+	color: #d58242;
+}
+
+.sendReminderLabel {
+	font-family: Roboto;
+	font-size: 13px;
+	font-weight: bold;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.38;
+	letter-spacing: 1.3px;
+	color: #222222;
+}
+
+.sendReminderLabel i {
+	color: #aaa;
+	font-size: 18px
+}
+
+#selectedServiceTypesDiv, #selectedServiceTypesDivEdit {
+	min-height: 50px;
+	height: 110px;
+	max-height:auto;
+	border-radius: 5px;
+	box-shadow: 0 2px 48px 0 rgb(0 0 0/ 8%);
+	background-color: #ffffff;
+}
+
+.zInputWrapper {
+	background-color: transparent;
+	padding: 4px;
+	margin: 2px;
+	border-radius: 12px;
+	display: inline-block;
+}
+
+.zInput {
+	border-radius: 6px;
+	box-shadow: 0 2px 4px 0 rgba(201, 201, 201, 0.5);
+	border: solid 0.9px rgba(224, 224, 224, 0.3);
+	background-color: #f9f9f9;
+	font-family: Roboto;
+	font-size: 12px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 0.9;
+	letter-spacing: normal;
+	color: #6c757d;
+	display: inline-block;
+	width: auto;
+	height: 20px;
+	margin: 4px;
+	padding: 5px;
+	text-align: center;
+	cursor: default;
+	overflow: hidden;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.zCheckbox {
+	color: #e74c3c;
+	border: #e74c3c 1px solid;
+}
+
+.zSelected {
+	color: white;
+	background-color: #d58242;
+}
+
+.zSelected.zCheckbox {
+	background-color: #e74c3c;
+}
+
+#calendar-modal-job-list .btn-add-calendar img {
+	width: 65px !important;
+	height: 65px !important;
+}

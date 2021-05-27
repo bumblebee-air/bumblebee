@@ -45,7 +45,7 @@ class EventsController extends Controller
             "msg" => "The Event Was Created Successfully",
             "eventId" => $createNewEvent->id,
             "subscribers" => $subscribers
-        ));
+        ),200);
     }
 
     public function postShareEvent(Request $request)

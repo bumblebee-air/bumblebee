@@ -655,7 +655,7 @@
 					<p>Dashboard </p>
 			</a></li>
 			<li class="nav-item"><a class="nav-link d-flex"
-				href="">  <img class="my-nav-icon"
+				href="{{route('unified_getCalendar', 'unified')}}">  <img class="my-nav-icon"
 					src="{{asset('images/unified/Calendar.png')}}"
 					alt="Calendar">
 					<p>Calendar </p>

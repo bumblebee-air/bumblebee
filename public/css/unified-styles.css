@@ -3,7 +3,7 @@ html {
 }
 
 body {
-	font-family: 'Roboto', sans-serif;
+	font-family: 'Roboto', sans-serif !important;
 }
 
 .main-panel>.content {
@@ -328,6 +328,16 @@ table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after,
 	text-align: center;
 	color: #d58242;
 }
+.noJobsAddedHeader{
+	font-family: Roboto;
+  font-size: 25px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 0.6;
+  letter-spacing: 0.63px;
+  color: #878787;
+}
 
 .modal-header {
 	border: none;
@@ -413,21 +423,22 @@ table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after,
 	box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.05);
 	background-color: #ffffff;
 }
-.uploadFileP{
-	 font-size: 16px;
-  font-weight: 300;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.13;
-  letter-spacing: 1.6px;
-  text-align: center;
-  color: #888888;
+
+.uploadFileP {
+	font-size: 16px;
+	font-weight: 300;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.13;
+	letter-spacing: 1.6px;
+	text-align: center;
+	color: #888888;
 }
 /**************************/
 .form-head span {
 	width: 23px;
 	height: 23px;
-	background-color: #f7dc69;
+	background-color: #d58242;
 	text-align: center;
 	color: #ffffff;
 	border-top-left-radius: 10px;
@@ -438,12 +449,7 @@ table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after,
 	font-weight: bold;
 }
 
-.form-control:focus {
-	border-bottom: 2px solid #f7dc69 !important;
-	box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14) !important;
-}
-
-.form-group label,.labelRadio {
+.form-group label, .labelRadio {
 	font-size: 15px;
 	font-weight: 500;
 	font-stretch: normal;
@@ -456,15 +462,16 @@ table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after,
 .form-check .form-check-input:checked ~.circle {
 	border: solid 1px #d58242;
 }
-.form-check .form-check-label .circle .check{
-	
+
+.form-check .form-check-label .circle .check {
 	background-color: #d58242 !important;
 }
+
 .radio-container .form-check .circle .check {
 	background-color: #d58242 !important;
 }
 
-input.form-control, textarea.form-control,select.form-control {
+input.form-control, textarea.form-control, select.form-control {
 	padding: 11px 14px 11px 14px;
 	border-radius: 5px;
 	box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
@@ -481,8 +488,8 @@ input.form-control, textarea.form-control,select.form-control {
 }
 
 .select2-container--default .select2-selection--multiple,
-.select2-container .select2-selection--single{
-	padding: 11px 14px 11px 14px;
+	.select2-container .select2-selection--single {
+	padding: 13px 14px 11px 14px;
 	border: none !important;
 	border-radius: 5px;
 	box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
@@ -495,9 +502,58 @@ input.form-control, textarea.form-control,select.form-control {
 	letter-spacing: 0.66px;
 	color: #656565;
 	width: 100%;
-	height: auto;
+	height: auto !important;
 }
 
-.select2-container--default.select2-container--disabled .select2-selection--multiple{
+.select2-container .select2-selection--single {
+	padding: 11px 14px 11px 14px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered
+	{
+	line-height: 1.2 !important;
+}
+
+.select2-container--default.select2-container--disabled .select2-selection--multiple
+	{
 	background-color: #fff !important;
+}
+
+
+/************************* datetime picker **************************/
+.bootstrap-datetimepicker-widget table td.active:hover>div,
+	.bootstrap-datetimepicker-widget table td.active>div {
+	background-color: #d58242 !important;
+    color: #fff;
+    box-shadow: 0 4px 20px 0 rgb(0 0 0 / 14%), 0 7px 10px -5px rgb(213 130 60 / 40%);
+}
+
+.bootstrap-datetimepicker-widget table td span.active {
+	background-color: #d58242;
+}
+
+.bootstrap-datetimepicker-widget a[data-action] span,
+	.bootstrap-datetimepicker-widget a[data-action]:hover span {
+	color: #d58242 !important;
+}
+
+.bootstrap-datetimepicker-widget table td.today>div:before{
+border-bottom-color: #d58242 !important;	
+}
+
+.bootstrap-datetimepicker-widget .btn.btn-primary.focus,
+	.bootstrap-datetimepicker-widget .btn.btn-primary {
+	color: #fff;
+	background-color: #d58242 !important;
+	border-color: #d58242 !important;
+	box-shadow: 0 4px 20px 0 rgb(0 0 0/ 14%), 0 7px 10px -5px
+		rgb(79 79 79/ 40%);
+}
+
+.bootstrap-datetimepicker-widget .btn.btn-primary.focus,
+	.bootstrap-datetimepicker-widget .btn.btn-primary:focus,
+	.bootstrap-datetimepicker-widget .btn.btn-primary:hover {
+	color: #fff;
+	background-color: #d58242 !important;
+	border-color: #d58242 !important;
 }

@@ -363,9 +363,17 @@ Route::group([
             Route::get('view/{id}', 'unified\CustomerController@getSingleCustomer')->name('unified_getCustomerSingleView');
             Route::get('edit/{id}', 'unified\CustomerController@getSingleCustomerEdit')->name('unified_getCustomerSingleEdit');
             Route::post('edit/{id}', 'unified\CustomerController@postEditCustomer')->name('unified_postCustomerSingleEdit');
-            Route::post('import', 'unified\CustomerController@postCustomersImport')->name('unified_postCustomersImport');
+            Route::post('get_company_data', 'unified\CalendarController@getCompanyData')->name('unified_getCompanyData');
         });
         
+        Route::get('calendar', 'unified\CalendarController@getCalendar')->name('unified_getCalendar');
+        Route::post('add_scheduled_job', 'unified\CalendarController@postAddScheduledJob')->name('unified_postAddScheduledJob');
+        Route::post('edit_scheduled_job', 'unified\CalendarController@postEditScheduledJob')->name('unified_postEditScheduledJob');
+        Route::post('delete_scheduled_job', 'unified\CalendarController@postDeleteScheduledJob')->name('unified_postDeleteScheduledJob');
+        Route::post('get_job_data', 'unified\CalendarController@getJobData')->name('unified_getJobData');
+        Route::get('get_job_list', 'unified\CalendarController@getJobList')->name('unified_getJobList');
+        Route::get('get_company_list_of_service', 'unified\CalendarController@getCompanyListOfService')->name('unified_getCompanyListOfService');
+                
         
     });
         

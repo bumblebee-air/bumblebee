@@ -56,6 +56,23 @@
 	margin-right: 35px;
 }
 
+.btn-add-calendar,.btn-nojob-add-calendar {
+	background-color: transparent;
+	border:none;
+	border-radius: 50%;
+}
+.btn-add-calendar:focus, .btn-add-calendar.focus, .btn-add-calendar:hover, 
+.btn-nojob-add-calendar:focus,.btn-nojob-add-calendar.focus,.btn-nojob-add-calendar:hover{
+	border: none !important;
+	background: transparent !important;
+	outline: none;
+}
+
+.btn-add-calendar img{
+	width: 50px;
+	height: 50px;
+}
+
 .btn-unified-primary {
 	color: #fff;
 	background-color: #d58242;

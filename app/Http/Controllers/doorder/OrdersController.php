@@ -22,7 +22,7 @@ class OrdersController extends Controller
         }
 
         foreach ($orders as $order) {
-            $order->time = $order->created_at->format('H:i');
+            $order->time = $order->created_at->format('d M H:i');
             $order->driver = $order->orderDriver ? $order->orderDriver->name : null;
         }
         return view('admin.doorder.orders', ['orders' => $orders]);

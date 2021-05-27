@@ -156,16 +156,14 @@ class DriversController extends Controller
                 $timestamps->arrived_second = $current_timestamp;
             }
             $order->save();
-            if ($status!='delivery_arrived') {
-                Redis::publish('doorder-channel', json_encode([
-                    'event' => 'update-order-status'.'-'.env('APP_ENV','dev'),
-                    'data' => [
-                        'id' => $order->id,
-                        'status' => $order->status,
-                        'driver' => $order->orderDriver ? $order->orderDriver->name : null,
-                    ]
-                ]));
-            }
+            Redis::publish('doorder-channel', json_encode([
+                'event' => 'update-order-status'.'-'.env('APP_ENV','dev'),
+                'data' => [
+                    'id' => $order->id,
+                    'status' => $order->status,
+                    'driver' => $order->orderDriver ? $order->orderDriver->name : null,
+                ]
+            ]));
             $response = [
                 'message' => 'The order\'s status has been updated successfully',
                 'delivery_confirmation_code' => $status == 'delivery_arrived' ? $order->delivery_confirmation_code : null,
@@ -273,7 +271,7 @@ class DriversController extends Controller
                 'driver_name' => $current_user->name,
                 'lat' => $lat,
                 'lon' => $lon,
-                'timestamp' => $current_timestamp->format('H:i')
+                'timestamp' => $current_timestamp->format('d M H:i')
             ]
         ]));
         $response = [
@@ -467,7 +465,7 @@ class DriversController extends Controller
         $drivers_requests = DriverProfile::with('user')
 //            ->where('is_confirmed', false)
 //            ->whereNull('rejection_reason')
-            ->paginate(20);
+            ->orderBy('id', 'desc')->paginate(20);
         return view('admin.doorder.drivers.requests', ['drivers_requests' => $drivers_requests]);
     }
 
@@ -648,7 +646,7 @@ class DriversController extends Controller
         $drivers = DriverProfile::with('user')
                     ->where('is_confirmed', true)
         //            ->whereNull('rejection_reason')
-        ->paginate(20);
+        ->orderBy('id', 'desc')->paginate(20);
         return view('admin.doorder.drivers.accepted_drivers', ['drivers' => $drivers]);
     }
     public function deleteDriver(Request $request){

@@ -101,9 +101,9 @@
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead>
-                                        <th>Time</th>
+                                        <th>Date/Time</th>
                                         <th>Order Number</th>
-                                        <th>Fulfilment At</th>
+                                        <th>Order Time</th>
                                         <th>Retailer Name</th>
                                         <th>Status</th>
                                         <th>Stage</th>
@@ -258,9 +258,9 @@
                     let fulfil_time= moment(order.created_at).add(order.fulfilment, 'minutes');
                     let duration = moment.duration(fulfil_time.diff(moment.now())).asMinutes();
                     if (duration <= 0) {
-                        order.fulfilment_at = 'Fulfilled'
+                        order.fulfilment_at = 'Ready'
                     } else {
-                        order.fulfilment_at = fulfil_time.format('HH:mm');
+                        order.fulfilment_at = fulfil_time.format('d M HH:mm');
                     }
                 }
 

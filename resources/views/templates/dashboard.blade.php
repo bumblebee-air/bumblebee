@@ -156,19 +156,34 @@
 
         socket.on('doorder-channel:new-order'+'-'+'{{env('APP_ENV','dev')}}', (data) => {
             let decodedData = JSON.parse(data);
+            let text = "There is a new order! with order No# " + decodedData.data.order_id;
             Vue.$toast.info('There is a new order.', {
                 // optional options Object
                 position: 'top-right',
                 duration: 3600000,
-
                 onClick: () => this.onClickToast(decodedData)
             });
             notificationAudio.play();
         });
-        function onClickToast(decodedData) {
+
+        socket.on('doorder-channel:update-order-status'+'-'+'{{env('APP_ENV','dev')}}', (data) => {
+            let decodedData = JSON.parse(data);
+            let text = "There is an order delivered No# " + decodedData.data.order_id;
+            if (decodedData.data.status === 'delivery_arrived') {
+                Vue.$toast.success('Delivery arrived.', {
+                    // optional options Object
+                    position: 'top-right',
+                    duration: 3600000,
+
+                    onClick: () => this.onClickToast(decodedData, text)
+                });
+            }
+            notificationAudio.play();
+        });
+        function onClickToast(decodedData, text) {
             swal({
                 // title: "Good job!",
-                text: "There is a new order! with order No# " + decodedData.data.order_id,
+                text: text,
                 icon: "info",
                 buttons: {
                     accept: {

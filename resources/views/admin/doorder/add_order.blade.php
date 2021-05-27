@@ -153,6 +153,7 @@
                                                         <option value="Light">Light</option>
                                                         <option value="Medium">Medium</option>
                                                         <option value="Very Heavy">Very Heavy</option>
+                                                        <option value="Max(20kg)">Max 20kg</option>
                                                     </select>
                                                 </div>
                                             </div>

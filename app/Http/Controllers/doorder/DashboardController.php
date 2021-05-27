@@ -217,7 +217,7 @@ class DashboardController extends Controller
                     ],
                     'lat'=>$lat,
                     'lon'=>$lon,
-                    'timestamp'=>$coords_timestamp->format('H:i')
+                    'timestamp'=>$coords_timestamp->format('d M H:i')
                 ];
             }
         }

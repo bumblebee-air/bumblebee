@@ -8,6 +8,7 @@ use App\Helpers\ServicesTypesHelper;
 use App\Helpers\StripePaymentHelper;
 use App\Helpers\TwilioHelper;
 use App\Mail\ContractorRegistrationMail;
+use App\Mail\ContractorRegistrationSuccessMail;
 use App\Managers\StripeManager;
 use App\User;
 use App\UserClient;
@@ -101,7 +102,7 @@ class ContractorsController extends Controller
 
         \Mail::to(env('GH_NOTIF_EMAIL', 'kim@bumblebeeai.io'))->send(new ContractorRegistrationMail($contractor));
         if ($contractor->email != null && $contractor->email != '') {
-            \Mail::to($contractor->email)->send(new ContractorRegistrationMail($contractor));
+            \Mail::to($contractor->email)->send(new ContractorRegistrationSuccessMail($contractor));
         }
 
         Redis::publish('garden-help-channel', json_encode([

@@ -351,9 +351,9 @@
             <div class="row">
                 <div class="col-md-12 mb-3 ml-2">
                     <p class="terms">
-                        By clicking Submit, you agree to our <a class="terms-text" href="#">Terms
+                        By clicking Submit, you agree to our <a class="terms-text" target="_blank"  href="{{$termsFile}}">Terms
                             & Conditions</a> and that you have read our <a
-                            class="terms-text" href="#">Privacy Policy</a>
+                            class="terms-text" target="_blank"  href="{{$privacyFile}}">Privacy Policy</a>
                     </p>
                 </div>
 

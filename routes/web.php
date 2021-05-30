@@ -265,6 +265,9 @@ Route::group([
         });
 
         Route::post('job/assign', 'garden_help\JobsController@assignContractorToJob')->name('garden_help_assignJob');
+        
+        Route::get('terms_privacy', 'garden_help\TermsController@index')->name('garden_help_getTermsPrivacy');
+        Route::post('terms_privacy', 'garden_help\TermsController@save')->name('garden_help_postTermsPrivacy');
     });
 
     /*

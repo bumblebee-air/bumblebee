@@ -24,7 +24,7 @@ class CustomersController extends Controller
             $item->is_checked = $item->false;
             $item->is_recurring = "0";
         }
-        return view('garden_help.customers.registration', ['services' => $services]);
+        return view('garden_help.customers.registration', ['services' => $services,"termsFile"=>'',"privacyFile"=>'']);
     }
 
     public function postRegistrationForm(Request $request) {

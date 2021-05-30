@@ -506,7 +506,7 @@
 				<a class="nav-link collapsed d-flex"
 				   data-toggle="collapse" href="#contractors-collapse"
 				   aria-expanded="false"> <img class="my-nav-icon"
-											   src="{{asset('images/gardenhelp_icons/Requests-white.png')}}"
+											   src="{{asset('images/gardenhelp_icons/Contractors-white.png')}}"
 											   alt="">
 					<p style="padding-right: 30px;">
 						Contractors<b class="caret"></b>
@@ -592,6 +592,16 @@
 						</a></li>
 					</ul>
 				</div></li>
+				
+				
+			<li class="nav-item ">
+				<a class="nav-link  d-flex" href="{{route('garden_help_getTermsPrivacy', 'garden-help')}}"
+				> <i class="fas fa-clipboard-list"></i>
+					<p style="padding-right: 30px;">
+						Terms & Privacy 
+					</p>
+				</a>
+				</li>	
 
 
 			<li class="nav-item"><a class="nav-link d-flex" href="#"> {{-- <i

@@ -27,7 +27,7 @@ class ContractorsController extends Controller
 
     public function index()
     {
-        return view('garden_help.contractors.registration');
+        return view('garden_help.contractors.registration',["termsFile"=>'',"privacyFile"=>'']);
     }
 
     public function save(Request $request)

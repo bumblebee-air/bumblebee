@@ -110,7 +110,7 @@
                                 <input type="tel" class="form-control" id="phone" name="phone" value="{{old('phone')}}" required>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <!--<div class="col-md-12">
                             <div class="form-group bmd-form-group">
                                 <label>Password</label>
                                 <input type="password" class="form-control" name="password" value="{{old('password')}}" required>
@@ -121,7 +121,7 @@
                                 <label>Confirm password</label>
                                 <input type="password" class="form-control" name="password_confirmation" value="{{old('password_confirmation')}}" required>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
 
                     <div class="row" v-if="type_of_work == 'Commercial'">

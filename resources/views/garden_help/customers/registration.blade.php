@@ -136,7 +136,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                                <label>Address</label>
+                                <label>Address / Eircode</label>
                                 <input type="text" class="form-control" id="location" name="location" value="{{old('location')}}" required>
                                 <input type="hidden" id="location_coordinates" name="location_coordinates">
                             </div>
@@ -225,7 +225,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                               <label class="" for="location">Address</label>
+                               <label class="" for="location">Address / Eircode</label>
                                 <input type="text" class="form-control" id="location" name="location" value="{{old('location')}}" required>
                                 <input type="hidden" id="location_coordinates" name="location_coordinates">
                             </div>

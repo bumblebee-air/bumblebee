@@ -388,6 +388,12 @@
 			</a></li>
 
 			<li class="nav-item">
+				<a class="nav-link d-flex" href="{{route('doorder_getInvoiceList', 'doorder')}}">
+					<i class="fas fa-file-invoice"></i>
+					<p>Invoice</p>
+				</a>
+			</li>
+			<li class="nav-item">
 				<a class="nav-link d-flex" href="{{route('doorder_ordersHistoryTable', 'doorder')}}">
 					<img class="my-nav-icon"
 					src="{{asset('images/doorder_icons/History-white.png')}}"

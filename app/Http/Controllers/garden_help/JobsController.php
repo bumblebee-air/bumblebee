@@ -149,7 +149,7 @@ class JobsController extends Controller
                 'property_photo' => 'required_if:type_of_work,Residential',
                 'is_first_time' => 'required_if:type_of_work,Residential',
                 'last_services' => 'required_if:is_first_time,0',
-                'site_details' => 'required_if:is_first_time,0',
+                /*'site_details' => 'required_if:is_first_time,0',*/
                 'is_parking_site' => 'required_if:type_of_work,Residential',
                 'contact_name' => 'required_if:type_of_work,Commercial',
                 'contact_number' => 'required_if:type_of_work,Commercial',

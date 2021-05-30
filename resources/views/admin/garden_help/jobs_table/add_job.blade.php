@@ -328,9 +328,8 @@ Job') @section('page-styles')
 															@click="openModal('last_services')">
 															<input name="last_services" type="text"
 																class="form-control" id="last_services"
-																{{old('last_services')}} required> <a
-																class="select-icon"> <i class="fas fa-caret-down"></i>
-															</a>
+																{{old('last_services')}} required>
+															<!--<a class="select-icon"> <i class="fas fa-caret-down"></i></a>-->
 														</div>
 													</div>
 												</div>
@@ -605,7 +604,7 @@ Job') @section('page-styles')
             if ($("#type_of_work").val() == 'Residential') {
                 setTimeout(() => {
                     window.initMap();
-                    $('#last_services').datetimepicker({
+                    /*$('#last_services').datetimepicker({
                         icons: {
                             time: "fa fa-clock",
                             date: "fa fa-calendar",
@@ -617,7 +616,7 @@ Job') @section('page-styles')
                             clear: 'fa fa-trash',
                             close: 'fa fa-remove'
                         }
-                    });
+                    });*/
 
 					$('#available_date_time').datetimepicker({
 						icons: {
@@ -803,7 +802,7 @@ Job') @section('page-styles')
                     });
                     this.addIntelInput('contact_number', 'contact_number');
                 } else if (this.type_of_work == 'Residential') {
-                    $('#last_services').datetimepicker({
+                    /*$('#last_services').datetimepicker({
                         icons: {
                             time: "fa fa-clock",
                             date: "fa fa-calendar",
@@ -815,7 +814,7 @@ Job') @section('page-styles')
                             clear: 'fa fa-trash',
                             close: 'fa fa-remove'
                         }
-                    });
+                    });*/
                     this.addIntelInput('phone', 'phone');
                 }
             },
@@ -913,7 +912,7 @@ Job') @section('page-styles')
                     if ($("#type_of_work").val() == 'Residential') {
                         setTimeout(() => {
                             window.initMap();
-                            $('#last_services').datetimepicker({
+                            /*$('#last_services').datetimepicker({
                                 icons: {
                                     time: "fa fa-clock",
                                     date: "fa fa-calendar",
@@ -925,7 +924,7 @@ Job') @section('page-styles')
                                     clear: 'fa fa-trash',
                                     close: 'fa fa-remove'
                                 }
-                            });
+                            });*/
                             this.addIntelInput('phone', 'phone');
                         }, 500)
                     } else {
@@ -950,7 +949,7 @@ Job') @section('page-styles')
                 },
                 changeIsFirst() {
                     setTimeout(() => {
-                        $('#last_services').datetimepicker({
+                        /*$('#last_services').datetimepicker({
                             icons: {
                                 time: "fa fa-clock",
                                 date: "fa fa-calendar",
@@ -962,7 +961,7 @@ Job') @section('page-styles')
                                 clear: 'fa fa-trash',
                                 close: 'fa fa-remove'
                             }
-                        });
+                        });*/
                     }, 500)
                 }
             }

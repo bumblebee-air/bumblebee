@@ -298,14 +298,12 @@
                                 <label for="type_of_experience">When was the last service?</label>
                                 <div class="d-flex justify-content-between" @click="openModal('last_services')">
                                     <input name="last_services" type="text" class="form-control" id="last_services" {{old('last_services')}} required>
-                                    <a class="select-icon">
-                                        <i class="fas fa-caret-down"></i>
-                                    </a>
+                                    <!--<a class="select-icon"><i class="fas fa-caret-down"></i></a>-->
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-md-12" v-if="is_first_time != '' && is_first_time == 0">
+                        <div class="col-md-12">
                             <div class="form-group bmd-form-group">
                                 <label for="type_of_experience">Site details</label>
                                 <div class="d-flex justify-content-between" @click="openModal('site_details')">
@@ -528,7 +526,7 @@
             if ($("#type_of_work").val() == 'Residential') {
                 setTimeout(() => {
                     window.initMap();
-                    $('#last_services').datetimepicker({
+                    /*$('#last_services').datetimepicker({
                         icons: {
                             time: "fa fa-clock",
                             date: "fa fa-calendar",
@@ -540,7 +538,7 @@
                             clear: 'fa fa-trash',
                             close: 'fa fa-remove'
                         }
-                    });
+                    });*/
                     addIntelInput('phone', 'phone');
                 }, 500)
             } else {
@@ -724,7 +722,7 @@
                     });
                     this.addIntelInput('contact_number', 'contact_number');
                 } else if (this.type_of_work == 'Residential') {
-                    $('#last_services').datetimepicker({
+                    /*$('#last_services').datetimepicker({
                         icons: {
                             time: "fa fa-clock",
                             date: "fa fa-calendar",
@@ -736,7 +734,7 @@
                             clear: 'fa fa-trash',
                             close: 'fa fa-remove'
                         }
-                    });
+                    });*/
                     this.addIntelInput('phone', 'phone');
                 }
             },
@@ -794,7 +792,7 @@
                     if ($("#type_of_work").val() == 'Residential') {
                         setTimeout(() => {
                             window.initMap();
-                            $('#last_services').datetimepicker({
+                            /*$('#last_services').datetimepicker({
                                 icons: {
                                     time: "fa fa-clock",
                                     date: "fa fa-calendar",
@@ -806,7 +804,7 @@
                                     clear: 'fa fa-trash',
                                     close: 'fa fa-remove'
                                 }
-                            });
+                            });*/
                             this.addIntelInput('phone', 'phone');
                         }, 500)
                     } else {
@@ -830,7 +828,7 @@
                 },
                 changeIsFirst() {
                     setTimeout(() => {
-                        $('#last_services').datetimepicker({
+                        /*$('#last_services').datetimepicker({
                             icons: {
                                 time: "fa fa-clock",
                                 date: "fa fa-calendar",
@@ -842,7 +840,7 @@
                                 clear: 'fa fa-trash',
                                 close: 'fa fa-remove'
                             }
-                        });
+                        });*/
                     }, 500)
                 }
             }

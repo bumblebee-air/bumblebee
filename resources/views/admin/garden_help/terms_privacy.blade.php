@@ -44,7 +44,7 @@
 		<div class="container-fluid">
 			<form method="POST"
 				action="{{route('garden_help_postTermsPrivacy',['garden-help'])}}"
-				id="termsForm"  @submit="beforeFormSubmitting">
+				id="termsForm"  @submit="beforeFormSubmitting" enctype="multipart/form-data">
 				 {{csrf_field()}}
 				<div class="row">
 					<div class="col-md-12">

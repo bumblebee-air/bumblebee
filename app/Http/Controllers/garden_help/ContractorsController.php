@@ -10,6 +10,7 @@ use App\Helpers\TwilioHelper;
 use App\Mail\ContractorRegistrationMail;
 use App\Mail\ContractorRegistrationSuccessMail;
 use App\Managers\StripeManager;
+use App\TermAndPolicy;
 use App\User;
 use App\UserClient;
 use Carbon\Carbon;
@@ -27,7 +28,9 @@ class ContractorsController extends Controller
 
     public function index()
     {
-        return view('garden_help.contractors.registration',["termsFile"=>'',"privacyFile"=>'']);
+        $terms_policies = TermAndPolicy::where('type', 'customer')->first();
+
+        return view('garden_help.contractors.registration',["termsFile"=>asset($terms_policies->terms),"privacyFile"=>asset($terms_policies->policy)]);
     }
 
     public function save(Request $request)

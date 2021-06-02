@@ -8,6 +8,7 @@ use App\GardenServiceType;
 use App\Helpers\StripePaymentHelper;
 use App\Helpers\TwilioHelper;
 use App\Http\Controllers\Controller;
+use App\TermAndPolicy;
 use App\User;
 use App\UserClient;
 use Carbon\Carbon;
@@ -27,7 +28,8 @@ class CustomersController extends Controller
             $item->is_checked = $item->false;
             $item->is_recurring = "0";
         }
-        return view('garden_help.customers.registration', ['services' => $services,"termsFile"=>'',"privacyFile"=>'']);
+        $terms_policies = TermAndPolicy::where('type', 'customer')->first();
+        return view('garden_help.customers.registration', ['services' => $services,"termsFile"=>asset($terms_policies->terms),"privacyFile"=>asset($terms_policies->policy)]);
     }
 
     public function postRegistrationForm(Request $request) {

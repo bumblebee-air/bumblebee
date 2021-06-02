@@ -762,7 +762,6 @@ class DriversController extends Controller
         $errors = \Validator::make($request->all(), [
             'business_hours' => 'required',
             'business_hours_json' => 'required',
-            'name' => 'required',
         ]);
 
         if ($errors->fails()) {
@@ -773,15 +772,27 @@ class DriversController extends Controller
         }
         //Update User Name
         $user =  User::find(auth()->user()->id);
-        $user->name = $request->name;
+        $first_name = '';
+        $last_name = '';
+        if($request->first_name!=null && $request->last_name!=null){
+            $first_name = $request->first_name;
+            $last_name = $request->last_name;
+        } else {
+            if($request->name!=null) {
+                $name_split = explode(' ', $request->name);
+                $first_name = $name_split[0];
+                $last_name = $name_split[1] ?? '';
+            }
+        }
+        $user->name = $first_name . ' ' . $last_name;
         $user->is_profile_completed = true;
         $user->save();
         //Update User profile
         $driver = DriverProfile::where('user_id', $user->id)->first();
-        $name_split = explode(' ',$request->name);
-        $driver->first_name = $name_split[0];
-        $driver->last_name = isset($name_split[1])? $name_split[1] : '';
+        $driver->first_name = $first_name;
+        $driver->last_name = $last_name;
         $driver->business_hours = $request->business_hours;
+        $driver->business_hours_json = $request->business_hours_json;
         $driver->save();
         //return json response
         return response()->json([
@@ -796,6 +807,8 @@ class DriversController extends Controller
             'errors' => 0,
             'data' => [
                 'full_name' => auth()->user()->name,
+                'first_name' => $driver->first_name,
+                'last_name' => $driver->last_name,
                 'phone' => auth()->user()->phone,
                 'email' => auth()->user()->email,
                 'business_hours' => $driver->business_hours,

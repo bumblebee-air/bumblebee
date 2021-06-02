@@ -110,7 +110,7 @@
                                 <input type="tel" class="form-control" id="phone" name="phone" value="{{old('phone')}}" required>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <!--<div class="col-md-12">
                             <div class="form-group bmd-form-group">
                                 <label>Password</label>
                                 <input type="password" class="form-control" name="password" value="{{old('password')}}" required>
@@ -121,7 +121,7 @@
                                 <label>Confirm password</label>
                                 <input type="password" class="form-control" name="password_confirmation" value="{{old('password_confirmation')}}" required>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
 
                     <div class="row" v-if="type_of_work == 'Commercial'">
@@ -136,7 +136,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                                <label>Address</label>
+                                <label>Address / Eircode</label>
                                 <input type="text" class="form-control" id="location" name="location" value="{{old('location')}}" required>
                                 <input type="hidden" id="location_coordinates" name="location_coordinates">
                             </div>
@@ -225,7 +225,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                               <label class="" for="location">Address</label>
+                               <label class="" for="location">Address / Eircode</label>
                                 <input type="text" class="form-control" id="location" name="location" value="{{old('location')}}" required>
                                 <input type="hidden" id="location_coordinates" name="location_coordinates">
                             </div>
@@ -298,14 +298,12 @@
                                 <label for="type_of_experience">When was the last service?</label>
                                 <div class="d-flex justify-content-between" @click="openModal('last_services')">
                                     <input name="last_services" type="text" class="form-control" id="last_services" {{old('last_services')}} required>
-                                    <a class="select-icon">
-                                        <i class="fas fa-caret-down"></i>
-                                    </a>
+                                    <!--<a class="select-icon"><i class="fas fa-caret-down"></i></a>-->
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-md-12" v-if="is_first_time != '' && is_first_time == 0">
+                        <div class="col-md-12">
                             <div class="form-group bmd-form-group">
                                 <label for="type_of_experience">Site details</label>
                                 <div class="d-flex justify-content-between" @click="openModal('site_details')">
@@ -353,9 +351,9 @@
             <div class="row">
                 <div class="col-md-12 mb-3 ml-2">
                     <p class="terms">
-                        By clicking Submit, you agree to our <a class="terms-text" href="#">Terms
+                        By clicking Submit, you agree to our <a class="terms-text" target="_blank"  href="{{$termsFile}}">Terms
                             & Conditions</a> and that you have read our <a
-                            class="terms-text" href="#">Privacy Policy</a>
+                            class="terms-text" target="_blank"  href="{{$privacyFile}}">Privacy Policy</a>
                     </p>
                 </div>
 
@@ -530,7 +528,7 @@
             if ($("#type_of_work").val() == 'Residential') {
                 setTimeout(() => {
                     window.initMap();
-                    $('#last_services').datetimepicker({
+                    /*$('#last_services').datetimepicker({
                         icons: {
                             time: "fa fa-clock",
                             date: "fa fa-calendar",
@@ -542,7 +540,7 @@
                             clear: 'fa fa-trash',
                             close: 'fa fa-remove'
                         }
-                    });
+                    });*/
                     addIntelInput('phone', 'phone');
                 }, 500)
             } else {
@@ -726,7 +724,7 @@
                     });
                     this.addIntelInput('contact_number', 'contact_number');
                 } else if (this.type_of_work == 'Residential') {
-                    $('#last_services').datetimepicker({
+                    /*$('#last_services').datetimepicker({
                         icons: {
                             time: "fa fa-clock",
                             date: "fa fa-calendar",
@@ -738,7 +736,7 @@
                             clear: 'fa fa-trash',
                             close: 'fa fa-remove'
                         }
-                    });
+                    });*/
                     this.addIntelInput('phone', 'phone');
                 }
             },
@@ -796,7 +794,7 @@
                     if ($("#type_of_work").val() == 'Residential') {
                         setTimeout(() => {
                             window.initMap();
-                            $('#last_services').datetimepicker({
+                            /*$('#last_services').datetimepicker({
                                 icons: {
                                     time: "fa fa-clock",
                                     date: "fa fa-calendar",
@@ -808,7 +806,7 @@
                                     clear: 'fa fa-trash',
                                     close: 'fa fa-remove'
                                 }
-                            });
+                            });*/
                             this.addIntelInput('phone', 'phone');
                         }, 500)
                     } else {
@@ -832,7 +830,7 @@
                 },
                 changeIsFirst() {
                     setTimeout(() => {
-                        $('#last_services').datetimepicker({
+                        /*$('#last_services').datetimepicker({
                             icons: {
                                 time: "fa fa-clock",
                                 date: "fa fa-calendar",
@@ -844,7 +842,7 @@
                                 clear: 'fa fa-trash',
                                 close: 'fa fa-remove'
                             }
-                        });
+                        });*/
                     }, 500)
                 }
             }

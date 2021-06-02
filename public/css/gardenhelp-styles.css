@@ -40,6 +40,11 @@ input {
 	color: #acb1c0 !important;
 }
 /************ end login *****************/
+
+a:focus, a:hover{
+	color: #60a244 !important;
+	text-decoration: underline !important;
+}
 .main-panel>.content {
 	margin-top: 0px;
 }

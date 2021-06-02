@@ -8,6 +8,7 @@ use App\Helpers\ServicesTypesHelper;
 use App\Helpers\StripePaymentHelper;
 use App\Helpers\TwilioHelper;
 use App\Mail\ContractorRegistrationMail;
+use App\Mail\ContractorRegistrationSuccessMail;
 use App\Managers\StripeManager;
 use App\User;
 use App\UserClient;
@@ -26,15 +27,15 @@ class ContractorsController extends Controller
 
     public function index()
     {
-        return view('garden_help.contractors.registration');
+        return view('garden_help.contractors.registration',["termsFile"=>'',"privacyFile"=>'']);
     }
 
     public function save(Request $request)
     {
         $this->validate($request, [
             'name' => 'required|string',
-            'email' => 'required|email|unique:users,email',
-            'phone_number' => 'required|string|unique:users,phone',
+            'email' => 'required|email',
+            'phone_number' => 'required|string',
             'experience_level' => 'required|string',
             'experience_level_value' => 'required|string',
             'age_proof' => 'required_if:experience_level_value,==,2|file',
@@ -49,21 +50,36 @@ class ContractorsController extends Controller
             'contact_through' => 'required'
         ]);
 
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->phone = $request->phone_number;
-        $user->password = bcrypt(Str::random(8));
-        $user->user_role = 'contractor';
-        $user->save();
+        $user = User::where('email','=',$request->email)
+            ->where('phone','=',$request->phone_number)->first();
+        if(!$user) {
+            $check_phone = User::where('phone', '=', $request->phone_number)->first();
+            if ($check_phone != null) {
+                alert()->error('This phone number is already registered with another email!');
+                return redirect()->back()->withInput();
+            }
+            $check_email = User::where('email', '=', $request->email)->first();
+            if ($check_email != null) {
+                alert()->error('This email is already registered with another phone number!');
+                return redirect()->back()->withInput();
+            }
+            //Create User
+            $user = new User();
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->phone = $request->phone_number;
+            $user->password = bcrypt(Str::random(8));
+            $user->user_role = 'contractor';
+            $user->save();
 
-        $client = \App\Client::where('name', 'GardenHelp')->first();
-        if ($client) {
-            // Making Client Relation
-            UserClient::create([
-                'user_id' => $user->id,
-                'client_id' => $client->id
-            ]);
+            $client = \App\Client::where('name', 'GardenHelp')->first();
+            if ($client) {
+                // Making Client Relation
+                UserClient::create([
+                    'user_id' => $user->id,
+                    'client_id' => $client->id
+                ]);
+            }
         }
 
         // Saving new contractor registration
@@ -101,7 +117,7 @@ class ContractorsController extends Controller
 
         \Mail::to(env('GH_NOTIF_EMAIL', 'kim@bumblebeeai.io'))->send(new ContractorRegistrationMail($contractor));
         if ($contractor->email != null && $contractor->email != '') {
-            \Mail::to($contractor->email)->send(new ContractorRegistrationMail($contractor));
+            \Mail::to($contractor->email)->send(new ContractorRegistrationSuccessMail($contractor));
         }
 
         Redis::publish('garden-help-channel', json_encode([

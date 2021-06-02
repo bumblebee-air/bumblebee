@@ -142,14 +142,14 @@ class JobsController extends Controller
                 'email' => 'required',
                 'contact_through' => 'required',
                 'phone' => 'required_if:type_of_work,Residential',
-                // 'password' => 'required_if:type_of_work,Residential|confirmed',
+                /*'password' => 'required_if:type_of_work,Residential|confirmed',*/
                 'service_types' => 'required_if:type_of_work,Residential',
                 'location' => 'required_if:type_of_work,Residential',
                 'location_coordinates' => 'required_if:type_of_work,Residential',
                 'property_photo' => 'required_if:type_of_work,Residential',
                 'is_first_time' => 'required_if:type_of_work,Residential',
                 'last_services' => 'required_if:is_first_time,0',
-                'site_details' => 'required_if:is_first_time,0',
+                /*'site_details' => 'required_if:is_first_time,0',*/
                 'is_parking_site' => 'required_if:type_of_work,Residential',
                 'contact_name' => 'required_if:type_of_work,Commercial',
                 'contact_number' => 'required_if:type_of_work,Commercial',

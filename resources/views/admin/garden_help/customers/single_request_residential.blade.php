@@ -333,26 +333,26 @@ Request') @section('page-styles')
 
 			// Define the LatLng coordinates for the polygon's path.
 			let area_coordinates = {!!$customer_request->area_coordinates!!};
-			const polygonCoords = [area_coordinates];
-			// Construct the polygon.
-			const polygon = new google.maps.Polygon({
-				paths: polygonCoords,
-				strokeColor: "#0068b8",
-				strokeOpacity: 0.26,
-				strokeWeight: 2,
-				fillColor: "#0068b8",
-				fillOpacity: 0.35,
-			});
-			polygon.setMap(map);
 			// Create the bounds object
 			var bounds = new google.maps.LatLngBounds();
+			for (let area of area_coordinates) {
+				// Construct the polygon.
+				console.log(area)
+				const polygon = new google.maps.Polygon({
+					paths: area,
+					strokeColor: "#0068b8",
+					strokeOpacity: 0.26,
+					strokeWeight: 2,
+					fillColor: "#0068b8",
+					fillOpacity: 0.35,
+				});
+				polygon.setMap(map);
 
-			// Get paths from polygon and set event listeners for each path separately
-			polygon.getPath().forEach(function (path, index) {
-
-				bounds.extend(path);
-			});
-
+				// Get paths from polygon and set event listeners for each path separately
+				polygon.getPath().forEach(function (path, index) {
+					bounds.extend(path);
+				});
+			}
 			// Fit Polygon path bounds
 			map.fitBounds(bounds);
 		}

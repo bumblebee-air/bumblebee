@@ -517,6 +517,8 @@
     <script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>
 
     <script>
+        var polygons_array = [];
+        var total_size = 0;
     $(document).ready(function() {
         $(".js-example-basic-single").select2();
     });
@@ -966,7 +968,6 @@
             // drawingManager.setOptions({
             //
             // });
-
             google.maps.event.addListener(drawingManager, 'overlaycomplete', function (e) {
                 if (e.type != google.maps.drawing.OverlayType.MARKER) {
                     // Switch back to non-drawing mode after drawing a shape.
@@ -982,11 +983,17 @@
                     var area = google.maps.geometry.spherical.computeArea(newShape.getPath());
                     let property_size = $("#property_size");
                     let area_coordinates = $("#area_coordinates");
-                    property_size.val(area.toFixed(0) + ' Square Meters');
+                    let area_coordinates_json = $("#area_coordinates").val() ? JSON.parse($("#area_coordinates").val()) : [];
+                    // property_size.val(area.toFixed(0) + ' Square Meters');
+                    // property_size.parent().addClass('is-filled');
+                    // area_coordinates.val(JSON.stringify(newShape.getPath().getArray()));
+                    total_size += parseFloat(area.toFixed(0));
+                    property_size.val(total_size + ' Square Meters');
                     property_size.parent().addClass('is-filled');
-                    area_coordinates.val(JSON.stringify(newShape.getPath().getArray()));
+                    area_coordinates_json.push(newShape.getPath().getArray())
+                    area_coordinates.val(JSON.stringify(area_coordinates_json));
+                    polygons_array.push(e);
                     setSelection(newShape);
-
                 }
             });
 
@@ -1056,15 +1063,27 @@
         }
 
         function deleteSelectedShape() {
-            if (selectedShape) {
-                selectedShape.setMap(null);
-                let property_size = $("#property_size");
-                let area_coordinates = $("#area_coordinates");
-                area_coordinates.val('');
-                property_size.val('');
-                property_size.parent().removeClass('is-filled');
-                clearMarkers();
+            // if (selectedShape) {
+            //     console.log(selectedShape);
+            //     selectedShape.setMap(null);
+            //     let property_size = $("#property_size");
+            //     let area_coordinates = $("#area_coordinates");
+            //     area_coordinates.val('');
+            //     property_size.val('');
+            //     property_size.parent().removeClass('is-filled');
+            //     clearMarkers();
+            // }
+            for (var i=0; i < polygons_array.length; i++)
+            {
+                polygons_array[i].overlay.setMap(null);
             }
+            polygons_array = [];
+            total_size = 0;
+            let property_size = $("#property_size");
+            let area_coordinates = $("#area_coordinates");
+            area_coordinates.val('');
+            property_size.val('');
+            property_size.parent().removeClass('is-filled');
         }
 
         function selectColor(color) {

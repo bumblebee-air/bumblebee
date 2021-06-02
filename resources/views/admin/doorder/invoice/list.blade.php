@@ -1,6 +1,7 @@
 @extends('templates.dashboard') @section('page-styles')
 
-<link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.0.3/css/dataTables.dateTime.min.css">
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/datetime/1.0.3/css/dataTables.dateTime.min.css">
 <style>
 .card-icon i {
 	font-size: 34px;
@@ -14,31 +15,56 @@
 .doorderTable>tbody>tr>td, .doorderTable>tbody>tr>th, .doorderTable>tfoot>tr>td,
 	.doorderTable>tfoot>tr>th, .doorderTable>thead>tr>td, .doorderTable>thead>tr>th
 	{
-	padding: 12px 6px !important;
+	padding: 10px 5px !important;
 }
 
-div.dt-datetime{
-    padding: 0 !important;
+div.dt-datetime {
+	padding: 0 !important;
 }
+
 div.dt-datetime div.dt-datetime-title {
-    padding: 5px !important;
+	padding: 5px !important;
 }
-div.dt-datetime table{
-    margin: 0 !important;
-}
-div.dt-datetime table th{
-padding: 5px;
-font-size: 12px !important;
-}
-div.dt-datetime table td{
 
-min-width:20px !important;
-max-width:20px !important;
-width: 20px !important;
-padding: 2px !important;
+div.dt-datetime table {
+	margin: 0 !important;
 }
-div.dt-datetime table td.selectable.selected button{
-padding: 6px !important;
+
+div.dt-datetime table th {
+	padding: 5px;
+	font-size: 12px !important;
+}
+
+div.dt-datetime table td {
+	min-width: 20px !important;
+	max-width: 20px !important;
+	width: 20px !important;
+	padding: 2px !important;
+}
+
+div.dt-datetime table td.selectable.selected button {
+	padding: 6px !important;
+}
+
+.form-control:read-only {
+	background-image: none !important;
+}
+
+select.form-control:not([size]):not([multiple]) {
+	height: 36px !important;
+	padding: 11px 14px 11px 14px;
+	border-radius: 5px;
+	box-shadow: 0 2px 48px 0 rgb(0 0 0/ 8%);
+	background-color: #ffffff;
+	font-family: Quicksand;
+	font-size: 14px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	letter-spacing: 0.77px;
+	color: #4d4d4d;
+	width: 100%;
+	height: auto;
 }
 </style>
 @endsection @section('title', 'DoOrder | Invoice')
@@ -63,20 +89,23 @@ padding: 6px !important;
 							<div class="table-responsive">
 
 								<div class="row" style="margin-left: 15px">
-									<label class="col-sm-2 col-form-label filterLabelDashboard">Filter:</label>
-									<div class="col-sm-3">
+									<label class="col-md-2 col-form-label filterLabelDashboard">Filter:</label>
+									<div class="col-md-3">
 										<div class="form-group bmd-form-group">
 											<input class="form-control inputDate" id="startDate"
 												type="text" placeholder="From" required="true"
 												aria-required="true">
 										</div>
 									</div>
-									<div class="col-sm-3">
+									<div class="col-md-3">
 										<div class="form-group bmd-form-group">
 											<input class="form-control inputDate" id="endDate"
 												type="text" placeholder="To" required="true"
 												aria-required="true">
 										</div>
+									</div>
+									<div class="col-md-3">
+										<div id="retailerNameP" class="form-group bmd-form-group"></div>
 									</div>
 								</div>
 
@@ -85,34 +114,28 @@ padding: 6px !important;
 									cellspacing="0" width="90%">
 									<thead>
 										<tr>
-											<th>Date</th>
-											<th>Order Number</th>
-											<th>Retailer Name</th>
-											<th>Status</th>
-											<th>Stage</th>
-											<th>Deliverer</th>
-											<th>Pickup Location</th>
-											<th>Delivery Location</th>
+											<th width="10%">Date</th>
+											<th width="10%">Order Number</th>
+											<th width="10%">Retailer Name</th>
+											<th width="10%">Status</th>
+											<th width="10%">Deliverer</th>
+											<th width="10%">Pickup Location</th>
+											<th width="10%">Delivery Location</th>
+											<th width="10%">Charges (€)</th>
 										</tr>
 									</thead>
 
 									<tbody>
-										<tr v-for="invoice in invoiceList" class="order-row">
+										<tr v-for="invoice in invoiceList" class="order-row" @click="clickInvoice(invoice.id)">
 											<td>@{{ parseDateTime(invoice.date) }}</td>
 											<td>@{{invoice.orderNumber}}</td>
 											<td>@{{invoice.retailerName}}</td>
 											<td><span class="invoiceIconSpan"><i
 													class="fas fa-file-invoice"></i></span></td>
-											<td>
-												<div class="progress">
-													<div class="progress-bar" role="progressbar"
-														style="width: 100%" aria-valuenow="100" aria-valuemin="0"
-														aria-valuemax="100"></div>
-												</div>
-											</td>
 											<td>@{{ invoice.deliverer}}</td>
 											<td>@{{ invoice.pickupLocation }}</td>
 											<td>@{{invoice.deliveryLocation}}</td>
+											<td>€@{{invoice.charges}}</td>
 										</tr>
 									</tbody>
 								</table>
@@ -129,8 +152,10 @@ padding: 6px !important;
 
 @endsection @section('page-scripts')
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-<script src="https://cdn.datatables.net/datetime/1.0.3/js/dataTables.dateTime.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script
+	src="https://cdn.datatables.net/datetime/1.0.3/js/dataTables.dateTime.min.js"></script>
 <script type="text/javascript">
 var minDate, maxDate;
  
@@ -176,12 +201,28 @@ console.log(new Date('1/2/2020'))
           [10, 25, 50,100, -1],
           [10, 25, 50,100, "All"]
         ],
+        responsive:true,
     	"language": {  
     		search: '',
 			"searchPlaceholder": "Search ",
     	},
     	
-        initComplete: function () {
+         initComplete: function () {
+         var column = this.api().column(2);
+                  var select = $('<select id="selectFilter" class="form-control"><option value="">Select retailer </option></select>')
+                    .appendTo( $('#retailerNameP').empty().text('') )
+                    .on( 'change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                        );
+                  column
+                    .search( val ? '^'+val+'$' : '', true, false )
+                    .draw();
+                      
+                  } );
+                  column.data().unique().sort().each( function ( d, j ) {
+                    select.append( '<option value="'+d+'">'+d+'</option>' );
+                  } );    
         }
     });
     
@@ -215,6 +256,10 @@ console.log(new Date('1/2/2020'))
                      console.log(date);
                     return dateTime;
                 },
+                
+                clickInvoice(id) {
+                    window.location = "{{url('doorder/invoice_view/')}}/"+id
+                }
             }
         });
     </script>

@@ -45,6 +45,7 @@ li .nav-link:hover {
 	font-style: normal;
 	line-height: 2.81;
 	letter-spacing: 0.15px;
+	text-decoration: none !important;
 }
 
 li .nav-link:hover p {

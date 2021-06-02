@@ -35,7 +35,12 @@
             letter-spacing: 0.3px;
             color: #ccb13e!important;
         }
-
+.form-control:focus{
+	 border-color: #f7dc69 !important;
+}
+.form-control:focus, .is-focused .form-control{
+background-image: linear-gradient(0deg,#f7dc69 2px,rgba(247,220,105,0) 0),linear-gradient(0deg,#d2d2d2 1px,hsla(0,0%,82%,0) 0)
+}
         @media screen and (min-width: 900px) {
             .card-login {
                 padding: 20px 200px;

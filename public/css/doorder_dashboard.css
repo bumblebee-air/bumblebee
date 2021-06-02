@@ -208,7 +208,9 @@ td {
 .form-group input {
 	padding-left: 14px;
 }
-
+.form-control:focus{
+	 border-color: #f7dc69 !important;
+}
 /*.form-group select {*/
 /*    margin-top: 32px;*/
 /*    height: 36px!important;*/

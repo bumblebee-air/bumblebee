@@ -2,6 +2,13 @@
 namespace App\Http\Controllers\unified;
 
 use App\Http\Controllers\Controller;
+use App\UnifiedCompany;
+use App\UnifiedCustomer;
+use App\UnifiedEngineer;
+use App\UnifiedJob;
+use App\UnifiedJobType;
+use App\UnifiedService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use phpDocumentor\Reflection\PseudoTypes\True_;
 
@@ -10,57 +17,13 @@ class CalendarController extends Controller
 
     public function getCalendar()
     {
-        $service1 = new ServiceData(1, "Hosted/Cpbx", "#d95353", "#d9535326", 2);
-        $service2 = new ServiceData(2, "Access Control", "#eeaf07", "#eeaf0726", 3);
-        $service3 = new ServiceData(3, "CCTV", "#41aec2", "#41aec226", 1);
-        $service4 = new ServiceData(4, "Fire Alarm", "#5fc97c", "#5fc97c26", 0);
-        $service5 = new ServiceData(5, "Intruder Alarm", "#f97032", "#f9703226", 3);
-        $service6 = new ServiceData(6, "Wifi/Data", "#9e35cf", "#9e35cf26", 1);
-        $service7 = new ServiceData(7, "structured cabling systems", "#5f76c9", "#5f76c926", 0);
-
-        $services = array(
-            $service1,
-            $service2,
-            $service3,
-            $service4,
-            $service5,
-            $service6,
-            $service7
-        );
-
-        $event1 = new EventData(1, "1", "2021-05-05", "2021-05-05", "#41aec2bf"); // background: servicedata->borderColor+'bf'
-        $event1->serviceId = 3;
-        $event2 = new EventData(2, "4", "2021-05-05", "2021-05-05", "#5fc97cbf");
-        $event2->serviceId = 4;
-        $event3 = new EventData(3, "3", "2021-05-20", "2021-05-20", "#5f76c9bf");
-        $event3->serviceId = 7;
-
-        $events = array(
-            $event1,
-            $event2,
-            $event3
-        );
-
-        $company1 = new SelectData(1, "ACCA Ireland");
-        $company2 = new SelectData(2, "B&C Contractors Ltd");
-        $company3 = new SelectData(3, "Barsan Global Logistics Ltd");
-        $companyNames = array(
-            $company1
-        );
-
-        $jobType1 = new SelectData(1, "Maintenance");
-        $jobType2 = new SelectData(2, "Installation");
-        $jobTypes = array(
-            $jobType1,
-            $jobType2
-        );
-
-        $engineer1 = new SelectData(1, "John Dow");
-        $engineer2 = new SelectData(2, "Peter Adams");
-        $engineers = array(
-            $engineer1,
-            $engineer2
-        );
+        $services = UnifiedService::withCount(['jobs' => function($q) {
+            $q->where('start_at', '>=', Carbon::now()->toDateTimeString())->where('end_at', '<=', Carbon::now()->toDateTimeString());
+        }])->get();
+        $events = UnifiedJob::where('start_at', '>=', Carbon::now()->toDateTimeString())->where('end_at', '<=', Carbon::now()->toDateTimeString())->get();
+        $companyNames = UnifiedCompany::all();
+        $jobTypes = UnifiedJobType::all();
+        $engineers = UnifiedEngineer::all();
 
         return view('admin.unified.calendar', [
             'services' => $services,
@@ -73,28 +36,30 @@ class CalendarController extends Controller
 
     public function getCompanyData(Request $request)
     {
-        $customerData = new CustomerData($request->companyId, "ACCA Ireland", "", true, "52 Dolphins Barn Street, The Liberties", "Shane Martin", "shane.martin@accaglobal.com", "12345678", "98745632");
-        $serviceType1 = new ServiceTypeData(1, "Hosted/Cpbx");
-        $serviceType2 = new ServiceTypeData(2, "Access control");
-        $serviceType3 = new ServiceTypeData(3, "CCTV");
-        $serviceType4 = new ServiceTypeData(4, "Fire Alarm");
-        $serviceType5 = new ServiceTypeData(5, "Intruder Alarm");
-        $serviceType6 = new ServiceTypeData(6, "Wifi/Data");
-        $serviceType7 = new ServiceTypeData(7, "structured cabling systems");
-        
-        $serviceTypes = array(
-            $serviceType1,
-            $serviceType2,
-            $serviceType3,
-            $serviceType4,
-            $serviceType5,
-            $serviceType6,
-            $serviceType7,
-        );
-        $customerData->serviceType = $serviceTypes;
+
+        $customersData = UnifiedCustomer::where()->get();
+//        $customerData = new CustomerData($request->companyId, "ACCA Ireland", "", true, "52 Dolphins Barn Street, The Liberties", "Shane Martin", "shane.martin@accaglobal.com", "12345678", "98745632");
+//        $serviceType1 = new ServiceTypeData(1, "Hosted/Cpbx");
+//        $serviceType2 = new ServiceTypeData(2, "Access control");
+//        $serviceType3 = new ServiceTypeData(3, "CCTV");
+//        $serviceType4 = new ServiceTypeData(4, "Fire Alarm");
+//        $serviceType5 = new ServiceTypeData(5, "Intruder Alarm");
+//        $serviceType6 = new ServiceTypeData(6, "Wifi/Data");
+//        $serviceType7 = new ServiceTypeData(7, "structured cabling systems");
+//
+//        $serviceTypes = array(
+//            $serviceType1,
+//            $serviceType2,
+//            $serviceType3,
+//            $serviceType4,
+//            $serviceType5,
+//            $serviceType6,
+//            $serviceType7,
+//        );
+//        $customerData->serviceType = $serviceTypes;
 
         return response()->json(array(
-            "msg" => "test test ",
+            "msg" => "test test",
             "company" => $customerData
         ));
     }

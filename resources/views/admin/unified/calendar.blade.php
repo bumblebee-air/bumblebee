@@ -50,8 +50,8 @@
 														background-color:{{$service->backgroundColor}};">
 													</div>
 													<div class="col-sm-10 pl-0 pl-1 my-1">
-														<p class="serviceNameCalendarP">{{$service->serviceName}}</p>
-														<p class="serviceJobsCalendarP">{{$service->numberOfJobs}}
+														<p class="serviceNameCalendarP">{{$service->name}}</p>
+														<p class="serviceJobsCalendarP">{{$service->jobs_count}}
 															jobs in this month</p>
 													</div>
 												</div>

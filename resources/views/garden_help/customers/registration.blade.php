@@ -8,6 +8,25 @@
         .iti {
             width: 100%;
         }
+
+        .tip-button {
+            color: #60a244;
+            background-color: white;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+        #tip {
+            width: 347px;
+            padding: 11px 5px;
+            border-radius: 10px;
+            box-shadow: 0 2px 48px 0 rgb(0 0 0 / 8%);
+            background-color: #60a244;
+            color: white;
+            z-index: 9999;
+            margin-top: 10px!important;
+            margin-left: 10px!important;
+            display: none;
+        }
     </style>
 @endsection
 
@@ -317,7 +336,12 @@
 
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                                <label for="vat-number">Is there a parking access on site?*</label>
+                                <label for="vat-number">Is there a parking access on site?* </label>
+                                <i class="fas fa-info-circle tip-button" id="location-tip-button" aria-describedby="tooltip" @click="fadeLocationTip"></i>
+                                <div id="tip" role="tooltip">
+                                    There will be extra charges for parking if needed.
+                                </div>                            <!-- HTML to write -->
+
                                 <div class="row">
                                     <div class="col">
                                         <div class="form-check form-check-radio">
@@ -513,12 +537,18 @@
     <script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
 
     <script>
         var polygons_array = [];
         var total_size = 0;
     $(document).ready(function() {
         $(".js-example-basic-single").select2();
+        let icon = document.getElementById('is_parking_hint')
+        let tooltip = document.getElementById('is_parking_tooltip')
+        Popper.createPopper(icon, tooltip, {
+            placement: 'right',
+        });
     });
         function changeWorkType(){
             console.log("Sadasfsafsafsgdg");
@@ -741,6 +771,9 @@
                 }
             },
             methods: {
+                fadeLocationTip() {
+                    $('#tip').fadeToggle();
+                },
                 changeLocation(e) {
                     if (e.target.value == 'Other') {
                         $('#addOtherLocationBtn').click();

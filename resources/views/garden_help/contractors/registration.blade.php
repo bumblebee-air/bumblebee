@@ -74,6 +74,36 @@
 						</div>
 					</div>
 					<div class="col-md-12 mb-3">
+						<div class="form-group ">
+							<label class="bmd-label-floating" for="">Do you have a
+								smartphone?</label>
+							<div class="row">
+								<div class="col">
+									<div class="form-check form-check-radio">
+										<label class="form-check-label"> <input
+													class="form-check-input" type="radio" id="exampleRadios2"
+													name="has_smartphone" value="1" {{old('has_smartphone') ===
+											'1' ? 'checked' : ''}} required> Yes <span class="circle"> <span
+														class="check"></span>
+										</span>
+										</label>
+									</div>
+								</div>
+								<div class="col">
+									<div class="form-check form-check-radio">
+										<label class="form-check-label"> <input
+													class="form-check-input" type="radio" id="exampleRadios1"
+													name="has_smartphone" value="0" {{old('has_smartphone') ===
+											'0' ? 'checked' : ''}} required> No <span class="circle"> <span
+														class="check"></span>
+										</span>
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12 mb-3">
 						<div class="form-group bmd-form-group">
 							<label>Phone number</label>
 							<input
@@ -445,36 +475,6 @@
 										<i class="fas fa-cloud-upload-alt"></i>
 									</button>
 								</span>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-12 mb-1">
-						<div class="form-group ">
-							<label class="bmd-label-floating" for="">Do you have a
-								smartphone?</label>
-							<div class="row">
-								<div class="col">
-									<div class="form-check form-check-radio">
-										<label class="form-check-label"> <input
-											class="form-check-input" type="radio" id="exampleRadios2"
-											name="has_smartphone" value="1" {{old('has_smartphone') ===
-											'1' ? 'checked' : ''}} required> Yes <span class="circle"> <span
-												class="check"></span>
-										</span>
-										</label>
-									</div>
-								</div>
-								<div class="col">
-									<div class="form-check form-check-radio">
-										<label class="form-check-label"> <input
-											class="form-check-input" type="radio" id="exampleRadios1"
-											name="has_smartphone" value="0" {{old('has_smartphone') ===
-											'0' ? 'checked' : ''}} required> No <span class="circle"> <span
-												class="check"></span>
-										</span>
-										</label>
-									</div>
-								</div>
 							</div>
 						</div>
 					</div>
@@ -1030,6 +1030,15 @@
 				},
 				beforeFormSubmitting(e) {
                 	e.preventDefault();
+                	let has_smart_phone = e.target.has_smartphone.value;
+                	if (has_smart_phone == 0) {
+						swal({
+							// title: 'There is a missing input',
+							text: "Sorry, You have to own a smart phone to proceed",
+							icon: 'error',
+						})
+                		return;
+					}
                 	let cv_input = $('#cv');
                 	let job_ref_input = $('#job_reference');
                 	let hourly_rate =  $('#charge_rate');

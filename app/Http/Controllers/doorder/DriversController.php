@@ -792,6 +792,7 @@ class DriversController extends Controller
         $driver->first_name = $first_name;
         $driver->last_name = $last_name;
         $driver->business_hours = $request->business_hours;
+        $driver->business_hours_json = $request->business_hours_json;
         $driver->save();
         //return json response
         return response()->json([

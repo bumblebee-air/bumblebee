@@ -5,6 +5,7 @@ namespace App\Http\Controllers\garden_help;
 use App\Customer;
 use App\CustomerExtraData;
 use App\GardenServiceType;
+use App\Helpers\TwilioHelper;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\UserClient;
@@ -247,6 +248,7 @@ class CustomersController extends Controller
         } catch(\Exception $e) {
             \Log::error('Publish Redis for a new booked service');
         }
+        TwilioHelper::sendSMS('GardenHelp', $customer->phone_number, 'Thank You, your service has been booked successfully');
         $customer->save();
         alert()->success('Your service has been booked successfully', 'Thank You');
         return redirect()->back();

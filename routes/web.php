@@ -399,6 +399,10 @@ Route::get('contractors_app', function () {
 Route::get('service-booking/{id}', 'garden_help\CustomersController@getServicesBooking')->name('garde_help_getServicesBooking');
 Route::post('service-booking/{id}', 'garden_help\CustomersController@postServicesBooking')->name('garde_help_postServicesBooking');
 
+//Cancel service
+Route::get('service-cancel/{id}', 'garden_help\CustomersController@getServicesCancelation')->name('garde_help_getServicesCancel');
+Route::post('service-cancel/{id}', 'garden_help\CustomersController@postServicesCancelation')->name('garde_help_postServicesCancel');
+
 Route::get('customer/order/{customer_confirmation_code}', 'doorder\CustomerController@getCustomerOrderPage');
 Route::get('customer/tracking/{customer_confirmation_code}', 'doorder\CustomerController@getOrderTracking');
 Route::get('customer/delivery_confirmation/{customer_confirmation_code}', 'doorder\CustomerController@getDeliveryConfirmationURL')->name('getDeliveryConfirmationURL');

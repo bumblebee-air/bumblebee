@@ -15,15 +15,15 @@ class CreateUnifiedJobsTable extends Migration
     {
         Schema::create('unified_jobs', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
-            $table->string('email');
-            $table->string('mobile');
+            $table->string('title')->nullable();
+            $table->string('email')->nullable();
+            $table->string('mobile')->nullable();
             $table->string('phone')->nullable();
-            $table->string('address');
-            $table->string('address_coordinates');
-            $table->boolean('is_reminder');
-            $table->timestamp('start_at');
-            $table->timestamp('end_at');
+            $table->string('address')->nullable();
+            $table->string('address_coordinates')->nullable();
+            $table->boolean('is_reminder')->nullable();
+            $table->timestamp('start_at')->nullable();
+            $table->timestamp('end_at')->nullable();
             $table->timestamps();
         });
     }

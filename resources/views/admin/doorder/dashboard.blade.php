@@ -78,90 +78,98 @@ background-size: cover;
 						<div class="row" style="display: flex;flex-wrap: wrap;">
 							<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
 								<div class="card card-stats">
-									<div class="card-dashboard-content">
-										<p class="card-category">Orders</p>
-										<div class="row">
-											<div class="col-md-6  col-sm-6 col-xs-6">
-												<h3 id="ordersValueH3" class="card-title cardDashboardValueH3">{{$all_orders_count}}</h3>
-												<div class="card-footer">
-													<div class="stats" id="ordersStatsTime">Today</div>
+									<a href="{{route('doorder_ordersTable', 'doorder')}}">
+										<div class="card-dashboard-content">
+											<p class="card-category">Orders</p>
+											<div class="row">
+												<div class="col-md-6  col-sm-6 col-xs-6">
+													<h3 id="ordersValueH3" class="card-title cardDashboardValueH3">{{$all_orders_count}}</h3>
+													<div class="card-footer">
+														<div class="stats" id="ordersStatsTime">Today</div>
+													</div>
 												</div>
-											</div>
-											<div class="col-md-6 col-sm-6 col-xs-6 dashboard-card-icon-container">
-												<div class="dashboard-card-icon">
-													<img class="dashboard-card-img"
-														src="{{asset('images/doorder_icons/orders-dashbord.png')}}"
-														alt="orders icon">
+												<div class="col-md-6 col-sm-6 col-xs-6 dashboard-card-icon-container">
+													<div class="dashboard-card-icon">
+														<img class="dashboard-card-img"
+															 src="{{asset('images/doorder_icons/orders-dashbord.png')}}"
+															 alt="orders icon">
+													</div>
 												</div>
 											</div>
 										</div>
-									</div>
+									</a>
 								</div>
 							</div>
 							<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
 								<div class="card card-stats">
-									<div class="card-dashboard-content">
-										<p class="card-category">Delivery</p>
-										<div class="row">
-											<div class="col-md-6  col-sm-6 col-xs-6">
-												<h3 id="deliveryValueH3" class="card-title cardDashboardValueH3">{{$delivered_orders_count}}</h3>
-												<div class="card-footer">
-													<div class="stats" id="deliveryStatsTime">Today</div>
+									<a href="{{route('doorder_getInvoiceList', 'doorder')}}">
+										<div class="card-dashboard-content">
+											<p class="card-category">Delivery</p>
+											<div class="row">
+												<div class="col-md-6  col-sm-6 col-xs-6">
+													<h3 id="deliveryValueH3" class="card-title cardDashboardValueH3">{{$delivered_orders_count}}</h3>
+													<div class="card-footer">
+														<div class="stats" id="deliveryStatsTime">Today</div>
+													</div>
 												</div>
-											</div>
-											<div class="col-md-6  col-sm-6 col-xs-6 dashboard-card-icon-container">
-												<div class="dashboard-card-icon">
-													<img class="dashboard-card-img"
-														src="{{asset('images/doorder_icons/delivery-dashboard.png')}}"
-														alt="delivery icon">
+												<div class="col-md-6  col-sm-6 col-xs-6 dashboard-card-icon-container">
+													<div class="dashboard-card-icon">
+														<img class="dashboard-card-img"
+															 src="{{asset('images/doorder_icons/delivery-dashboard.png')}}"
+															 alt="delivery icon">
+													</div>
 												</div>
 											</div>
 										</div>
-									</div>
+									</a>
 								</div>
 							</div>
 							<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
 								<div class="card card-stats">
-									<div class="card-dashboard-content">
-										<p class="card-category">New Retailers</p>
-										<div class="row">
-											<div class="col-md-6  col-sm-6 col-xs-6">
-												<h3 id="newRetailersValueH3" class="card-title cardDashboardValueH3">{{$retailers_count}}</h3>
-												<div class="card-footer">
-													<div class="stats" id="newRetailersStatsTime">This month</div>
+									<a href="{{route('doorder_retailers_requests', 'doorder')}}">
+										<div class="card-dashboard-content">
+											<p class="card-category">New Retailers</p>
+											<div class="row">
+												<div class="col-md-6  col-sm-6 col-xs-6">
+													<h3 id="newRetailersValueH3" class="card-title cardDashboardValueH3">{{$retailers_count}}</h3>
+													<div class="card-footer">
+														<div class="stats" id="newRetailersStatsTime">This month</div>
+													</div>
 												</div>
-											</div>
-											<div class="col-md-6  col-sm-6 col-xs-6 dashboard-card-icon-container">
-												<div class="dashboard-card-icon">
-													<img class="dashboard-card-img"
-														src="{{asset('images/doorder_icons/new-retailers-dashboard.png')}}"
-														alt="new retailers icon">
+												<div class="col-md-6  col-sm-6 col-xs-6 dashboard-card-icon-container">
+													<div class="dashboard-card-icon">
+														<img class="dashboard-card-img"
+															 src="{{asset('images/doorder_icons/new-retailers-dashboard.png')}}"
+															 alt="new retailers icon">
+													</div>
 												</div>
 											</div>
 										</div>
-									</div>
+									</a>
 								</div>
 							</div>
 							<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
 								<div class="card card-stats">
-									<div class="card-dashboard-content">
-										<p class="card-category">New Deliverers</p>
-										<div class="row">
-											<div class="col-md-6  col-sm-6 col-xs-6">
-												<h3 id="newDeliverersValueH3" class="card-title cardDashboardValueH3">{{$deliverers_count}}</h3>
-												<div class="card-footer">
-													<div class="stats" id="newDeliverersStatsTime">This month</div>
+									<a href="{{route('doorder_drivers_requests', 'doorder')}}">
+										<div class="card-dashboard-content">
+											<p class="card-category">New Deliverers</p>
+											<div class="row">
+												<div class="col-md-6  col-sm-6 col-xs-6">
+													<h3 id="newDeliverersValueH3" class="card-title cardDashboardValueH3">{{$deliverers_count}}</h3>
+													<div class="card-footer">
+														<div class="stats" id="newDeliverersStatsTime">This month</div>
+													</div>
 												</div>
-											</div>
-											<div class="col-md-6  col-sm-6 col-xs-6 dashboard-card-icon-container">
-												<div class="dashboard-card-icon">
-													<img class="dashboard-card-img"
-														src="{{asset('images/doorder_icons/new-deliverers-dashbord.png')}}"
-														alt="new deliverers icon">
+												<div class="col-md-6  col-sm-6 col-xs-6 dashboard-card-icon-container">
+													<div class="dashboard-card-icon">
+														<img class="dashboard-card-img"
+															 src="{{asset('images/doorder_icons/new-deliverers-dashbord.png')}}"
+															 alt="new deliverers icon">
+													</div>
 												</div>
 											</div>
 										</div>
-									</div>
+									</a>
 								</div>
 							</div>
 						</div>

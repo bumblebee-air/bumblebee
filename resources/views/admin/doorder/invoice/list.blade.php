@@ -129,12 +129,12 @@ select.form-control:not([size]):not([multiple]) {
 										<tr v-for="invoice in invoiceList" class="order-row" @click="clickInvoice(invoice.id)">
 											<td>@{{ parseDateTime(invoice.created_at) }}</td>
 											<td>@{{invoice.order_id}}</td>
-											<td>@{{invoice.retailer.name}}</td>
+											<td>@{{invoice.retailer ? invoice.retailer.name : 'N/A'}}</td>
 											<td>
 												<span class="invoiceIconSpan"><i class="fas fa-file-invoice"></i>
 												</span>
 											</td>
-											<td>@{{ invoice.order_driver.name}}</td>
+											<td>@{{ invoice.order_driver ? invoice.order_driver.name : 'N/A'}}</td>
 											<td>@{{ invoice.pickup_address }}</td>
 											<td>@{{invoice.customer_address}}</td>
 											<td>€10</td>

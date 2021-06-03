@@ -353,6 +353,13 @@ Route::group([
             Route::post('share_event', 'doom_yoga\EventsController@postShareEvent')->name('postShareEventDoomYoga');
         });
 
+        
+        Route::get('add_video', 'doom_yoga\MediaController@getAddVideo')->name('doomyoga_getAddVideo');
+        Route::post('add_video', 'doom_yoga\MediaController@postAddVideo')->name('doomyoga_postAddVideo');
+        Route::get('add_audio', 'doom_yoga\MediaController@getAddAudio')->name('doomyoga_getAddAudio');
+        Route::post('add_audio', 'doom_yoga\MediaController@postAddAudio')->name('doomyoga_postAddAudio');
+        
+        
         Route::get('spotify_test', 'doom_yoga\TestController@getPlaylist')->name('getPlayList');
         Route::get('video_library', 'doom_yoga\TestController@getVideoLibrary')->name('getVideoLibrary');
     });

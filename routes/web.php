@@ -373,6 +373,7 @@ Route::group([
             Route::get('view/{id}', 'unified\CustomerController@getSingleCustomer')->name('unified_getCustomerSingleView');
             Route::get('edit/{id}', 'unified\CustomerController@getSingleCustomerEdit')->name('unified_getCustomerSingleEdit');
             Route::post('edit/{id}', 'unified\CustomerController@postEditCustomer')->name('unified_postCustomerSingleEdit');
+            Route::post('import', 'unified\CustomerController@postCustomersImport')->name('unified_postCustomersImport');
             Route::post('get_company_data', 'unified\CalendarController@getCompanyData')->name('unified_getCompanyData');
         });
         

@@ -127,15 +127,17 @@ select.form-control:not([size]):not([multiple]) {
 
 									<tbody>
 										<tr v-for="invoice in invoiceList" class="order-row" @click="clickInvoice(invoice.id)">
-											<td>@{{ parseDateTime(invoice.date) }}</td>
-											<td>@{{invoice.orderNumber}}</td>
-											<td>@{{invoice.retailerName}}</td>
-											<td><span class="invoiceIconSpan"><i
-													class="fas fa-file-invoice"></i></span></td>
-											<td>@{{ invoice.deliverer}}</td>
-											<td>@{{ invoice.pickupLocation }}</td>
-											<td>@{{invoice.deliveryLocation}}</td>
-											<td>€@{{invoice.charges}}</td>
+											<td>@{{ parseDateTime(invoice.created_at) }}</td>
+											<td>@{{invoice.order_id}}</td>
+											<td>@{{invoice.retailer.name}}</td>
+											<td>
+												<span class="invoiceIconSpan"><i class="fas fa-file-invoice"></i>
+												</span>
+											</td>
+											<td>@{{ invoice.order_driver.name}}</td>
+											<td>@{{ invoice.pickup_address }}</td>
+											<td>@{{invoice.customer_address}}</td>
+											<td>€10</td>
 										</tr>
 									</tbody>
 								</table>

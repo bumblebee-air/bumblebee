@@ -77,8 +77,7 @@
 }
 }
 </style>
-@endsection @section('title','DoOrder | Invoice ' .
-$invoice->orderNumber) @section('page-content')
+@endsection @section('title','DoOrder | Invoice ' . $invoice->order_id) @section('page-content')
 <div class="content" id="app">
 	<div class="container-fluid">
 		<div class="container-fluid">
@@ -91,9 +90,9 @@ $invoice->orderNumber) @section('page-content')
 								<div class="card-icon">
 									<i class="fas fa-file-invoice"></i>
 								</div>
-								<h4 class="card-title ">Order Number {{$invoice->orderNumber}}</h4>
+								<h4 class="card-title ">Order Number {{$invoice->order_id}}</h4>
 								<h5 class="card-category ">
-									<a class="" href="">{{$invoice->retailerName}}</a>
+									<a class="" href="">{{$invoice->retailer->name}}</a>
 								</h5>
 							</div>
 
@@ -121,7 +120,7 @@ $invoice->orderNumber) @section('page-content')
 										<div class="form-group bmd-form-group">
 											<label>Customer first name</label>
 											<div class="form-control">
-												<span>{{$invoice->customerFirstName}}</span>
+												<span>{{$invoice->customer_name}}</span>
 											</div>
 
 										</div>
@@ -131,7 +130,7 @@ $invoice->orderNumber) @section('page-content')
 										<div class="form-group bmd-form-group">
 											<label>Customer last name</label>
 											<div class="form-control">
-												<span>{{$invoice->customerLastName}}</span>
+												<span>{{$invoice->customer_name}}</span>
 											</div>
 
 										</div>
@@ -140,7 +139,7 @@ $invoice->orderNumber) @section('page-content')
 										<div class="form-group bmd-form-group">
 											<label>Customer email address</label>
 											<div class="form-control">
-												<span>{{$invoice->customerEmail}}</span>
+												<span>{{$invoice->customer_email}}</span>
 											</div>
 
 										</div>
@@ -150,7 +149,7 @@ $invoice->orderNumber) @section('page-content')
 										<div class="form-group bmd-form-group">
 											<label>Customer contact number</label>
 											<div class="form-control">
-												<span>{{$invoice->customerContactNumber}}</span>
+												<span>{{$invoice->customer_phone}}</span>
 											</div>
 
 										</div>
@@ -159,7 +158,7 @@ $invoice->orderNumber) @section('page-content')
 										<div class="form-group bmd-form-group">
 											<label>Customer address</label>
 											<div class="form-control">
-												<span>{{$invoice->customerAddress}}</span>
+												<span>{{$invoice->customer_address}}</span>
 											</div>
 
 										</div>
@@ -169,7 +168,7 @@ $invoice->orderNumber) @section('page-content')
 										<div class="form-group bmd-form-group">
 											<label>Postcode/Eircode</label>
 											<div class="form-control">
-												<span>{{$invoice->postcode}}</span>
+												<span>{{$invoice->eircode}}</span>
 											</div>
 
 										</div>
@@ -192,7 +191,7 @@ $invoice->orderNumber) @section('page-content')
 										<div class="form-group bmd-form-group">
 											<label>Pickup address</label>
 											<div class="form-control">
-												<span>{{$invoice->pickupAddress}}</span>
+												<span>{{$invoice->pickup_address}}</span>
 											</div>
 
 										</div>
@@ -202,7 +201,7 @@ $invoice->orderNumber) @section('page-content')
 										<div class="form-group bmd-form-group">
 											<label>Package weight in kg</label>
 											<div class="form-control">
-												<span>{{$invoice->packageWeightKg}}</span>
+												<span>{{$invoice->customer_address}}</span>
 											</div>
 
 										</div>
@@ -211,7 +210,7 @@ $invoice->orderNumber) @section('page-content')
 										<div class="form-group bmd-form-group">
 											<label>Other details</label>
 											<div class="form-control">
-												<span>{{$invoice->otherDetails}}</span>
+												<span>N/A</span>
 											</div>
 
 										</div>
@@ -225,7 +224,7 @@ $invoice->orderNumber) @section('page-content')
 													class="form-check form-check-radio form-check-inline d-flex justify-content-between">
 													<label class="form-check-label"> <input type="radio"
 														name="fragile" id="inlineRadio1" value="1"
-														class="form-check-input" required @if($invoice->isFragile==1)
+														class="form-check-input" required @if($invoice->fragile==1)
 														checked @endif> Yes <span class="circle"> <span
 															class="check"></span>
 													</span>
@@ -236,7 +235,7 @@ $invoice->orderNumber) @section('page-content')
 													class="form-check form-check-radio form-check-inline d-flex justify-content-between">
 													<label class="form-check-label"> <input type="radio"
 														name="fragile" id="inlineRadio1" value="0"
-														class="form-check-input" required @if($invoice->isFragile==0)
+														class="form-check-input" required @if($invoice->fragile==0)
 														checked @endif> No <span class="circle"> <span
 															class="check"></span>
 													</span>
@@ -250,7 +249,7 @@ $invoice->orderNumber) @section('page-content')
 										<div class="form-group bmd-form-group">
 											<label>Order fulfilment</label>
 											<div class="form-control">
-												<span>{{$invoice->orderFulfilment}}</span>
+												<span>{{$invoice->fulfilment}}</span>
 											</div>
 
 										</div>
@@ -260,7 +259,7 @@ $invoice->orderNumber) @section('page-content')
 										<div class="form-group bmd-form-group">
 											<label>Package dimensions in cm</label>
 											<div class="form-control">
-												<span>{{$invoice->packageDimensionsCm}}</span>
+												<span>{{$invoice->dimensions}}</span>
 											</div>
 
 										</div>
@@ -288,16 +287,14 @@ $invoice->orderNumber) @section('page-content')
 
 
 
-										@foreach($invoiceDetails as $item)
 										<div class="row">
 											<div class="col-md-6 col-9">
-												<label class="invoiceDetialsLabel">{{$item->name}}</label>
+												<label class="invoiceDetialsLabel">{{$invoiceDetails['name']}}</label>
 											</div>
 											<div class="col-md-3 col-3">
-												<span class="invoiceDetialsSpan">€{{$item->charge}}</span>
+												<span class="invoiceDetialsSpan">€{{$invoiceDetails['charge']}}</span>
 											</div>
 										</div>
-										@endforeach
 										<div class="row" style="margin-top: 15px">
 											<div class="col-md-6 col-9">
 												<label class="invoiceDetialsSpan">Total</label>
@@ -322,9 +319,6 @@ $invoice->orderNumber) @section('page-content')
 							</form>
 						</div>
 					</div>
-
-
-
 				</div>
 			</div>
 		</div>

@@ -36,4 +36,8 @@ class Order extends Model
     public function orderDriver() {
         return $this->belongsTo(User::class, 'driver');
     }
+
+    public function retailer() {
+        return $this->belongsTo(Retailer::class, 'retailer_id');
+    }
 }

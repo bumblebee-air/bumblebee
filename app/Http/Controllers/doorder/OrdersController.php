@@ -18,7 +18,7 @@ class OrdersController extends Controller
         if (auth()->user()->user_role == 'retailer') {
             $orders = Order::where('retailer_id', auth()->user()->retailer_profile->id)->orderBy('id', 'desc')->paginate(20);
         } else {
-            $orders = Order::where('is_archived', false)->orderBy('id', 'desc')->paginate(20);
+            $orders = Order::where('is_archived', false)->where('status', '!=', 'delivered')->orderBy('id', 'desc')->paginate(20);
         }
 
         foreach ($orders as $order) {

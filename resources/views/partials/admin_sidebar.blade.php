@@ -378,18 +378,22 @@
 					</ul>
 				</div></li>
 
-			<li class="nav-item"><a class="nav-link d-flex" href="#"> <img
+			<li class="nav-item">
+				<a class="nav-link d-flex" href="#"> <img
 					class="my-nav-icon"
 					src="{{asset('images/doorder_icons/Whatsapp.png')}}" alt="whatsapp">
 					<img class="my-nav-icon my-nav-icon-top"
 					src="{{asset('images/doorder_icons/Whatsapp-yellow.png')}}"
 					alt="whatsapp">
 					<p>WhatsApp</p>
-			</a></li>
+				</a>
+			</li>
 
 			<li class="nav-item">
 				<a class="nav-link d-flex" href="{{route('doorder_getInvoiceList', 'doorder')}}">
-					<i class="fas fa-file-invoice"></i>
+					<img class="my-nav-icon" src="{{asset('images/doorder_icons/Invoice-white.png')}}" alt="whatsapp" style="width: 20px; height: 25px">
+					<img class="my-nav-icon my-nav-icon-top" src="{{asset('images/doorder_icons/Invoice-yellow.png')}}" style="width: 20px; height: 25px"
+						 alt="whatsapp">
 					<p>Invoice</p>
 				</a>
 			</li>

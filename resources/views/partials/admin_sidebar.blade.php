@@ -648,6 +648,18 @@
 					<p>Registrations </p>
 			</a></li>
 			<li class="nav-item"><a class="nav-link d-flex"
+				href="{{route('doomyoga_getAddVideo', 'doom-yoga')}}">  <img class="my-nav-icon"
+					src="{{asset('images/doom-yoga/New-Event.png')}}"
+					alt="Video">
+					<p>Add Video </p>
+			</a></li>
+			<li class="nav-item"><a class="nav-link d-flex"
+				href="{{route('doomyoga_getAddAudio', 'doom-yoga')}}">  <img class="my-nav-icon"
+					src="{{asset('images/doom-yoga/New-Event.png')}}"
+					alt="Audio">
+					<p>Add Audio </p>
+			</a></li>
+			<li class="nav-item"><a class="nav-link d-flex"
 				href="">  <img class="my-nav-icon"
 					src="{{asset('images/doom-yoga/WhatsApp.png')}}"
 					alt="Dashboard">

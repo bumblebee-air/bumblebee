@@ -1,20 +1,27 @@
 <?php
 namespace App\Http\Controllers\doorder;
 
+use App\Exports\InvoiceOrderExport;
 use App\Order;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 use Stripe\InvoiceItem;
 
 class InvoiceController extends Controller
 {
 
-    public function getInvoiceList()
+    public function getInvoiceList(Request $request)
     {
         $invoiceList = Order::with(['orderDriver', 'retailer'])->where('is_archived', false)->where('status', 'delivered')->orderBy('id', 'desc')->get();
         return view('admin.doorder.invoice.list', [
             'invoiceList' => $invoiceList
         ]);
+    }
+
+    public function exportInvoiceList(Request $request)
+    {
+        return Excel::download(new InvoiceOrderExport($request->from, $request->to), 'invoices.xlsx');
     }
 
     public function getSingleInvoice($client_name, $id)

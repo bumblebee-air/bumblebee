@@ -87,27 +87,33 @@ select.form-control:not([size]):not([multiple]) {
 						<div class="card-body">
 
 							<div class="table-responsive">
+								<form method="post" action="{{route('doorder_exportInvoiceList', 'doorder')}}">
+									{{csrf_field()}}
+									<div class="row" style="margin-left: 15px">
+										<label class="col-md-2 col-form-label filterLabelDashboard">Filter:</label>
+										<div class="col-md-3">
+											<div class="form-group bmd-form-group">
+												<input class="form-control inputDate" id="startDate"
+													   type="text" placeholder="From" required="true"
+													   aria-required="true" name="from">
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div class="form-group bmd-form-group">
+												<input class="form-control inputDate" id="endDate"
+													   type="text" placeholder="To" required="true"
+													   aria-required="true" name="to">
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div id="retailerNameP" class="form-group bmd-form-group"></div>
+										</div>
 
-								<div class="row" style="margin-left: 15px">
-									<label class="col-md-2 col-form-label filterLabelDashboard">Filter:</label>
-									<div class="col-md-3">
-										<div class="form-group bmd-form-group">
-											<input class="form-control inputDate" id="startDate"
-												type="text" placeholder="From" required="true"
-												aria-required="true">
+										<div class="col-md-2">
+											<button type="submit" class="btn btn-primary-doorder">Export</button>
 										</div>
 									</div>
-									<div class="col-md-3">
-										<div class="form-group bmd-form-group">
-											<input class="form-control inputDate" id="endDate"
-												type="text" placeholder="To" required="true"
-												aria-required="true">
-										</div>
-									</div>
-									<div class="col-md-3">
-										<div id="retailerNameP" class="form-group bmd-form-group"></div>
-									</div>
-								</div>
+								</form>
 
 								<table id="invoiceListTable"
 									class="table table-no-bordered table-hover doorderTable"
@@ -210,21 +216,21 @@ console.log(new Date('1/2/2020'))
     	},
     	
          initComplete: function () {
-         var column = this.api().column(2);
-                  var select = $('<select id="selectFilter" class="form-control"><option value="">Select retailer </option></select>')
-                    .appendTo( $('#retailerNameP').empty().text('') )
-                    .on( 'change', function () {
-                        var val = $.fn.dataTable.util.escapeRegex(
-                            $(this).val()
-                        );
-                  column
-                    .search( val ? '^'+val+'$' : '', true, false )
-                    .draw();
-                      
-                  } );
-                  column.data().unique().sort().each( function ( d, j ) {
-                    select.append( '<option value="'+d+'">'+d+'</option>' );
-                  } );    
+         	var column = this.api().column(2);
+			var select = $('<select id="selectFilter" class="form-control" name="retailer"><option value="">Select retailer </option></select>')
+			.appendTo( $('#retailerNameP').empty().text('') )
+			.on( 'change', function () {
+				var val = $.fn.dataTable.util.escapeRegex(
+					$(this).val()
+				);
+			column
+			.search( val ? '^'+val+'$' : '', true, false )
+			.draw();
+
+			} );
+			column.data().unique().sort().each( function ( d, j ) {
+			select.append( '<option value="'+d+'">'+d+'</option>' );
+			} );
         }
     });
     

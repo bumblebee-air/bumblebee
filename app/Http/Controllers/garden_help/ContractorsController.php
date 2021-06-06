@@ -152,7 +152,8 @@ class ContractorsController extends Controller
     {
         $contractor_request = Contractor::find($id);
         if (! $contractor_request) {
-            abort(404);
+            alert()->error('Contractor request not found!');
+            return redirect()->back();
         }
         return view('admin.garden_help.contractors.single_request', [
             'contractor_request' => $contractor_request
@@ -163,7 +164,8 @@ class ContractorsController extends Controller
     {
         $singleRequest = Contractor::find($id);
         if (! $singleRequest) {
-            abort(404);
+            alert()->error('Contractor request not found!');
+            return redirect()->back();
         }
         if ($request->rejection_reason) {
             $singleRequest->rejection_reason = $request->rejection_reason;
@@ -459,7 +461,8 @@ class ContractorsController extends Controller
     {
         $contractor = Contractor::find($id);
         if (! $contractor) {
-            abort(404);
+            alert()->error('Contractor not found!');
+            return redirect()->back();
         }
         return view('admin.garden_help.contractors.single_contractor', [
             'contractor' => $contractor,
@@ -471,7 +474,8 @@ class ContractorsController extends Controller
     {
         $contractor = Contractor::find($id);
         if (! $contractor) {
-            abort(404);
+            alert()->error('Contractor not found!');
+            return redirect()->back();
         }
         return view('admin.garden_help.contractors.single_contractor', [
             'contractor' => $contractor,
@@ -488,7 +492,20 @@ class ContractorsController extends Controller
 
     public function postDeleteContractor(Request $request)
     {
-        // dd($request);
+        $contractor_id = $request->get('contractorId');
+        $contractor_profile = Contractor::find($contractor_id);
+        if(!$contractor_profile){
+            alert()->error('Contractor not found!');
+        }
+        $user = User::find($contractor_profile->user_id);
+        $contractor_profile->delete();
+        if($user!=null){
+            $user_client = UserClient::where('user_id','=',$user->id)->first();
+            if($user_client!=null){
+                $user_client->delete();
+            }
+            $user->delete();
+        }
         alert()->success('Contractor deleted successfully');
         return redirect()->back();
     }
@@ -562,7 +579,8 @@ class ContractorsController extends Controller
     public function editContractorsFee(Request $request) {
         $fee = ClientSetting::where('name', $request->fee_name)->where('client_id', $request->user()->client->client_id)->first();
         if (!$fee) {
-            abort(404);
+            alert()->error('Contractor fee not found!');
+            return redirect()->back();
         }
         return view('admin.garden_help.contractors.fee_edit', [
             'fee' => $fee
@@ -572,7 +590,8 @@ class ContractorsController extends Controller
     public function updateContractorsFee(Request $request) {
         $fee = ClientSetting::find($request->id);
         if (!$fee) {
-            abort(404);
+            alert()->error('Contractor fee not found!');
+            return redirect()->back();
         }
         $fee->the_value = $request->the_value;
         $fee->save();

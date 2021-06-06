@@ -73,10 +73,11 @@ body {
 					</div>
 				</div>
 				<div class="row mx-0 mb-1 text-center">
+
 					
 					<iframe
-						src="https://open.spotify.com/embed/album/4H6vP0sSlRFyd4EeDhJhPV"
-						width="500" height="450" frameborder="0" allowtransparency="true"
+						src="https://open.spotify.com/embed/playlist/6ZaLoqQ3NYG3Coq3Jd3YUy"
+						width="500" height="450" frameBorder="0" allowtransparency="true"
 						allow="encrypted-media" style="margin: auto;"></iframe>
 
 				</div>

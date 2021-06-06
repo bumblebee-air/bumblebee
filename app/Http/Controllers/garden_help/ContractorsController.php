@@ -28,7 +28,13 @@ class ContractorsController extends Controller
 
     public function index()
     {
-        $terms_policies = TermAndPolicy::where('type', 'contractor')->first();
+        $client = \App\Client::where('name', 'GardenHelp')->first();
+        if(!$client){
+            alert()->error('GardenHelp tenant is not setup correctly');
+            return redirect()->back();
+        }
+        $terms_policies = TermAndPolicy::where('type', 'contractor')
+            ->where('client_id','=',$client->id)->first();
         $terms = '#';
         $privacy = '#';
         if($terms_policies){

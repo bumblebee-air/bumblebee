@@ -30,6 +30,13 @@ class UpdateUnifiedJobsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('unified_jobs', function (Blueprint $table) {
+            $table->dropForeign('engineer_id');
+            $table->dropForeign('job_type_id');
+            $table->dropForeign('company_id');
+            $table->dropColumn('engineer_id');
+            $table->dropColumn('job_type_id');
+            $table->dropColumn('company_id');
+        });
     }
 }

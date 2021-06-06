@@ -28,7 +28,13 @@ class CustomersController extends Controller
             $item->is_checked = $item->false;
             $item->is_recurring = "0";
         }
-        $terms_policies = TermAndPolicy::where('type', 'customer')->first();
+        $client = \App\Client::where('name', 'GardenHelp')->first();
+        if(!$client){
+            alert()->error('GardenHelp tenant is not setup correctly');
+            return redirect()->back();
+        }
+        $terms_policies = TermAndPolicy::where('type', 'customer')
+            ->where('client_id','=',$client->id)->first();
         $terms = '#';
         $privacy = '#';
         if($terms_policies){

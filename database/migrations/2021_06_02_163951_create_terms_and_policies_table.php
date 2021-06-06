@@ -17,7 +17,7 @@ class CreateTermsAndPoliciesTable extends Migration
             $table->id();
             $table->string('terms');
             $table->string('policy');
-            $table->string('type')->comment('contractor or customer');
+            $table->string('type')->comment('contractor/deliverer/customer');
             $table->timestamps();
         });
     }

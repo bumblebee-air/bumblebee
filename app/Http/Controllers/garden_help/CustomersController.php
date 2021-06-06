@@ -29,7 +29,14 @@ class CustomersController extends Controller
             $item->is_recurring = "0";
         }
         $terms_policies = TermAndPolicy::where('type', 'customer')->first();
-        return view('garden_help.customers.registration', ['services' => $services,"termsFile"=>asset($terms_policies->terms),"privacyFile"=>asset($terms_policies->policy)]);
+        $terms = '#';
+        $privacy = '#';
+        if($terms_policies){
+            $terms = $terms_policies->terms!=null? asset($terms_policies->terms) : '#';
+            $privacy = $terms_policies->policy!=null? asset($terms_policies->policy) : '#';
+        }
+        return view('garden_help.customers.registration', ['services' => $services,
+            "termsFile"=>$terms,"privacyFile"=>$privacy]);
     }
 
     public function postRegistrationForm(Request $request) {

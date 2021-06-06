@@ -28,9 +28,14 @@ class ContractorsController extends Controller
 
     public function index()
     {
-        $terms_policies = TermAndPolicy::where('type', 'customer')->first();
-
-        return view('garden_help.contractors.registration',["termsFile"=>asset($terms_policies->terms),"privacyFile"=>asset($terms_policies->policy)]);
+        $terms_policies = TermAndPolicy::where('type', 'contractor')->first();
+        $terms = '#';
+        $privacy = '#';
+        if($terms_policies){
+            $terms = $terms_policies->terms!=null? asset($terms_policies->terms) : '#';
+            $privacy = $terms_policies->policy!=null? asset($terms_policies->policy) : '#';
+        }
+        return view('garden_help.contractors.registration',["termsFile"=>$terms,"privacyFile"=>$privacy]);
     }
 
     public function save(Request $request)

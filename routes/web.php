@@ -354,8 +354,14 @@ Route::group([
         });
 
         
+        Route::get('videos_list', 'doom_yoga\MediaController@getVideosList')->name('doomyoga_getVideosList');
+        Route::get('edit_video/{id}', 'doom_yoga\MediaController@getEditVideo')->name('doomyoga_getEditVideo');
+        Route::post('delete_video', 'doom_yoga\MediaController@postDeleteVideo')->name('doomyoga_postDeleteVideo');
+        Route::post('edit_video', 'doom_yoga\MediaController@postEditVideo')->name('doomyoga_postEditVideo');
         Route::get('add_video', 'doom_yoga\MediaController@getAddVideo')->name('doomyoga_getAddVideo');
         Route::post('add_video', 'doom_yoga\MediaController@postAddVideo')->name('doomyoga_postAddVideo');
+        
+        Route::get('audio_list', 'doom_yoga\MediaController@getAudioList')->name('doomyoga_getAudioList');
         Route::get('add_audio', 'doom_yoga\MediaController@getAddAudio')->name('doomyoga_getAddAudio');
         Route::post('add_audio', 'doom_yoga\MediaController@postAddAudio')->name('doomyoga_postAddAudio');
         

@@ -16,6 +16,7 @@
 	color: #ffffff;
 }
 
+
 .btn.disabled, .btn:disabled {
 	opacity: 1 !important
 }
@@ -182,4 +183,22 @@
 .btn-doomyoga-account{
 	width: auto !important;
 	padding: 10px !important; 
+}
+
+
+
+.btn-import {
+	width: 160px;
+	height:40px !important;
+	padding: 15px 30px;
+	/* border-radius: 17px; */
+	font-family: Arbutus Slab;
+	font-size: 14px !important;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 0.64;
+	letter-spacing: 0.27px;
+	text-align: center;
+	color: #ffffff;
 }

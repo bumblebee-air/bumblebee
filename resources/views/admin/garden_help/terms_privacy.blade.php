@@ -75,7 +75,7 @@
 													<div class="form-group form-file-upload form-file-multiple"
 														style="margin: 0 !important;">
 														<input id="termsContractor" name="termsContractor" type="file"
-															class="inputFileHidden" accept="application/pdf"
+															class="inputFileHidden" accept="application/pdf,.doc,.docx"
 															@change="onChangeFile($event, 'termsContractor_input')">
 														<div class="input-group" @click="addFile('termsContractor')">
 															<input type="text" id="termsContractor_input"
@@ -203,7 +203,7 @@
 						<div class="row">
 							<div class="col-12 text-center">
 								<button id="addNewServiceTypeBtn"
-									class="btn btn-register btn-gardenhelp-green" id="">Save</button>
+									class="btn btn-register btn-gardenhelp-green">Save</button>
 							</div>
 						</div>
 
@@ -223,41 +223,39 @@
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script>
-            var app = new Vue({
-            el: '#app',
-            data: {
-            },
-            mounted() {
+	var app = new Vue({
+		el: '#app',
+		data: {
+		},
+		mounted() {
 
-            },
-            methods: {
-               
-                addFile(id) {
-                    $('#' + id).click();
-                },
-                onChangeFile(e ,id) {
-                    $("#" + id).val(e.target.files[0].name);
-                },
-				beforeFormSubmitting(e) {
-                	e.preventDefault();
-                	let termsContractor_input = $('#termsContractor');
-                	let privacyContractor_input = $('#privacyContractor');
-                	let termsCustomer_input = $('#termsCustomer');
-                	let privacyCustomer_input = $('#privacyCustomer');
-                	if (termsContractor_input.val() == "" || privacyContractor_input.val()=="" 
-                		|| termsCustomer_input.val() == "" || privacyCustomer_input.val()=="") {
-							swal({
-								title: 'There is a missing input',
-								text: "Terms and privacy are required",
-								icon: 'error',
-							})
-							return false;
-						} 
-                	$('#termsForm').submit();
-				}
-            }
-        });
-     
+		},
+		methods: {
+			addFile(id) {
+				$('#' + id).click();
+			},
+			onChangeFile(e ,id) {
+				$("#" + id).val(e.target.files[0].name);
+			},
+			beforeFormSubmitting(e) {
+				e.preventDefault();
+				/*let termsContractor_input = $('#termsContractor');
+				let privacyContractor_input = $('#privacyContractor');
+				let termsCustomer_input = $('#termsCustomer');
+				let privacyCustomer_input = $('#privacyCustomer');
+				if (termsContractor_input.val() == "" || privacyContractor_input.val()==""
+					|| termsCustomer_input.val() == "" || privacyCustomer_input.val()=="") {
+					swal({
+						title: 'There is a missing input',
+						text: "Terms and privacy are required",
+						icon: 'error',
+					})
+					return false;
+				}*/
+				$('#termsForm').submit();
+			}
+		}
+	});
 </script>
 
 @endsection

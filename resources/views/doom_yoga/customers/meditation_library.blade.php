@@ -381,12 +381,6 @@ a[id^="btn"]::-moz-focus-inner {
 </div>
 @endsection @section('scripts')
 
-<script src="https://api.html5media.info/1.1.8/html5media.min.js">
-</script>
-<script
-	src="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1556817331/lightgallery-all.min.js"></script>
-<script
-	src="https://sachinchoolur.github.io/lightGallery/lightgallery/js/lg-fullscreen.js"></script>
 <script type="text/javascript">
             
              Vue.use(VueToast);

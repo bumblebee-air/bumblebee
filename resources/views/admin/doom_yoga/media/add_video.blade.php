@@ -1,7 +1,7 @@
 @extends('templates.dashboard') @section('title', 'Do OmYoga | Add
 Video') @section('page-styles')
 <link
-	href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.1/css/fileinput.min.css"
+	href="{{asset('css/fileinput.min.css')}}"
 	media="all" rel="stylesheet" type="text/css" />
 <style>
 body {
@@ -208,32 +208,26 @@ border : none !important;
 <!-- piexif.min.js is needed for auto orienting image files OR when restoring exif data in resized images and when you 
     wish to resize images before upload. This must be loaded before fileinput.min.js -->
 <script
-	src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.0/js/plugins/piexif.min.js"
+	src="{{asset('js/file-input-preview/piexif.min.js')}}"
 	type="text/javascript"></script>
 <!-- sortable.min.js is only needed if you wish to sort / rearrange files in initial preview. 
     This must be loaded before fileinput.min.js -->
 <script
-	src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.0/js/plugins/sortable.min.js"
+	src="{{asset('js/file-input-preview/sortable.min.js')}}"
 	type="text/javascript"></script>
 <!-- popper.min.js below is needed if you use bootstrap 4.x. You can also use the bootstrap js 
    3.3.x versions without popper.min.js. -->
 <script
-	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+	src="{{asset('js/file-input-preview/popper.min.js')}}"></script>
 <!-- the main fileinput plugin file -->
-<!-- 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
-
-<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script> -->
 <script
-	src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.0/js/fileinput.min.js"></script>
+	src="{{asset('js/file-input-preview/fileinput.min.js')}}"></script>
 <!-- optionally if you need a theme like font awesome theme you can include it as mentioned below -->
 <script
-	src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.0/themes/fa/theme.js"></script>
+	src="{{asset('js/file-input-preview/theme.js')}}"></script>
 <!-- optionally if you need translation for your language then include  locale file as mentioned below (replace LANG.js with your locale file) -->
 <script
-	src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.0/js/locales/LANG.js"></script>
-
-<script src="{{asset('js/select2.min.js')}}"></script>
+	src="{{asset('js/file-input-preview/LANG.js')}}"></script>
 
 <script type="text/javascript">
 

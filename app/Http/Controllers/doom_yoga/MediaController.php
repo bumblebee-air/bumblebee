@@ -22,6 +22,13 @@ class MediaController extends Controller
         ]);
     }
 
+    public function postDeleteVideo(Request $request)
+    {
+        // dd($request);
+        alert()->success('The video deleted successfully');
+        return redirect()->back();
+    }
+
     public function getEditVideo($clientName, $id)
     {
         // dd("get edit video ". $id);
@@ -42,17 +49,9 @@ class MediaController extends Controller
         ]);
     }
 
-    public function postDeleteVideo(Request $request)
-    {
-        // dd($request);
-        alert()->success('The video deleted successfully');
-        return redirect()->back();
-    }
-
     public function postEditVideo(Request $request)
     {
-       // dd($request->all());
-
+        // dd($request->all());
         alert()->success('The video updated successfully');
         return redirect()->back();
     }
@@ -77,6 +76,48 @@ class MediaController extends Controller
     {
         // dd($request->all());
         alert()->success('The video uploaded successfully');
+        return redirect()->back();
+    }
+
+    /**
+     * ********************* audio ************************
+     */
+    public function getAudioList()
+    {
+        $audioData1 = new AudioData(11, 1, "Audio 1", "0:03", "audio/notification.mp3");
+        $audioData2 = new AudioData(12, 2, "Audio 2", "00:04", "audio/update.mp3");
+        $audios = array(
+            $audioData1,
+            $audioData2
+        );
+
+        return view('admin.doom_yoga.media.audio_list', [
+            'audios' => $audios
+        ]);
+    }
+
+    public function postDeleteAudio(Request $request)
+    {
+        // dd($request);
+        alert()->success('The audio deleted successfully');
+        return redirect()->back();
+    }
+
+    public function getEditAudio($clientName, $id)
+    {
+        // dd("get edit video ". $id);
+        
+        $audioData = new AudioData($id,1, "Audio 1", "0:03", "audio/notification.mp3");
+
+        return view('admin.doom_yoga.media.edit_audio', [
+            'audio' => $audioData
+        ]);
+    }
+
+    public function postEditAudio(Request $request)
+    {
+        //dd($request->all());
+        alert()->success('The audio updated successfully');
         return redirect()->back();
     }
 
@@ -119,5 +160,20 @@ class CategoryData
     {
         $this->id = $id;
         $this->name = $name;
+    }
+}
+
+class AudioData
+{
+
+    public $id, $track, $name, $length, $file;
+
+    function __construct($id, $track, $name, $length, $file)
+    {
+        $this->id = $id;
+        $this->track = $track;
+        $this->name = $name;
+        $this->length = $length;
+        $this->file = $file;
     }
 }

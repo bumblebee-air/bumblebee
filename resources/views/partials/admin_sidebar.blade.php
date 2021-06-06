@@ -654,10 +654,10 @@
 					<p>Video </p>
 			</a></li>
 			<li class="nav-item"><a class="nav-link d-flex"
-				href="{{route('doomyoga_getAddAudio', 'doom-yoga')}}">  <img class="my-nav-icon"
+				href="{{route('doomyoga_getAudioList', 'doom-yoga')}}">  <img class="my-nav-icon"
 					src="{{asset('images/doom-yoga/audio.png')}}"
 					alt="Audio">
-					<p>Add Audio </p>
+					<p>Audio </p>
 			</a></li>
 			<li class="nav-item"><a class="nav-link d-flex"
 				href="">  <img class="my-nav-icon"

@@ -362,6 +362,9 @@ Route::group([
         Route::post('add_video', 'doom_yoga\MediaController@postAddVideo')->name('doomyoga_postAddVideo');
         
         Route::get('audio_list', 'doom_yoga\MediaController@getAudioList')->name('doomyoga_getAudioList');
+        Route::get('edit_audio/{id}', 'doom_yoga\MediaController@getEditAudio')->name('doomyoga_getEditAudio');
+        Route::post('delete_audio', 'doom_yoga\MediaController@postDeleteAudio')->name('doomyoga_postDeleteAudio');
+        Route::post('edit_audio', 'doom_yoga\MediaController@postEditAudio')->name('doomyoga_postEditAudio');
         Route::get('add_audio', 'doom_yoga\MediaController@getAddAudio')->name('doomyoga_getAddAudio');
         Route::post('add_audio', 'doom_yoga\MediaController@postAddAudio')->name('doomyoga_postAddAudio');
         

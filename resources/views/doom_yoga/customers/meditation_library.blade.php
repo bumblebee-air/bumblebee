@@ -420,7 +420,6 @@ jQuery(function ($) {
     if (supportsAudio) {
         var index = 0,
             playing = false,
-            mediaPath = '{!! $mediaPath !!}',
             extension = '',
             tracks = {!! $audios !!},
             trackCount = tracks.length,
@@ -481,7 +480,8 @@ jQuery(function ($) {
                 $('#plList li:eq(' + id + ')').addClass('plSel');
                 npTitle.text(tracks[id].track +". "+tracks[id].name);
                 index = id;
-                audio.src = mediaPath + tracks[id].file + extension;
+                audio.src = '{{asset('')}}'+tracks[id].file;
+                //audio.src =  '../../'+tracks[id].file;//mediaPath + tracks[id].file + extension;
             },
             playTrack = function (id) {
                 loadTrack(id);

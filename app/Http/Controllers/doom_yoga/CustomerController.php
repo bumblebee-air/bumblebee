@@ -146,14 +146,14 @@ class CustomerController extends Controller
 
     public function getMeditationLibrary()
     {
-        $audioData1 = new AudioData(1, "All This Is - Joe L.'s Studio", "02:46", "JLS_ATI");
-        $audioData2 = new AudioData(2, "The Forsaken - Broadwing Studio (Final Mix)", "08:31", "BS_TF");
-        $audioData3 = new AudioData(3, "All The King's Men - Broadwing Studio (Final Mix)", "05:02", "BS_ATKM");
+        $audioData1 = new AudioData(1, "All This Is - Joe L.'s Studio", "02:46", "audio/notification.mp3");
+        $audioData2 = new AudioData(2, "The Forsaken - Broadwing Studio (Final Mix)", "08:31", "audio/notification.mp3");
+        $audioData3 = new AudioData(3, "All The King's Men - Broadwing Studio (Final Mix)", "05:02", "audio/notification.mp3");
         
         $audios = array($audioData1,$audioData2,$audioData3);
 
         return view('doom_yoga.customers.meditation_library', [
-            'audios' => json_encode($audios),'mediaPath'=>'//archive.org/download/mythium/'
+            'audios' => json_encode($audios)
         ]);
     }
 }

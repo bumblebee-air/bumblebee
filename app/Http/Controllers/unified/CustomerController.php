@@ -11,8 +11,11 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class CustomerController extends Controller
 {
+
     public $services_types;
-    public function __construct() {
+
+    public function __construct()
+    {
         $this->services_types = $services_types = collect([
             [
                 'id' => 1,
@@ -41,15 +44,16 @@ class CustomerController extends Controller
             [
                 'id' => 7,
                 'name' => 'structured_cabling_system'
-            ],
+            ]
         ]);
     }
 
     public function getCustomersList()
     {
-        $customer1 = new CustomerData(1, "ACCA Ireland", "Intruder_alarm", true, "The Liberties", "52 Dolphins Barn Street, The Liberties", "Shane Martin", "shane.martin@accaglobal.com");
-        $customer2 = new CustomerData(2, "ACCA Ireland", "CCTV,Fire alram", false, "The Liberties", "52 Dolphins Barn Street, The Liberties", "Shane Martin", "shane.martin@accaglobal.com");
-
+        // $customer1 = new CustomerData(1, "ACCA Ireland", "Intruder_alarm", true, "The Liberties", "52 Dolphins Barn Street,
+        // The Liberties", "Shane Martin", "shane.martin@accaglobal.com");
+        // $customer2 = new CustomerData(2, "ACCA Ireland", "CCTV,Fire alram", false, "The Liberties", "52 Dolphins Barn Street,
+        // The Liberties", "Shane Martin", "shane.martin@accaglobal.com");
         $customers = UnifiedCustomer::all();
         foreach ($customers as $customer) {
             $customer->serviceType = $customer->hosted_pbx ? 'hosted_pbx, ' : '';
@@ -63,6 +67,8 @@ class CustomerController extends Controller
             if ($customer->serviceType == '') {
                 $customer->serviceType = 'N/A';
             }
+            
+            $customer->address = $customer->street_1 . ', ' . $customer->street_2 . ', ' . $customer->town . ', ' . $customer->country;
         }
         return view('admin.unified.customers.list', [
             'customers' => $customers
@@ -78,7 +84,7 @@ class CustomerController extends Controller
     public function deleteCustomer(Request $request)
     {
         $customer = UnifiedCustomer::find($request->customerId);
-        if (!$customer) {
+        if (! $customer) {
             abort(404);
         }
         $user = User::find($customer->user_id);
@@ -94,29 +100,34 @@ class CustomerController extends Controller
     public function getSingleCustomer($client_name, $id)
     {
         $customer = UnifiedCustomer::find($id);
-        if (!$customer) {
+        if (! $customer) {
             abort(404);
         }
         $selectedServiceType = [];
-        $customer->hosted_pbx ? $selectedServiceType = 1 : '';
-        $customer->access_control ? $selectedServiceType = 2 : '';
-        $customer->cctv ? $selectedServiceType = 3 : '';
-        $customer->fire_alarm ? $selectedServiceType = 4 : '';
-        $customer->intruder_alarm ? $selectedServiceType = 5 : '';
-        $customer->wifi_data ? $selectedServiceType = 6 : '';
-        $customer->structured_cabling_system ? $selectedServiceType = 7 : '';
-        $customer->contract ? $selectedServiceType = 8 : '';
+        $customer->hosted_pbx ? $selectedServiceType[] = 1 : '';
+        $customer->access_control ? $selectedServiceType[] = 2 : '';
+        $customer->cctv ? $selectedServiceType[] = 3 : '';
+        $customer->fire_alarm ? $selectedServiceType[] = 4 : '';
+        $customer->intruder_alarm ? $selectedServiceType[] = 5 : '';
+        $customer->wifi_data ? $selectedServiceType[] = 6 : '';
+        $customer->structured_cabling_system ? $selectedServiceType[] = 7 : '';
+        // $customer->contract ? $selectedServiceType = 8 : '';
 
         $customer->selectedServiceType = $selectedServiceType;
+        
+        $customer->address = $customer->street_1 . ', ' . $customer->street_2 . ', ' . $customer->town . ', ' . $customer->country;
+        
         return view('admin.unified.customers.single_customer', [
-            'customer' => $customer,'readOnly'=>1,'serviceTypes'=>$this->services_types
+            'customer' => $customer,
+            'readOnly' => 1,
+            'serviceTypes' => $this->services_types
         ]);
     }
 
     public function getSingleCustomerEdit($client_name, $id)
     {
         $customer = UnifiedCustomer::find($id);
-        if (!$customer) {
+        if (! $customer) {
             abort(404);
         }
         $selectedServiceType = [];
@@ -129,19 +140,25 @@ class CustomerController extends Controller
         $customer->structured_cabling_system ? $selectedServiceType[] = 7 : '';
 
         $customer->selectedServiceType = $selectedServiceType;
+        
+        $customer->address = $customer->street_1 . ', ' . $customer->street_2 . ', ' . $customer->town . ', ' . $customer->country;
+        
         return view('admin.unified.customers.single_customer', [
-            'customer' => $customer,'readOnly'=>0,'serviceTypes'=>$this->services_types
+            'customer' => $customer,
+            'readOnly' => 0,
+            'serviceTypes' => $this->services_types
         ]);
     }
-    
-    public function postEditCustomer(Request $request){
+
+    public function postEditCustomer(Request $request)
+    {
         $customer = UnifiedCustomer::find($request->customer_id);
-        if (!$customer) {
+        if (! $customer) {
             abort(404);
         }
-        //Check services Types
+        // Check services Types
         $selected_services_types_array = json_decode($request->serviceTypeSelectValues);
-        foreach ( $this->services_types as $service_type) {
+        foreach ($this->services_types as $service_type) {
             $service_type_name = $service_type['name'];
             $service_type_key = array_search($service_type['id'], $selected_services_types_array);
             if ($service_type_key !== false) {
@@ -170,6 +187,16 @@ class CustomerController extends Controller
 
         return redirect()->route('unified_getCustomersList', 'unified');
     }
+    
+    public function getAddCustomer(){
+        return view('admin.unified.customers.add_customer', [
+            
+            'serviceTypes' => $this->services_types
+        ]);
+    }
+    public function postAddCustomer(Request $request){
+        dd($request);
+    }
 }
 
 class CustomerData
@@ -190,12 +217,14 @@ class CustomerData
     }
 }
 
-class ServiceTypeData{
-   public  $id,$name;
-    
-   public function __construct($id,$name){
-       $this->id = $id;
-       $this->name = $name;
-   }
-    
+class ServiceTypeData
+{
+
+    public $id, $name;
+
+    public function __construct($id, $name)
+    {
+        $this->id = $id;
+        $this->name = $name;
+    }
 }

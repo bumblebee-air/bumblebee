@@ -719,7 +719,7 @@
 				href="">  <img class="my-nav-icon"
 					src="{{asset('images/unified/Add Service Form.png')}}"
 					alt="Add Service Form">
-					<p>Add Service Form </p>
+					<p>Add Product Form </p>
 			</a></li>
 			<li class="nav-item"><a class="nav-link d-flex"
 				href="">  <img class="my-nav-icon-request"

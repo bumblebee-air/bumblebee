@@ -42,6 +42,9 @@ tr.order-row:hover, tr.order-row:focus {
 							</div>
 							<div class="col-12 col-md-4 mt-4">
 								<div class="row justify-content-end">
+									<a class="btn btn-unified-grey btn-import"
+										href="{{route('unified_getAddCustomer', 'unified')}}">Add</a>
+									
 									<button class="btn btn-unified-primary btn-import"
 										onclick="clickImportCustomers()">Import</button>
 								</div>
@@ -61,7 +64,7 @@ tr.order-row:hover, tr.order-row:focus {
 
 										<tr class="theadColumnsNameTr">
 											<th>Name</th>
-											<th>Service Type</th>
+											<th>Product Type</th>
 											<th>Contract</th>
 											<th>Location</th>
 											<th>Contact</th>
@@ -226,7 +229,7 @@ $(document).ready(function() {
     	
         initComplete: function () {
         	var column = this.api().column(1);
-                  var select = $('<select id="" class="form-control selectFilter"><option value="">Filter by service type</option></select>')
+                  var select = $('<select id="" class="form-control selectFilter"><option value="">Filter by product type</option></select>')
                     .appendTo( $('#serviceTypeFilter').empty().text('') )
                     .on( 'change', function () {
                         var val = $.fn.dataTable.util.escapeRegex(
@@ -240,8 +243,8 @@ $(document).ready(function() {
                   column.data().unique().sort().each( function ( d, j ) {
 //                   console.log(d);
 //                     select.append( '<option value="'+d+'">'+d+'</option>' );
- var nameArr = d.split(",");
-        nameArr.forEach(function(number) {                
+     		var nameArr = d.split(",");
+            nameArr.forEach(function(number) {                
             var optionExists = ($("#language option[value='"+number+"']").length > 0);
             if(!optionExists){
                 select.append( '<option value="'+number+'">'+number+'</option>' );

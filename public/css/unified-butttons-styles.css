@@ -56,19 +56,21 @@
 	margin-right: 35px;
 }
 
-.btn-add-calendar,.btn-nojob-add-calendar {
+.btn-add-calendar, .btn-nojob-add-calendar {
 	background-color: transparent;
-	border:none;
+	border: none;
 	border-radius: 50%;
 }
-.btn-add-calendar:focus, .btn-add-calendar.focus, .btn-add-calendar:hover, 
-.btn-nojob-add-calendar:focus,.btn-nojob-add-calendar.focus,.btn-nojob-add-calendar:hover{
+
+.btn-add-calendar:focus, .btn-add-calendar.focus, .btn-add-calendar:hover,
+	.btn-nojob-add-calendar:focus, .btn-nojob-add-calendar.focus,
+	.btn-nojob-add-calendar:hover {
 	border: none !important;
 	background: transparent !important;
 	outline: none;
 }
 
-.btn-add-calendar img{
+.btn-add-calendar img {
 	width: 50px;
 	height: 50px;
 }
@@ -76,7 +78,8 @@
 .btn-unified-primary {
 	color: #fff;
 	background-color: #d58242;
-	border-color: #d58242
+	border-color: #d58242;
+	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 5px 10px 0 #d58242;
 }
 
 .btn-unified-primary.focus, .btn-unified-primary:focus {
@@ -129,7 +132,8 @@
 .btn-unified-danger {
 	color: #fff;
 	background-color: #d85656;
-	border-color: #d85656
+	border-color: #d85656;
+	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 5px 10px 0 #d85656;
 }
 
 .btn-unified-danger.focus, .btn-unified-danger:focus {
@@ -181,4 +185,60 @@
 
 .btn.btn-fab, .btn.btn-just-icon {
 	font-size: 20px !important;
+}
+
+.btn-unified-grey {
+	color: #fff;
+	background-color: #656565;
+	border-color: #656565;
+	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 5px 10px 0 #656565;
+}
+
+.btn-unified-grey.focus, .btn-unified-grey:focus {
+	color: #fff;
+	background-color: #4d4d4d;
+	border-color: #4d4d4d;
+}
+
+.btn-unified-grey:hover {
+	color: #fff;
+	background-color: #4d4d4d;
+	border-color: #4d4d4d
+}
+
+.btn-unified-grey.active, .btn-unified-grey:active, .open>.dropdown-toggle.btn-unified-grey
+	{
+	color: #fff;
+	background-color: #4d4d4d;
+	border-color: #4d4d4d
+}
+
+.btn-unified-grey.active.focus, .btn-unified-grey.active:focus,
+	.btn-unified-grey.active:hover, .btn-unified-grey:active.focus,
+	.btn-unified-grey:active:focus, .btn-unified-grey:active:hover, .open>.dropdown-toggle.btn-unified-grey.focus,
+	.open>.dropdown-toggle.btn-unified-grey:focus, .open>.dropdown-toggle.btn-unified-grey:hover
+	{
+	color: #fff;
+	background-color: #4d4d4d;
+	border-color: #4d4d4d
+}
+
+.btn-unified-grey.active, .btn-unified-grey:active, .open>.dropdown-toggle.btn-unified-grey
+	{
+	background-image: none
+}
+
+.btn-unified-grey.disabled, .btn-unified-grey:disabled {
+	opacity: .65;
+	box-shadow: none;
+}
+
+.btn-unified-grey.disabled.focus, .btn-unified-grey.disabled:focus,
+	.btn-unified-grey.disabled:hover, .btn-unified-grey[disabled].focus,
+	.btn-unified-grey[disabled]:focus, .btn-unified-grey[disabled]:hover,
+	fieldset[disabled] .btn-unified-grey.focus, fieldset[disabled] .btn-unified-grey:focus,
+	fieldset[disabled] .btn-unified-grey:hover {
+	opacity: .65;
+	box-shadow: none;
+}
 }

@@ -26,7 +26,7 @@
 											src="{{asset('images/unified/Customer.png')}}"
 											style="width: 42px !important; height: 32px !important;">
 									</div>
-									<h4 class="card-title ">{{$customer->name}}</h4>
+									<h4 class="card-title customerProfile">{{$customer->name}}</h4>
 								</div>
 								@if($readOnly==1)
 								<div class="col-6 col-md-4 mt-5">
@@ -65,7 +65,7 @@
 												</div>
 												<div class="col-sm-12">
 													<div class="form-group bmd-form-group">
-														<label>Service type</label> 
+														<label>Product type</label> 
 															<select
 															class="form-control" id="serviceTypeSelect"
 															multiple="multiple">
@@ -84,7 +84,7 @@
 													<div class="form-group bmd-form-group">
 														<label>Address</label>
 														<textarea class="form-control" name="address" id="address"
-															placeholder="Address" required> {{$customer->street_1}}</textarea>
+															placeholder="Address" required> {{$customer->address}}</textarea>
 													</div>
 												</div>
 												<div class="col-sm-12">

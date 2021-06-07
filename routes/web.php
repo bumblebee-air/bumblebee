@@ -392,6 +392,8 @@ Route::group([
             Route::post('edit/{id}', 'unified\CustomerController@postEditCustomer')->name('unified_postCustomerSingleEdit');
             Route::post('import', 'unified\CustomerController@postCustomersImport')->name('unified_postCustomersImport');
             Route::post('get_company_data', 'unified\CalendarController@getCompanyData')->name('unified_getCompanyData');
+            Route::get('add_customer', 'unified\CustomerController@getAddCustomer')->name('unified_getAddCustomer');
+            Route::post('add_customer', 'unified\CustomerController@postAddCustomer')->name('unified_postAddCustomer');
         });
         
         Route::get('calendar', 'unified\CalendarController@getCalendar')->name('unified_getCalendar');

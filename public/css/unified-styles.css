@@ -150,6 +150,13 @@ li .nav-link:hover a i {
 	color: #d58242 !important;
 }
 
+.card-title.customerProfile {
+	font-size: 18px !important;
+	line-height: 2.5 !important;
+	letter-spacing: 0.17px !important;
+	color: #656565 !important;
+}
+
 .status_icon {
 	width: 20px;
 	height: 18px;

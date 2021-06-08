@@ -117,6 +117,11 @@ class CustomerController extends Controller
         
         $customer->address = $customer->street_1 . ', ' . $customer->street_2 . ', ' . $customer->town . ', ' . $customer->country;
         
+        $customerContact1 = new ContactData($customer->contact, "p1", $customer->phone, $customer->email);
+        $customerContact2 = new ContactData('2 '.$customer->contact, "p2", $customer->phone.'22', 'ss'.$customer->email);
+        $customerContacts = array($customerContact1,$customerContact2);
+        $customer->contacts = json_encode($customerContacts);
+        
         return view('admin.unified.customers.single_customer', [
             'customer' => $customer,
             'readOnly' => 1,
@@ -143,6 +148,11 @@ class CustomerController extends Controller
         
         $customer->address = $customer->street_1 . ', ' . $customer->street_2 . ', ' . $customer->town . ', ' . $customer->country;
         
+        $customerContact1 = new ContactData($customer->contact, "p1", $customer->phone, $customer->email);
+        $customerContact2 = new ContactData('2 '.$customer->contact, "p2", $customer->phone.'22', 'ss'.$customer->email);
+        $customerContacts = array($customerContact1,$customerContact2);
+        $customer->contacts = json_encode($customerContacts);
+        
         return view('admin.unified.customers.single_customer', [
             'customer' => $customer,
             'readOnly' => 0,
@@ -152,6 +162,7 @@ class CustomerController extends Controller
 
     public function postEditCustomer(Request $request)
     {
+        //dd($request);
         $customer = UnifiedCustomer::find($request->customer_id);
         if (! $customer) {
             abort(404);
@@ -226,5 +237,16 @@ class ServiceTypeData
     {
         $this->id = $id;
         $this->name = $name;
+    }
+}
+
+class ContactData{
+    public $contactName,$position, $contactNumber, $contactEmail;
+    
+    public function __construct( $contactName,$position, $contactNumber, $contactEmail){
+        $this->contactName=$contactName;
+        $this->position=$position;
+        $this->contactNumber=$contactNumber;
+        $this->contactEmail=$contactEmail;
     }
 }

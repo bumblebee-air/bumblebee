@@ -143,7 +143,7 @@
 							<div class="col-md-6">
 								<input type="hidden" name="serviceIdHidden" id="serviceIdHidden">
 								<div class="form-group bmd-form-group">
-									<label>Service type</label>
+									<label>Product type</label>
 									<div id="selectedServiceTypesDiv"></div>
 								</div>
 							</div>
@@ -319,7 +319,7 @@
 						</div>
 						<div class="row">
 							<div class="col-md-6"><div class="form-group bmd-form-group">
-											<label>Service type</label>
+											<label>Product type</label>
 											<div id="selectedServiceTypesDivEdit"></div>
 										</div></div>
 							<div class="col-md-6">

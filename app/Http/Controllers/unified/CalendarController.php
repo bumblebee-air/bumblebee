@@ -37,26 +37,26 @@ class CalendarController extends Controller
     public function getCompanyData(Request $request)
     {
 
-        $customersData = UnifiedCustomer::where()->get();
-//        $customerData = new CustomerData($request->companyId, "ACCA Ireland", "", true, "52 Dolphins Barn Street, The Liberties", "Shane Martin", "shane.martin@accaglobal.com", "12345678", "98745632");
-//        $serviceType1 = new ServiceTypeData(1, "Hosted/Cpbx");
-//        $serviceType2 = new ServiceTypeData(2, "Access control");
-//        $serviceType3 = new ServiceTypeData(3, "CCTV");
-//        $serviceType4 = new ServiceTypeData(4, "Fire Alarm");
-//        $serviceType5 = new ServiceTypeData(5, "Intruder Alarm");
-//        $serviceType6 = new ServiceTypeData(6, "Wifi/Data");
-//        $serviceType7 = new ServiceTypeData(7, "structured cabling systems");
-//
-//        $serviceTypes = array(
-//            $serviceType1,
-//            $serviceType2,
-//            $serviceType3,
-//            $serviceType4,
-//            $serviceType5,
-//            $serviceType6,
-//            $serviceType7,
-//        );
-//        $customerData->serviceType = $serviceTypes;
+       // $customersData = UnifiedCustomer::where()->get();
+       $customerData = new CustomerData($request->companyId, "ACCA Ireland", "", true, "52 Dolphins Barn Street, The Liberties", "Shane Martin", "shane.martin@accaglobal.com", "12345678", "98745632");
+       $serviceType1 = new ServiceTypeData(1, "Hosted/Cpbx");
+       $serviceType2 = new ServiceTypeData(2, "Access control");
+       $serviceType3 = new ServiceTypeData(3, "CCTV");
+       $serviceType4 = new ServiceTypeData(4, "Fire Alarm");
+       $serviceType5 = new ServiceTypeData(5, "Intruder Alarm");
+       $serviceType6 = new ServiceTypeData(6, "Wifi/Data");
+       $serviceType7 = new ServiceTypeData(7, "structured cabling systems");
+
+       $serviceTypes = array(
+           $serviceType1,
+           $serviceType2,
+           $serviceType3,
+           $serviceType4,
+           $serviceType5,
+           $serviceType6,
+           $serviceType7,
+       );
+       $customerData->serviceType = $serviceTypes;
 
         return response()->json(array(
             "msg" => "test test",

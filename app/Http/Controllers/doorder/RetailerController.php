@@ -100,7 +100,7 @@ class RetailerController extends Controller
     }
 
     public function getRetailerRequests() {
-        $retailers_requests = Retailer::paginate(20);
+        $retailers_requests = Retailer::orderBy('id', 'desc')->paginate(20);
         return view('admin.doorder.retailers.requests', ['retailers_requests' => $retailers_requests]);
     }
 

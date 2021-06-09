@@ -66,6 +66,10 @@ select.form-control:not([size]):not([multiple]) {
 	width: 100%;
 	height: auto;
 }
+
+.card-body {
+	padding-top: 0px!important;
+}
 </style>
 @endsection @section('title', 'DoOrder | Invoice')
 @section('page-content')
@@ -110,7 +114,7 @@ select.form-control:not([size]):not([multiple]) {
 										</div>
 
 										<div class="col-md-2">
-											<button type="submit" class="btn btn-primary-doorder">Export</button>
+											<button type="submit" class="btn btn-primary btn-sm" style="border-radius: 12px 0">Export</button>
 										</div>
 									</div>
 								</form>

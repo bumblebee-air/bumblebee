@@ -75,7 +75,7 @@ p.card-category {
 	max-width: fit-content;
 }
 
-#dashboardCardDiv .btn {
+#dashboardCardDiv .btn,#exportButton {
 	font-size: 14px;
 	font-weight: 600;
 	font-stretch: normal;

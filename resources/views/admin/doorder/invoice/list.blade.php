@@ -68,7 +68,7 @@ select.form-control:not([size]):not([multiple]) {
 }
 
 .card-body {
-	padding-top: 0px!important;
+	padding-top: 10px!important;
 }
 </style>
 @endsection @section('title', 'DoOrder | Invoice')
@@ -93,8 +93,8 @@ select.form-control:not([size]):not([multiple]) {
 							<div class="table-responsive">
 								<form method="post" action="{{route('doorder_exportInvoiceList', 'doorder')}}">
 									{{csrf_field()}}
-									<div class="row" style="margin-left: 15px">
-										<label class="col-md-2 col-form-label filterLabelDashboard">Filter:</label>
+									<div class="row" style="margin-left: 0px">
+										<div class="col-md-1"><label class=" col-form-label filterLabelDashboard">Filter:</label></div>
 										<div class="col-md-3">
 											<div class="form-group bmd-form-group">
 												<input class="form-control inputDate" id="startDate"
@@ -109,12 +109,12 @@ select.form-control:not([size]):not([multiple]) {
 													   aria-required="true" name="to">
 											</div>
 										</div>
-										<div class="col-md-3">
+										<div class="col-md-3 mt-1">
 											<div id="retailerNameP" class="form-group bmd-form-group"></div>
 										</div>
 
 										<div class="col-md-2">
-											<button type="submit" class="btn btn-primary btn-sm" style="border-radius: 12px 0">Export</button>
+											<button id="exportButton"type="submit" class="btn btn-primary" style="float:right">Export</button>
 										</div>
 									</div>
 								</form>

@@ -68,8 +68,13 @@ select.form-control:not([size]):not([multiple]) {
 }
 
 .card-body {
-	padding-top: 10px!important;
+	padding-top: 10px !important;
 }
+
+/* td:hover{
+  overflow: visible;
+  white-space: normal;
+  height: auto;} */
 </style>
 @endsection @section('title', 'DoOrder | Invoice')
 @section('page-content')
@@ -91,22 +96,25 @@ select.form-control:not([size]):not([multiple]) {
 						<div class="card-body">
 
 							<div class="table-responsive">
-								<form method="post" action="{{route('doorder_exportInvoiceList', 'doorder')}}">
+								<form method="post"
+									action="{{route('doorder_exportInvoiceList', 'doorder')}}">
 									{{csrf_field()}}
 									<div class="row" style="margin-left: 0px">
-										<div class="col-md-1"><label class=" col-form-label filterLabelDashboard">Filter:</label></div>
+										<div class="col-md-1">
+											<label class=" col-form-label filterLabelDashboard">Filter:</label>
+										</div>
 										<div class="col-md-3">
 											<div class="form-group bmd-form-group">
 												<input class="form-control inputDate" id="startDate"
-													   type="text" placeholder="From" required="true"
-													   aria-required="true" name="from">
+													type="text" placeholder="From" required="true"
+													aria-required="true" name="from">
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-group bmd-form-group">
 												<input class="form-control inputDate" id="endDate"
-													   type="text" placeholder="To" required="true"
-													   aria-required="true" name="to">
+													type="text" placeholder="To" required="true"
+													aria-required="true" name="to">
 											</div>
 										</div>
 										<div class="col-md-3 mt-1">
@@ -114,7 +122,8 @@ select.form-control:not([size]):not([multiple]) {
 										</div>
 
 										<div class="col-md-2">
-											<button id="exportButton"type="submit" class="btn btn-primary" style="float:right">Export</button>
+											<button id="exportButton" type="submit"
+												class="btn btn-primary" style="float: right">Export</button>
 										</div>
 									</div>
 								</form>
@@ -136,15 +145,15 @@ select.form-control:not([size]):not([multiple]) {
 									</thead>
 
 									<tbody>
-										<tr v-for="invoice in invoiceList" class="order-row" @click="clickInvoice(invoice.id)">
+										<tr v-for="invoice in invoiceList" class="order-row"
+											@click="clickInvoice(invoice.id)">
 											<td>@{{ parseDateTime(invoice.created_at) }}</td>
 											<td>@{{invoice.order_id}}</td>
 											<td>@{{invoice.retailer ? invoice.retailer.name : 'N/A'}}</td>
-											<td>
-												<span class="invoiceIconSpan"><i class="fas fa-file-invoice"></i>
-												</span>
-											</td>
-											<td>@{{ invoice.order_driver ? invoice.order_driver.name : 'N/A'}}</td>
+											<td><span class="invoiceIconSpan"><i
+													class="fas fa-file-invoice"></i> </span></td>
+											<td>@{{ invoice.order_driver ? invoice.order_driver.name :
+												'N/A'}}</td>
 											<td>@{{ invoice.pickup_address }}</td>
 											<td>@{{invoice.customer_address}}</td>
 											<td>€10</td>
@@ -218,6 +227,14 @@ console.log(new Date('1/2/2020'))
     		search: '',
 			"searchPlaceholder": "Search ",
     	},
+    	 columnDefs: [
+                {
+                    render: function (data, type, full, meta) {
+                    	return '<span data-toggle="tooltip" data-placement="top" title="'+data+'">'+data+'</span>';
+                    },
+                    targets: [5,6]
+                }
+             ],
     	
          initComplete: function () {
          	var column = this.api().column(2);

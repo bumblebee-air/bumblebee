@@ -99,7 +99,7 @@
 {{--                                    <a class="btn btn-success btn-sm" href="{{ url('client/add') }}">Add New</a>--}}
                                 </div>
                                 <div class="table-responsive">
-                                    <table class="table">
+                                    <table class="table" id="ordersTable">
                                         <thead>
                                         <th>Date/Time</th>
                                         <th>Order Number</th>
@@ -225,6 +225,28 @@
 @section('page-scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
     <script>
+    
+    
+$(document).ready(function() {
+ var table= $('#ordersTable').DataTable({
+    	
+          fixedColumns: true,
+          "lengthChange": false,
+          "searching": false,
+  		  "info": false,
+  		  "ordering": false,
+  		  "paging": false,
+    	 columnDefs: [
+                {
+                    render: function (data, type, full, meta) {
+                    	return '<span data-toggle="tooltip" data-placement="top" title="'+data+'">'+data+'</span>';
+                    },
+                    targets: [-1,-2]
+                }
+             ],
+    	
+    });
+});
         Vue.use(VueToast);
         var app = new Vue({
             el: '#app',

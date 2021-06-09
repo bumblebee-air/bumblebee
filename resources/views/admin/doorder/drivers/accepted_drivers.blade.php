@@ -143,7 +143,12 @@ $(document).ready(function() {
     	"columnDefs": [ {
     		"targets": -1,
     		"orderable": false
-    	} ],
+    	}, {
+                    render: function (data, type, full, meta) {
+                    	return '<span data-toggle="tooltip" data-placement="top" title="'+data+'">'+data+'</span>';
+                    },
+                    targets: 2
+                } ],
     	
         initComplete: function () {
         }

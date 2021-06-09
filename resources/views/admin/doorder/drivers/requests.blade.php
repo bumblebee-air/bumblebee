@@ -81,7 +81,7 @@
                                     {{--                                    <a class="btn btn-success btn-sm" href="{{ url('client/add') }}">Add New</a>--}}
                                 </div>
                                 <div class="table-responsive">
-                                    <table class="table">
+                                    <table class="table" id="driversTable">
                                         <thead>
                                         <th>Date/Time</th>
                                         <th>Location</th>
@@ -148,6 +148,32 @@
 
 @section('page-scripts')
     <script>
+    
+    
+    
+$(document).ready(function() {
+ var table= $('#driversTable').DataTable({
+    	
+          fixedColumns: true,
+          "lengthChange": false,
+          "searching": false,
+  		  "info": false,
+  		  "ordering": false,
+  		  "paging": false,
+    	 columnDefs: [
+                {
+                    render: function (data, type, full, meta) {
+                    	return '<span data-toggle="tooltip" data-placement="top" title="'+data+'">'+data+'</span>';
+                    },
+                    targets: -1
+                }
+             ],
+    	
+    });
+});
+    
+    
+    
         Vue.use(VueToast);
         var app = new Vue({
             el: '#app',

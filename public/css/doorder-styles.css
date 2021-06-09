@@ -447,6 +447,20 @@ tr.order-row:hover, tr.order-row:focus {
 	height: 20px !important;
 }
 
+
+.table td span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	line-height: 1rem;
+	height: 2rem;
+	/*  white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: break-all; */
+}
 /************************* buttons ******************/
 .btn.btn-primary-doorder.btn-link, .btn.btn-primary-doorder.btn-link:active,
 	.btn.btn-primary-doorder.btn-link:focus, .btn.btn-primary-doorder.btn-link:hover

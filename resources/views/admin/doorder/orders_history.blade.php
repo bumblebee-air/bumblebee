@@ -99,8 +99,9 @@
                                     {{--                                    <a class="btn btn-success btn-sm" href="{{ url('client/add') }}">Add New</a>--}}
                                 </div>
                                 <div class="table-responsive">
-                                    <table class="table">
+                                    <table class="table" id="historyTable">
                                         <thead>
+                                        <tr>
                                         <th>Date/Time</th>
                                         <th>Order Number</th>
                                         <th>Order Time</th>
@@ -110,59 +111,9 @@
                                         <th>Deliverer</th>
                                         <th>Pickup Location</th>
                                         <th>Delivery Location</th>
-                                        </thead>
+                                        </tr></thead>
 
                                         <tbody>
-                                        {{--                                            @if(count($orders))--}}
-                                        {{--                                                @foreach($orders as $order)--}}
-                                        {{--                                                    <tr>--}}
-                                        {{--                                                        <td>--}}
-                                        {{--                                                            {{$order->created_at->format('h:i')}}--}}
-                                        {{--                                                        </td>--}}
-                                        {{--                                                        <td>#{{$order->order_id}}</td>--}}
-                                        {{--                                                        <td>{{$order->retailer_name}}</td>--}}
-                                        {{--                                                        <td>--}}
-                                        {{--                                                            <img class="order_status_icon" src="{{asset('images/doorder_icons/order_status_'. $order->status .'.png')}}" alt="">--}}
-                                        {{--                                                        </td>--}}
-                                        {{--                                                        <td>--}}
-                                        {{--                                                            @php--}}
-                                        {{--                                                                $order_status = '';--}}
-                                        {{--                                                                if ($order->status == 'pending') {--}}
-                                        {{--                                                                    $order_status = 0;--}}
-                                        {{--                                                                } elseif ($order->status == 'ready') {--}}
-                                        {{--                                                                    $order_status = 20;--}}
-                                        {{--                                                                } elseif ($order->status == 'matched') {--}}
-                                        {{--                                                                    $order_status = 40;--}}
-                                        {{--                                                                } elseif ($order->status == 'picked_up') {--}}
-                                        {{--                                                                    $order_status = 60;--}}
-                                        {{--                                                                } elseif ($order->status == 'on_route') {--}}
-                                        {{--                                                                    $order_status = 80;--}}
-                                        {{--                                                                } else {--}}
-                                        {{--                                                                    $order_status = 100;--}}
-                                        {{--                                                                }--}}
-                                        {{--                                                            @endphp--}}
-                                        {{--                                                            <div class="progress">--}}
-                                        {{--                                                                <div class="progress-bar" role="progressbar" style="width: {{$order_status}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>--}}
-                                        {{--                                                            </div>--}}
-                                        {{--                                                        </td>--}}
-                                        {{--                                                        <td>--}}
-                                        {{--                                                            {{$order->driver ? $order->driver : 'N/A'}}--}}
-                                        {{--                                                        </td>--}}
-                                        {{--                                                        <td>--}}
-                                        {{--                                                            {{$order->pickup_address}}--}}
-                                        {{--                                                        </td>--}}
-                                        {{--                                                        <td>--}}
-                                        {{--                                                            {{$order->customer_address}}--}}
-                                        {{--                                                        </td>--}}
-                                        {{--                                                    </tr>--}}
-                                        {{--                                                @endforeach--}}
-                                        {{--                                            @else--}}
-                                        {{--                                                <tr>--}}
-                                        {{--                                                    <td colspan="8" class="text-center">--}}
-                                        {{--                                                        <strong>No data found.</strong>--}}
-                                        {{--                                                    </td>--}}
-                                        {{--                                                </tr>--}}
-                                        {{--                                            @endif--}}
                                         <tr v-for="order in orders.data" v-if="orders.data.length > 0" @click="openOrder(order.id)" class="order-row">
                                             <td>
                                                 @{{ order.time }}
@@ -225,6 +176,28 @@
 @section('page-scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
     <script>
+      
+$(document).ready(function() {
+ var table= $('#historyTable').DataTable({
+    	
+          fixedColumns: true,
+          "lengthChange": false,
+          "searching": false,
+  		  "info": false,
+  		  "ordering": false,
+  		  "paging": false,
+    	 columnDefs: [
+                {
+                    render: function (data, type, full, meta) {
+                    	return '<span data-toggle="tooltip" data-placement="top" title="'+data+'">'+data+'</span>';
+                    },
+                    targets: [-1,-2]
+                }
+             ],
+    	
+    });
+});
+    
         Vue.use(VueToast);
         var app = new Vue({
             el: '#app',

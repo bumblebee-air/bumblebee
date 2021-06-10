@@ -11,4 +11,8 @@ class UnifiedService extends Model
     public function jobs() {
         return $this->hasMany(UnifiedJob::class, 'service_id');
     }
+
+    public function customers() {
+        return $this->hasMany(UnifiedCustomerService::class, 'service_id');
+    }
 }

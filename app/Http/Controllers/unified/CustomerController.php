@@ -5,6 +5,7 @@ use App\Customer;
 use App\Http\Controllers\Controller;
 use App\Imports\UnifiedCustomersImport;
 use App\UnifiedCustomer;
+use App\UnifiedCustomerService;
 use App\UnifiedService;
 use App\User;
 use Illuminate\Http\Request;
@@ -15,22 +16,18 @@ class CustomerController extends Controller
 {
     public function getCustomersList()
     {
-        $customers = UnifiedCustomer::all();
+        $customers = UnifiedCustomer::with('services')->get();
         foreach ($customers as $customer) {
-            $customer->serviceType = $customer->hosted_pbx ? 'hosted_pbx, ' : '';
-            $customer->serviceType .= $customer->access_control ? 'access_control, ' : '';
-            $customer->serviceType .= $customer->cctv ? 'cctv, ' : '';
-            $customer->serviceType .= $customer->fire_alarm ? 'fire_alarm, ' : '';
-            $customer->serviceType .= $customer->intruder_alarm ? 'intruder_alarm, ' : '';
-            $customer->serviceType .= $customer->wifi_data ? 'wifi_data, ' : '';
-            $customer->serviceType .= $customer->structured_cabling_system ? 'structured_cabling_system, ' : '';
-
-            if ($customer->serviceType == '') {
+            if (count($customer->services) > 0){
+                $customer->serviceType == '';
+                foreach ($customer->services as $service) {
+                    $customer->serviceType .= $service->service->name;
+                }
+            } else {
                 $customer->serviceType = 'N/A';
             }
-            
-            $customer->address = $customer->street_1 . ', ' . $customer->street_2 . ', ' . $customer->town . ', ' . $customer->country;
         }
+//        return $customers;
         return view('admin.unified.customers.list', [
             'customers' => $customers
         ]);
@@ -64,16 +61,7 @@ class CustomerController extends Controller
         if (! $customer) {
             abort(404);
         }
-        $selectedServiceType = [];
-        $customer->hosted_pbx ? $selectedServiceType[] = 1 : '';
-        $customer->access_control ? $selectedServiceType[] = 2 : '';
-        $customer->cctv ? $selectedServiceType[] = 3 : '';
-        $customer->fire_alarm ? $selectedServiceType[] = 4 : '';
-        $customer->intruder_alarm ? $selectedServiceType[] = 5 : '';
-        $customer->wifi_data ? $selectedServiceType[] = 6 : '';
-        $customer->structured_cabling_system ? $selectedServiceType[] = 7 : '';
-        // $customer->contract ? $selectedServiceType = 8 : '';
-
+        $selectedServiceType = array_column($customer->services->toArray(), 'service_id');
         $customer->selectedServiceType = $selectedServiceType;
         $services_types = UnifiedService::select(['id', 'name'])->get();
 
@@ -90,16 +78,7 @@ class CustomerController extends Controller
         if (! $customer) {
             abort(404);
         }
-        $selectedServiceType = [];
-        $customer->hosted_pbx ? $selectedServiceType[] = 1 : '';
-        $customer->access_control ? $selectedServiceType[] = 2 : '';
-        $customer->cctv ? $selectedServiceType[] = 3 : '';
-        $customer->fire_alarm ? $selectedServiceType[] = 4 : '';
-        $customer->intruder_alarm ? $selectedServiceType[] = 5 : '';
-        $customer->wifi_data ? $selectedServiceType[] = 6 : '';
-        $customer->structured_cabling_system ? $selectedServiceType[] = 7 : '';
-        // $customer->contract ? $selectedServiceType = 8 : '';
-
+        $selectedServiceType = array_column($customer->services->toArray(), 'service_id');
         $customer->selectedServiceType = $selectedServiceType;
         $services_types = UnifiedService::select(['id', 'name'])->get();
 
@@ -125,14 +104,15 @@ class CustomerController extends Controller
             "phone" => $request->companyPhoneNumner,
             "address" => $request->address,
             "contacts" => json_encode($contact_details_json),
-            "hosted_pbx" => in_array(1, $services_types_json),
-            "access_control" => in_array(2, $services_types_json),
-            "cctv" => in_array(3, $services_types_json),
-            "fire_alarm" => in_array(4, $services_types_json),
-            "intruder_alarm" => in_array(5, $services_types_json),
-            "wifi_data" => in_array(6, $services_types_json),
-            "structured_cabling_system" => in_array(7, $services_types_json),
         ]);
+
+        UnifiedCustomerService::where('customer_id', $customer->id)->delete();
+        foreach ($services_types_json as $service) {
+            UnifiedCustomerService::create([
+                'service_id' => $service,
+                'customer_id' => $customer->id
+            ]);
+        }
 
         $user = User::find($customer->user_id);
         $user->name = $request->name;
@@ -189,46 +169,5 @@ class CustomerController extends Controller
         ]);
         alert()->success('Customer has added successfully.');
         return redirect()->route('unified_getCustomersList', 'unified');
-    }
-}
-
-class CustomerData
-{
-
-    public $id, $name, $serviceType, $contract, $location, $address, $contact, $email;
-
-    public function __construct($id, $name, $serviceType, $contract, $location, $address, $contact, $email)
-    {
-        $this->id = $id;
-        $this->name = $name;
-        $this->serviceType = $serviceType;
-        $this->contract = $contract;
-        $this->location = $location;
-        $this->address = $address;
-        $this->contact = $contact;
-        $this->email = $email;
-    }
-}
-
-class ServiceTypeData
-{
-
-    public $id, $name;
-
-    public function __construct($id, $name)
-    {
-        $this->id = $id;
-        $this->name = $name;
-    }
-}
-
-class ContactData{
-    public $contactName,$position, $contactNumber, $contactEmail;
-    
-    public function __construct( $contactName,$position, $contactNumber, $contactEmail){
-        $this->contactName=$contactName;
-        $this->position=$position;
-        $this->contactNumber=$contactNumber;
-        $this->contactEmail=$contactEmail;
     }
 }

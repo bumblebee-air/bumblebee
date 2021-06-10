@@ -3,6 +3,8 @@
 namespace App\Imports;
 
 use App\UnifiedCustomer;
+use App\UnifiedCustomerService;
+use App\UnifiedService;
 use App\User;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -16,6 +18,36 @@ class UnifiedCustomersImport implements ToCollection
     public function collection(Collection $collections)
     {
         $existedUsers = [];
+        $importingServices = [
+            [
+                'index' => 11,
+                'name' => 'hosted_pbx'
+            ],
+            [
+                'index' => 12,
+                'name' => 'access_control'
+            ],
+            [
+                'index' => 13,
+                'name' => 'cctv'
+            ],
+            [
+                'index' => 14,
+                'name' => 'fire_alarm'
+            ],
+            [
+                'index' => 15,
+                'name' => 'intruder_alarm'
+            ],
+            [
+                'index' => 16,
+                'name' => 'wifi_data'
+            ],
+            [
+                'index' => 17,
+                'name' => 'structured_cabling_system'
+            ],
+        ];
         foreach ($collections as $key => $collection) {
             if ($key != 0) {
                 $checkIfExists = User::where('email', $collection['8'])->first();
@@ -30,29 +62,33 @@ class UnifiedCustomersImport implements ToCollection
 
                     $contacts_array = [
                         [
-                            'contactName' => $collection[9],
+                            'contactName' => $collection[7],
                             'position' => '',
                             'contactNumber' => $collection[10],
                             'contactEmail' => $collection[8],
                         ]
                     ];
-                    UnifiedCustomer::create([
+                    $customer = UnifiedCustomer::create([
                         "user_id" => $user->id,
                         "ac" => $collection[0],
                         "name" => $collection[1],
                         "address" => "$collection[2], $collection[3], $collection[4], $collection[5]",
                         "post_code" => $collection[6],
                         "contacts" => json_encode($contacts_array),
-                        "phone" => $collection[9],
-                        "hosted_pbx"  => $collection[11] == 'YES ' ? true : false,
-                        "access_control" => $collection[12] == 'YES ' ? true : false,
-                        "cctv" => $collection[13] == 'YES ' ? true : false,
-                        "fire_alarm" => $collection[14] == 'YES ' ? true : false,
-                        "intruder_alarm" => $collection[15] == 'YES ' ? true : false,
-                        "wifi_data" => $collection[16] == 'YES ' ? true : false,
-                        "structured_cabling_system" => $collection[17] == 'YES ' ? true : false,
                         "contract" => $collection[18] == 'YES ' ? true : false,
+                        "phone" => $collection[9],
                     ]);
+                    foreach ($importingServices as $importingService) {
+                        if ($collection[$importingService['index']] == 'YES ') {
+                            $service = UnifiedService::where('service_code', $importingService['name'])->first();
+                            if ($service) {
+                                UnifiedCustomerService::create([
+                                    'service_id' => $service->id,
+                                    'customer_id' => $customer->id
+                                ]);
+                            }
+                        }
+                    }
                 } else {
                     $contacts_array = [
                         [
@@ -62,22 +98,30 @@ class UnifiedCustomersImport implements ToCollection
                             'contactEmail' => $collection[8],
                         ]
                     ];
-                    $checkIfExists->update([
-                        "ac" => $collection[0],
-                        "name" => $collection[1],
-                        "address" => "$collection[2], $collection[3], $collection[4], $collection[5]",
-                        "post_code" => $collection[6],
-                        "contacts" => json_encode($contacts_array),
-                        "phone" => $collection[9],
-                        "hosted_pbx"  => $collection[11] == 'YES ' ? true : false,
-                        "access_control" => $collection[12] == 'YES ' ? true : false,
-                        "cctv" => $collection[13] == 'YES ' ? true : false,
-                        "fire_alarm" => $collection[14] == 'YES ' ? true : false,
-                        "intruder_alarm" => $collection[15] == 'YES ' ? true : false,
-                        "wifi_data" => $collection[16] == 'YES ' ? true : false,
-                        "structured_cabling_system" => $collection[17] == 'YES ' ? true : false,
-                        "contract" => $collection[18] == 'YES ' ? true : false,
-                    ]);
+                    $customer = UnifiedCustomer::where('user_id', $checkIfExists->id)->first();
+                    if ($customer) {
+                        $checkIfExists->update([
+                            "user_id" => $user->id,
+                            "ac" => $collection[0],
+                            "name" => $collection[1],
+                            "address" => "$collection[2], $collection[3], $collection[4], $collection[5]",
+                            "post_code" => $collection[6],
+                            "contacts" => json_encode($contacts_array),
+                            "phone" => $collection[9],
+                        ]);
+                        UnifiedCustomerService::where('customer_id', $checkIfExists->id)->delete();
+                        foreach ($importingServices as $importingService) {
+                            if ($collection[$importingService['index']] == 'YES') {
+                                $service = UnifiedService::where('service_code', $importingService['name'])->first();
+                                if ($service) {
+                                    UnifiedCustomerService::create([
+                                        'service_id' => $service->id,
+                                        'customer_id' => $customer->id
+                                    ]);
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

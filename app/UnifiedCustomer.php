@@ -36,4 +36,8 @@ class UnifiedCustomer extends Model
     public function user() {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function services() {
+        return $this->hasMany(UnifiedCustomerService::class, 'customer_id');
+    }
 }

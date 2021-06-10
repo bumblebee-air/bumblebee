@@ -89,10 +89,13 @@ tr.order-row:hover, tr.order-row:focus {
 												src="{{asset('images/unified/No contract.png')}}"
 												alt="NoContract"> @endif
 											</td>
-											<td><span data-toggle="tooltip" data-placement="top"
-												title="{{$customer->address}}">{{$customer->country}}</span></td>
-											<td>{{$customer->contact}}</td>
-											<td>{{$customer->email}}</td>
+											<td>
+												<span data-toggle="tooltip" data-placement="top" title="{{$customer->address}}">
+													{{$customer->address}}
+												</span>
+											</td>
+											<td>{{$customer->contacts ? (json_decode($customer->contacts, true) ? json_decode($customer->contacts, true)[0]['contactName'] : false) : 'N/A'}}</td>
+											<td>{{$customer->user->email}}</td>
 											<td><a
 												class="btn  btn-link btn-link-gardenhelp btn-just-icon edit"
 												onclick="editCustomer({{$customer->id}})"> <img

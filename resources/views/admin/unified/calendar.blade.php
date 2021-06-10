@@ -118,9 +118,11 @@
 										class="form-control" id="companyNameSelect"
 										onchange="changeCompany()">
 										<option value="" selected class="placeholdered">Select company</option>
-										@if(count($companyNames) > 0) @foreach($companyNames as $companyName)
-										<option value="{{$companyName->id}}">{{$companyName->name}}</option>
-										@endforeach @endif
+										@if(count($companyNames) > 0)
+											@foreach($companyNames as $companyName)
+											<option value="{{$companyName->id}}">{{$companyName->name}}</option>
+											@endforeach
+										@endif
 									</select>
 								</div>
 							</div>

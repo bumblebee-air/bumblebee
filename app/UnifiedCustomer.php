@@ -29,6 +29,8 @@ class UnifiedCustomer extends Model
         "wifi_data",
         "structured_cabling_system",
         "contract",
+        "contacts",
+        "address",
     ];
 
     public function user() {

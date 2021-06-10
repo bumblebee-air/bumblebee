@@ -99,15 +99,19 @@ display: inline-block;
 										</div>
 									</div>
 									<div class="row">
-										<div class="col-md-6"><div class="form-group bmd-form-group">
-														<label>Product type</label> <select class="form-control"
-															id="serviceTypeSelect" name="serviceTypeSelect" multiple="multiple">
-															@if(count($serviceTypes) > 0) @foreach($serviceTypes as
+										<div class="col-md-6">
+											<div class="form-group bmd-form-group">
+												<label>Product type</label>
+												<select class="form-control" id="serviceTypeSelect" name="serviceTypeSelect" multiple="multiple">
+													@if(count($serviceTypes) > 0)
+														@foreach($serviceTypes as
 															$serviceType)
-															<option value="{{$serviceType['id']}}">
-																{{$serviceType['name']}}</option> @endforeach @endif
-														</select>
-													</div></div>
+															<option value="{{$serviceType['id']}}">{{$serviceType['name']}}</option>
+														@endforeach
+													@endif
+												</select>
+											</div>
+										</div>
 										<div class="col-md-6"><div class="form-group bmd-form-group">
 														<label>Address</label>
 														<textarea class="form-control" name="address" id="address"

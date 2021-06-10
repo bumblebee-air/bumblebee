@@ -28,19 +28,22 @@ class UnifiedCustomersImport implements ToCollection
                     $user->password = bcrypt(Str::random(8));
                     $user->save();
 
+                    $contacts_array = [
+                        [
+                            'contactName' => $collection[9],
+                            'position' => '',
+                            'contactNumber' => $collection[10],
+                            'contactEmail' => $collection[8],
+                        ]
+                    ];
                     UnifiedCustomer::create([
                         "user_id" => $user->id,
                         "ac" => $collection[0],
                         "name" => $collection[1],
-                        "street_1" => $collection[2],
-                        "street_2" => $collection[3],
-                        "town" => $collection[4],
-                        "country" => $collection[5],
+                        "address" => "$collection[2], $collection[3], $collection[4], $collection[5]",
                         "post_code" => $collection[6],
-                        "contact" => $collection[7],
-                        "email" => $collection[8],
+                        "contacts" => json_encode($contacts_array),
                         "phone" => $collection[9],
-                        "mobile"  => $collection[10],
                         "hosted_pbx"  => $collection[11] == 'YES ' ? true : false,
                         "access_control" => $collection[12] == 'YES ' ? true : false,
                         "cctv" => $collection[13] == 'YES ' ? true : false,
@@ -51,18 +54,21 @@ class UnifiedCustomersImport implements ToCollection
                         "contract" => $collection[18] == 'YES ' ? true : false,
                     ]);
                 } else {
+                    $contacts_array = [
+                        [
+                            'contactName' => $collection[9],
+                            'position' => '',
+                            'contactNumber' => $collection[10],
+                            'contactEmail' => $collection[8],
+                        ]
+                    ];
                     $checkIfExists->update([
                         "ac" => $collection[0],
                         "name" => $collection[1],
-                        "street_1" => $collection[2],
-                        "street_2" => $collection[3],
-                        "town" => $collection[4],
-                        "country" => $collection[5],
+                        "address" => "$collection[2], $collection[3], $collection[4], $collection[5]",
                         "post_code" => $collection[6],
-                        "contact" => $collection[7],
-                        "email" => $collection[8],
+                        "contacts" => json_encode($contacts_array),
                         "phone" => $collection[9],
-                        "mobile"  => $collection[10],
                         "hosted_pbx"  => $collection[11] == 'YES ' ? true : false,
                         "access_control" => $collection[12] == 'YES ' ? true : false,
                         "cctv" => $collection[13] == 'YES ' ? true : false,

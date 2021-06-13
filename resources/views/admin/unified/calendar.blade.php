@@ -791,6 +791,7 @@ font-size: 18px;
 		
 		var token ='{{csrf_token()}}';
 	
+	console.log("job list "+serviceId);
 	 $.ajax({
         type: "GET",
        	url: '{{url("unified/get_job_list/")}}'+'?date='+date.format()+'&serviceId='+serviceId,

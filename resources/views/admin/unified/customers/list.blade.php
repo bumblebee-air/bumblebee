@@ -22,6 +22,9 @@ tr.order-row:hover, tr.order-row:focus {
 	display: inline-block;
 	width: 200px;
 }
+.hidden-val{
+display: none
+}
 </style>
 @endsection @section('title', 'Unified | Customers')
 @section('page-content')
@@ -80,11 +83,11 @@ tr.order-row:hover, tr.order-row:focus {
 											<td>{{$customer->name}}</td>
 											<td>{{$customer->serviceType}}</td>
 											<td>@if($customer->contract == true)<span
-												style="display: none;" class="hidden-val">Contract</span><img
+												 class="hidden-val">Yes</span><img
 												class="status_icon"
 												src="{{asset('images/unified/Contract.png')}}"
 												alt="Contract"> @elseif($customer->contract == false) <span
-												style="display: none;" class="hidden-val">NoContract</span><img
+												 class="hidden-val">No</span><img
 												class="status_icon"
 												src="{{asset('images/unified/No contract.png')}}"
 												alt="NoContract"> @endif
@@ -235,25 +238,26 @@ $(document).ready(function() {
                   var select = $('<select id="" class="form-control selectFilter"><option value="">Filter by product type</option></select>')
                     .appendTo( $('#serviceTypeFilter').empty().text('') )
                     .on( 'change', function () {
-                        var val = $.fn.dataTable.util.escapeRegex(
-                            $(this).val()
-                        );
-                  column
-                    .search( val  )
-                    .draw();
+                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                        column.search(val ? "(^|, )" + val + "(,|$)" : "", true, false).draw();
                       
                   } );
-                  column.data().unique().sort().each( function ( d, j ) {
-//                   console.log(d);
-//                     select.append( '<option value="'+d+'">'+d+'</option>' );
-     		var nameArr = d.split(",");
-            nameArr.forEach(function(number) {                
-            var optionExists = ($("#language option[value='"+number+"']").length > 0);
-            if(!optionExists){
-                select.append( '<option value="'+number+'">'+number+'</option>' );
-            }                    
-        });   
-                  } );    
+//                   column.data().unique().sort().each( function( d, j ) {      
+//                            var nameArr = d.split(",");
+//                             nameArr.forEach(function(number) {                
+//                                 var optionExists = ($("#language option[value='"+number+"']").length > 0);
+//                                 if(!optionExists){
+//                                     select.append( '<option value="'+number+'">'+number+'</option>' );
+//                                 }                    
+//                             });                     
+                   
+//                 	} );
+                	
+                	var nameArr = {!! $services !!};
+                    nameArr.forEach(function(number) {
+                    var optionExists = ($("#language option[value='"+number+"']").length > 0);
+                        select.append( '<option value="'+number+'">'+number+'</option>' );
+                    });            
                   
               // filter contract
               var column2 = this.api().column(2);
@@ -274,6 +278,7 @@ $(document).ready(function() {
 
                     if (html_val != null){ // check if html is not null
                         var new_d = $(html_val)[0].innerText // take first html object <span> in this case
+                        console.log(new_d);
                         select2.append( '<option value="'+new_d+'">'+new_d+'</option>' )
                     }
                   } );        

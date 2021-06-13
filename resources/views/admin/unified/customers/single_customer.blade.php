@@ -1,7 +1,6 @@
 @extends('templates.dashboard') @section('page-styles')
 <link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
 <style>
-
 .iti {
 	width: 100%;
 }
@@ -11,10 +10,10 @@
 	line-height: 3;
 	font-size: 20px
 }
-.card-title.customerProfile{
-display: inline-block;
-}
 
+.card-title.customerProfile {
+	display: inline-block;
+}
 
 .addContactDetailsCircle {
 	color: #d58242;
@@ -35,7 +34,8 @@ display: inline-block;
 				<div class="col-md-12">
 					@if($readOnly==0)
 					<form id="customer-form" method="POST"
-						action="{{route('unified_postCustomerSingleEdit', ['unified', $customer->id])}}" @submit="onSubmitForm">
+						action="{{route('unified_postCustomerSingleEdit', ['unified', $customer->id])}}"
+						@submit="onSubmitForm">
 						@endif {{csrf_field()}} <input type="hidden" name="customer_id"
 							value="{{$customer->id}}">
 						<div class="card">
@@ -53,10 +53,9 @@ display: inline-block;
 									<div class="row justify-content-end">
 										<a class="btn btn-unified-primary btn-import"
 											href="{{url('unified/customers/edit')}}/{{$customer->id}}">
-											Edit customer
-										</a>
+											Edit customer </a>
 									</div>
-									
+
 								</div>
 								@endif
 							</div>
@@ -78,7 +77,8 @@ display: inline-block;
 										<div class="col-md-6">
 											<div class="form-group bmd-form-group">
 												<label>Name</label> <input type="text" class="form-control"
-													name="name" placeholder="Name" value="{{$customer->name}}" required>
+													name="name" placeholder="Name" value="{{$customer->name}}"
+													required>
 											</div>
 										</div>
 										<div class="col-md-6">
@@ -89,9 +89,10 @@ display: inline-block;
 														<div class="form-check form-check-radio">
 															<label class="form-check-label"> <input
 																class="form-check-input" type="radio"
-																id="exampleRadios2" name="contract" value="1" 
-																{{$customer->contract ? 'checked' : ''}}  required>
-																Yes <span class="circle"> <span class="check"></span>
+																id="exampleRadios2" name="contract" value="1"
+																{{$customer->contract ? 'checked' : ''}} required
+																onclick="clickContract(1)"> Yes <span class="circle"> <span
+																	class="check"></span>
 															</span>
 															</label>
 														</div>
@@ -100,9 +101,10 @@ display: inline-block;
 														<div class="form-check form-check-radio">
 															<label class="form-check-label"> <input
 																class="form-check-input" type="radio"
-																id="exampleRadios1" name="contract" value="0" 
-																{{$customer->contract=='0' ? 'checked' : ''}} required>
-																No <span class="circle"> <span class="check"></span>
+																id="exampleRadios1" name="contract" value="0"
+																{{$customer->contract=='0' ? 'checked' : ''}} required
+																onclick="clickContract(0)"> No <span class="circle"> <span
+																	class="check"></span>
 															</span>
 															</label>
 														</div>
@@ -111,33 +113,62 @@ display: inline-block;
 											</div>
 										</div>
 									</div>
-									<div class="row">
-										<div class="col-md-6"><div class="form-group bmd-form-group">
-														<label>Product type</label> <select class="form-control"
-															id="serviceTypeSelect" name="serviceTypeSelect" multiple="multiple">
-															@if(count($serviceTypes) > 0) @foreach($serviceTypes as
-															$serviceType)
-															<option value="{{$serviceType['id']}}">
-																{{$serviceType['name']}}</option> @endforeach @endif
-														</select>
-													</div></div>
-										<div class="col-md-6"><div class="form-group bmd-form-group">
-														<label>Address</label>
-														<textarea class="form-control" name="address" id="address"
-															placeholder="Address" required> {{$customer->address}} </textarea>
-													</div></div>
+									<div class="row" id="contractDateDiv">
+										@if($customer->contract=='1')
+										<div class="col-md-6">
+											<div class="form-group bmd-form-group">
+												<label>Contract start date</label> <input type="text"
+													id="contractStartDate" class="form-control"
+													name="contractStartDate" value="{{$customer->contractStartDate}}"
+													placeholder="Select contract start date" required>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group bmd-form-group">
+												<label>Contract end date</label> <input type="text"
+													id="contractEndDate" class="form-control"
+													name="contractEndDate" value="{{$customer->contractEndDate}}"
+													placeholder="Select contract end date" required>
+											</div>
+										</div>
+										@endif
 									</div>
 									<div class="row">
-										<div class="col-md-6"><div class="form-group bmd-form-group">
-														<label>Postcode</label> <input type="text"
-															class="form-control" name="postcode"
-															placeholder="Postcode" value="{{$customer->post_code}}"  required>
-													</div></div>
-										<div class="col-md-6"><div class="form-group bmd-form-group">
-														<label>Company phone number</label> <input type="tel"
-															class="form-control" name="companyPhoneNumner" id="companyPhoneNumner"
-															placeholder="Company phone number" value="{{$customer->phone}}" required>
-													</div></div>
+										<div class="col-md-6">
+											<div class="form-group bmd-form-group">
+												<label>Product type</label> <select class="form-control"
+													id="serviceTypeSelect" name="serviceTypeSelect"
+													multiple="multiple"> @if(count($serviceTypes) > 0)
+													@foreach($serviceTypes as $serviceType)
+													<option value="{{$serviceType['id']}}">
+														{{$serviceType['name']}}</option> @endforeach @endif
+												</select>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group bmd-form-group">
+												<label>Address</label>
+												<textarea class="form-control" name="address" id="address"
+													placeholder="Address" required> {{$customer->address}} </textarea>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group bmd-form-group">
+												<label>Postcode</label> <input type="text"
+													class="form-control" name="postcode" placeholder="Postcode"
+													value="{{$customer->post_code}}" required>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group bmd-form-group">
+												<label>Company phone number</label> <input type="tel"
+													class="form-control" name="companyPhoneNumner"
+													id="companyPhoneNumner" placeholder="Company phone number"
+													value="{{$customer->phone}}" required>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -150,53 +181,57 @@ display: inline-block;
 									<div class="row">
 										<div class="col-md-12">
 											<h5 class="card-title customerProfile">Contact Details</h5>
-											<span v-if="index==0">
-                                                <i class="fas fa-plus-circle addContactDetailsCircle"
+											<span v-if="index==0"> <i
+												class="fas fa-plus-circle addContactDetailsCircle"
 												style="cursor: pointer; margin-left: 5px;"
 												@click="addContactDetails()"></i>
-											</span>
-											<span v-else>
-												<i class="fas fa-minus-circle removeContactDetailsCircle"
+											</span> <span v-else> <i
+												class="fas fa-minus-circle removeContactDetailsCircle"
 												style="cursor: pointer; margin-left: 5px;"
 												@click="removeContactDetails(index)"></i>
 											</span>
 										</div>
 									</div>
 									<div class="row">
-										<div class="col-md-6"><div class="form-group bmd-form-group">
-														<label>Contact name</label> <input type="text"
-															class="form-control" :name="'contactName'+ (index)"
-															:id="'contactName'+ (index)"
-															v-model="contact.contactName" placeholder="Contact name"
-															required>
-													</div></div>
 										<div class="col-md-6">
 											<div class="form-group bmd-form-group">
-														<label>Position</label> <input type="text"
-															class="form-control" :name="'position'+ (index)"
-															:id="'position'+ (index)"
-															v-model="contact.position" placeholder="Position"
-															required>
-													</div>
+												<label>Contact name</label> <input type="text"
+													class="form-control" :name="'contactName'+ (index)"
+													:id="'contactName'+ (index)" v-model="contact.contactName"
+													placeholder="Contact name" required>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group bmd-form-group">
+												<label>Position</label> <input type="text"
+													class="form-control" :name="'position'+ (index)"
+													:id="'position'+ (index)" v-model="contact.position"
+													placeholder="Position" required>
+											</div>
 										</div>
 									</div>
 									<div class="row">
-										<div class="col-md-6"><div class="form-group bmd-form-group">
-														<label>Contact number</label> <input type="tel"
-															class="form-control" :name="'contactNumber'+(index)" id="'contactNumber'+(index)"
-															v-model="contact.contactNumber"
-															placeholder="Contact number" required>
-													</div></div>
 										<div class="col-md-6">
-										<div class="form-group bmd-form-group">
-														<label>Contact email</label> <input type="text"
-															class="form-control" :name="'contactEmail'+(index)" id="'contactEmail'+(index)"
-															v-model="contact.contactEmail"
-															placeholder="Contact email" required>
-													</div></div>
-									</div>		
-									
-										<input type="hidden" name="contact_detailss" v-model="contactDetailssString">
+											<div class="form-group bmd-form-group">
+												<label>Contact number</label> <input type="tel"
+													class="form-control" :name="'contactNumber'+(index)"
+													id="'contactNumber'+(index)"
+													v-model="contact.contactNumber"
+													placeholder="Contact number" required>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group bmd-form-group">
+												<label>Contact email</label> <input type="text"
+													class="form-control" :name="'contactEmail'+(index)"
+													id="'contactEmail'+(index)" v-model="contact.contactEmail"
+													placeholder="Contact email" required>
+											</div>
+										</div>
+									</div>
+
+									<input type="hidden" name="contact_detailss"
+										v-model="contactDetailssString">
 								</div>
 							</div>
 						</div>
@@ -214,48 +249,50 @@ display: inline-block;
 									data-target="#delete-customer-modal">Delete</button>
 							</div>
 						</div>
-							<input type="hidden" name="serviceTypeSelectValues" id="serviceTypeSelectValues">
+						<input type="hidden" name="serviceTypeSelectValues"
+							id="serviceTypeSelectValues">
 					</form>
 					@endif
 					<!-- Delete modal -->
-					
-<!-- delete customer modal -->
-<div class="modal fade" id="delete-customer-modal" tabindex="-1"
-	role="dialog" aria-labelledby="delete-deliverer-label"
-	aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close d-flex justify-content-center"
-					data-dismiss="modal" aria-label="Close">
-					<i class="fas fa-times"></i>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="modal-dialog-header deleteHeader">Are you sure you want
-					to delete this account?</div>
 
-				<div>
+					<!-- delete customer modal -->
+					<div class="modal fade" id="delete-customer-modal" tabindex="-1"
+						role="dialog" aria-labelledby="delete-deliverer-label"
+						aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button"
+										class="close d-flex justify-content-center"
+										data-dismiss="modal" aria-label="Close">
+										<i class="fas fa-times"></i>
+									</button>
+								</div>
+								<div class="modal-body">
+									<div class="modal-dialog-header deleteHeader">Are you sure you
+										want to delete this account?</div>
 
-					<form method="POST" id="delete-customer"
-						action="{{url('unified/customers/delete')}}"
-						style="margin-bottom: 0 !important;">
-						@csrf
-						<input type="hidden" id="customerId" name="customerId"
-							value="{{$customer->id}}" />
-					</form>
-				</div>
-			</div>
-			<div class="modal-footer d-flex justify-content-around">
-				<button type="button" class="btn  btn-unified-primary modal-btn"
-					onclick="$('form#delete-customer').submit()">Yes</button>
-				<button type="button" class="btn  btn-unified-danger modal-btn"
-					data-dismiss="modal">Cancel</button>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- end delete customer modal -->
+									<div>
+
+										<form method="POST" id="delete-customer"
+											action="{{url('unified/customers/delete')}}"
+											style="margin-bottom: 0 !important;">
+											@csrf <input type="hidden" id="customerId" name="customerId"
+												value="{{$customer->id}}" />
+										</form>
+									</div>
+								</div>
+								<div class="modal-footer d-flex justify-content-around">
+									<button type="button"
+										class="btn  btn-unified-primary modal-btn"
+										onclick="$('form#delete-customer').submit()">Yes</button>
+									<button type="button" class="btn  btn-unified-danger modal-btn"
+										data-dismiss="modal">Cancel</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- end delete customer modal -->
 				</div>
 			</div>
 		</div>
@@ -320,6 +357,38 @@ $( document ).ready(function() {
 	
 
 });
+   
+
+function clickContract(val){
+
+	console.log("click contract "+val)
+	if(val==1){
+		$('#contractDateDiv').html('<div class="col-md-6"> 	<div class="form-group bmd-form-group"> '
+            						+' <label>Contract start date</label> <input type="text" id="contractStartDate" class="form-control" '
+            						+' name="contractStartDate" value="" placeholder="Select contract start date" required> </div>	</div>'
+            						+' <div class="col-md-6"> <div class="form-group bmd-form-group">  <label>Contract end date</label> '
+            						+' <input type="text" id="contractEndDate" class="form-control" name="contractEndDate" value="" '
+            						+' placeholder="Select contract end date" required> </div> </div>');
+        		
+            	$(' #contractStartDate, #contractEndDate').datetimepicker({
+                         format: 'L', 
+                        icons: { time: "fa fa-clock",
+                                                date: "fa fa-calendar",
+                                                up: "fa fa-chevron-up",
+                                                down: "fa fa-chevron-down",
+                                                previous: 'fa fa-chevron-left',
+                                                next: 'fa fa-chevron-right',
+                                                today: 'fa fa-screenshot',
+                                                clear: 'fa fa-trash',
+                                                close: 'fa fa-remove'
+                        }
+                     });		
+	}
+	else{
+        $(' #contractDateDiv').html('');
+	}
+
+}   
    
 function addIntelInput(input_id, input_name) {
             let phone_input = document.querySelector("#" + input_id);

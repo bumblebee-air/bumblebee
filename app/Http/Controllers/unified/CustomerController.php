@@ -20,18 +20,28 @@ class CustomerController extends Controller
         foreach ($customers as $customer) {
             if (count($customer->services) > 0){
                 $customer->serviceType == '';
-                foreach ($customer->services as $service) {
-                    $customer->serviceType .= $service->service->name;
+                for($i=0;$i<count($customer->services);$i++){
+                    if($i==count($customer->services)-1){
+                    $customer->serviceType .= $customer->services[$i]->service->name;
+                    }else{
+                        $customer->serviceType .= $customer->services[$i]->service->name . ', ';                        
+                    }
                 }
+                /* foreach ($customer->services as $service) {
+                    $customer->serviceType .= $service->service->name . ',';
+                } */
             } else {
                 $customer->serviceType = 'N/A';
             }
             $county = explode(',', $customer->address);
             $customer->county = $county[count($county) - 1];
         }
+        
+        $services = array('Hosted/Cpbx','Access Control','CCTV','Fire Alarm','Intruder Alarm','Wifi/Data','structured cabling systems');
+        
 //        return $customers;
         return view('admin.unified.customers.list', [
-            'customers' => $customers
+            'customers' => $customers,'services'=>json_encode($services)
         ]);
     }
 
@@ -66,7 +76,10 @@ class CustomerController extends Controller
         $selectedServiceType = array_column($customer->services->toArray(), 'service_id');
         $customer->selectedServiceType = $selectedServiceType;
         $services_types = UnifiedService::select(['id', 'name'])->get();
-
+        
+        $customer->contractStartDate = '06/01/2021';
+        $customer->contractEndDate = '06/30/2021';
+        
         return view('admin.unified.customers.single_customer', [
             'customer' => $customer,
             'readOnly' => 1,
@@ -83,6 +96,9 @@ class CustomerController extends Controller
         $selectedServiceType = array_column($customer->services->toArray(), 'service_id');
         $customer->selectedServiceType = $selectedServiceType;
         $services_types = UnifiedService::select(['id', 'name'])->get();
+        
+        $customer->contractStartDate = '06/01/2021';
+        $customer->contractEndDate = '06/30/2021';
 
         return view('admin.unified.customers.single_customer', [
             'customer' => $customer,
@@ -93,6 +109,7 @@ class CustomerController extends Controller
 
     public function postEditCustomer(Request $request)
     {
+        //dd($request);
         $customer = UnifiedCustomer::find($request->customer_id);
         if (! $customer) {
             abort(404);
@@ -134,6 +151,7 @@ class CustomerController extends Controller
         ]);
     }
     public function postAddCustomer(Request $request){
+        //dd($request);
         $this->validate($request, [
             'name' => 'required',
             'contract' => 'required',

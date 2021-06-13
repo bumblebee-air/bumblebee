@@ -78,7 +78,7 @@ display: inline-block;
 														<div class="form-check form-check-radio">
 															<label class="form-check-label"> <input
 																class="form-check-input" type="radio"
-																id="exampleRadios2" name="contract" value="1" required>
+																id="exampleRadios2" name="contract" value="1" required onclick="clickContract(1)">
 																Yes <span class="circle"> <span class="check"></span>
 															</span>
 															</label>
@@ -88,7 +88,7 @@ display: inline-block;
 														<div class="form-check form-check-radio">
 															<label class="form-check-label"> <input
 																class="form-check-input" type="radio"
-																id="exampleRadios1" name="contract" value="0" required>
+																id="exampleRadios1" name="contract" value="0" required onclick="clickContract(0)">
 																No <span class="circle"> <span class="check"></span>
 															</span>
 															</label>
@@ -97,6 +97,8 @@ display: inline-block;
 												</div>
 											</div>
 										</div>
+									</div>
+									<div class="row" id="contractDateDiv" >
 									</div>
 									<div class="row">
 										<div class="col-md-6">
@@ -264,6 +266,37 @@ $( document ).ready(function() {
 	}
 
 });
+
+function clickContract(val){
+
+	console.log("click contract "+val)
+	if(val==1){
+		$('#contractDateDiv').html('<div class="col-md-6"> 	<div class="form-group bmd-form-group"> '
+            						+' <label>Contract start date</label> <input type="text" id="contractStartDate" class="form-control" '
+            						+' name="contractStartDate" value="" placeholder="Select contract start date" required> </div>	</div>'
+            						+' <div class="col-md-6"> <div class="form-group bmd-form-group">  <label>Contract end date</label> '
+            						+' <input type="text" id="contractEndDate" class="form-control" name="contractEndDate" value="" '
+            						+' placeholder="Select contract end date" required> </div> </div>');
+        		
+            	$(' #contractStartDate, #contractEndDate').datetimepicker({
+                         format: 'L', 
+                        icons: { time: "fa fa-clock",
+                                                date: "fa fa-calendar",
+                                                up: "fa fa-chevron-up",
+                                                down: "fa fa-chevron-down",
+                                                previous: 'fa fa-chevron-left',
+                                                next: 'fa fa-chevron-right',
+                                                today: 'fa fa-screenshot',
+                                                clear: 'fa fa-trash',
+                                                close: 'fa fa-remove'
+                        }
+                     });		
+	}
+	else{
+        $(' #contractDateDiv').html('');
+	}
+
+}
    
 function addIntelInput(input_id, input_name) {
             let phone_input = document.querySelector("#" + input_id);

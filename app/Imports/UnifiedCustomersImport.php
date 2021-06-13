@@ -100,8 +100,8 @@ class UnifiedCustomersImport implements ToCollection
                     ];
                     $customer = UnifiedCustomer::where('user_id', $checkIfExists->id)->first();
                     if ($customer) {
-                        $checkIfExists->update([
-                            "user_id" => $user->id,
+                        $customer->update([
+                            "user_id" => $checkIfExists->id,
                             "ac" => $collection[0],
                             "name" => $collection[1],
                             "address" => "$collection[2], $collection[3], $collection[4], $collection[5]",

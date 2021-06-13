@@ -26,6 +26,8 @@ class CustomerController extends Controller
             } else {
                 $customer->serviceType = 'N/A';
             }
+            $county = explode(',', $customer->address);
+            $customer->county = $county[count($county - 1)];
         }
 //        return $customers;
         return view('admin.unified.customers.list', [

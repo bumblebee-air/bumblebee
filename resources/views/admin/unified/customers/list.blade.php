@@ -91,7 +91,7 @@ tr.order-row:hover, tr.order-row:focus {
 											</td>
 											<td>
 												<span data-toggle="tooltip" data-placement="top" title="{{$customer->address}}">
-													{{$customer->address}}
+													{{$customer->county}}
 												</span>
 											</td>
 											<td>{{$customer->contacts ? (json_decode($customer->contacts, true) ? json_decode($customer->contacts, true)[0]['contactName'] : false) : 'N/A'}}</td>

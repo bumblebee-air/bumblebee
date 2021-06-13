@@ -39,11 +39,11 @@ class CalendarController extends Controller
                         'id' => $service->id,
                         'start' => $date,
                         'end' => $date,
-                        'backgroundColor' => $service->backgroundColor,
+                        'backgroundColor' => $date > Carbon::now()->toDateString() ? 'transparent' : $service->backgroundColor,
                         'borderColor' => $service->borderColor,
-                        'textColor' => '#d95353',
-                        'className' => 'expireContract',
-                        'title' => $jobsCount
+                        'textColor' => $date > Carbon::now()->toDateString() ?'#d95353' : '',
+                        'className' => $date > Carbon::now()->toDateString() ? 'expireContract' : '',
+                        'title' => $date > Carbon::now()->toDateString() ? $jobsCount :''
                     ];
                 }
             }

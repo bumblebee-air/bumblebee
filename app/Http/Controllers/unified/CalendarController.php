@@ -93,7 +93,7 @@ class CalendarController extends Controller
             'address' => 'required',
             'mobile' => 'required',
             'phone' => 'required',
-            'companyName' => 'required|exists:unified_companies,id',
+            'companyName' => 'required|exists:unified_customers_list,id',
         ]); 
         $customer = UnifiedCustomer::find($request->companyName);
         $engineer = UnifiedEngineer::find($request->engineer);

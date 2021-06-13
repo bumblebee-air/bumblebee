@@ -527,6 +527,24 @@ class DriversController extends Controller
     public function sendForgotPasswordCode(Request $request) {
         $checkIfUserExists = User::where('phone', $request->phone)->first();
         if ($checkIfUserExists) {
+            //Check if deliverer profile has been completed
+            $driver_profile = DriverProfile::where('user_id','=',$checkIfUserExists->id)->first();
+            if(!$driver_profile){
+                $response = [
+                    'access_token' => '',
+                    'message' => 'No driver profile was found',
+                    'error' => 1
+                ];
+                return response()->json($response)->setStatusCode(422);
+            }
+            if(strtolower($driver_profile->status)!='completed'){
+                $response = [
+                    'access_token' => '',
+                    'message' => 'Driver profile has not been accepted yet',
+                    'error' => 1
+                ];
+                return response()->json($response)->setStatusCode(422);
+            }
             //$resetPasswordCode = Str::random(6);
             $rand_code = rand(100000,999999);
             $resetPasswordCode = strval($rand_code);
@@ -543,11 +561,12 @@ class DriversController extends Controller
                 $twilio->messages->create($checkIfUserExists->phone,
                     [
                         "from" => $sender_name,
-                        "body" => "Hi $checkIfUserExists->name, this message has been sent upon you request.".
+                        "body" => "Hi $checkIfUserExists->name, this message has been sent upon a reset password request.\n".
                         "This is your reset password code: " . $resetPasswordCode
                     ]
                 );
             } catch (\Exception $exception) {
+                \Log::error($exception->getMessage(),$exception->getTrace());
             }
 
             UserPasswordReset::create([

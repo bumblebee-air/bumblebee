@@ -20,30 +20,53 @@ class CalendarController extends Controller
         $services = UnifiedService::withCount(['jobs' => function($q) {
             $q->whereDate('start_at', '>=', Carbon::now()->toDateString())->whereDate('end_at', '<=', Carbon::now()->toDateString());
         }])->get();
-        $events = UnifiedJob::whereDate('start_at', '>=', Carbon::now()->toDateString())->whereDate('end_at', '<=', Carbon::now()->toDateString())->get();
-     //  dd($events);
+        $events = UnifiedJob::whereDate('start_at', '>=', Carbon::now()->startOfMonth()->toDateString())->whereDate('end_at', '<=', Carbon::now()->endOfMonth()->toDateString())->get();
         $companyNames = UnifiedCustomer::select(['id', 'name'])->get();
         $jobTypes = UnifiedJobType::all();
         $engineers = UnifiedEngineer::all();
 
-        $eventData = new EventData(11, "", "2021-06-06", "2021-06-06", "transparent");
-        $eventData->textColor='#d95353';
-        $eventData->className='expireContract';
-        
-        $event1 = new EventData(1, "1", "2021-06-06", "2021-06-06", "#41aec2bf");
-        
-        
-        $eventData2 = new EventData(11, "", "2021-06-07", "2021-06-07", "transparent");
-        $eventData2->textColor='#d95353';
-        $eventData2->className='expireContract';
-        
-        
-        $eventData3 = new EventData(11, "", "2021-06-08", "2021-06-08", "transparent");
-        $eventData3->textColor='#d95353';
-        $eventData3->className='expireContract';
-        
-        $event2 = new EventData(2, "10", "2021-06-08", "2021-06-08", "#41aec2bf");
-        
+        //Get Services Events by day
+        $events = [];
+        $daysOfMonth = Carbon::now()->daysInMonth + 1;
+        foreach ($services as $service) {
+            for ($i=0; $i < $daysOfMonth; $i++) {
+                $date = Carbon::now()->startOfMonth()->addDays($i)->toDateString();
+                $jobsCount = UnifiedJob::where('service_id', $service->id)
+                    ->whereDate('start_at', $date)
+                    ->count();
+                if ($jobsCount > 0) {
+                    $events[] = [
+                        'id' => $service->id,
+                        'start' => $date,
+                        'end' => $date,
+                        'backgroundColor' => $service->backgroundColor,
+                        'borderColor' => $service->borderColor,
+                        'textColor' => '#d95353',
+                        'className' => 'expireContract',
+                        'title' => $jobsCount
+                    ];
+                }
+            }
+        }
+
+//        $eventData = new EventData(11, "", "2021-06-06", "2021-06-06", "transparent");
+//        $eventData->textColor='#d95353';
+//        $eventData->className='expireContract';
+
+//        $event1 = new EventData(1, "1", "2021-06-06", "2021-06-06", "#41aec2bf");
+//
+//
+//        $eventData2 = new EventData(11, "", "2021-06-07", "2021-06-07", "transparent");
+//        $eventData2->textColor='#d95353';
+//        $eventData2->className='expireContract';
+//
+//
+//        $eventData3 = new EventData(11, "", "2021-06-08", "2021-06-08", "transparent");
+//        $eventData3->textColor='#d95353';
+//        $eventData3->className='expireContract';
+//
+//        $event2 = new EventData(2, "10", "2021-06-08", "2021-06-08", "#41aec2bf");
+
       // $events=array($eventData,$event1,$eventData2,$event2,$eventData3);
         
         return view('admin.unified.calendar', [
@@ -83,7 +106,6 @@ class CalendarController extends Controller
 
     public function postAddScheduledJob(Request $request, $client_name)
     {
-        //dd($request);
          $this->validate($request, [
             'typeOfJob' => 'required|exists:unified_job_types,id',
             'engineer' => 'required|exists:unified_engineers,id',
@@ -93,7 +115,7 @@ class CalendarController extends Controller
             'address' => 'required',
             'mobile' => 'required',
             'phone' => 'required',
-            'companyName' => 'required|exists:unified_jobs,id',
+            'companyName' => 'required|exists:unified_companies,id',
         ]); 
         $customer = UnifiedCustomer::find($request->companyName);
         $engineer = UnifiedEngineer::find($request->engineer);

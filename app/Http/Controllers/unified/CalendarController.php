@@ -48,26 +48,6 @@ class CalendarController extends Controller
                 }
             }
         }
-
-//        $eventData = new EventData(11, "", "2021-06-06", "2021-06-06", "transparent");
-//        $eventData->textColor='#d95353';
-//        $eventData->className='expireContract';
-
-//        $event1 = new EventData(1, "1", "2021-06-06", "2021-06-06", "#41aec2bf");
-//
-//
-//        $eventData2 = new EventData(11, "", "2021-06-07", "2021-06-07", "transparent");
-//        $eventData2->textColor='#d95353';
-//        $eventData2->className='expireContract';
-//
-//
-//        $eventData3 = new EventData(11, "", "2021-06-08", "2021-06-08", "transparent");
-//        $eventData3->textColor='#d95353';
-//        $eventData3->className='expireContract';
-//
-//        $event2 = new EventData(2, "10", "2021-06-08", "2021-06-08", "#41aec2bf");
-
-      // $events=array($eventData,$event1,$eventData2,$event2,$eventData3);
         
         return view('admin.unified.calendar', [
             'services' => $services,
@@ -81,8 +61,6 @@ class CalendarController extends Controller
     public function getCompanyData(Request $request)
     {
         $customerData = UnifiedCustomer::find($request->companyId);
-
-//       $customerData = new CustomerData($request->companyId, "ACCA Ireland", "", true, "52 Dolphins Barn Street, The Liberties", "Shane Martin", "shane.martin@accaglobal.com", "12345678", "98745632");
 
         $serviceTypesIDs = array_column($customerData->services->toArray(), 'service_id');
         $customerData->serviceType = UnifiedService::whereIn('id', $serviceTypesIDs)->get();
@@ -280,22 +258,6 @@ class CalendarController extends Controller
             "jobsList" => $events,
             "titleModal"=>"Contract Expiry List"
         ));
-    }
-}
-
-
-class EventData
-{
-    
-    public $id, $title, $start, $end, $backgroundColor;
-    
-    public function __construct($id, $title, $start, $end, $backgroundColor)
-    {
-        $this->id = $id;
-        $this->title = $title;
-        $this->start = $start;
-        $this->end = $end;
-        $this->backgroundColor = $backgroundColor;
     }
 }
 

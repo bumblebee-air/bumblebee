@@ -18,9 +18,8 @@ class CalendarController extends Controller
     public function getCalendar()
     {
         $services = UnifiedService::withCount(['jobs' => function($q) {
-            $q->whereDate('start_at', '>=', Carbon::now()->toDateString())->whereDate('end_at', '<=', Carbon::now()->toDateString());
+            $q->whereDate('start_at', '>=', Carbon::now()->startOfMonth()->toDateString())->whereDate('end_at', '<=', Carbon::now()->endOfMonth()->toDateString());
         }])->get();
-        $events = UnifiedJob::whereDate('start_at', '>=', Carbon::now()->startOfMonth()->toDateString())->whereDate('end_at', '<=', Carbon::now()->endOfMonth()->toDateString())->get();
         $companyNames = UnifiedCustomer::select(['id', 'name'])->get();
         $jobTypes = UnifiedJobType::all();
         $engineers = UnifiedEngineer::all();

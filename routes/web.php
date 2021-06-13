@@ -403,6 +403,7 @@ Route::group([
         Route::post('get_job_data', 'unified\CalendarController@getJobData')->name('unified_getJobData');
         Route::get('get_job_list', 'unified\CalendarController@getJobList')->name('unified_getJobList');
         Route::get('get_company_list_of_service', 'unified\CalendarController@getCompanyListOfService')->name('unified_getCompanyListOfService');
+        Route::get('get_contract_expire', 'unified\CalendarController@getContractExpireList')->name('unified_getContractExpire');
                 
         
     });

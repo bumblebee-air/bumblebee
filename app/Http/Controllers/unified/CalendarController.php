@@ -21,10 +21,31 @@ class CalendarController extends Controller
             $q->whereDate('start_at', '>=', Carbon::now()->toDateString())->whereDate('end_at', '<=', Carbon::now()->toDateString());
         }])->get();
         $events = UnifiedJob::whereDate('start_at', '>=', Carbon::now()->toDateString())->whereDate('end_at', '<=', Carbon::now()->toDateString())->get();
+     //  dd($events);
         $companyNames = UnifiedCustomer::select(['id', 'name'])->get();
         $jobTypes = UnifiedJobType::all();
         $engineers = UnifiedEngineer::all();
 
+        $eventData = new EventData(11, "", "2021-06-06", "2021-06-06", "transparent");
+        $eventData->textColor='#d95353';
+        $eventData->className='expireContract';
+        
+        $event1 = new EventData(1, "1", "2021-06-06", "2021-06-06", "#41aec2bf");
+        
+        
+        $eventData2 = new EventData(11, "", "2021-06-07", "2021-06-07", "transparent");
+        $eventData2->textColor='#d95353';
+        $eventData2->className='expireContract';
+        
+        
+        $eventData3 = new EventData(11, "", "2021-06-08", "2021-06-08", "transparent");
+        $eventData3->textColor='#d95353';
+        $eventData3->className='expireContract';
+        
+        $event2 = new EventData(2, "10", "2021-06-08", "2021-06-08", "#41aec2bf");
+        
+      // $events=array($eventData,$event1,$eventData2,$event2,$eventData3);
+        
         return view('admin.unified.calendar', [
             'services' => $services,
             'events' => json_encode($events),
@@ -48,6 +69,12 @@ class CalendarController extends Controller
             $customerData->email = $contactJson[0]['contactEmail'];
             $customerData->mobile = $contactJson[0]['contactNumber'];
         }
+        
+        if($customerData->contract){
+            $customerData->contractStartDate = '06/01/2021';
+            $customerData->contractEndDate = '06/30/2021';
+        }
+        
         return response()->json(array(
             "msg" => "test test",
             "company" => $customerData
@@ -56,7 +83,8 @@ class CalendarController extends Controller
 
     public function postAddScheduledJob(Request $request, $client_name)
     {
-        $this->validate($request, [
+        //dd($request);
+         $this->validate($request, [
             'typeOfJob' => 'required|exists:unified_job_types,id',
             'engineer' => 'required|exists:unified_engineers,id',
             'selectedServiceType' => 'required|exists:unified_services_job,id',
@@ -66,7 +94,7 @@ class CalendarController extends Controller
             'mobile' => 'required',
             'phone' => 'required',
             'companyName' => 'required|exists:unified_jobs,id',
-        ]);
+        ]); 
         $customer = UnifiedCustomer::find($request->companyName);
         $engineer = UnifiedEngineer::find($request->engineer);
         $service = UnifiedService::find($request->selectedServiceType);
@@ -107,6 +135,12 @@ class CalendarController extends Controller
         $jobData->contract = (bool)$customer->contract;
         $jobData->sendEmail = (bool)$jobData->is_reminder;
         $jobData->serviceTypes = $serviceTypes;
+        
+        
+        if($customer->contract){
+            $jobData->contractStartDate = '07/01/2021';
+            $jobData->contractEndDate = '07/30/2021';
+        }
 
         return response()->json(array(
             "msg" => "test test ",
@@ -131,7 +165,7 @@ class CalendarController extends Controller
             'mobile' => 'required',
             'phone' => 'required',
             'companyName' => 'required',
-        ]);
+        ]); 
         $customer = UnifiedCustomer::find($request->companyName);
         $engineer = UnifiedEngineer::find($request->engineer);
         $service = UnifiedService::find($request->selectedServiceType);
@@ -213,4 +247,33 @@ class CalendarController extends Controller
             "companyNames" => $companyNames,
         ));
     }
+    public function getContractExpireList(Request $request) {
+        $date = $request->date;
+        
+        $event1 = new EventData(1, "ACCA Ireland ".$date, null, NULL, 'rgba(217, 83, 83, 0.5)');
+        $events =array($event1);
+        
+        return response()->json(array(
+            "msg" => "test test contractt expire ",
+            "jobsList" => $events,
+            "titleModal"=>"Contract Expiry List"
+        ));
+    }
 }
+
+
+class EventData
+{
+    
+    public $id, $title, $start, $end, $backgroundColor;
+    
+    public function __construct($id, $title, $start, $end, $backgroundColor)
+    {
+        $this->id = $id;
+        $this->title = $title;
+        $this->start = $start;
+        $this->end = $end;
+        $this->backgroundColor = $backgroundColor;
+    }
+}
+

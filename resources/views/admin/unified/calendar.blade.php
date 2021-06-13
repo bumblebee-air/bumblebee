@@ -11,6 +11,17 @@
 	href="{{asset('css/unified-calendar-styles.css')}}">
 
 <style>
+.expireContract{
+position: absolute;
+/* bottom: 0; */
+top: -5px;
+}
+.expireContract .fc-content,
+.expireContract .fc-content i{
+color: #d95353 !important;
+font-size: 18px;
+
+}
 </style>
 @endsection @section('title', 'Unified | Calendar')
 @section('page-content')
@@ -151,33 +162,6 @@
 							</div>
 							<div class="col-md-6">
 								<div class="row">
-									<div class="col-md-12 ">
-										<div class=" row" style="margin-top: 15px">
-											<label class="labelRadio col-12" for="">Contract</label>
-											<div class="col-12 row">
-												<div class="col">
-													<div class="form-check form-check-radio">
-														<label class="form-check-label"> <input
-															class="form-check-input" type="radio" id="contractYes"
-															name="contract" value="1" required> Yes <span
-															class="circle"> <span class="check"></span>
-														</span>
-														</label>
-													</div>
-												</div>
-												<div class="col">
-													<div class="form-check form-check-radio">
-														<label class="form-check-label"> <input
-															class="form-check-input" type="radio" id="contractNo"
-															name="contract" value="0" required> No <span
-															class="circle"> <span class="check"></span>
-														</span>
-														</label>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
 									<div class="col-md-12">
 										<div class="form-group bmd-form-group">
 											<label>Engineer</label> <select name="engineer"
@@ -191,8 +175,38 @@
 											</select>
 										</div>
 									</div>
+									<div class="col-md-12 ">
+										<div class=" row" style="margin-top: 15px">
+											<label class="labelRadio col-12" for="">Contract</label>
+											<div class="col-12 row">
+												<div class="col">
+													<div class="form-check form-check-radio">
+														<label class="form-check-label"> <input
+															class="form-check-input" type="radio" id="contractYes"
+															name="contract" value="1" required onclick="clickContract(1)"> Yes <span
+															class="circle"> <span class="check"></span>
+														</span>
+														</label>
+													</div>
+												</div>
+												<div class="col">
+													<div class="form-check form-check-radio">
+														<label class="form-check-label"> <input
+															class="form-check-input" type="radio" id="contractNo"
+															name="contract" value="0" required  onclick="clickContract(0)"> No <span
+															class="circle"> <span class="check"></span>
+														</span>
+														</label>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
+						</div>
+						<div class="row" id="contractDateDiv" >
+							
 						</div>
 						<div class="row">
 							<div class="col-md-6">
@@ -325,34 +339,8 @@
 											<div id="selectedServiceTypesDivEdit"></div>
 										</div></div>
 							<div class="col-md-6">
-								<div class="row"><div class="col-md-12 ">
-										<div class=" row" style="margin-top: 15px">
-											<label class="labelRadio col-12" for="">Contract</label>
-											<div class="col-12 row">
-												<div class="col">
-													<div class="form-check form-check-radio">
-														<label class="form-check-label"> <input
-															class="form-check-input" type="radio"
-															id="contractYesEdit" name="contract" value="1" required>
-															Yes <span class="circle"> <span class="check"></span>
-														</span>
-														</label>
-													</div>
-												</div>
-												<div class="col">
-													<div class="form-check form-check-radio">
-														<label class="form-check-label"> <input
-															class="form-check-input" type="radio" id="contractNoEdit"
-															name="contract" value="0" required> No <span
-															class="circle"> <span class="check"></span>
-														</span>
-														</label>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-md-12">
+								<div class="row">
+								<div class="col-md-12">
 										<div class="form-group bmd-form-group">
 											<label>Engineer</label> <select name="engineer"
 												class="form-control" id="engineerSelectEdit">
@@ -363,8 +351,39 @@
 												@endforeach @endif
 											</select>
 										</div>
-									</div></div>
+									</div>
+								<div class="col-md-12 ">
+										<div class=" row" style="margin-top: 15px">
+											<label class="labelRadio col-12" for="">Contract</label>
+											<div class="col-12 row">
+												<div class="col">
+													<div class="form-check form-check-radio">
+														<label class="form-check-label"> <input
+															class="form-check-input" type="radio"
+															id="contractYesEdit" name="contract" value="1" required onclick="clickContractEdit(1)">
+															Yes <span class="circle"> <span class="check"></span>
+														</span>
+														</label>
+													</div>
+												</div>
+												<div class="col">
+													<div class="form-check form-check-radio">
+														<label class="form-check-label"> <input
+															class="form-check-input" type="radio" id="contractNoEdit"
+															name="contract" value="0" required  onclick="clickContractEdit(0)"> No <span
+															class="circle"> <span class="check"></span>
+														</span>
+														</label>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									
+									</div>
 							</div>
+						</div>
+						<div class="row" id="contractDateDivEdit" >
 						</div>
 						<div class="row">
 							<div class="col-md-6"><div class="form-group bmd-form-group">
@@ -561,6 +580,44 @@
 </div>
 <!-- end calendar-modal-job-list -->
 
+
+<!-- calendar-modal-contract-list -->
+
+<div class="modal fade" id="calendar-modal-contract-list" tabindex="-1"
+	role="dialog" aria-labelledby="calendar-contractlist-label"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="modal-dialog-header addJobModalHeader">
+					<span id="dateSpan"></span>
+				</div>
+				<button type="button" class="close d-flex justify-content-center"
+					data-dismiss="modal" aria-label="Close">
+					<i class="fas fa-times"></i>
+				</button>
+			</div>
+			<div class="modal-body mb-4">
+
+				<h3 class="addJobSubTitleModal">
+					<span id="contractListTitleModalSpan"></span>
+				</h3>
+
+				<div class="row mt-3 mb-3">
+					<div class="col">
+						<ul class="list-group" id="contractListUl">
+						</ul>
+					</div>
+				</div>
+
+
+				
+			</div>
+		</div>
+	</div>
+</div>
+<!-- end calendar-modal-contract-list -->
+
 @endsection @section('page-scripts')
 
 <script src="{{asset('js/calender-design.js')}}"></script>
@@ -603,8 +660,14 @@
 
         	},
         	events: {!! $events !!},
+        	
+            eventRender: function(event, element) {
+                 if(event.className=='expireContract'){          
+                    element.find(".fc-title").prepend("<i class='fas fa-file-contract'></i>");
+                 }
+              }    ,
 			eventAfterAllRender: function(){
-				
+				console.log({!! $events !!});
             	// loop through each calendar row
             	$('.fc-content-skeleton').each(function(){
             		var firstRow,
@@ -652,7 +715,13 @@
             }, 
 			 
 			 eventClick: function(calEvent, jsEvent, view) {
-			 	getDetialsOfDate(calEvent.start,calEvent.serviceId); 
+			 	console.log("click event "+calEvent+" "+calEvent.className);
+			 	console.log(calEvent)
+			 	if(calEvent.className=='expireContract'){    
+			 		getContractsExpiredData(calEvent.start);
+			 	}else{
+			 		getDetialsOfDate(calEvent.start,calEvent.serviceId);
+			 	} 
  			 }	,
  			 dayClick: function(date, allDay, jsEvent, view) {
                getDetialsOfDate(date,0);
@@ -685,7 +754,7 @@
             				}
          });
                      
-        $('#date,#dateEdit').datetimepicker({
+        $('#date,#dateEdit,#contractStartDate,#contractStartDate,#contractEndDate,#contractEndDateEdit').datetimepicker({
                          format: 'L', 
             icons: { time: "fa fa-clock",
                                     date: "fa fa-calendar",
@@ -760,6 +829,46 @@
 		
 	}
 	
+	function getContractsExpiredData(date){
+				//console.log("get details of date "+serviceId);
+		//Get Date Format
+		var selectedDate = new Date(date);
+		var d = selectedDate.getDate();
+		var m = selectedDate.getMonth();
+		var y = selectedDate.getFullYear();
+
+		const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+		var monthName = months[m];
+		const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+		var dayName = days[selectedDate.getDay()]
+		
+		var token ='{{csrf_token()}}';
+	
+	 $.ajax({
+        type: "GET",
+       	url: '{{url("unified/get_contract_expire/")}}'+'?date='+date.format(),
+        success: function(data) {
+        	console.log(data);
+        	
+        		var ulContent = '';
+        		for(var i=0; i< data.jobsList.length; i++){
+					ulContent = ulContent+ '<li class="list-group-item" style="background-color:'
+								+data.jobsList[i].backgroundColor
+								+'"> '
+								+data.jobsList[i].title 
+								+'  </li>';
+				}
+        	
+                    $('#calendar-modal-contract-list').modal();
+                    $('#calendar-modal-contract-list #dateSpan').html(dayName+', '+monthName+' '+d+', '+y);
+                    $("#calendar-modal-contract-list #contractListTitleModalSpan").html(data.titleModal);
+                    
+					$('#calendar-modal-contract-list #contractListUl').html(ulContent);
+        	
+        }
+     });
+	}
+	
 	function clickServiceGetJobList(serviceId){
 		var view = $('#calendar').fullCalendar('getView');
 		var viewTitle = view.title; //date
@@ -818,6 +927,7 @@ function clickAddScheduledJob(){
 		 $("#selectedServiceTypesDiv").html('');
 		$('#calendar-modal-add-job #dateDiv').html('<label>Date</label> <input type="text" id="date" class="form-control"'
 												+' name="date" value=""	placeholder="Select date" required>');
+		$('#calendar-modal-add-job #dateDiv').parent().css("display","block");
 		$('#calendar-modal-add-job #serviceIdHidden').val(0);											
 												
         $('#calendar-modal-add-job #date').datetimepicker({
@@ -871,8 +981,33 @@ function clickEditScheduledJob(jobId){
             
             if(job.contract ==true){
             	$('#calendar-modal-edit-job #contractYesEdit').prop("checked",true);
+            	$('#calendar-modal-edit-job #contractDateDivEdit').html('<div class="col-md-6"> 	<div class="form-group bmd-form-group" > '
+            						+' <label>Contract start date</label> <input type="text" id="contractStartDateEdit" class="form-control" '
+            						+' name="contractStartDate" value="'
+            						+job.contractStartDate
+            						+'" placeholder="Select contract start date" required> </div>	</div>'
+            						+' <div class="col-md-6"> <div class="form-group bmd-form-group">  <label>Contract end date</label> '
+            						+' <input type="text" id="contractEndDateEdit" class="form-control" name="contractEndDate" value="'
+            						+job.contractEndDate
+            						+'" '
+            						+' placeholder="Select contract end date" required> </div> </div>');
+            						
+            	$('#calendar-modal-edit-job #contractStartDateEdit,#calendar-modal-edit-job #contractEndDateEdit').datetimepicker({
+                         format: 'L', 
+                        icons: { time: "fa fa-clock",
+                                                date: "fa fa-calendar",
+                                                up: "fa fa-chevron-up",
+                                                down: "fa fa-chevron-down",
+                                                previous: 'fa fa-chevron-left',
+                                                next: 'fa fa-chevron-right',
+                                                today: 'fa fa-screenshot',
+                                                clear: 'fa fa-trash',
+                                                close: 'fa fa-remove'
+                        }
+                     });					
             }else{
             	$('#calendar-modal-edit-job #contractNoEdit').prop("checked",true);
+            	$('#calendar-modal-edit-job #contractDateDivEdit').html('');
             }
             
              if(job.sendEmail ==true){
@@ -957,6 +1092,7 @@ function clickAddScheduledJobListModal(list){// nojob, hasjobs
 		}else{
 		$('#calendar-modal-add-job #dateDiv').html('<label>Date</label> <input type="text" id="date" class="form-control"'
 												+' name="date" value=""	placeholder="Select date" required>');
+		$('#calendar-modal-add-job #dateDiv').parent().css("display","block");
 												 
 												 $('#calendar-modal-add-job #date').datetimepicker({
                          format: 'L', 
@@ -1009,7 +1145,7 @@ function changeCompany(){
        	data: {_token: token, companyId:companyVal},
         success: function(data) {
        
-          //  console.log(data);
+            console.log(data);
             var company = data.company;
             $('#calendar-modal-add-job #email').val(company.email);
             $('#calendar-modal-add-job #mobile').val(company.mobile);
@@ -1018,8 +1154,33 @@ function changeCompany(){
             
             if(company.contract ==true){
             	$('#calendar-modal-add-job #contractYes').prop("checked",true);
+            	$('#calendar-modal-add-job #contractDateDiv').html('<div class="col-md-6"> 	<div class="form-group bmd-form-group" > '
+            						+' <label>Contract start date</label> <input type="text" id="contractStartDate" class="form-control" '
+            						+' name="contractStartDate" value="'
+            						+company.contractStartDate
+            						+'" placeholder="Select contract start date" required> </div>	</div>'
+            						+' <div class="col-md-6"> <div class="form-group bmd-form-group" >  <label>Contract end date</label> '
+            						+' <input type="text" id="contractEndDate" class="form-control" name="contractEndDate" value="'
+            						+company.contractEndDate
+            						+'" '
+            						+' placeholder="Select contract end date" required> </div> </div>');
+            						
+            	$('#calendar-modal-add-job #contractStartDate,#calendar-modal-add-job #contractEndDate').datetimepicker({
+                         format: 'L', 
+                        icons: { time: "fa fa-clock",
+                                                date: "fa fa-calendar",
+                                                up: "fa fa-chevron-up",
+                                                down: "fa fa-chevron-down",
+                                                previous: 'fa fa-chevron-left',
+                                                next: 'fa fa-chevron-right',
+                                                today: 'fa fa-screenshot',
+                                                clear: 'fa fa-trash',
+                                                close: 'fa fa-remove'
+                        }
+                     });					
             }else{
             	$('#calendar-modal-add-job #contractNo').prop("checked",true);
+            	$('#calendar-modal-add-job #contractDateDiv').html('');
             }
             
             
@@ -1076,7 +1237,63 @@ function setSubmitButtonEnable(){
 	}
 	
 }
+function clickContract(val){
+	console.log("click contract "+val)
+	if(val==1){
+		$('#calendar-modal-add-job #contractDateDiv').html('<div class="col-md-6"> 	<div class="form-group bmd-form-group"> '
+            						+' <label>Contract start date</label> <input type="text" id="contractStartDate" class="form-control" '
+            						+' name="contractStartDate" value="" placeholder="Select contract start date" required> </div>	</div>'
+            						+' <div class="col-md-6"> <div class="form-group bmd-form-group">  <label>Contract end date</label> '
+            						+' <input type="text" id="contractEndDate" class="form-control" name="contractEndDate" value="" '
+            						+' placeholder="Select contract end date" required> </div> </div>');
+        		
+            	$('#calendar-modal-add-job #contractStartDate,#calendar-modal-add-job #contractEndDate').datetimepicker({
+                         format: 'L', 
+                        icons: { time: "fa fa-clock",
+                                                date: "fa fa-calendar",
+                                                up: "fa fa-chevron-up",
+                                                down: "fa fa-chevron-down",
+                                                previous: 'fa fa-chevron-left',
+                                                next: 'fa fa-chevron-right',
+                                                today: 'fa fa-screenshot',
+                                                clear: 'fa fa-trash',
+                                                close: 'fa fa-remove'
+                        }
+                     });		
+	}
+	else{
+        $('#calendar-modal-add-job #contractDateDiv').html('');
+	}
+}
 
+function clickContractEdit(val){
+	console.log("click contract edit "+val)
+	if(val==1){
+		$('#calendar-modal-edit-job #contractDateDivEdit').html('<div class="col-md-6"> 	<div class="form-group bmd-form-group"> '
+            						+' <label>Contract start date</label> <input type="text" id="contractStartDateEdit" class="form-control" '
+            						+' name="contractStartDate" value="" placeholder="Select contract start date" required> </div>	</div>'
+            						+' <div class="col-md-6"> <div class="form-group bmd-form-group">  <label>Contract end date</label> '
+            						+' <input type="text" id="contractEndDateEdit" class="form-control" name="contractEndDate" value="" '
+            						+' placeholder="Select contract end date" required> </div> </div>');
+        		
+            	$('#calendar-modal-edit-job #contractStartDateEdit,#calendar-modal-edit-job #contractEndDateEdit').datetimepicker({
+                         format: 'L', 
+                        icons: { time: "fa fa-clock",
+                                                date: "fa fa-calendar",
+                                                up: "fa fa-chevron-up",
+                                                down: "fa fa-chevron-down",
+                                                previous: 'fa fa-chevron-left',
+                                                next: 'fa fa-chevron-right',
+                                                today: 'fa fa-screenshot',
+                                                clear: 'fa fa-trash',
+                                                close: 'fa fa-remove'
+                        }
+                     });		
+	}
+	else{
+        $('#calendar-modal-edit-job #contractDateDivEdit').html('');
+	}
+}
 /////////////////////////// edit 
 function changeCompanyEdit(){
 	var companyVal = $("#companyNameSelectEdit").val();
@@ -1099,11 +1316,37 @@ function changeCompanyEdit(){
             
             if(company.contract ==true){
             	$('#calendar-modal-edit-job #contractYesEdit').prop("checked",true);
+            	$('#calendar-modal-edit-job #contractDateDivEdit').html('<div class="col-md-6"> 	<div class="form-group bmd-form-group" > '
+            						+' <label>Contract start date</label> <input type="text" id="contractStartDateEdit" class="form-control" '
+            						+' name="contractStartDate" value="'
+            						+company.contractStartDate
+            						+'" placeholder="Select contract start date" required> </div>	</div>'
+            						+' <div class="col-md-6"> <div class="form-group bmd-form-group">  <label>Contract end date</label> '
+            						+' <input type="text" id="contractEndDateEdit" class="form-control" name="contractEndDate" value="'
+            						+company.contractEndDate
+            						+'" '
+            						+' placeholder="Select contract end date" required> </div> </div>');
+            						
+            	$('#calendar-modal-edit-job #contractStartDateEdit,#calendar-modal-edit-job #contractEndDateEdit').datetimepicker({
+                         format: 'L', 
+                        icons: { time: "fa fa-clock",
+                                                date: "fa fa-calendar",
+                                                up: "fa fa-chevron-up",
+                                                down: "fa fa-chevron-down",
+                                                previous: 'fa fa-chevron-left',
+                                                next: 'fa fa-chevron-right',
+                                                today: 'fa fa-screenshot',
+                                                clear: 'fa fa-trash',
+                                                close: 'fa fa-remove'
+                        }
+                     });					
             }else{
             	$('#calendar-modal-edit-job #contractNoEdit').prop("checked",true);
+            	$('#calendar-modal-edit-job #contractDateDivEdit').html('');
             }
             
-	//console.log("change company edit scuccess")
+                        
+			//console.log("change company edit scuccess")
             
             var serviceTypesDivHtml = '';
             for(var i=0; i<company.serviceType.length; i++){

@@ -5,7 +5,10 @@ html {
 body {
 	font-family: 'Roboto', sans-serif !important;
 }
-
+.container{
+	width: 98%;
+	max-width: 98%;
+}
 .main-panel>.content {
 	margin-top: 0px;
 }

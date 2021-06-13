@@ -15,7 +15,7 @@ class ComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer(
-            ['templates.main','templates.aviva','templates.auth'],
+            ['templates.main','templates.aviva','templates.auth','templates.dashboard'],
             'App\Http\ViewComposers\MainComposer'
         );
         View::composer('partials.admin_sidebar', 'App\Http\ViewComposers\SideNavComposer');

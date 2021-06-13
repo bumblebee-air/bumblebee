@@ -96,7 +96,7 @@ font-size: 18px;
 </div>
 
 <!-- calendar modal add job-->
-<div class="modal fade" id="calendar-modal-add-job" tabindex="-1"
+<div class="modal fade" id="calendar-modal-add-job" 
 	role="dialog">
 	<div class="modal-dialog " role="document">
 		<div class="modal-content">
@@ -285,7 +285,7 @@ font-size: 18px;
 <!-- end calendar add job modal -->
 
 <!-- calendar modal edit job-->
-<div class="modal fade" id="calendar-modal-edit-job" tabindex="-1"
+<div class="modal fade" id="calendar-modal-edit-job" 
 	role="dialog" aria-labelledby="calendar-edit-label" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -732,12 +732,8 @@ font-size: 18px;
 		
 		///////////////////////////////////////////////////////
 		
-        $("#serviceTypeSelect,#serviceTypeSelectEdit").select2({
-          placeholder: 'Select service type',
-          tags: true
-        });
         
-        $("#companyNameSelect,#typeOfJobSelect,#engineerSelect,#companyNameSelectEdit,#typeOfJobSelectEdit,#engineerSelectEdit").select2();
+        $("#companyNameSelect,#typeOfJobSelect,#engineerSelect,#companyNameSelectEdit,#typeOfJobSelectEdit,#engineerSelectEdit").select2({});
         
         
         $('#time,#timeEdit').datetimepicker({

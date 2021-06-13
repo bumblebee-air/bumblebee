@@ -111,7 +111,7 @@ class UnifiedCustomersImport implements ToCollection
                         ]);
                         UnifiedCustomerService::where('customer_id', $checkIfExists->id)->delete();
                         foreach ($importingServices as $importingService) {
-                            if ($collection[$importingService['index']] == 'YES') {
+                            if ($collection[$importingService['index']] == 'YES ') {
                                 $service = UnifiedService::where('service_code', $importingService['name'])->first();
                                 if ($service) {
                                     UnifiedCustomerService::create([

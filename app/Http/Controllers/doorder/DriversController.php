@@ -537,7 +537,7 @@ class DriversController extends Controller
                 ];
                 return response()->json($response)->setStatusCode(422);
             }
-            if(strtolower($driver_profile->status)!='completed'){
+            if($driver_profile->is_confirmed!=true){
                 $response = [
                     'access_token' => '',
                     'message' => 'Driver profile has not been accepted yet',

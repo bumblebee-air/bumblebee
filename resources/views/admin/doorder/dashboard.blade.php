@@ -2,9 +2,6 @@
 
 @section('page-styles')
 <style>
-.main-panel>.content {
-	margin-top: 0px !important;
-}
 .ui-datepicker-calendar td{
  min-width: auto;
 }

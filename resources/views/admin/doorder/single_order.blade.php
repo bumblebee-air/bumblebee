@@ -7,9 +7,6 @@
             font-weight: bold;
         }
 
-        .main-panel>.content {
-            margin-top: 0px;
-        }
 
         audio {
             height: 32px;

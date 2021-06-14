@@ -5,10 +5,6 @@ h3 {
 	font-weight: bold;
 }
 
-.main-panel>.content {
-	margin-top: 0px;
-}
-
 audio {
 	height: 32px;
 	margin-top: 8px;

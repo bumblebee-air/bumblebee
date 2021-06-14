@@ -103,21 +103,22 @@ class ShopifyController extends Controller
                 //retailer name & address
                 $aWebhook["retailer_name"] = $oShopData->shop->name;
                 $aWebhook["pickup_address"] = $oShopData->shop->address1 . ", " .
-                    $oShopData->shop->phone . ", " . $oShopData->shop->city . ", " .
+                    $oShopData->shop->city . ", " .
                     $oShopData->shop->zip . ", " . $oShopData->shop->province . ", " .
                     $oShopData->shop->country;
+                //$oShopData->shop->phone . ", "
                 $aWebhook["pickup_lat"] = $oShopData->shop->latitude;
                 $aWebhook["pickup_lon"] = $oShopData->shop->longitude;
                 //customer name,details and address
                 $aWebhook["customer_name"] = $orders['shipping_address']['first_name'] .
                     " " . $orders['shipping_address']['last_name'];
                 $aWebhook["customer_address"] = $orders['shipping_address']['address1'] . ", " .
-                    $orders['shipping_address']['phone'] . ", " .
                     $orders['shipping_address']['city'] . ", " .
                     $orders['shipping_address']['zip'] . ", " .
                     $orders['shipping_address']['province'] . ", " .
                     $orders['shipping_address']['country'];
-                $aWebhook["customer_phone"] = $orders['phone'];
+                //$orders['shipping_address']['phone'] . ", "
+                $aWebhook["customer_phone"] = ($orders['phone']!=null && $orders['phone']!='')? $orders['phone'] : $orders['shipping_address']['phone'];
                 $aWebhook["customer_email"] = $orders['email'];
                 $aWebhook["customer_address_lat"] = $orders['shipping_address']['latitude'];
                 $aWebhook["customer_address_lon"] = $orders['shipping_address']['longitude'];

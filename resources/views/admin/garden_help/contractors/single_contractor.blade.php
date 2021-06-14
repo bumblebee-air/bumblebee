@@ -1,10 +1,6 @@
 @extends('templates.dashboard') @section('title', 'GardenHelp |
 Contractor View') @section('page-styles')
 <style>
-.main-panel>.content {
-	margin-top: 0px;
-}
-
 .modal-dialog-header {
 	font-size: 25px;
 	font-weight: 500;

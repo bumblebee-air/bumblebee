@@ -2,9 +2,6 @@
 @section('page-styles')
 
 <style>
-.main-panel>.content {
-	margin-top: 0px;
-}
 
 @media ( max-width : 767px) {
 	.container-fluid {

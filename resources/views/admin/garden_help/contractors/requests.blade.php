@@ -4,9 +4,6 @@
 
 @section('page-styles')
     <style>
-        .main-panel>.content {
-            margin-top: 0px;
-        }
         tr.order-row:hover,
         tr.order-row:focus {
             cursor: pointer;

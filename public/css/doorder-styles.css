@@ -1,3 +1,62 @@
+
+.sidebar-mini #adminNavLogoImg{
+width: 40px !important;
+height: 40px !important;
+}
+.sidebar-mini .sidebar:hover #adminNavLogoImg{
+	width: 100px !important;
+	height: 100px !important;
+}
+.navbar .collapse .navbar-nav .nav-item .nav-link {
+	color: #8e8e8e !important;
+}
+.navbar .collapse .navbar-nav .nav-item .nav-link .fa, .navbar .collapse .navbar-nav .nav-item .nav-link .material-icons {
+font-size: 28px !important;}
+
+.btnSearchNavbar{
+	border-radius:5px !important;
+	border-end-start-radius: 0 !important;
+	border-start-start-radius: 0 !important;
+	background-color: white !important;
+	border-color: white !important;
+	color:#8e8e8e !important;
+	padding: 10px 12px !important;
+	box-shadow: none !important;
+}
+#navbarDropdownMenuLink:hover, #navbarDropdownProfile:hover{
+	background-color: transparent !important;
+}
+
+.inputSearchNavbar{
+	box-shadow: none !important;
+	border-radius:0 !important;
+	border-end-end-radius: 0 !important;
+	border-start-end-radius: 0 !important;
+}
+.btnSearchDropdownNavbar{
+	background-color: white !important;
+	border-color: white !important;
+	color:#8e8e8e !important;
+	border-radius:5px !important;
+	border-end-end-radius: 0 !important;
+	border-start-end-radius: 0 !important;
+	padding: 11px;
+	box-shadow: none !important;
+}
+.profileNameNavbar{
+	font-size: 16px !important;
+  font-weight: 500 !important;
+  font-stretch: normal !important;
+  font-style: normal !important;
+  line-height: 2.81 !important;
+  letter-spacing: 0.15px !important;
+  color: #8e8e8e !important;
+  display: inline-block !important;
+  margin-bottom: 0
+}
+
+
+
 .container-fluid {
 	padding-left: 0px;
 	padding-right: 0px;

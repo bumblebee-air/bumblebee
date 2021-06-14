@@ -21,9 +21,18 @@ body {
 }
 
 .main-panel>.content {
-	margin-top: 0px;
+	margin-top: 40px;
 }
 
+.btnSearchDropdownNavbar{
+	padding: 15px !important;
+}
+.navbar-form .btn{
+	font-size: 16px !important;
+}
+.inputSearchNavbar::placeholder{
+	color: #8e8e8e !important;
+}
 /************ Login *******************/
 .bg-cover {
 	background-size: cover !important;

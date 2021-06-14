@@ -5,9 +5,6 @@ Fee')
     <link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
 
     <style>
-        .main-panel>.content {
-            margin-top: 0px;
-        }
 
         @media ( max-width : 767px) {
             .container-fluid {

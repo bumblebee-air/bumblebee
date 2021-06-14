@@ -46,9 +46,13 @@ a:focus, a:hover{
 	text-decoration: underline !important;
 }
 .main-panel>.content {
-	margin-top: 0px;
+	margin-top: 30px;
 }
-
+.inputSearchNavbar{
+	background-color: white;
+	height: 42px !important;
+	padding-left: 4px;
+}
 input, .select2-container--default .select2-selection--single .select2-selection__rendered
 	{
 	font-family: Roboto;

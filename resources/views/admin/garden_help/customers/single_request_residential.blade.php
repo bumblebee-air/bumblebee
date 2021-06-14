@@ -1,9 +1,6 @@
 @extends('templates.dashboard') @section('title', 'GardenHelp | Customer
 Request') @section('page-styles')
 <style>
-.main-panel>.content {
-	margin-top: 0px;
-}
 
 .modal-content {
 	/*padding: 51px 51px 112px 51px;*/

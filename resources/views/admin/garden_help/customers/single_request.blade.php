@@ -4,9 +4,6 @@
 
 @section('page-styles')
     <style>
-        .main-panel>.content {
-            margin-top: 0px;
-        }
         .modal-content {
             /*padding: 51px 51px 112px 51px;*/
             border-radius: 30px!important;

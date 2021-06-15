@@ -135,22 +135,26 @@ class DriversController extends Controller
                 $order->customer_confirmation_code = Str::random(8);
                 $order->delivery_confirmation_code = Str::random(32);
                 $retailer_name = $order->retailer_name;
-                $sid    = env('TWILIO_SID', '');
-                $token  = env('TWILIO_AUTH', '');
-                $twilio = new Client($sid, $token);
-                //url('customer/delivery_confirmation/' . $order->customer_confirmation_code)
-                $sender_name = "DoOrder";
-                foreach($this->unallowed_sms_alpha_codes as $country_code){
-                    if(strpos($order->customer_phone,$country_code)!==false){
-                        $sender_name = env('TWILIO_NUMBER','DoOrder');
+                try {
+                    $sid = env('TWILIO_SID', '');
+                    $token = env('TWILIO_AUTH', '');
+                    $twilio = new Client($sid, $token);
+                    //url('customer/delivery_confirmation/' . $order->customer_confirmation_code)
+                    $sender_name = "DoOrder";
+                    foreach ($this->unallowed_sms_alpha_codes as $country_code) {
+                        if (strpos($order->customer_phone, $country_code) !== false) {
+                            $sender_name = env('TWILIO_NUMBER', 'DoOrder');
+                        }
                     }
+                    $twilio->messages->create($order->customer_phone,
+                        [
+                            "from" => $sender_name,
+                            "body" => "Hi $order->customer_name, DoOrder’s same day delivery service has your order and its on its way, open the link to track it and confirm the delivery afterwards. " . url('customer/order/' . $order->customer_confirmation_code)
+                        ]
+                    );
+                } catch (\Exception $exception) {
+                    \Log::error($exception->getMessage(), $exception->getTrace());
                 }
-                $twilio->messages->create($order->customer_phone,
-                    [
-                        "from" => $sender_name,
-                        "body" => "Hi $order->customer_name, DoOrder’s same day delivery service has your order and its on its way, open the link to track it and confirm the delivery afterwards. " . url('customer/order/' . $order->customer_confirmation_code)
-                    ]
-                );
             } elseif($status=='delivery_arrived'){
                 $order->status = $status;
                 $timestamps->arrived_second = $current_timestamp;
@@ -518,6 +522,7 @@ class DriversController extends Controller
                     ]
                 );
             } catch (\Exception $exception){
+                \Log::error($exception->getMessage(),$exception->getTrace());
             }
             alert()->success('Deliverer accepted successfully');
         }

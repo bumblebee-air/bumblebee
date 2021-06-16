@@ -455,7 +455,8 @@ class ContractorsController extends Controller
             'data' => [
                 'full_name' => auth()->user()->name,
                 'phone' => auth()->user()->phone,
-                'email' => auth()->user()->email
+                'email' => auth()->user()->email,
+                'business_hours' => json_decode($request->user()->contractor_profile->business_hours_json, true)
             ]
         ]);
     }
@@ -609,4 +610,5 @@ class ContractorsController extends Controller
         alert()->success('Fee has updated successfully');
         return redirect()->route('garden_help_getContractorsFee', 'garden-help');
     }
+
 }

@@ -7,6 +7,7 @@ import OrderDeliveredComponent from "./components/OrderDeliveredComponent";
 import ForgotPasswordComponent from "./components/ForgotPasswordComponent";
 import ProfileComponent from "./components/ProfileComponent";
 import JobFinalizingComponent from './components/JobFinalizingComponent';
+import UpdateWorkingHours from "./components/UpdateWorkingHoursComponent";
 
 const router = new VueRouter({
     routes: [
@@ -39,6 +40,12 @@ const router = new VueRouter({
             path: '/profile',
             name: 'user-profile',
             component: ProfileComponent,
+            beforeEnter: (to, from, next) => redirectIfNotAuthed(to, from, next)
+        },
+        {
+            path: '/update-working-hours',
+            name: 'user-profile',
+            component: UpdateWorkingHours,
             beforeEnter: (to, from, next) => redirectIfNotAuthed(to, from, next)
         },
         {

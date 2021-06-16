@@ -14,7 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\ChargeRetailer::class,
-        Commands\PayoutDeliverer::class
+        Commands\PayoutDeliverer::class,
+        Commands\GHUpdateWeeklyWorkingHours::class
     ];
 
     /**
@@ -27,6 +28,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('chargeretailer:cron')->monthly();
         $schedule->command('gardenhelpcustomerpaymentintent:cron')->daily();
+        $schedule->command('gh_drivers_update_working_hours:cron')->weeklyOn(1, '8:45');
     }
 
     /**

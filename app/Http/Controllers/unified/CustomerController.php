@@ -8,6 +8,7 @@ use App\UnifiedCustomer;
 use App\UnifiedCustomerService;
 use App\UnifiedService;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
@@ -77,9 +78,6 @@ class CustomerController extends Controller
         $customer->selectedServiceType = $selectedServiceType;
         $services_types = UnifiedService::select(['id', 'name'])->get();
         
-        $customer->contractStartDate = '06/01/2021';
-        $customer->contractEndDate = '06/30/2021';
-        
         return view('admin.unified.customers.single_customer', [
             'customer' => $customer,
             'readOnly' => 1,
@@ -109,11 +107,20 @@ class CustomerController extends Controller
 
     public function postEditCustomer(Request $request)
     {
-        //dd($request);
         $customer = UnifiedCustomer::find($request->customer_id);
         if (! $customer) {
             abort(404);
         }
+        $this->validate($request, [
+            'name' => 'required',
+            'contract' => 'required',
+            'address' => 'required',
+            'postcode' => 'required',
+            'companyPhoneNumner' => 'required',
+            'serviceTypeSelectValues' => 'required',
+            'contractStartDate' => 'required_if:contract,true|date',
+            'contractEndDate' => 'required_if:contract,true|date'
+        ]);
         $contact_details_json = json_decode($request->contact_detailss,true);
         $services_types_json = json_decode($request->serviceTypeSelectValues,true);
         $customer->update([
@@ -123,6 +130,8 @@ class CustomerController extends Controller
             "phone" => $request->companyPhoneNumner,
             "address" => $request->address,
             "contacts" => json_encode($contact_details_json),
+            "contract_start_date" => Carbon::parse($request->contractStartDate)->toDateString(),
+            "contract_end_date" => Carbon::parse($request->contractEndDate)->toDateString(),
         ]);
 
         UnifiedCustomerService::where('customer_id', $customer->id)->delete();
@@ -151,7 +160,6 @@ class CustomerController extends Controller
         ]);
     }
     public function postAddCustomer(Request $request){
-        //dd($request);
         $this->validate($request, [
             'name' => 'required',
             'contract' => 'required',
@@ -159,6 +167,8 @@ class CustomerController extends Controller
             'postcode' => 'required',
             'companyPhoneNumner' => 'required',
             'serviceTypeSelectValues' => 'required',
+            'contractStartDate' => 'required_if:contract,true|date',
+            'contractEndDate' => 'required_if:contract,true|date'
         ]);
 
         $contact_details_json = json_decode($request->contact_detailss,true);
@@ -186,6 +196,8 @@ class CustomerController extends Controller
             "intruder_alarm" => in_array(5, $services_types_json),
             "wifi_data" => in_array(6, $services_types_json),
             "structured_cabling_system" => in_array(7, $services_types_json),
+            "contract_start_date" => Carbon::parse($request->contractStartDate)->toDateString(),
+            "contract_end_date" => Carbon::parse($request->contractEndDate)->toDateString(),
         ]);
         alert()->success('Customer has added successfully.');
         return redirect()->route('unified_getCustomersList', 'unified');

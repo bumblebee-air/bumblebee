@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\unified;
 
+use App\Customer;
 use App\Http\Controllers\Controller;
 use App\UnifiedCompany;
 use App\UnifiedCustomer;
@@ -30,25 +31,42 @@ class CalendarController extends Controller
         foreach ($services as $service) {
             for ($i=0; $i < $daysOfMonth; $i++) {
                 $date = Carbon::now()->startOfMonth()->addDays($i)->toDateString();
-                $jobsCount = UnifiedJob::where('service_id', $service->id)
-                    ->whereDate('start_at', $date)
-                    ->count();
-                if ($jobsCount > 0) {
+                $normalJobsCount = UnifiedJob::where('service_id', $service->id)->whereDate('start_at', $date)->whereHas('customer', function ($q) use($date) {
+                    $q->where('contract_start_date', '<=' , $date)
+                        ->where('contract_end_date', '>=' , $date);
+                })->count();
+                $expiredJobsCount = UnifiedJob::where('service_id', $service->id)->whereDate('start_at', $date)->whereHas('customer', function ($q) use($date) {
+                    $q->where('contract_start_date', '>' , $date)
+                        ->OrWhere('contract_end_date', '<' , $date);
+                })->count();
+                if ($normalJobsCount > 0) {
                     $events[] = [
                         'id' => $service->id,
                         'start' => $date,
                         'end' => $date,
-                        'backgroundColor' => $date > Carbon::now()->toDateString() ? 'transparent' : $service->backgroundColor,
+                        'backgroundColor' => $service->backgroundColor,
                         'borderColor' => $service->borderColor,
-                        'textColor' => $date > Carbon::now()->toDateString() ?'#d95353' : '',
-                        'className' => $date > Carbon::now()->toDateString() ? 'expireContract' : '',
-                        'title' => $date > Carbon::now()->toDateString() ? '' : $jobsCount,
+                        'textColor' => '',
+                        'className' => '',
+                        'title' => $normalJobsCount,
+                        'serviceId' => $service->id
+                    ];
+                }
+                if ($expiredJobsCount > 0) {
+                    $events[] = [
+                        'id' => $service->id,
+                        'start' => $date,
+                        'end' => $date,
+                        'backgroundColor' => 'transparent',
+                        'borderColor' => $service->borderColor,
+                        'textColor' => '#d95353',
+                        'className' => 'expireContract',
+                        'title' => '',
                         'serviceId' => $service->id
                     ];
                 }
             }
         }
-        
         return view('admin.unified.calendar', [
             'services' => $services,
             'events' => json_encode($events),

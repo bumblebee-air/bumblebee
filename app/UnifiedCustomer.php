@@ -31,6 +31,8 @@ class UnifiedCustomer extends Model
         "contract",
         "contacts",
         "address",
+        "contract_start_date",
+        "contract_end_date",
     ];
 
     public function user() {

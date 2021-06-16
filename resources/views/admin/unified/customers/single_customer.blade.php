@@ -119,7 +119,7 @@
 											<div class="form-group bmd-form-group">
 												<label>Contract start date</label> <input type="text"
 													id="contractStartDate" class="form-control"
-													name="contractStartDate" value="{{$customer->contractStartDate}}"
+													name="contractStartDate" value="{{$customer->contract_start_date}}"
 													placeholder="Select contract start date" required>
 											</div>
 										</div>
@@ -127,7 +127,7 @@
 											<div class="form-group bmd-form-group">
 												<label>Contract end date</label> <input type="text"
 													id="contractEndDate" class="form-control"
-													name="contractEndDate" value="{{$customer->contractEndDate}}"
+													name="contractEndDate" value="{{$customer->contract_end_date}}"
 													placeholder="Select contract end date" required>
 											</div>
 										</div>

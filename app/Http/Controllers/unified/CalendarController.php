@@ -42,7 +42,8 @@ class CalendarController extends Controller
                         'borderColor' => $service->borderColor,
                         'textColor' => $date > Carbon::now()->toDateString() ?'#d95353' : '',
                         'className' => $date > Carbon::now()->toDateString() ? 'expireContract' : '',
-                        'title' => $date > Carbon::now()->toDateString() ? $jobsCount :''
+                        'title' => $date > Carbon::now()->toDateString() ? '' : $jobsCount,
+                        'serviceId' => $service->id
                     ];
                 }
             }

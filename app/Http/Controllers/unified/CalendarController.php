@@ -236,16 +236,16 @@ class CalendarController extends Controller
         if($request->viewName){
             $viewName= $request->viewName;
         }
-
         if ($serviceId == 0) {
-            $jobsList = UnifiedJob::whereDate('start_at', Carbon::now()->startOfMonth()->toDateString())
-                ->whereDate('end_at', Carbon::now()->endOfMonth()->toDateString())->get();
+            $jobsList = UnifiedJob::whereDate('start_at', $date)->get();
             foreach ($jobsList as $job) {
                 $job->backgroundColor = $job->service->backgroundColor;
             }
         } else {
-            $jobsList = UnifiedJob::where('service_id', $serviceId)->whereDate('start_at', '>=', Carbon::now()->startOfMonth()->toDateString())
-                ->whereDate('end_at', '<=', Carbon::now()->endOfMonth()->toDateString())->get();
+            $jobsList = UnifiedJob::where('service_id', $serviceId)
+                ->whereDate('start_at', '>=', Carbon::now()->startOfMonth()->toDateString())
+                ->whereDate('start_at', '<=', Carbon::now()->endOfMonth()->toDateString())
+                ->get();
             foreach ($jobsList as $job) {
                 $job->backgroundColor = $job->service->backgroundColor;
             }

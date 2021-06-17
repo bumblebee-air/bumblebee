@@ -1,4 +1,10 @@
-@extends('templates.dashboard') @section('page-styles') @endsection
+@extends('templates.dashboard') @section('page-styles')
+<style>
+.verificationDocs .form-group{
+margin: 8px -15px 8px -15px !important;
+}
+</style>
+ @endsection
 @section('title','DoOrder | Driver ' . $driver->first_name . ' ' .
 $driver->last_name) @section('page-content')
 <div class="content" id="app">
@@ -13,7 +19,7 @@ $driver->last_name) @section('page-content')
 						<input type="hidden" name="driver_id" value="{{$driver->id}}"/>
 						<div class="card">
 							<div class="card-header card-header-icon card-header-rose row">
-								<div class="col-12 col-sm-4">
+								<div class="col-12 col-md-8">
 									<div class="card-icon">
 										<img class="page_icon"
 											src="{{asset('images/doorder_icons/Deliverers-white.png')}}">
@@ -22,8 +28,8 @@ $driver->last_name) @section('page-content')
 										{{$driver->last_name}}</h4>
 								</div>
  								@if($readOnly==1)
-								<div class="col-6 col-sm-8 mt-5">
-									<div class="row justify-content-end">
+								<div class="col-12 col-md-4 mt-md-5">
+									<div class="row justify-content-end float-sm-right">
 										<a class="editLinkA btn  btn-link btn-primary-doorder  edit" href="{{url('doorder/drivers/')}}/{{$driver->id}}">
 											<p>Edit deliverer</p>
 										</a>
@@ -159,30 +165,11 @@ $driver->last_name) @section('page-content')
 						</div>
 
 						<div class="card">
-							{{--
-							<div class="card-header card-header-icon card-header-rose">
-								--}} {{--
-								<div class="card-icon">
-									--}} {{-- --}}{{-- <i class="material-icons">home_work</i>--}}
-									{{-- <img class="page_icon"
-										src="{{asset('images/doorder_icons/add-plus-outline.png')}}">--}}
-									{{--
-								</div>
-								--}} {{--
-								<h4 class="card-title ">New Order</h4>
-								--}} {{--
-							</div>
-							--}}
+							 
 							<div class="card-body">
 								<div class="container">
 									<div class="row">
-										{{--
-										<div class="col-md-12 d-flex form-head pl-3">
-											--}} {{-- <span>--}} {{-- 2--}} {{-- </span>--}} {{--
-											Locations Details--}} {{--
-										</div>
-										--}}
-
+										
 										<div class="col-md-12">
 											{{-- <label v-if="locations.length > 1">Location @{{ index +
 												1 }}</label>--}}
@@ -262,7 +249,7 @@ $driver->last_name) @section('page-content')
 							</div>
 						</div>
 
-						<div class="card">
+						<div class="card verificationDocs">
 							<div class="card-body">
 								<div class="container">
 									<div class="row">
@@ -272,36 +259,36 @@ $driver->last_name) @section('page-content')
 											<h5 class="singleViewSubTitleH5">Verification Documents</h5>
 										</div>
 
-										<div class="col-sm-6">
+										<div class="col-md-6">
 											<div class="form-group bmd-form-group row">
 												<div class="col-md-12">
 													<h5 class="downloadFilesH5">Evidence You Can Legally Work
 														In Ireland</h5>
 												</div>
-												<div class="col-sm-6">
+												<div class="col-md-6">
 													<a target="_blank"
 														href="{{asset($driver->legal_word_evidence)}}"
 														style="color: #333">
-														<div class="file-url-container d-flex">
+														<div class="file-url-container d-flex ">
 															<i class="fas fa-file"></i>
-															<p class="mt-3 pl-3">Download file</p>
+															<p class="mt-xl-3 pl-xl-3 my-md-2 pl-2 my-3">Download file</p>
 														</div>
 													</a>
 												</div>
 											</div>
 										</div>
 
-										<div class="col-sm-6">
+										<div class="col-md-6">
 											<div class="form-group bmd-form-group row">
 												<div class="col-md-12">
 													<h5 class="downloadFilesH5">Proof of Address</h5>
 												</div>
-												<div class="col-sm-6">
+												<div class="col-md-6">
 													<a target="_blank" href="{{asset($driver->address_proof)}}"
 														style="color: #333">
 														<div class="file-url-container d-flex">
 															<i class="fas fa-file"></i>
-															<p class="mt-3 pl-3">Download file</p>
+															<p class="mt-xl-3 pl-xl-3 my-md-2 pl-2 my-3">Download file</p>
 														</div>
 													</a>
 												</div>
@@ -311,30 +298,30 @@ $driver->last_name) @section('page-content')
 
 										@if($driver->driver_license || $driver->driver_license_back)
 
-										<div class="col-sm-6">
+										<div class="col-md-6">
 											<div class="form-group bmd-form-group row">
 												<div class="col-md-12">
 													<h5 class="downloadFilesH5">Driving License</h5>
 												</div>
 												@if($driver->driver_license)
-												<div class="col-sm-6">
+												<div class="col-md-6">
 													<a target="_blank"
 														href="{{asset($driver->driver_license)}}"
 														style="color: #333">
 														<div class="file-url-container d-flex">
 															<i class="fas fa-file"></i>
-															<p class="mt-3 pl-3">License front</p>
+															<p class="mt-xl-3 pl-xl-3 my-md-2 pl-2 my-3">License front</p>
 														</div>
 													</a>
 												</div>
 												@endif @if($driver->driver_license_back)
-												<div class="col-sm-6">
+												<div class="col-md-6">
 													<a target="_blank"
 														href="{{asset($driver->driver_license_back)}}"
 														style="color: #333">
 														<div class="file-url-container d-flex">
 															<i class="fas fa-file"></i>
-															<p class="mt-3 pl-3">License back</p>
+															<p class="mt-xl-3 pl-xl-3 my-md-2 pl-2 my-3">License back</p>
 														</div>
 													</a>
 												</div>
@@ -342,18 +329,18 @@ $driver->last_name) @section('page-content')
 											</div>
 										</div>
 										@endif @if($driver->insurance_proof)
-										<div class="col-sm-6">
+										<div class="col-md-6">
 											<div class="form-group bmd-form-group row">
 												<div class="col-md-12">
 													<h5 class="downloadFilesH5">Proof Of Insurance</h5>
 												</div>
-												<div class="col-sm-6">
+												<div class="col-md-6">
 													<a target="_blank"
 														href="{{asset($driver->insurance_proof)}}"
 														style="color: #333">
 														<div class="file-url-container d-flex">
 															<i class="fas fa-file"></i>
-															<p class="mt-3 pl-3">Download file</p>
+															<p class="mt-xl-3 pl-xl-3 my-md-2 pl-2 my-3">Download file</p>
 														</div>
 													</a>
 												</div>
@@ -434,13 +421,15 @@ $driver->last_name) @section('page-content')
 										</form>
 									</div>
 								</div>
-								<div class="modal-footer d-flex justify-content-around">
-									<button type="button"
+								<div class="row">
+									<div class="col-sm-6">
+					<button type="button"
 										class="btn btn-primary doorder-btn-lg doorder-btn"
-										onclick="$('form#delete-driver').submit()">Yes</button>
-									<button type="button"
+										onclick="$('form#delete-driver').submit()">Yes</button></div>
+									<div class="col-sm-6">
+					<button type="button"
 										class="btn btn-danger doorder-btn-lg doorder-btn"
-										data-dismiss="modal">Cancel</button>
+										data-dismiss="modal">Cancel</button></div>
 								</div>
 							</div>
 						</div>

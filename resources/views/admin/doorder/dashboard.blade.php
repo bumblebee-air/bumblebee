@@ -2,31 +2,39 @@
 
 @section('page-styles')
 <style>
-.ui-datepicker-calendar td{
- min-width: auto;
+.ui-datepicker-calendar td {
+	min-width: auto;
 }
 
 .ui-draggable, .ui-droppable {
 	background-position: top;
 }
-.alert{
-padding: 0.5rem !important;
-font-size:16px;
-display: none;
+
+.alert {
+	padding: 0.5rem !important;
+	font-size: 16px;
+	display: none;
 }
+
 .dataTables_wrapper.no-footer .dataTables_scrollBody {
-    border: none !important;
+	border: none !important;
 }
-table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td {
-     border-right: none !important;
+
+table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
+	{
+	border-right: none !important;
 }
-.ui-icon-circle-triangle-w{
-background: url('{{asset('images/doorder_icons/angle-arrow-left.png')}}') no-repeat center !important; 
-background-size: cover;
+
+.ui-icon-circle-triangle-w {
+	background: url('{{asset('images/doorder_icons/angle-arrow-left.png')}}')
+		no-repeat center !important;
+	background-size: cover;
 }
-.ui-icon-circle-triangle-e{
-background: url('{{asset('images/doorder_icons/angle-arrow-right.png')}}') no-repeat center !important; 
-background-size: cover;
+
+.ui-icon-circle-triangle-e {
+	background: url('{{asset('images/doorder_icons/angle-arrow-right.png')}}')
+		no-repeat center !important;
+	background-size: cover;
 }
 </style>
 
@@ -48,10 +56,12 @@ background-size: cover;
 					</div>
 
 					<div class="card-body">
-						<div class="row" style="margin-left: 15px"><p id="errorMesssage" class="alert alert-danger"></p></div>
-						<div class="row" style="margin-left: 15px">
-							<label class="col-sm-2 col-form-label filterLabelDashboard">Filter:</label>
-							<div class="col-sm-3">
+						<div class="row" style="margin-left: 10px">
+							<p id="errorMesssage" class="alert alert-danger"></p>
+						</div>
+						<div class="row" id="dashboardFilterRowDiv">
+							<label class="col-lg-2 col-md-2 col-sm-2 col-form-label filterLabelDashboard">Filter:</label>
+							<div class="col-lg-3 col-md-3 col-sm-3">
 								<div class="form-group bmd-form-group">
 									<input class="form-control inputDate" id="startDate"
 										type="text" data-toggle="datetimepicker"
@@ -59,37 +69,39 @@ background-size: cover;
 										aria-required="true">
 								</div>
 							</div>
-							<div class="col-sm-3">
+							<div class="col-lg-3 col-md-3 col-sm-3">
 								<div class="form-group bmd-form-group">
-									<input class="form-control inputDate" id="endDate"
-										type="text" placeholder="To" required="true"
-										aria-required="true">
+									<input class="form-control inputDate" id="endDate" type="text"
+										placeholder="To" required="true" aria-required="true">
 								</div>
 							</div>
-							<div class="col-sm-2 col-sm-offset-2">
-								<button class="btn btn-primary" type="button" onclick="clickFilter()">Filter</button>
+							<div class="col-lg-2 col-md-3  col-sm-2">
+								<button class="btn btn-primary" type="button"
+									onclick="clickFilter()">Filter</button>
 							</div>
 						</div>
 
 
-						<div class="row" style="display: flex;flex-wrap: wrap;">
-							<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+						<div class="row" style="display: flex; flex-wrap: wrap;">
+							<div class="col-lg-3 col-md-4 col-sm-6 col-6">
 								<div class="card card-stats">
 									<a href="{{route('doorder_ordersTable', 'doorder')}}">
 										<div class="card-dashboard-content">
 											<p class="card-category">Orders</p>
 											<div class="row">
-												<div class="col-md-6  col-sm-6 col-xs-6">
-													<h3 id="ordersValueH3" class="card-title cardDashboardValueH3">{{$all_orders_count}}</h3>
+												<div class="col-md-6  col-sm-6 ">
+													<h3 id="ordersValueH3"
+														class="card-title cardDashboardValueH3">{{$all_orders_count}}</h3>
 													<div class="card-footer">
 														<div class="stats" id="ordersStatsTime">Today</div>
 													</div>
 												</div>
-												<div class="col-md-6 col-sm-6 col-xs-6 dashboard-card-icon-container">
+												<div
+													class="col-md-6 col-sm-6  dashboard-card-icon-container">
 													<div class="dashboard-card-icon">
 														<img class="dashboard-card-img"
-															 src="{{asset('images/doorder_icons/orders-dashbord.png')}}"
-															 alt="orders icon">
+															src="{{asset('images/doorder_icons/orders-dashbord.png')}}"
+															alt="orders icon">
 													</div>
 												</div>
 											</div>
@@ -97,23 +109,25 @@ background-size: cover;
 									</a>
 								</div>
 							</div>
-							<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+							<div class="col-lg-3 col-md-4 col-sm-6 col-6">
 								<div class="card card-stats">
 									<a href="{{route('doorder_getInvoiceList', 'doorder')}}">
 										<div class="card-dashboard-content">
 											<p class="card-category">Delivery</p>
 											<div class="row">
-												<div class="col-md-6  col-sm-6 col-xs-6">
-													<h3 id="deliveryValueH3" class="card-title cardDashboardValueH3">{{$delivered_orders_count}}</h3>
+												<div class="col-md-6  col-sm-6 ">
+													<h3 id="deliveryValueH3"
+														class="card-title cardDashboardValueH3">{{$delivered_orders_count}}</h3>
 													<div class="card-footer">
 														<div class="stats" id="deliveryStatsTime">Today</div>
 													</div>
 												</div>
-												<div class="col-md-6  col-sm-6 col-xs-6 dashboard-card-icon-container">
+												<div
+													class="col-md-6  col-sm-6  dashboard-card-icon-container">
 													<div class="dashboard-card-icon">
 														<img class="dashboard-card-img"
-															 src="{{asset('images/doorder_icons/delivery-dashboard.png')}}"
-															 alt="delivery icon">
+															src="{{asset('images/doorder_icons/delivery-dashboard.png')}}"
+															alt="delivery icon">
 													</div>
 												</div>
 											</div>
@@ -121,23 +135,25 @@ background-size: cover;
 									</a>
 								</div>
 							</div>
-							<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+							<div class="col-lg-3 col-md-4 col-sm-6 col-6">
 								<div class="card card-stats">
 									<a href="{{route('doorder_retailers_requests', 'doorder')}}">
 										<div class="card-dashboard-content">
 											<p class="card-category">New Retailers</p>
 											<div class="row">
-												<div class="col-md-6  col-sm-6 col-xs-6">
-													<h3 id="newRetailersValueH3" class="card-title cardDashboardValueH3">{{$retailers_count}}</h3>
+												<div class="col-md-6  col-sm-6 ">
+													<h3 id="newRetailersValueH3"
+														class="card-title cardDashboardValueH3">{{$retailers_count}}</h3>
 													<div class="card-footer">
 														<div class="stats" id="newRetailersStatsTime">This month</div>
 													</div>
 												</div>
-												<div class="col-md-6  col-sm-6 col-xs-6 dashboard-card-icon-container">
+												<div
+													class="col-md-6  col-sm-6  dashboard-card-icon-container">
 													<div class="dashboard-card-icon">
 														<img class="dashboard-card-img"
-															 src="{{asset('images/doorder_icons/new-retailers-dashboard.png')}}"
-															 alt="new retailers icon">
+															src="{{asset('images/doorder_icons/new-retailers-dashboard.png')}}"
+															alt="new retailers icon">
 													</div>
 												</div>
 											</div>
@@ -145,23 +161,25 @@ background-size: cover;
 									</a>
 								</div>
 							</div>
-							<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+							<div class="col-lg-3 col-md-4 col-sm-6 col-6">
 								<div class="card card-stats">
 									<a href="{{route('doorder_drivers_requests', 'doorder')}}">
 										<div class="card-dashboard-content">
 											<p class="card-category">New Deliverers</p>
 											<div class="row">
-												<div class="col-md-6  col-sm-6 col-xs-6">
-													<h3 id="newDeliverersValueH3" class="card-title cardDashboardValueH3">{{$deliverers_count}}</h3>
+												<div class="col-md-6  col-sm-6 ">
+													<h3 id="newDeliverersValueH3"
+														class="card-title cardDashboardValueH3">{{$deliverers_count}}</h3>
 													<div class="card-footer">
 														<div class="stats" id="newDeliverersStatsTime">This month</div>
 													</div>
 												</div>
-												<div class="col-md-6  col-sm-6 col-xs-6 dashboard-card-icon-container">
+												<div
+													class="col-md-6  col-sm-6  dashboard-card-icon-container">
 													<div class="dashboard-card-icon">
 														<img class="dashboard-card-img"
-															 src="{{asset('images/doorder_icons/new-deliverers-dashbord.png')}}"
-															 alt="new deliverers icon">
+															src="{{asset('images/doorder_icons/new-deliverers-dashbord.png')}}"
+															alt="new deliverers icon">
 													</div>
 												</div>
 											</div>
@@ -172,8 +190,10 @@ background-size: cover;
 						</div>
 						<div class="row">
 							<div class="col-12" id="map-container">
-								<div id="map"
-									style="width: 100%; height: 100%; min-height: 400px; margin-top: 0; border-radius: 6px;"></div>
+								<div class="card ">
+									<div id="map"
+										style="width: 100%; height: 100%; min-height: 400px; margin-top: 0; border-radius: 6px;"></div>
+								</div>
 							</div>
 						</div>
 
@@ -187,7 +207,8 @@ background-size: cover;
 										</div>
 										<div class="row">
 											<div class="col-md-12">
-												<table id="deliverersChargesPerWeekTable" class="table  row-border cell-border">
+												<table id="deliverersChargesPerWeekTable"
+													class="table  row-border cell-border">
 													<thead>
 														<tr>
 															<th>Deliverers</th>
@@ -196,14 +217,14 @@ background-size: cover;
 														</tr>
 													</thead>
 													<tbody>
-													@foreach($deliverers_order_charges as $obj)
+														@foreach($deliverers_order_charges as $obj)
 														<tr>
 															<td>{{$obj->deliverer_name}}</td>
 															<td>{{$obj->order_count}}</td>
 															<td>{{$obj->order_charge}}</td>
 														</tr>
-													@endforeach
-														
+														@endforeach
+
 													</tbody>
 												</table>
 											</div>
@@ -220,7 +241,8 @@ background-size: cover;
 										</div>
 										<div class="row">
 											<div class="col-md-12">
-												<table id="retailersChargesPerMonthTable" class="table  row-border cell-border">
+												<table id="retailersChargesPerMonthTable"
+													class="table  row-border cell-border">
 													<thead>
 														<tr>
 															<th>Retailers</th>
@@ -251,7 +273,8 @@ background-size: cover;
 								<div class="card ">
 									<div class="cardContentTableDiv">
 										<div class="">
-											<h3 class="card-title tableDashboardH3">Statistics (Order Per Month)</h3>
+											<h3 class="card-title tableDashboardH3">Statistics (Order Per
+												Month)</h3>
 										</div>
 										<div class="row">
 											<div class="col-md-12">
@@ -280,6 +303,7 @@ background-size: cover;
              	"paging":   true,
         		"ordering": false,
         		"info":     false,
+        		"responsive":true,
         		"scrollY":        "450px",
         		"scrollCollapse": true,
         		"searching": false,
@@ -295,6 +319,7 @@ background-size: cover;
              	"paging":   true,
         		"ordering": false,
         		"info":     false,
+        		"responsive":true,
         		"scrollY":        "450px",
         		"scrollCollapse": true,
         		"searching": false,
@@ -355,6 +380,14 @@ background-size: cover;
                       if(data.retailers_order_charges.length>0){
                       	$('#retailersChargesPerMonthTable').dataTable().fnAddData(data.retailers_order_charges);
                       }
+                      
+                      var data = {
+                          labels:data.annual_chart_labels,
+                          series: [
+                           data.annual_chart_data
+                          ]
+                        };
+					  new Chartist.Bar('.ct-chart', data, options, responsiveOptions);
                       
                    }
             	});

@@ -1,377 +1,406 @@
-@extends('templates.dashboard')
+@extends('templates.dashboard') @section('page-styles')
+<style>
+h3 {
+	margin-top: 0;
+	font-weight: bold;
+}
 
-@section('page-styles')
-    <style>
-        h3 {
-            margin-top: 0;
-            font-weight: bold;
-        }
+.swal2-popup .swal2-styled:focus {
+	box-shadow: none !important;
+}
+
+div[data-toggle='collapse'] {
+	cursor: pointer;
+}
+
+.deliverers-container .deliverer-card {
+	margin-top: 0;
+	margin-bottom: 15px;
+	cursor: pointer;
+}
+
+.deliverers-container .deliverer-card .deliverer-details {
+	font-family: Quicksand;
+	font-size: 15px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.2;
+	letter-spacing: normal;
+	color: #7b7b7b;
+}
+
+.deliverers-container .deliverer-card .deliverer-details:hover,
+	.deliverers-container .deliverer-card .deliverer-details:focus {
+	color: #bfa436;
+}
 
 
-        audio {
-            height: 32px;
-            margin-top: 8px;
-        }
 
-        .swal2-popup .swal2-styled:focus {
-            box-shadow: none !important;
-        }
-
-        div[data-toggle='collapse']{
-            cursor: pointer;
-        }
-
-        .deliverers-container .deliverer-card{
-            cursor: pointer;
-        }
-        .deliverers-container .deliverer-card .deliverer-details{
-            color: #3c4858;
-        }
-        .deliverers-container .deliverer-card .deliverer-details:hover,
-        .deliverers-container .deliverer-card .deliverer-details:focus{
-            color: #f7dc69;
-        }
-
-        .modal-dialog-header {
-            font-size: 25px;
-            font-weight: 500;
-            line-height: 1.2;
-            text-align: center;
-            color: #cab459;
-        }
-
-        .modal-content {
-            /*padding: 51px 51px 112px 51px;*/
-            border-radius: 30px!important;
-            border: solid 1px #979797!important;
-            background-color: #ffffff;
-        }
-
-        @media (min-width: 576px) {
-            .modal-dialog {
-                max-width: 972px!important;
-                margin-left: 16.75rem!important;
-                margin-right: 16.75rem!important;
-            }
-        }
-
-        .modal-header .close {
-            width: 15px;
-            height: 15px;
-            margin: 39px 37px 95px 49px;
-            background-color: #e8ca49;
-            border-radius: 30px;
-            color: white!important;
-            top: -20px!important;
-            padding: 0.6rem;
-        }
-
-        .modal-header .close i {
-            font-size: 10px!important;
-            margin: -5px;
-        }
-    </style>
-@endsection
-@section('title','DoOrder | View Order')
+</style>
+@endsection @section('title','DoOrder | View Order')
 @section('page-content')
-    <div class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12 col-sm-6" id="details-container">
-                    <div class="card">
-                        <div class="card-header card-header-icon card-header-rose">
-                            <div class="card-icon">
-                                {{--                                    <i class="material-icons">home_work</i>--}}
-                                <img class="page_icon" src="{{asset('images/doorder_icons/orders_table_white.png')}}">
-                            </div>
-                            <h4 class="card-title ">Order Number {{$order->order_id}}</h4>
-                        </div>
-                        <div style="padding: 10px 0;"></div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header" data-toggle="collapse" id="customer-details-header" data-target="#customer-details" aria-expanded="true" aria-controls="customer-details">
-                            <div class="d-flex form-head">
-                                <span>1</span>
-                                Customer Details
-                            </div>
-                        </div>
-                        <div id="customer-details" class="collapse show" aria-labelledby="customer-details-header" data-parent="#details-container">
-                            <div class="card-body">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="first_name" class="control-label">First Name:</label>
-                                                <input id="first_name" type="text" class="form-control" value="{{$order->first_name}}" name="first_name" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="last_name" class="control-label">Last Name:</label>
-                                                <input id="last_name" type="text" class="form-control" value="{{$order->last_name}}" name="last_name" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="email" class="control-label">Email:</label>
-                                                <input id="email" type="email" class="form-control" value="{{$order->customer_email}}" name="email">
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="customer_phone" class="control-label">Contact Number:</label>
-                                                <input id="customer_phone" type="tel" class="form-control" value="{{$order->customer_phone}}" name="customer_phone" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="customer_address" class="control-label">Address:</label>
-                                                <input id="customer_address" type="text" class="form-control" value="{{$order->customer_address}}" name="customer_address" required>
-                                                <input type="hidden" name="customer_lat" id="customer_lat" value="{{$order->customer_address_lat}}">
-                                                <input type="hidden" name="customer_lon" id="customer_lon" value="{{$order->customer_address_lon}}">
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="eircode" class="control-label">Eircode:</label>
-                                                <input id="eircode" type="text" class="form-control" value="{{$order->eircode}}" name="eircode">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<div class="content">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12 col-sm-6" id="details-container">
+				<div class="card">
+					<div class="card-header card-header-icon card-header-rose">
+						<div class="card-icon">
+							{{-- <i class="material-icons">home_work</i>--}} <img
+								class="page_icon"
+								src="{{asset('images/doorder_icons/orders_table_white.png')}}">
+						</div>
+						<h4 class="card-title ">Order Number {{$order->order_id}}</h4>
+					</div>
+					<div style="padding: 10px 0;"></div>
+				</div>
+				<div class="card">
+					<div class="card-header" data-toggle="collapse"
+						id="customer-details-header" data-target="#customer-details"
+						aria-expanded="true" aria-controls="customer-details">
+						<div class="d-flex form-head">
+							<span>1</span> Customer Details
+						</div>
+					</div>
+					<div id="customer-details" class="collapse show"
+						aria-labelledby="customer-details-header"
+						data-parent="#details-container">
+						<div class="card-body">
+							<div class="container">
+								<div class="row">
+									<div class="col-12">
+										<div class="form-group">
+											<label for="first_name" class="control-label">First Name:</label>
+											<input id="first_name" type="text" class="form-control"
+												value="{{$order->first_name}}" name="first_name" required>
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="form-group">
+											<label for="last_name" class="control-label">Last Name:</label>
+											<input id="last_name" type="text" class="form-control"
+												value="{{$order->last_name}}" name="last_name" required>
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="form-group">
+											<label for="email" class="control-label">Email:</label> <input
+												id="email" type="email" class="form-control"
+												value="{{$order->customer_email}}" name="email">
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="form-group">
+											<label for="customer_phone" class="control-label">Contact
+												Number:</label> <input id="customer_phone" type="tel"
+												class="form-control" value="{{$order->customer_phone}}"
+												name="customer_phone" required>
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="form-group">
+											<label for="customer_address" class="control-label">Address:</label>
+											<input id="customer_address" type="text" class="form-control"
+												value="{{$order->customer_address}}" name="customer_address"
+												required> <input type="hidden" name="customer_lat"
+												id="customer_lat" value="{{$order->customer_address_lat}}">
+											<input type="hidden" name="customer_lon" id="customer_lon"
+												value="{{$order->customer_address_lon}}">
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="form-group">
+											<label for="eircode" class="control-label">Eircode:</label> <input
+												id="eircode" type="text" class="form-control"
+												value="{{$order->eircode}}" name="eircode">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
-                    <div class="card">
-                        <div class="card-header" data-toggle="collapse" id="package-details-header" data-target="#package-details" aria-expanded="true" aria-controls="package-details">
-                            <div class="d-flex form-head">
-                                <span>2</span>
-                                Package Details
-                            </div>
-                        </div>
-                        <div id="package-details" class="collapse" aria-labelledby="package-details-header" data-parent="#details-container">
-                            <div class="card-body">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="pick_address" class="control-label">Pickup Address</label>
-                                                <input id="pick_address" name="pickup_address" type="text" class="form-control" value="{{$order->pickup_address}}" required>
-                                                <!--<select id="pick_address" name="pickup_address" data-style="select-with-transition" class="form-control selectpicker">
+				<div class="card">
+					<div class="card-header" data-toggle="collapse"
+						id="package-details-header" data-target="#package-details"
+						aria-expanded="true" aria-controls="package-details">
+						<div class="d-flex form-head">
+							<span>2</span> Package Details
+						</div>
+					</div>
+					<div id="package-details" class="collapse"
+						aria-labelledby="package-details-header"
+						data-parent="#details-container">
+						<div class="card-body">
+							<div class="container">
+								<div class="row">
+									<div class="col-12">
+										<div class="form-group">
+											<label for="pick_address" class="control-label">Pickup
+												Address</label> <input id="pick_address"
+												name="pickup_address" type="text" class="form-control"
+												value="{{$order->pickup_address}}" required>
+											<!--<select id="pick_address" name="pickup_address" data-style="select-with-transition" class="form-control selectpicker">
                                                     <option value="88 - 95 Grafton Street Dublin , Dublin Ireland">88 - 95 Grafton Street Dublin , Dublin Ireland </option>
                                                     <option value="12 Brook Lawn, Lehenagh More, Cork, Ireland">12 Brook Lawn, Lehenagh More, Cork, Ireland</option>
                                                 </select>-->
-                                                <input type="hidden" name="pickup_lat" id="pickup_lat" value="{{$order->pickup_lat}}">
-                                                <input type="hidden" name="pickup_lon" id="pickup_lon" value="{{$order->pickup_lon}}">
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="fulfilment" class="control-label">Order Fulfilment</label>
-                                                <input id="fulfilment" type="text" name="fulfilment" class="form-control" value="{{$order->fulfilment}}" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="weight" class="control-label">Package Weight in Kg</label>
-                                                <input id="weight" type="text" class="form-control" name="weight" value="{{$order->weight}}" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="dimensions" class="control-label">Package Dimensions in cm</label>
-                                                <input id="dimensions" type="text" name="dimensions" class="form-control" value="{{$order->dimensions}}" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="notes" class="control-label">Other Details</label>
-                                                <input id="notes" type="text" name="notes" class="form-control" value="{{$order->notes}}">
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="deliver_by" class="control-label">Deliver By:</label>
-                                                {{--<select class="form-control" data-style="btn btn-link" id="exampleFormControlSelect1">--}}
-                                                    {{--<option>Car</option>--}}
-                                                    {{--<option>Scooter</option>--}}
-                                                {{--</select>--}}
-                                                <select id="deliver_by" name="deliver_by" data-style="select-with-transition" class="form-control selectpicker">
-                                                    <option value="car" @if($order->deliver_by=='car') selected @endif>Car</option>
-                                                    <option value="scooter" @if($order->deliver_by=='scooter') selected @endif>Scooter</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="fragile" class="control-label">Fragile Package?</label>
-                                                <div class="radio-container row">
-                                                    <div class="form-check form-check-radio form-check-inline d-flex justify-content-between"><label class="form-check-label">
-                                                            <input type="radio" name="fragile" id="inlineRadio1" value="1" class="form-check-input" required @if($order->fragile==1) checked @endif>
-                                                            Yes
-                                                            <span class="circle">
-                                                                <span class="check"></span>
-                                                            </span>
-                                                        </label>
-                                                    </div>
+											<input type="hidden" name="pickup_lat" id="pickup_lat"
+												value="{{$order->pickup_lat}}"> <input type="hidden"
+												name="pickup_lon" id="pickup_lon"
+												value="{{$order->pickup_lon}}">
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="form-group">
+											<label for="fulfilment" class="control-label">Order
+												Fulfilment</label> <input id="fulfilment" type="text"
+												name="fulfilment" class="form-control"
+												value="{{$order->fulfilment}}" required>
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="form-group">
+											<label for="weight" class="control-label">Package Weight in
+												Kg</label> <input id="weight" type="text"
+												class="form-control" name="weight"
+												value="{{$order->weight}}" required>
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="form-group">
+											<label for="dimensions" class="control-label">Package
+												Dimensions in cm</label> <input id="dimensions" type="text"
+												name="dimensions" class="form-control"
+												value="{{$order->dimensions}}" required>
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="form-group">
+											<label for="notes" class="control-label">Other Details</label>
+											<input id="notes" type="text" name="notes"
+												class="form-control" value="{{$order->notes}}">
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="form-group">
+											<label for="deliver_by" class="control-label">Deliver By:</label>
+											{{--<select class="form-control" data-style="btn btn-link"
+												id="exampleFormControlSelect1">--}} {{--
+												<option>Car</option>--}} {{--
+												<option>Scooter</option>--}} {{--
+											</select>--}} <select id="deliver_by" name="deliver_by"
+												data-style="select-with-transition"
+												class="form-control selectpicker">
+												<option value="car" @if($order->deliver_by=='car') selected
+													@endif>Car</option>
+												<option value="scooter" @if($order->deliver_by=='scooter')
+													selected @endif>Scooter</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="form-group">
+											<label for="fragile" class="control-label">Fragile Package?</label>
+											<div class="radio-container row">
+												<div
+													class="form-check form-check-radio form-check-inline d-flex justify-content-between">
+													<label class="form-check-label"> <input type="radio"
+														name="fragile" id="inlineRadio1" value="1"
+														class="form-check-input" required @if($order->fragile==1)
+														checked @endif> Yes <span class="circle"> <span
+															class="check"></span>
+													</span>
+													</label>
+												</div>
 
-                                                    <div class="form-check form-check-radio form-check-inline d-flex justify-content-between"><label class="form-check-label">
-                                                            <input type="radio" name="fragile" id="inlineRadio1" value="0" class="form-check-input" required @if($order->fragile==0) checked @endif>
-                                                            No
-                                                            <span class="circle">
-                                                                <span class="check"></span>
-                                                            </span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+												<div
+													class="form-check form-check-radio form-check-inline d-flex justify-content-between">
+													<label class="form-check-label"> <input type="radio"
+														name="fragile" id="inlineRadio1" value="0"
+														class="form-check-input" required @if($order->fragile==0)
+														checked @endif> No <span class="circle"> <span
+															class="check"></span>
+													</span>
+													</label>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
-                    @if(auth()->user()->user_role != 'retailer')
-                        @if($order->status == 'delivered')
-                            <div class="card">
-                                <div class="card-header" data-toggle="collapse" id="deliverer-details-header" data-target="#deliverer-details" aria-expanded="true" aria-controls="deliverer-details">
-                                    <div class="d-flex form-head">
-                                        <span>3</span>
-                                        Order's Deliverer Details
-                                    </div>
-                                </div>
-                                <div id="deliverer-details" class="collapse" aria-labelledby="deliverer-details-header" data-parent="#details-container">
-                                    <div class="card-body" style="padding-top:20px!important;">
-                                        <div class="container">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <div class="form-group">
-                                                        <label for="fulfilment" class="control-label">Driver Name</label>
-                                                        <input id="fulfilment" type="text" name="fulfilment" class="form-control" value="{{$order->orderDriver->name}}" required>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12">
-                                                    <div class="form-group">
-                                                        <label for="fulfilment" class="control-label">Delivery Status</label>
-                                                        <input id="fulfilment" type="text" name="fulfilment" class="form-control" value="{{$order->delivery_confirmation_status && $order->delivery_confirmation_status == 'confirmed' ? 'The customer has confirmed the delivery' : 'The deliverer has skipped the confirmation'}}" required>
-                                                    </div>
-                                                </div>
-                                                @if($order->delivery_confirmation_status != 'confirmed')
-                                                    <div class="col-12">
-                                                        <div class="form-group">
-                                                            <label for="fulfilment" class="control-label">Delivery Skip Reason</label>
-                                                            <input id="fulfilment" type="text" name="fulfilment" class="form-control" value="{{$order->delivery_confirmation_skip_reason ? $order->delivery_confirmation_skip_reason : 'N/A'}}" required>
-                                                        </div>
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @else
-                            <div class="card">
-                                <div class="card-header" data-toggle="collapse" id="deliverer-details-header" data-target="#deliverer-details" aria-expanded="true" aria-controls="deliverer-details">
-                                    <div class="d-flex form-head">
-                                        <span>3</span>
-                                        Deliverers
-                                    </div>
-                                </div>
-                                <div id="deliverer-details" class="collapse" aria-labelledby="deliverer-details-header" data-parent="#details-container">
-                                    <div class="card-body">
-                                        <div class="container">
-                                            <div class="row">
-                                                <div class="col-12 deliverers-container">
-                                                    @foreach($available_drivers as $driver)
-                                                        <div id="driver-{{$driver->id}}" class="card deliverer-card"
-                                                             data-driver-id="{{$driver->id}}" data-driver-name="{{$driver->name}}"
-                                                             onclick="showAssignDriverModal({{$driver->id}})">
-                                                            <div class="card-header deliverer-details row">
-                                                                <div class="col-6">
-                                                                    <span class="deliverer-name">{{$driver->name}}</span>
-                                                                </div>
-                                                                <div class="col-6" style="text-align: right">
-                                                                    <i class="fas fa-check-circle"></i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+				@if(auth()->user()->user_role != 'retailer') @if($order->status ==
+				'delivered')
+				<div class="card">
+					<div class="card-header" data-toggle="collapse"
+						id="deliverer-details-header" data-target="#deliverer-details"
+						aria-expanded="true" aria-controls="deliverer-details">
+						<div class="d-flex form-head">
+							<span>3</span> Order's Deliverer Details
+						</div>
+					</div>
+					<div id="deliverer-details" class="collapse"
+						aria-labelledby="deliverer-details-header"
+						data-parent="#details-container">
+						<div class="card-body" style="padding-top: 20px !important;">
+							<div class="container">
+								<div class="row">
+									<div class="col-12">
+										<div class="form-group">
+											<label for="fulfilment" class="control-label">Driver Name</label>
+											<input id="fulfilment" type="text" name="fulfilment"
+												class="form-control" value="{{$order->orderDriver->name}}"
+												required>
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="form-group">
+											<label for="fulfilment" class="control-label">Delivery Status</label>
+											<input id="fulfilment" type="text" name="fulfilment"
+												class="form-control"
+												value="{{$order->delivery_confirmation_status && $order->delivery_confirmation_status == 'confirmed' ? 'The customer has confirmed the delivery' : 'The deliverer has skipped the confirmation'}}"
+												required>
+										</div>
+									</div>
+									@if($order->delivery_confirmation_status != 'confirmed')
+									<div class="col-12">
+										<div class="form-group">
+											<label for="fulfilment" class="control-label">Delivery Skip
+												Reason</label> <input id="fulfilment" type="text"
+												name="fulfilment" class="form-control"
+												value="{{$order->delivery_confirmation_skip_reason ? $order->delivery_confirmation_skip_reason : 'N/A'}}"
+												required>
+										</div>
+									</div>
+									@endif
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				@else
+				<div class="card">
+					<div class="card-header" data-toggle="collapse"
+						id="deliverer-details-header" data-target="#deliverer-details"
+						aria-expanded="true" aria-controls="deliverer-details">
+						<div class="d-flex form-head">
+							<span>3</span> Deliverers
+						</div>
+					</div>
+					<div id="deliverer-details" class="collapse"
+						aria-labelledby="deliverer-details-header"
+						data-parent="#details-container">
+						<div class="card-body">
+							<div class="container">
+								<div class="row">
+									<div class="col-12 deliverers-container">
+										@foreach($available_drivers as $driver)
+										<div id="driver-{{$driver->id}}" class="card deliverer-card"
+											data-driver-id="{{$driver->id}}"
+											data-driver-name="{{$driver->name}}"
+											onclick="showAssignDriverModal({{$driver->id}})">
+											<div class="card-header deliverer-details row">
+												<div class="col-6">
+													<span class="deliverer-name">{{$driver->name}}</span>
+												</div>
+												<div class="col-6" style="text-align: right">
+													<i class="fas fa-check-circle"></i>
+												</div>
+											</div>
+										</div>
+										@endforeach
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
-                            <!-- Assign deliverer modal -->
-                            <div class="modal fade" id="assign-deliverer-modal" tabindex="-1" role="dialog" aria-labelledby="assign-deliverer-label" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            {{--                        <h5 class="modal-title" id="assign-deliverer-label">Assign deliverer</h5>--}}
-                                            <button type="button" class="close d-flex justify-content-center" data-dismiss="modal" aria-label="Close">
-                                                <i class="fas fa-times"></i>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="modal-dialog-header">
-                                                This deliverer is successfully selected <br> and ready to be assigned
-                                            </div>
+				<!-- Assign deliverer modal -->
+				<div class="modal fade" id="assign-deliverer-modal" tabindex="-1"
+					role="dialog" aria-labelledby="assign-deliverer-label"
+					aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								
+								<button type="button"
+									class="close d-flex justify-content-center"
+									data-dismiss="modal" aria-label="Close">
+									<i class="fas fa-times"></i>
+								</button>
+							</div>
+							<div class="modal-body">
+								<div class="modal-dialog-header">
+									This deliverer is successfully selected <br> and ready to be
+									assigned
+								</div>
 
-                                            <div>
-                                                <div class="card-body">
-                                                    <div class="container">
-                                                        <div class="row">
-                                                            <div class="col-md-8 offset-md-2 deliverers-container">
-                                                                <div id="driver-modal-card" class="card deliverer-card">
-                                                                    <div class="card-header deliverer-details row">
-                                                                        <div class="col-6">
-                                                                            <span id="deliverer-modal-name" class="deliverer-name"></span>
-                                                                        </div>
-                                                                        <div class="col-6" style="text-align: right">
-                                                                            <i class="fas fa-check-circle"></i>
-                                                                        </div>
-                                                                        <form method="POST" id="assign-driver" action="{{url('doorder/order/assign')}}">
-                                                                            @csrf
-                                                                            <input type="hidden" id="order-id" name="order_id" value="{{$order->id}}"/>
-                                                                            <input type="hidden" id="driver-id" name="driver_id" required/>
-                                                                        </form>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer d-flex justify-content-around">
-                                            <button type="button" class="btn btn-primary doorder-btn-lg doorder-btn" onclick="$('form#assign-driver').submit()">Assign</button>
-                                            <button type="button" class="btn btn-danger doorder-btn-lg doorder-btn" data-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
-                    @endif
-                    <!--<div class="row">
+								<div>
+									<div class="card-body">
+										<div class="container">
+											<div class="row">
+												<div class="col-lg-8 offset-lg-2 col-md-12 deliverers-container">
+													<div id="driver-modal-card" class="card deliverer-card">
+														<div class="card-header deliverer-details row">
+															<div class="col-6">
+																<span id="deliverer-modal-name" class="deliverer-name"></span>
+															</div>
+															<div class="col-6" style="text-align: right">
+																<i class="fas fa-check-circle"></i>
+															</div>
+															<form method="POST" id="assign-driver"
+																action="{{url('doorder/order/assign')}}">
+																@csrf <input type="hidden" id="order-id" name="order_id"
+																	value="{{$order->id}}" /> <input type="hidden"
+																	id="driver-id" name="driver_id" required />
+															</form>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class=" row">
+								<div class="col-sm-6">
+									<button type="button"
+										class="btn btn-primary doorder-btn-lg doorder-btn"
+										onclick="$('form#assign-driver').submit()">Assign</button>
+								</div>
+								<div class="col-sm-6">
+									
+									<button type="button"
+										class="btn btn-danger doorder-btn-lg doorder-btn"
+										data-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				@endif @endif
+				<!--<div class="row">
                         <div class="col-md-12 text-center">
                             <button class="btn bt-submit">Submit</button>
                         </div>
                     </div>-->
-                </div>
-                <div class="col-12 col-sm-6" id="map-container">
-                    <div id="map" style="width:100%; height: 100%; min-height: 400px; margin-top:0;border-radius:6px;"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-@endsection
-
-@section('page-scripts')
-    <script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
-    <script>
+			</div>
+			<div class="col-12 col-sm-6" id="map-container">
+				<div id="map"
+					style="width: 100%; height: 100%; min-height: 400px; margin-top: 0; border-radius: 6px;"></div>
+			</div>
+		</div>
+	</div>
+</div>
+@endsection @section('page-scripts')
+<script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
+<script>
         // var input = document.getElementById('customer_address');
         // var autocomplete = '';
         // var place = '';
@@ -490,5 +519,6 @@
             $('#assign-deliverer-modal').modal('show')
         }
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=geometry,places&callback=initMap"></script>
+<script async defer
+	src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=geometry,places&callback=initMap"></script>
 @endsection

@@ -35,6 +35,7 @@
             cursor: pointer;
             box-shadow: 5px 5px 18px #88888836, 5px -5px 18px #88888836;
         }
+        
     </style>
 @endsection
 
@@ -47,14 +48,13 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header card-header-icon card-header-rose row">
-                                <div class="col-12 col-sm-4">
+                                <div class="col-12 col-lg-5 col-md-6">
                                     <div class="card-icon">
-                                        {{--                                    <i class="material-icons">home_work</i>--}}
                                         <img class="page_icon" src="{{asset('images/doorder_icons/orders_table_white.png')}}">
                                     </div>
                                     <h4 class="card-title ">Orders Table</h4>
                                 </div>
-                                <div class="col-12 col-sm-8">
+                                <div class="col-12 col-lg-7 col-md-6">
                                     <div class="status">
                                         <div class="status_item">
                                             <img class="status_icon" src="{{asset('images/doorder_icons/order_status_pending.png')}}" alt="pending">
@@ -93,73 +93,24 @@
                             </div>
                             <div class="card-body">
                                 <div class="float-right">
-{{--                                    <a class="btn btn-success btn-sm" href="{{ url('client/add') }}">Add New</a>--}}
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table" id="ordersTable">
-                                        <thead>
-                                        <th>Date/Time</th>
-                                        <th>Order Number</th>
-                                        <th>Order Time</th>
-                                        <th>Retailer Name</th>
-                                        <th>Status</th>
-                                        <th>Stage</th>
-                                        <th>Deliverer</th>
-                                        <th>Pickup Location</th>
-                                        <th>Delivery Location</th>
+                                        <thead> <tr>
+                                                <th>Date/Time</th>
+                                                <th>Order Number</th>
+                                                <th>Order Time</th>
+                                                <th>Retailer Name</th>
+                                                <th>Status</th>
+                                                <th>Stage</th>
+                                                <th>Deliverer</th>
+                                                <th>Pickup Location</th>
+                                                <th>Delivery Location</th>
+                                            </tr>
                                         </thead>
 
                                         <tbody>
-{{--                                            @if(count($orders))--}}
-{{--                                                @foreach($orders as $order)--}}
-{{--                                                    <tr>--}}
-{{--                                                        <td>--}}
-{{--                                                            {{$order->created_at->format('h:i')}}--}}
-{{--                                                        </td>--}}
-{{--                                                        <td>#{{$order->order_id}}</td>--}}
-{{--                                                        <td>{{$order->retailer_name}}</td>--}}
-{{--                                                        <td>--}}
-{{--                                                            <img class="order_status_icon" src="{{asset('images/doorder_icons/order_status_'. $order->status .'.png')}}" alt="">--}}
-{{--                                                        </td>--}}
-{{--                                                        <td>--}}
-{{--                                                            @php--}}
-{{--                                                                $order_status = '';--}}
-{{--                                                                if ($order->status == 'pending') {--}}
-{{--                                                                    $order_status = 0;--}}
-{{--                                                                } elseif ($order->status == 'ready') {--}}
-{{--                                                                    $order_status = 20;--}}
-{{--                                                                } elseif ($order->status == 'matched') {--}}
-{{--                                                                    $order_status = 40;--}}
-{{--                                                                } elseif ($order->status == 'picked_up') {--}}
-{{--                                                                    $order_status = 60;--}}
-{{--                                                                } elseif ($order->status == 'on_route') {--}}
-{{--                                                                    $order_status = 80;--}}
-{{--                                                                } else {--}}
-{{--                                                                    $order_status = 100;--}}
-{{--                                                                }--}}
-{{--                                                            @endphp--}}
-{{--                                                            <div class="progress">--}}
-{{--                                                                <div class="progress-bar" role="progressbar" style="width: {{$order_status}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>--}}
-{{--                                                            </div>--}}
-{{--                                                        </td>--}}
-{{--                                                        <td>--}}
-{{--                                                            {{$order->driver ? $order->driver : 'N/A'}}--}}
-{{--                                                        </td>--}}
-{{--                                                        <td>--}}
-{{--                                                            {{$order->pickup_address}}--}}
-{{--                                                        </td>--}}
-{{--                                                        <td>--}}
-{{--                                                            {{$order->customer_address}}--}}
-{{--                                                        </td>--}}
-{{--                                                    </tr>--}}
-{{--                                                @endforeach--}}
-{{--                                            @else--}}
-{{--                                                <tr>--}}
-{{--                                                    <td colspan="8" class="text-center">--}}
-{{--                                                        <strong>No data found.</strong>--}}
-{{--                                                    </td>--}}
-{{--                                                </tr>--}}
-{{--                                            @endif--}}
+
                                             <tr v-for="order in orders.data" v-if="orders.data.length > 0" @click="openOrder(order.id)" class="order-row">
                                                 <td>
                                                     @{{ order.time }}
@@ -233,6 +184,7 @@ $(document).ready(function() {
   		  "info": false,
   		  "ordering": false,
   		  "paging": false,
+  		  "responsive":true,
     	 columnDefs: [
                 {
                     render: function (data, type, full, meta) {
@@ -241,6 +193,11 @@ $(document).ready(function() {
                     targets: [-1,-2]
                 }
              ],
+       /*  fixedColumns:   {
+            leftColumns: 2,
+        },
+             
+              scrollX:        true, */
     	
     });
 });

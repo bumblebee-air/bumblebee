@@ -7,11 +7,6 @@
             font-weight: bold;
         }
 
-        audio {
-            height: 32px;
-            margin-top: 8px;
-        }
-
         .swal2-popup .swal2-styled:focus {
             box-shadow: none !important;
         }
@@ -46,13 +41,13 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header card-header-icon card-header-rose row">
-                                <div class="col-12 col-sm-4">
+                               <div class="col-12 col-lg-6 col-md-6">
                                     <div class="card-icon">
                                         <img class="page_icon" src="{{asset('images/doorder_icons/drivers_requests.png')}}">
                                     </div>
                                     <h4 class="card-title ">Retailers Requests</h4>
                                 </div>
-                                <div class="col-6 col-sm-8 mt-4">
+                                <div class="col-12 col-lg-6 col-md-6 mt-md-3">
                                     <div class="row justify-content-end">
                                         <div class="status">
                                             <div class="status_item">
@@ -70,46 +65,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                {{--                                <div class="col-12 col-sm-8">--}}
-                                {{--                                    <div class="status">--}}
-                                {{--                                        <div class="status_item">--}}
-                                {{--                                            <img class="status_icon" src="{{asset('images/doorder_icons/order_status_pending.png')}}" alt="pending">--}}
-                                {{--                                            pending order fulfilment--}}
-                                {{--                                        </div>--}}
-                                {{--                                        <div class="status_item">--}}
-                                {{--                                            <img class="status_icon" src="{{asset('images/doorder_icons/order_status_ready.png')}}" alt="ready">--}}
-                                {{--                                            Ready to collect--}}
-                                {{--                                        </div>--}}
-                                {{--                                        <div class="status_item">--}}
-                                {{--                                            <img class="status_icon" src="{{asset('images/doorder_icons/order_status_matched.png')}}" alt="matched">--}}
-                                {{--                                            Matched--}}
-                                {{--                                        </div>--}}
-                                {{--                                        <div class="status_item">--}}
-                                {{--                                            <img class="status_icon" src="{{asset('images/doorder_icons/order_status_on_route_pickup.png')}}" alt="matched">--}}
-                                {{--                                            On-route to pickup--}}
-                                {{--                                        </div>--}}
-                                {{--                                        <div class="status_item">--}}
-                                {{--                                            <img class="status_icon" src="{{asset('images/doorder_icons/order_status_picked_up.png')}}" alt="picked up">--}}
-                                {{--                                            Picked up--}}
-                                {{--                                        </div>--}}
-                                {{--                                        <div class="status_item">--}}
-                                {{--                                            <img class="status_icon" src="{{asset('images/doorder_icons/order_status_on_route.png')}}" alt="on route">--}}
-                                {{--                                            On-route--}}
-                                {{--                                        </div>--}}
-                                {{--                                        <div class="status_item">--}}
-                                {{--                                            <img class="status_icon" src="{{asset('images/doorder_icons/order_status_delivered.png')}}" alt="delivered">--}}
-                                {{--                                            Delivered--}}
-                                {{--                                        </div>--}}
-                                {{--                                    </div>--}}
-                                {{--                                </div>--}}
                             </div>
                             <div class="card-body">
                                 <div class="float-right">
-                                    {{--                                    <a class="btn btn-success btn-sm" href="{{ url('client/add') }}">Add New</a>--}}
+                                    
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table">
-                                        <thead>
+                                        <thead> <tr>
                                         <th>Date/Time</th>
                                         <th>Business Type</th>
                                         <th>Retailer Name</th>
@@ -117,7 +80,7 @@
                                         <th>Status</th>
                                         <th>Stage</th>
                                         <th>Locations No.</th>
-                                        </thead>
+                                       </tr> </thead>
 
                                         <tbody>
                                             <tr v-for="request in retailers_requests.data" v-if="retailers_requests.data.length > 0" class="order-row" @click="openRequest(request.id)">

@@ -92,7 +92,7 @@
 								</div>
 								<h4 class="card-title ">Order Number {{$invoice->order_id}}</h4>
 								<h5 class="card-category ">
-									<a class="" href="">{{$invoice->retailer->name}}</a>
+									<a class="" href= "{{url('doorder/retailers/view/')}}/{{$invoice->retailer->id}}">{{$invoice->retailer->name}}</a>
 								</h5>
 							</div>
 

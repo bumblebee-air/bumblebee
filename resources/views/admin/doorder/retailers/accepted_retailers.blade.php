@@ -1,4 +1,9 @@
-@extends('templates.dashboard') @section('page-styles') @endsection
+@extends('templates.dashboard') @section('page-styles')
+
+<style>
+
+</style>
+ @endsection
 
 @section('title', 'DoOrder | Retailers') @section('page-content')
 <div class="content">
@@ -8,7 +13,7 @@
 				<div class="col-md-12">
 					<div class="card">
 						<div class="card-header card-header-icon card-header-rose row">
-							<div class="col-6 col-sm-4">
+							<div class="col-12">
 								<div class="card-icon">
 									<img class="page_icon"
 										src="{{asset('images/doorder_icons/Retailer.png')}}">
@@ -21,14 +26,15 @@
 
 							<div class="table-responsive">
 								<table id="retailersTable"
-									class="table table-no-bordered table-hover doorderTable"
+									class="table table-no-bordered table-hover doorderTable display nowrap"
 									cellspacing="0" width="100%" style="width: 100%">
 									<thead>
 										<tr>
 											<th class="filterhead">Business Type</th>
 											<th class="filterhead">Retailer Name</th>
 											<th class="filterhead">Locations No.</th>
-											<th class="filterhead">Actions</th></tr>
+											<th class="filterhead">Actions</th>
+										</tr>
 										<tr class="theadColumnsNameTr">
 											<th>Business Type</th>
 											<th>Retailer Name</th>
@@ -46,7 +52,8 @@
 											<td>@{{ retailer.nom_business_locations }}</td>
 											<td><a
 												class="btn  btn-link btn-primary-doorder btn-just-icon edit"
-												 @click="openRetailer(retailer.id)"><i class="fas fa-pen-fancy"></i></a>
+												@click="openRetailer(retailer.id)"><i
+													class="fas fa-pen-fancy"></i></a>
 												<button type="button"
 													class="btn btn-link btn-danger btn-just-icon remove"
 													@click="clickDeleteRetailer(retailer.id)">
@@ -95,17 +102,23 @@
 					<form method="POST" id="delete-retailer"
 						action="{{url('doorder/retailer/delete')}}"
 						style="margin-bottom: 0 !important;">
-						@csrf <input type="hidden" id="retailerId" name="retailerId" value="" />
+						@csrf <input type="hidden" id="retailerId" name="retailerId"
+							value="" />
 					</form>
 				</div>
 			</div>
-			<div class="modal-footer d-flex justify-content-around">
-				<button type="button"
-					class="btn btn-primary doorder-btn-lg doorder-btn"
-					onclick="$('form#delete-retailer').submit()">Yes</button>
-				<button type="button"
-					class="btn btn-danger doorder-btn-lg doorder-btn"
-					data-dismiss="modal">Cancel</button>
+			<div class=" row">
+				<div class="col-sm-6">
+					<button type="button"
+						class="btn btn-primary doorder-btn-lg doorder-btn"
+						onclick="$('form#delete-retailer').submit()">Yes</button>
+				</div>
+
+				<div class="col-sm-6">
+					<button type="button"
+						class="btn btn-danger doorder-btn-lg doorder-btn"
+						data-dismiss="modal">Cancel</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -131,8 +144,8 @@ $(document).ready(function() {
     		"targets": -1,
     		"orderable": false
     	} ],
-    	
-        initComplete: function () {
+        "initComplete": function() {
+            
         }
     });
     
@@ -161,7 +174,7 @@ $('#delete-retailer-modal').modal('show')
 $('#delete-retailer-modal #retailerId').val(retailerId);
 
 }
-</script>    
+</script>
 <script>
         Vue.use(VueToast);
         var app = new Vue({

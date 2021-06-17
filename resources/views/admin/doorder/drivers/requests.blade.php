@@ -7,11 +7,6 @@
             font-weight: bold;
         }
 
-        audio {
-            height: 32px;
-            margin-top: 8px;
-        }
-
         .swal2-popup .swal2-styled:focus {
             box-shadow: none !important;
         }
@@ -46,14 +41,13 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header card-header-icon card-header-rose row">
-                                <div class="col-12 col-sm-4">
+                               <div class="col-12 col-lg-6 col-md-6">
                                     <div class="card-icon">
-                                        {{--                                    <i class="material-icons">home_work</i>--}}
                                         <img class="page_icon" src="{{asset('images/doorder_icons/drivers_requests.png')}}">
                                     </div>
                                     <h4 class="card-title ">Drivers Table</h4>
                                 </div>
-                                <div class="col-6 col-sm-8 mt-4">
+                                <div class="col-12 col-lg-6 col-md-6 mt-md-3">
                                     <div class="row justify-content-end">
                                         <div class="status">
                                             <div class="status_item">
@@ -74,18 +68,20 @@
                             </div>
                             <div class="card-body">
                                 <div class="float-right">
-                                    {{--                                    <a class="btn btn-success btn-sm" href="{{ url('client/add') }}">Add New</a>--}}
+                                  
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table" id="driversTable">
                                         <thead>
-                                        <th>Date/Time</th>
-                                        <th>Location</th>
-                                        <th>Deliverer Name</th>
-                                        <th>Application No.</th>
-                                        <th>Status</th>
-                                        <th>Stage</th>
-                                        <th>Address</th>
+                                            <tr>
+                                                <th>Date/Time</th>
+                                                <th>Location</th>
+                                                <th>Deliverer Name</th>
+                                                <th>Application No.</th>
+                                                <th>Status</th>
+                                                <th>Stage</th>
+                                                <th>Address</th>
+                                            </tr>
                                         </thead>
 
                                         <tbody>

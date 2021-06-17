@@ -25,12 +25,11 @@
 					@if($readOnly==0)
 					<form id="order-form" method="POST"
 						action="{{route('post_doorder_retailers_single_retailer', ['doorder', $retailer->id])}}">
-						@endif
-						{{csrf_field()}}
-						<input type="hidden" name="retailer_id" value="{{$retailer->id}}">
+						@endif {{csrf_field()}} <input type="hidden" name="retailer_id"
+							value="{{$retailer->id}}">
 						<div class="card">
 							<div class="card-header card-header-icon card-header-rose row">
-								<div class="col-12 col-sm-4">
+								<div class="col-12 col-md-8">
 									<div class="card-icon">
 										<img class="page_icon"
 											src="{{asset('images/doorder_icons/Retailer.png')}}">
@@ -39,8 +38,8 @@
 								</div>
 
 								@if($readOnly==1)
-								<div class="col-6 col-sm-8 mt-5">
-									<div class="row justify-content-end">
+								<div class="col-12 col-md-4 mt-md-5">
+									<div class="row justify-content-end float-sm-right">
 										<a class="editLinkA btn  btn-link btn-primary-doorder  edit"
 											href="{{url('doorder/retailers/')}}/{{$retailer->id}}">
 											<p>Edit retailer</p>
@@ -380,13 +379,17 @@
 										</form>
 									</div>
 								</div>
-								<div class="modal-footer d-flex justify-content-around">
-									<button type="button"
-										class="btn btn-primary doorder-btn-lg doorder-btn"
-										onclick="$('form#delete-retailer').submit()">Yes</button>
-									<button type="button"
-										class="btn btn-danger doorder-btn-lg doorder-btn"
-										data-dismiss="modal">Cancel</button>
+								<div class="row">
+									<div class="col-sm-6">
+										<button type="button"
+											class="btn btn-primary doorder-btn-lg doorder-btn"
+											onclick="$('form#delete-retailer').submit()">Yes</button>
+									</div>
+									<div class="col-sm-6">
+										<button type="button"
+											class="btn btn-danger doorder-btn-lg doorder-btn"
+											data-dismiss="modal">Cancel</button>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -410,6 +413,7 @@ var readonly = {!! $readOnly !!};
 if(readonly==1){
 $("input").prop('disabled', true);
 $("textarea").prop('disabled', true);
+$(".inputSearchNavbar").prop('disabled', false);
 }
 });
         var app = new Vue({

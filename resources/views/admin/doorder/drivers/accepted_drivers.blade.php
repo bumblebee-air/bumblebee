@@ -20,7 +20,7 @@
 
 							<div class="table-responsive">
 								<table id="driversTable"
-									class="table table-no-bordered table-hover doorderTable"
+									class="table table-no-bordered table-hover doorderTable  display nowrap"
 									cellspacing="0" width="100%" style="width: 100%">
 									<thead>
 										<tr>
@@ -113,13 +113,15 @@
 					</form>
 				</div>
 			</div>
-			<div class="modal-footer d-flex justify-content-around">
-				<button type="button"
+			<div class="row">
+				<div class="col-sm-6">
+					<button type="button"
 					class="btn btn-primary doorder-btn-lg doorder-btn"
-					onclick="$('form#delete-driver').submit()">Yes</button>
-				<button type="button"
+					onclick="$('form#delete-driver').submit()">Yes</button></div>
+				<div class="col-sm-6">
+					<button type="button"
 					class="btn btn-danger doorder-btn-lg doorder-btn"
-					data-dismiss="modal">Cancel</button>
+					data-dismiss="modal">Cancel</button></div>
 			</div>
 		</div>
 	</div>

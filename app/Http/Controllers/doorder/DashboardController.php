@@ -104,6 +104,7 @@ class DashboardController extends Controller
     }
 
     private function adminDashboardData($from_date,$to_date){
+        
         $custom_date = true;
         $current_date = Carbon::now();
         if($from_date==null && $to_date==null) {
@@ -185,7 +186,8 @@ class DashboardController extends Controller
                 'order_count'=>$order_count,
                 'order_charge'=>'€'.(string)$order_charge
             ];
-        }
+        } 
+        
         //Annual orders data
         //$current_date = Carbon::now()->subYear();
         $current_date = Carbon::now();

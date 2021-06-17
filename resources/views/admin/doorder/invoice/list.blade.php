@@ -70,6 +70,27 @@ select.form-control:not([size]):not([multiple]) {
 .card-body {
 	padding-top: 10px !important;
 }
+#dashboardCardDiv .btn, #exportButton
+{
+height: auto ;
+padding: 8px;
+}
+
+#retailerNameP{
+    height: 50px;
+}
+
+table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before,
+		table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_desc:before,
+		table.dataTable thead .sorting_desc_disabled:before {
+		
+		top:30% !important;
+	}
+	table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after,
+		table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc:after,
+		table.dataTable thead .sorting_desc_disabled:after {
+		top:30% !important;
+	}
 
 /* td:hover{
   overflow: visible;
@@ -85,7 +106,7 @@ select.form-control:not([size]):not([multiple]) {
 				<div class="col-md-12">
 					<div class="card">
 						<div class="card-header card-header-icon card-header-rose row">
-							<div class="col-6 col-sm-4">
+							<div class="col-12">
 								<div class="card-icon">
 									<i class="fas fa-file-invoice"></i>
 								</div>
@@ -96,10 +117,10 @@ select.form-control:not([size]):not([multiple]) {
 						<div class="card-body">
 
 							<div class="table-responsive">
-								<form method="post"
+								<form method="post" class="mb-1"
 									action="{{route('doorder_exportInvoiceList', 'doorder')}}">
 									{{csrf_field()}}
-									<div class="row" style="margin-left: 0px">
+									<div class="row" style="margin-left: 0px;margin-right: 0px">
 										<div class="col-md-1">
 											<label class=" col-form-label filterLabelDashboard">Filter:</label>
 										</div>
@@ -123,7 +144,7 @@ select.form-control:not([size]):not([multiple]) {
 
 										<div class="col-md-2">
 											<button id="exportButton" type="submit"
-												class="btn btn-primary" style="float: right">Export</button>
+												class="btn btn-primary doorder-btn-lg doorder-btn" style="float: right">Export</button>
 										</div>
 									</div>
 								</form>
@@ -235,6 +256,12 @@ console.log(new Date('1/2/2020'))
                     targets: [5,6]
                 }
              ],
+             
+        scrollX:        true,
+        scrollCollapse: true,
+        fixedColumns:   {
+            leftColumns: 0,
+        },
     	
          initComplete: function () {
          	var column = this.api().column(2);

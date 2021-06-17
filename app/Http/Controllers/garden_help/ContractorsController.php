@@ -288,14 +288,28 @@ class ContractorsController extends Controller
                             $job->job_image = $base64_image_path;
                         }
                     }
+                    // Saving extra receipt Image
+                    if ($request->extra_expenses_receipt) {
+                        $base64_image = $request->extra_expenses_receipt;
+                        $base64_image_format = '';
+                        if (preg_match('/^data:image\/(\w+);base64,/', $base64_image, $base64_image_format)) {
+                            $data = substr($base64_image, strpos($base64_image, ',') + 1);
+                            $data = base64_decode($data);
+                            $base64_image_path = 'uploads/jobs_uploads/' . Str::random(10) . ".$base64_image_format[1]";
+                            Storage::disk('local')->put($base64_image_path, $data);
+                            $job->job_expenses_receipt_file = $base64_image_path;
+                        }
+                    }
                     $job->status = $request->status;
                     $job->skip_reason = $request->skip_reason;
                     $job->job_services_types_json = $request->job_services_types_json;
+                    $job->job_other_expenses_json = $request->extra_expenses_json;
                     //Capture the payment intent
+                    $extra_expenses = ServicesTypesHelper::getExtraExpensesAmount($request->extra_expenses_json);
                     $services_amount = ServicesTypesHelper::getJobServicesTypesAmount($job);
                     $services_amount_vat = ServicesTypesHelper::getVat(13.5, $services_amount);
                     $actual_services_amount = ServicesTypesHelper::getJobServicesTypesAmount($job, true) + $services_amount_vat;
-                    $total_amount = $actual_services_amount + $services_amount_vat;
+                    $total_amount = $actual_services_amount + $services_amount_vat + $extra_expenses;
                     $client_setting = '';
                     if ($actual_services_amount > $services_amount) {
                         if (StripePaymentHelper::chargePayment($total_amount, $job->stripe_customer->stripe_customer_id)) {

@@ -22,6 +22,31 @@
           <input class="form-control" id="number_of_hours" type="text" v-model="item.min_hours" required>
         </div>
       </div>
+      <div class="row justify-content-center pl-1 pr-1">
+        <div class="col-md-12 mb-2">
+          <label class="form-label" for="services_types">Other Expenses</label>
+          <input class="form-control" id="services_types" type="text" data-toggle="modal" data-target="#other_expenses_Modal" v-model="other_expenses_input">
+        </div>
+        <div class="col-md-12 mt-2" v-for="item in other_expenses" v-if="item.is_checked == true">
+          <div v-if="item.name !== 'other'">
+            <label class="form-label" for="number_of_hours">{{item.name == 'other' ? 'Add The Other Expenses type' : item.title+' Cost (€)'}}</label>
+            <input class="form-control" id="number_of_hours" type="number" v-model="item.value" required>
+          </div>
+          <div v-else>
+            <div>
+              <label class="form-label" for="number_of_hours">Add The Other Expenses Type</label>
+              <input class="form-control" id="number_of_hours" type="text" v-model="item.title" required>
+            </div>
+            <label class="form-label" for="number_of_hours">Add The Other Expenses Cost (€)</label>
+            <input class="form-control" id="number_of_hours" type="number" v-model="item.value" required>
+          </div>
+        </div>
+        <div class="col-md-12 mb-2">
+          <label class="form-label" for="services_types">Other Expenses Receipt</label>
+          <input class="form-control" type="text" id="expenses_receipt" @click="clickOnExpensesReceiptPhoto()">
+          <input type="file" id="expenses_receipt_input" @change="changeExpensesReceiptImage" accept="image/*" style="display: none">
+        </div>
+      </div>
 
       <div class="row justify-content-center align-content-center mt-5">
         <button class="btn btn-lg doorder-btn" type="submit">
@@ -57,6 +82,36 @@
           <div class="modal-footer">
             <button type="button" class="btn modal-button-close" data-dismiss="modal">Close</button>
             <button type="button" class="btn modal-button-done" data-dismiss="modal" @click="changeSelectedValue()">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="other_expenses_Modal" tabindex="-1" role="dialog" aria-labelledby="services_types_Modal_Label" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="services_types_Modal_Label">Others Expenses</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12" v-for="(type, index) in other_expenses">
+                <div class="d-flex justify-content-between" @click="toggleCheckedValue(type)">
+                  <label :class="type.is_checked == true ? 'my-check-box-label my-check-box-label-checked' : 'my-check-box-label'">{{ type.title }}</label>
+                  <div class="my-check-box" id="check">
+                    <i :class="type.is_checked == true ? 'fas fa-check-square checked' : 'fas fa-check-square'"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn modal-button-close" data-dismiss="modal">Close</button>
+            <button type="button" class="btn modal-button-done" data-dismiss="modal" @click="changeSelectedValue('other_expences')">Save changes</button>
           </div>
         </div>
       </div>
@@ -131,7 +186,36 @@ export default {
       job_image: '',
       skip_reason: '',
       job_services_types_json: [],
-      submittedForm: ''
+      submittedForm: '',
+      other_expenses: [
+        {
+          name: 'green_waste',
+          title: 'Green Waste',
+          is_checked: false,
+          value: ''
+        },
+        {
+          name: 'parking',
+          title: 'Parking',
+          is_checked: false,
+          value: ''
+        },
+        {
+          name: 'material',
+          title: 'Material',
+          is_checked: false,
+          value: ''
+        },
+        {
+          name: 'other',
+          title: 'Other',
+          is_checked: false,
+          value: ''
+        },
+      ],
+      other_expenses_input: '',
+      job_other_expenses_json: [],
+      other_expenses_receipt: ''
     }
   },
   mounted() {
@@ -146,15 +230,26 @@ export default {
     toggleCheckedValue(type) {
       type.is_checked = !type.is_checked;
     },
-    changeSelectedValue() {
-      let service_types_input = '';
-      let job_services_types_json = [];
-      for (let item of this.service_types) {
-        item.is_checked === true ? service_types_input += (service_types_input == '' ? item.title : ', ' + item.title) : '';
-        item.is_checked === true ? job_services_types_json.push(item) : '';
+    changeSelectedValue(type = 'services_types') {
+      if (type === 'services_types') {
+        let service_types_input = '';
+        let job_services_types_json = [];
+        for (let item of this.service_types) {
+          item.is_checked === true ? service_types_input += (service_types_input == '' ? item.title : ', ' + item.title) : '';
+          item.is_checked === true ? job_services_types_json.push(item) : '';
+        }
+        this.service_types_input = service_types_input;
+        this.job_services_types_json = job_services_types_json;
+      } else {
+        let other_expenses_input = '';
+        let job_other_expenses_json = [];
+        for (let item of this.other_expenses) {
+          item.is_checked === true ? other_expenses_input += (other_expenses_input == '' ? item.title : ', ' + item.title) : '';
+          item.is_checked === true ? job_other_expenses_json.push(item) : '';
+        }
+        this.other_expenses_input = other_expenses_input;
+        this.job_other_expenses_json = job_other_expenses_json;
       }
-      this.service_types_input = service_types_input;
-      this.job_services_types_json = job_services_types_json;
     },
     submitServices(e) {
       e.preventDefault();
@@ -176,7 +271,9 @@ export default {
             status: 'completed',
             job_services_types_json: this.job_services_types_json,
             job_image: this.job_image,
-            skip_reason: this.skip_reason
+            skip_reason: this.skip_reason,
+            extra_expenses_json: this.job_other_expenses_json,
+            extra_expenses_receipt: this.extra_expenses_receipt
           },
           {
             headers: {
@@ -205,6 +302,10 @@ export default {
     clickOnJobImagePhoto() {
       $('#job_image').trigger('click');
     },
+    clickOnExpensesReceiptPhoto() {
+      console.log('clicked');
+      $('#expenses_receipt_input').trigger('click');
+    },
     changeJobImage(e) {
       const image = e.target.files[0];
       const reader = new FileReader();
@@ -212,6 +313,15 @@ export default {
       reader.onload = e =>{
         this.job_image = e.target.result;
       };
+    },
+    changeExpensesReceiptImage(e) {
+      const image = e.target.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(image);
+      reader.onload = e =>{
+        this.extra_expenses_receipt = e.target.result;
+      };
+      $('#expenses_receipt').val(image.name)
     }
   }
 }

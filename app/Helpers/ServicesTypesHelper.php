@@ -37,4 +37,12 @@ class ServicesTypesHelper {
     public static function getVat($percentage, $amount) {
         return ($percentage/100)*$amount;
     }
+
+    public static function getExtraExpensesAmount($data) {
+        $amount = 0;
+        foreach ($data as $item) {
+            $amount += $item['value'];
+        }
+        return $amount;
+    }
 }

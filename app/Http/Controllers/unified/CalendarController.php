@@ -37,7 +37,10 @@ class CalendarController extends Controller
 
                 foreach ($Jobs as $job) {
                     if ($job->customer->contract) {
-                        if (Carbon::parse($job->customer->contract_start_date)->getTimestamp() <= $date->getTimestamp() && Carbon::parse($job->customer->contract_end_date)->getTimestamp() >= $date->getTimestamp()) {
+                        //if (Carbon::parse($job->customer->contract_start_date)->getTimestamp() <= $date->getTimestamp() && Carbon::parse($job->customer->contract_end_date)->getTimestamp() >= $date->getTimestamp()) {
+                        $contract_start_date = Carbon::parse($job->customer->contract_start_date)->startOfDay();
+                        $contract_end_date = Carbon::parse($job->customer->contract_end_date)->endOfDay();
+                        if ($contract_end_date >= $date) {
                             $normalJobsCount++;
                         } else {
                             $expiredJobsCount++;

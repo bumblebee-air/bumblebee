@@ -347,6 +347,25 @@ $( document ).ready(function() {
 	  placeholder: 'Select service type',
 	  tags: true
 	}).val({!! json_encode($customer->selectedServiceType) !!}).change();
+	
+	
+	var customer = {!! $customer !!};
+	$(' #contractStartDate, #contractEndDate').datetimepicker({
+                         format: 'L', 
+                        icons: { time: "fa fa-clock",
+                                                date: "fa fa-calendar",
+                                                up: "fa fa-chevron-up",
+                                                down: "fa fa-chevron-down",
+                                                previous: 'fa fa-chevron-left',
+                                                next: 'fa fa-chevron-right',
+                                                today: 'fa fa-screenshot',
+                                                clear: 'fa fa-trash',
+                                                close: 'fa fa-remove'
+                        }
+                     });
+     $('#contractStartDate').data("DateTimePicker").date(new Date(customer.contract_start_date));
+     $('#contractEndDate').data("DateTimePicker").date(new Date(customer.contract_end_date));
+                     
 
 	
 	addIntelInput('companyPhoneNumner','companyPhoneNumner');

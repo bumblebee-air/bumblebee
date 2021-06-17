@@ -870,7 +870,7 @@ font-size: 18px;
 		var view = $('#calendar').fullCalendar('getView');
 		var viewTitle = view.title; //date
 		var viewName =view.name;
-		if(viewName==='month'){
+		//if(viewName==='month'){
 			//alert(viewTitle)
 			 $.ajax({
         type: "GET",
@@ -906,7 +906,7 @@ font-size: 18px;
         	}
         }
      });   
-		}
+		//}
 	}
 	
 	function pad2(number) {

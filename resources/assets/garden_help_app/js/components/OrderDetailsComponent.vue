@@ -98,16 +98,63 @@
                             </div>
                         </div>
 
+                        <div class="row">
+                            <div class="col-2">
+                                <img src="images/garden_help_driver_assets/first_time.png" class="service-icon" alt="service-type-icon">
+                            </div>
+                            <div class="col-10 order-address-row">
+                                <p class="order-address-title">
+                                  First time to do this service for the property?
+                                </p>
+                                <p class="order-address-value">
+                                  {{ job_data.is_first_time == 1 ? 'Yes' : 'no' }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2">
+                                <img src="images/garden_help_driver_assets/last_time.png" class="service-icon" alt="service-type-icon">
+                            </div>
+                            <div class="col-10 order-address-row">
+                                <p class="order-address-title">
+                                  Last time was
+                                </p>
+                                <p class="order-address-value">
+                                  {{job_data.last_service ? job_data.last_service : 'N/A'}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2">
+                                <img src="images/garden_help_driver_assets/site_details.png" class="service-icon" alt="service-type-icon">
+                            </div>
+                            <div class="col-10 order-address-row">
+                                <p class="order-address-title">
+                                  Site details
+                                </p>
+                                <p class="order-address-value">
+                                  {{job_data.site_details ? job_data.site_details : 'N/A'}}
+                                </p>
+                            </div>
+                        </div>
+
                       <div class="row">
                         <div class="col-2">
-                          <img src="images/garden_help_driver_assets/service-type-icon.png" class="service-icon" alt="service-type-icon">
+                          <img src="images/garden_help_driver_assets/parking_site.png" class="service-icon" alt="service-type-icon">
                         </div>
                         <div class="col-10 order-address-row">
                           <p class="order-address-title">
-                            Service Type
+                            Parking access on site?
                           </p>
                           <p class="order-address-value">
-                            {{ job_data.service_types }}
+                            {{job_data.is_parking_access == 1 ? 'Yes' : 'No'}}
+                          </p>
+                        </div>
+                      </div>
+                      <div class="row" v-if="job_data.property_photo">
+                        <div class="col-10 order-address-row">
+                          <p class="order-address-value">
+                            <img :src="job_data.property_photo" alt="Property Image" style="width: 100%; height: 100%">
                           </p>
                         </div>
                       </div>
@@ -474,7 +521,7 @@
             },
             setCardMaxHeight() {
                 if (this.job_data.status != 'ready') {
-                    this.maxHeight = 30;
+                    this.maxHeight = 50;
                 } else {
                     this.maxHeight = 25;
                 }

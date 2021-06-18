@@ -46,6 +46,22 @@ background-image: linear-gradient(0deg,#f7dc69 2px,rgba(247,220,105,0) 0),linear
                 padding: 20px 200px;
             }
         }
+        
+        .form-check .form-check-input:checked~.form-check-sign .check{
+            background: #e8ca49 !important;
+        }
+        
+@media screen and (min-width: 1200px) {
+	.card-login {
+		padding: 20px 180px;
+	}
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199.5px) {
+	.card-login {
+		padding: 20px 100px;
+	}
+}
     </style>
 
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Quicksand" />
@@ -54,7 +70,7 @@ background-image: linear-gradient(0deg,#f7dc69 2px,rgba(247,220,105,0) 0),linear
     <div style="background: url({{asset('images/doorder-login-bg.jpg')}})"
          class="bg-cover h-100">
         <div class="row h-100 m-0">
-            <div class="col-lg-8 col-md-6 col-sm-8 mx-auto my-auto">
+            <div class="col-lg-8 col-md-10 col-sm-12 mx-auto my-auto">
                 <div class="container">
                     <div class="card card-login">
                         <div class="card-header text-center">

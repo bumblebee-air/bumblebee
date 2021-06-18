@@ -8,6 +8,10 @@
             background-color: #f2f2f2;
             height: 100%;
         }
+        .container{ 
+            width: 90% !important;
+            max-width: 90% !important;
+        }
         .navbar-brand img {
             height: 60px;
         }
@@ -18,6 +22,8 @@
 
         .step-tabs-container {
             position: fixed;
+            width: inherit;
+            max-width: inherit;
         }
 
         .reg-inputs-container {
@@ -32,12 +38,15 @@
             line-height: 0.95;
             letter-spacing: 0.8px;
             color: #4d4d4d;
+            
+            width: inherit;
         }
         .step-tabs-subtitle {
             font-size: 15px;
             line-height: 1.27;
             letter-spacing: 0.6px;
             color: #4d4d4d;
+            width: 90%
         }
 
         .steps-tabs {
@@ -117,6 +126,8 @@
             letter-spacing: 0.99px;
             color: #ffffff;
             margin-bottom: 20px;
+            width: 350px;
+            max-width: 100%;
         }
 
         .reg-inputs-scroll {
@@ -210,6 +221,9 @@
             margin-left: 10px!important;
             display: none;
         }
+        .dayContainer{
+        margin-top: 15px;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
     <link rel="stylesheet" href="{{asset('css/jquery.businessHours.css')}}">
@@ -282,28 +296,24 @@
 
                         <div class="col-sm-6">
                             <div class="form-group bmd-form-group">
-                                {{--                            <label class="bmd-label-floating">First Name</label>--}}
                                 <input type="text" class="form-control" name="company_name" value="{{old('company_name')}}" placeholder="Company Name" required>
                             </div>
                         </div>
 
                         <div class="col-sm-6">
                             <div class="form-group bmd-form-group">
-                                {{--                            <label class="bmd-label-floating">First Name</label>--}}
                                 <input type="text" class="form-control" name="company_website" value="{{old('company_website')}}" placeholder="Company Website" required>
                             </div>
                         </div>
 
                         <div class="col-sm-6">
                             <div class="form-group bmd-form-group">
-                                {{--                            <label class="bmd-label-floating">First Name</label>--}}
                                 <input type="text" class="form-control" name="business_type" value="{{old('business_type')}}" placeholder="Business Type" required>
                             </div>
                         </div>
 
                         <div class="col-sm-6">
                             <div class="form-group bmd-form-group">
-                                {{--                            <label class="bmd-label-floating">First Name</label>--}}
                                 <input type="text" class="form-control" name="number_business_locations" value="{{old('number_business_locations')}}" placeholder="Number of Business Locations" required>
                             </div>
                         </div>
@@ -326,7 +336,6 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group bmd-form-group">
-                                        {{--                            <label class="bmd-label-floating">First Name</label>--}}
                                         <textarea :id="'location' + (index +1)" class="form-control" rows="3" :name="'address' + (index + 1)" placeholder="Address" required>{{old('address')}}</textarea>
                                         <input :id="'location_'+ (index+1) +'_coordinates'" :name="'address_coordinates_' + (index + 1)" type="hidden">
                                     </div>
@@ -334,11 +343,9 @@
 
                                 <div class="col-sm-6">
                                     <div class="form-group bmd-form-group">
-                                        {{--                            <label class="bmd-label-floating">First Name</label>--}}
                                         <input type="text" class="form-control" :name="'eircode' + (index + 1)" :id="'eircode' + (index + 1)" value="{{old('eircode')}}" placeholder="Postcode/Eircode" required>
                                     </div>
                                     <div class="form-group bmd-form-group">
-                                        {{--                            <label class="bmd-label-floating">First Name</label>--}}
                                         <select class="form-control" :id="'country' + (index + 1)" :name="'country' + (index + 1)" required>
                                             <option disabled>Select Country</option>
                                             <option value="Ireland" selected>Ireland</option>
@@ -348,7 +355,6 @@
 
                                 <div class="col-sm-6">
                                     <div class="form-group bmd-form-group">
-                                        {{--                            <label class="bmd-label-floating">First Name</label>--}}
                                         <input type="text" class="form-control" :id="'business_hours' + (index + 1)" :name="'business_hours' + (index + 1)" value="{{old('business_hours')}}" placeholder="Working Days and Hours" data-toggle="modal" :data-target="'#exampleModal' + index" required>
                                         <input type="hidden" :id="'business_hours_json' + (index + 1)" :name="'business_hours_json' + (index + 1)">
                                     </div>
@@ -356,7 +362,6 @@
 
                                 <div class="col-sm-6">
                                     <div class="form-group bmd-form-group">
-                                        {{--                            <label class="bmd-label-floating">First Name</label>--}}
                                         <select class="form-control" :id="'county' + (index + 1)" :name="'county' + (index + 1)" required>
                                             <option selected disabled>Select County</option>
                                             <option v-for="county in counties" :value="JSON.stringify(county)">@{{ county.name }}</option>
@@ -420,7 +425,6 @@
 
                                 <div class="col-sm-6">
                                     <div class="form-group bmd-form-group">
-    {{--                                    <input type="text" class="form-control" name="contact_location" value="{{old('contact_location')}}" placeholder="Location" required>--}}
                                         <select class="form-control" :id="'contact_location' + (index + 1)"  :name="'contact_location' + (index + 1)">
                                             <option selected disabled>Location</option>
                                             <option v-for="(location, index) of locations" value="location">Location @{{ index +1 }}</option>
@@ -472,7 +476,6 @@
 
                                 <div class="col-sm-6">
                                     <div class="form-group bmd-form-group">
-{{--                                        <input type="text" class="form-control" name="payment_exp_date" value="{{old('payment_exp_date')}}" placeholder="Expiry Date (MM/YY)" required>--}}
                                         <img src="{{asset('images/pay-with-stripe.png')}}" style="max-width: 100%; max-height: 40px" alt="Pay With Stripe">
                                     </div>
                                 </div>
@@ -492,8 +495,8 @@
                             target="_blank">click here</a>.
                         </div>
 
-                        <div class="col-md-12">
-                            <button class="btn btn-block btn-submit">Submit</button>
+                        <div class="col-md-12 text-center ">
+                            <button class="btn btn-block btn-submit mx-auto">Submit</button>
                         </div>
                     </div>
                 </form>

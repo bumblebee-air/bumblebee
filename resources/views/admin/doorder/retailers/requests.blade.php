@@ -2,33 +2,7 @@
 
 @section('page-styles')
     <style>
-        h3 {
-            margin-top: 0;
-            font-weight: bold;
-        }
-
-        .swal2-popup .swal2-styled:focus {
-            box-shadow: none !important;
-        }
-
-        .container-fluid {
-            padding-left: 0px;
-            padding-right: 0px;
-        }
-
-        th {
-            font-size: 15px!important;
-        }
-
-        td {
-            font-size: 12px;
-        }
-
-        tr.order-row:hover,
-        tr.order-row:focus {
-            cursor: pointer;
-            box-shadow: 5px 5px 18px #88888836, 5px -5px 18px #88888836;
-        }
+      
     </style>
 @endsection
 
@@ -71,7 +45,8 @@
                                     
                                 </div>
                                 <div class="table-responsive">
-                                    <table class="table">
+                                    <table class="table" id="retailersTable"
+									cellspacing="0" width="100%" >
                                         <thead> <tr>
                                         <th>Date/Time</th>
                                         <th>Business Type</th>
@@ -130,6 +105,35 @@
 
 @section('page-scripts')
     <script>
+    
+    
+$(document).ready(function() {
+ var table= $('#retailersTable').DataTable({
+    	
+          fixedColumns: true,
+          "lengthChange": false,
+          "searching": false,
+  		  "info": false,
+  		  "ordering": false,
+  		  "paging": false,
+    	 columnDefs: [
+                {
+                    render: function (data, type, full, meta) {
+                    	return '<span data-toggle="tooltip" data-placement="top" title="'+data+'">'+data+'</span>';
+                    },
+                    targets: -1
+                }
+             ],
+             
+        scrollX:        true,
+        scrollCollapse: true,
+        fixedColumns:   {
+            leftColumns: 0,
+        },
+    	
+    });
+});
+
         Vue.use(VueToast);
         var app = new Vue({
             el: '#app',

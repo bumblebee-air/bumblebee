@@ -12,7 +12,6 @@
                     <div class="card">
                         <div class="card-header card-header-icon card-header-rose">
                             <div class="card-icon">
-                                {{--<i class="material-icons">home_work</i>--}}
                                 <img class="page_icon" src="{{asset('images/map_icon_card_white.png')}}" alt="Map icon">
                             </div>
                             <h4 class="card-title ">Map</h4>

@@ -26,8 +26,8 @@
 
 							<div class="table-responsive">
 								<table id="retailersTable"
-									class="table table-no-bordered table-hover doorderTable display nowrap"
-									cellspacing="0" width="100%" style="width: 100%">
+									class="table table-no-bordered table-hover doorderTable "
+									cellspacing="0" width="100%" style="width:100%">
 									<thead>
 										<tr>
 											<th class="filterhead">Business Type</th>

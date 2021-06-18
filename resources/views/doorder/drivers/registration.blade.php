@@ -7,6 +7,10 @@
         body {
             font-family: Quicksand;
         }
+        .container{ 
+            width: 90% !important;
+            max-width: 90% !important;
+        }
         .doorder-logo {
             width: 85px;
             padding-top: 30px;
@@ -122,6 +126,8 @@
             letter-spacing: 0.99px;
             color: #ffffff;
             margin-bottom: 20px;
+            width: 350px;
+            max-width: 100%;
         }
 
         .my-check-box-checked {
@@ -220,31 +226,7 @@
                                 </div>
                             </div>
                         </div>
-
-{{--                        <div class="row">--}}
-{{--                            <div class="col-sm-12">--}}
-{{--                                <div class="form-group">--}}
-{{--                                    <label class="bmd-label-floating">Contact through</label> <span style="color: red">*</span>--}}
-{{--                                    <div class="d-flex">--}}
-{{--                                        <div class="contact-through d-flex pr-5" @click="changeContact('whatsapp')">--}}
-{{--                                            <div id="check" :class="contact == 'whatsapp' ? 'my-check-box my-check-box-checked' : 'my-check-box'">--}}
-{{--                                                <i class="fas fa-check-square"></i>--}}
-{{--                                            </div>--}}
-{{--                                            Whatsapp--}}
-{{--                                        </div>--}}
-
-{{--                                        <div class="contact-through d-flex" @click="changeContact('sms')">--}}
-{{--                                            <div id="check" :class="contact == 'sms' ? 'my-check-box my-check-box-checked' : 'my-check-box'">--}}
-{{--                                                <i class="fas fa-check-square"></i>--}}
-{{--                                            </div>--}}
-{{--                                            SMS--}}
-{{--                                        </div>--}}
-                                        <input type="hidden" v-model="contact" name="contact_through">
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-
+                        
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group bmd-form-group">
@@ -302,20 +284,16 @@
                             <div class="col-sm-6">
                                 <div class="form-group bmd-form-group">
                                     <label class="bmd-form-group">Transport Type</label> <span style="color: red">*</span>
-{{--                                    <a href="#" id="transport-tip-button" class="transport-tip-button" aria-describedby="tooltip">--}}
-                                        <i class="fas fa-info-circle transport-tip-button" id="transport-tip-button" aria-describedby="tooltip" @click="fadeTransportTip"></i>
-{{--                                    </a>--}}
-                                    <div id="transport-tip" role="tooltip">
+                                       <i class="fas fa-info-circle transport-tip-button" id="transport-tip-button" aria-describedby="tooltip" @click="fadeTransportTip"></i>
+                                   <div id="transport-tip" role="tooltip">
                                         You must be 18+ years old to apply with a
                                         scooter or bicycle and 25+ to apply with a
                                         car or van
                                     </div>
-    {{--                                <input type="text" class="form-control" name="pps_number" value="{{old('pps_number')}}" required>--}}
                                     <select name="transport_type" class="form-control" required>
                                         <option selected disabled>Choose Transportation</option>
                                         <option value="car">Car</option>
                                         <option value="scooter">Scooter</option>
-{{--                                        <option value="van">Van</option>--}}
                                         <option value="bicycle">Bicycle</option>
                                     </select>
                                 </div>
@@ -323,7 +301,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group bmd-form-group">
                                     <label class="bmd-form-group">Work Location</label> <span style="color: red">*</span>
-                                    {{--                                <input type="text" class="form-control" name="emergency_contact_name" value="{{old('emergency_contact_name')}}" required>--}}
+                                   
                                     <select name="work_location" class="form-control" required v-model="work_location" id="work_location" @change="changeWorkLocation()">
                                         <option value="" selected disabled>Select Area</option>
                                         <option v-for="county of counties" :value="JSON.stringify(county)">@{{ county.name }}</option>
@@ -379,19 +357,7 @@
                                     </p>
                                 </div>
                                 <div class="col-md-12">
-    {{--                                <div class="d-flex">--}}
-    {{--                                    <p style="font-size: 14px;--}}
-    {{--                                              font-weight: normal;--}}
-    {{--                                              font-stretch: normal;--}}
-    {{--                                              font-style: normal;--}}
-    {{--                                              line-height: normal;--}}
-    {{--                                              letter-spacing: 0.26px;--}}
-    {{--                                              color: #4d4d4d;--}}
-    {{--                                            ">Upload file</p>--}}
-    {{--                                    <div class="btn btn-white btn-round ml-4">--}}
-    {{--                                        <i class="fas fa-cloud-upload-alt" style="font-size: 20px"></i>--}}
-    {{--                                    </div>--}}
-    {{--                                </div>--}}
+    
                                     <input type="file" name="proof_id" required>
                                 </div>
                             </div>
@@ -421,10 +387,7 @@
                             <div class="row">
                                 <div class="col-md-12 upload-file-title-container">
                                     <p class="upload-file-title">Proof of Insurance <small>(unless using a bicycle)</small></p>
-    {{--                                <p class="upload-file-subtitle">--}}
-    {{--                                    Please make sure the photo is clear and expiry--}}
-    {{--                                    date is visible--}}
-    {{--                                </p>--}}
+    
                                 </div>
                                 <div class="col-md-12">
                                     <div class="contact-through d-flex pr-5" @click="changeHasInsurace">
@@ -462,9 +425,8 @@
                                 experience. For DoOrder's full Cookies Policy, please <a href="https://44fc5dd5-ecb5-4c2e-bb94-31bcbc8408a1.filesusr.com/ugd/0b2e42_64b44367a7ab4471b94569c71c610c6e.pdf" style="color: #e8ca49"
                                 target="_blank">click here</a>.
                             </div>
-
-                            <div class="col-md-12">
-                                <button class="btn btn-block btn-submit">Submit</button>
+							<div class="col-md-12 text-center ">
+                                <button class="btn btn-block btn-submit mx-auto">Submit</button>
                             </div>
                         </div>
                     </div>

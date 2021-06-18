@@ -363,8 +363,12 @@ $( document ).ready(function() {
                                                 close: 'fa fa-remove'
                         }
                      });
+                     console.log(customer.contract_start_date)
+     if(customer.contract_start_date !=null){                
      $('#contractStartDate').data("DateTimePicker").date(new Date(customer.contract_start_date));
+     } if(customer.contract_end_date !=null){  
      $('#contractEndDate').data("DateTimePicker").date(new Date(customer.contract_end_date));
+     }
                      
 
 	

@@ -9,10 +9,6 @@
 	font-size: 40px;
 }
 
-.card .card-header .card-title {
-	margin-bottom: 0 !important
-}
-
 .card-category {
 	margin-top: -15px !important;
 	font-family: Quicksand;
@@ -33,9 +29,9 @@
 	color: #7b7b7b !important;
 }
 
-.form-head {
-	padding-top: 0 !important;
-	padding-bottom: 5px !important;
+.form-control{
+min-height:36px;
+height: auto !important;
 }
 
 .form-control:read-only {
@@ -180,13 +176,13 @@
 					</div>
 
 					<div class="card">
-						<div class="card-body">
-							<div class="container">
-								<div class="row">
-									<div class="col-md-12 d-flex form-head pl-3">
-										<span> 2 </span>
+							<div class="card-body">
+								<div class="container">
+									<div class="row">
+										<div class="col-md-12 d-flex form-head pl-3">
+											<span> 2 </span>
 										<h5 class="singleViewSubTitleH5">Package Details</h5>
-									</div>
+										</div>
 									<div class="col-sm-6">
 										<div class="form-group bmd-form-group">
 											<label>Pickup address</label>
@@ -201,7 +197,7 @@
 										<div class="form-group bmd-form-group">
 											<label>Package weight in kg</label>
 											<div class="form-control">
-												<span>{{$invoice->customer_address}}</span>
+												<span>{{$invoice->weight}}</span>
 											</div>
 
 										</div>

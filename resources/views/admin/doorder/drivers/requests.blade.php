@@ -2,33 +2,8 @@
 
 @section('page-styles')
     <style>
-        h3 {
-            margin-top: 0;
-            font-weight: bold;
-        }
-
-        .swal2-popup .swal2-styled:focus {
-            box-shadow: none !important;
-        }
-
-        .container-fluid {
-            padding-left: 0px;
-            padding-right: 0px;
-        }
-
-        th {
-            font-size: 15px!important;
-        }
-
-        td {
-            font-size: 12px;
-        }
-
-        tr.order-row:hover,
-        tr.order-row:focus {
-            cursor: pointer;
-            box-shadow: 5px 5px 18px #88888836, 5px -5px 18px #88888836;
-        }
+        
+        
     </style>
 @endsection
 
@@ -45,7 +20,7 @@
                                     <div class="card-icon">
                                         <img class="page_icon" src="{{asset('images/doorder_icons/drivers_requests.png')}}">
                                     </div>
-                                    <h4 class="card-title ">Drivers Table</h4>
+                                    <h4 class="card-title ">Drivers Requests</h4>
                                 </div>
                                 <div class="col-12 col-lg-6 col-md-6 mt-md-3">
                                     <div class="row justify-content-end">
@@ -71,7 +46,8 @@
                                   
                                 </div>
                                 <div class="table-responsive">
-                                    <table class="table" id="driversTable">
+                                    <table class="table" id="driversTable"
+									cellspacing="0" width="100%" >
                                         <thead>
                                             <tr>
                                                 <th>Date/Time</th>
@@ -160,6 +136,12 @@ $(document).ready(function() {
                     targets: -1
                 }
              ],
+             
+        scrollX:        true,
+        scrollCollapse: true,
+        fixedColumns:   {
+            leftColumns: 0,
+        },
     	
     });
 });

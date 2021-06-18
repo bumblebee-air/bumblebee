@@ -1,14 +1,5 @@
 @extends('templates.dashboard') @section('page-styles')
 <style>
-h3 {
-	margin-top: 0;
-	font-weight: bold;
-}
-
-.swal2-popup .swal2-styled:focus {
-	box-shadow: none !important;
-}
-
 div[data-toggle='collapse'] {
 	cursor: pointer;
 }

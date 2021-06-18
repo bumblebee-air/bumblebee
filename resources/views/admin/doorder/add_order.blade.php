@@ -3,23 +3,7 @@
 @section('page-styles')
     <link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
     <style>
-        h3 {
-            margin-top: 0;
-            font-weight: bold;
-        }
-
-        audio {
-            height: 32px;
-            margin-top: 8px;
-        }
-
-        .swal2-popup .swal2-styled:focus {
-            box-shadow: none !important;
-        }
-
-        .iti {
-            width: 100%;
-        }
+       
     </style>
 @endsection
 @section('title','DoOrder | Add New Order')
@@ -34,8 +18,7 @@
                             <div class="card">
                                 <div class="card-header card-header-icon card-header-rose">
                                     <div class="card-icon">
-                                        {{--                                    <i class="material-icons">home_work</i>--}}
-                                        <img class="page_icon" src="{{asset('images/doorder_icons/add-plus-outline.png')}}">
+                                       <img class="page_icon" src="{{asset('images/doorder_icons/add-plus-outline.png')}}">
                                     </div>
                                     <h4 class="card-title ">New Order</h4>
                                 </div>
@@ -117,7 +100,7 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label for="pick_address" class="control-label">Pickup Address<span style="color: red">*</span></label>
-{{--                                                    <input id="pick_address" name="pickup_address" type="text" class="form-control" value="{{old('pickup_address')}}" required>--}}
+
                                                     <select id="pick_address" name="pickup_address" data-style="select-with-transition" class="form-control selectpicker" required>
                                                         <option value="">Select pickup address</option>
                                                         @foreach($pickup_addresses as $address)
@@ -142,7 +125,6 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label for="weight" class="control-label">Package Weight<span style="color: red">*</span></label>
-{{--                                                    <input id="weight" type="text" class="form-control" name="weight" value="{{old('weight')}}" required>--}}
                                                     <select id="weight" name="weight" data-style="select-with-transition" class="form-control selectpicker" required>
                                                         <option value="">Select package weight</option>
                                                         <option value="Very Light">Very Light</option>
@@ -157,7 +139,7 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label for="dimensions" class="control-label">Package Dimensions<span style="color: red">*</span></label>
-{{--                                                    <input id="dimensions" type="text" name="dimensions" class="form-control" value="{{old('dimensions')}}" required>--}}
+
                                                     <select id="dimensions" name="dimensions" data-style="select-with-transition" class="form-control selectpicker" required>
                                                         <option value="">Select package size</option>
                                                         <option value="Small Bag">Small Bag</option>
@@ -182,7 +164,6 @@
                                                     <select id="deliver_by" name="deliver_by" data-style="select-with-transition" class="form-control selectpicker">
                                                         <option value="car">Car</option>
                                                         <option value="scooter">Scooter</option>
-{{--                                                        <option value="van">Van</option>--}}
                                                         <option value="bicycle">Bicycle</option>
                                                     </select>
                                                 </div>

@@ -14,6 +14,9 @@
 	border: none !important;
 	max-height: 21px !important;
 }
+textarea {
+	height: auto !important;
+}
 </style>
 @endsection @section('title','DoOrder | Retailer ' . $retailer->name)
 @section('page-content')
@@ -142,14 +145,7 @@
 															placeholder="Postcode/Eircode" required>
 													</div>
 													<div class="form-group bmd-form-group">
-														{{-- <label class="bmd-label-floating">First Name</label>--}}
-														{{-- <select class="form-control"
-															:id="'country' + (index + 1)"
-															:name="'country' + (index + 1)" required>--}} {{--
-															<option disabled>Select Country</option>--}} {{--
-															<option value="Ireland" selected>Ireland</option>--}}
-															{{--
-														</select>--}} <label>Country</label> <input type="text"
+														<label>Country</label> <input type="text"
 															class="form-control" :value="location.country"
 															placeholder="Country" required>
 													</div>
@@ -157,24 +153,16 @@
 
 												<div class="col-sm-6">
 													<div class="form-group bmd-form-group">
-														<label>Working days and hours</label> <input type="text"
+														<label>Working days and hours</label> <textarea
 															class="form-control" :id="'business_hours' + (index + 1)"
 															:name="'business_hours' + (index + 1)"
-															:value="location.business_hours"
-															placeholder="Working days and hours">
+															placeholder="Working days and hours">@{{location.business_hours}}</textarea>
 													</div>
 												</div>
 
 												<div class="col-sm-6">
 													<div class="form-group bmd-form-group">
-														{{-- <label class="bmd-label-floating">First Name</label>--}}
-														{{-- <select class="form-control"
-															:id="'county' + (index + 1)"
-															:name="'county' + (index + 1)" required>--}} {{--
-															<option selected disabled>Select County</option>--}} {{--
-															<option v-for="county in counties" :value="county">@{{
-																county }}</option>--}} {{--
-														</select>--}} <label>County</label> <input type="text"
+														 <label>County</label> <input type="text"
 															class="form-control"
 															:value="JSON.parse(location.county).name"
 															placeholder="County" required>
@@ -261,20 +249,7 @@
 
 												<div class="col-sm-6">
 													<div class="form-group bmd-form-group">
-														{{-- <input type="text" class="form-control"
-															name="contact_location"
-															value="{{old('contact_location')}}"
-															placeholder="Location" required>--}} {{-- <select
-															class="form-control"
-															:id="'contact_location' + (index + 1)"
-															:name="'contact_location' + (index + 1)">--}} {{--
-															<option selected disabled>Location</option>--}} {{--
-															<option v-for="(location, index) of locations"
-																value="location">Location @{{ index +1 }}</option>--}}
-															{{--
-															<option value="all" v-if="locations.length > 1">All</option>--}}
-															{{--
-														</select>--}} <label>Location</label> <input type="text"
+														<label>Location</label> <input type="text"
 															class="form-control" :value="contact.contact_location"
 															:name="'contact_location' + (index + 1)"
 															placeholder="Location" required>
@@ -401,11 +376,7 @@
 	</div>
 </div>
 
-@endsection @section('page-scripts') {{--
-<script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
---}} {{--
-<script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>
---}}
+@endsection @section('page-scripts')
 <script>
 $( document ).ready(function() {
 

@@ -1,3 +1,8 @@
+.container{
+	width: 98%; 
+	max-width: 98%;
+}
+
 .sidebar .user {
 	padding-bottom: 0;
 }
@@ -142,6 +147,7 @@ p.card-category {
 	stroke-width: 10px;
 }
 
+
 .row {
 	display: flex;
 	flex-wrap: wrap;
@@ -172,6 +178,16 @@ h4.card-title {
 	padding-top: 20px;
 	padding-bottom: 0;
 	padding-left: 0px;
+	/* 
+	
+	padding-top: 20px;
+	padding-bottom: 20px;
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 1.19;
+	letter-spacing: 0.8px;
+	color: #4d4d4d;
+	padding-left: 0px; */
 }
 
 .singleViewSubTitleH5 {
@@ -208,6 +224,7 @@ h4.card-title {
 	font-size: 13px;
 	padding-top: 5px;
 	font-weight: bold;
+	
 }
 
 .form-control:focus {
@@ -215,7 +232,7 @@ h4.card-title {
 	box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14) !important;
 }
 
-.form-group label {
+.form-group label, .locationLabel {
 	font-family: Quicksand;
 	font-size: 15px;
 	font-weight: 500;
@@ -224,6 +241,9 @@ h4.card-title {
 	line-height: normal;
 	letter-spacing: 0.77px;
 	color: #4d4d4d;
+}
+.locationLabel{
+	font-weight: 700 !important;
 }
 
 input.form-control, textarea.form-control {
@@ -304,11 +324,28 @@ input.form-control, textarea.form-control {
 .editLinkA, .editLinkA:active, .editLinkA:focus, .editLinkA:hover {
 	background: transparent !important;
 }
+
+.iti {
+	width: 100%;
+}
+
+.file-url-container {
+	padding: 8px 44px 8px 17px;
+	border-radius: 9px;
+	border: solid 1px #e3e3e3;
+	background-color: #ffffff;
+	/*width: fit-content;*/
+}
+
+.file-url-container i {
+	font-size: 50px;
+	color: #e2e5e7;
+}
 /****************** tables *************************/
 .table {
 	margin-bottom: 0 !important;
 	border-bottom: none !important;
-	table-layout: fixed;
+/* 	table-layout: fixed; */
 }
 
 div.dataTables_wrapper div.dataTables_filter input {
@@ -472,7 +509,6 @@ tr.order-row:hover, tr.order-row:focus {
 	cursor: pointer;
 	box-shadow: 5px 5px 18px #88888836, 5px -5px 18px #88888836;
 }
-
 .btn.btn-fab, .btn.btn-just-icon {
 	line-height: 0px !important;
 	height: 20px !important;
@@ -504,6 +540,17 @@ tr.order-row:hover, tr.order-row:focus {
 	.dataTable>tfoot>tr>th, .dataTable>thead>tr>td, .dataTable>thead>tr>th
 	{
 	padding: 7px 5px !important;
+}
+
+
+.dataTables_scrollBody table thead tr{
+	border: none !important;
+}
+
+.dataTables_scrollBody table thead tr th{
+	border: none !important;
+    padding-top:   0 !important;
+    padding-bottom: 0 !important;
 }
 /************************* buttons ******************/
 .btn.btn-primary-doorder.btn-link, .btn.btn-primary-doorder.btn-link:active,
@@ -591,6 +638,9 @@ tr.order-row:hover, tr.order-row:focus {
 	.modal-dialog .modal-body .card-body {
 		padding: 5px;
 	}
+}
+.modal-dialog .modal-header{
+	padding: 0;
 }
 
 .modal-header .close {

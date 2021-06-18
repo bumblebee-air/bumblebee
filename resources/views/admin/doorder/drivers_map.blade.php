@@ -1,75 +1,9 @@
 @extends('templates.dashboard') @section('page-styles')
 <style>
-h3 {
-	margin-top: 0;
-	font-weight: bold;
-}
-
-audio {
-	height: 32px;
-	margin-top: 8px;
-}
-
-.swal2-popup .swal2-styled:focus {
-	box-shadow: none !important;
-}
-
 div[data-toggle='collapse'] {
 	cursor: pointer;
 }
 
-.deliverers-container .deliverer-card {
-	cursor: pointer;
-}
-
-.deliverers-container .deliverer-card .deliverer-details {
-	color: #3c4858;
-}
-
-.deliverers-container .deliverer-card .deliverer-details:hover,
-	.deliverers-container .deliverer-card .deliverer-details:focus,
-	.deliverer-name {
-	color: #f7dc69;
-}
-
-.modal-dialog-header {
-	font-size: 25px;
-	font-weight: 500;
-	line-height: 1.2;
-	text-align: center;
-	color: #cab459;
-}
-
-.modal-content {
-	/*padding: 51px 51px 112px 51px;*/
-	border-radius: 30px !important;
-	border: solid 1px #979797 !important;
-	background-color: #ffffff;
-}
-
-@media ( min-width : 576px) {
-	.modal-dialog {
-		max-width: 972px !important;
-		margin-left: 16.75rem !important;
-		margin-right: 16.75rem !important;
-	}
-}
-
-.modal-header .close {
-	width: 15px;
-	height: 15px;
-	margin: 39px 37px 95px 49px;
-	background-color: #e8ca49;
-	border-radius: 30px;
-	color: white !important;
-	top: -20px !important;
-	padding: 0.6rem;
-}
-
-.modal-header .close i {
-	font-size: 10px !important;
-	margin: -5px;
-}
 
 .map-control {
   background-color: #fff;
@@ -102,8 +36,7 @@ div[data-toggle='collapse'] {
 			<div class="col-12" id="map-container">
 				<div class="card">
 					<div class="card-header card-header-icon card-header-rose">
-						<div class="card-icon">
-							{{-- <i class="material-icons">home_work</i>--}} <img
+						<div class="card-icon"><img
 								class="page_icon"
 								src="{{asset('images/map_icon_card_white.png')}}">
 						</div>

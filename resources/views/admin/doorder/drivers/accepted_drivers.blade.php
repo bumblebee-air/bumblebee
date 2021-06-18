@@ -1,4 +1,8 @@
-@extends('templates.dashboard') @section('page-styles') @endsection
+@extends('templates.dashboard') @section('page-styles')
+<style>
+
+</style>
+ @endsection
 @section('title', 'DoOrder | Deliverers') @section('page-content')
 <div class="content">
 	<div class="container-fluid">
@@ -20,7 +24,7 @@
 
 							<div class="table-responsive">
 								<table id="driversTable"
-									class="table table-no-bordered table-hover doorderTable  display nowrap"
+									class="table table-no-bordered table-hover doorderTable "
 									cellspacing="0" width="100%" style="width: 100%">
 									<thead>
 										<tr>
@@ -152,8 +156,15 @@ $(document).ready(function() {
                     targets: 2
                 } ],
     	
-        initComplete: function () {
-        }
+        initComplete: function(settings, json) {
+    		$('.dataTables_scrollBody thead tr').css({visibility:'collapse'})
+        },
+          
+        scrollX:        true,
+        scrollCollapse: true,
+        fixedColumns:   {
+            leftColumns: 0,
+        },
     });
     
        $(".filterhead").each(function (i) {

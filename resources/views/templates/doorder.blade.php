@@ -20,6 +20,7 @@
 
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/fontawesome/all.css')}}">
+    
 
     <!--Sweet Alert-->
     <script src="https://unpkg.com/sweetalert@2.1.2/dist/sweetalert.min.js"></script>

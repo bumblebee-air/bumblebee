@@ -2,37 +2,7 @@
 
 @section('page-styles')
     <style>
-        h3 {
-            margin-top: 0;
-            font-weight: bold;
-        }
-        audio {
-            height: 32px;
-            margin-top: 8px;
-        }
-
-        .swal2-popup .swal2-styled:focus {
-            box-shadow: none !important;
-        }
-
-        .container-fluid {
-            padding-left: 0px;
-            padding-right: 0px;
-        }
-
-        th {
-            font-size: 15px!important;
-        }
-
-        td {
-            font-size: 12px;
-        }
-
-        tr.order-row:hover,
-        tr.order-row:focus {
-            cursor: pointer;
-            box-shadow: 5px 5px 18px #88888836, 5px -5px 18px #88888836;
-        }
+       
     </style>
 @endsection
 
@@ -47,7 +17,6 @@
                             <div class="card-header card-header-icon card-header-rose row">
                                 <div class="col-12 col-sm-4">
                                     <div class="card-icon">
-                                        {{--                                    <i class="material-icons">home_work</i>--}}
                                         <img class="page_icon" src="{{asset('images/doorder_icons/History-white.png')}}">
                                     </div>
                                     <h4 class="card-title ">History</h4>
@@ -189,6 +158,12 @@ $(document).ready(function() {
                     targets: [-1,-2]
                 }
              ],
+             
+        scrollX:        true,
+        scrollCollapse: true,
+        fixedColumns:   {
+            leftColumns: 0,
+        },
     	
     });
 });

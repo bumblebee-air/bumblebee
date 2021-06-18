@@ -171,8 +171,7 @@ $driver->last_name) @section('page-content')
 									<div class="row">
 										
 										<div class="col-md-12">
-											{{-- <label v-if="locations.length > 1">Location @{{ index +
-												1 }}</label>--}}
+											
 											<div class="row">
 												<div class="col-sm-6">
 													<div class="form-group bmd-form-group">
@@ -205,10 +204,7 @@ $driver->last_name) @section('page-content')
 
 												<div class="col-sm-6">
 													<div class="form-group bmd-form-group">
-														{{-- <label>Address</label>--}} {{--
-														<textarea class="form-control" rows="14"
-															placeholder="Address" required></textarea>
-														--}}
+														
 														<div id="driver_map" style="height: 320px;"></div>
 													</div>
 												</div>

@@ -2,39 +2,6 @@
 
 @section('page-styles')
     <style>
-        h3 {
-            margin-top: 0;
-            font-weight: bold;
-        }
-
-
-        audio {
-            height: 32px;
-            margin-top: 8px;
-        }
-
-        .swal2-popup .swal2-styled:focus {
-            box-shadow: none !important;
-        }
-
-        .container-fluid {
-            padding-left: 0px;
-            padding-right: 0px;
-        }
-
-        th {
-            font-size: 15px!important;
-        }
-
-        td {
-            font-size: 12px;
-        }
-
-        tr.order-row:hover,
-        tr.order-row:focus {
-            cursor: pointer;
-            box-shadow: 5px 5px 18px #88888836, 5px -5px 18px #88888836;
-        }
         
     </style>
 @endsection
@@ -193,11 +160,12 @@ $(document).ready(function() {
                     targets: [-1,-2]
                 }
              ],
-       /*  fixedColumns:   {
-            leftColumns: 2,
+       
+        scrollX:        true,
+        scrollCollapse: true,
+        fixedColumns:   {
+            leftColumns: 0,
         },
-             
-              scrollX:        true, */
     	
     });
 });

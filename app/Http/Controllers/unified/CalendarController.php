@@ -289,7 +289,8 @@ class CalendarController extends Controller
                 'start' => '',
                 'end' => '',
                 'backgroundColor' => 'rgba(217, 83, 83, 0.5)',
-                'serviceId' => $job->service_id
+                'serviceId' => $job->service_id,
+                'customerId' => $job->customer->id
             ];
         }
         return response()->json(array(

@@ -659,7 +659,18 @@ font-size: 18px;
 			eventRender: function (event, element) {
 
         	},
-        	events: {!! $events !!},
+         	events: {!! $events !!},
+        	
+//        	events: function(start_date, end_date, callback) {
+// 				$.ajax({
+// 					type:'GET',
+// 					url: '{{url("garden-help/contractors/roster-events")}}'+'?start_date='+Math.round(start_date.getTime() / 1000)+'&end_date='+Math.round(end_date.getTime() / 1000),
+// 					success:function(data) {
+// 						contractors = data.contractors;
+// 						callback(data.events);
+// 					}
+// 				});
+//			},
         	
             eventRender: function(event, element) {
                  if(event.className=='expireContract'){          
@@ -717,6 +728,7 @@ font-size: 18px;
 			 eventClick: function(calEvent, jsEvent, view) {
 			 	console.log("click event "+calEvent+" "+calEvent.className);
 			 	console.log(calEvent)
+			 	console.log(calEvent.start)
 			 	if(calEvent.className=='expireContract'){    
 			 		getContractsExpiredData(calEvent.start);
 			 	}else{
@@ -851,9 +863,10 @@ font-size: 18px;
         		for(var i=0; i< data.jobsList.length; i++){
 					ulContent = ulContent+ '<li class="list-group-item" style="background-color:'
 								+data.jobsList[i].backgroundColor
-								+'"> '
+								+'"> <a href="{{url('unified/customers/view/')}}/'+data.jobsList[i].customerId 
+								+ '" >'
 								+data.jobsList[i].title 
-								+'  </li>';
+								+' </a> </li>';
 				}
         	
                     $('#calendar-modal-contract-list').modal();

@@ -291,7 +291,7 @@
 					class="my-nav-icon my-nav-icon-top"
 					src="{{asset('images/doorder_icons/Dashboard-yellow.png')}}" alt="">
 					<p>Dashboard</p>
-			</a></li>
+			</a></li>ss
 			<li class="nav-item"><a class="nav-link d-flex"
 				href="{{route('doorder_ordersTable', 'doorder')}}"> <img
 					class="my-nav-icon"
@@ -388,35 +388,42 @@
 					src="{{asset('images/doorder_icons/logout-outline.png')}}"
 					alt="whatsapp"> <img class="my-nav-icon my-nav-icon-top"
 					src="{{asset('images/doorder_icons/logout-outline-yellow.png')}}"
-					alt="whatsapp">
+					alt="logout">
 					<p>Logout</p>
 			</a></li>
 		</ul>
 		@elseif(auth()->user()->user_role == 'retailer')
 		<ul class="nav">
 			<li class="nav-item"><a class="nav-link d-flex"
-				href="{{route('doorder_addNewOrder', 'doorder')}}"> {{-- <i
-					class="fas fa-plus-circle"></i>--}} <img class="my-nav-icon"
+				href="{{route('doorder_addNewOrder', 'doorder')}}"> <img class="my-nav-icon"
+					src="{{asset('images/doorder_icons/add-plus-outline.png')}}" alt="">
+					 <img
+					class="my-nav-icon my-nav-icon-top"
 					src="{{asset('images/doorder_icons/add-plus-outline.png')}}" alt="">
 					<p>Add New Order</p>
 			</a></li>
 			<li class="nav-item"><a class="nav-link d-flex" href="{{url('/')}}">
-					{{-- <i class="fas fa-chart-bar"></i>--}} <img class="my-nav-icon"
-					src="{{asset('images/doorder_icons/dashboard.png')}}" alt="">
+					<img class="my-nav-icon"
+					src="{{asset('images/doorder_icons/dashboard.png')}}" alt=""> <img
+					class="my-nav-icon my-nav-icon-top"
+					src="{{asset('images/doorder_icons/Dashboard-yellow.png')}}" alt="">
 					<p>Dashboard</p>
 			</a></li>
 
 			<li class="nav-item"><a class="nav-link d-flex"
-				href="{{route('doorder_ordersTable', 'doorder')}}"> {{-- <i
-					class="fas fa-chart-bar"></i>--}} <img class="my-nav-icon"
+				href="{{route('doorder_ordersTable', 'doorder')}}"> <img
+					class="my-nav-icon"
 					src="{{asset('images/doorder_icons/orders_table_white.png')}}"
-					alt="">
+					alt=""> <img class="my-nav-icon my-nav-icon-top"
+					src="{{asset('images/doorder_icons/orders_table.png')}}" alt="">
 					<p>Order Table</p>
 			</a></li>
 			<li class="nav-item "><a class="nav-link d-flex"
-				href="{{url('logout')}}"> {{-- <i class="fas fa-sign-out-alt"></i>--}}
-					<img class="my-nav-icon"
-					src="{{asset('images/doorder_icons/logout-outline.png')}}" alt="">
+				href="{{url('logout')}}">  <img class="my-nav-icon"
+					src="{{asset('images/doorder_icons/logout-outline.png')}}"
+					alt="logout"> <img class="my-nav-icon my-nav-icon-top"
+					src="{{asset('images/doorder_icons/logout-outline-yellow.png')}}"
+					alt="logout">
 					<p>Logout</p>
 			</a></li>
 		</ul>

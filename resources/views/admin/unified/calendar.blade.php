@@ -1023,6 +1023,8 @@ function clickEditScheduledJob(jobId){
                        
             $("#selectedServiceTypesDivEdit").html(serviceTypesDivHtml);
             $("#selectedServiceTypesDivEdit").zInput();
+            
+            $("#selectedServiceTypesDivEdit #serviceTypeE"+job.selectedServiceType).prop('checked',true);
             $("#selectedServiceTypesDivEdit #serviceTypeE"+job.selectedServiceType).parent().parent().parent().addClass("zSelected");
             
             addIntelInput('phoneEdit','phone');
@@ -1206,6 +1208,7 @@ function changeCompany(){
                 $("#selectedServiceTypesDiv").html(serviceTypesDivHtml);
                 $("#selectedServiceTypesDiv").zInput();
                 
+                $("#selectedServiceTypesDiv #serviceType"+serviceIdHidden).prop('checked',true);
                 $("#selectedServiceTypesDiv #serviceType"+serviceIdHidden).parent().parent().parent().addClass("zSelected");
             }
                        

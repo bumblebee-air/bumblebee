@@ -18,29 +18,103 @@ class CalendarController extends Controller
 
     public function getCalendar()
     {
-        $services = UnifiedService::withCount(['jobs' => function($q) {
-            $q->whereDate('start_at', '>=', Carbon::now()->startOfMonth()->toDateString())->whereDate('end_at', '<=', Carbon::now()->endOfMonth()->toDateString());
-        }])->get();
+       // dd(Carbon::now()->startOfMonth());
+//         $services = UnifiedService::withCount(['jobs' => function($q) {
+//             $q->whereDate('start_at', '>=', Carbon::now()->startOfMonth()->toDateString())->whereDate('end_at', '<=', Carbon::now()->endOfMonth()->toDateString());
+//         }])->get();
         $companyNames = UnifiedCustomer::select(['id', 'name'])->get();
         $jobTypes = UnifiedJobType::all();
         $engineers = UnifiedEngineer::all();
 
         //Get Services Events by day
+//         $events = [];
+//         $daysOfMonth = Carbon::now()->daysInMonth + 1;
+//         foreach ($services as $service) {
+//             for ($i=0; $i < $daysOfMonth; $i++) {
+//                 $date = Carbon::now()->startOfMonth()->addDays($i);
+//                 $Jobs = UnifiedJob::where('service_id', $service->id)->whereDate('start_at', $date->toDateString())->get();
+//                 $normalJobsCount = 0;
+//                 $expiredJobsCount = 0;
+
+                
+//                 foreach ($Jobs as $job) {
+//                     if ($job->customer->contract) {
+//                         //if (Carbon::parse($job->customer->contract_start_date)->getTimestamp() <= $date->getTimestamp() && Carbon::parse($job->customer->contract_end_date)->getTimestamp() >= $date->getTimestamp()) {
+//                         $contract_start_date = Carbon::parse($job->customer->contract_start_date)->startOfDay();
+//                         $contract_end_date = Carbon::parse($job->customer->contract_end_date)->endOfDay();
+//                         if ($contract_end_date >= $date) {
+//                             $normalJobsCount++;
+//                         } else {
+//                             $expiredJobsCount++;
+//                         }
+//                     } else {
+//                         $normalJobsCount++;
+//                     }
+//                 }
+//                 if ($normalJobsCount > 0) {
+//                     $events[] = [
+//                         'id' => $service->id,
+//                         'start' => $date->toDateString(),
+//                         'end' => $date->toDateString(),
+//                         'backgroundColor' => $service->backgroundColor,
+//                         'borderColor' => $service->borderColor,
+//                         'textColor' => '',
+//                         'className' => '',
+//                         'title' => $normalJobsCount,
+//                         'serviceId' => $service->id
+//                     ];
+//                 }
+//                 if ($expiredJobsCount > 0) {
+//                     $events[] = [
+//                         'id' => $service->id,
+//                         'start' => $date->toDateString(),
+//                         'end' => $date->toDateString(),
+//                         'backgroundColor' => 'transparent',
+//                         'borderColor' => $service->borderColor,
+//                         'textColor' => '#d95353',
+//                         'className' => 'expireContract',
+//                         'title' => '',
+//                         'serviceId' => $service->id
+//                     ];
+//                 }
+//             }
+//         }
+        return view('admin.unified.calendar', [
+            'companyNames' => $companyNames,
+            'jobTypes' => $jobTypes,
+            'engineers' => $engineers
+        ]);
+    }
+    
+    public function getCalendarEvents(Request $request){
+        $start_date = Carbon::createFromTimestamp($request->start_date);
+        $end_date = Carbon::createFromTimestamp($request->end_date);
+        
+        $services = UnifiedService::withCount(['jobs' => function($q) use($start_date,$end_date) {
+            $q->whereDate('start_at', '>=', $start_date->toDateString())->whereDate('end_at', '<=', $end_date->toDateString());
+        }])->get();
+        
+        //Get Services Events by day
         $events = [];
-        $daysOfMonth = Carbon::now()->daysInMonth + 1;
+        $daysOfMonth = $end_date->diffInDays($start_date); //Carbon::now()->daysInMonth + 1;
+        //dd($start_date .' '.$end_date.' '.$daysOfMonth);
         foreach ($services as $service) {
+            $date_for_loop = Carbon::createFromTimestamp($request->start_date);
+           
             for ($i=0; $i < $daysOfMonth; $i++) {
-                $date = Carbon::now()->startOfMonth()->addDays($i);
-                $Jobs = UnifiedJob::where('service_id', $service->id)->whereDate('start_at', $date->toDateString())->get();
+                $date_for_loop->addDay();
+                $Jobs = UnifiedJob::where('service_id', $service->id)->whereDate('start_at', $date_for_loop->toDateString())->get();
+                
                 $normalJobsCount = 0;
                 $expiredJobsCount = 0;
-
+                
+              
                 foreach ($Jobs as $job) {
                     if ($job->customer->contract) {
                         //if (Carbon::parse($job->customer->contract_start_date)->getTimestamp() <= $date->getTimestamp() && Carbon::parse($job->customer->contract_end_date)->getTimestamp() >= $date->getTimestamp()) {
                         $contract_start_date = Carbon::parse($job->customer->contract_start_date)->startOfDay();
                         $contract_end_date = Carbon::parse($job->customer->contract_end_date)->endOfDay();
-                        if ($contract_end_date >= $date) {
+                        if ($contract_end_date >= $date_for_loop) {
                             $normalJobsCount++;
                         } else {
                             $expiredJobsCount++;
@@ -52,8 +126,8 @@ class CalendarController extends Controller
                 if ($normalJobsCount > 0) {
                     $events[] = [
                         'id' => $service->id,
-                        'start' => $date->toDateString(),
-                        'end' => $date->toDateString(),
+                        'start' => $date_for_loop->toDateString(),
+                        'end' => $date_for_loop->toDateString(),
                         'backgroundColor' => $service->backgroundColor,
                         'borderColor' => $service->borderColor,
                         'textColor' => '',
@@ -65,8 +139,8 @@ class CalendarController extends Controller
                 if ($expiredJobsCount > 0) {
                     $events[] = [
                         'id' => $service->id,
-                        'start' => $date->toDateString(),
-                        'end' => $date->toDateString(),
+                        'start' => $date_for_loop->toDateString(),
+                        'end' => $date_for_loop->toDateString(),
                         'backgroundColor' => 'transparent',
                         'borderColor' => $service->borderColor,
                         'textColor' => '#d95353',
@@ -77,12 +151,11 @@ class CalendarController extends Controller
                 }
             }
         }
-        return view('admin.unified.calendar', [
+       
+        
+        return response()->json([
+            'events' =>  json_encode($events),
             'services' => $services,
-            'events' => json_encode($events),
-            'companyNames' => $companyNames,
-            'jobTypes' => $jobTypes,
-            'engineers' => $engineers
         ]);
     }
 
@@ -229,6 +302,7 @@ class CalendarController extends Controller
 
     public function getJobList(Request $request)
     {
+        //dd($request);
         $date = $request->date;
         $serviceId = $request->serviceId; // 0 if all
         $titleModal = '';

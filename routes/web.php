@@ -397,6 +397,7 @@ Route::group([
         });
         
         Route::get('calendar', 'unified\CalendarController@getCalendar')->name('unified_getCalendar');
+        Route::get('calendar-events', 'unified\CalendarController@getCalendarEvents')->name('unified_getCalendarEvents');
         Route::post('add_scheduled_job', 'unified\CalendarController@postAddScheduledJob')->name('unified_postAddScheduledJob');
         Route::post('edit_scheduled_job', 'unified\CalendarController@postEditScheduledJob')->name('unified_postEditScheduledJob');
         Route::post('delete_scheduled_job', 'unified\CalendarController@postDeleteScheduledJob')->name('unified_postDeleteScheduledJob');

@@ -50,25 +50,11 @@ font-size: 18px;
 										style="background-color: #fafafa;">
 										<h3 class="servicesCalendarTitleH3">Services</h3>
 
-										<ul class="servicesCalendarUl">
+										<ul class="servicesCalendarUl" id="serciesUiUl">
 
-											@foreach($services as $service)
-											<li class="mb-1"
-												onclick="clickServiceGetJobList({{$service->id}})">
-												<div class="row m-0">
-													<div class="serviceColorLiDiv col-sm-2 mr-0 p-1"
-														style="border-left: 4px solid {{$service->borderColor}}; 
-														background-color:{{$service->backgroundColor}};">
-													</div>
-													<div class="col-sm-10 pl-0 pl-1 my-1">
-														<p class="serviceNameCalendarP">{{$service->name}}</p>
-														<p class="serviceJobsCalendarP">{{$service->jobs_count}}
-															jobs in this month</p>
-													</div>
-												</div>
-
-											</li> @endforeach
+										
 										</ul>
+										
 										<div class="row">
 											<div class="col-md-6 offset-md-6">
 												<button class=" btn-add-calendar" style="float: right;"
@@ -659,18 +645,39 @@ font-size: 18px;
 			eventRender: function (event, element) {
 
         	},
-         	events: {!! $events !!},
-        	
-//        	events: function(start_date, end_date, callback) {
-// 				$.ajax({
-// 					type:'GET',
-// 					url: '{{url("garden-help/contractors/roster-events")}}'+'?start_date='+Math.round(start_date.getTime() / 1000)+'&end_date='+Math.round(end_date.getTime() / 1000),
-// 					success:function(data) {
-// 						contractors = data.contractors;
-// 						callback(data.events);
-// 					}
-// 				});
-//			},
+         	
+       	events: function(start_date, end_date,timezone, callback) {
+       	       	
+				$.ajax({
+					type:'GET',
+					url: '{{url("unified/calendar-events")}}'+'?start_date='+Math.round(start_date/ 1000)+'&end_date='+Math.round(end_date / 1000),
+					success:function(data) {
+					console.log(data);
+						//contractors = data.contractors;
+						callback(JSON.parse(data.events));
+						
+						var servicesUl = '';
+						for(var i =0; i<data.services.length; i++){
+							var service=data.services[i];
+							servicesUl += '<li class="mb-1" onclick="clickServiceGetJobList('
+										+service.id
+										+')"> <div class="row m-0"> <div class="serviceColorLiDiv col-sm-2 mr-0 p-1" '
+										+ ' style="border-left: 4px solid '
+										+service.borderColor
+										+'; background-color:'
+										+service.backgroundColor 
+										+';"> </div> <div class="col-sm-10 pl-0 pl-1 my-1"> <p class="serviceNameCalendarP">'
+										+ service.name 
+										+'</p> <p class="serviceJobsCalendarP"> '
+										+service.jobs_count 
+										+' jobs in this month</p> </div> </div>	</li>';
+						}
+						
+						
+						$("#serciesUiUl").html(servicesUl);
+					}
+				});
+			},
         	
             eventRender: function(event, element) {
                  if(event.className=='expireContract'){          
@@ -678,8 +685,7 @@ font-size: 18px;
                  }
               }    ,
 			eventAfterAllRender: function(){
-				console.log({!! $events !!});
-            	// loop through each calendar row
+				// loop through each calendar row
             	$('.fc-content-skeleton').each(function(){
             		var firstRow,
             		ctr = 0;

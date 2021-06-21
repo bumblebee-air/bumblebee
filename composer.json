@@ -22,6 +22,7 @@
         "maatwebsite/excel": "~3.1.0",
         "php-ffmpeg/php-ffmpeg": "^0.14.0",
         "predis/predis": "^1.1",
+        "rap2hpoutre/laravel-log-viewer": "^1.7",
         "stripe/stripe-php": "^7.43",
         "symfony/config": "^5.1",
         "therobfonz/laravel-mandrill-driver": "^2.0",

@@ -291,7 +291,7 @@
 					class="my-nav-icon my-nav-icon-top"
 					src="{{asset('images/doorder_icons/Dashboard-yellow.png')}}" alt="">
 					<p>Dashboard</p>
-			</a></li>ss
+			</a></li>
 			<li class="nav-item"><a class="nav-link d-flex"
 				href="{{route('doorder_ordersTable', 'doorder')}}"> <img
 					class="my-nav-icon"
@@ -373,7 +373,7 @@
 					<p>History</p>
 				</a>
 			</li>
-			<li class="nav-item"><a class="nav-link d-flex" href="#"> <img
+			<li class="nav-item"><a class="nav-link d-flex" href="{{route('doorder_getSettings', 'doorder')}}"> <img
 					class="my-nav-icon"
 					src="{{asset('images/doorder_icons/Settings.png')}}" alt="whatsapp">
 					<img class="my-nav-icon my-nav-icon-top"

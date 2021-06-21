@@ -328,6 +328,9 @@ Route::group([
         Route::get('invoice_view/{id}', 'doorder\InvoiceController@getSingleInvoice')->name('doorder_getSingleInvoice');
         Route::post('send_invoice/{id}', 'doorder\InvoiceController@postSendInvoice')->name('doorder_sendInvoice');
         
+        Route::get('settings', 'doorder\SettingsController@getSettings')->name('doorder_getSettings');
+        Route::post('save_notification', 'doorder\SettingsController@postSaveNotification')->name('doorder_postSaveNotification');
+        
         
     });
     /*

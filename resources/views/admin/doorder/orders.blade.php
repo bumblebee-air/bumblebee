@@ -62,7 +62,7 @@
                                 <div class="float-right">
                                 </div>
                                 <div class="table-responsive">
-                                    <table class="table" id="ordersTable">
+                                    <table class="table" id="ordersTable" width="100%">
                                         <thead> <tr>
                                                 <th>Date/Time</th>
                                                 <th>Order Number</th>

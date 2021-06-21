@@ -63,7 +63,7 @@
                                     {{--                                    <a class="btn btn-success btn-sm" href="{{ url('client/add') }}">Add New</a>--}}
                                 </div>
                                 <div class="table-responsive">
-                                    <table class="table" id="historyTable">
+                                    <table class="table" id="historyTable" width="100%">
                                         <thead>
                                         <tr>
                                         <th>Date/Time</th>

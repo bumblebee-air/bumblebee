@@ -151,7 +151,7 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
 
 								<table id="invoiceListTable"
 									class="table table-no-bordered table-hover doorderTable"
-									cellspacing="0" width="90%">
+									cellspacing="0" width="100%">
 									<thead>
 										<tr>
 											<th width="10%">Date</th>

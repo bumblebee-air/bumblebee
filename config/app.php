@@ -180,10 +180,10 @@ return [
         App\Providers\ComposerServiceProvider::class,
         App\Providers\TwilioAccessTokenProvider::class,
         App\Providers\TwilioChatGrantProvider::class,
-
         //Sweet Alert
-        UxWeb\SweetAlert\SweetAlertServiceProvider::class
-
+        UxWeb\SweetAlert\SweetAlertServiceProvider::class,
+        //Log viewer
+        Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
     ],
 
     /*

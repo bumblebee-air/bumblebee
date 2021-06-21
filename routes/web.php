@@ -436,3 +436,5 @@ Route::get('customer/delivery_confirmation/{customer_confirmation_code}', 'doord
 Route::post('customer/delivery_confirmation', 'doorder\CustomerController@postDeliveryConfirmationURL')->name('postDeliveryConfirmationURL');
 // Frontend error logging route
 Route::post('frontend/error', 'HelperController@logFrontendError');
+
+Route::get('da-lgs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

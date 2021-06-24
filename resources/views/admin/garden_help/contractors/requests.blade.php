@@ -58,6 +58,7 @@
                                                 <th>Status</th>
                                                 <th>Stage</th>
                                                 <th>Address</th>
+                                                <th>Action</th>
                                             </thead>
 
                                             <tbody>
@@ -89,6 +90,12 @@
                                                             <td>
                                                                 {{$contractor->address}}
                                                             </td>
+                                                            <td>
+                                                                <a type="button"
+                                                                   class="btn btn-link btn-danger btn-just-icon remove" @click.stop="deleteRequest(event, {{$contractor->id}})">
+                                                                    <i class="fas fa-trash-alt"></i>
+                                                                </a>
+                                                            </td>
                                                         </tr>
                                                     @endforeach
                                                 @else
@@ -110,9 +117,67 @@
                     </div>
                 </div>
             </div>
+            <!-- delete contractor modal -->
+            <div class="modal fade" id="delete-request-modal" tabindex="-1"
+                 role="dialog" aria-labelledby="delete-contractor-label"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close d-flex justify-content-center"
+                                    data-dismiss="modal" aria-label="Close">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="modal-dialog-header deleteHeader">Are you sure you want
+                                to delete this request?</div>
 
+                            <div>
+
+                                <form method="POST" id="delete-request"
+                                      :action='"{{url('garden-help/contractors/requests/delete')}}/"+request_id'
+                                      style="margin-bottom: 0 !important;">
+                                    @csrf
+                                </form>
+                            </div>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-around">
+                            <button type="button" class="btn  btn-register btn-gardenhelp-green"
+                                    onclick="$('form#delete-request').submit()">Yes</button>
+                            <button type="button"
+                                    class="btn btn-register  btn-gardenhelp-danger"
+                                    data-dismiss="modal">Cancel</button>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- end delete contractor modal -->
         </div>
     </div>
+@endsection
+
+@section('page-scripts')
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                request_id: ''
+            },
+            mounted() {
+
+            },
+            methods: {
+                deleteRequest(e, id) {
+                    e.preventDefault();
+                    this.request_id = id;
+                    $('#delete-request-modal').modal('show')
+                }
+            }
+        });
+    </script>
 @endsection
 
 

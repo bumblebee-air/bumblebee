@@ -307,4 +307,15 @@ class CustomersController extends Controller
         alert()->success('Your service has been canceled successfully', 'Thank You');
         return redirect()->back();
     }
+
+    public function deleteCustomerRequest(Request $request, $client_name, $id) {
+        $customer = Customer::find($id);
+        if (!$customer) {
+            alert()->warning('Customer is invalid');
+        } else {
+            alert()->success('Customer has deleted successfully');
+            $customer->delete();
+        }
+        return redirect()->back();
+    }
 }

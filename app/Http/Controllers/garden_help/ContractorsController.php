@@ -625,4 +625,15 @@ class ContractorsController extends Controller
         return redirect()->route('garden_help_getContractorsFee', 'garden-help');
     }
 
+    public function deleteContractorRequest(Request $request, $client_id, $id) {
+        $contractor = Contractor::find($id);
+        if (!$contractor) {
+            alert()->warning('Contractor is invalid');
+        } else {
+            alert()->success('Contractor has deleted successfully');
+            $contractor->delete();
+        }
+        return redirect()->back();
+    }
+
 }

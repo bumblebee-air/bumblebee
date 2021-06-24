@@ -40,12 +40,13 @@ Job') @section('page-styles')
 	box-shadow: none !important;
 }
 </style>
+<script src="https://js.stripe.com/v3/"></script>
 @endsection @section('page-content')
 <div class="content">
 	<div class="container-fluid">
 		<div class="container-fluid" id="app">
 			<form action="{{route('postAddJob', 'garden-help')}}" method="POST"
-				enctype="multipart/form-data" autocomplete="off">
+				enctype="multipart/form-data" autocomplete="off" id="add-new-job" @submit="beforeSubmitForm">
 				{{csrf_field()}}
 				<div class="row">
 					<div class="col-md-12">
@@ -393,6 +394,34 @@ Job') @section('page-styles')
 													</div>
 												</div>
 
+												<div class="col-md-12">
+													<div class="form-group bmd-form-group">
+														<div class="row">
+															<div class="col-md-12">
+																<h5 class="requestSubTitle">Payment Details</h5>
+															</div>
+															<div class="col-md-12">
+																<div class="form-group bmd-form-group">
+																	<label>Card Number</label>
+																	<div class="form-control" id="card_number"></div>
+																</div>
+															</div>
+															<div class="col">
+																<div class="form-group bmd-form-group">
+																	<label>CVC</label>
+																	<div class="form-control" id="card_cvc"></div>
+																</div>
+															</div>
+															<div class="col">
+																<div class="form-group bmd-form-group">
+																	<label>Exp. Month</label>
+																	<div class="form-control" id="card_exp"></div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+
 
 											</div>
 
@@ -588,7 +617,6 @@ Job') @section('page-styles')
 <script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>
-
 <script>
     $(document).ready(function() {
         $(".js-example-basic-single").select2();
@@ -601,6 +629,7 @@ Job') @section('page-styles')
             if ($("#type_of_work").val() == 'Residential') {
                 setTimeout(() => {
                     window.initMap();
+					initStripeElements();
                     /*$('#last_services').datetimepicker({
                         icons: {
                             time: "fa fa-clock",
@@ -816,6 +845,10 @@ Job') @section('page-styles')
                 }
             },
             methods: {
+            	beforeSubmitForm(e) {
+            		e.preventDefault();
+            		generateStripeToken(e)
+				},
 				getVat(percentage, total_price) {
 					return parseFloat(((percentage/100) * total_price).toFixed(2));
 				},
@@ -1209,7 +1242,97 @@ Job') @section('page-styles')
             drawingManager.set('polygonOptions', polygonOptions);
         }
 
+	//Stripe Elements
+	var stripe = Stripe("{{env('STRIPE_PUBLIC_KEY')}}");
+	var elements = stripe.elements({
+		fonts: [
+			{
+				cssSrc: 'https://fonts.googleapis.com/css?family=Roboto',
+			},
+		],
+		// Stripe's examples are localized to specific languages, but if
+		// you wish to have Elements automatically detect your user's locale,
+		// use `locale: 'auto'` instead.
+		locale: 'auto'
+	});
 
+	var elementStyles = {
+		iconStyle: "solid",
+		style: {
+			base: {
+				iconColor: "#fff",
+				color: "#fff",
+				fontWeight: 400,
+				fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif",
+				fontSize: "16px",
+				fontSmoothing: "antialiased",
+				borderBottom: "solid 1px #eaecef",
+				padding: "10px",
+
+				"::placeholder": {
+					color: "#BFAEF6"
+				},
+				":-webkit-autofill": {
+					color: "#fce883"
+				}
+			},
+			invalid: {
+				iconColor: "#FFC7EE",
+				color: "#FFC7EE"
+			}
+		}
+	};
+
+	var elementClasses = {
+		focus: 'focus',
+		empty: 'empty',
+		invalid: 'invalid',
+	};
+
+	let cardNumber = window.cardNumber = elements.create('cardNumber', {
+		style: elementStyles,
+		classes: elementClasses,
+	});
+
+	let cardExpiry = window.cardExpiry = elements.create('cardExpiry', {
+		style: elementStyles,
+		classes: elementClasses,
+	});
+
+	let cardCvc = window.cardCvc = elements.create('cardCvc', {
+		style: elementStyles,
+		classes: elementClasses,
+	});
+
+	function initStripeElements() {
+		// Add an instance of the card Element into the `card-element` <div>
+		cardNumber.mount('#card_number');
+		cardExpiry.mount('#card_exp');
+		cardCvc.mount('#card_cvc');
+	}
+	function generateStripeToken() {
+		stripe.createToken(window.cardNumber).then(function(result) {
+			if (result.error) {
+				// Inform the user if there was an error
+				var errorElement = document.getElementById('card-errors');
+				errorElement.textContent = result.error.message;
+				console.log(result.error.message);
+			} else {
+				// Send the token to your server
+				// Insert the token ID into the form so it gets submitted to the server
+				document.createElement('input');
+				var form = document.getElementById('add-new-job');
+				var hiddenInput = document.createElement('input');
+				hiddenInput.setAttribute('type', 'hidden');
+				hiddenInput.setAttribute('name', 'stripeToken');
+				hiddenInput.setAttribute('value', result.token.id);
+				form.appendChild(hiddenInput);
+				// Submit the form
+				setTimeout(form.submit(), 300);
+			}
+		});
+
+	}
     </script>
 <script async defer
 	src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=geometry,places,drawing&callback=initMap"></script>

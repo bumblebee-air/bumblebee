@@ -3,7 +3,9 @@ namespace App\Http\Controllers\garden_help;
 
 use App\Contractor;
 use App\Customer;
+use App\CustomerExtraData;
 use App\GardenServiceType;
+use App\Helpers\TwilioHelper;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\UserClient;
@@ -153,7 +155,8 @@ class JobsController extends Controller
                 'is_parking_site' => 'required_if:type_of_work,Residential',
                 'contact_name' => 'required_if:type_of_work,Commercial',
                 'contact_number' => 'required_if:type_of_work,Commercial',
-                'available_date_time' => 'required_if:type_of_work,Commercial'
+                'available_date_time' => 'required_if:type_of_work,Commercial',
+                'stripeToken' => 'required'
             ]);
 
             $user = User::where('email','=',$request->email)
@@ -190,7 +193,7 @@ class JobsController extends Controller
 
             // Create Customer
             $customer = new Customer();
-             $customer->user_id = $user->id;
+            $customer->user_id = $user->id;
             $customer->work_location = $request->work_location;
             $customer->type_of_work = $request->type_of_work;
             $customer->name = $request->name;
@@ -215,6 +218,28 @@ class JobsController extends Controller
             $customer->address = $request->address;
             $customer->services_types_json = $request->services_types_json;
             $customer->save();
+
+            try {
+                $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+                $stripe_customer = $stripe->customers->create([
+                    'name' => $customer->user->name,
+                    'email' => $customer->user->email,
+                    'source' => $request->stripeToken
+                ]);
+            } catch (\Exception $e) {
+                alert()->error($e->getMessage());
+                return redirect()->back();
+            }
+            $stripe_customer_id = $stripe_customer->id;
+            //Saving customer id
+            CustomerExtraData::create([
+                'user_id' => $customer->user_id,
+                'job_id' => $customer->id,
+                'stripe_customer_id' => $stripe_customer_id
+            ]);
+            if ($customer->phone_number) {
+                TwilioHelper::sendSMS('GardenHelp', $customer->phone_number, 'Your job has been received. Thank you for using GardenHelp.');
+            }
         }
         alert()->success("The job is added successfully");
         return redirect()->to('garden-help/jobs_table/add_job');

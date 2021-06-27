@@ -98,7 +98,9 @@
 	href="{{asset('images/bumblebee_favicon.jpg')}}">
 @endif
 
- <link href="https://cdn.datatables.net/fixedcolumns/3.3.3/css/fixedColumns.dataTables.min.css"  rel="stylesheet" type="text/css"> 
+<link
+	href="https://cdn.datatables.net/fixedcolumns/3.3.3/css/fixedColumns.dataTables.min.css"
+	rel="stylesheet" type="text/css">
 <!-- <link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" rel="stylesheet" type="text/css"> -->
 </head>
 
@@ -137,10 +139,15 @@
 							class="navbar-toggler-icon icon-bar"></span>
 					</button>
 					<div class="collapse navbar-collapse justify-content-end">
-						<form class="navbar-form">
+						<div class="searchFormContainerDiv"
+							style="">
+						<form 
+							class="navbar-form"
+							style="">
 							<div class="input-group">
 								<div class="">
-									<button type="button" class="btn btn-default btnSearchDropdownNavbar dropdown-toggle"
+									<button type="button"
+										class="btn btn-default btnSearchDropdownNavbar dropdown-toggle"
 										data-toggle="dropdown">
 										<span id="search_concept">All</span> <span class="caret"></span>
 									</button>
@@ -156,8 +163,9 @@
 									<i class="fas fa-search"></i>
 								</button>
 							</div>
-						</form>
-						<ul class="navbar-nav">
+							</form>
+						</div>
+						<ul class="nav navbar-nav navbar-right">
 
 							<li class="nav-item dropdown"><a class="nav-link" href=""
 								id="navbarDropdownMenuLink" data-toggle="dropdown"
@@ -176,7 +184,7 @@
 								href="javascript:;" id="navbarDropdownProfile"
 								data-toggle="dropdown" aria-haspopup="true"
 								aria-expanded="false"> <i class="material-icons">person</i>
-										<p class="profileNameNavbar">{{$user->name}}</p>
+									<p class="profileNameNavbar">{{$user->name}}</p>
 							</a> <!-- <div class="dropdown-menu dropdown-menu-right"
 									aria-labelledby="navbarDropdownProfile">
 									<a class="dropdown-item" href="#">Profile</a> <a
@@ -208,8 +216,9 @@
 	<script src="{{asset('js/select2.min.js')}}"></script>
 	<script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
 	<script src="{{asset('js/dataTables.bootstrap4.min.js')}}"></script>
-	<script src="https://cdn.datatables.net/fixedcolumns/3.3.3/js/dataTables.fixedColumns.min.js"></script>
-<!-- 	<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+	<script
+		src="https://cdn.datatables.net/fixedcolumns/3.3.3/js/dataTables.fixedColumns.min.js"></script>
+	<!-- 	<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
  -->
 	{{--Socket & Vue server --}}
 	<script src="{{asset('js/socket.io-3.0.1.min.js')}}"></script>

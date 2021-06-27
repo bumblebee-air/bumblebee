@@ -9,15 +9,64 @@ body {
 /* { */
 /* 	position: initial !important; */
 /* } */
+.btnSearchDropdownNavbar {
+	border-radius: 4px !important;
+	border: solid 0.2px #b7b7b7 !important;
+	background-color: #f7f7f7 !important;
+	padding: 10px 30px !important;
+	font-family: Roboto;
+	font-size: 14px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #656565;
+	margin: 0 !important;
+}
 
+.inputSearchNavbar {
+	padding: 11px 14px 12px 14px !important;
+	border-radius: 0 !important;
+	box-shadow: 0 1px 34px 0 rgba(0, 0, 0, 0.08) !important;
+	background-color: #ffffff !important;
+	color: #4d4d4d !important;
+	line-height: 0.6 !important;
+	font-size: 13px !important;
+	border: none !important;
+	width: 200px !important;
+	font-weight: 500 !important;
+}
 
+.btnSearchNavbar {
+	border-left: none !important;
+	margin: 0;
+}
 
-.container{
+@media (min-width :1000px) {
+	.searchFormContainerDiv {
+		display: flex;
+		justify-content: center;
+		position: absolute;
+		width: 100%;
+	}
+}
+
+.searchFormContainerDiv form {
+	display: flex;
+	align-items: center;
+}
+.navbar .collapse .navbar-nav .nav-item .nav-link{
+	padding: 10px 8px !important;
+}
+
+.container {
 	width: 98%;
 	max-width: 98%;
 }
+
 .main-panel>.content {
-	margin-top:25px;
+	margin-top: 25px;
 }
 
 .sidebar[data-background-color=black] .sidebar-background:after {
@@ -345,15 +394,16 @@ table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after,
 	text-align: center;
 	color: #d58242;
 }
-.noJobsAddedHeader{
+
+.noJobsAddedHeader {
 	font-family: Roboto;
-  font-size: 25px;
-  font-weight: 300;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 0.6;
-  letter-spacing: 0.63px;
-  color: #878787;
+	font-size: 25px;
+	font-weight: 300;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 0.6;
+	letter-spacing: 0.63px;
+	color: #878787;
 }
 
 .modal-header {
@@ -536,13 +586,13 @@ input.form-control, textarea.form-control, select.form-control {
 	background-color: #fff !important;
 }
 
-
 /************************* datetime picker **************************/
 .bootstrap-datetimepicker-widget table td.active:hover>div,
 	.bootstrap-datetimepicker-widget table td.active>div {
 	background-color: #d58242 !important;
-    color: #fff;
-    box-shadow: 0 4px 20px 0 rgb(0 0 0 / 14%), 0 7px 10px -5px rgb(213 130 60 / 40%);
+	color: #fff;
+	box-shadow: 0 4px 20px 0 rgb(0 0 0/ 14%), 0 7px 10px -5px
+		rgb(213 130 60/ 40%);
 }
 
 .bootstrap-datetimepicker-widget table td span.active {
@@ -554,8 +604,8 @@ input.form-control, textarea.form-control, select.form-control {
 	color: #d58242 !important;
 }
 
-.bootstrap-datetimepicker-widget table td.today>div:before{
-border-bottom-color: #d58242 !important;	
+.bootstrap-datetimepicker-widget table td.today>div:before {
+	border-bottom-color: #d58242 !important;
 }
 
 .bootstrap-datetimepicker-widget .btn.btn-primary.focus,

@@ -188,17 +188,20 @@ display: none
 					<input class="file-upload inputFileHidden" id="customers-file"
 							name="customers-file" type="file"
 							accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-							required />
+							required
+							onchange="onChangeFile(event, 'customers_file_input')" />
 					<div class="" onclick="addFile('customers-file')">
 								
 									<img class="page_icon"
 										src="{{asset('images/unified/upload.png')}}"
 										style="width: 33px !important; height: 30px !important;">
 										
-									<p class="mt-2 uploadFileP">Uplaod your file</p>	
+									<p class="mt-2 uploadFileP" id="">Uplaod your file</p>	
+									
 							</div>		
+							
 					
-				</div>
+				</div><p id="customers_file_input" class="mt-2 uploadFileP" ></p>
 			</div>
 			<div class="modal-footer d-flex justify-content-around">
 				<button type="submit" class="btn  btn-unified-primary modal-btn">Upload</button>
@@ -330,5 +333,9 @@ $('#importCustomersModal').modal('show')
 function addFile(id){
                     $('#' + id).click();
 }
+function onChangeFile(e ,id) {
+console.log(e.target.files[0].name);
+                    $("#" + id).html(e.target.files[0].name);
+                }
 </script>
 @endsection

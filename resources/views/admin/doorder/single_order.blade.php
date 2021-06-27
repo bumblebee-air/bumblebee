@@ -290,6 +290,18 @@ div[data-toggle='collapse'] {
 							<div class="container">
 								<div class="row">
 									<div class="col-12 deliverers-container">
+										<div class="card-header row">
+											<div class="form-check">
+												<label class="form-check-label" for="notify-all-drivers">
+													<input type="checkbox" class="form-check-input" id="notify-all-drivers" onchange="showNotifyAllDrivers()"/>
+													Notify all drivers
+													<span class="form-check-sign">
+														<span class="check"></span>
+													</span>
+												</label>
+											</div>
+										</div>
+
 										@foreach($available_drivers as $driver)
 										<div id="driver-{{$driver->id}}" class="card deliverer-card"
 											data-driver-id="{{$driver->id}}"
@@ -367,6 +379,39 @@ div[data-toggle='collapse'] {
 								</div>
 								<div class="col-sm-6">
 									
+									<button type="button"
+										class="btn btn-danger doorder-btn-lg doorder-btn"
+										data-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Notify all drivers modal -->
+				<div class="modal fade" id="notify-all-drivers-modal" tabindex="-1"
+					 role="dialog" aria-labelledby="notify-all-deliverers-label"
+					 aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button"
+										class="close d-flex justify-content-center"
+										data-dismiss="modal" aria-label="Close">
+									<i class="fas fa-times"></i>
+								</button>
+							</div>
+							<div class="modal-body">
+								<div class="modal-dialog-header">
+									This will notify all of the drivers about this order
+								</div>
+							</div>
+							<div class=" row">
+								<div class="col-sm-6">
+									<button type="button"
+										class="btn btn-primary doorder-btn-lg doorder-btn"
+										onclick="$('form#assign-driver').submit()">Proceed</button>
+								</div>
+								<div class="col-sm-6">
 									<button type="button"
 										class="btn btn-danger doorder-btn-lg doorder-btn"
 										data-dismiss="modal">Close</button>
@@ -509,6 +554,17 @@ div[data-toggle='collapse'] {
             $('#driver-id').val(driver_id);
             $('#assign-deliverer-modal').modal('show')
         }
+
+		$('#notify-all-drivers-modal').on('hidden.bs.modal', function () {
+			$('#notify-all-drivers').prop('checked',false);
+		});
+
+        function showNotifyAllDrivers(){
+        	if($('#notify-all-drivers').is(':checked')){
+        		$('#driver-id').val('all');
+				$('#notify-all-drivers-modal').modal('show');
+			}
+		}
     </script>
 <script async defer
 	src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=geometry,places&callback=initMap"></script>

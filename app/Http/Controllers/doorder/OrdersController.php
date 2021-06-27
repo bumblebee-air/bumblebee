@@ -125,39 +125,70 @@ class OrdersController extends Controller
         $order_id = $request->get('order_id');
         $driver_id = $request->get('driver_id');
         $order = Order::find($order_id);
-        $driver = User::where('id','=',$driver_id)->where('user_role','=','driver')->first();
+        $send_to_all = $driver_id=='all';
+        $driver = null;
+        $driver_ids = [];
         if(!$order){
             alert()->error( 'No order was found!');
             return redirect()->back();
         }
-        if(!$driver){
-            alert()->error( 'This driver is invalid!');
-            return redirect()->back();
+        if(!$send_to_all) {
+            $driver = User::where('id', '=', $driver_id)->where('user_role', '=', 'driver')->first();
+            if(!$driver) {
+                alert()->error('This driver is invalid!');
+                return redirect()->back();
+            }
+            $order->driver = $driver_id;
+            $order->status = 'assigned';
+            $order->driver_status = 'assigned';
+            $order->save();
+            $driver_ids[] = $driver_id;
         }
-        $order->driver = $driver_id;
-        $order->status = 'assigned';
-        $order->driver_status = 'assigned';
-        $order->save();
+        if($send_to_all){
+            //Get all accepted drivers
+            $driver_ids = DriverProfile::where('is_confirmed','=',1)->get()->pluck('user_id')->toArray();
+            $notification_message = "Order #$order->order_id has been added to the available orders list";
+            $sms_message = "Hi, a new order #$order->order_id has been added to the available orders list";
+        } else {
+            $notification_message = "Order #$order->order_id has been assigned to you";
+            $sms_message = "Hi $driver->name, there is an order assigned to you, please open your app. ".
+                url('driver_app#/order-details/'.$order->id);
+        }
         //Send Assignment Notification
-        $user_tokens = UserFirebaseToken::where('user_id', $driver_id)->get()->pluck('token')->toArray();
+        $user_tokens = UserFirebaseToken::whereIn('user_id', $driver_ids)->get()->pluck('token')->toArray();
         if (count($user_tokens) > 0) {
             self::sendFCM($user_tokens,[
                 'title' => 'Order assigned',
-                'message' => "Order #$order->order_id has been assigned to you",
+                'message' => $notification_message,
                 'order_id' => $order->id
             ]);
         }
+        //SMS Assignment Notification
         $sid    = env('TWILIO_SID', '');
         $token  = env('TWILIO_AUTH', '');
         $twilio = new Client($sid, $token);
-        $twilio->messages->create($driver->phone,
-            [
-                "from" => "DoOrder",
-                "body" => "Hi $driver->name, there is an order assigned to you, please open your app. ".
-                    url('driver_app#/order-details/'.$order->id)
-            ]
-        );
-        alert()->success( "The order has been successfully assigned to $driver->name");
+        if($send_to_all){
+            foreach($driver_ids as $an_id){
+                $driver_profile = DriverProfile::find($an_id);
+                if($driver_profile){
+                    $twilio->messages->create($driver_profile->phone,
+                        [
+                            "from" => "DoOrder",
+                            "body" => $sms_message
+                        ]
+                    );
+                }
+            }
+            alert()->success("The accepted drivers have been notified about the order successfully");
+        } else {
+            $twilio->messages->create($driver->phone,
+                [
+                    "from" => "DoOrder",
+                    "body" => $sms_message
+                ]
+            );
+            alert()->success("The order has been successfully assigned to $driver->name");
+        }
         return redirect()->to('doorder/orders');
     }
 

@@ -176,7 +176,7 @@ class ShopifyController extends Controller
                     $order->customer_address_lat = $customer_address_lat;
                     $order->customer_address_lon = $customer_address_lon;
                     $order->status = $status;
-                    $order->eircode = '12345';
+                    $order->eircode = ($orders['shipping_address']['zip']!=null && $orders['shipping_address']['zip']!='')? $orders['shipping_address']['zip'] : 'N/A';
                     $order->save();
                 } catch (\Exception $exception){
                     $response = [

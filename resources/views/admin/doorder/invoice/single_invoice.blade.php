@@ -116,7 +116,7 @@ height: auto !important;
 										<div class="form-group bmd-form-group">
 											<label>Customer first name</label>
 											<div class="form-control">
-												<span>{{$invoice->customer_name}}</span>
+												<span>{{$invoice->first_name}}</span>
 											</div>
 
 										</div>
@@ -126,7 +126,7 @@ height: auto !important;
 										<div class="form-group bmd-form-group">
 											<label>Customer last name</label>
 											<div class="form-control">
-												<span>{{$invoice->customer_name}}</span>
+												<span>{{$invoice->last_name}}</span>
 											</div>
 
 										</div>
@@ -311,7 +311,7 @@ height: auto !important;
 								action="{{route('doorder_sendInvoice',['doorder',$invoice->id])}}"
 								id="edit_contractor_form">
 								{{csrf_field()}}
-								<button class="btn bt-submit">Invoiced</button>
+								<button class="btn bt-submit">Invoice</button>
 							</form>
 						</div>
 					</div>

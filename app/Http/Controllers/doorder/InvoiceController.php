@@ -36,6 +36,9 @@ class InvoiceController extends Controller
         if (!$invoice) {
             abort(404);
         }
+        $customer_name = explode(' ',$invoice->customer_name,2);
+        $invoice->first_name = $customer_name[0];
+        $invoice->last_name = $customer_name[1] ?? '';
         return view('admin.doorder.invoice.single_invoice', ["invoice"=>$invoice,'invoiceDetails'=>$invoiceItem,'total'=>$total]);
     }
     

@@ -180,18 +180,20 @@
 										with Andrew</a> <a class="dropdown-item" href="#">Another
 										Notification</a> <a class="dropdown-item" href="#">Another One</a>
 								</div> --></li>
-							<li class="nav-item dropdown"><a class="nav-link"
-								href="javascript:;" id="navbarDropdownProfile"
-								data-toggle="dropdown" aria-haspopup="true"
-								aria-expanded="false"> <i class="material-icons">person</i>
+							<li class="nav-item dropdown">
+								<a class="nav-link"
+								   href="{{url($guard_name.'/profile')}}" id="navbarDropdownProfile">
+									<i class="material-icons">person</i>
 									<p class="profileNameNavbar">{{$user->name}}</p>
-							</a> <!-- <div class="dropdown-menu dropdown-menu-right"
+								</a>
+								<!-- <div class="dropdown-menu dropdown-menu-right"
 									aria-labelledby="navbarDropdownProfile">
 									<a class="dropdown-item" href="#">Profile</a> <a
 										class="dropdown-item" href="#">Settings</a>
 									<div class="dropdown-divider"></div>
 									<a class="dropdown-item" href="#">Log out</a>
-								</div> --></li>
+								</div> -->
+							</li>
 						</ul>
 					</div>
 				</div>

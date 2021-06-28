@@ -100,7 +100,7 @@ class RetailerController extends Controller
     }
 
     public function getRetailerRequests() {
-        $retailers_requests = Retailer::orderBy('id', 'desc')->paginate(20);
+        $retailers_requests = Retailer::orderBy('created_at', 'desc')->paginate(20);
         return view('admin.doorder.retailers.requests', ['retailers_requests' => $retailers_requests]);
     }
 
@@ -170,8 +170,8 @@ class RetailerController extends Controller
     }
     
     public function getRetailers($param) {
-        $retailers = Retailer::paginate(20);
-        
+        $retailers = Retailer::where('status','completed')->get();
+        //paginate(20);
         return view('admin.doorder.retailers.accepted_retailers', ['retailers' => $retailers]);
     }
     public function deleteRetailer(Request $request){

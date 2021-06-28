@@ -467,9 +467,8 @@ class DriversController extends Controller
     public function getDriverRegistrationRequests()
     {
         $drivers_requests = DriverProfile::with('user')
-//            ->where('is_confirmed', false)
-//            ->whereNull('rejection_reason')
-            ->orderBy('id', 'desc')->paginate(20);
+            ->orderBy('created_at', 'desc')->paginate(20);
+        //->where('is_confirmed', false)->whereNull('rejection_reason')
         return view('admin.doorder.drivers.requests', ['drivers_requests' => $drivers_requests]);
     }
 
@@ -668,9 +667,9 @@ class DriversController extends Controller
     
     public function getDrivers(){
         $drivers = DriverProfile::with('user')
-                    ->where('is_confirmed', true)
-        //            ->whereNull('rejection_reason')
-        ->orderBy('id', 'desc')->paginate(20);
+            ->where('is_confirmed', true)
+            ->orderBy('created_at', 'desc')->get();
+        //            ->whereNull('rejection_reason')->paginate(20)
         return view('admin.doorder.drivers.accepted_drivers', ['drivers' => $drivers]);
     }
     public function deleteDriver(Request $request){

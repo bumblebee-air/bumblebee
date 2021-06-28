@@ -203,6 +203,10 @@ Route::group([
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('clientLogin');
     Route::post('login', 'Auth\LoginController@login')->name('clientLogin');
 
+    Route::middleware("auth:garden-help,doorder,doom-yoga,unified")->group(function () {
+        Route::get('profile','ProfileController@getProfile');
+        Route::post('profile/password-reset','ProfileController@postPasswordReset');
+    });
     /*
      * GardenHelp Routes
      */

@@ -44,8 +44,8 @@
 									</thead>
 
 									<tbody>
-										<tr v-for="retailer in retailers.data"
-											v-if="retailers.data.length > 0" class="order-row"
+										<tr v-for="retailer in retailers"
+											v-if="retailers.length > 0" class="order-row"
 											@click="openViewRetailer(event,retailer.id)">
 											<td>@{{ retailer.business_type}}</td>
 											<td>@{{ retailer.name}}</td>
@@ -71,8 +71,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="d-flex justify-content-center">{{$retailers->links()}}
-					</div>
+					{{--<div class="d-flex justify-content-center">{$retailers->links()}</div>--}}
 				</div>
 			</div>
 		</div>

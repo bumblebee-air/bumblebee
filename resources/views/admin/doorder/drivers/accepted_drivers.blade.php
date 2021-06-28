@@ -50,8 +50,8 @@
 									</thead>
 
 									<tbody>
-										<tr v-for="driver in drivers.data"
-											v-if="drivers.data.length > 0" class="order-row"
+										<tr v-for="driver in drivers"
+											v-if="drivers.length > 0" class="order-row"
 											 @click="openViewDriver(event,driver.id)">
 											<td>@{{ JSON.parse(driver.work_location).name}}</td>
 											<td>@{{ driver.first_name}} @{{ driver.last_name }}</td>
@@ -84,7 +84,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="d-flex justify-content-center">{{$drivers->links()}}</div>
+					{{--<div class="d-flex justify-content-center">{$drivers->links()}</div>--}}
 				</div>
 			</div>
 		</div>

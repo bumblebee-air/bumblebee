@@ -139,6 +139,7 @@
 				</div>
 			</div>
 		</div>
+		<input type="hidden" name="indexes" :value="customNotifications.length">
 	</div>
 
 	<div class="row ">

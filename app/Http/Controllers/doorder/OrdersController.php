@@ -128,12 +128,14 @@ class OrdersController extends Controller
         $send_to_all = $driver_id=='all';
         $driver = null;
         $driver_ids = [];
+        $old_driver = null;
         if(!$order){
             alert()->error( 'No order was found!');
             return redirect()->back();
         }
         if(!$send_to_all) {
             $driver = User::where('id', '=', $driver_id)->where('user_role', '=', 'driver')->first();
+            $old_driver = $order->orderDriver;
             if(!$driver) {
                 alert()->error('This driver is invalid!');
                 return redirect()->back();
@@ -185,6 +187,14 @@ class OrdersController extends Controller
                 [
                     "from" => "DoOrder",
                     "body" => $sms_message
+                ]
+            );
+
+            //Sending message to the old driver
+            $twilio->messages->create($old_driver->phone,
+                [
+                    "from" => "DoOrder",
+                    "body" => "Hi $old_driver->name, We need to inform you that the order #$order->order_id is no longer available."
                 ]
             );
             alert()->success("The order has been successfully assigned to $driver->name");

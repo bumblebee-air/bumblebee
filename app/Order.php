@@ -30,7 +30,8 @@ class Order extends Model
         'delivery_confirmation_code',
         'delivery_confirmation_status',
         'delivery_confirmation_skip_reason',
-        'retailer_id'
+        'retailer_id',
+        'is_archived'
     ];
 
     public function orderDriver() {

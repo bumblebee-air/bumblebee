@@ -155,12 +155,8 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
 									<thead>
 										<tr>
 											<th width="10%">Date</th>
-											<th width="10%">Order Number</th>
 											<th width="10%">Retailer Name</th>
 											<th width="10%">Status</th>
-											<th width="10%">Deliverer</th>
-											<th width="10%">Pickup Location</th>
-											<th width="10%">Delivery Location</th>
 											<th width="10%">Charges (€)</th>
 										</tr>
 									</thead>
@@ -168,16 +164,14 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
 									<tbody>
 										<tr v-for="invoice in invoiceList" class="order-row"
 											@click="clickInvoice(invoice.id)">
-											<td>@{{ parseDateTime(invoice.created_at) }}</td>
-											<td>@{{invoice.order_id}}</td>
-											<td>@{{invoice.retailer ? invoice.retailer.name : 'N/A'}}</td>
-											<td><span class="invoiceIconSpan"><i
-													class="fas fa-file-invoice"></i> </span></td>
-											<td>@{{ invoice.order_driver ? invoice.order_driver.name :
-												'N/A'}}</td>
-											<td>@{{ invoice.pickup_address }}</td>
-											<td>@{{invoice.customer_address}}</td>
-											<td>€10</td>
+											<td>{{ date('M Y') }}</td>
+											<td>@{{invoice.name}}</td>
+											<td>
+												<span class="invoiceIconSpan">
+													<i class="fas fa-file-invoice"></i>
+												</span>
+											</td>
+											<td>€@{{ 10 * invoice.orders_count }}</td>
 										</tr>
 									</tbody>
 								</table>
@@ -226,8 +220,6 @@ $.fn.dataTable.ext.search.push(
 );
 
 $(document).ready(function() {
-console.log(moment('14/3/2020','DD/MM/YYYY').toDate())
-console.log(new Date('1/2/2020'))
 
  // Create date inputs
     minDate = new DateTime($('#startDate'), {
@@ -308,7 +300,7 @@ console.log(new Date('1/2/2020'))
                         //parseDate = new Date(date);
                         date_moment = new moment(date);
                     } console.log(date_moment);
-                    dateTime = date_moment.format('DD/MM/YYYY');
+                    dateTime = date_moment.format('MM/YYYY');
                      console.log(date);
                     return dateTime;
                 },

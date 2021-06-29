@@ -3,6 +3,8 @@ namespace App\Http\Controllers\doorder;
 
 use App\Exports\InvoiceOrderExport;
 use App\Order;
+use App\Retailer;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
@@ -13,7 +15,17 @@ class InvoiceController extends Controller
 
     public function getInvoiceList(Request $request)
     {
-        $invoiceList = Order::with(['orderDriver', 'retailer'])->where('is_archived', false)->where('status', 'delivered')->orderBy('id', 'desc')->get();
+        $start_of_month = Carbon::now()->startOfMonth();
+        $end_of_month = Carbon::now()->endOfMonth();
+        $invoiceList = Retailer::whereHas('orders', function ($q) use ($start_of_month, $end_of_month) {
+            $q->whereDate('created_at','>=', $start_of_month)
+              ->whereDate('created_at','<=', $end_of_month)
+              ->where('is_archived', false)->where('status', 'delivered');
+        })->withCount(['orders' => function ($q) use($start_of_month, $end_of_month) {
+            $q->whereDate('created_at','>=', $start_of_month)
+                ->whereDate('created_at','<=', $end_of_month)
+                ->where('is_archived', false)->where('status', 'delivered');
+        }])->orderBy('id', 'desc')->get();
         return view('admin.doorder.invoice.list', [
             'invoiceList' => $invoiceList
         ]);
@@ -26,29 +38,43 @@ class InvoiceController extends Controller
 
     public function getSingleInvoice($client_name, $id)
     {
-        $invoiceItem  = collect([
-            'name' => 'SAME DAY DELIVERY 05.12.2020 One package for',
-            'charge' => 10
-        ]);
-        $total=10;
-
-        $invoice = Order::with(['orderDriver', 'retailer'])->where('is_archived', false)->where('status', 'delivered')->where('id', $id)->first();
-        if (!$invoice) {
+        $retailer = Retailer::find($id);
+        if (!$retailer) {
             abort(404);
         }
-        $customer_name = explode(' ',$invoice->customer_name,2);
-        $invoice->first_name = $customer_name[0];
-        $invoice->last_name = $customer_name[1] ?? '';
-        return view('admin.doorder.invoice.single_invoice', ["invoice"=>$invoice,'invoiceDetails'=>$invoiceItem,'total'=>$total]);
+//        $start_of_month = Carbon::now()->startOfMonth();
+//        $end_of_month = Carbon::now()->endOfMonth();
+        $month_days = Carbon::now()->daysInMonth + 1;
+        $invoice=[];
+        $total = 0;
+        for($i = 1; $i < $month_days; $i++) {
+            $count = Order::whereHas('retailer', function ($q) use ($id) {
+                $q->where('id', $id);
+            })->with(['orderDriver', 'retailer'])->whereDay('created_at', $i)->where('is_archived', false)->where('status', 'delivered')->count();
+
+            if ($count > 0) {
+                $data = Carbon::now()->startOfMonth()->addDays($i)->format('d/m/Y');
+                $invoice[] = ['name' => "$data $count package for ". $count * 10 . "€", 'charge' => $count * 10];
+                $total += $count * 10;
+            }
+        }
+        return view('admin.doorder.invoice.single_invoice', ["invoice"=>$invoice,'retailer' => $retailer, 'total' => $total]);
     }
     
     public function postSendInvoice(Request $request,$client_name, $id) {
-        $invoice = Order::find($id);
+        $invoice = Retailer::find($id);
         if (!$invoice) {
             abort(404);
         }
-        $invoice->is_archived = true;
-        $invoice->save();
+        $current_month = date('m');
+        $orders = Order::whereHas('retailer', function ($q) use ($id) {
+            $q->where('id', $id);
+        })->with(['orderDriver', 'retailer'])->whereMonth('created_at', $current_month)->where('is_archived', false)->where('status', 'delivered')->get();
+        foreach ($orders as $order) {
+            $order->update([
+                'is_archived' => true
+            ]);
+        }
         alert()->success('Invoiced successfully');
         return redirect()->route('doorder_getInvoiceList', 'doorder');
     }

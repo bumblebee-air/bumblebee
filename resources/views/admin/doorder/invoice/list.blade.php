@@ -202,7 +202,7 @@ $.fn.dataTable.ext.search.push(
         var max = maxDate.val();
         console.log(min)
         console.log(max)
-        var date = moment(data[0],'DD/MM/YYYY').toDate();
+        var date = moment(data[0],'MM/YYYY').toDate();
  		console.log(data[0])
  		console.log(date)
  		console.log("sasasasa")
@@ -226,7 +226,7 @@ $(document).ready(function() {
          format: 'DD/MM/YYYY'
     });
     maxDate = new DateTime($('#endDate'), {
-         format: 'DD/MM/YYYY'
+         format: 'MM/YYYY'
     });
 
     var table= $('#invoiceListTable').DataTable({
@@ -240,14 +240,7 @@ $(document).ready(function() {
     		search: '',
 			"searchPlaceholder": "Search ",
     	},
-    	 columnDefs: [
-                {
-                    render: function (data, type, full, meta) {
-                    	return '<span data-toggle="tooltip" data-placement="top" title="'+data+'">'+data+'</span>';
-                    },
-                    targets: [5,6]
-                }
-             ],
+    	 
              
         scrollX:        true,
         scrollCollapse: true,
@@ -256,7 +249,7 @@ $(document).ready(function() {
         },
     	
          initComplete: function () {
-         	var column = this.api().column(2);
+         	var column = this.api().column(1);
 			var select = $('<select id="selectFilter" class="form-control" name="retailer"><option value="">Select retailer </option></select>')
 			.appendTo( $('#retailerNameP').empty().text('') )
 			.on( 'change', function () {

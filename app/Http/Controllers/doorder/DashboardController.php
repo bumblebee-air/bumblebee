@@ -112,7 +112,11 @@ class DashboardController extends Controller
             $from_date = $current_date->startOfDay()->toDateTimeString();
             $to_date = $current_date->endOfDay()->toDateTimeString();
         }
-        $all_orders = Order::whereBetween('created_at',[$from_date,$to_date])->get();
+        $all_orders = Order::whereBetween('created_at',[$from_date,$to_date])
+            ->orWhereBetween('created_at', [
+                Carbon::now()->subDay()->startOfDay()->addHours(13)->toDateTimeString(),
+                Carbon::now()->subDay()->endOfDay()->toDateTimeString(),
+            ])->get();
         $all_orders_count = count($all_orders);
         $delivered_orders_count = 0;
         foreach($all_orders as $order){

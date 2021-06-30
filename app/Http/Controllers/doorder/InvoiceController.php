@@ -33,7 +33,7 @@ class InvoiceController extends Controller
 
     public function exportInvoiceList(Request $request)
     {
-        return Excel::download(new InvoiceOrderExport($request->from, $request->to), 'invoices.xlsx');
+        return Excel::download(new InvoiceOrderExport($request->from, $request->to), "invoices_$request->from-$request->to.xlsx");
     }
 
     public function getSingleInvoice($client_name, $id)

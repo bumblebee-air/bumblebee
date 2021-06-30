@@ -11,13 +11,15 @@
 				<div class="row">
 					<div class="col-12 col-lg-7 col-md-6 d-flex form-head pl-3">
 						<span> @{{index+1}} </span>
+						<input type="hidden" :name="'id'+index" v-model="notification.id">
 						<h5 class="singleViewSubTitleH5">Custom Notification @{{index+1}}</h5>
 						<div class="togglebutton">
-							<label> <input type="checkbox"
-								:name="'customNotification' + (index)"
+							<label>
+								<input type="checkbox"
 								:id="'customNotification' + (index)"
-								v-model="notification.customNotification" value="1"> <span
-								class="toggle"></span>
+								v-model="notification.customNotification" value="1">
+								<span class="toggle"></span>
+								<input type="hidden" :name="'customNotification' + (index)" :value="notification.customNotification">
 							</label>
 						</div>
 					</div>
@@ -181,7 +183,7 @@ Vue.use('vue-cascader-select');
             
              data: {
              	//customNotifications:[{"customNotification":"","notification_type":null,"notification_name":"","notification_channel":null,"phone_number":"","email":"","user_type":null,"notification_content":""}],
-             	customNotifications: {!! count($savedNotifications) ? json_encode($savedNotifications) : '[{"customNotification":"","notification_type":null,"notification_name":"","notification_channel":null,"phone_number":"","email":"","user_type":null,"notification_content":""}]' !!},            
+             	customNotifications: {!! count($savedNotifications) ? json_encode($savedNotifications) : '[{"id":null,"customNotification":"1","notification_type":null,"notification_name":"","notification_channel":null,"phone_number":"","email":"","user_type":null,"notification_content":""}]' !!},
                 // define the default value
                  notification_type: null,
                  notification_channel:null,
@@ -260,7 +262,8 @@ Vue.use('vue-cascader-select');
             },
             clickAddNotification() {
 				this.customNotifications.push({
-					customNotification: '',
+					id: null,
+					customNotification: '1',
 					notification_type: null,
 					notification_name: '',
 					notification_channel: null,

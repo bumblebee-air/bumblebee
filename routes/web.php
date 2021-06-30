@@ -337,7 +337,8 @@ Route::group([
         Route::get('settings', 'doorder\SettingsController@getSettings')->name('doorder_getSettings');
         Route::post('save_notification', 'doorder\SettingsController@postSaveNotification')->name('doorder_postSaveNotification');
         
-        
+        //Edit Retailer profile
+        Route::get('profile/edit', 'doorder\RetailerController@editRetailerProfile')->name('doorder_retailers_view_retailer');
     });
     /*
      * Doom Yoga Routes

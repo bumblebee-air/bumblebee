@@ -181,18 +181,17 @@
 										Notification</a> <a class="dropdown-item" href="#">Another One</a>
 								</div> --></li>
 							<li class="nav-item dropdown">
-								<a class="nav-link"
-								   href="{{url($guard_name.'/profile')}}" id="navbarDropdownProfile">
+								<a href="#" class="nav-link" data-toggle="dropdown" id="navbarDropdownProfile">
 									<i class="material-icons">person</i>
 									<p class="profileNameNavbar">{{$user->name}}</p>
 								</a>
-								<!-- <div class="dropdown-menu dropdown-menu-right"
+								<div class="dropdown-menu dropdown-menu-left"
 									aria-labelledby="navbarDropdownProfile">
-									<a class="dropdown-item" href="#">Profile</a> <a
-										class="dropdown-item" href="#">Settings</a>
-									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" href="#">Log out</a>
-								</div> -->
+									<a class="dropdown-item" href="{{url($guard_name.'/profile')}}">edit Password</a>
+									<a class="dropdown-item" href="{{url($guard_name.'/profile/edit')}}">Edit Profile</a>
+{{--									<div class="dropdown-divider"></div>--}}
+{{--									<a class="dropdown-item" href="#">Log out</a>--}}
+								</div>
 							</li>
 						</ul>
 					</div>
@@ -322,6 +321,43 @@
             }
             notificationAudio.play();
         });
+
+		socket.on('doorder-channel:custom-notification'+'-'+'{{env('APP_ENV','dev')}}', (data) => {
+			let decodedData = JSON.parse(data);
+			console.log(decodedData)
+			let toast_title = decodedData.data.title;
+			let url = decodedData.data.url;
+			Vue.$toast.success(toast_title, {
+				// optional options Object
+				position: 'top-right',
+				duration: 3600000,
+
+				onClick: () => {
+					swal({
+						// title: "Good job!",
+						text: toast_title,
+						icon: "info",
+						buttons: {
+							accept: {
+								text: "View",
+								value: "view",
+								className: 'btn btn-primary'
+							},
+							reject: {
+								text: "Close",
+								value: "cancel",
+								className: 'btn btn-default'
+							}
+						}
+					}).then((input) => {
+						if (input === 'view') {
+							window.location.href = url;
+						}
+					});
+				}
+			});
+			notificationAudio.play();
+		});
         function onClickToast(decodedData, text) {
             swal({
                 // title: "Good job!",

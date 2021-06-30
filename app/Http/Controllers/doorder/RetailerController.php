@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\doorder;
 
+use App\Helpers\CustomNotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Retailer;
 use App\User;
@@ -91,6 +92,7 @@ class RetailerController extends Controller
                         $message->to(env('DOORDER_NOTIF_EMAIL','doorderdelivery@gmail.com'),
                             'DoOrder')->subject('New retailer registration request');
                     });
+                CustomNotificationHelper::send('new_retailer', $retailer->id);
             }catch (\Exception $exception){
                 \Log::error($exception->getMessage(),$exception->getTrace());
             }
@@ -196,6 +198,7 @@ class RetailerController extends Controller
     
     public function getSingleRetailer($client_name, $id) {
         $retailer = Retailer::find($id);
+//        dd(json_decode($retailer->locations_details, true));
         if (!$retailer) {
             //abort(404);
             alert()->error('Retailer not found!');
@@ -214,7 +217,6 @@ class RetailerController extends Controller
     }
     
     public function saveUpdateRetailer($client_name,$id, Request $request) {
-        //dd($request->all());
         $retailer_id = $request->get('retailer_id');
         $retailer = Retailer::find($retailer_id);
         if(!$retailer){
@@ -225,9 +227,8 @@ class RetailerController extends Controller
         $retailer->company_website = $request->get('company_website');
         $retailer->business_type = $request->get('business_type');
         $retailer->nom_business_locations = $request->get('number_business_locations');
-        //$retailer->locations_details = $request->locations_details;
-        //$retailer->contacts_details = $request->contacts_details;
-        //$retailer->stripe_customer_id = $customer_id;
+        $retailer->locations_details = $request->locations_details;
+        $retailer->contacts_details = $request->contacts_details;
         $retailer->shopify_store_domain = $request->get('shopify_store_domain');
         $retailer->shopify_app_api_key = $request->get('shopify_app_api_key');
         $retailer->shopify_app_password = $request->get('shopify_app_password');
@@ -235,7 +236,22 @@ class RetailerController extends Controller
         $retailer->save();
         alert()->success('Retailer updated successfully');
         //alert()->success('Work in progress');
-
-        return redirect()->route('doorder_retailers', 'doorder');
+        if (auth()->user()->user_role == "retailer") {
+            return redirect()->back();
+        } else {
+            return redirect()->route('doorder_retailers', 'doorder');
+        }
     }
+
+    public function editRetailerProfile($client_name) {
+        $retailer = auth()->user()->retailer_profile;
+        if (!$retailer) {
+            //abort(404);
+            alert()->error('Retailer not found!');
+            return redirect()->back();
+        }
+        return view('admin.doorder.retailers.single_retailer', ['retailer' => $retailer,'readOnly'=>0]);
+    }
+
+
 }

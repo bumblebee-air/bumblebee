@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\doorder;
 
 use App\DriverProfile;
+use App\Helpers\CustomNotificationHelper;
 use App\Order;
 use App\User;
 use App\UserFirebaseToken;
@@ -88,6 +89,7 @@ class OrdersController extends Controller
                 'created_at' => $order->created_at,
             ]
         ]));
+        CustomNotificationHelper::send('new_order', $order->id);
         alert()->success( 'Your order saved successfully');
         return redirect()->back();
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\doorder;
 
 use App\DriverProfile;
+use App\Helpers\CustomNotificationHelper;
 use App\Helpers\SecurityHelper;
 use App\KPITimestamp;
 use App\Managers\StripeManager;
@@ -158,6 +159,7 @@ class DriversController extends Controller
             } elseif($status=='delivery_arrived'){
                 $order->status = $status;
                 $timestamps->arrived_second = $current_timestamp;
+                CustomNotificationHelper::send('order_completed', $order->id);
             }
             $order->save();
             Redis::publish('doorder-channel', json_encode([
@@ -452,6 +454,7 @@ class DriversController extends Controller
 
         $stripe_manager = new StripeManager();
         $stripe_account = $stripe_manager->createCustomAccount($user);
+        CustomNotificationHelper::send('new_deliverer', $profile->id);
         if(strpos($request_url,'api/')!==false){
             $response = [
                 'message' => 'Your profile has been registered successfully, the administration will review your request soon',

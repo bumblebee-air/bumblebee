@@ -27,7 +27,7 @@ textarea {
 				<div class="col-md-12">
 					@if($readOnly==0)
 					<form id="order-form" method="POST"
-						action="{{route('post_doorder_retailers_single_retailer', ['doorder', $retailer->id])}}">
+						action="{{route('post_doorder_retailers_single_retailer', ['doorder', $retailer->id])}}" @submit="submitForm">
 						@endif {{csrf_field()}} <input type="hidden" name="retailer_id"
 							value="{{$retailer->id}}">
 						<div class="card">
@@ -162,7 +162,8 @@ textarea {
 
 												<div class="col-sm-6">
 													<div class="form-group bmd-form-group">
-														 <label>County</label> <input type="text"
+														 <label>County</label>
+														<input type="text"
 															class="form-control"
 															:value="JSON.parse(location.county).name"
 															placeholder="County" required>
@@ -252,6 +253,7 @@ textarea {
 														<label>Location</label> <input type="text"
 															class="form-control" :value="contact.contact_location"
 															:name="'contact_location' + (index + 1)"
+															:id="'contact_location' + (index + 1)"
 															placeholder="Location" required>
 													</div>
 												</div>
@@ -326,6 +328,8 @@ textarea {
 									data-toggle="modal" data-target="#delete-retailer-modal">Delete</button>
 							</div>
 						</div>
+						<input type='hidden' id="locations_details" name='locations_details'/>
+						<input type='hidden' id='contacts_details' name='contacts_details'/>
 					</form>
 					@endif
 					<!-- Delete modal -->
@@ -377,6 +381,9 @@ textarea {
 </div>
 
 @endsection @section('page-scripts')
+<script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=places"></script>
+
 <script>
 $( document ).ready(function() {
 
@@ -391,10 +398,213 @@ $(".inputSearchNavbar").prop('disabled', false);
             el: '#app',
             data() {
                 return {
-                    locations: JSON.parse({!! json_encode($retailer->locations_details) !!}),
-                    contacts: JSON.parse({!! json_encode($retailer->contacts_details) !!}),
-                }
+                    locations: {!! $retailer->locations_details !!},
+                    contacts: {!! $retailer->contacts_details !!},
+					itn_inputs: [],
+					counties: [],
+				}
             },
+			mounted() {
+				for (let location of this.locations) {
+					let index = this.locations.indexOf(location) + 1;
+					//Google MAp autocomplete
+					let driver_address_input = document.getElementById('location'+index);
+					//Mutation observer hack for chrome address autofill issue
+					let observerHackDriverAddress = new MutationObserver(function() {
+						observerHackDriverAddress.disconnect();
+						driver_address_input.setAttribute("autocomplete", "new-password");
+					});
+					observerHackDriverAddress.observe(driver_address_input, {
+						attributes: true,
+						attributeFilter: ['autocomplete']
+					});
+					let autocomplete_driver_address = new google.maps.places.Autocomplete(driver_address_input);
+					autocomplete_driver_address.setComponentRestrictions({'country': ['ie']});
+					autocomplete_driver_address.addListener('place_changed', function () {
+						let place = autocomplete_driver_address.getPlace();
+						if (!place.geometry) {
+							// User entered the name of a Place that was not suggested and
+							// pressed the Enter key, or the Place Details request failed.
+							window.alert("No details available for input: '" + place.name + "'");
+						} else {
+							let place_lat = place.geometry.location.lat();
+							let place_lon = place.geometry.location.lng();
+							console.log(index);
+							document.getElementById("location_"+index+"_coordinates").value = '{lat: ' + place_lat.toFixed(5) + ', lon: ' + place_lon.toFixed(5) +'}';
+						}
+					});
+
+					let driver_phone_input = document.querySelector("#contact_number" + index);
+					console.log("#contact_number" + index);
+					this.itn_inputs["contact_number" + index] = window.intlTelInput(driver_phone_input, {
+						hiddenInput: "contact_number" + index,
+						initialCountry: 'IE',
+						separateDialCode: true,
+						preferredCountries: ['IE', 'GB'],
+						utilsScript: "{{asset('js/intlTelInput/utils.js')}}"
+					});
+				}
+				{{--let iresh_counties_json = jQuery.getJSON('{{asset('iresh_counties.json')}}', data => {--}}
+				{{--	console.log(data)--}}
+				{{--	for (let county of data) {--}}
+				{{--		if(county.city.toLowerCase() == 'dublin') {--}}
+				{{--			this.counties.push({name: county.city, coordinates: {lat: county.lat, lng: county.lng}});--}}
+				{{--		}--}}
+				{{--	}--}}
+				{{--});--}}
+			},
+			methods: {
+				submitForm(e){
+					e.preventDefault();
+					let location_details = [];
+					let contacts_details = [];
+					//Make Location Details Input
+					for (let item of this.locations) {
+						location_details.push({
+							address: $('#location' + (this.locations.indexOf(item) + 1)).val(),
+							coordinates: $('#location_' + (this.locations.indexOf(item) + 1) + '_coordinates').val(),
+							eircode: $('#eircode' + (this.locations.indexOf(item) + 1)).val(),
+							country: this.locations[this.locations.indexOf(item)].country,
+							business_hours: this.locations[this.locations.indexOf(item)].business_hours,
+							business_hours_json: this.locations[this.locations.indexOf(item)].business_hours_json,
+							county: this.locations[this.locations.indexOf(item)].county
+						});
+						console.log(this.locations.indexOf(item) + 1);
+					}
+					for (let item of this.contacts) {
+						let intl_tel_input_value = this.itn_inputs['contact_number' + (this.contacts.indexOf(item) + 1)]
+						contacts_details.push({
+							contact_name: $('#contact_name' + (this.contacts.indexOf(item) + 1)).val(),
+							contact_phone: intl_tel_input_value.getNumber(),
+							contact_email: $('#contact_email' + (this.contacts.indexOf(item) + 1)).val(),
+							contact_location: $('#contact_location' + (this.contacts.indexOf(item) + 1)).val()
+						});
+					}
+					$('#locations_details').val(JSON.stringify(location_details));
+					$('#contacts_details').val(JSON.stringify(contacts_details));
+					var $form = $("#order-form");
+					setTimeout(() => {
+						$form.get(0).submit();
+					}, 300);
+				},
+				addIntelInput() {
+					let latest_key = this.contacts.length;
+					let driver_phone_input = document.querySelector("#contact_number" + latest_key);
+					this.itn_inputs["contact_number" + latest_key] = window.intlTelInput(driver_phone_input, {
+						hiddenInput: "contact_number" + latest_key,
+						initialCountry: 'IE',
+						separateDialCode: true,
+						preferredCountries: ['IE', 'GB'],
+						utilsScript: "{{asset('js/intlTelInput/utils.js')}}"
+					});
+				},
+				serializeBusinessHours(index) {
+					let businessHoursoutput = window['business_hours_container' + index].serialize()
+					let businessHoursText = '';
+					let businessHours = {};
+					let weekDays = {
+						0:'Monday',
+						1:'Tuesday',
+						2:'Wednesday',
+						3:'Thursday',
+						4:'Friday',
+						5:'Saturday',
+						6:'Sunday',
+					}
+					for (let item of businessHoursoutput) {
+						if (item.isActive) {
+							businessHoursText += weekDays[businessHoursoutput.indexOf(item)] + ': From:' + item.timeFrom + ', To: ' + item.timeTill + '/'
+						}
+						let key = weekDays[businessHoursoutput.indexOf(item)]
+						businessHours[key] = item;
+					}
+					$('#business_hours' + index).val(businessHoursText)
+					$('#business_hours_json' + index).val(JSON.stringify(businessHours))
+				},
+				addBusinessHoursContainer() {
+					let latest_key = this.locations.length;
+					window['business_hours_container' + latest_key] = $('#business_hours_container' + latest_key).businessHours({
+						operationTime: business_hours_initial_array,
+						dayTmpl:'<div class="dayContainer" style="width: 80px;">' +
+								'<div data-original-title="" class="colorBox"><input type="checkbox" class="invisible operationState"></div>' +
+								'<div class="weekday"></div>' +
+								'<div class="operationDayTimeContainer">' +
+								'<div class="operationTime input-group" style="flex-wrap: nowrap;"><div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-sun"></i></span></div><input type="text" name="startTime" class="mini-time form-control operationTimeFrom" value=""></div>' +
+								'<div class="operationTime input-group" style="flex-wrap: nowrap;"><div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-moon"></i></span></div><input type="text" name="endTime" class="mini-time form-control operationTimeTill" value=""></div>' +
+								'</div></div>',
+						checkedColorClass: 'workingBusinssDay',
+						uncheckedColorClass: 'dayOff',
+					})
+				},
+				validateEmailAndPhone(){
+					let the_email = $('#contact_email1').val();
+					let intl_tel_input_value = this.itn_inputs['contact_number1'];
+					$.ajax({
+						headers: {
+							'X-CSRF-TOKEN': '{{ csrf_token() }}'
+						},
+						url: '{{url('validate-email-phone')}}',
+						data: {
+							email: the_email,
+							phone_number: intl_tel_input_value.getNumber()
+						},
+						dataType: 'json',
+						method: 'POST',
+						success: function (valid_res){
+							if(valid_res.errors==1){
+								let error_html = document.createElement('div');
+								let error_p;
+								let errors_bag = valid_res.message;
+								if(errors_bag.email){
+									let error_p = document.createElement('p')
+									error_p.textContent = errors_bag.email[0];
+									error_html.appendChild(error_p);
+								}
+								if(errors_bag.phone_number){
+									let error_p = document.createElement('p')
+									error_p.textContent = errors_bag.phone_number[0];
+									error_html.appendChild(error_p);
+								}
+								swal({
+									title: 'Validation errors',
+									content: error_html,
+									icon: 'error',
+								});
+							}else{
+								this.submitTheRegForm();
+							}
+						}.bind(this), // bind this to enable Vue function calling
+						error: function(xhr,status,error){
+							swal({
+								title: 'System error',
+								text: 'A system error has occurred during validating the data',
+								icon: 'error',
+							});
+							$.ajax({
+								headers: {
+									'X-CSRF-TOKEN': '{{ csrf_token() }}'
+								},
+								url: '{{url('frontend/error')}}',
+								data: {
+									response: xhr.responseText,
+									text_status: status,
+									error_thrown: error,
+									queryString: document.location.search,
+									url: document.location.pathname,
+									referrer: document.referrer,
+									userAgent: navigator.userAgent
+								},
+								dataType: 'json',
+								method: 'POST',
+								success: function(res){}.bind(this),
+								error: function(xhr_request){
+									//fail silently
+								}.bind(this)
+							});
+						}.bind(this)
+					});
+				},
+			}
         });
     </script>
 @endsection

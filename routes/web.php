@@ -315,6 +315,9 @@ Route::group([
             Route::get('retailers', 'doorder\RetailerController@getRetailers')->name('doorder_retailers');
             Route::get('retailers/{id}', 'doorder\RetailerController@getSingleRetailer')->name('doorder_retailers_single_driver');
             Route::get('retailers/view/{id}', 'doorder\RetailerController@getViewRetailer')->name('doorder_retailers_view_retailer');
+            //Setting
+            Route::get('settings', 'doorder\SettingsController@getSettings')->name('doorder_getSettings');
+            Route::post('save_notification', 'doorder\SettingsController@postSaveNotification')->name('doorder_postSaveNotification');
         });
         Route::group([
             'middleware' => "retailer"
@@ -333,11 +336,9 @@ Route::group([
         Route::post('invoice/export', 'doorder\InvoiceController@exportInvoiceList')->name('doorder_exportInvoiceList');
         Route::get('invoice_view/{id}', 'doorder\InvoiceController@getSingleInvoice')->name('doorder_getSingleInvoice');
         Route::post('send_invoice/{id}', 'doorder\InvoiceController@postSendInvoice')->name('doorder_sendInvoice');
-        
-        Route::get('settings', 'doorder\SettingsController@getSettings')->name('doorder_getSettings');
-        Route::post('save_notification', 'doorder\SettingsController@postSaveNotification')->name('doorder_postSaveNotification');
-        
-        
+
+        //Edit Retailer profile
+        Route::get('profile/edit', 'doorder\RetailerController@editRetailerProfile')->name('doorder_retailers_view_retailer');
     });
     /*
      * Doom Yoga Routes

@@ -337,8 +337,7 @@ Route::group([
         Route::get('settings', 'doorder\SettingsController@getSettings')->name('doorder_getSettings');
         Route::post('save_notification', 'doorder\SettingsController@postSaveNotification')->name('doorder_postSaveNotification');
         
-        //Edit Retailer profile
-        Route::get('profile/edit', 'doorder\RetailerController@editRetailerProfile')->name('doorder_retailers_view_retailer');
+        
     });
     /*
      * Doom Yoga Routes
@@ -408,14 +407,16 @@ Route::group([
         
         Route::get('calendar', 'unified\CalendarController@getCalendar')->name('unified_getCalendar');
         Route::get('calendar-events', 'unified\CalendarController@getCalendarEvents')->name('unified_getCalendarEvents');
+        Route::get('calendar/add_scheduled_job/{date}/{serviceId}', 'unified\CalendarController@getAddScheduledJob')->name('unified_getAddScheduledJob');
         Route::post('add_scheduled_job', 'unified\CalendarController@postAddScheduledJob')->name('unified_postAddScheduledJob');
+        Route::get('calendar/edit_scheduled_job/{id}', 'unified\CalendarController@getEditScheduledJob')->name('unified_getEditScheduledJob');
         Route::post('edit_scheduled_job', 'unified\CalendarController@postEditScheduledJob')->name('unified_postEditScheduledJob');
         Route::post('delete_scheduled_job', 'unified\CalendarController@postDeleteScheduledJob')->name('unified_postDeleteScheduledJob');
         Route::post('get_job_data', 'unified\CalendarController@getJobData')->name('unified_getJobData');
         Route::get('get_job_list', 'unified\CalendarController@getJobList')->name('unified_getJobList');
         Route::get('get_company_list_of_service', 'unified\CalendarController@getCompanyListOfService')->name('unified_getCompanyListOfService');
         Route::get('get_contract_expire', 'unified\CalendarController@getContractExpireList')->name('unified_getContractExpire');
-                
+        Route::post('get_engineer_location', 'unified\CalendarController@getEngineerLocation')->name('unified_getEngineerLocation');
         
     });
         

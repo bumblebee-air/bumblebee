@@ -193,12 +193,14 @@ class OrdersController extends Controller
             );
 
             //Sending message to the old driver
-            $twilio->messages->create($old_driver->phone,
-                [
-                    "from" => "DoOrder",
-                    "body" => "Hi $old_driver->name, We need to inform you that the order #$order->order_id is no longer available."
-                ]
-            );
+            if ($old_driver) {
+                $twilio->messages->create($old_driver->phone,
+                    [
+                        "from" => "DoOrder",
+                        "body" => "Hi $old_driver->name, We need to inform you that the order #$order->order_id is no longer available."
+                    ]
+                );
+            }
             alert()->success("The order has been successfully assigned to $driver->name");
         }
         return redirect()->to('doorder/orders');

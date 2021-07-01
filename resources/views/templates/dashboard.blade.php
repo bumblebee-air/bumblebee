@@ -188,7 +188,9 @@
 								<div class="dropdown-menu dropdown-menu-left"
 									aria-labelledby="navbarDropdownProfile">
 									<a class="dropdown-item" href="{{url($guard_name.'/profile')}}">edit Password</a>
-									<a class="dropdown-item" href="{{url($guard_name.'/profile/edit')}}">Edit Profile</a>
+									@if(auth()->user()->user_role == 'retailer')
+										<a class="dropdown-item" href="{{url($guard_name.'/profile/edit')}}">Edit Profile</a>
+									@endif
 {{--									<div class="dropdown-divider"></div>--}}
 {{--									<a class="dropdown-item" href="#">Log out</a>--}}
 								</div>

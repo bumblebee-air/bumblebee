@@ -226,7 +226,9 @@
                                 </div>
                             </div>
                         </div>
-                        
+
+                        <input type="hidden" v-model="contact" name="contact_through">
+
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group bmd-form-group">

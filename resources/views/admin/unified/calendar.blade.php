@@ -57,11 +57,12 @@ font-size: 18px;
 										
 										<div class="row">
 											<div class="col-md-6 offset-md-6">
-												<button class=" btn-add-calendar" style="float: right;"
-													onclick="clickAddScheduledJob()">
+												<a class=" btn-add-calendar" style="float: right;"
+													href="{{route('unified_getAddScheduledJob', ['unified','0','0'])}}">
 													<img class=""
 														src="{{asset('images/unified/add-icon.png')}}">
-												</button>
+												</a>
+											
 											</div>
 										</div>
 
@@ -505,10 +506,12 @@ font-size: 18px;
 							<h3 class="noJobsAddedHeader">No jobs added to that day so far</h3>
 						</div>
 						<div class="col-12 mt-4 text-center">
-							<button class=" btn-nojob-add-calendar"
-								onclick="clickAddScheduledJobListModal('nojob')">
-								<img src="{{asset('images/unified/add-job.png')}}">
-							</button>
+<!-- 							<button class=" btn-nojob-add-calendar" 
+								onclick="clickAddScheduledJobListModal('nojob')"> -->
+								<a class=" btn-nojob-add-calendar" 
+													href="{{route('unified_getAddScheduledJob', ['unified','0','0'])}}">
+													<img src="{{asset('images/unified/add-job.png')}}"></a>
+<!-- 							</button> -->
 						</div>
 					</div>
 
@@ -554,10 +557,15 @@ font-size: 18px;
 
 				<div class="row mt-4">
 					<div class="col-12">
-						<button class=" btn-add-calendar" style="float: right;"
+<!--						<button class=" btn-add-calendar" style="float: right;"
 							onclick="clickAddScheduledJobListModal('hasjobs')">
-							<img class="" src="{{asset('images/unified/add-icon.png')}}">
-						</button>
+ 							<img class="" src="{{asset('images/unified/add-icon.png')}}"> -->
+<!-- 						</button> -->
+						<a class=" btn-add-calendar" style="float: right;"
+													href="{{route('unified_getAddScheduledJob', ['unified','0','0'])}}">
+													<img class=""
+														src="{{asset('images/unified/add-icon.png')}}">
+												</a>
 					</div>
 				</div>
 			</div>
@@ -814,6 +822,9 @@ font-size: 18px;
         	
         	if(data.jobsList.length==0){
                     $('#calendar-modal-job-list-empty').modal();
+                    console.log("before set href")
+                    $('#calendar-modal-job-list-empty .btn-nojob-add-calendar').attr("href",
+                    					"{{url('unified/calendar/add_scheduled_job/')}}/"+date.format("MM-DD-YYYY")+"/"+serviceId);
                     $('#calendar-modal-job-list-empty #dateSpan').html(dayName+', '+monthName+' '+d+', '+y);
                     $('#calendar-modal-job-list-empty #date').val(date.format("MM/DD/YYYY"));
                     $('#calendar-modal-job-list-empty #isDateHidden').val(1);
@@ -824,12 +835,15 @@ font-size: 18px;
         		for(var i=0; i< data.jobsList.length; i++){
 					ulContent = ulContent+ '<li class="list-group-item" style="background-color:'
 								+data.jobsList[i].backgroundColor
-								+'" onclick="clickEditScheduledJob('+data.jobsList[i].id+')"> '
+								+'"> <a href="{{url('unified/calendar/edit_scheduled_job/')}}/'+data.jobsList[i].id+'">'
 								+data.jobsList[i].title 
-								+'  </li>';
+								+'</a>  </li>';
 				}
         	
+        	// onclick="clickEditScheduledJob('+data.jobsList[i].id+')"
                     $('#calendar-modal-job-list').modal();
+                    $('#calendar-modal-job-list .btn-add-calendar').attr("href",
+                    					"{{url('unified/calendar/add_scheduled_job/')}}/"+date.format("MM-DD-YYYY")+"/"+serviceId);
                     $('#calendar-modal-job-list #dateSpan').html(dayName+', '+monthName+' '+d+', '+y);
                     $('#calendar-modal-job-list #date').val(date.format("MM/DD/YYYY"));
                     $('#calendar-modal-job-list #isDateHidden').val(1);
@@ -899,6 +913,8 @@ font-size: 18px;
         	
         	if(data.jobsList.length==0){
                     $('#calendar-modal-job-list-empty').modal();
+                    $('#calendar-modal-job-list-empty .btn-nojob-add-calendar').attr("href",
+                    					"{{url('unified/calendar/add_scheduled_job/')}}/0/"+serviceId);
                     $('#calendar-modal-job-list-empty #dateSpan').html(viewTitle);
                     $('#calendar-modal-job-list-empty #date').val('');
                     $('#calendar-modal-job-list-empty #isDateHidden').val(0);
@@ -909,12 +925,14 @@ font-size: 18px;
         		for(var i=0; i< data.jobsList.length; i++){
 					ulContent = ulContent+ '<li class="list-group-item" style="background-color:'
 								+data.jobsList[i].backgroundColor
-								+'" onclick="clickEditScheduledJob('+data.jobsList[i].id+')"> '
+								+'"> <a href="{{url('unified/calendar/edit_scheduled_job/')}}/'+data.jobsList[i].id+'">'
 								+data.jobsList[i].title 
-								+'  </li>';
+								+'</a>  </li>';
 				}
         	
                     $('#calendar-modal-job-list').modal();
+                    $('#calendar-modal-job-list .btn-add-calendar').attr("href",
+                    					"{{url('unified/calendar/add_scheduled_job/')}}/0/"+serviceId);
                     $('#calendar-modal-job-list #dateSpan').html(viewTitle);
                     $('#calendar-modal-job-list #date').val('');
                     $('#calendar-modal-job-list #isDateHidden').val(0);

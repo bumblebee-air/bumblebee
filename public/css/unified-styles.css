@@ -208,7 +208,9 @@ li .nav-link:hover a i {
 	letter-spacing: 0.2px;
 	color: #d58242 !important;
 }
-
+.card-title-grey, .card-title-grey a{
+	color: #7b7b7b !important;
+}
 .card-title.customerProfile {
 	font-size: 18px !important;
 	line-height: 2.5 !important;

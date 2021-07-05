@@ -23,7 +23,7 @@ class SettingsController extends Controller
             $q->where('name', 'DoOrder');
         })->get();
         foreach ($admins as $admin) {
-            $adminsData[] = ['id' => $admin->id, 'label' => $admin->name, "Admin, $admin->name"];
+            $adminsData[] = ['id' => $admin->id, 'label' => $admin->name,'customLabel'=> "Admin, $admin->name"];
         }
         foreach ($savedNotifications as $notification) {
             $savedNotificationsData[] = [

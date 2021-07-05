@@ -427,7 +427,7 @@
                                     <div class="form-group bmd-form-group">
                                         <select class="form-control" :id="'contact_location' + (index + 1)"  :name="'contact_location' + (index + 1)">
                                             <option selected disabled>Location</option>
-                                            <option v-for="(location, index) of locations" value="location">Location @{{ index +1 }}</option>
+                                            <option v-for="(location, index) of locations" :value="'location'+ (index +1)">Location @{{ index +1 }}</option>
                                             <option value="all" v-if="locations.length > 1">All</option>
                                         </select>
                                     </div>

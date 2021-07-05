@@ -1,5 +1,5 @@
-.container{
-	width: 98%; 
+.container {
+	width: 98%;
 	max-width: 98%;
 }
 
@@ -147,7 +147,6 @@ p.card-category {
 	stroke-width: 10px;
 }
 
-
 .row {
 	display: flex;
 	flex-wrap: wrap;
@@ -224,7 +223,6 @@ h4.card-title {
 	font-size: 13px;
 	padding-top: 5px;
 	font-weight: bold;
-	
 }
 
 .form-control:focus {
@@ -242,11 +240,12 @@ h4.card-title {
 	letter-spacing: 0.77px;
 	color: #4d4d4d;
 }
-.locationLabel{
+
+.locationLabel {
 	font-weight: 700 !important;
 }
 
-input.form-control, textarea.form-control {
+input.form-control, textarea.form-control,select.form-control {
 	padding: 11px 14px 11px 14px;
 	border-radius: 5px;
 	box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
@@ -341,11 +340,19 @@ input.form-control, textarea.form-control {
 	font-size: 50px;
 	color: #e2e5e7;
 }
+
+.addCircle {
+	color: #e8ca49;
+}
+
+.removeCircle {
+	color: #df5353;
+}
 /****************** tables *************************/
 .table {
 	margin-bottom: 0 !important;
 	border-bottom: none !important;
-/* 	table-layout: fixed; */
+	/* 	table-layout: fixed; */
 }
 
 div.dataTables_wrapper div.dataTables_filter input {
@@ -509,6 +516,7 @@ tr.order-row:hover, tr.order-row:focus {
 	cursor: pointer;
 	box-shadow: 5px 5px 18px #88888836, 5px -5px 18px #88888836;
 }
+
 .btn.btn-fab, .btn.btn-just-icon {
 	line-height: 0px !important;
 	height: 20px !important;
@@ -542,15 +550,14 @@ tr.order-row:hover, tr.order-row:focus {
 	padding: 7px 5px !important;
 }
 
-
-.dataTables_scrollBody table thead tr{
+.dataTables_scrollBody table thead tr {
 	border: none !important;
 }
 
-.dataTables_scrollBody table thead tr th{
+.dataTables_scrollBody table thead tr th {
 	border: none !important;
-    padding-top:   0 !important;
-    padding-bottom: 0 !important;
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
 }
 /************************* buttons ******************/
 .btn.btn-primary-doorder.btn-link, .btn.btn-primary-doorder.btn-link:active,
@@ -639,7 +646,8 @@ tr.order-row:hover, tr.order-row:focus {
 		padding: 5px;
 	}
 }
-.modal-dialog .modal-header{
+
+.modal-dialog .modal-header {
 	padding: 0;
 }
 
@@ -711,16 +719,17 @@ tr.order-row:hover, tr.order-row:focus {
 		table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_desc:before,
 		table.dataTable thead .sorting_desc_disabled:before {
 		left: 91%;
-		top:5px !important;
+		top: 5px !important;
 	}
 	table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after,
 		table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc:after,
 		table.dataTable thead .sorting_desc_disabled:after {
 		left: 97%;
-		top:5px !important;
+		top: 5px !important;
 	}
-	th select{
-	width: auto !important;}
+	th select {
+		width: auto !important;
+	}
 	.file-url-container i {
 		font-size: 45px;
 	}

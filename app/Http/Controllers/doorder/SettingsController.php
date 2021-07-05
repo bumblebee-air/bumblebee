@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\doorder;
 
+use App\Client;
 use App\CustomNotification;
 use App\Http\Controllers\Controller;
 use App\User;
@@ -13,14 +14,17 @@ class SettingsController extends Controller
 
     public function getSettings()
     {
+        $current_user = auth()->user();
+        $client_id = ($current_user->client != null)? $current_user->client->client_id : null;
+        $the_client = Client::find($client_id);
         $adminsData = [];
         $callCenterOptions = [];
         $savedNotificationsData = [];
-        $admins = User::where('user_role', 'client')->whereHas('client', function ($q) {
-            $q->where('name', 'DoOrder');
+        $admins = User::where('user_role', 'client')->whereHas('client', function ($q) use ($the_client) {
+            $q->where('name', $the_client->name);
         })->get();
-        $savedNotifications = CustomNotification::whereHas('client', function ($q) {
-            $q->where('name', 'DoOrder');
+        $savedNotifications = CustomNotification::whereHas('client', function ($q) use ($the_client) {
+            $q->where('name', $the_client->name);
         })->get();
         foreach ($admins as $admin) {
             $adminsData[] = ['id' => $admin->id, 'label' => $admin->name,'customLabel'=> "Admin, $admin->name"];
@@ -54,8 +58,11 @@ class SettingsController extends Controller
             'notification_content0' => 'required',
             'customNotification0' => 'required',
         ]);
-        CustomNotification::whereHas('client', function ($q) {
-            $q->where('name', 'DoOrder');
+        $current_user = auth()->user();
+        $client_id = ($current_user->client != null)? $current_user->client->client_id : null;
+        $the_client = Client::find($client_id);
+        CustomNotification::whereHas('client', function ($q) use ($the_client) {
+            $q->where('name', $the_client->name);
         })->delete();
         for ($i = 0; $i < $request->indexes; $i++) {
             $customNotification = new CustomNotification();
@@ -64,7 +71,7 @@ class SettingsController extends Controller
             $customNotification->channel = $request["notification_channel$i"];
             $customNotification->send_to = $request["notification_channel$i"] == 'platform' ? $request["user_type$i"] : ($request["notification_channel$i"] == 'sms' ? $request["phone_number$i"] : $request["email$i"]) ;
             $customNotification->content = $request["notification_content$i"];
-            $customNotification->client_id = 2;
+            $customNotification->client_id = $client_id;
             $customNotification->is_active = $request['customNotification0'] == 'true';
             $customNotification->save();
         }

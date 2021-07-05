@@ -218,7 +218,7 @@ class ShopifyController extends Controller
         $retailer_id = $retailer->id;
         $order_data = $request->all();
         $order_id = $order_data['name'];
-        $order = Order::where()->where('order_id',$order_id)
+        $order = Order::where('order_id',$order_id)
             ->where('retailer_id',$retailer_id)->first();
         if($order){
             $order->status = 'ready';

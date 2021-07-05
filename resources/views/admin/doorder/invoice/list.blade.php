@@ -96,6 +96,54 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
   overflow: visible;
   white-space: normal;
   height: auto;} */
+  
+.bootstrap-datetimepicker-widget table td span.active{
+background-color: #e8ca49;
+}  
+
+/************************* datetime picker **************************/
+.bootstrap-datetimepicker-widget table td.active:hover>div,
+	.bootstrap-datetimepicker-widget table td.active>div {
+	background-color: #e8ca49 !important;
+	color: #fff;
+	box-shadow: 0 4px 20px 0 rgb(0 0 0/ 14%), 0 7px 10px -5px
+		rgb(213 130 60/ 40%);
+}
+
+.bootstrap-datetimepicker-widget table td span.active {
+	background-color: #e8ca49;
+}
+
+.bootstrap-datetimepicker-widget a[data-action] span,
+	.bootstrap-datetimepicker-widget a[data-action]:hover span {
+	color: #e8ca49 !important;
+}
+
+.bootstrap-datetimepicker-widget table td.today>div:before {
+	border-bottom-color: #e8ca49 !important;
+}
+
+.bootstrap-datetimepicker-widget .btn.btn-primary.focus,
+	.bootstrap-datetimepicker-widget .btn.btn-primary {
+	color: #fff;
+	background-color: #e8ca49 !important;
+	border-color: #e8ca49 !important;
+	box-shadow: 0 4px 20px 0 rgb(0 0 0/ 14%), 0 7px 10px -5px
+		rgb(79 79 79/ 40%);
+}
+
+.bootstrap-datetimepicker-widget .btn.btn-primary.focus,
+	.bootstrap-datetimepicker-widget .btn.btn-primary:focus,
+	.bootstrap-datetimepicker-widget .btn.btn-primary:hover {
+	color: #fff;
+	background-color: #e8ca49 !important;
+	border-color: #e8ca49 !important;
+}
+.datepicker-days td{
+width: 30px !important;
+max-width: 30px !important;
+min-width: 30px !important;
+}
 </style>
 @endsection @section('title', 'DoOrder | Invoice')
 @section('page-content')
@@ -198,19 +246,21 @@ var minDate, maxDate;
 // Custom filtering function which will search data in column four between two values
 $.fn.dataTable.ext.search.push(
     function( settings, data, dataIndex ) {
-        var min = minDate.val();
-        var max = maxDate.val();
-        console.log(min)
-        console.log(max)
-        var date = moment(data[0],'MM/YYYY').toDate();
+    	console.log("search")
+    	var start =$('#startDate').val(), end = $('#endDate').val();
+        var min = new Date(start);//moment( $('#startDate').val()).toDate();
+        var max = new Date(end);//moment( $('#endDate').val()).toDate();
+        console.log(start +" -- "+ min)
+        console.log(end +" -- "+ max)
+        var date = moment(data[0]).toDate();
  		console.log(data[0])
  		console.log(date)
  		console.log("sasasasa")
  
         if (
-            ( min === null && max === null ) ||
-            ( min === null && date <= max ) ||
-            ( min <= date   && max === null ) ||
+            (start==='' && end==='' ) ||
+            ( start==='' && date <= max ) ||
+            ( min <= date   && end==='' ) ||
             ( min <= date   && date <= max )
         ) {
             return true;
@@ -222,12 +272,19 @@ $.fn.dataTable.ext.search.push(
 $(document).ready(function() {
 
  // Create date inputs
-    minDate = new DateTime($('#startDate'), {
-         format: 'DD/MM/YYYY'
-    });
-    maxDate = new DateTime($('#endDate'), {
-         format: 'MM/YYYY'
-    });
+//     minDate = new DateTime($('#startDate'), {
+//          format: 'MMM YYYY'
+//     });
+//     maxDate = new DateTime($('#endDate'), {
+//          format: 'MMM YYYY'
+//     });
+
+$("#startDate,#endDate").datetimepicker({
+		 viewMode: 'years',
+         format: 'MMM YYYY'
+});
+$('#startDate,#endDate').on('dp.change', function(e){table.draw(); })
+
 
     var table= $('#invoiceListTable').DataTable({
     "pagingType": "full_numbers",
@@ -268,8 +325,12 @@ $(document).ready(function() {
     });
     
     $('#startDate, #endDate').on('change', function () {
+    	console.log("change dates")
         table.draw();
     });
+     $('#startDate, #endDate').keyup( function() {
+        table.draw();
+    } );
     
     
 } );

@@ -30,22 +30,20 @@ class InvoiceController extends Controller
         $invoiceList=[];
         $retailers = Retailer::whereHas('orders', function ($q) {
             $q->where('is_archived', false)->where('status', 'delivered');
-        })->get();
+        })->with(['orders'])->get();
 
         foreach ($retailers as $retailer) {
-            for ($i=0;$i<12;$i++) {
-                $month = Carbon::now()->startOfYear()->addMonths($i);
-                $orders_count = Order::where('retailer_id', $retailer->id)->whereMonth('created_at',$month)
-                    ->where('is_archived', false)->where('status', 'delivered')->count();
-                if ($orders_count > 0) {
-                    array_push($invoiceList, [
-                        'id' => $retailer->id,
-                        'name' => $retailer->name,
-                        'orders_count' => $orders_count,
-                        'month' => $month->format('M Y'),
-                        'date' => $month->format('M Y')
-                    ]);
-                }
+            $orders_groups = $retailer->orders->groupBy(function($val) {
+                return Carbon::parse($val->created_at)->format('M Y');
+            });
+            foreach ($orders_groups as $key => $orders_group) {
+                array_push($invoiceList, [
+                    'id' => $retailer->id,
+                    'name' => $retailer->name,
+                    'orders_count' => count($orders_group),
+                    'month' => Carbon::parse($key)->format('M Y'),
+                    'date' => Carbon::parse($key)->format('M Y')
+                ]);
             }
         }
         return view('admin.doorder.invoice.list', [

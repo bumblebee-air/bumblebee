@@ -212,7 +212,7 @@ min-width: 30px !important;
 									<tbody>
 										<tr v-for="invoice in invoiceList" class="order-row"
 											@click="clickInvoice(invoice.id)">
-											<td>{{ date('M Y') }}</td>
+											<td>@{{invoice.date}}</td>
 											<td>@{{invoice.name}}</td>
 											<td>
 												<span class="invoiceIconSpan">
@@ -359,9 +359,9 @@ $('#startDate,#endDate').on('dp.change', function(e){table.draw(); })
                     return dateTime;
                 },
                 
-                clickInvoice(id) {
-                    window.location = "{{url('doorder/invoice_view/')}}/"+id
-                }
+                clickInvoice(id, month) {
+    window.location = "{{url('doorder/invoice_view/')}}/"+id + "?month=" + month
+}
             }
         });
     </script>

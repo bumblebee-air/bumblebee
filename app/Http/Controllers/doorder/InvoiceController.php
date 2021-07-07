@@ -15,17 +15,38 @@ class InvoiceController extends Controller
 
     public function getInvoiceList(Request $request)
     {
-        $start_of_month = Carbon::now()->startOfMonth();
-        $end_of_month = Carbon::now()->endOfMonth();
-        $invoiceList = Retailer::whereHas('orders', function ($q) use ($start_of_month, $end_of_month) {
-            $q->whereDate('created_at','>=', $start_of_month)
-              ->whereDate('created_at','<=', $end_of_month)
-              ->where('is_archived', false)->where('status', 'delivered');
-        })->withCount(['orders' => function ($q) use($start_of_month, $end_of_month) {
-            $q->whereDate('created_at','>=', $start_of_month)
-                ->whereDate('created_at','<=', $end_of_month)
-                ->where('is_archived', false)->where('status', 'delivered');
-        }])->orderBy('id', 'desc')->get();
+//        $start_of_month = Carbon::now()->startOfMonth();
+//        $end_of_month = Carbon::now()->endOfMonth();
+//        $invoiceList = Retailer::whereHas('orders', function ($q) use ($start_of_month, $end_of_month) {
+//            $q->whereDate('created_at','>=', $start_of_month)
+//              ->whereDate('created_at','<=', $end_of_month)
+//              ->where('is_archived', false)->where('status', 'delivered');
+//        })->withCount(['orders' => function ($q) use($start_of_month, $end_of_month) {
+//            $q->whereDate('created_at','>=', $start_of_month)
+//                ->whereDate('created_at','<=', $end_of_month)
+//                ->where('is_archived', false)->where('status', 'delivered');
+//        }])->orderBy('id', 'desc')->get();
+
+        $invoiceList=[];
+        $retailers = Retailer::whereHas('orders', function ($q) {
+            $q->where('is_archived', false)->where('status', 'delivered');
+        })->get();
+
+        foreach ($retailers as $retailer) {
+            for ($i=0;$i<12;$i++) {
+                $month = Carbon::now()->startOfYear()->addMonths($i);
+                $orders_count = Order::where('retailer_id', $retailer->id)->whereMonth('created_at',$month)
+                    ->where('is_archived', false)->where('status', 'delivered')->count();
+                if ($orders_count > 0) {
+                    array_push($invoiceList, [
+                        'id' => $retailer->id,
+                        'name' => $retailer->name,
+                        'orders_count' => $orders_count,
+                        'month' => $i
+                    ]);
+                }
+            }
+        }
         return view('admin.doorder.invoice.list', [
             'invoiceList' => $invoiceList
         ]);

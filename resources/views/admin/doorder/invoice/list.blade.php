@@ -233,13 +233,13 @@ $.fn.dataTable.ext.search.push(
 //         }
 			
 		var dateInput =$('#date').val();
-        var min = new Date(dateInput);
+        var min =  moment(dateInput,'MMM YYYY').toDate();
        
-//        console.log(dateInput +" -- "+ min)
-        var date = moment(data[0]).toDate();
-//  		console.log(data[0])
-//  		console.log(date)
-//  		console.log("sasasasa")
+ //       console.log(dateInput +" -- "+ min)
+        var date = moment(data[0],'MMM YYYY').toDate();
+  //		console.log(data[0])
+  //		console.log(date)
+  //		console.log("sasasasa")
  
         if (
             (dateInput==='') ||
@@ -274,6 +274,7 @@ $(document).ready(function() {
 $("#date").datetimepicker({
 		 viewMode: 'years',
          format: 'MMM YYYY',
+         
 });
 $('#date').on('dp.change', function(e){table.draw(); });
 $('#date').on("dp.show", function(e) {

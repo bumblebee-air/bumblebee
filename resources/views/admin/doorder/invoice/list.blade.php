@@ -52,7 +52,7 @@ div.dt-datetime table td.selectable.selected button {
 
 select.form-control:not([size]):not([multiple]) {
 	height: 36px !important;
-	padding: 11px 14px 11px 14px;
+	padding: 8px 14px 8px 14px;
 	border-radius: 5px;
 	box-shadow: 0 2px 48px 0 rgb(0 0 0/ 8%);
 	background-color: #ffffff;
@@ -133,6 +133,13 @@ background-color: #e8ca49;
 										</div>
 										<div class="col-md-3">
 											<div class="form-group bmd-form-group">
+												<input class="form-control inputDate" id="date"
+													type="text" placeholder="Month" required="true"
+													aria-required="true" name="date">
+											</div>
+										</div>
+										<!-- <div class="col-md-3">
+											<div class="form-group bmd-form-group">
 												<input class="form-control inputDate" id="startDate"
 													type="text" placeholder="From" required="true"
 													aria-required="true" name="from">
@@ -144,7 +151,7 @@ background-color: #e8ca49;
 													type="text" placeholder="To" required="true"
 													aria-required="true" name="to">
 											</div>
-										</div>
+										</div> -->
 										<div class="col-md-3 mt-1">
 											<div id="retailerNameP" class="form-group bmd-form-group"></div>
 										</div>
@@ -205,25 +212,42 @@ var minDate, maxDate;
 // Custom filtering function which will search data in column four between two values
 $.fn.dataTable.ext.search.push(
     function( settings, data, dataIndex ) {
-    	console.log("search")
-    	var start =$('#startDate').val(), end = $('#endDate').val();
-        var min = new Date(start);//moment( $('#startDate').val()).toDate();
-        var max = new Date(end);//moment( $('#endDate').val()).toDate();
-        console.log(start +" -- "+ min)
-        console.log(end +" -- "+ max)
+//    	console.log("search")
+//     	var start =$('#startDate').val(), end = $('#endDate').val();
+//         var min = new Date(start);//moment( $('#startDate').val()).toDate();
+//         var max = new Date(end);//moment( $('#endDate').val()).toDate();
+//         console.log(start +" -- "+ min)
+//         console.log(end +" -- "+ max)
+//         var date = moment(data[0]).toDate();
+//  		console.log(data[0])
+//  		console.log(date)
+//  		console.log("sasasasa")
+ 
+//         if (
+//             (start==='' && end==='' ) ||
+//             ( start==='' && date <= max ) ||
+//             ( min <= date   && end==='' ) ||
+//             ( min <= date   && date <= max )
+//         ) {
+//             return true;
+//         }
+			
+		var dateInput =$('#date').val();
+        var min = new Date(dateInput);
+       
+//        console.log(dateInput +" -- "+ min)
         var date = moment(data[0]).toDate();
- 		console.log(data[0])
- 		console.log(date)
- 		console.log("sasasasa")
+//  		console.log(data[0])
+//  		console.log(date)
+//  		console.log("sasasasa")
  
         if (
-            (start==='' && end==='' ) ||
-            ( start==='' && date <= max ) ||
-            ( min <= date   && end==='' ) ||
-            ( min <= date   && date <= max )
+            (dateInput==='') ||
+            ( min <= date && date<=min )
         ) {
             return true;
-        }
+        }	
+			
         return false;
     }
 );
@@ -238,12 +262,21 @@ $(document).ready(function() {
 //          format: 'MMM YYYY'
 //     });
 
-$("#startDate,#endDate").datetimepicker({
+// $("#startDate,#endDate").datetimepicker({
+// 		 viewMode: 'years',
+//          format: 'MMM YYYY',
+// });
+// $('#startDate,#endDate').on('dp.change', function(e){table.draw(); });
+// $('#startDate,#endDate').on("dp.show", function(e) {
+//    $(e.target).data("DateTimePicker").viewMode("months"); 
+// });
+
+$("#date").datetimepicker({
 		 viewMode: 'years',
          format: 'MMM YYYY',
 });
-$('#startDate,#endDate').on('dp.change', function(e){table.draw(); });
-$('#startDate,#endDate').on("dp.show", function(e) {
+$('#date').on('dp.change', function(e){table.draw(); });
+$('#date').on("dp.show", function(e) {
    $(e.target).data("DateTimePicker").viewMode("months"); 
 });
 
@@ -286,13 +319,6 @@ $('#startDate,#endDate').on("dp.show", function(e) {
         }
     });
     
-    $('#startDate, #endDate').on('change', function () {
-    	console.log("change dates")
-        table.draw();
-    });
-     $('#startDate, #endDate').keyup( function() {
-        table.draw();
-    } );
     
     
 } );

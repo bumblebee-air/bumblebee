@@ -100,49 +100,8 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
 .bootstrap-datetimepicker-widget table td span.active{
 background-color: #e8ca49;
 }  
-
-/************************* datetime picker **************************/
-.bootstrap-datetimepicker-widget table td.active:hover>div,
-	.bootstrap-datetimepicker-widget table td.active>div {
-	background-color: #e8ca49 !important;
-	color: #fff;
-	box-shadow: 0 4px 20px 0 rgb(0 0 0/ 14%), 0 7px 10px -5px
-		rgb(213 130 60/ 40%);
-}
-
-.bootstrap-datetimepicker-widget table td span.active {
-	background-color: #e8ca49;
-}
-
-.bootstrap-datetimepicker-widget a[data-action] span,
-	.bootstrap-datetimepicker-widget a[data-action]:hover span {
-	color: #e8ca49 !important;
-}
-
-.bootstrap-datetimepicker-widget table td.today>div:before {
-	border-bottom-color: #e8ca49 !important;
-}
-
-.bootstrap-datetimepicker-widget .btn.btn-primary.focus,
-	.bootstrap-datetimepicker-widget .btn.btn-primary {
-	color: #fff;
-	background-color: #e8ca49 !important;
-	border-color: #e8ca49 !important;
-	box-shadow: 0 4px 20px 0 rgb(0 0 0/ 14%), 0 7px 10px -5px
-		rgb(79 79 79/ 40%);
-}
-
-.bootstrap-datetimepicker-widget .btn.btn-primary.focus,
-	.bootstrap-datetimepicker-widget .btn.btn-primary:focus,
-	.bootstrap-datetimepicker-widget .btn.btn-primary:hover {
-	color: #fff;
-	background-color: #e8ca49 !important;
-	border-color: #e8ca49 !important;
-}
-.datepicker-days td{
-width: 30px !important;
-max-width: 30px !important;
-min-width: 30px !important;
+.bootstrap-datetimepicker-widget table td span{
+    color: #a5a5a5
 }
 </style>
 @endsection @section('title', 'DoOrder | Invoice')
@@ -281,9 +240,12 @@ $(document).ready(function() {
 
 $("#startDate,#endDate").datetimepicker({
 		 viewMode: 'years',
-         format: 'MMM YYYY'
+         format: 'MMM YYYY',
 });
-$('#startDate,#endDate').on('dp.change', function(e){table.draw(); })
+$('#startDate,#endDate').on('dp.change', function(e){table.draw(); });
+$('#startDate,#endDate').on("dp.show", function(e) {
+   $(e.target).data("DateTimePicker").viewMode("months"); 
+});
 
 
     var table= $('#invoiceListTable').DataTable({

@@ -42,11 +42,13 @@ class InvoiceController extends Controller
                         'id' => $retailer->id,
                         'name' => $retailer->name,
                         'orders_count' => $orders_count,
-                        'month' => $i
+                        'month' => $i,
+                        'date' => $month->format('M Y')
                     ]);
                 }
             }
         }
+        dd($invoiceList);
         return view('admin.doorder.invoice.list', [
             'invoiceList' => $invoiceList
         ]);

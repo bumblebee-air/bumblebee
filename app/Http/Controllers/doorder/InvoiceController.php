@@ -42,7 +42,7 @@ class InvoiceController extends Controller
                         'id' => $retailer->id,
                         'name' => $retailer->name,
                         'orders_count' => $orders_count,
-                        'month' => $i,
+                        'month' => $month->format('M Y'),
                         'date' => $month->format('M Y')
                     ]);
                 }
@@ -58,24 +58,23 @@ class InvoiceController extends Controller
         return Excel::download(new InvoiceOrderExport($request->from, $request->to), "invoices_$request->from-$request->to.xlsx");
     }
 
-    public function getSingleInvoice($client_name, $id)
+    public function getSingleInvoice(Request $request, $client_name, $id)
     {
         $retailer = Retailer::find($id);
-        if (!$retailer) {
+        if (!$retailer || !$request->has('month')) {
             abort(404);
         }
+        $start_of_month = Carbon::parse($request->month)->startOfMonth();
 //        $start_of_month = Carbon::now()->startOfMonth();
 //        $end_of_month = Carbon::now()->endOfMonth();
-        $month_days = Carbon::now()->daysInMonth + 1;
+        $month_days = Carbon::now()->startOfYear()->addMonths($request->month)->daysInMonth;
         $invoice=[];
         $total = 0;
-        for($i = 1; $i < $month_days; $i++) {
-            $count = Order::whereHas('retailer', function ($q) use ($id) {
-                $q->where('id', $id);
-            })->with(['orderDriver', 'retailer'])->whereDay('created_at', $i)->where('is_archived', false)->where('status', 'delivered')->count();
-
+        for($i = 0; $i < $month_days; $i++) {
+            $date = Carbon::parse($request->month)->startOfMonth()->addDays($i);
+            $count = Order::where('retailer_id', $id)->with(['orderDriver', 'retailer'])->whereDate('created_at', $date)->where('is_archived', false)->where('status', 'delivered')->count();
             if ($count > 0) {
-                $data = Carbon::now()->startOfMonth()->addDays($i)->format('d/m/Y');
+                $data = Carbon::parse($request->month)->startOfMonth()->addDays($i)->format('d/m/Y');
                 $invoice[] = ['name' => "$data $count package for ". $count * 10 . "€", 'charge' => $count * 10];
                 $total += $count * 10;
             }

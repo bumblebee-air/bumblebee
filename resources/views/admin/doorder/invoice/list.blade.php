@@ -52,7 +52,7 @@ div.dt-datetime table td.selectable.selected button {
 
 select.form-control:not([size]):not([multiple]) {
 	height: 36px !important;
-	padding: 11px 14px 11px 14px;
+	padding: 8px 14px 8px 14px;
 	border-radius: 5px;
 	box-shadow: 0 2px 48px 0 rgb(0 0 0/ 8%);
 	background-color: #ffffff;
@@ -100,49 +100,8 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
 .bootstrap-datetimepicker-widget table td span.active{
 background-color: #e8ca49;
 }  
-
-/************************* datetime picker **************************/
-.bootstrap-datetimepicker-widget table td.active:hover>div,
-	.bootstrap-datetimepicker-widget table td.active>div {
-	background-color: #e8ca49 !important;
-	color: #fff;
-	box-shadow: 0 4px 20px 0 rgb(0 0 0/ 14%), 0 7px 10px -5px
-		rgb(213 130 60/ 40%);
-}
-
-.bootstrap-datetimepicker-widget table td span.active {
-	background-color: #e8ca49;
-}
-
-.bootstrap-datetimepicker-widget a[data-action] span,
-	.bootstrap-datetimepicker-widget a[data-action]:hover span {
-	color: #e8ca49 !important;
-}
-
-.bootstrap-datetimepicker-widget table td.today>div:before {
-	border-bottom-color: #e8ca49 !important;
-}
-
-.bootstrap-datetimepicker-widget .btn.btn-primary.focus,
-	.bootstrap-datetimepicker-widget .btn.btn-primary {
-	color: #fff;
-	background-color: #e8ca49 !important;
-	border-color: #e8ca49 !important;
-	box-shadow: 0 4px 20px 0 rgb(0 0 0/ 14%), 0 7px 10px -5px
-		rgb(79 79 79/ 40%);
-}
-
-.bootstrap-datetimepicker-widget .btn.btn-primary.focus,
-	.bootstrap-datetimepicker-widget .btn.btn-primary:focus,
-	.bootstrap-datetimepicker-widget .btn.btn-primary:hover {
-	color: #fff;
-	background-color: #e8ca49 !important;
-	border-color: #e8ca49 !important;
-}
-.datepicker-days td{
-width: 30px !important;
-max-width: 30px !important;
-min-width: 30px !important;
+.bootstrap-datetimepicker-widget table td span{
+    color: #a5a5a5
 }
 </style>
 @endsection @section('title', 'DoOrder | Invoice')
@@ -174,6 +133,13 @@ min-width: 30px !important;
 										</div>
 										<div class="col-md-3">
 											<div class="form-group bmd-form-group">
+												<input class="form-control inputDate" id="date"
+													type="text" placeholder="Month" required="true"
+													aria-required="true" name="date">
+											</div>
+										</div>
+										<!-- <div class="col-md-3">
+											<div class="form-group bmd-form-group">
 												<input class="form-control inputDate" id="startDate"
 													type="text" placeholder="From" required="true"
 													aria-required="true" name="from">
@@ -185,7 +151,7 @@ min-width: 30px !important;
 													type="text" placeholder="To" required="true"
 													aria-required="true" name="to">
 											</div>
-										</div>
+										</div> -->
 										<div class="col-md-3 mt-1">
 											<div id="retailerNameP" class="form-group bmd-form-group"></div>
 										</div>
@@ -246,25 +212,42 @@ var minDate, maxDate;
 // Custom filtering function which will search data in column four between two values
 $.fn.dataTable.ext.search.push(
     function( settings, data, dataIndex ) {
-    	console.log("search")
-    	var start =$('#startDate').val(), end = $('#endDate').val();
-        var min = new Date(start);//moment( $('#startDate').val()).toDate();
-        var max = new Date(end);//moment( $('#endDate').val()).toDate();
-        console.log(start +" -- "+ min)
-        console.log(end +" -- "+ max)
+//    	console.log("search")
+//     	var start =$('#startDate').val(), end = $('#endDate').val();
+//         var min = new Date(start);//moment( $('#startDate').val()).toDate();
+//         var max = new Date(end);//moment( $('#endDate').val()).toDate();
+//         console.log(start +" -- "+ min)
+//         console.log(end +" -- "+ max)
+//         var date = moment(data[0]).toDate();
+//  		console.log(data[0])
+//  		console.log(date)
+//  		console.log("sasasasa")
+ 
+//         if (
+//             (start==='' && end==='' ) ||
+//             ( start==='' && date <= max ) ||
+//             ( min <= date   && end==='' ) ||
+//             ( min <= date   && date <= max )
+//         ) {
+//             return true;
+//         }
+			
+		var dateInput =$('#date').val();
+        var min = new Date(dateInput);
+       
+//        console.log(dateInput +" -- "+ min)
         var date = moment(data[0]).toDate();
- 		console.log(data[0])
- 		console.log(date)
- 		console.log("sasasasa")
+//  		console.log(data[0])
+//  		console.log(date)
+//  		console.log("sasasasa")
  
         if (
-            (start==='' && end==='' ) ||
-            ( start==='' && date <= max ) ||
-            ( min <= date   && end==='' ) ||
-            ( min <= date   && date <= max )
+            (dateInput==='') ||
+            ( min <= date && date<=min )
         ) {
             return true;
-        }
+        }	
+			
         return false;
     }
 );
@@ -279,11 +262,23 @@ $(document).ready(function() {
 //          format: 'MMM YYYY'
 //     });
 
-$("#startDate,#endDate").datetimepicker({
+// $("#startDate,#endDate").datetimepicker({
+// 		 viewMode: 'years',
+//          format: 'MMM YYYY',
+// });
+// $('#startDate,#endDate').on('dp.change', function(e){table.draw(); });
+// $('#startDate,#endDate').on("dp.show", function(e) {
+//    $(e.target).data("DateTimePicker").viewMode("months"); 
+// });
+
+$("#date").datetimepicker({
 		 viewMode: 'years',
-         format: 'MMM YYYY'
+         format: 'MMM YYYY',
 });
-$('#startDate,#endDate').on('dp.change', function(e){table.draw(); })
+$('#date').on('dp.change', function(e){table.draw(); });
+$('#date').on("dp.show", function(e) {
+   $(e.target).data("DateTimePicker").viewMode("months"); 
+});
 
 
     var table= $('#invoiceListTable').DataTable({
@@ -324,13 +319,6 @@ $('#startDate,#endDate').on('dp.change', function(e){table.draw(); })
         }
     });
     
-    $('#startDate, #endDate').on('change', function () {
-    	console.log("change dates")
-        table.draw();
-    });
-     $('#startDate, #endDate').keyup( function() {
-        table.draw();
-    } );
     
     
 } );

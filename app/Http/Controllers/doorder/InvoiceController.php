@@ -48,7 +48,6 @@ class InvoiceController extends Controller
                 }
             }
         }
-        dd($invoiceList);
         return view('admin.doorder.invoice.list', [
             'invoiceList' => $invoiceList
         ]);

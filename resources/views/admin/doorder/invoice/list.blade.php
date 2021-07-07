@@ -211,7 +211,7 @@ min-width: 30px !important;
 
 									<tbody>
 										<tr v-for="invoice in invoiceList" class="order-row"
-											@click="clickInvoice(invoice.id)">
+											@click="clickInvoice(invoice.id, invoice.month)">
 											<td>@{{invoice.date}}</td>
 											<td>@{{invoice.name}}</td>
 											<td>

@@ -30,7 +30,9 @@ class InvoiceController extends Controller
         $invoiceList=[];
         $retailers = Retailer::whereHas('orders', function ($q) {
             $q->where('is_archived', false)->where('status', 'delivered');
-        })->with(['orders'])->get();
+        })->with(['orders' => function ($q) {
+            $q->where('is_archived', false)->where('status', 'delivered');
+        }])->get();
 
         foreach ($retailers as $retailer) {
             $orders_groups = $retailer->orders->groupBy(function($val) {
@@ -85,14 +87,20 @@ class InvoiceController extends Controller
         if (!$invoice) {
             abort(404);
         }
-        $current_month = date('m');
-        $orders = Order::whereHas('retailer', function ($q) use ($id) {
-            $q->where('id', $id);
-        })->with(['orderDriver', 'retailer'])->whereMonth('created_at', $current_month)->where('is_archived', false)->where('status', 'delivered')->get();
-        foreach ($orders as $order) {
-            $order->update([
-                'is_archived' => true
-            ]);
+        $retailer = Retailer::find($id);
+        if (!$retailer || !$request->has('month')) {
+            abort(404);
+        }
+        $start_of_month = Carbon::parse($request->month)->startOfMonth();
+        $month_days = Carbon::now()->startOfYear()->addMonths($request->month)->daysInMonth;
+        for($i = 0; $i < $month_days; $i++) {
+            $date = Carbon::parse($request->month)->startOfMonth()->addDays($i);
+            $orders = Order::where('retailer_id', $id)->with(['orderDriver', 'retailer'])->whereDate('created_at', $date)->where('is_archived', false)->where('status', 'delivered')->get();
+            foreach ($orders as $order) {
+                $order->update([
+                    'is_archived' => true
+                ]);
+            }
         }
         alert()->success('Invoiced successfully');
         return redirect()->route('doorder_getInvoiceList', 'doorder');

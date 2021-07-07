@@ -329,11 +329,11 @@ height: auto !important;
 					<div class="row ">
 						<div class="col text-center">
 							<form method="POST"
-								action="{{route('doorder_sendInvoice',['doorder',$retailer->id])}}"
-								id="edit_contractor_form">
+								action="{{route('doorder_sendInvoice',['doorder',$retailer->id, 'month' => $_GET['month']])}}"
+								id="invoice_orders_form">
 								{{csrf_field()}}
-								<button class="btn bt-submit">Invoice</button>
 							</form>
+							<button class="btn bt-submit" @click="submitForm">Invoice</button>
 						</div>
 					</div>
 				</div>
@@ -352,6 +352,31 @@ $( document ).ready(function() {
             el: '#app',
             data() {               
             },
+			methods: {
+				submitForm(e) {
+					swal({
+						// title: "Good job!",
+						text: "Are you sure you want to invoice these orders?",
+						icon: "info",
+						buttons: {
+							accept: {
+								text: "Yes",
+								value: "yes",
+								className: 'btn btn-primary'
+							},
+							reject: {
+								text: "No",
+								value: "no",
+								className: 'btn btn-secondary'
+							}
+						}
+					}).then((input) => {
+						if (input === 'yes') {
+							$('#invoice_orders_form').submit();
+						}
+					});
+				}
+			}
         });
     </script>
 @endsection

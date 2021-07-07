@@ -15,18 +15,6 @@ class InvoiceController extends Controller
 
     public function getInvoiceList(Request $request)
     {
-//        $start_of_month = Carbon::now()->startOfMonth();
-//        $end_of_month = Carbon::now()->endOfMonth();
-//        $invoiceList = Retailer::whereHas('orders', function ($q) use ($start_of_month, $end_of_month) {
-//            $q->whereDate('created_at','>=', $start_of_month)
-//              ->whereDate('created_at','<=', $end_of_month)
-//              ->where('is_archived', false)->where('status', 'delivered');
-//        })->withCount(['orders' => function ($q) use($start_of_month, $end_of_month) {
-//            $q->whereDate('created_at','>=', $start_of_month)
-//                ->whereDate('created_at','<=', $end_of_month)
-//                ->where('is_archived', false)->where('status', 'delivered');
-//        }])->orderBy('id', 'desc')->get();
-
         $invoiceList=[];
         $retailers = Retailer::whereHas('orders', function ($q) {
             $q->where('is_archived', false)->where('status', 'delivered');

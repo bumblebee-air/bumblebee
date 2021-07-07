@@ -112,18 +112,27 @@ class DashboardController extends Controller
             $from_date = $current_date->startOfDay()->toDateTimeString();
             $to_date = $current_date->endOfDay()->toDateTimeString();
         }
-        $all_orders = Order::whereBetween('created_at',[$from_date,$to_date])
-            ->orWhereBetween('created_at', [
-                Carbon::now()->subDay()->startOfDay()->addHours(13)->toDateTimeString(),
-                Carbon::now()->subDay()->endOfDay()->toDateTimeString(),
-            ])->get();
+        $all_orders = Order::query();
+        $all_orders = $all_orders->whereBetween('created_at',[$from_date,$to_date]);
+        if (!$custom_date) {
+            $all_orders = $all_orders->orWhere(function($q) use($from_date,$to_date) {
+                $q->whereNotBetween('created_at', [$from_date,$to_date])->whereNotIn('status', ['delivered', 'cancelled']);
+            });
+        }
+        $all_orders = $all_orders->get();
+
         $all_orders_count = count($all_orders);
         $delivered_orders_count = 0;
-        foreach($all_orders as $order){
-            if($order->status == 'delivered'){
-                $delivered_orders_count++;
-            }
-        }
+
+        $delivered_orders_count = Order::where('status', 'delivered')->whereHas('orderTimestamps', function ($q) use ($from_date, $to_date) {
+            $q->where('model', 'order')->whereBetween('completed',[$from_date,$to_date]);
+        })->count();
+//        foreach($all_orders as $order){
+//            $order->orderTimestamps()->whereDate('')->where('model', 'order')->first();
+//            if($order->status == 'delivered'){
+//                $delivered_orders_count++;
+//            }
+//        }
         if($custom_date == false) {
             $current_date = Carbon::now();
             $from_date = $current_date->startOfMonth()->startOfDay()->toDateTimeString();

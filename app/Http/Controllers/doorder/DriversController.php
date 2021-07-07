@@ -162,6 +162,7 @@ class DriversController extends Controller
                 CustomNotificationHelper::send('order_completed', $order->id);
             }
             $order->save();
+            $timestamps->save();
             Redis::publish('doorder-channel', json_encode([
                 'event' => 'update-order-status'.'-'.env('APP_ENV','dev'),
                 'data' => [

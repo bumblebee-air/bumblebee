@@ -41,4 +41,8 @@ class Order extends Model
     public function retailer() {
         return $this->belongsTo(Retailer::class, 'retailer_id');
     }
+
+    public function orderTimestamps() {
+        return $this->hasOne(KPITimestamp::class, 'model_id');
+    }
 }

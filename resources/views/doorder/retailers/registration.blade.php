@@ -332,7 +332,7 @@
                         </div>
 
                         <div class="col-md-12" v-for="(location, index) in locations">
-                            <label v-if="locations.length > 1">Location @{{ index + 1 }}</label>
+                            <label v-if="locations.length > 1">Location @{{ index + 1 }} <li v-if="index != 0" class="fa fa-minus-circle" style="color: #df5353" @click="removeLocation(index)"></li></label>
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group bmd-form-group">
@@ -403,7 +403,7 @@
                         </div>
 
                         <div class="col-md-12" v-for="(contact, index) in contacts">
-                            <label v-if="contacts.length > 1">Contact Details @{{ index + 1 }}</label>
+                            <label v-if="contacts.length > 1">Contact Details @{{ index + 1 }} <li v-if="index != 0" style="color: #df5353" class="fa fa-minus-circle" @click="removeContact(index)"></li></label>
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group bmd-form-group">
@@ -831,6 +831,12 @@
                 },
                 fadeLocationTip() {
                     $('#location-tip').fadeToggle();
+                },
+                removeContact(index) {
+                    this.contacts.splice(index, 1)
+                },
+                removeLocation(index) {
+                    this.locations.splice(index, 1)
                 }
             }
         });

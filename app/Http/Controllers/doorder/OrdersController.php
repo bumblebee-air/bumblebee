@@ -4,6 +4,7 @@ namespace App\Http\Controllers\doorder;
 
 use App\DriverProfile;
 use App\Helpers\CustomNotificationHelper;
+use App\Helpers\TwilioHelper;
 use App\Order;
 use App\User;
 use App\UserFirebaseToken;
@@ -168,38 +169,19 @@ class OrdersController extends Controller
             ]);
         }
         //SMS Assignment Notification
-        $sid    = env('TWILIO_SID', '');
-        $token  = env('TWILIO_AUTH', '');
-        $twilio = new Client($sid, $token);
         if($send_to_all){
             foreach($driver_ids as $an_id){
                 $driver_profile = DriverProfile::find($an_id);
                 if($driver_profile){
-                    $twilio->messages->create($driver_profile->phone,
-                        [
-                            "from" => "DoOrder",
-                            "body" => $sms_message
-                        ]
-                    );
+                    TwilioHelper::sendSMS('DoOrder', $driver_profile->phone, $sms_message);
                 }
             }
             alert()->success("The accepted drivers have been notified about the order successfully");
         } else {
-            $twilio->messages->create($driver->phone,
-                [
-                    "from" => "DoOrder",
-                    "body" => $sms_message
-                ]
-            );
-
+            TwilioHelper::sendSMS('DoOrder', $driver->phone, $sms_message);
             //Sending message to the old driver
             if ($old_driver) {
-                $twilio->messages->create($old_driver->phone,
-                    [
-                        "from" => "DoOrder",
-                        "body" => "Hi $old_driver->name, We need to inform you that the order #$order->order_id is no longer available."
-                    ]
-                );
+                TwilioHelper::sendSMS('DoOrder', $old_driver->phone, "Hi $old_driver->name, We need to inform you that the order #$order->order_id is no longer available.");
             }
             alert()->success("The order has been successfully assigned to $driver->name");
         }

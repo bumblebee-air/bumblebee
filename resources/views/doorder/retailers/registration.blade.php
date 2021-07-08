@@ -726,6 +726,15 @@
                     let contacts_details = [];
                     //Make Location Details Input
                     for (let item of this.locations) {
+                        let county_val = $('#county' + (this.locations.indexOf(item) + 1)).val()
+                        if (!county_val) {
+                            swal({
+                                // title: 'Validation errors',
+                                text: 'The county input is required.',
+                                icon: 'error',
+                            });
+                            return false;
+                        }
                         location_details.push({
                             address: $('#location' + (this.locations.indexOf(item) + 1)).val(),
                             coordinates: $('#location_' + (this.locations.indexOf(item) + 1) + '_coordinates').val(),

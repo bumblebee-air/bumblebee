@@ -151,6 +151,10 @@
 	font-size: 16px
 }
 
+.addCircle {
+	color: #e8ca49;
+}
+
 .nav-pills:not(.flex-column) .nav-item+.nav-item:not(:first-child) {
 	margin-left: 0 !important;
 }

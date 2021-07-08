@@ -36,12 +36,13 @@ class SettingsController extends Controller
                 'notification_type' => $notification->type,
                 'notification_name' => $notification->name,
                 'notification_channel' => $notification->channel,
-                'phone_number' => $notification->send_to,
-                'email' => $notification->send_to,
+                'phone_number' => json_decode($notification->send_to, true),
+                'email' => json_decode($notification->send_to, true),
                 'user_type' => $notification->send_to,
                 'notification_content' => $notification->content,
             ];
         }
+
        return view('admin.doorder.settings.index', [
             'adminOptions' => json_encode($adminsData),
             'callCenterOptions' => json_encode($callCenterOptions),
@@ -65,11 +66,22 @@ class SettingsController extends Controller
             $q->where('name', $the_client->name);
         })->delete();
         for ($i = 0; $i < $request->indexes; $i++) {
+            $send_to = [];
+            if ($request["notification_channel$i"] == 'email' || $request["notification_channel$i"] == 'sms') {
+                $contacts = $request["notification_channel$i"] == 'email' ? $request["email$i"] : $request["phone_number$i"];
+                foreach ($contacts as $contact) {
+                    $send_to[] = ['value' => $contact];
+                }
+                $send_to = json_encode($send_to);
+            } else {
+                $send_to = $request["user_type$i"];
+            }
+
             $customNotification = new CustomNotification();
             $customNotification->name = $request["notification_name$i"];
             $customNotification->type = $request["notification_type$i"];
             $customNotification->channel = $request["notification_channel$i"];
-            $customNotification->send_to = $request["notification_channel$i"] == 'platform' ? $request["user_type$i"] : ($request["notification_channel$i"] == 'sms' ? $request["phone_number$i"] : $request["email$i"]) ;
+            $customNotification->send_to = $send_to;
             $customNotification->content = $request["notification_content$i"];
             $customNotification->client_id = $client_id;
             $customNotification->is_active = $request['customNotification0'] == 'true';

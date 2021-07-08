@@ -90,22 +90,38 @@
 								:options="optionschannel" :clearable="true" :searchable="true"
 								:openOnClick="true" :disable-branch-nodes="true"
 								:closeOnSelect="true" :flat="false" :open-on-focus="true"
-								:always-open="false" />
+								:always-open="false" @select="onChangeChannel(index)"/>
 						</div>
 					</div>
 
 					<div class="col-sm-6">
 						<div class="form-group bmd-form-group"
 							v-if="notification.notification_channel=='sms'">
-							<label>Phone number</label><input type="tel" class="form-control"
-								:name="'phone_number' + (index)" :id="'phone_number' + (index)"
-								v-model="notification.phone_number" />
+							<label>
+								Phone number <li class="fa fa-plus-circle addCircle" @click="addPhone(index)"></li>
+							</label>
+							<div v-for="(phone_number, phone_index) in notification.phone_number">
+								<input type="tel" :name="'phone_number' + (index) + '[]'" :class="phone_number == 0 ? 'form-control' : 'form-control mt-2'" :id="'phone_number' + (index) + '_' + phone_index" v-model="phone_number.value" required />
+{{--								<input type="hidden" :name="'phone_number' + (index) + '[]'">--}}
+								<span style="float: right; margin-top: -32px; margin-left: -20px;cursor: pointer" v-if="phone_index !== 0" @click="removePhone(index,phone_index)">
+									<i class="fas fa-times-circle" style="color: #df5353"></i>
+								</span>
+							</div>
 						</div>
 						<div class="form-group bmd-form-group"
 							v-if="notification.notification_channel=='email'">
-							<label>Email</label><input type="email" class="form-control"
-								:name="'email' + (index)" :id="'email' + (index)"
-								v-model="notification.email" />
+							<label>
+								Email <li class="fa fa-plus-circle addCircle" @click="addEmail(index)"></li>
+							</label>
+							<div v-for="(email, email_index) in notification.email">
+								<input type="email" :class="email_index == 0 ? 'form-control' : 'form-control mt-2'"
+									   :name="'email' + (index) + '[]'" :id="'email' + (index)"
+									   v-model="email.value" required/>
+								<span style="float: right; margin-top: -30px; margin-right: 10px;cursor: pointer" v-if="email_index !== 0" @click="removeEmail(index,email_index)">
+									<i class="fas fa-times-circle" style="color: #df5353"></i>
+								</span>
+							</div>
+
 						</div>
 						<div class="form-group bmd-form-group"
 							v-if="notification.notification_channel=='platform'">
@@ -162,6 +178,15 @@
 	src="https://cdn.jsdelivr.net/npm/@riophae/vue-treeselect@^0.4.0/dist/vue-treeselect.umd.min.js"></script>
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/@riophae/vue-treeselect@^0.4.0/dist/vue-treeselect.min.css">
+<link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
+<script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>
+
+<style>
+	.iti {
+		width: 100%;
+	}
+</style>
+
 
 <!-- <script src="https://cdn.jsdelivr.net/npm/v-click-outside"></script> -->
 <!-- <script type="module" -->
@@ -183,7 +208,7 @@ Vue.use('vue-cascader-select');
             
              data: {
              	//customNotifications:[{"customNotification":"","notification_type":null,"notification_name":"","notification_channel":null,"phone_number":"","email":"","user_type":null,"notification_content":""}],
-             	customNotifications: {!! count($savedNotifications) ? json_encode($savedNotifications) : '[{"id":null,"customNotification":"1","notification_type":null,"notification_name":"","notification_channel":null,"phone_number":"","email":"","user_type":null,"notification_content":""}]' !!},
+             	customNotifications: {!! count($savedNotifications) ? json_encode($savedNotifications) : '[{"id":null,"customNotification":"1","notification_type":null,"notification_name":"","notification_channel":null,"phone_number":[{value: ""}],"email":[{value: ""}],"user_type":null,"notification_content":""}]' !!},
                 // define the default value
                  notification_type: null,
                  notification_channel:null,
@@ -247,35 +272,92 @@ Vue.use('vue-cascader-select');
                       	children: {!! $callCenterOptions !!}
                     }
                 
-                ]
-        
+                ],
+
       },
-       methods: {
-             normalizer(node) {
-                 return {
-                    id: node.id,
-                    label: node.label,
-                    customLabel: node.customLabel,
-                    children: node.children,
-                }
-             	
-            },
-            clickAddNotification() {
+		   mounted() {
+            	//Intl input
+			   // setTimeout(() => {
+				//    for (let notification of this.customNotifications) {
+				// 	   let notification_index = this.customNotifications.indexOf(notification);
+				// 	   let channel_type = this.customNotifications[notification_index].notification_channel;
+				// 	   let phone_numbers = this.customNotifications[notification_index].phone_number;
+				// 	   if (channel_type === 'sms') {
+				// 		   let phone_index = 0;
+				// 		   for (let phone of phone_numbers) {
+				// 			   this.addIntlPhoneInput('phone_number' + notification_index + '_' + phone_index, 'phone_number' + notification_index + '[]');
+				// 			   phone_index++;
+				// 		   }
+				// 	   }
+				//    }
+			   // });
+		   },
+		   methods: {
+			normalizer(node) {
+			 	return {
+					id: node.id,
+					label: node.label,
+					customLabel: node.customLabel,
+					children: node.children,
+				}
+			},
+			clickAddNotification() {
 				this.customNotifications.push({
 					id: null,
 					customNotification: '1',
 					notification_type: null,
 					notification_name: '',
 					notification_channel: null,
-					phone_number: '',
-					email: '',
+					phone_number: [{value:''}],
+					email: [{value:''}],
 					user_type: null,
 					notification_content: ''
 				})
 			},
 			removeNotification(index){
-				this.customNotifications.splice(index, 1);
+			this.customNotifications.splice(index, 1);
 			},
+			addEmail(notification_index) {
+				this.customNotifications[notification_index].email.push({value:""});
+			},
+		    removeEmail(notification_index, item_index) {
+			    this.customNotifications[notification_index].email.splice(item_index, 1);
+		    },
+		    addPhone(notification_index) {
+				this.customNotifications[notification_index].phone_number.push({value:""});
+				//Intlinput code
+				// setTimeout(() => {
+				// 	let phone_index = this.customNotifications[notification_index].phone_number.length -1;
+				// 	this.addIntlPhoneInput('phone_number' + notification_index + '_' + phone_index, 'phone_number' + notification_index + '[]')
+				// }, 300);
+			},
+		    removePhone(notification_index, item_index) {
+			    this.customNotifications[notification_index].phone_number.splice(item_index, 1);
+		    },
+		   onChangeChannel(notification_index) {
+				//Intlinput
+				// setTimeout(() => {
+				// 	let channel_type = this.customNotifications[notification_index].notification_channel;
+				// 	let phone_numbers = this.customNotifications[notification_index].phone_number;
+				// 	if (channel_type === 'sms') {
+				// 		let phone_index = 0;
+				// 		for (let phone of phone_numbers) {
+				// 			this.addIntlPhoneInput('phone_number' + notification_index + '_' + phone_index, 'phone_number' + notification_index + '[]');
+				// 			phone_index++;
+				// 		}
+				// 	}
+				// }, 300);
+		   },
+		   addIntlPhoneInput(input_id, name) {
+			   let phone_input = document.getElementById(input_id);
+			   intlTelInput(phone_input, {
+				   hiddenInput: name,
+				   initialCountry: 'IE',
+				   separateDialCode: true,
+				   preferredCountries: ['IE', 'GB'],
+				   utilsScript: "{{asset('js/intlTelInput/utils.js')}}"
+			   });
+		   }
       	}
         });
         
@@ -304,7 +386,7 @@ Vue.use('vue-cascader-select');
  		$("#notificationSubTypeDiv").html('');
  	}
  } */ 
- 
+
  function changeNotificationSubType(){
  	var notificationChannel = $('#notificationChannelSelect').val();
  	console.log(notificationChannel);

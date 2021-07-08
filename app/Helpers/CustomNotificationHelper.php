@@ -44,9 +44,15 @@ class CustomNotificationHelper
         }
         foreach ($customNotifications as $notification) {
             if ($notification->channel == 'sms') {
-                TwilioHelper::sendSMS('DoOrder', $notification->send_to, $notification->content);
+                $contacts = json_decode($notification->send_to, true);
+                foreach ($contacts as $contact) {
+                    TwilioHelper::sendSMS('DoOrder', $contact->value, $notification->content);
+                }
             } else if ($notification->channel == 'email') {
-                Mail::to($notification->send_to)->send(new \App\Mail\CustomNotification($notification->content, $title));
+                $contacts = json_decode($notification->send_to, true);
+                foreach ($contacts as $contact) {
+                    Mail::to($contact)->send(new \App\Mail\CustomNotification($notification->content, $title));
+                }
             } else {
                 //Platform Notification
                 Redis::publish('doorder-channel', json_encode([

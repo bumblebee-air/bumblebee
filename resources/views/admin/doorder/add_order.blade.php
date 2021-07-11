@@ -12,6 +12,13 @@
         <div class="container-fluid">
             <div class="container-fluid">
                 <div class="row">
+                    <form id="order-form" method="POST" action="{{url('doorder/orders/import')}}" enctype="multipart/form-data">
+                        {{csrf_field()}}
+                        <input type="file" name="orders-file"/>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+                <div class="row">
                     <div class="col-md-12">
                         <form id="order-form" method="POST" action="{{route('doorder_saveNewOrder', 'doorder')}}" onsubmit="submitForm(event)">
                             {{csrf_field()}}

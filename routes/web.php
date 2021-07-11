@@ -295,6 +295,7 @@ Route::group([
         Route::get('orders', 'doorder\OrdersController@getOrdersTable')->name('doorder_ordersTable');
         Route::get('orders/history', 'doorder\OrdersController@getOrdersHistoryTable')->name('doorder_ordersHistoryTable');
         Route::get('single-order/{id}', 'doorder\OrdersController@getSingleOrder')->name('doorder_singleOrder');
+        Route::post('orders/import', 'doorder\OrdersController@postImportOrders')->name('doorder_addNewOrder');
 
         Route::group([
             'middleware' => "client"

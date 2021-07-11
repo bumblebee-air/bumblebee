@@ -5,13 +5,16 @@ namespace App\Http\Controllers\doorder;
 use App\DriverProfile;
 use App\Helpers\CustomNotificationHelper;
 use App\Helpers\TwilioHelper;
+use App\Imports\OrdersImport;
 use App\Order;
+use App\Retailer;
 use App\User;
 use App\UserFirebaseToken;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redis;
+use Maatwebsite\Excel\Facades\Excel;
 use Twilio\Rest\Client;
 
 class OrdersController extends Controller
@@ -212,7 +215,18 @@ class OrdersController extends Controller
             return view('admin.doorder.orders_history', ['orders' => $orders]);
         }
     }
-    
+
+    public function postImportOrders(Request $request){
+        $current_user = \Auth::user();
+        $retailer_profile = Retailer::where('user_id','=',$current_user->id)->first();
+        if(!$retailer_profile){
+            alert()->error('No retailer profile found!');
+            return redirect()->back();
+        }
+        Excel::import(new OrdersImport($retailer_profile->id), $request->file('orders-file'));
+        alert()->success('The orders have been imported successfully');
+        return redirect()->back();
+    }
     
     public function deleteOrder(Request $request)
     {

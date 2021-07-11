@@ -128,6 +128,10 @@ class OrdersController extends Controller
     }
 
     public function assignDriverToOrder(Request $request){
+        //dd($request);
+        alert()->success("The order has been successfully assigned to the drivers");
+        return redirect()->to('doorder/orders');
+        
         $order_id = $request->get('order_id');
         $driver_id = $request->get('driver_id');
         $order = Order::find($order_id);

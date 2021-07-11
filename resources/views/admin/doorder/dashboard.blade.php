@@ -295,6 +295,9 @@ table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
 
 <script type="text/javascript">
 	$( document ).ready(function() {
+	
+        	$('#minimizeSidebar').trigger('click')
+	
             $( ".inputDate" ).datepicker({
             	maxDate: new Date()
             });

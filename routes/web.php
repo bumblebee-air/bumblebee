@@ -301,6 +301,7 @@ Route::group([
             'middleware' => "client"
         ], function () {
             Route::post('order/assign', 'doorder\OrdersController@assignDriverToOrder')->name('doorder_assignOrder');
+            Route::post('order/delete', 'doorder\OrdersController@deleteOrder')->name('doorder_deleteOrderOrder');
             Route::get('admin-map', 'doorder\DashboardController@getAdminMap')->name('doorder_adminMap');
             // Drivers
             Route::get('drivers/requests', 'doorder\DriversController@getDriverRegistrationRequests')->name('doorder_drivers_requests');

@@ -109,19 +109,19 @@ class OrdersController extends Controller
         }
         //dd($order);
         $accepted_deliverers = DriverProfile::where('is_confirmed','=',1)->get();
-        $user_ids = [];
+       /*  $user_ids = [];
         foreach($accepted_deliverers as $deliverer){
             $user_ids[] = $deliverer->user_id;
         }
         //$available_drivers = User::where('user_role','=','driver')->get();
-        $available_drivers = User::whereIn('id',$user_ids)->get();
+        $available_drivers = User::whereIn('id',$user_ids)->get(); */
         $customer_name = explode(' ',$order->customer_name);
         $first_name = $customer_name[0];
         $last_name = isset($customer_name[1])? $customer_name[1] : '';
         $order->first_name = $first_name;
         $order->last_name = $last_name;
         return view('admin.doorder.single_order', ['order' => $order,
-            'available_drivers'=>$available_drivers]);
+            'available_drivers'=>$accepted_deliverers]);
     }
 
     public function assignDriverToOrder(Request $request){
@@ -211,5 +211,13 @@ class OrdersController extends Controller
         } else {
             return view('admin.doorder.orders_history', ['orders' => $orders]);
         }
+    }
+    
+    
+    public function deleteOrder(Request $request)
+    {
+        // dd( $request);
+        alert()->success('The order deleted successfully');
+        return redirect()->to('doorder/orders');
     }
 }

@@ -128,14 +128,11 @@ class OrdersController extends Controller
     }
 
     public function assignDriverToOrder(Request $request){
-        //dd($request);
-        alert()->success("The order has been successfully assigned to the drivers");
-        return redirect()->to('doorder/orders');
-        
+        //dd($request->all());
         $order_id = $request->get('order_id');
-        $driver_id = $request->get('driver_id');
+        $selected_drivers = $request->get('selected-driver');
         $order = Order::find($order_id);
-        $send_to_all = $driver_id=='all';
+        //$send_to_all = $driver_id=='all';
         $driver = null;
         $driver_ids = [];
         $old_driver = null;
@@ -143,7 +140,12 @@ class OrdersController extends Controller
             alert()->error( 'No order was found!');
             return redirect()->back();
         }
-        if(!$send_to_all) {
+        $drivers_count = count($selected_drivers);
+        if($drivers_count<1){
+            alert()->error( 'No drivers were selected!');
+            return redirect()->back();
+        }
+        /*if(!$send_to_all) {
             $driver = User::where('id', '=', $driver_id)->where('user_role', '=', 'driver')->first();
             $old_driver = $order->orderDriver;
             if(!$driver) {
@@ -165,6 +167,29 @@ class OrdersController extends Controller
             $notification_message = "Order #$order->order_id has been assigned to you";
             $sms_message = "Hi $driver->name, there is an order assigned to you, please open your app. ".
                 url('driver_app#/order-details/'.$order->id);
+        }*/
+        $notification_message = '';
+        $sms_message = '';
+        foreach($selected_drivers as $selected_driver){
+            $driver = User::where('id', '=', $selected_driver)->where('user_role', '=', 'driver')->first();
+            $old_driver = $order->orderDriver;
+            if($drivers_count==1) {
+                if(!$driver) {
+                    alert()->error('This driver is invalid!');
+                    return redirect()->back();
+                }
+                $order->driver = $selected_driver;
+                $order->status = 'assigned';
+                $order->driver_status = 'assigned';
+                $order->save();
+                $notification_message = "Order #$order->order_id has been assigned to you";
+                $sms_message = "Hi $driver->name, there is an order assigned to you, please open your app. ".
+                    url('driver_app#/order-details/'.$order->id);
+            } else {
+                $notification_message = "Order #$order->order_id has been added to the available orders list";
+                $sms_message = "Hi, a new order #$order->order_id has been added to the available orders list";
+            }
+            $driver_ids[] = $selected_driver;
         }
         //Send Assignment Notification
         $user_tokens = UserFirebaseToken::whereIn('user_id', $driver_ids)->get()->pluck('token')->toArray();
@@ -176,7 +201,7 @@ class OrdersController extends Controller
             ]);
         }
         //SMS Assignment Notification
-        if($send_to_all){
+        if($drivers_count>1){
             foreach($driver_ids as $an_id){
                 $driver_profile = DriverProfile::find($an_id);
                 if($driver_profile){

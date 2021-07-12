@@ -802,47 +802,55 @@ z-index: 1000 !important;
                     fillOpacity: 0.4,
             	});
             
-             var drivers = {!! $available_drivers !!};
+			let drivers = {!! $available_drivers !!};
             console.log(drivers);
-            for(var i=0; i<drivers.length; i++){
-            	let driver_coordinates = JSON.parse(drivers[i].latest_coordinates);
-            	console.log(driver_coordinates);
+            for(let i=0; i<drivers.length; i++){
+            	if(drivers[i].latest_coordinates!=null) {
+					let driver_coordinates = JSON.parse(drivers[i].latest_coordinates);
+					console.log(driver_coordinates);
 
-            	var driver_marker = new google.maps.Marker({
-                    map: map,
-					icon: {
-						url:"{{asset('images/doorder_driver_assets/deliverer-location-pin.png')}}", // url
-					scaledSize: new google.maps.Size(40, 45), // scaled size
-					},
-                });
-                driver_marker.setPosition({lat: parseFloat(driver_coordinates.lat), lng: parseFloat(driver_coordinates.lng)});
-                driver_marker.setVisible(true);
-                
-                //getDriverKmAway(directionsService,JSON.parse(drivers[i].latest_coordinates),drivers[i].user_id);
-                 console.log( google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(parseFloat(customer_address_lat),parseFloat(customer_address_lon)),
-                 					new google.maps.LatLng(parseFloat(driver_coordinates.lat),parseFloat(driver_coordinates.lng)) ))
-                  var distance = google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(parseFloat(customer_address_lat),parseFloat(customer_address_lon)),
-                 					new google.maps.LatLng(parseFloat(driver_coordinates.lat),parseFloat(driver_coordinates.lng)) );					 
-                  $("#km-away-"+drivers[i].user_id+" span").html(parseFloat(distance/1000).toFixed(2) +" km");
-                  $('#driver-'+drivers[i].user_id).data('driverkmaway',parseFloat(distance/1000).toFixed(2)); //setter	
-                  $('#driver-'+drivers[i].user_id+' .driverCheckbox').data('driver-away',parseFloat(distance/1000).toFixed(2))
-                 
-                  var infowindow = new google.maps.InfoWindow();
-                  
-                  var content = '<div> <h6 class="recommendDriverNameH6 deliverer-name">'+drivers[i].first_name +' ' + drivers[i].last_name
-                    		+' </h6> <p class="recommendDriverDataP"> ' + drivers[i].transport +' ('
-                    		+ parseFloat(distance/1000).toFixed(2) +'km away) </p> </div>'
-                  var winLatLng = new google.maps.LatLng(parseFloat(driver_coordinates.lat),parseFloat(driver_coordinates.lng));
-                  
-                   google.maps.event.addListener(driver_marker, 'click', (function(driver_marker,content,infowindow,winLatLng){ 
-                            return function() {
-                              infowindow.setContent(content);
-                              //infowindow.setPosition(winLatLng);
-                              infowindow.open(map,driver_marker);     
-                            };
-                        })(driver_marker,content,infowindow,winLatLng)); 
-                   //   google.maps.event.trigger(driver_marker, 'click');
-            	
+					let driver_marker = new google.maps.Marker({
+						map: map,
+						icon: {
+							url: "{{asset('images/doorder_driver_assets/deliverer-location-pin.png')}}", // url
+							scaledSize: new google.maps.Size(40, 45), // scaled size
+						},
+					});
+					driver_marker.setPosition({
+						lat: parseFloat(driver_coordinates.lat),
+						lng: parseFloat(driver_coordinates.lng)
+					});
+					driver_marker.setVisible(true);
+
+					//getDriverKmAway(directionsService,JSON.parse(drivers[i].latest_coordinates),drivers[i].user_id);
+					console.log(google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(parseFloat(customer_address_lat), parseFloat(customer_address_lon)),
+							new google.maps.LatLng(parseFloat(driver_coordinates.lat), parseFloat(driver_coordinates.lng))))
+					var distance = google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(parseFloat(customer_address_lat), parseFloat(customer_address_lon)),
+							new google.maps.LatLng(parseFloat(driver_coordinates.lat), parseFloat(driver_coordinates.lng)));
+					$("#km-away-" + drivers[i].user_id + " span").html(parseFloat(distance / 1000).toFixed(2) + " km");
+					$('#driver-' + drivers[i].user_id).data('driverkmaway', parseFloat(distance / 1000).toFixed(2)); //setter
+					$('#driver-' + drivers[i].user_id + ' .driverCheckbox').data('driver-away', parseFloat(distance / 1000).toFixed(2));
+
+					var infowindow = new google.maps.InfoWindow();
+
+					var content = '<div> <h6 class="recommendDriverNameH6 deliverer-name">' + drivers[i].first_name + ' ' + drivers[i].last_name
+							+ ' </h6> <p class="recommendDriverDataP"> ' + drivers[i].transport + ' ('
+							+ parseFloat(distance / 1000).toFixed(2) + 'km away) </p> </div>'
+					var winLatLng = new google.maps.LatLng(parseFloat(driver_coordinates.lat), parseFloat(driver_coordinates.lng));
+
+					google.maps.event.addListener(driver_marker, 'click', (function (driver_marker, content, infowindow, winLatLng) {
+						return function () {
+							infowindow.setContent(content);
+							//infowindow.setPosition(winLatLng);
+							infowindow.open(map, driver_marker);
+						};
+					})(driver_marker, content, infowindow, winLatLng));
+					//   google.maps.event.trigger(driver_marker, 'click');
+				} else {
+					$("#km-away-" + drivers[i].user_id + " span").html("N/A" + " km");
+					$('#driver-' + drivers[i].user_id).data('driverkmaway', '999999'); //setter
+					$('#driver-' + drivers[i].user_id + ' .driverCheckbox').data('driver-away', '999999');
+				}
             }
         }  
 

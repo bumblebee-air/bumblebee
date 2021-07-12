@@ -804,23 +804,19 @@ z-index: 1000 !important;
             
              var drivers = {!! $available_drivers !!};
             console.log(drivers);
-            for(var i=0; i<drivers.length; i++){	
-            	console.log(drivers[i].latest_coordinates);
-            	
-            	
-            	
+            for(var i=0; i<drivers.length; i++){
+            	let driver_coordinates = JSON.parse(drivers[i].latest_coordinates);
+            	console.log(driver_coordinates);
+
             	var driver_marker = new google.maps.Marker({
                     map: map,
-                   
-                            icon: {
-                                url:"{{asset('images/doorder_driver_assets/deliverer-location-pin.png')}}", // url
-                            scaledSize: new google.maps.Size(40, 45), // scaled size
-                            },
+					icon: {
+						url:"{{asset('images/doorder_driver_assets/deliverer-location-pin.png')}}", // url
+					scaledSize: new google.maps.Size(40, 45), // scaled size
+					},
                 });
-                driver_marker.setPosition(JSON.parse(drivers[i].latest_coordinates));
+                driver_marker.setPosition({lat: parseFloat(driver_coordinates.lat), lng: parseFloat(driver_coordinates.lng)});
                 driver_marker.setVisible(true);
-                
-                var driver_coordinates = JSON.parse(drivers[i].latest_coordinates);
                 
                 //getDriverKmAway(directionsService,JSON.parse(drivers[i].latest_coordinates),drivers[i].user_id);
                  console.log( google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(parseFloat(customer_address_lat),parseFloat(customer_address_lon)),

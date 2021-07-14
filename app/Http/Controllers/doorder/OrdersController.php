@@ -259,7 +259,10 @@ class OrdersController extends Controller
     
     public function deleteOrder(Request $request)
     {
-        // dd( $request);
+        $this->validate($request, [
+            'orderId' => 'required|exists:orders,id'
+        ]);
+        Order::find($request->orderId)->delete();
         alert()->success('The order deleted successfully');
         return redirect()->to('doorder/orders');
     }

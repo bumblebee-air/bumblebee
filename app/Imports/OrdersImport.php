@@ -113,10 +113,19 @@ class OrdersImport implements ToCollection,WithHeadingRow {
 
     public function calcFulfillTime($date_time):int {
         $fulfillment_time = 0;
-        $parsed_date_time = Carbon::createFromFormat('d M Y, H:ia e', $date_time);
-        $now = Carbon::now();
-        if ($parsed_date_time->getTimestamp() > $now->getTimestamp()) {
-            $fulfillment_time = $parsed_date_time->diffInMinutes($now);
+        try {
+            //check if date start with space
+            if (substr($date_time, 0, 1) == ' ') {
+                $date_time = substr($date_time, 1);
+            }
+            $parsed_date_time = Carbon::createFromFormat('d M Y, H:ia e', $date_time);
+            $now = Carbon::now();
+            if ($parsed_date_time->getTimestamp() > $now->getTimestamp()) {
+                $fulfillment_time = $parsed_date_time->diffInMinutes($now);
+            }
+        } catch (\Exception $e) {
+            Log::info($date_time);
+            Log::error($e->getMessage());
         }
         return $fulfillment_time;
     }

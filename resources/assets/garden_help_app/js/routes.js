@@ -8,6 +8,7 @@ import ForgotPasswordComponent from "./components/ForgotPasswordComponent";
 import ProfileComponent from "./components/ProfileComponent";
 import JobFinalizingComponent from './components/JobFinalizingComponent';
 import UpdateWorkingHours from "./components/UpdateWorkingHoursComponent";
+import PageNotFound from './components/PageNotFoundComponent'
 
 const router = new VueRouter({
     routes: [
@@ -17,7 +18,7 @@ const router = new VueRouter({
             name: 'login',
             component: LoginComponent,
             beforeEnter: (to, from, next) => checkIfAuthed(to, from, next)
-        },
+        },// dynamic segments start with a colon
         {
             path: '/forgot-password',
             name: 'forgot-password',
@@ -75,7 +76,12 @@ const router = new VueRouter({
                     beforeEnter: (to, from, next) => redirectIfNotAuthed(to, from, next),
                 }
             ]
-        }
+        },
+        {
+            path: '*',
+            name: '404',
+            component: PageNotFound,
+        },
     ]
 });
 

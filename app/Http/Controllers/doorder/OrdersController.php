@@ -188,6 +188,10 @@ class OrdersController extends Controller
             } else {
                 $notification_message = "Order #$order->order_id has been added to the available orders list";
                 $sms_message = "Hi, a new order #$order->order_id has been added to the available orders list";
+                $order->status = 'ready';
+                $order->driver = null;
+                $order->driver_status = null;
+                $order->save();
             }
             $driver_ids[] = $selected_driver;
         }

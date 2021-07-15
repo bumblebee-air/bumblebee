@@ -17,7 +17,7 @@
 
 .uploadHeader {
 	font-family: Quicksand;
-	font-size: 20px !important;
+	font-size: 21px !important;
 	font-weight: 500;
 	font-stretch: normal;
 	font-style: normal;
@@ -25,7 +25,16 @@
 	letter-spacing: 0.2px !important;
 	color: #7b7b7b !important;
 }
-
+.addressLabel{
+font-family: Quicksand;
+  font-size: 21px !important;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 1.16px !important;
+  color: #4d4d4d !important;
+}
 .uploadDiv {
 	padding: 10px;
 	border-radius: 8px;
@@ -89,38 +98,52 @@
 	font-family: Quicksand;
 	font-size: 14px;
 	font-weight: 400;
-	 display: inline-block;
-    overflow: hidden;
-    text-align: left;
-    white-space: normal;
-    width: 100%;
-    word-wrap: break-word;
+	display: inline-block;
+	overflow: hidden;
+	text-align: left;
+	white-space: normal;
+	width: 100%;
+	word-wrap: break-word;
 }
 
 .dropdown-menu.show {
 	width: inherit;
 }
-.bootstrap-select .btn.dropdown-toggle.select-with-transition{
-height: 50px;
-background-color: #f4f4f4 !important;
+
+.bootstrap-select .btn.dropdown-toggle.select-with-transition {
+	height: 50px;
+/* 	background-color: #f4f4f4 !important; */
+  box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08) !important;
+
 }
+.bootstrap-select .btn.dropdown-toggle.select-with-transition:focus{
+  box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08) !important;
+}
+
 .bootstrap-select .dropdown-toggle .filter-option {
 	font-family: Quicksand;
 	font-size: 17px;
 	font-weight: 500;
 	font-stretch: normal;
 	font-style: normal;
-	letter-spacing: 0.16px;}
-.btn.dropdown-toggle.select-with-transition{
-height: auto}
-.btn.dropdown-toggle.select-with-transition	.filter-option .filter-option-inner .filter-option-inner-inner{
-
-    overflow: hidden;
-    white-space: normal;
-    width: 100%;
-    word-wrap: break-word;
+	letter-spacing: 0.16px;
 }
-	
+
+.btn.dropdown-toggle.select-with-transition {
+	height: auto
+}
+
+.btn.dropdown-toggle.select-with-transition	.filter-option .filter-option-inner .filter-option-inner-inner
+	{
+	overflow: hidden;
+	white-space: normal;
+	width: 90%;
+	word-wrap: break-word;
+	position: absolute;
+	top: 50%;
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
 </style>
 @endsection @section('title','DoOrder | Upload Mass Order')
 @section('page-content')
@@ -169,10 +192,10 @@ height: auto}
 											</div>
 										</div>
 									</div>
-									<div class="row">
+									<div class="row mt-4">
 										<div class="col-md-10 offset-md-1">
 											<div class="form-group">
-												<label for="address" class=" uploadHeader"> Address </label>
+												<label for="address" class=" addressLabel"> Address </label>
 												<select id="address" name="address"
 													data-style="select-with-transition" data-width="100%"
 													class=" selectpicker" required>

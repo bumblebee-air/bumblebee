@@ -203,9 +203,9 @@ class OrdersController extends Controller
         //SMS Assignment Notification
         if($drivers_count>1){
             foreach($driver_ids as $an_id){
-                $driver_profile = DriverProfile::find($an_id);
-                if($driver_profile){
-                    TwilioHelper::sendSMS('DoOrder', $driver_profile->phone, $sms_message);
+                $user_profile = User::find($an_id);
+                if($user_profile){
+                    TwilioHelper::sendSMS('DoOrder', $user_profile->phone, $sms_message);
                 }
             }
             alert()->success("The accepted drivers have been notified about the order successfully");

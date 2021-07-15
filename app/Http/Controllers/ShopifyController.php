@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Order;
 use App\Retailer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 
 class ShopifyController extends Controller
@@ -17,6 +19,8 @@ class ShopifyController extends Controller
             return response()->json(['error'=>1,'message'=>'Unregistered on platform']);
         }
         $retailer_id = $retailer->id;
+        $retailer_locations = json_decode($retailer->locations_details, true);
+        $retailer_first_location_coordinates = count($retailer_locations) > 0 ? json_decode($retailer_locations[0]['coordinates'], true) : null;
         $shop = "https://" . $retailer->shopify_store_domain;
         $shopName = $retailer->shopify_store_domain;
         $api_key = $retailer->shopify_app_api_key;
@@ -146,15 +150,16 @@ class ShopifyController extends Controller
                     $paid = isset($aWebhook['paid'])? $aWebhook['paid'] : null;
                     $notes = isset($aWebhook['notes'])? $aWebhook['notes'] : null;
                     $retailer_name = isset($aWebhook['retailer_name'])? $aWebhook['retailer_name'] : null;
-                    $pickup_address = isset($aWebhook['pickup_address'])? $aWebhook['pickup_address'] : null;
-                    $pickup_lat = isset($aWebhook['pickup_lat'])? $aWebhook['pickup_lat'] : null;
-                    $pickup_lon = isset($aWebhook['pickup_lon'])? $aWebhook['pickup_lon'] : null;
+                    $pickup_address = count($retailer_locations) > 0 ? $retailer_locations[0]['address'] : (isset($aWebhook['pickup_address'])? $aWebhook['pickup_address'] : null);
+                    $pickup_lat = $retailer_first_location_coordinates ? $retailer_first_location_coordinates['lat'] : (isset($aWebhook['pickup_lat'])? $aWebhook['pickup_lat'] : null);
+                    $pickup_lon = $retailer_first_location_coordinates ? $retailer_first_location_coordinates['lon'] : (isset($aWebhook['pickup_lon'])? $aWebhook['pickup_lon'] : null);
                     $customer_name = isset($aWebhook['customer_name'])? $aWebhook['customer_name'] : null;
                     $customer_phone = isset($aWebhook['customer_phone'])? $aWebhook['customer_phone'] : null;
                     $customer_email = isset($aWebhook['customer_email'])? $aWebhook['customer_email'] : null;
                     $customer_address = isset($aWebhook['customer_address'])? $aWebhook['customer_address'] : null;
-                    $customer_address_lat = isset($aWebhook['customer_address_lat'])? $aWebhook['customer_address_lat'] : null;
-                    $customer_address_lon = isset($aWebhook['customer_address_lon'])? $aWebhook['customer_address_lon'] : null;
+                    $customer_address_coordinates = $this->getCustomerAddressCoordinates($aWebhook['customer_address'] ?: null);
+                    $customer_address_lat = $customer_address_coordinates['lat'];
+                    $customer_address_lon = $customer_address_coordinates['lng'];
                     //$status = 'ready';
                     $status = 'pending';
 
@@ -176,6 +181,7 @@ class ShopifyController extends Controller
                     $order->customer_address_lat = $customer_address_lat;
                     $order->customer_address_lon = $customer_address_lon;
                     $order->status = $status;
+                    $order->fulfilment = 0;
                     $order->eircode = ($orders['shipping_address']['zip']!=null && $orders['shipping_address']['zip']!='')? $orders['shipping_address']['zip'] : 'N/A';
                     $order->save();
                 } catch (\Exception $exception){
@@ -230,5 +236,23 @@ class ShopifyController extends Controller
     function verify_webhook($data, $hmac_header, $app_secret){
         $calculated_hmac = base64_encode(hash_hmac('sha256', $data, $app_secret, true));
         return hash_equals($hmac_header, $calculated_hmac);
+    }
+
+    public function getCustomerAddressCoordinates($address):array {
+        $coordinates = ['lat' => null, 'lng' => null];
+        try {
+            $query = http_build_query(['address' => $address, 'key' => env('GOOGLE_API_KEY', '')]);
+            $url = "https://maps.googleapis.com/maps/api/geocode/json?$query";
+            $response = Http::get($url);
+            $response_body = json_decode($response->body(), true);
+            if ($response->status() == 200) {
+                if ($response_body['status'] == 'OK') {
+                    $coordinates = $response_body['results'][0]['geometry']['location'];
+                }
+            }
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
+        return $coordinates;
     }
 }

@@ -15,8 +15,10 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 class OrdersImport implements ToCollection,WithHeadingRow {
     public $retailer_id = null;
-    public function  __construct($retailer_id) {
+    public $retailer_address = null;
+    public function  __construct($retailer_id, $retailer_address) {
         $this->retailer_id = $retailer_id;
+        $this->retailer_address = $retailer_address;
     }
 
     public function collection(Collection $collection) {
@@ -43,11 +45,10 @@ class OrdersImport implements ToCollection,WithHeadingRow {
             }
             //Add new order
             $retailer_profile = Retailer::find($this->retailer_id);
-            $retailer_locations = json_decode($retailer_profile->locations_details);
-            $retailer_main_location = $retailer_locations[0];
-            $retailer_main_location->coordinates = str_replace('lat','"lat"',$retailer_main_location->coordinates);
-            $retailer_main_location->coordinates = str_replace('lon','"lon"',$retailer_main_location->coordinates);
-            $retailer_main_location_coordinates = json_decode($retailer_main_location->coordinates);
+            $retailer_main_location = $this->retailer_address;
+            $retailer_main_location['coordinates'] = str_replace('lat','"lat"',$retailer_main_location['coordinates']);
+            $retailer_main_location['coordinates'] = str_replace('lon','"lon"',$retailer_main_location['coordinates']);
+            $retailer_main_location_coordinates = json_decode($retailer_main_location['coordinates']);
             $order = Order::create([
                 'customer_name' => $customer_name,
                 'order_id' => $order_number,
@@ -57,7 +58,7 @@ class OrdersImport implements ToCollection,WithHeadingRow {
                 'customer_address_lat' => $customer_lat,
                 'customer_address_lon' => $customer_lon,
                 'eircode' => 'N/A',
-                'pickup_address' => $retailer_main_location->address,
+                'pickup_address' => $retailer_main_location['address'],
                 'pickup_lat' => $retailer_main_location_coordinates->lat,
                 'pickup_lon' => $retailer_main_location_coordinates->lon,
                 'fulfilment' => $fulfilled_time?? null,

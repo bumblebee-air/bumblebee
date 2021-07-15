@@ -251,21 +251,26 @@ class OrdersController extends Controller
         if ($user_profile) {
             $pickup_addresses = json_decode($user_profile->locations_details, true);
         }
-       // dd($pickup_addresses);
         return view('admin.doorder.upload_orders', ['pickup_addresses' => $pickup_addresses]);
     }
     
     public function postImportOrders(Request $request){
-        dd($request);
         $current_user = \Auth::user();
         $retailer_profile = Retailer::where('user_id','=',$current_user->id)->first();
         if(!$retailer_profile){
             alert()->error('No retailer profile found!');
             return redirect()->back();
         }
-        Excel::import(new OrdersImport($retailer_profile->id), $request->file('orders-file'));
+        $address = null;
+        if ($request->address) {
+            $address = json_decode($request->address, true);
+        } else {
+            $retailer_locations = json_decode($retailer_profile->locations_details, true);
+            $address = $retailer_locations[0];
+        }
+        Excel::import(new OrdersImport($retailer_profile->id, $address), $request->file('orders-file'));
         alert()->success('The orders have been imported successfully');
-        return redirect()->back();
+        return redirect()->to('doorder/orders');
     }
     
     public function deleteOrder(Request $request)

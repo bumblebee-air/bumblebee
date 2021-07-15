@@ -178,7 +178,7 @@ height: auto}
 													class=" selectpicker" required>
 													<option value="">Select address</option>
 													@foreach($pickup_addresses as $address)
-													<option value="{{$address['address']}}">{{$address['address']}}</option>
+													<option value="{{json_encode($address)}}">{{$address['address']}}</option>
 													@endforeach
 												</select>
 											</div>

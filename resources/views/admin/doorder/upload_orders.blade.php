@@ -100,7 +100,10 @@
 .dropdown-menu.show {
 	width: inherit;
 }
-
+.bootstrap-select .btn.dropdown-toggle.select-with-transition{
+height: 50px;
+background-color: #f4f4f4 !important;
+}
 .bootstrap-select .dropdown-toggle .filter-option {
 	font-family: Quicksand;
 	font-size: 17px;
@@ -172,7 +175,7 @@ height: auto}
 												<label for="address" class=" uploadHeader"> Address </label>
 												<select id="address" name="address"
 													data-style="select-with-transition" data-width="100%"
-													class="form-control selectpicker" required>
+													class=" selectpicker" required>
 													<option value="">Select address</option>
 													@foreach($pickup_addresses as $address)
 													<option value="{{$address['address']}}">{{$address['address']}}</option>

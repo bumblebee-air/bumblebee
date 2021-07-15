@@ -285,6 +285,9 @@ td {
 	background: #e8ca49;
 	color: #ffffff
 }
+.dropdown-menu .dropdown-item:focus, .dropdown-menu .dropdown-item:hover, .dropdown-menu a:active, .dropdown-menu a:focus, .dropdown-menu a:hover{
+	box-shadow: 0 4px 20px 0 rgb(0 0 0 / 14%), 0 7px 10px -5px rgb(232 202 73 / 40%)
+}
 
 .pagination>.page-item.active>a, .pagination>.page-item.active>a:focus,
 	.pagination>.page-item.active>a:hover, .pagination>.page-item.active>span,

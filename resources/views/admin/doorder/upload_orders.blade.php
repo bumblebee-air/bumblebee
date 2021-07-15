@@ -17,13 +17,13 @@
 
 .uploadHeader {
 	font-family: Quicksand;
-	font-size: 21px;
+	font-size: 20px !important;
 	font-weight: 500;
 	font-stretch: normal;
 	font-style: normal;
 	line-height: 2.14;
-	letter-spacing: 0.2px;
-	color: #7b7b7b;
+	letter-spacing: 0.2px !important;
+	color: #7b7b7b !important;
 }
 
 .uploadDiv {
@@ -32,7 +32,8 @@
 	border: dashed 1px #979797;
 	background-color: #f4f4f4;
 }
-.uploadedFilesDiv{
+
+.uploadedFilesDiv {
 	padding: 10px;
 	border-radius: 8px;
 }
@@ -48,17 +49,16 @@
 	color: #bfbfbf;
 }
 
-
-.uploadedFilesDiv .uploadFileP{
-font-family: Quicksand;
-  font-size: 21px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 2.14;
-  letter-spacing: 0.2px;
-  color: #7b7b7b;
-  opacity: 0.5;
+.uploadedFilesDiv .uploadFileP {
+	font-family: Quicksand;
+	font-size: 21px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 2.14;
+	letter-spacing: 0.2px;
+	color: #7b7b7b;
+	opacity: 0.5;
 }
 
 .inputFileHidden {
@@ -73,16 +73,51 @@ font-family: Quicksand;
 	font-size: 18px;
 	width: 220px
 }
-#orders_file_input{
-font-family: Quicksand;
-  font-size: 21px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 2.14;
-  letter-spacing: 0.2px;
-  color: #000000;
+
+#orders_file_input {
+	font-family: Quicksand;
+	font-size: 21px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 2.14;
+	letter-spacing: 0.2px;
+	color: #000000;
 }
+
+.dropdown-menu.inner.show li a {
+	font-family: Quicksand;
+	font-size: 14px;
+	font-weight: 400;
+	 display: inline-block;
+    overflow: hidden;
+    text-align: left;
+    white-space: normal;
+    width: 100%;
+    word-wrap: break-word;
+}
+
+.dropdown-menu.show {
+	width: inherit;
+}
+
+.bootstrap-select .dropdown-toggle .filter-option {
+	font-family: Quicksand;
+	font-size: 17px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	letter-spacing: 0.16px;}
+.btn.dropdown-toggle.select-with-transition{
+height: auto}
+.btn.dropdown-toggle.select-with-transition	.filter-option .filter-option-inner .filter-option-inner-inner{
+
+    overflow: hidden;
+    white-space: normal;
+    width: 100%;
+    word-wrap: break-word;
+}
+	
 </style>
 @endsection @section('title','DoOrder | Upload Mass Order')
 @section('page-content')
@@ -131,6 +166,21 @@ font-family: Quicksand;
 											</div>
 										</div>
 									</div>
+									<div class="row">
+										<div class="col-md-10 offset-md-1">
+											<div class="form-group">
+												<label for="address" class=" uploadHeader"> Address </label>
+												<select id="address" name="address"
+													data-style="select-with-transition" data-width="100%"
+													class="form-control selectpicker" required>
+													<option value="">Select address</option>
+													@foreach($pickup_addresses as $address)
+													<option value="{{$address['address']}}">{{$address['address']}}</option>
+													@endforeach
+												</select>
+											</div>
+										</div>
+									</div>
 									<div class="row mt-3">
 										<div class="col-md-10 offset-md-1 text-right">
 											<button class="btn bt-submit">Submit</button>
@@ -157,13 +207,14 @@ font-family: Quicksand;
 								<div class="row">
 									<div class="col-md-10 offset-md-1">
 										<div class="mt-2 uploadedFilesDiv text-center">
-											<p class="mt-2 uploadFileP" id="">Upload your mass order file to appear here</p>
-											
-											
+											<p class="mt-2 uploadFileP" id="">Upload your mass order file
+												to appear here</p>
+
+
 
 										</div>
 										<div class="mt-2">
-										<p id="orders_file_input"> </p>
+											<p id="orders_file_input"></p>
 										</div>
 									</div>
 								</div>
@@ -178,6 +229,7 @@ font-family: Quicksand;
 	</div>
 </div>
 @endsection @section('page-scripts')
+<script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
 <script>
        
 function addFile(id){

@@ -246,10 +246,17 @@ class OrdersController extends Controller
     }
 
     public function importOrders(){
-        return view('admin.doorder.upload_orders');
+        $pickup_addresses = [];
+        $user_profile = auth()->user()->retailer_profile;
+        if ($user_profile) {
+            $pickup_addresses = json_decode($user_profile->locations_details, true);
+        }
+       // dd($pickup_addresses);
+        return view('admin.doorder.upload_orders', ['pickup_addresses' => $pickup_addresses]);
     }
     
     public function postImportOrders(Request $request){
+        dd($request);
         $current_user = \Auth::user();
         $retailer_profile = Retailer::where('user_id','=',$current_user->id)->first();
         if(!$retailer_profile){

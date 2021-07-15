@@ -113,7 +113,7 @@
                                                         @foreach($pickup_addresses as $address)
                                                             <option value="{{$address['address']}}">{{$address['address']}}</option>
                                                         @endforeach
-                                                        <option value="Other">Other</option>
+{{--                                                        <option value="Other">Other</option>--}}
                                                     </select>
                                                     <input type="hidden" name="pickup_lat" id="pickup_lat">
                                                     <input type="hidden" name="pickup_lon" id="pickup_lon">

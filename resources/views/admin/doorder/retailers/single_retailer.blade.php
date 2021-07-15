@@ -601,6 +601,14 @@ $('.addCircle,.removeCircle').css("display","none")
 						//console.log($('#business_hours' + (this.locations.indexOf(item) + 1)).val());
 						//console.log($('#business_hours_json' + (this.locations.indexOf(item) + 1)).val());
 						//console.log("sssss")
+						if ($('#location_' + (this.locations.indexOf(item) + 1) + '_coordinates').val() == null || $('#location_' + (this.locations.indexOf(item) + 1) + '_coordinates').val() == '' || $('#location_' + (this.locations.indexOf(item) + 1) + '_coordinates').val() == undefined) {
+							swal({
+								// title: 'Validation errors',
+								text: 'Location address #'+ (this.locations.indexOf(item) + 1) +' coordinates are not available, please make sure to select an address from the Google suggestions',
+								icon: 'error',
+							});
+							return false;
+						}
 						location_details.push({
 							address: $('#location' + (this.locations.indexOf(item) + 1)).val(),
 							coordinates: $('#location_' + (this.locations.indexOf(item) + 1) + '_coordinates').val(),

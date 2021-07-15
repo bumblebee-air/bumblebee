@@ -296,12 +296,11 @@ Route::group([
         Route::get('orders/history', 'doorder\OrdersController@getOrdersHistoryTable')->name('doorder_ordersHistoryTable');
         Route::get('single-order/{id}', 'doorder\OrdersController@getSingleOrder')->name('doorder_singleOrder');
         Route::post('orders/import', 'doorder\OrdersController@postImportOrders')->name('doorder_addNewOrder');
-
+        Route::post('order/delete', 'doorder\OrdersController@deleteOrder')->name('doorder_deleteOrderOrder');
         Route::group([
             'middleware' => "client"
         ], function () {
             Route::post('order/assign', 'doorder\OrdersController@assignDriverToOrder')->name('doorder_assignOrder');
-            Route::post('order/delete', 'doorder\OrdersController@deleteOrder')->name('doorder_deleteOrderOrder');
             Route::get('admin-map', 'doorder\DashboardController@getAdminMap')->name('doorder_adminMap');
             // Drivers
             Route::get('drivers/requests', 'doorder\DriversController@getDriverRegistrationRequests')->name('doorder_drivers_requests');

@@ -326,6 +326,7 @@ Route::group([
         ], function () {
             Route::get('orders/add', 'doorder\OrdersController@addNewOrder')->name('doorder_addNewOrder');
             Route::post('orders/save', 'doorder\OrdersController@saveNewOrder')->name('doorder_saveNewOrder');
+            Route::get('orders/upload_orders', 'doorder\OrdersController@importOrders')->name('doorder_uploadOrders');
         });
 
         Route::post('driver/delete', 'doorder\DriversController@deleteDriver')->name('doorder_deleteDriver');

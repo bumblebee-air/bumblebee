@@ -245,6 +245,10 @@ class OrdersController extends Controller
         }
     }
 
+    public function importOrders(){
+        return view('admin.doorder.upload_orders');
+    }
+    
     public function postImportOrders(Request $request){
         $current_user = \Auth::user();
         $retailer_profile = Retailer::where('user_id','=',$current_user->id)->first();

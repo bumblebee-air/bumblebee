@@ -399,7 +399,7 @@
 					src="{{asset('images/doorder_icons/add-plus-outline.png')}}" alt="">
 					 <img
 					class="my-nav-icon my-nav-icon-top"
-					src="{{asset('images/doorder_icons/add-plus-outline.png')}}" alt="">
+					src="{{asset('images/doorder_icons/add-plus-outline-yellow.png')}}" alt="">
 					<p>Add New Order</p>
 			</a></li>
 			<li class="nav-item"><a class="nav-link d-flex" href="{{url('/')}}">

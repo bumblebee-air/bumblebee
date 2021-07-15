@@ -1,227 +1,258 @@
-@extends('templates.dashboard')
-
-@section('page-styles')
-    <link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
-    <style>
-       
-    </style>
-@endsection
-@section('title','DoOrder | Add New Order')
+@extends('templates.dashboard') @section('page-styles')
+<link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
+<style>
+#importButton{
+font-size: 14px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.72px;
+    color: #ffffff;
+    border-radius: 12px 0;
+    text-transform: inherit !important;
+    height: auto;
+    padding: 10px;
+}
+</style>
+@endsection @section('title','DoOrder | Add New Order')
 @section('page-content')
-    <div class="content">
-        <div class="container-fluid">
-            <div class="container-fluid">
-                <div class="row">
-                    <form id="order-form" method="POST" action="{{url('doorder/orders/import')}}" enctype="multipart/form-data">
-                        {{csrf_field()}}
-                        <input type="file" name="orders-file"/>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <form id="order-form" method="POST" action="{{route('doorder_saveNewOrder', 'doorder')}}" onsubmit="submitForm(event)">
-                            {{csrf_field()}}
-                            <div class="card">
-                                <div class="card-header card-header-icon card-header-rose">
-                                    <div class="card-icon">
-                                       <img class="page_icon" src="{{asset('images/doorder_icons/add-plus-outline.png')}}">
-                                    </div>
-                                    <h4 class="card-title ">New Order</h4>
-                                </div>
-                                <div class="card-body">
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-md-12 d-flex form-head">
-                                                <span>
-                                                    1
-                                                </span>
-                                                Customer Details
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label for="email" class="control-label">
-                                                        First Name:
-                                                        <span style="color: red">*</span>
-                                                    </label>
-                                                    <input id="first_name" type="text" class="form-control" value="{{old('first_name')}}" name="first_name" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label for="email" class="control-label">
-                                                        Last Name:
-                                                        <span style="color: red">*</span>
-                                                    </label>
-                                                    <input id="last_name" type="text" class="form-control" value="{{old('last_name')}}" name="last_name" required>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label for="email" class="control-label">Email:</label>
-                                                    <input id="email" type="email" class="form-control" value="{{old('email')}}" name="email">
-                                                </div>
-                                            </div>
+<div class="content">
+	<div class="container-fluid">
+		<div class="container-fluid">
+			
+			<div class="row">
+				<div class="col-md-12">
+					<form id="order-form" method="POST"
+						action="{{route('doorder_saveNewOrder', 'doorder')}}"
+						onsubmit="submitForm(event)">
+						{{csrf_field()}}
+						<div class="card">
+							<div class="card-header card-header-icon card-header-rose row">
+								<div class="col-12 col-md-9">
+									<div class="card-icon">
+										<img class="page_icon"
+											src="{{asset('images/doorder_icons/add-plus-outline.png')}}">
+									</div>
+									<h4 class="card-title ">New Order</h4>
+								</div>
+								<div class="col-12 col-md-3 mt-md-2">
+									<a id="importButton" href="{{url('doorder/orders/upload_orders')}}"
+										class="btn btn-primary doorder-btn"
+										style="float: right">Upload mass order</a>
+								</div>
+							</div>
+							<div class="card-body">
+								<div class="container">
+									<div class="row">
+										<div class="col-md-12 d-flex form-head">
+											<span> 1 </span> Customer Details
+										</div>
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label for="email" class="control-label"> First Name: <span
+													style="color: red">*</span>
+												</label> <input id="first_name" type="text"
+													class="form-control" value="{{old('first_name')}}"
+													name="first_name" required>
+											</div>
+										</div>
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label for="email" class="control-label"> Last Name: <span
+													style="color: red">*</span>
+												</label> <input id="last_name" type="text"
+													class="form-control" value="{{old('last_name')}}"
+													name="last_name" required>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label for="email" class="control-label">Email:</label> <input
+													id="email" type="email" class="form-control"
+													value="{{old('email')}}" name="email">
+											</div>
+										</div>
 
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label for="customer_phone" class="control-label">Contact Number:<span style="color: red">*</span></label>
-                                                    <div>
-                                                        <input id="customer_phone" type="tel" class="form-control" value="{{old('customer_phone')}}" required>
-                                                    </div>
-                                                </div>
-                                            </div>
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label for="customer_phone" class="control-label">Contact
+													Number:<span style="color: red">*</span>
+												</label>
+												<div>
+													<input id="customer_phone" type="tel" class="form-control"
+														value="{{old('customer_phone')}}" required>
+												</div>
+											</div>
+										</div>
 
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label for="customer_address" class="control-label">Address:<span style="color: red">*</span></label>
-                                                    <input id="customer_address" type="text" class="form-control" value="{{old('customer_address')}}" name="customer_address" required>
-                                                    <input type="hidden" name="customer_lat" id="customer_lat" value="{{old('customer_lat')}}">
-                                                    <input type="hidden" name="customer_lon" id="customer_lon" value="{{old('customer_lon')}}">
-                                                </div>
-                                            </div>
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label for="customer_address" class="control-label">Address:<span
+													style="color: red">*</span></label> <input
+													id="customer_address" type="text" class="form-control"
+													value="{{old('customer_address')}}" name="customer_address"
+													required> <input type="hidden" name="customer_lat"
+													id="customer_lat" value="{{old('customer_lat')}}"> <input
+													type="hidden" name="customer_lon" id="customer_lon"
+													value="{{old('customer_lon')}}">
+											</div>
+										</div>
 
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label for="eircode" class="control-label">Eircode:<span style="color: red">*</span></label>
-                                                    <input id="eircode" type="text" class="form-control" value="{{old('eircode')}}" name="eircode" required>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label for="eircode" class="control-label">Eircode:<span
+													style="color: red">*</span></label> <input id="eircode"
+													type="text" class="form-control" value="{{old('eircode')}}"
+													name="eircode" required>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-md-12 d-flex form-head">
-                                                <span>
-                                                    2
-                                                </span>
-                                                Package Details
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label for="pick_address" class="control-label">Pickup Address<span style="color: red">*</span></label>
+						<div class="card">
+							<div class="card-body">
+								<div class="container">
+									<div class="row">
+										<div class="col-md-12 d-flex form-head">
+											<span> 2 </span> Package Details
+										</div>
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label for="pick_address" class="control-label">Pickup
+													Address<span style="color: red">*</span>
+												</label> <select id="pick_address" name="pickup_address"
+													data-style="select-with-transition"
+													class="form-control selectpicker" required>
+													<option value="">Select pickup address</option>
+													@foreach($pickup_addresses as $address)
+													<option value="{{$address['address']}}">{{$address['address']}}</option>
+													@endforeach
+													{{--<option value="Other">Other</option>--}}
+												</select> <input type="hidden" name="pickup_lat"
+													id="pickup_lat"> <input type="hidden" name="pickup_lon"
+													id="pickup_lon"> <input id="pickup_address_alt" type="text"
+													class="form-control" value="{{old('pickup_address_alt')}}"
+													name="pickup_address_alt" placeholder="Enter address"
+													style="display: none; margin-top: 10px;">
+											</div>
+										</div>
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label for="fulfilment" class="control-label">Time until
+													order is ready for collection (Minutes)</label> <input
+													id="fulfilment" type="number" name="fulfilment"
+													class="form-control" value="{{old('fulfilment')}}" required>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label for="weight" class="control-label">Package Weight<span
+													style="color: red">*</span></label> <select id="weight"
+													name="weight" data-style="select-with-transition"
+													class="form-control selectpicker" required>
+													<option value="">Select package weight</option>
+													<option value="Very Light">Very Light</option>
+													<option value="Light">Light</option>
+													<option value="Medium">Medium</option>
+													<option value="Very Heavy">Very Heavy</option>
+													<option value="Max(20kg)">Max 20kg</option>
+												</select>
+											</div>
+										</div>
 
-                                                    <select id="pick_address" name="pickup_address" data-style="select-with-transition" class="form-control selectpicker" required>
-                                                        <option value="">Select pickup address</option>
-                                                        @foreach($pickup_addresses as $address)
-                                                            <option value="{{$address['address']}}">{{$address['address']}}</option>
-                                                        @endforeach
-{{--                                                        <option value="Other">Other</option>--}}
-                                                    </select>
-                                                    <input type="hidden" name="pickup_lat" id="pickup_lat">
-                                                    <input type="hidden" name="pickup_lon" id="pickup_lon">
-                                                    <input id="pickup_address_alt" type="text" class="form-control" value="{{old('pickup_address_alt')}}" name="pickup_address_alt"
-                                                        placeholder="Enter address" style="display: none; margin-top: 10px;">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label for="fulfilment" class="control-label">Time until order is ready for collection (Minutes)</label>
-                                                    <input id="fulfilment" type="number" name="fulfilment" class="form-control" value="{{old('fulfilment')}}" required>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label for="weight" class="control-label">Package Weight<span style="color: red">*</span></label>
-                                                    <select id="weight" name="weight" data-style="select-with-transition" class="form-control selectpicker" required>
-                                                        <option value="">Select package weight</option>
-                                                        <option value="Very Light">Very Light</option>
-                                                        <option value="Light">Light</option>
-                                                        <option value="Medium">Medium</option>
-                                                        <option value="Very Heavy">Very Heavy</option>
-                                                        <option value="Max(20kg)">Max 20kg</option>
-                                                    </select>
-                                                </div>
-                                            </div>
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label for="dimensions" class="control-label">Package
+													Dimensions<span style="color: red">*</span>
+												</label> <select id="dimensions" name="dimensions"
+													data-style="select-with-transition"
+													class="form-control selectpicker" required>
+													<option value="">Select package size</option>
+													<option value="Small Bag">Small Bag</option>
+													<option value="Medium Bag">Medium Bag</option>
+													<option value="Large Bag">Large Bag</option>
+													<option value="Shoe Box">Shoe Box</option>
+													<option value="Large Box">Large Box</option>
+												</select>
+											</div>
+										</div>
 
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label for="dimensions" class="control-label">Package Dimensions<span style="color: red">*</span></label>
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label for="notes" class="control-label">Other Details</label>
+												<input id="notes" type="text" name="notes"
+													class="form-control" value="{{old('notes')}}">
+											</div>
+										</div>
 
-                                                    <select id="dimensions" name="dimensions" data-style="select-with-transition" class="form-control selectpicker" required>
-                                                        <option value="">Select package size</option>
-                                                        <option value="Small Bag">Small Bag</option>
-                                                        <option value="Medium Bag">Medium Bag</option>
-                                                        <option value="Large Bag">Large Bag</option>
-                                                        <option value="Shoe Box">Shoe Box</option>
-                                                        <option value="Large Box">Large Box</option>
-                                                    </select>
-                                                </div>
-                                            </div>
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label for="deliver_by" class="control-label">Deliver By:</label>
+												<select id="deliver_by" name="deliver_by"
+													data-style="select-with-transition"
+													class="form-control selectpicker">
+													<option value="car">Car</option>
+													<option value="scooter">Scooter</option>
+													<option value="bicycle">Bicycle</option>
+												</select>
+											</div>
+										</div>
 
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label for="notes" class="control-label">Other Details</label>
-                                                    <input id="notes" type="text" name="notes" class="form-control" value="{{old('notes')}}">
-                                                </div>
-                                            </div>
+										<div class="col-sm-12">
+											<div class="form-group">
+												<label for="deliver_by" class="control-label">Fragile
+													Package?<span style="color: red">*</span>
+												</label>
+												<div class="radio-container row">
+													<div
+														class="form-check form-check-radio form-check-inline d-flex justify-content-between">
+														<label class="form-check-label"> <input type="radio"
+															name="fragile" id="inlineRadio1" value="1"
+															class="form-check-input" required> Yes <span
+															class="circle"> <span class="check"></span>
+														</span>
+														</label>
+													</div>
 
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label for="deliver_by" class="control-label">Deliver By:</label>
-                                                    <select id="deliver_by" name="deliver_by" data-style="select-with-transition" class="form-control selectpicker">
-                                                        <option value="car">Car</option>
-                                                        <option value="scooter">Scooter</option>
-                                                        <option value="bicycle">Bicycle</option>
-                                                    </select>
-                                                </div>
-                                            </div>
+													<div
+														class="form-check form-check-radio form-check-inline d-flex justify-content-between">
+														<label class="form-check-label"> <input type="radio"
+															name="fragile" id="inlineRadio1" value="0"
+															class="form-check-input" required> No <span
+															class="circle"> <span class="check"></span>
+														</span>
+														</label>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 text-center">
+								<button class="btn bt-submit">Submit</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
 
-                                            <div class="col-sm-12">
-                                                <div class="form-group">
-                                                    <label for="deliver_by" class="control-label">Fragile Package?<span style="color: red">*</span></label>
-                                                    <div class="radio-container row">
-                                                        <div class="form-check form-check-radio form-check-inline d-flex justify-content-between"><label class="form-check-label">
-                                                                <input type="radio" name="fragile" id="inlineRadio1" value="1" class="form-check-input" required>
-                                                                Yes
-                                                                <span class="circle">
-                                                                    <span class="check"></span>
-                                                                </span>
-                                                            </label>
-                                                        </div>
-
-                                                        <div class="form-check form-check-radio form-check-inline d-flex justify-content-between"><label class="form-check-label">
-                                                                <input type="radio" name="fragile" id="inlineRadio1" value="0" class="form-check-input" required>
-                                                                No
-                                                                <span class="circle">
-                                                                    <span class="check"></span>
-                                                                </span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 text-center">
-                                    <button class="btn bt-submit">Submit</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-@endsection
-
-@section('page-scripts')
-    <script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
-    <script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>
-    <script>
+	</div>
+</div>
+@endsection @section('page-scripts')
+<script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
+<script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>
+<script>
         // var input = document.getElementById('customer_address');
         // var autocomplete = '';
         // var place = '';
@@ -358,5 +389,6 @@
             });
         });
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=geometry,places&callback=initMap"></script>
+<script async defer
+	src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=geometry,places&callback=initMap"></script>
 @endsection

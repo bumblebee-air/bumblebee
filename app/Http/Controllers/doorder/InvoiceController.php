@@ -4,6 +4,7 @@ namespace App\Http\Controllers\doorder;
 use App\Exports\InvoiceOrderExport;
 use App\Order;
 use App\Retailer;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -57,17 +58,24 @@ class InvoiceController extends Controller
 //        $end_of_month = Carbon::now()->endOfMonth();
         $month_days = Carbon::now()->startOfYear()->addMonths($request->month)->daysInMonth;
         $invoice=[];
-        $total = 0;
+        $subtotal = 0;
         for($i = 0; $i < $month_days; $i++) {
             $date = Carbon::parse($request->month)->startOfMonth()->addDays($i);
             $count = Order::where('retailer_id', $id)->with(['orderDriver', 'retailer'])->whereDate('created_at', $date)->where('is_archived', false)->where('status', 'delivered')->count();
             if ($count > 0) {
                 $data = Carbon::parse($request->month)->startOfMonth()->addDays($i)->format('d/m/Y');
-                $invoice[] = ['name' => "$data $count package for ". $count * 10 . "€", 'charge' => $count * 10];
-                $total += $count * 10;
+                //$invoice[] = ['name' => "$data $count package for ". $count * 10 . "€",'count'=>$count , 'charge' => $count * 10];
+                $invoice[] = ['name' => "Same Day Delivery",'date'=>$data,'data'=>"$count package for $retailer->name",'count'=>$count , 'charge' => $count * 10];
+                $subtotal += $count * 10;
             }
         }
-        return view('admin.doorder.invoice.single_invoice', ["invoice"=>$invoice,'retailer' => $retailer, 'total' => $total]);
+        $vat = $subtotal * 0.21;
+        $total = $subtotal + $vat;
+        $user = User::find($retailer->user_id);
+        //dd($user);
+        
+        return view('admin.doorder.invoice.single_invoice', ["invoice"=>$invoice,'retailer' => $retailer,'user'=>$user, 
+            'subtotal' => $subtotal,'vat'=> $vat, 'total'=>$total,'month'=>$request->month]);
     }
     
     public function postSendInvoice(Request $request,$client_name, $id) {

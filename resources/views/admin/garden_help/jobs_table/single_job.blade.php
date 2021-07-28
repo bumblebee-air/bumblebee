@@ -720,9 +720,7 @@ input[type="radio"]:checked+div i {
             let contractors = {!! json_encode($contractors) !!};
             let job = {!! json_encode($job) !!};
             let job_coordinates = JSON.parse(job.location_coordinates);
-            let assigned_contractor = {!! json_encode($contractor) !!};
-
-            if (contractors.length > 0) {
+            @if($job->status == 'ready')
 				for (let contractor of contractors) {
 					let contractor_location = JSON.parse(contractor.address_coordinates);
 					let from = new google.maps.LatLng(contractor_location.lat, contractor_location.lon)
@@ -732,7 +730,8 @@ input[type="radio"]:checked+div i {
 					$('#contractor-row-' + contractor.id).data('sort', distance.toFixed(0));
 					$('#radioInputContractor-' + contractor.id).attr('data-contractor-away', distance.toFixed(0) + ' km away');
 				}
-			} else {
+			@else
+				let assigned_contractor = {!! json_encode($contractor) !!};
 				let contractor_location = JSON.parse(assigned_contractor.address_coordinates);
 				let from = new google.maps.LatLng(contractor_location.lat, contractor_location.lon)
 				let to = new google.maps.LatLng(job_coordinates.lat, job_coordinates.lon);
@@ -740,7 +739,7 @@ input[type="radio"]:checked+div i {
 				$('#km-away-' + assigned_contractor.id).text(distance.toFixed(0) + ' km away');
 				$('#contractor-row-' + assigned_contractor.id).data('sort', distance.toFixed(0));
 				$('#radioInputContractor-' + assigned_contractor.id).attr('data-contractor-away', distance.toFixed(0) + ' km away');
-			}
+			@endif
 
             //Arranging Contractors
 			var contractors_list = $('#contractors-list').children()

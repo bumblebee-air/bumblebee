@@ -47,4 +47,8 @@ class Order extends Model
     public function orderTimestamps() {
         return $this->hasOne(KPITimestamp::class, 'model_id');
     }
+
+    public function comments() {
+        return $this->morphMany(JobComment::class, 'job', 'job_model', 'job_id', 'id');
+    }
 }

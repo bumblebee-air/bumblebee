@@ -6,6 +6,7 @@ use App\DriverProfile;
 use App\Helpers\CustomNotificationHelper;
 use App\Helpers\TwilioHelper;
 use App\Imports\OrdersImport;
+use App\JobComment;
 use App\Order;
 use App\Retailer;
 use App\User;
@@ -225,13 +226,25 @@ class OrdersController extends Controller
     }
     
     public function updateOrder(Request $request){
-       // dd($request);
         $order_id = $request->get('order_id');
         $order_status = $request->get('order_status');
         $comment = $request->get('comment');
-        
+        $order = Order::find($order_id);
+        if (!$order) {
+            alert()->error('There is no order with this id.');
+            return redirect()->back();
+        }
+        $order->status = $order_status;
+        $order->save();
+        if ($comment) {
+            JobComment::create([
+                'comment' => $comment,
+                'job_id' => $order->id,
+                'job_model' => 'App\Order',
+                'user_id' => $request->user()->id
+            ]);
+        }
         alert()->success("The order has been updated successfully ");
-    
         return redirect()->to('doorder/orders');
         
     }

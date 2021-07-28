@@ -13,7 +13,7 @@ class GHUpdateWeeklyWorkingHours extends Command
      *
      * @var string
      */
-    protected $signature = 'gh_drivers_update_working_hours:cron';
+    protected $signature = 'gh_drivers_update_working_hours:cron {type?}';
 
     /**
      * The console command description.
@@ -41,7 +41,13 @@ class GHUpdateWeeklyWorkingHours extends Command
     {
         $contractors = Contractor::where('status', 'completed')->get(['name','phone_number']);
         foreach ($contractors as $contractor) {
-            TwilioHelper::sendSMS('GardenHelp', $contractor->phone_number, "Hey $contractor->name, Please click on the following link to update your weekly working days and hours with GardenHelp. https://iot.bumblebeeai.io/contractors_app#/update-working-hours");
+            $message = '';
+            if ($this->argument('type') != null) {
+                $message = "Hi $contractor->name, this is a reminder to update your weekly working hours if you haven't already";
+            } else {
+                $message = "Hey $contractor->name, Please click on the following link to update your weekly working days and hours with GardenHelp. https://iot.bumblebeeai.io/contractors_app#/update-working-hours";
+            }
+            TwilioHelper::sendSMS('GardenHelp', $contractor->phone_number, $message);
         }
     }
 }

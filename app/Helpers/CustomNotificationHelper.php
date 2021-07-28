@@ -46,12 +46,12 @@ class CustomNotificationHelper
             if ($notification->channel == 'sms') {
                 $contacts = json_decode($notification->send_to, true);
                 foreach ($contacts as $contact) {
-                    TwilioHelper::sendSMS('DoOrder', $contact->value, $notification->content);
+                    TwilioHelper::sendSMS('DoOrder', $contact['value'], $notification->content);
                 }
             } else if ($notification->channel == 'email') {
                 $contacts = json_decode($notification->send_to, true);
                 foreach ($contacts as $contact) {
-                    Mail::to($contact)->send(new \App\Mail\CustomNotification($notification->content, $title));
+                    Mail::to($contact['value'])->send(new \App\Mail\CustomNotification($notification->content, $title));
                 }
             } else {
                 //Platform Notification

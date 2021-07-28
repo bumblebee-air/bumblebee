@@ -22,7 +22,7 @@ class CustomNotification extends Mailable
     public function __construct($content, $title)
     {
         $this->content = $content;
-        $title->title = $title;
+        $this->title = $title;
     }
 
     /**

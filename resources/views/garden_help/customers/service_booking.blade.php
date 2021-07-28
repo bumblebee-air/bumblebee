@@ -14,7 +14,7 @@
 @endsection
 
 @section('content')
-    <form action="{{route('garde_help_postServicesBooking', $id)}}" method="POST" enctype="multipart/form-data" autocomplete="off" id="booking-form" onsubmit="stripeCreateToken(event)">
+    <form action="{{route('garde_help_postServicesBooking', $id)}}" method="POST" enctype="multipart/form-data" autocomplete="off" id="booking-form" @submit="stripeCreateToken(event)">
         {{csrf_field()}}
         <div class="main main-raised">
             <div class="h-100 row align-items-center">
@@ -138,127 +138,210 @@
     <script>
         var stripe = Stripe("{{env('STRIPE_PUBLIC_KEY')}}");
 
-        var elements = stripe.elements({
-            fonts: [
-                {
-                    cssSrc: 'https://fonts.googleapis.com/css?family=Roboto',
-                },
-            ],
-            // Stripe's examples are localized to specific languages, but if
-            // you wish to have Elements automatically detect your user's locale,
-            // use `locale: 'auto'` instead.
-            locale: 'auto'
-        });
-
-        var elementStyles = {
-            iconStyle: "solid",
-            style: {
-                base: {
-                    iconColor: "#fff",
-                    color: "#fff",
-                    fontWeight: 400,
-                    fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif",
-                    fontSize: "16px",
-                    fontSmoothing: "antialiased",
-                    borderBottom: "solid 1px #eaecef",
-                    padding: "10px",
-
-                    "::placeholder": {
-                        color: "#BFAEF6"
-                    },
-                    ":-webkit-autofill": {
-                        color: "#fce883"
-                    }
-                },
-                invalid: {
-                    iconColor: "#FFC7EE",
-                    color: "#FFC7EE"
-                }
-            }
-        };
-
-        var elementClasses = {
-            focus: 'focus',
-            empty: 'empty',
-            invalid: 'invalid',
-        };
-
-        var cardNumber = elements.create('cardNumber', {
-            style: elementStyles,
-            classes: elementClasses,
-        });
-        // Add an instance of the card Element into the `card-element` <div>
-        cardNumber.mount('#card-number');
-
-        var cardExpiry = elements.create('cardExpiry', {
-            style: elementStyles,
-            classes: elementClasses,
-        });
-
-        cardExpiry.mount('#card-expiry');
-
-        var cardCvc = elements.create('cardCvc', {
-            style: elementStyles,
-            classes: elementClasses,
-        });
-        cardCvc.mount('#card-cvc');
-
-
-        function stripeTokenHandler(token) {
-            // Insert the token ID into the form so it gets submitted to the server
-            document.createElement('input');
-            var form = document.getElementById('booking-form');
-            var hiddenInput = document.createElement('input');
-            hiddenInput.setAttribute('type', 'hidden');
-            hiddenInput.setAttribute('name', 'stripeToken');
-            hiddenInput.setAttribute('value', token.id);
-            form.appendChild(hiddenInput);
-            // Submit the form
-
-            setTimeout(form.submit(), 300);
-
-        }
-        function createToken() {
-            stripe.createToken(cardNumber).then(function(result) {
-                if (result.error) {
-                    // Inform the user if there was an error
-                    var errorElement = document.getElementById('card-errors');
-                    errorElement.textContent = result.error.message;
-                    console.log(result.error.message);
-                } else {
-                    // Send the token to your server
-                    stripeTokenHandler(result.token);
-                }
-            });
-        }
-
-        function stripeCreateToken(event){
-            event.preventDefault();
-            createToken();
-        }
+        // var elements = stripe.elements({
+        //     fonts: [
+        //         {
+        //             cssSrc: 'https://fonts.googleapis.com/css?family=Roboto',
+        //         },
+        //     ],
+        //     // Stripe's examples are localized to specific languages, but if
+        //     // you wish to have Elements automatically detect your user's locale,
+        //     // use `locale: 'auto'` instead.
+        //     locale: 'auto'
+        // });
+        //
+        // var elementStyles = {
+        //     iconStyle: "solid",
+        //     style: {
+        //         base: {
+        //             iconColor: "#fff",
+        //             color: "#fff",
+        //             fontWeight: 400,
+        //             fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif",
+        //             fontSize: "16px",
+        //             fontSmoothing: "antialiased",
+        //             borderBottom: "solid 1px #eaecef",
+        //             padding: "10px",
+        //
+        //             "::placeholder": {
+        //                 color: "#BFAEF6"
+        //             },
+        //             ":-webkit-autofill": {
+        //                 color: "#fce883"
+        //             }
+        //         },
+        //         invalid: {
+        //             iconColor: "#FFC7EE",
+        //             color: "#FFC7EE"
+        //         }
+        //     }
+        // };
+        //
+        // var elementClasses = {
+        //     focus: 'focus',
+        //     empty: 'empty',
+        //     invalid: 'invalid',
+        // };
+        //
+        // let cardNumber = elements.create('cardNumber', {
+        //     style: elementStyles,
+        //     classes: elementClasses,
+        // });
+        // // Add an instance of the card Element into the `card-element` <div>
+        // cardNumber.mount('#card-number');
+        //
+        // var cardExpiry = elements.create('cardExpiry', {
+        //     style: elementStyles,
+        //     classes: elementClasses,
+        // });
+        //
+        // cardExpiry.mount('#card-expiry');
+        //
+        // var cardCvc = elements.create('cardCvc', {
+        //     style: elementStyles,
+        //     classes: elementClasses,
+        // });
+        // cardCvc.mount('#card-cvc');
 
 
-        $(document).ready(function () {
-            $('#payment_type').on('change', function () {
-                var selectVal = jQuery("#payment_type option:selected").val();
-                //var form = document.getElementById('payment-form');
-                if( selectVal == "Credit Card" ){
-                    $('.check').hide();
-                    $('.cc').show();
-                }else{
-                    $('.cc').hide();
-                    $('.check').show();
-                }
-            });
-        });
+        // function stripeTokenHandler(token) {
+        //     // Insert the token ID into the form so it gets submitted to the server
+        //     document.createElement('input');
+        //     var form = document.getElementById('booking-form');
+        //     var hiddenInput = document.createElement('input');
+        //     hiddenInput.setAttribute('type', 'hidden');
+        //     hiddenInput.setAttribute('name', 'stripeToken');
+        //     hiddenInput.setAttribute('value', token.id);
+        //     form.appendChild(hiddenInput);
+        //     // Submit the form
+        //
+        //     setTimeout(form.submit(), 300);
+        // }
+        // function createToken() {
+        //     stripe.createToken(cardNumber).then(result => {
+        //         console.log(result);
+        //         // if (result.error) {
+        //         //     // Inform the user if there was an error
+        //         //     var errorElement = document.getElementById('card-errors');
+        //         //     errorElement.textContent = result.error.message;
+        //         //     console.log(result.error.message);
+        //         // } else {
+        //         //     // Send the token to your server
+        //         //     stripeTokenHandler(result.token);
+        //         // }
+        //     }).catch(err => console.log(err));
+        // }
+        //
+        // function stripeCreateToken(event){
+        //     event.preventDefault();
+        //     setTimeout(() => {
+        //         createToken();
+        //     }, 300);
+        // }
+
+
+        // $(document).ready(function () {
+        //     $('#payment_type').on('change', function () {
+        //         var selectVal = jQuery("#payment_type option:selected").val();
+        //         //var form = document.getElementById('payment-form');
+        //         if( selectVal == "Credit Card" ){
+        //             $('.check').hide();
+        //             $('.cc').show();
+        //         }else{
+        //             $('.cc').hide();
+        //             $('.check').show();
+        //         }
+        //     });
+        // });
 
         new Vue({
             el: '#app',
             data: {
                 services_types: {!! $customer_request->services_types_json !!},
+                cardNumber: null,
+                cardExpiry: null,
+                cardCvc: null,
+                stripe: null
             },
             mounted() {
+                this.stripe = Stripe("{{env('STRIPE_PUBLIC_KEY')}}");
 
+                var elements = this.stripe.elements({
+                    fonts: [
+                        {
+                            cssSrc: 'https://fonts.googleapis.com/css?family=Roboto',
+                        },
+                    ],
+                    // Stripe's examples are localized to specific languages, but if
+                    // you wish to have Elements automatically detect your user's locale,
+                    // use `locale: 'auto'` instead.
+                    locale: 'auto'
+                });
+
+                var elementStyles = {
+                    iconStyle: "solid",
+                    style: {
+                        base: {
+                            iconColor: "#fff",
+                            color: "#fff",
+                            fontWeight: 400,
+                            fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif",
+                            fontSize: "16px",
+                            fontSmoothing: "antialiased",
+                            borderBottom: "solid 1px #eaecef",
+                            padding: "10px",
+
+                            "::placeholder": {
+                                color: "#BFAEF6"
+                            },
+                            ":-webkit-autofill": {
+                                color: "#fce883"
+                            }
+                        },
+                        invalid: {
+                            iconColor: "#FFC7EE",
+                            color: "#FFC7EE"
+                        }
+                    }
+                };
+
+                var elementClasses = {
+                    focus: 'focus',
+                    empty: 'empty',
+                    invalid: 'invalid',
+                };
+
+                this.cardNumber = elements.create('cardNumber', {
+                    style: elementStyles,
+                    classes: elementClasses,
+                });
+                // Add an instance of the card Element into the `card-element` <div>
+                this.cardNumber.mount('#card-number');
+
+                this.cardExpiry = elements.create('cardExpiry', {
+                    style: elementStyles,
+                    classes: elementClasses,
+                });
+
+                this.cardExpiry.mount('#card-expiry');
+
+                this.cardCvc = elements.create('cardCvc', {
+                    style: elementStyles,
+                    classes: elementClasses,
+                });
+                this.cardCvc.mount('#card-cvc');
+
+                $('#payment_type').on('change', function () {
+                    var selectVal = jQuery("#payment_type option:selected").val();
+                    //var form = document.getElementById('payment-form');
+                    if( selectVal == "Credit Card" ){
+                        $('.check').hide();
+                        $('.cc').show();
+                    }else{
+                        $('.cc').hide();
+                        $('.check').show();
+                    }
+                });
             },
             methods: {
                 getPropertySizeRate(type) {
@@ -266,14 +349,11 @@
                     property_size = property_size.replace(' Square Meters', '');
                     let rate_property_sizes = JSON.parse(type.rate_property_sizes);
                     for (let rate of rate_property_sizes) {
-                        console.log(rate)
                         let size_from = rate.max_property_size_from;
                         let size_to = rate.max_property_size_to;
                         let rate_per_hour = rate.rate_per_hour;
-                        console.log('ss')
                         if (parseInt(property_size) >= parseInt(size_from) && parseInt(property_size) <= parseInt(size_to)) {
                             let service_price = parseInt(rate_per_hour) * parseInt(type.min_hours);
-                            console.log(this.total_price, service_price);
                             this.total_price += service_price;
                             return service_price;
                         }
@@ -286,7 +366,6 @@
                     for (let type of this.services_types) {
                         let rate_property_sizes = JSON.parse(type.rate_property_sizes);
                         for (let rate of rate_property_sizes) {
-                            console.log(rate)
                             let size_from = rate.max_property_size_from;
                             let size_to = rate.max_property_size_to;
                             let rate_per_hour = rate.rate_per_hour;
@@ -301,6 +380,39 @@
                 getVat(percentage, total_price) {
                     return parseFloat(((percentage/100) * total_price).toFixed(2));
                 },
+                stripeTokenHandler(token) {
+                    // Insert the token ID into the form so it gets submitted to the server
+                    document.createElement('input');
+                    var form = document.getElementById('booking-form');
+                    var hiddenInput = document.createElement('input');
+                    hiddenInput.setAttribute('type', 'hidden');
+                    hiddenInput.setAttribute('name', 'stripeToken');
+                    hiddenInput.setAttribute('value', token.id);
+                    form.appendChild(hiddenInput);
+                    // Submit the form
+
+                    setTimeout(form.submit(), 300);
+                },
+                createToken() {
+                    this.stripe.createToken(this.cardNumber).then(result => {
+                        console.log(result);
+                        if (result.error) {
+                            // Inform the user if there was an error
+                            var errorElement = document.getElementById('card-errors');
+                            errorElement.textContent = result.error.message;
+                            console.log(result.error.message);
+                        } else {
+                            // Send the token to your server
+                            this.stripeTokenHandler(result.token);
+                        }
+                    }).catch(err => console.log(err));
+                },
+                stripeCreateToken(event){
+                    event.preventDefault();
+                    setTimeout(() => {
+                        this.createToken();
+                    }, 300);
+                }
             }
         });
     </script>

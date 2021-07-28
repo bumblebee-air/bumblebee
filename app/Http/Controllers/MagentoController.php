@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Order;
 use App\Retailer;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 
@@ -71,8 +72,8 @@ class MagentoController extends Controller
             //$orders['shipping_address']['phone'] . ", "
             $aWebhook["customer_phone"] = $orders['customer_phone'];
             $aWebhook["customer_email"] = $orders['customer_email'];
-            $aWebhook["customer_address_lat"] = $orders['shipping_address_latitude'];
-            $aWebhook["customer_address_lon"] = $orders['shipping_address_longitude'];
+            //$aWebhook["customer_address_lat"] = $orders['shipping_address_latitude'];
+            //$aWebhook["customer_address_lon"] = $orders['shipping_address_longitude'];
             $aWebhook["eircode"] = $orders['zip'];
 
             try {
@@ -90,8 +91,9 @@ class MagentoController extends Controller
                 $customer_phone = $aWebhook['customer_phone'] ?? null;
                 $customer_email = $aWebhook['customer_email'] ?? null;
                 $customer_address = $aWebhook['customer_address'] ?? null;
-                $customer_address_lat = $aWebhook['customer_address_lat'] ?? null;
-                $customer_address_lon = $aWebhook['customer_address_lon'] ?? null;
+                $customer_address_coordinates = $this->getCustomerAddressCoordinates($customer_address);
+                $customer_address_lat = $customer_address_coordinates['lat'];
+                $customer_address_lon = $customer_address_coordinates['lng'];
                 $eircode = $aWebhook['eircode'] ?? null;
                 //$status = 'ready';
                 $status = 'pending';
@@ -166,5 +168,23 @@ class MagentoController extends Controller
             $order->save();
         }
         return response()->json(['error'=>0,'message'=>'Order fulfillment received successfully']);
+    }
+
+    public function getCustomerAddressCoordinates($address):array {
+        $coordinates = ['lat' => null, 'lng' => null];
+        try {
+            $query = http_build_query(['address' => $address, 'key' => env('GOOGLE_API_KEY', '')]);
+            $url = "https://maps.googleapis.com/maps/api/geocode/json?$query";
+            $response = Http::get($url);
+            $response_body = json_decode($response->body(), true);
+            if ($response->status() == 200) {
+                if ($response_body['status'] == 'OK') {
+                    $coordinates = $response_body['results'][0]['geometry']['location'];
+                }
+            }
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+        }
+        return $coordinates;
     }
 }

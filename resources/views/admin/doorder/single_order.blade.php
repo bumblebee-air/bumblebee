@@ -13,6 +13,24 @@ div[data-toggle='collapse'] {
 	cursor: pointer;
 }
 
+.card-category {
+	margin-top: -5px !important;
+	font-family: Quicksand;
+	font-size: 10px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #b1b1b1 !important;
+	margin-left: 95px !important;
+}
+
+.statusSpan {
+	color: #656565 !important;
+	font-weight: 700;
+}
+
 .recommendDriverNameH6 {
 	font-family: Quicksand;
 	font-size: 15px;
@@ -108,9 +126,11 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 	background-color: #ffffff;
 	background-image: none !important;
 }
-.slider .tooltip{
-z-index: 1000 !important;
+
+.slider .tooltip {
+	z-index: 1000 !important;
 }
+
 .slider .tooltip.bs-tooltip-bottom {
 	margin-top: -8px;
 	background: transparent;
@@ -147,7 +167,7 @@ z-index: 1000 !important;
 <div class="content">
 	<div class="container-fluid">
 		<form method="POST" id="assign-driver"
-			action="{{url('doorder/order/assign')}}">
+			action="{{url('doorder/order/update')}}">
 			@csrf <input type="hidden" id="order-id" name="order_id"
 				value="{{$order->id}}" />
 			<div class="row">
@@ -159,6 +179,38 @@ z-index: 1000 !important;
 									src="{{asset('images/doorder_icons/orders_table_white.png')}}">
 							</div>
 							<h4 class="card-title ">Order Number {{$order->order_id}}</h4>
+							<h5 class="card-category ">
+								Order Status @if($order->status == 'pending') <img
+									class="status_icon"
+									src="{{asset('images/doorder_icons/order_status_pending.png')}}"
+									alt="pending"> <span class="statusSpan"> Pending order
+									fulfilment</span> @elseif($order->status == 'ready') <img
+									class="status_icon"
+									src="{{asset('images/doorder_icons/order_status_ready.png')}}"
+									alt="ready"> <span class="statusSpan"> Ready to collect</span>
+								@elseif($order->status == 'matched' || $order->status ==
+								'assigned') <img class="status_icon"
+									src="{{asset('images/doorder_icons/order_status_matched.png')}}"
+									alt="matched"> <span class="statusSpan"> Matched </span>
+								@elseif($order->status == 'on_route_pickup') <img
+									class="status_icon"
+									src="{{asset('images/doorder_icons/order_status_on_route_pickup.png')}}"
+									alt="matched"> <span class="statusSpan"> On-route to pickup </span>
+								@elseif($order->status == 'picked_up') <img class="status_icon"
+									src="{{asset('images/doorder_icons/order_status_picked_up.png')}}"
+									alt="picked up"> <span class="statusSpan"> Picked up </span>
+								@elseif($order->status == 'on_route') <img class="status_icon"
+									src="{{asset('images/doorder_icons/order_status_on_route.png')}}"
+									alt="on route"> <span class="statusSpan"> On-route </span>
+								@elseif($order->status == 'delivery_arrived') <img
+									class="status_icon"
+									src="{{asset('images/doorder_icons/order_status_delivery_arrived.png')}}"
+									alt="on route"> <span class="statusSpan"> Arrived to location </span>
+								@elseif($order->status == 'delivered') <img class="status_icon"
+									src="{{asset('images/doorder_icons/order_status_delivered.png')}}"
+									alt="delivered"> <span class="statusSpan"> Delivered </span>
+								@endif
+							</h5>
 						</div>
 						<div style="padding: 10px 0;"></div>
 					</div>
@@ -387,7 +439,7 @@ z-index: 1000 !important;
 							</div>
 						</div>
 					</div>
-					@else
+					@elseif($order->status == 'ready' || $order->status == 'pending')
 					<div class="card">
 						<div class="card-header" data-toggle="collapse"
 							id="deliverer-details-header" data-target="#deliverer-details"
@@ -400,9 +452,9 @@ z-index: 1000 !important;
 						<div id="deliverer-details" class="collapse"
 							aria-labelledby="deliverer-details-header"
 							data-parent="#details-container">
-							<div class="card-body" >
+							<div class="card-body">
 								<div class="container">
-									<div class="row" >
+									<div class="row">
 										<div class="col-md-7 ">
 
 											<img class=""
@@ -416,8 +468,10 @@ z-index: 1000 !important;
 												data-slider-step="1" data-slider-value="0" />
 										</div>
 									</div>
-									<div class="row mt-2" data-spy="scroll" data-target=".deliverers-container"  data-offset="50">
-										<div class="col-12 deliverers-container overflow-auto" style="max-height: 330px">
+									<div class="row mt-2" data-spy="scroll"
+										data-target=".deliverers-container" data-offset="50">
+										<div class="col-12 deliverers-container overflow-auto"
+											style="max-height: 330px">
 											<div class="card-header row">
 												<div class="form-check">
 													<label class="form-check-label notifyAllLabel"
@@ -431,12 +485,14 @@ z-index: 1000 !important;
 											</div>
 
 											@foreach($available_drivers as $driver)
-											<div id="driver-{{$driver->user_id}}" class="card deliverer-card selectedDriverDiv"
+											<div id="driver-{{$driver->user_id}}"
+												class="card deliverer-card selectedDriverDiv"
 												data-driverkmaway="0">
 
 												<input type="checkbox" class="driverCheckbox"
 													id="radioInputDriver-{{$driver->user_id}}"
-													value="{{$driver->user_id}}" data-driver-id="{{$driver->user_id}}"
+													value="{{$driver->user_id}}"
+													data-driver-id="{{$driver->user_id}}"
 													data-driver-name="{{$driver->user->name}}"
 													data-driver-transport="{{$driver->transport}}"
 													data-driver-away="0"> <label
@@ -467,6 +523,65 @@ z-index: 1000 !important;
 						</div>
 					</div>
 
+					@else
+					<div class="card">
+						<div class="card-header" data-toggle="collapse"
+							id="deliverer-details-header" data-target="#deliverer-details"
+							aria-expanded="true" aria-controls="deliverer-details">
+							<div class="d-flex form-head">
+								<span>3</span> Delivery Details
+							</div>
+						</div>
+
+						<div id="deliverer-details" class="collapse"
+							aria-labelledby="deliverer-details-header"
+							data-parent="#details-container">
+							<div class="card-body">
+								<div class="container">
+									<div class="row">
+										<div class="col-12">
+											<div class="form-group">
+												<label class="control-label">Driver assigned </label> <span
+													class="control-label"
+													style="display: block; font-weight: 600">
+													{{$order->orderDriver->name}} </span>
+											</div>
+										</div>
+
+										<div class="col-12">
+											<div class="form-group">
+												<label for="order_status" class="control-label">Order status</label>
+												<select id="order_status" name="order_status"
+													data-style="select-with-transition"
+													class="form-control selectpicker">
+													<option value="matched" @if($order->status=='matched')
+														selected @endif> Matched</option>
+													<option value="on_route_pickup" @if($order->status=='on_route_pickup')
+														selected @endif> On-route to pickup</option>
+													<option value="picked_up" @if($order->status=='picked_up')
+														selected @endif> Picked up</option>
+													<option value="on_route" @if($order->status=='on_route')
+														selected @endif> On-route</option>
+													<option value="delivery_arrived" @if($order->status=='delivery_arrived')
+														selected @endif> Arrived to location</option>
+													<option value="delivered" @if($order->status=='delivered')
+														selected @endif> Delivered</option>
+												</select>
+											</div>
+										</div>
+
+										<div class="col-12">
+											<div class="form-group">
+												<label for="comment" class="control-label">Comment</label>
+												<textarea rows="" cols="" name="comment"
+													class="form-control"></textarea>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 					@endif @endif
 					<!--<div class="row">
                         <div class="col-md-12 text-center">
@@ -479,6 +594,8 @@ z-index: 1000 !important;
 						style="width: 100%; height: 100%; min-height: 400px; margin-top: 0; border-radius: 6px;"></div>
 				</div>
 			</div>
+			@if(auth()->user()->user_role != 'retailer') @if($order->status ==
+			'ready' || $order->status == 'pending')
 			<div class="row mt-5">
 				<div class="col-sm-6 text-center">
 
@@ -491,8 +608,20 @@ z-index: 1000 !important;
 						data-toggle="modal" data-target="#delete-order-modal">Delete Order</button>
 				</div>
 			</div>
+			@elseif($order->status !='delivered')
+			<div class="row mt-5">
+				<div class="col-sm-6 text-center">
+
+					<button type="submit" id="assignDriverButton" class="btn bt-submit">Submit</button>
+				</div>
+				<div class="col-sm-6 text-center">
+					<button class="btn bt-submit btn-danger" type="button"
+						data-toggle="modal" data-target="#delete-order-modal">Delete Order</button>
+				</div>
+			</div>
+			@endif @endif
 		</form>
-		
+
 	</div>
 </div>
 
@@ -525,8 +654,9 @@ z-index: 1000 !important;
 							<div class="container">
 								<div class="row">
 									<div
-										class="col-lg-8 offset-lg-2 col-md-12 deliverers-container" style="max-height: 330px;overflow-y: auto">
-										<div id="assignedDriversDiv" class="" ></div>
+										class="col-lg-8 offset-lg-2 col-md-12 deliverers-container"
+										style="max-height: 330px; overflow-y: auto">
+										<div id="assignedDriversDiv" class=""></div>
 									</div>
 								</div>
 							</div>
@@ -588,6 +718,36 @@ z-index: 1000 !important;
 					</div>
 				</div>
 			</form>
+		</div>
+	</div>
+</div>
+<!-- warning modal -->
+<div class="modal fade" id="warning-address-modal" tabindex="-1"
+	role="dialog" aria-labelledby="warning-address--label"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+
+				<button type="button" class="close d-flex justify-content-center"
+					data-dismiss="modal" aria-label="Close">
+					<i class="fas fa-times"></i>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="col-md-12">
+
+					<div class="text-center">
+						<img src="{{asset('images/doorder_icons/warning_icon.png')}}"
+							style="width: 120px" alt="warning"> 
+					</div>
+					<div class="text-center mt-3">
+						<label class="warning-label">Please ensure to select drop down address suggestion to move forward</label>
+
+					</div>
+				</div>
+			</div>
+
 		</div>
 	</div>
 </div>
@@ -855,33 +1015,43 @@ z-index: 1000 !important;
         }  
 
         function showAssignDriverModal(){
+        
         	
-        	console.log($("input[name=selected-driver]").val())
-        	var assignedDriversHtml ='';
-        	$(".driverCheckbox:checked").each(function(){
-        		console.log($(this));
-        		console.log($(this).val());
-        		
-        		assignedDriversHtml += '<div id="driver-'+ $(this).data("driver-id") +'" class="card deliverer-card" data-driverkmaway="'
-        							+$(this).data("driver-away")+'"> <input type="hidden" name="selected-driver[]" value="'
-        							+$(this).data("driver-id")
-        							+'"> <div class="card-header deliverer-details row"> '
-        							+' <div class="col-6"> <h6 class="recommendDriverNameH6 deliverer-name">'+ $(this).data("driver-name")
-        							+'</h6> <p class="recommendDriverDataP">'
-        							+ $(this).data("driver-transport")
-        							+'</p> <p class="recommendDriverDataP" > '
-        							+$(this).data("driver-away") +' km away	</p> </div> <div class="col-6 colCheckCircleDiv assignedDriverChecked" '
-        							+' style="text-align: right"> <i class="fas fa-check-circle"></i> </div> </div> </label> </div>'
-        	});
-        	
-        	$("#assignedDriversDiv").html(assignedDriversHtml);
-        	 $('#assign-deliverer-modal').modal('show')
-        	
-           /*  let driver_card = $('#driver-'+driver_id);
-            let driver_name = driver_card.data('driver-name');
-            $('#deliverer-modal-name').html(driver_name);
-            $('#driver-id').val(driver_id);
-            $('#assign-deliverer-modal').modal('show') */
+                 let customer_address_lat = $("#customer_lat").val();
+                 let customer_address_lon = $("#customer_lon").val();
+                 
+                 if(customer_address_lat!=null && customer_address_lat!='' &&
+                        customer_address_lon!=null && customer_address_lon!=''){
+                	
+                	console.log($("input[name=selected-driver]").val())
+                	var assignedDriversHtml ='';
+                	$(".driverCheckbox:checked").each(function(){
+                		console.log($(this));
+                		console.log($(this).val());
+                		
+                		assignedDriversHtml += '<div id="driver-'+ $(this).data("driver-id") +'" class="card deliverer-card" data-driverkmaway="'
+                							+$(this).data("driver-away")+'"> <input type="hidden" name="selected-driver[]" value="'
+                							+$(this).data("driver-id")
+                							+'"> <div class="card-header deliverer-details row"> '
+                							+' <div class="col-6"> <h6 class="recommendDriverNameH6 deliverer-name">'+ $(this).data("driver-name")
+                							+'</h6> <p class="recommendDriverDataP">'
+                							+ $(this).data("driver-transport")
+                							+'</p> <p class="recommendDriverDataP" > '
+                							+$(this).data("driver-away") +' km away	</p> </div> <div class="col-6 colCheckCircleDiv assignedDriverChecked" '
+                							+' style="text-align: right"> <i class="fas fa-check-circle"></i> </div> </div> </label> </div>'
+                	});
+                	
+                	$("#assignedDriversDiv").html(assignedDriversHtml);
+                	 $('#assign-deliverer-modal').modal('show')
+                	
+                   /*  let driver_card = $('#driver-'+driver_id);
+                    let driver_name = driver_card.data('driver-name');
+                    $('#deliverer-modal-name').html(driver_name);
+                    $('#driver-id').val(driver_id);
+                    $('#assign-deliverer-modal').modal('show') */
+                }else{
+                	$('#warning-address-modal').modal('show');
+                }
         }
 
 		$('#notify-all-drivers-modal').on('hidden.bs.modal', function () {

@@ -223,6 +223,18 @@ class OrdersController extends Controller
         }
         return redirect()->to('doorder/orders');
     }
+    
+    public function updateOrder(Request $request){
+       // dd($request);
+        $order_id = $request->get('order_id');
+        $order_status = $request->get('order_status');
+        $comment = $request->get('comment');
+        
+        alert()->success("The order has been updated successfully ");
+    
+        return redirect()->to('doorder/orders');
+        
+    }
 
     public function getOrdersHistoryTable(Request $request) {
         $orders = Order::query();

@@ -208,7 +208,7 @@ table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
 										<div class="row">
 											<div class="col-md-12">
 												<table id="deliverersChargesPerWeekTable"
-													class="table  row-border cell-border">
+													class="table  row-border cell-border" width="100%">
 													<thead>
 														<tr>
 															<th>Deliverers</th>
@@ -242,7 +242,7 @@ table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
 										<div class="row">
 											<div class="col-md-12">
 												<table id="retailersChargesPerMonthTable"
-													class="table  row-border cell-border">
+													class="table  row-border cell-border" width="100%">
 													<thead>
 														<tr>
 															<th>Retailers</th>

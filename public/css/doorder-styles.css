@@ -230,7 +230,7 @@ h4.card-title {
 	box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14) !important;
 }
 
-.form-group label, .locationLabel {
+.form-group label, .locationLabel,.control-label {
 	font-family: Quicksand;
 	font-size: 15px;
 	font-weight: 500;
@@ -347,6 +347,18 @@ input.form-control, textarea.form-control,select.form-control {
 
 .removeCircle {
 	color: #df5353;
+}
+.warning-label{
+	
+	font-family: Quicksand;
+  font-size: 18px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.06;
+  letter-spacing: 0.72px;
+  text-align: center;
+  color: #4d4d4d;
 }
 /****************** tables *************************/
 .table {

@@ -40,9 +40,9 @@ class MagentoController extends Controller
             $currency = $orders['currency'];
             foreach ($the_line_items as $line_item) {
                 $count++;
-                $weightprd = $line_item['grams'] / 1000;
-                $aWebhook["description"] .= $line_item['title'] . "|" . $weightprd . "kg" .
-                    "|" . $line_item['price'] . " " . $currency;
+                $weightprd = $line_item->grams / 1000;
+                $aWebhook["description"] .= $line_item->title . "|" . $weightprd . "kg" .
+                    "|" . $line_item->price . " " . $currency;
                 if ($count != $line_items_count) {
                     $aWebhook["description"] .= ",";
                 }

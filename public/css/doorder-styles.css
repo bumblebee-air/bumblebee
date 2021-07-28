@@ -550,11 +550,11 @@ tr.order-row:hover, tr.order-row:focus {
 	padding: 7px 5px !important;
 }
 
-.dataTables_scrollBody table thead tr {
+.dataTables_scrollBody table thead tr ,.dataTables_scrollBody table tfoot tr {
 	border: none !important;
 }
 
-.dataTables_scrollBody table thead tr th {
+.dataTables_scrollBody table thead tr th,.dataTables_scrollBody table tfoot tr th {
 	border: none !important;
 	padding-top: 0 !important;
 	padding-bottom: 0 !important;

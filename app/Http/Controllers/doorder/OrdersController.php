@@ -188,6 +188,10 @@ class OrdersController extends Controller
             } else {
                 $notification_message = "Order #$order->order_id has been added to the available orders list";
                 $sms_message = "Hi, a new order #$order->order_id has been added to the available orders list";
+                $order->status = 'ready';
+                $order->driver = null;
+                $order->driver_status = null;
+                $order->save();
             }
             $driver_ids[] = $selected_driver;
         }
@@ -203,9 +207,9 @@ class OrdersController extends Controller
         //SMS Assignment Notification
         if($drivers_count>1){
             foreach($driver_ids as $an_id){
-                $driver_profile = DriverProfile::find($an_id);
-                if($driver_profile){
-                    TwilioHelper::sendSMS('DoOrder', $driver_profile->phone, $sms_message);
+                $user_profile = User::find($an_id);
+                if($user_profile){
+                    TwilioHelper::sendSMS('DoOrder', $user_profile->phone, $sms_message);
                 }
             }
             alert()->success("The accepted drivers have been notified about the order successfully");

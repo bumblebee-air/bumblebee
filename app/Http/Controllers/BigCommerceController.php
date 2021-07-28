@@ -7,10 +7,10 @@ use App\Retailer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 
-class MagentoController extends Controller
+class BigCommerceController extends Controller
 {
     public function receiveOrder(Request $request){
-        \Log::debug("Magento incoming order with details: " . json_encode($request->all()));
+        \Log::debug("BigCommerce incoming order with details: " . json_encode($request->all()));
         $shop_name = $request->get('store_name');
         $shop_api_key = $request->get('api_key');
         $shop_api_secret = $request->get('api_secret');
@@ -121,7 +121,7 @@ class MagentoController extends Controller
                 $response = [
                     'message' => 'Error in saving the order. Details: '.$exception->getMessage()
                 ];
-                \Log::error('Error in saving Magento order. Details: '.$exception->getMessage());
+                \Log::error('Error in saving BigCommerce order. Details: '.$exception->getMessage());
                 return response()->json($response)->setStatusCode(500);
             }
             try {
@@ -147,7 +147,7 @@ class MagentoController extends Controller
     }
 
     public function fulfillOrder(Request $request){
-        \Log::debug("Magento order fulfillment with details: " . json_encode($request->all()));
+        \Log::debug("BigCommerce order fulfillment with details: " . json_encode($request->all()));
         $shop_name = $request->get('store_name');
         $shop_api_key = $request->get('api_key');
         $shop_api_secret = $request->get('api_secret');

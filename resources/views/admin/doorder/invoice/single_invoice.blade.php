@@ -1,37 +1,47 @@
 @extends('templates.dashboard') @section('page-styles')
 <link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
 <style>
-.card-icon {
-	padding: 25px 20px !important;
+.page_icon {
+	width: 40px !important;
 }
 
-.card-icon i {
-	font-size: 40px;
-}
-
-.card-category {
-	margin-top: -15px !important;
+.card-category, .card-category-invoice {
+	margin-top: -10px !important;
 	font-family: Quicksand;
 	font-size: 16px;
 	font-weight: 500;
 	font-stretch: normal;
 	font-style: normal;
-	line-height: 2;
+	line-height: 1.5;
 	letter-spacing: 0.15px;
 	color: #7b7b7b !important;
-	text-decoration: underline;
-	left: 70px;
-	font-family: Quicksand;
+	margin-left: 95px !important;
+}
+
+.card-category-invoice {
+	margin-top: 20px !important;
+}
+
+.card-category-invoice span {
+	display: block;
+}
+
+.card-category-invoice .monthSpan {
+	text-transform: uppercase;
 }
 
 .card-category a {
-	text-decoration: underline;
-	color: #7b7b7b !important;
+	color: #494949 !important;
+	font-weight: bold;
 }
 
-.form-control{
-min-height:36px;
-height: auto !important;
+.card-category span {
+	display: block;
+}
+
+.form-control {
+	min-height: 36px;
+	height: auto !important;
 }
 
 .form-control:read-only {
@@ -71,9 +81,107 @@ height: auto !important;
 	letter-spacing: 0.32px;
 	color: #4d4d4d;
 }
+
+thead tr th {
+	font-family: Quicksand;
+	font-size: 16px !important;
+	font-weight: bold !important;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.19;
+	letter-spacing: 0.8px;
+	color: #4d4d4d;
+}
+
+#invoiceListTable tbody tr td {
+	font-family: Quicksand !important;
+	font-size: 16px !important;
+	font-weight: 500 !important;
+	font-stretch: normal !important;
+	font-style: normal !important;
+	line-height: 1.19 !important;
+	letter-spacing: 0.8px !important;
+	color: #4d4d4d !important;
+}
+
+#invoiceListTable .invoiceBoldSpan {
+	font-weight: bold !important;
+	margin-bottom: 0
+}
+
+.invoiceDateSpan {
+	margin-bottom: 10px;
+}
+
+tbody tr td:first-child, thead tr th:first-child {
+	text-align: left;
+	padding-left: 35px !important;
+}
+
+.dataTable>tbody>tr>td, .dataTable>tbody>tr>th, .dataTable>thead>tr>td,
+	.dataTable>thead>tr>th, .dataTables_scrollFoot tfoot>tr:first-child>th
+	{
+	border: none !important;
+	padding-top: 20px !important;
+}
+
+.dataTable>tfoot>tr>th {
+	border: none !important;
+	padding-top: 5px !important;
+}
+
+.dataTables_scrollFoot tfoot>tr:first-child>th, .dataTable>thead>tr>td,
+	.dataTable>thead>tr>th {
+	border-top: 1px solid #dddfe1 !important;
+}
+
+.table-striped>tbody>tr:nth-of-type(odd) {
+	background-color: rgba(216, 216, 216, 0.2) !important;
+}
+
+.invoiceH4 {
+	font-family: Quicksand;
+	font-size: 20px;
+	font-weight: bold;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.25;
+	letter-spacing: 0.19px;
+	color: #494949;
+}
+
+.doorderLimitedLabel {
+	font-family: Quicksand;
+	font-size: 16px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1;
+	letter-spacing: 0.15px;
+	color: #7b7b7b;
+}
+
+.doorderLimitedSpan {
+	font-weight: normal !important;
+}
+
+.doorderLimitedLabel i {
+	color: #f7dc69;
+}
+
+.dataTables_scrollBody table tfoot tr th {
+	border: none !important;
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
+}
+
+.swal-text {
+	font-family: Quicksand;
+	font-size: 18px;
 }
 </style>
-@endsection @section('title','DoOrder | Invoice ' . $retailer->id) @section('page-content')
+@endsection @section('title','DoOrder | Invoice ' . $retailer->id)
+@section('page-content')
 <div class="content" id="app">
 	<div class="container-fluid">
 		<div class="container-fluid">
@@ -82,16 +190,25 @@ height: auto !important;
 
 					<div class="card">
 						<div class="card-header card-header-icon card-header-rose row">
-							<div class="col-12 ">
+							<div class="col-12 col-lg-8 col-md-6">
 								<div class="card-icon">
-									<i class="fas fa-file-invoice"></i>
+									<img class="page_icon"
+										src="{{asset('images/doorder_icons/Invoice-white.png')}}">
 								</div>
-								<h4 class="card-title ">Invoice Number {{$retailer->id}}</h4>
+								<h4 class="card-title ">Billed To</h4>
 								<h5 class="card-category ">
-									<a class="" href= "{{url('doorder/retailers/view/')}}/{{$retailer->id}}">{{$retailer->name}}</a>
+									<a class=""
+										href="{{url('doorder/retailers/view/')}}/{{$retailer->id}}">{{$retailer->name}}</a>
+									<span>{{$user->email}}</span> <span>{{$user->phone}}</span>
 								</h5>
 							</div>
 
+							<div class="col-12 col-lg-4 col-md-6">
+								<h5 class="card-category-invoice ">
+									<span>Invoice Number {{$retailer->id}}</span> <span
+										class="monthSpan">{{$month}}</span>
+								</h5>
+							</div>
 						</div>
 						<div class="card-body">
 							<div class="container">
@@ -107,232 +224,99 @@ height: auto !important;
 										@endif
 									</div>
 
-									<div class="col-md-12 d-flex form-head pl-3">
-										<span> 1 </span>
-										<h5 class="singleViewSubTitleH5">Invoice Details</h5>
-									</div>
-
 									<div class="col-md-12">
-										@foreach($invoice as $item)
-											<div class="row">
-												<div class="col-md-6 col-9">
-													<label class="invoiceDetialsLabel">{{$item['name']}}</label>
-												</div>
-												<div class="col-md-3 col-3">
-													<span class="invoiceDetialsSpan">€{{$item['charge']}}</span>
-												</div>
-											</div>
-										@endforeach
-										<div class="row" style="margin-top: 15px">
-											<div class="col-md-6 col-9">
-												<label class="invoiceDetialsSpan">Total</label>
-											</div>
-											<div class="col-md-3 col-3">
-												<span class="invoiceDetialsSpan">€{{$total}}</span>
-											</div>
-										</div>
+										<table id="invoiceListTable"
+											class="table table-striped table-no-bordered  "
+											cellspacing="0" width="100%">
+											<thead>
+												<tr>
+													<th>SERVICE</th>
+													<th>QTY</th>
+													<th>PRICE</th>
+													<th>TOTAL</th>
+												</tr>
+
+											</thead>
+											<tbody>
+												@foreach($invoice as $item)
+												<tr>
+													<td>{{$item['name']}}
+														</p>
+														
+														<p class="invoiceDateSpan">{{$item['date']}}</p> <p>{{$item['data']}}</p>
+														
+														
+													</td>
+													<td>{{$item['count']}}</td>
+													<td>€10</td>
+													<td class="invoiceBoldSpan">€{{$item['charge']}}</td>
+												</tr>
+												@endforeach
+											</tbody>
+											<tfoot>
+												<tr>
+													<th colspan="2"></th>
+													<th>Subtotal</th>
+													<th>€{{$subtotal}}</th>
+												</tr>
+												<tr>
+													<th colspan="2"></th>
+													<th>VAT @ 21%</th>
+													<th>€{{$vat}}</th>
+												</tr>
+												<tr>
+													<th colspan="2"></th>
+													<th>Total</th>
+													<th>€{{$total}}</th>
+												</tr>
+											</tfoot>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="card-body" style="background-color: #f8f8f8;">
+							<div class="container">
+								<div class="row">
+									<div class="col-md-12">
+										<h4 class="invoiceH4">DOORDER LIMITED</h4>
+									</div>
+									<div class="col-md-12">
+										<label class="doorderLimitedLabel">IBAN: <span
+											class="doorderLimitedSpan"> IE67 BOFI 9007 5425 3970 40 </span></label>
+									</div>
+									<div class="col-md-12">
+										<label class="doorderLimitedLabel">BIC/SWIFT: <span
+											class="doorderLimitedSpan"> BOFIIE2DXXX </span></label>
 									</div>
 
-{{--									<div class="col-sm-6">--}}
-{{--										<div class="form-group bmd-form-group">--}}
-{{--											<label>Customer first name</label>--}}
-{{--											<div class="form-control">--}}
-{{--												<span>{{$invoice->first_name}}</span>--}}
-{{--											</div>--}}
-
-{{--										</div>--}}
-{{--									</div>--}}
-
-{{--									<div class="col-sm-6">--}}
-{{--										<div class="form-group bmd-form-group">--}}
-{{--											<label>Customer last name</label>--}}
-{{--											<div class="form-control">--}}
-{{--												<span>{{$invoice->last_name}}</span>--}}
-{{--											</div>--}}
-
-{{--										</div>--}}
-{{--									</div>--}}
-{{--									<div class="col-sm-6">--}}
-{{--										<div class="form-group bmd-form-group">--}}
-{{--											<label>Customer email address</label>--}}
-{{--											<div class="form-control">--}}
-{{--												<span>{{$invoice->customer_email}}</span>--}}
-{{--											</div>--}}
-
-{{--										</div>--}}
-{{--									</div>--}}
-
-{{--									<div class="col-sm-6">--}}
-{{--										<div class="form-group bmd-form-group">--}}
-{{--											<label>Customer contact number</label>--}}
-{{--											<div class="form-control">--}}
-{{--												<span>{{$invoice->customer_phone}}</span>--}}
-{{--											</div>--}}
-
-{{--										</div>--}}
-{{--									</div>--}}
-{{--									<div class="col-sm-6">--}}
-{{--										<div class="form-group bmd-form-group">--}}
-{{--											<label>Customer address</label>--}}
-{{--											<div class="form-control">--}}
-{{--												<span>{{$invoice->customer_address}}</span>--}}
-{{--											</div>--}}
-
-{{--										</div>--}}
-{{--									</div>--}}
-
-{{--									<div class="col-sm-6">--}}
-{{--										<div class="form-group bmd-form-group">--}}
-{{--											<label>Postcode/Eircode</label>--}}
-{{--											<div class="form-control">--}}
-{{--												<span>{{$invoice->eircode}}</span>--}}
-{{--											</div>--}}
-
-{{--										</div>--}}
-{{--									</div>--}}
-
+									<div class="col-md-6">
+										<label class="doorderLimitedLabel">ADDRESS: <span
+											class="doorderLimitedSpan"> Rathines, Dublin 6 </span></label>
+									</div>
+									<div class="col-md-6">
+										<label class="doorderLimitedLabel float-right"><i
+											class="fas fa-at"></i> www.doorder.eu</label>
+									</div>
+									<div class="col-md-6">
+										<label class="doorderLimitedLabel">COMPANY REG NO. <span
+											class="doorderLimitedSpan"> 673153 </span></label>
+									</div>
+									<div class="col-md-6">
+										<label class="doorderLimitedLabel float-right"><i
+											class="far fa-envelope"></i> info@doorder.eu</label>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 
-{{--					<div class="card">--}}
-{{--							<div class="card-body">--}}
-{{--								<div class="container">--}}
-{{--									<div class="row">--}}
-{{--										<div class="col-md-12 d-flex form-head pl-3">--}}
-{{--											<span> 2 </span>--}}
-{{--										<h5 class="singleViewSubTitleH5">Package Details</h5>--}}
-{{--										</div>--}}
-{{--									<div class="col-sm-6">--}}
-{{--										<div class="form-group bmd-form-group">--}}
-{{--											<label>Pickup address</label>--}}
-{{--											<div class="form-control">--}}
-{{--												<span>{{$invoice->pickup_address}}</span>--}}
-{{--											</div>--}}
-
-{{--										</div>--}}
-{{--									</div>--}}
-
-{{--									<div class="col-sm-6">--}}
-{{--										<div class="form-group bmd-form-group">--}}
-{{--											<label>Package weight in kg</label>--}}
-{{--											<div class="form-control">--}}
-{{--												<span>{{$invoice->weight}}</span>--}}
-{{--											</div>--}}
-
-{{--										</div>--}}
-{{--									</div>--}}
-{{--									<div class="col-sm-6">--}}
-{{--										<div class="form-group bmd-form-group">--}}
-{{--											<label>Other details</label>--}}
-{{--											<div class="form-control">--}}
-{{--												<span>N/A</span>--}}
-{{--											</div>--}}
-
-{{--										</div>--}}
-{{--									</div>--}}
-
-{{--									<div class="col-sm-6">--}}
-{{--										<div class="form-group bmd-form-group">--}}
-{{--											<label>Fragile package? </label>--}}
-{{--											<div class="radio-container row">--}}
-{{--												<div--}}
-{{--													class="form-check form-check-radio form-check-inline d-flex justify-content-between">--}}
-{{--													<label class="form-check-label"> <input type="radio"--}}
-{{--														name="fragile" id="inlineRadio1" value="1"--}}
-{{--														class="form-check-input" required @if($invoice->fragile==1)--}}
-{{--														checked @endif> Yes <span class="circle"> <span--}}
-{{--															class="check"></span>--}}
-{{--													</span>--}}
-{{--													</label>--}}
-{{--												</div>--}}
-
-{{--												<div--}}
-{{--													class="form-check form-check-radio form-check-inline d-flex justify-content-between">--}}
-{{--													<label class="form-check-label"> <input type="radio"--}}
-{{--														name="fragile" id="inlineRadio1" value="0"--}}
-{{--														class="form-check-input" required @if($invoice->fragile==0)--}}
-{{--														checked @endif> No <span class="circle"> <span--}}
-{{--															class="check"></span>--}}
-{{--													</span>--}}
-{{--													</label>--}}
-{{--												</div>--}}
-{{--											</div>--}}
-
-{{--										</div>--}}
-{{--									</div>--}}
-{{--									<div class="col-sm-6">--}}
-{{--										<div class="form-group bmd-form-group">--}}
-{{--											<label>Order fulfilment</label>--}}
-{{--											<div class="form-control">--}}
-{{--												<span>{{$invoice->fulfilment}}</span>--}}
-{{--											</div>--}}
-
-{{--										</div>--}}
-{{--									</div>--}}
-
-{{--									<div class="col-sm-6">--}}
-{{--										<div class="form-group bmd-form-group">--}}
-{{--											<label>Package dimensions in cm</label>--}}
-{{--											<div class="form-control">--}}
-{{--												<span>{{$invoice->dimensions}}</span>--}}
-{{--											</div>--}}
-
-{{--										</div>--}}
-{{--									</div>--}}
-
-{{--								</div>--}}
-
-{{--							</div>--}}
-{{--						</div>--}}
-{{--					</div>--}}
-
-
-
-{{--					<div class="card">--}}
-{{--						<div class="card-body">--}}
-{{--							<div class="container">--}}
-{{--								<div class="row">--}}
-{{--									<div class="col-md-12 d-flex form-head pl-3">--}}
-{{--										<span> 3 </span>--}}
-{{--										<h5 class="singleViewSubTitleH5">Invoice Details</h5>--}}
-{{--									</div>--}}
-
-
-{{--									<div class="col-md-12">--}}
-
-
-
-{{--										<div class="row">--}}
-{{--											<div class="col-md-6 col-9">--}}
-{{--												<label class="invoiceDetialsLabel">{{$invoiceDetails['name']}}</label>--}}
-{{--											</div>--}}
-{{--											<div class="col-md-3 col-3">--}}
-{{--												<span class="invoiceDetialsSpan">€{{$invoiceDetails['charge']}}</span>--}}
-{{--											</div>--}}
-{{--										</div>--}}
-{{--										<div class="row" style="margin-top: 15px">--}}
-{{--											<div class="col-md-6 col-9">--}}
-{{--												<label class="invoiceDetialsSpan">Total</label>--}}
-{{--											</div>--}}
-{{--											<div class="col-md-3 col-3">--}}
-{{--												<span class="invoiceDetialsSpan">€{{$total}}</span>--}}
-{{--											</div>--}}
-{{--										</div>--}}
-{{--									</div>--}}
-{{--								</div>--}}
-{{--							</div>--}}
-{{--						</div>--}}
-{{--					</div>--}}
-
 					<div class="row ">
 						<div class="col text-center">
 							<form method="POST"
 								action="{{route('doorder_sendInvoice',['doorder',$retailer->id, 'month' => $_GET['month']])}}"
-								id="invoice_orders_form">
-								{{csrf_field()}}
-							</form>
+								id="invoice_orders_form">{{csrf_field()}}</form>
 							<button class="btn bt-submit" @click="submitForm">Invoice</button>
 						</div>
 					</div>
@@ -346,7 +330,18 @@ height: auto !important;
 @endsection @section('page-scripts')
 <script>
 $( document ).ready(function() {
-
+    var table= $('#invoiceListTable').DataTable({
+    		"paging":   false,
+        	"ordering": false,
+        	"info":     false,
+        	"responsive":true,
+        	"searching": false,
+        	 scrollX:        true,
+        scrollCollapse: true,
+        fixedColumns:   {
+            leftColumns: 0,
+        },
+    });
 });
         var app = new Vue({
             el: '#app',
@@ -362,12 +357,12 @@ $( document ).ready(function() {
 							accept: {
 								text: "Yes",
 								value: "yes",
-								className: 'btn btn-primary'
+								className: 'btn bt-submit btn-primary w-100'
 							},
 							reject: {
 								text: "No",
 								value: "no",
-								className: 'btn btn-secondary'
+								className: 'btn bt-submit btn-secondary w-100'
 							}
 						}
 					}).then((input) => {

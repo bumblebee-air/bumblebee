@@ -3,10 +3,9 @@
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/datetime/1.0.3/css/dataTables.dateTime.min.css">
 <style>
-.card-icon i {
-	font-size: 34px;
+.page_icon{
+width: 40px !important;
 }
-
 .invoiceIconSpan i {
 	font-size: 18px;
 	color: #60a244;
@@ -115,7 +114,8 @@ background-color: #e8ca49;
 						<div class="card-header card-header-icon card-header-rose row">
 							<div class="col-12">
 								<div class="card-icon">
-									<i class="fas fa-file-invoice"></i>
+									<img class="page_icon"
+											src="{{asset('images/doorder_icons/Invoice-white.png')}}">
 								</div>
 								<h4 class="card-title ">Invoice</h4>
 							</div>

@@ -37,11 +37,15 @@ Route::post('obd-connection', 'OBDController@saveAppOBDConnection');
 Route::post('general-enquiry', 'EnquiryController@saveGeneralEnquiry');
 
 Route::post('order', 'OrdersController@receiveOrder');
+Route::post('fulfill-order', 'OrdersController@fulfillOrder');
 Route::post('shopify/order', 'ShopifyController@receiveOrder');
 Route::post('shopify/fulfill-order', 'ShopifyController@fulfillOrder');
-Route::post('fulfill-order', 'OrdersController@fulfillOrder');
 Route::post('magento/order', 'MagentoController@receiveOrder');
 Route::post('magento/fulfill-order', 'MagentoController@fulfillOrder');
+Route::post('woocommerce/order', 'WooCommerceController@receiveOrder');
+Route::post('woocommerce/fulfill-order', 'WooCommerceController@fulfillOrder');
+Route::post('bigcommerce/order', 'BigCommerceController@receiveOrder');
+Route::post('bigcommerce/fulfill-order', 'BigCommerceController@fulfillOrder');
 
 Route::post('driver-registration','doorder\DriversController@postDriverRegistration');
 Route::post('driver-login','doorder\DriversController@driversLogin');

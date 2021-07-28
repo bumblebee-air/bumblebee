@@ -22,7 +22,8 @@ class WooCommerceController extends Controller
             return response()->json(['error'=>1,'message'=>'Unregistered on platform']);
         }
         $retailer_id = $retailer->id;
-
+        $retailer_locations = json_decode($retailer->locations_details, true);
+        $retailer_first_location_coordinates = count($retailer_locations) > 0 ? json_decode($retailer_locations[0]['coordinates'], true) : null;
         $orders = $request->all();
         $shipping_method_name = $orders['shipping_method_name'];
         if(strpos(strtolower($shipping_method_name),"same day")!==false ||
@@ -84,9 +85,9 @@ class WooCommerceController extends Controller
                 $paid = $aWebhook['paid'] ?? null;
                 $notes = $aWebhook['notes'] ?? null;
                 $retailer_name = $aWebhook['retailer_name'] ?? null;
-                $pickup_address = $aWebhook['pickup_address'] ?? null;
-                $pickup_lat = $aWebhook['pickup_lat'] ?? null;
-                $pickup_lon = $aWebhook['pickup_lon'] ?? null;
+                $pickup_address = count($retailer_locations) > 0 ? $retailer_locations[0]['address'] : (isset($aWebhook['pickup_address'])? $aWebhook['pickup_address'] : null);
+                $pickup_lat = $retailer_first_location_coordinates ? $retailer_first_location_coordinates['lat'] : (isset($aWebhook['pickup_lat'])? $aWebhook['pickup_lat'] : null);
+                $pickup_lon = $retailer_first_location_coordinates ? $retailer_first_location_coordinates['lon'] : (isset($aWebhook['pickup_lon'])? $aWebhook['pickup_lon'] : null);
                 $customer_name = $aWebhook['customer_name'] ?? null;
                 $customer_phone = $aWebhook['customer_phone'] ?? null;
                 $customer_email = $aWebhook['customer_email'] ?? null;

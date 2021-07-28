@@ -249,6 +249,39 @@ font-size: 14px;
 
 	</div>
 </div>
+
+
+<!-- warning modal -->
+<div class="modal fade" id="warning-address-modal" tabindex="-1"
+	role="dialog" aria-labelledby="warning-address--label"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+
+				<button type="button" class="close d-flex justify-content-center"
+					data-dismiss="modal" aria-label="Close">
+					<i class="fas fa-times"></i>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="col-md-12">
+
+					<div class="text-center">
+						<img src="{{asset('images/doorder_icons/warning_icon.png')}}"
+							style="width: 120px" alt="warning"> 
+					</div>
+					<div class="text-center mt-3">
+						<label class="warning-label">Please ensure to select drop down address suggestion to move forward</label>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+
 @endsection @section('page-scripts')
 <script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
 <script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>
@@ -387,6 +420,27 @@ font-size: 14px;
                 preferredCountries: ['IE', 'GB'],
                 utilsScript: "{{asset('js/intlTelInput/utils.js')}}"
             });
+            
+           function submitForm(event) {
+            	  event.preventDefault();
+            	
+                 var pickup_lat_field = $('#pickup_lat').val();
+                 var pickup_lon_field = $('#pickup_lon').val();
+                 var customer_address_lat = $("#customer_lat").val();
+                 var customer_address_lon = $("#customer_lon").val();
+                 
+                 if(customer_address_lat!=null && customer_address_lat!='' &&
+                            customer_address_lon!=null && customer_address_lon!='' && 
+                            pickup_lat_field !=null && pickup_lat_field !='' &&
+                            pickup_lon_field!=null && pickup_lon_field!=''){
+                            
+                            return;
+                  } else{
+                  
+                    	$('#warning-address-modal').modal('show');
+                    	return false;
+                  }         
+              }
         });
     </script>
 <script async defer

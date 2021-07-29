@@ -499,29 +499,50 @@ $('.addCircle,.removeCircle').css("display","none")
 				for (let location of this.locations) {
 					let index = this.locations.indexOf(location) + 1;
 					//Google MAp autocomplete
-					let driver_address_input = document.getElementById('location'+index);
+					let retailer_address_input = document.getElementById('location'+index);
+					let retailer_eircode_input = document.getElementById('eircode'+index);
 					//Mutation observer hack for chrome address autofill issue
 					let observerHackDriverAddress = new MutationObserver(function() {
 						observerHackDriverAddress.disconnect();
-						driver_address_input.setAttribute("autocomplete", "new-password");
+						retailer_eircode_input.setAttribute("autocomplete", "new-password");
 					});
-					observerHackDriverAddress.observe(driver_address_input, {
+					observerHackDriverAddress.observe(retailer_eircode_input, {
 						attributes: true,
 						attributeFilter: ['autocomplete']
 					});
-					let autocomplete_driver_address = new google.maps.places.Autocomplete(driver_address_input);
-					autocomplete_driver_address.setComponentRestrictions({'country': ['ie']});
-					autocomplete_driver_address.addListener('place_changed', function () {
-						let place = autocomplete_driver_address.getPlace();
+					let autocomplete_retailer_address = new google.maps.places.Autocomplete(retailer_eircode_input);
+					autocomplete_retailer_address.setComponentRestrictions({'country': ['ie']});
+					autocomplete_retailer_address.addListener('place_changed', function () {
+						let place = autocomplete_retailer_address.getPlace();
 						if (!place.geometry) {
 							// User entered the name of a Place that was not suggested and
 							// pressed the Enter key, or the Place Details request failed.
 							window.alert("No details available for input: '" + place.name + "'");
 						} else {
-							let place_lat = place.geometry.location.lat();
-							let place_lon = place.geometry.location.lng();
-							//console.log(index);
-							document.getElementById("location_"+index+"_coordinates").value = '{lat: ' + place_lat.toFixed(5) + ', lon: ' + place_lon.toFixed(5) +'}';
+							//check if place has eircode
+							let eircode_value = place.address_components.find((x) => {
+								if (x.types.includes("postal_code")) {
+									return x;
+								}
+								return undefined;
+							});
+							if (eircode_value != undefined) {
+								let place_lat = place.geometry.location.lat();
+								let place_lon = place.geometry.location.lng();
+								document.getElementById("location_"+index+"_coordinates").value = '{lat: ' + place_lat.toFixed(5) + ', lon: ' + place_lon.toFixed(5) +'}';
+								retailer_eircode_input.value = eircode_value.long_name;
+								// if (retailer_address_input.value != '') {
+									retailer_address_input.value = place.formatted_address;
+								// }
+							} else {
+								document.getElementById("location_"+index+"_coordinates").value = '';
+								retailer_eircode_input.value = '';
+								retailer_address_input.value = '';
+								swal({
+									icon: 'info',
+									text: 'Please enter a valid Eircode'
+								});
+							}
 						}
 					});
 					
@@ -641,28 +662,50 @@ $('.addCircle,.removeCircle').css("display","none")
 				
                 addAutoCompleteInput() {
                     let latest_key = this.locations.length;
-                    let driver_address_input = document.getElementById('location'+latest_key);
+                    let retailer_address_input = document.getElementById('location'+latest_key);
+                    let retailer_eircode_input = document.getElementById('eircode'+latest_key);
                     //Mutation observer hack for chrome address autofill issue
                     let observerHackAddress = new MutationObserver(function() {
                         observerHackAddress.disconnect();
-                        driver_address_input.setAttribute("autocomplete", "new-password");
+                        retailer_address_input.setAttribute("autocomplete", "new-password");
                     });
-                    observerHackAddress.observe(driver_address_input, {
+                    observerHackAddress.observe(retailer_eircode_input, {
                         attributes: true,
                         attributeFilter: ['autocomplete']
                     });
-                    let autocomplete_driver_address = new google.maps.places.Autocomplete(driver_address_input);
-                    autocomplete_driver_address.setComponentRestrictions({'country': ['ie']});
-                    autocomplete_driver_address.addListener('place_changed', function () {
-                        let place = autocomplete_driver_address.getPlace();
+                    let autocomplete_retailer_address = new google.maps.places.Autocomplete(retailer_eircode_input);
+                    autocomplete_retailer_address.setComponentRestrictions({'country': ['ie']});
+                    autocomplete_retailer_address.addListener('place_changed', function () {
+                        let place = autocomplete_retailer_address.getPlace();
                         if (!place.geometry) {
                             // User entered the name of a Place that was not suggested and
                             // pressed the Enter key, or the Place Details request failed.
                             window.alert("No details available for input: '" + place.name + "'");
                         } else {
-                            let place_lat = place.geometry.location.lat();
-                            let place_lon = place.geometry.location.lng();
-                            document.getElementById("location_"+latest_key +"_coordinates").value = '{lat: ' + place_lat.toFixed(5) + ', lon: ' + place_lon.toFixed(5) +'}';
+							//check if place has eircode
+							let eircode_value = place.address_components.find((x) => {
+								if (x.types.includes("postal_code")) {
+									return x;
+								}
+								return undefined;
+							});
+							if (eircode_value != undefined) {
+								let place_lat = place.geometry.location.lat();
+								let place_lon = place.geometry.location.lng();
+								document.getElementById("location_"+latest_key+"_coordinates").value = '{lat: ' + place_lat.toFixed(5) + ', lon: ' + place_lon.toFixed(5) +'}';
+								retailer_eircode_input.value = eircode_value.long_name;
+								// if (retailer_address_input.value != '') {
+									retailer_address_input.value = place.formatted_address;
+								// }
+							} else {
+								document.getElementById("location_"+latest_key+"_coordinates").value = '';
+								retailer_eircode_input.value = '';
+								retailer_address_input.value = '';
+								swal({
+									icon: 'info',
+									text: 'Please enter a valid Eircode'
+								});
+							}
                         }
                     });
                 },

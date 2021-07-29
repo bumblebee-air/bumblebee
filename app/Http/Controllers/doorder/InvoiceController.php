@@ -69,7 +69,7 @@ class InvoiceController extends Controller
                 $subtotal += $count * 10;
             }
         }
-        $vat = $subtotal * 0.21;
+        $vat = $subtotal * 0.23;
         $total = $subtotal + $vat;
         $user = User::find($retailer->user_id);
         //dd($user);

@@ -207,6 +207,7 @@ tbody tr td:first-child, thead tr th:first-child {
 								<h5 class="card-category-invoice ">
 									<span>Invoice Number {{$retailer->id}}</span> <span
 										class="monthSpan">{{$month}}</span>
+										<span class="mt-2"> VAT Reg .No. IE3719422OH </span>
 								</h5>
 							</div>
 						</div>
@@ -261,7 +262,7 @@ tbody tr td:first-child, thead tr th:first-child {
 												</tr>
 												<tr>
 													<th colspan="2"></th>
-													<th>VAT @ 21%</th>
+													<th>VAT @ 23%</th>
 													<th>€{{$vat}}</th>
 												</tr>
 												<tr>

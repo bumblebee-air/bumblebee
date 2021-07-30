@@ -595,6 +595,8 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 														selected @endif> Arrived to location</option>
 													<option value="delivered" @if($order->status=='delivered')
 														selected @endif> Delivered</option>
+													<option value="not_delivered" @if($order->status=='not_delivered')
+														selected @endif> Not delivered</option>	
 												</select>
 											</div>
 										</div>

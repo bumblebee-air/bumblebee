@@ -222,11 +222,11 @@ td img {
 }
 
 .playPauseButton .playing i:before {
-	content: "\f144"
+	content: "\f28B"
 }
 
-.playPauseButton .pausedi:before {
-	content: "\f28B"
+.playPauseButton .paused i:before {
+	content: "\f144"
 }
 
 .btn-play {
@@ -453,11 +453,11 @@ window.onSpotifyWebPlaybackSDKReady = () => {
     if(state.paused){
     	$(".playPauseButton").removeClass("played");
     	$(".playPauseButton").addClass("paused");
-    	$(".playPauseButton").html('<i class="fas fa-pause-circle"></i>')
+    	$(".playPauseButton").html('<i class="fas fa-play-circle"></i>')
     }else{
     	$(".playPauseButton").removeClass("paused");
     	$(".playPauseButton").addClass("played");
-    	$(".playPauseButton").html('<i class="fas fa-play-circle"></i>')
+    	$(".playPauseButton").html('<i class="fas fa-pause-circle"></i>')
     	
     }
     

@@ -415,9 +415,13 @@ div.dataTables_wrapper div.dataTables_length select {
 	font-size: 14px;
 }
 
+.form-control[disabled], .form-group .form-control[disabled], fieldset[disabled] .form-control, fieldset[disabled] .form-group .form-control {
+	border-bottom: 1px solid #d2d2d2;
+}
 .form-control:read-only {
-	background-image: linear-gradient(0deg, #7b7b7b 1px, hsla(0, 0%, 82%, 0)
-		0), linear-gradient(0deg, #7b7b7b 1px, hsla(0, 0%, 82%, 0) 0);
+	/* background-image: linear-gradient(0deg, #7b7b7b 1px, hsla(0, 0%, 82%, 0)
+		0), linear-gradient(0deg, #7b7b7b 1px, hsla(0, 0%, 82%, 0) 0); */
+		background-image: none ;
 }
 
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th,

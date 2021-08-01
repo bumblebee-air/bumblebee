@@ -199,6 +199,8 @@ class RetailerController extends Controller
     public function getSingleRetailer($client_name, $id) {
         $retailer = Retailer::find($id);
 //        dd(json_decode($retailer->locations_details, true));
+        $retailer->invoice_reference_number = 'BR0128';
+            
         if (!$retailer) {
             //abort(404);
             alert()->error('Retailer not found!');
@@ -213,6 +215,9 @@ class RetailerController extends Controller
             alert()->error('Retailer not found!');
             return redirect()->back();
         }
+        
+        
+        $retailer->invoice_reference_number = 'BR0128';
         return view('admin.doorder.retailers.single_retailer', ['retailer' => $retailer,'readOnly'=>true]);
     }
     

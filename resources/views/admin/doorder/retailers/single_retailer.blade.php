@@ -141,6 +141,15 @@ textarea {
 													placeholder="Number of business locations" required>
 											</div>
 										</div>
+										<div class="col-sm-6">
+											<div class="form-group bmd-form-group">
+												<label>Retailer invoice reference number</label> <input
+													type="text" class="form-control"
+													name="invoice_reference_number"
+													value="{{$retailer->invoice_reference_number}}"
+													placeholder="Retailer invoice reference number" required>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>

@@ -247,7 +247,14 @@ class DriversController extends Controller
             ];
             return response()->json($response)->setStatusCode(403);
         }
-
+        $retailer = Retailer::find($order->retailer_id);
+        $retailer_number = 'N/A';
+        if($retailer!=null){
+            $contact_details = json_decode($retailer->contacts_details);
+            $main_contact = $contact_details[0];
+            $retailer_number = $main_contact->contact_phone;
+        }
+        $order->retailer_phone = $retailer_number;
         $createdAt = $order->created_at ;
         $now = date("Y-m-d H:i:s");
         $plus24H = date("Y-m-d H:i:s", strtotime('+24 hours', strtotime($createdAt)));

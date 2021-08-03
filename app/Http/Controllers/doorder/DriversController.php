@@ -8,6 +8,7 @@ use App\Helpers\SecurityHelper;
 use App\KPITimestamp;
 use App\Managers\StripeManager;
 use App\Order;
+use App\Retailer;
 use App\User;
 use App\UserClient;
 use App\UserFirebaseToken;
@@ -82,8 +83,20 @@ class DriversController extends Controller
     public function ordersList(){
         $current_driver = \Auth::user();
         $driver_id = $current_driver->id;
-        $available_orders = Order::whereNotIn('status',['pending','delivered'])->whereNull('driver')->get()->toArray();
-        $driver_orders = Order::where('status','!=','delivered')->where('driver','=',(string)$driver_id)->get()->toArray();
+        //$available_orders = Order::whereNotIn('status',['pending','delivered'])->whereNull('driver')->get()->toArray();
+        $available_orders = [];
+        $driver_orders = Order::where('status','!=','delivered')->where('driver','=',(string)$driver_id)->get();
+        foreach($driver_orders as $driver_order){
+            $retailer = Retailer::find($driver_order->retailer_id);
+            $retailer_number = 'N/A';
+            if($retailer!=null){
+                $contact_details = json_decode($retailer->contacts_details);
+                $main_contact = $contact_details[0];
+                $retailer_number = $main_contact->contact_phone;
+            }
+            $driver_order->retailer_phone = $retailer_number;
+        }
+        $driver_orders = $driver_orders->toArray();
         $response = [
             'available_orders' => $available_orders,
             'driver_orders' => $driver_orders,

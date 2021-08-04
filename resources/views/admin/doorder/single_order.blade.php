@@ -605,7 +605,7 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 											<div class="form-group">
 												<label for="comment" class="control-label">Comment</label>
 												<textarea rows="5" cols="" name="comment"
-													class="form-control">@if(count($order->comments) > 0){{ $order->comments[count($order->comments)-1]->comment }}@endif</textarea>
+													class="form-control">{{--@if(count($order->comments) > 0){{ $order->comments[count($order->comments)-1]->comment }}@endif--}}</textarea>
 											</div>
 										</div>
 									</div>

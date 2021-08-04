@@ -1,14 +1,18 @@
-body {
-    /*font-size: 18px;*/
-}
-
-#adminNavLogoImg{
-	width: 100px !important;
-	height: 60px;
-}
 
 nav.navbar {
     margin-bottom: 20px;
+}
+
+.sidebar .sidebar-wrapper{
+	height: calc(100vh - 95px) !important;
+}
+
+
+.sidebar-mini .sidebar .nav p{
+	display: none;
+}
+.sidebar-mini .sidebar:hover .nav p{
+	display: block;
 }
 
 .navbar-aviva {

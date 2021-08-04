@@ -55,6 +55,10 @@
                                             <img class="status_icon" src="{{asset('images/doorder_icons/order_status_delivered.png')}}" alt="delivered">
                                             Delivered
                                         </div>
+                                        <div class="status_item">
+                                            <img class="status_icon" src="{{asset('images/doorder_icons/order_status_not_delivered.png')}}" alt="not delivered">
+                                            Not Delivered
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -100,6 +104,7 @@
                                                     <div class="progress-bar" role="progressbar" style="width: {{4 * $i}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" v-if="order.status == 'picked_up'"></div>
                                                     <div class="progress-bar" role="progressbar" style="width: {{5 * $i}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" v-if="order.status == 'on_route'"></div>
                                                     <div class="progress-bar" role="progressbar" style="width: {{6 * $i}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" v-if="order.status == 'delivered'"></div>
+                                                    <div class="progress-bar" role="progressbar" style="width: {{6 * $i}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" v-if="order.status == 'not_delivered'"></div>
                                                 </div>
                                             </td>
                                             <td>

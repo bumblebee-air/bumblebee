@@ -85,7 +85,7 @@ class DriversController extends Controller
         $driver_id = $current_driver->id;
         //$available_orders = Order::whereNotIn('status',['pending','delivered'])->whereNull('driver')->get()->toArray();
         $available_orders = [];
-        $driver_orders = Order::where('status','!=','delivered')->where('driver','=',(string)$driver_id)->get();
+        $driver_orders = Order::where('status','!=','delivered')->where('status','!=','not_delivered')->where('driver','=',(string)$driver_id)->get();
         foreach($driver_orders as $driver_order){
             $retailer = Retailer::find($driver_order->retailer_id);
             $retailer_number = 'N/A';

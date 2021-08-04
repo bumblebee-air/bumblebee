@@ -8,8 +8,13 @@ body {
 
 #adminNavLogoImg {
 	width: 100px !important;
-	height: 60px;
+	height: 60px !important;
 }
+.sidebar-mini .sidebar:hover #adminNavLogoImg {
+	width: 100px !important;
+	height: 60px !important;
+}
+
 
 li .nav-link {
 	font-family: Quicksand;

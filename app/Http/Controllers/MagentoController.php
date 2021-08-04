@@ -23,7 +23,12 @@ class MagentoController extends Controller
         }
         $retailer_id = $retailer->id;
         $retailer_locations = json_decode($retailer->locations_details, true);
-        $retailer_first_location_coordinates = count($retailer_locations) > 0 ? json_decode($retailer_locations[0]['coordinates'], true) : null;
+        $retailer_first_location_coordinates = count($retailer_locations) > 0 ? $retailer_locations[0]['coordinates'] : null;
+        if ($retailer_first_location_coordinates) {
+            $retailer_first_location_coordinates = str_replace("lat", "\"lat\"", $retailer_first_location_coordinates);
+            $retailer_first_location_coordinates = str_replace("lon", "\"lon\"", $retailer_first_location_coordinates);
+            $retailer_first_location_coordinates = json_decode($retailer_first_location_coordinates, true);
+        }
         $orders = $request->all();
         $shipping_method_name = $orders['shipping_method_name'];
         if(strpos(strtolower($shipping_method_name),"same day")!==false ||

@@ -161,8 +161,10 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 	height: 60px;
 	width: 150px;
 }
-.orderSubmitButton{ font-size: 16px !important;
-  letter-spacing: 0.88px !important;
+
+.orderSubmitButton {
+	font-size: 16px !important;
+	letter-spacing: 0.88px !important;
 }
 </style>
 @endsection @section('title','DoOrder | View Order')
@@ -399,8 +401,9 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 				'delivered')
 				<div class="card">
 					<div class="card-header" data-toggle="collapse"
-						id="order-deliverer-details-header" data-target="#order-deliverer-details"
-						aria-expanded="true" aria-controls="order-deliverer-details">
+						id="order-deliverer-details-header"
+						data-target="#order-deliverer-details" aria-expanded="true"
+						aria-controls="order-deliverer-details">
 						<div class="d-flex form-head">
 							<span>3</span> Order's Deliverer Details
 						</div>
@@ -412,7 +415,8 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 							<div class="container">
 								<div class="row">
 									<div class="col-12 text-center">
-										<p  class="control-label" style="font-weight: normal ">Order has already been delivered </p>
+										<p class="control-label" style="font-weight: normal">Order has
+											already been delivered</p>
 									</div>
 									<div class="col-12">
 										<div class="form-group">
@@ -531,20 +535,19 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 									<div class="col-sm-12 text-center">
 
 										<button type="button" id="assignDriverButton"
-											class="btn bt-submit  w-50 orderSubmitButton" onclick="showAssignDriverModal()"
-											disabled="disabled">Assign Deliverer</button>
+											class="btn bt-submit  w-50 orderSubmitButton"
+											onclick="showAssignDriverModal()" disabled="disabled">Assign
+											Deliverer</button>
 									</div>
 								</div>
-								
-								
+
+
 							</div>
 						</div>
 					</div>
 				</div>
 
-				@endif @endif
-
-
+				@endif @endif @if(auth()->user()->user_role != 'retailer')
 				<div class="card">
 					<form method="POST" id="update-order-status"
 						action="{{url('doorder/order/update')}}">
@@ -569,11 +572,8 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 												<label class="control-label">Driver assigned </label> <span
 													class="control-label"
 													style="display: block; font-weight: 600">
-													@if($order->orderDriver)
-													{{$order->orderDriver->name}} 
-													@else
-													N/A
-													@endif </span>
+													@if($order->orderDriver) {{$order->orderDriver->name}}
+													@else N/A @endif </span>
 											</div>
 										</div>
 
@@ -596,7 +596,7 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 													<option value="delivered" @if($order->status=='delivered')
 														selected @endif> Delivered</option>
 													<option value="not_delivered" @if($order->status=='not_delivered')
-														selected @endif> Not delivered</option>	
+														selected @endif> Not delivered</option>
 												</select>
 											</div>
 										</div>
@@ -624,6 +624,8 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 
 					</form>
 				</div>
+				@endif
+
 			</div>
 			<div class="col-12 col-sm-6" id="map-container">
 				<div id="map"
@@ -631,7 +633,7 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 			</div>
 		</div>
 
-
+		@if(auth()->user()->user_role != 'retailer')
 		<div class="row mt-5">
 
 			<div class="col-sm-6 offset-sm-3 text-center">
@@ -639,6 +641,7 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 					data-toggle="modal" data-target="#delete-order-modal">Delete Order</button>
 			</div>
 		</div>
+		@endif
 
 	</div>
 </div>

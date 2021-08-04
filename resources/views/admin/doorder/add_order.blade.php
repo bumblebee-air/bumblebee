@@ -1,18 +1,18 @@
 @extends('templates.dashboard') @section('page-styles')
 <link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
 <style>
-#importButton{
-font-size: 14px;
-    font-weight: 600;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: 0.72px;
-    color: #ffffff;
-    border-radius: 12px 0;
-    text-transform: inherit !important;
-    height: auto;
-    padding: 10px;
+#importButton {
+	font-size: 14px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.72px;
+	color: #ffffff;
+	border-radius: 12px 0;
+	text-transform: inherit !important;
+	height: auto;
+	padding: 10px;
 }
 </style>
 @endsection @section('title','DoOrder | Add New Order')
@@ -20,12 +20,11 @@ font-size: 14px;
 <div class="content">
 	<div class="container-fluid">
 		<div class="container-fluid">
-			
+
 			<div class="row">
 				<div class="col-md-12">
 					<form id="order-form" method="POST"
-						action="{{route('doorder_saveNewOrder', 'doorder')}}"
-						onsubmit="submitForm(event)">
+						action="{{route('doorder_saveNewOrder', 'doorder')}}">
 						{{csrf_field()}}
 						<div class="card">
 							<div class="card-header card-header-icon card-header-rose row">
@@ -37,9 +36,10 @@ font-size: 14px;
 									<h4 class="card-title ">New Order</h4>
 								</div>
 								<div class="col-12 col-md-3 mt-md-2">
-									<a id="importButton" href="{{url('doorder/orders/upload_orders')}}"
-										class="btn btn-primary doorder-btn"
-										style="float: right">Upload mass order</a>
+									<a id="importButton"
+										href="{{url('doorder/orders/upload_orders')}}"
+										class="btn btn-primary doorder-btn" style="float: right">Upload
+										mass order</a>
 								</div>
 							</div>
 							<div class="card-body">
@@ -131,8 +131,8 @@ font-size: 14px;
 													<option value="">Select pickup address</option>
 													@foreach($pickup_addresses as $address)
 													<option value="{{$address['address']}}">{{$address['address']}}</option>
-													@endforeach
-													{{--<option value="Other">Other</option>--}}
+													@endforeach {{--
+													<option value="Other">Other</option>--}}
 												</select> <input type="hidden" name="pickup_lat"
 													id="pickup_lat"> <input type="hidden" name="pickup_lon"
 													id="pickup_lon"> <input id="pickup_address_alt" type="text"
@@ -210,13 +210,16 @@ font-size: 14px;
 												<label for="deliver_by" class="control-label">Fragile
 													Package?<span style="color: red">*</span>
 												</label>
+												<p id="fragileErrorMessage"
+													style="color: red; font-weight: 500; display: none; margin-bottom: 0">Please
+													select one of these options</p>
 												<div class="radio-container row">
 													<div
 														class="form-check form-check-radio form-check-inline d-flex justify-content-between">
 														<label class="form-check-label"> <input type="radio"
 															name="fragile" id="inlineRadio1" value="1"
-															class="form-check-input" required> Yes <span
-															class="circle"> <span class="check"></span>
+															class="form-check-input"> Yes <span class="circle"> <span
+																class="check"></span>
 														</span>
 														</label>
 													</div>
@@ -225,8 +228,8 @@ font-size: 14px;
 														class="form-check form-check-radio form-check-inline d-flex justify-content-between">
 														<label class="form-check-label"> <input type="radio"
 															name="fragile" id="inlineRadio1" value="0"
-															class="form-check-input" required> No <span
-															class="circle"> <span class="check"></span>
+															class="form-check-input"> No <span class="circle"> <span
+																class="check"></span>
 														</span>
 														</label>
 													</div>
@@ -239,7 +242,7 @@ font-size: 14px;
 						</div>
 						<div class="row">
 							<div class="col-md-12 text-center">
-								<button class="btn bt-submit">Submit</button>
+								<button class="btn bt-submit" type="submit">Submit</button>
 							</div>
 						</div>
 					</form>
@@ -269,10 +272,11 @@ font-size: 14px;
 
 					<div class="text-center">
 						<img src="{{asset('images/doorder_icons/warning_icon.png')}}"
-							style="width: 120px" alt="warning"> 
+							style="width: 120px" alt="warning">
 					</div>
 					<div class="text-center mt-3">
-						<label class="warning-label">Please ensure to select drop down address suggestion to move forward</label>
+						<label class="warning-label">Please ensure to select drop down
+							address suggestion to move forward</label>
 
 					</div>
 				</div>
@@ -432,8 +436,8 @@ font-size: 14px;
                 utilsScript: "{{asset('js/intlTelInput/utils.js')}}"
             });
             
-           function submitForm(event) {
-            	  event.preventDefault();
+           $('#order-form').submit(function( event ) {
+           	// event.preventDefault();
             	
                  var pickup_lat_field = $('#pickup_lat').val();
                  var pickup_lon_field = $('#pickup_lon').val();
@@ -444,15 +448,29 @@ font-size: 14px;
                             customer_address_lon!=null && customer_address_lon!='' && 
                             pickup_lat_field !=null && pickup_lat_field !='' &&
                             pickup_lon_field!=null && pickup_lon_field!=''){
-                            
-                            return;
+                           
+                           //	alert($("input[name=fragile]:checked").val());
+                            if( $("input[name=fragile]:checked").val()==null ){
+                            	$('#fragileErrorMessage').css("display","block")
+                            	return false;
+                            }else{
+                            	$('#fragileErrorMessage').css("display","none");
+                            	return true;
+                            	//$('#order-form').submit();
+                            }
                   } else{
                   
                     	$('#warning-address-modal').modal('show');
                     	return false;
-                  }         
-              }
+                  }    
+           });
+          
         });
+          function submitForm(event) {
+            	 console.log("submit")
+         	
+                  return true; 
+              }
     </script>
 <script async defer
 	src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=geometry,places&callback=initMap"></script>

@@ -294,7 +294,7 @@
 	@if(Auth::guard('doorder')->check() && auth()->user() &&
 	auth()->user()->user_role != "retailer")
 	<script>
-        let socket = io.connect(window.location.protocol+'//' + window.location.hostname + ':8890');
+        let socket = io.connect('{{env('SOCKET_URL')}}');
         Vue.use(VueToast);
 
         socket.on('doorder-channel:new-order'+'-'+'{{env('APP_ENV','dev')}}', (data) => {

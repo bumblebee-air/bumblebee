@@ -64,7 +64,6 @@
                             </div>
                             <div class="card-body">
                                 <div class="float-right">
-                                    {{--                                    <a class="btn btn-success btn-sm" href="{{ url('client/add') }}">Add New</a>--}}
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table" id="historyTable" width="100%">
@@ -72,13 +71,13 @@
                                         <tr>
                                         <th>Date/Time</th>
                                         <th>Order Number</th>
-                                        <th>Order Time</th>
                                         <th>Retailer Name</th>
-                                        <th>Status</th>
                                         <th>Stage</th>
                                         <th>Deliverer</th>
                                         <th>Pickup Location</th>
                                         <th>Delivery Location</th>
+                                        <th>Status</th>
+                                        <th>Comments</th>
                                         </tr></thead>
 
                                         <tbody>
@@ -87,13 +86,8 @@
                                                 @{{ order.time }}
                                             </td>
                                             <td>@{{order.order_id.includes('#')? order.order_id : '#'+order.order_id}}</td>
-                                            <td>
-                                                @{{order.fulfilment_at}}
-                                            </td>
                                             <td>@{{order.retailer_name}}</td>
-                                            <td>
-                                                <img class="order_status_icon" :src="'{{asset('/')}}images/doorder_icons/order_status_' + (order.status === 'assigned' ? 'matched' :  order.status) + '.png'" :alt="order.status">
-                                            </td>
+                                           
                                             @php($i = 16.6)
                                             <td>
                                                 <div class="progress">
@@ -115,6 +109,15 @@
                                             </td>
                                             <td>
                                                 @{{order.customer_address}}
+                                            </td>
+                                             <td>
+                                                <img class="order_status_icon" :src="'{{asset('/')}}images/doorder_icons/order_status_' + (order.status === 'assigned' ? 'matched' :  order.status) + '.png'" :alt="order.status">
+                                            </td>
+                                             <td>
+                                                <img class="order_status_icon" src="{{asset('images/doorder_icons/order_comment_not_delivered.png')}}" v-if="order.status === 'not_delivered'"
+                                                	data-toggle="tooltip" data-placement="top" title="Package not delivered">
+                                                <img class="order_status_icon" src="{{asset('images/doorder_icons/order_comment_delivered.png')}}" v-else 
+                                                data-toggle="tooltip" data-placement="top" :title="'Package ' +  order.status">
                                             </td>
                                         </tr>
 
@@ -160,7 +163,7 @@ $(document).ready(function() {
                     render: function (data, type, full, meta) {
                     	return '<span data-toggle="tooltip" data-placement="top" title="'+data+'">'+data+'</span>';
                     },
-                    targets: [-1,-2]
+                    targets: [5,6]
                 }
              ],
              
@@ -202,15 +205,15 @@ $(document).ready(function() {
 
                 var orders_data = {!! json_encode($orders) !!};
 
-                for(let order of orders_data.data) {
-                    let fulfil_time= moment(order.created_at).add(order.fulfilment, 'minutes');
-                    let duration = moment.duration(fulfil_time.diff(moment.now())).asMinutes();
-                    if (duration <= 0) {
-                        order.fulfilment_at = 'Ready'
-                    } else {
-                        order.fulfilment_at = fulfil_time.format('d M HH:mm');
-                    }
-                }
+//                 for(let order of orders_data.data) {
+//                     let fulfil_time= moment(order.created_at).add(order.fulfilment, 'minutes');
+//                     let duration = moment.duration(fulfil_time.diff(moment.now())).asMinutes();
+//                     if (duration <= 0) {
+//                         order.fulfilment_at = 'Ready'
+//                     } else {
+//                         order.fulfilment_at = fulfil_time.format('d M HH:mm');
+//                     }
+//                 }
 
                 this.orders = orders_data;
             },

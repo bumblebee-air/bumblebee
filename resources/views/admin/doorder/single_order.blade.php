@@ -604,15 +604,18 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 										<div class="col-12">
 											<div class="form-group">
 												<label for="comment" class="control-label">Comment</label>
-												<textarea rows="" cols="" name="comment"
-													class="form-control"></textarea>
+												<textarea rows="5" cols="" name="comment"
+													class="form-control">
+													@if(count($order->comments) > 0)
+														{{ $order->comments[count($order->comments)-1]->comment }}
+													@endif
+												</textarea>
 											</div>
 										</div>
 									</div>
 
 									<div class="row mt-3">
 										<div class="col-sm-12 text-center">
-
 											<button type="submit" id="submitChangeSatus"
 												class="btn bt-submit  w-50 orderSubmitButton">Submit</button>
 										</div>

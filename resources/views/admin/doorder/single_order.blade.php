@@ -398,7 +398,7 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 
 				</form>
 				@if(auth()->user()->user_role != 'retailer') @if($order->status ==
-				'delivered')
+				'delivered' || $order->is_archived)
 				<div class="card">
 					<div class="card-header" data-toggle="collapse"
 						id="order-deliverer-details-header"
@@ -414,10 +414,10 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 						<div class="card-body" style="padding-top: 20px !important;">
 							<div class="container">
 								<div class="row">
-									<div class="col-12 text-center">
-										<p class="control-label" style="font-weight: normal">Order has
-											already been delivered</p>
-									</div>
+<!-- 									<div class="col-12 text-center"> -->
+										<!--  <p class="control-label" style="font-weight: normal">Order has -->
+<!-- 											already been delivered</p> -->
+<!-- 									</div> -->
 									<div class="col-12">
 										<div class="form-group">
 											<label for="fulfilment" class="control-label">Driver Name</label>
@@ -547,7 +547,7 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 					</div>
 				</div>
 
-				@endif @endif @if(auth()->user()->user_role != 'retailer')
+				@endif @endif @if(auth()->user()->user_role != 'retailer'  && !$order->is_archived)
 				<div class="card">
 					<form method="POST" id="update-order-status"
 						action="{{url('doorder/order/update')}}">
@@ -605,11 +605,7 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 											<div class="form-group">
 												<label for="comment" class="control-label">Comment</label>
 												<textarea rows="5" cols="" name="comment"
-													class="form-control">
-													@if(count($order->comments) > 0)
-														{{ $order->comments[count($order->comments)-1]->comment }}
-													@endif
-												</textarea>
+													class="form-control">@if(count($order->comments) > 0){{ $order->comments[count($order->comments)-1]->comment }}@endif</textarea>
 											</div>
 										</div>
 									</div>
@@ -636,7 +632,7 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 			</div>
 		</div>
 
-		@if(auth()->user()->user_role != 'retailer')
+		@if(auth()->user()->user_role != 'retailer' && !$order->is_archived)
 		<div class="row mt-5">
 
 			<div class="col-sm-6 offset-sm-3 text-center">

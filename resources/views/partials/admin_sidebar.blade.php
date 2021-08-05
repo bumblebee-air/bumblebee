@@ -269,7 +269,26 @@
 			<li class="nav-item "><a class="nav-link"
 				href="{{url('general-enquiry')}}"> <i class="fas fa-question-circle"></i>
 					<p>General Enquiries</p>
-			</a></li> @endif
+			</a></li> 
+			
+			<li class="nav-item "><a class="nav-link" data-toggle="collapse"
+				href="#openInsurance"><i class="fas fa-question-circle"></i>
+					<p>
+						Open Insurance  <b class="caret"></b>
+					</p>
+			</a>
+				<div class="collapse" id="openInsurance">
+					<ul class="nav">
+						<li class="nav-item "><a class="nav-link"
+							href="{{url('insurance_entity')}}"> <span
+								class="sidebar-mini sidebar-span">IE</span>
+								<p>Insurance Entity</p>
+						</a></li>
+						
+					</ul>
+				</div></li>
+			
+			@endif
 			<li class="nav-item "><a class="nav-link" href="{{url('logout')}}"> <i
 					class="fas fa-sign-out-alt"></i>
 					<p>Logout</p>

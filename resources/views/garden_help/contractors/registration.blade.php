@@ -440,7 +440,7 @@
 						<div class="form-group bmd-form-group">
 							<label for="address">Address</label>
 							<input id="address" type="text" class="form-control" name="address" value="{{old('address')}}" required>
-							<input type="hidden" id="address_coordinates" name="address_coordinates">
+							<input type="hidden" id="address_coordinates" name="address_coordinates" value="{{old('address_coordinates')}}">
 						</div>
 					</div>
 
@@ -1079,6 +1079,14 @@
 							});
 							return false;
 						}
+					}
+                	if ($('#address_coordinates').val() == '') {
+						swal({
+							// title: 'Validation errors',
+							text: 'The address coordinates are not available, please make sure to select an address from the Google suggestions',
+							icon: 'error',
+						});
+						return;
 					}
                 	setTimeout(()=>{
 						$('#cr_form').submit();

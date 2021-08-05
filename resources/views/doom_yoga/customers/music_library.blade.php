@@ -396,16 +396,19 @@ const authEndpoint = 'https://accounts.spotify.com/authorize';
 
 // Replace with your app's client ID, redirect URI and desired scopes
 const clientId = '67951e40953545c2b2b6115b313010e6';     
-const redirectUri = 'http://localhost/bumblebee/public/doom-yoga/customer/music_library';
+//const redirectUri = 'http://localhost/bumblebee/public/doom-yoga/customer/music_library';
+const redirectUri = 'https://doomyoga.bumblebeeai.io/doom-yoga/customer/music_library';
 const scopes = [
-  'streaming',
+  'streaming','playlist-read-private',
   'user-read-private',
   'user-modify-playback-state',
   'user-read-currently-playing',
   'user-read-recently-played',
   'user-read-playback-state',
   'user-top-read',
-  'user-modify-playback-state'
+  'user-modify-playback-state',
+   'user-read-email', 
+  
 ];
 
 
@@ -528,11 +531,9 @@ function play(device_id) {
   });
 }
 function getPlaylists(device_id) {
-
-			
 			
   $.ajax({
-   url: "https://api.spotify.com/v1/me/playlists?limit=50&offset=0",
+   url: "https://api.spotify.com/v1/users/kamellia/playlists?limit=50&offset=0",
    type: "GET",
    beforeSend: function(xhr){xhr.setRequestHeader('Authorization', 'Bearer ' + token );},
    success: function(data) { 
@@ -541,9 +542,11 @@ function getPlaylists(device_id) {
      $("#playlistsUl").html('');
      
      for(var i=0; i<data.items.length; i++){
-     	$("#playlistsUl").append('<li onclick="getTracksOfPlaylist(\''
+     	if(!data.items[i].public){
+     		$("#playlistsUl").append('<li onclick="getTracksOfPlaylist(\''
      						+data.items[i].id +'\' , \'' + data.items[i].name
      						+ '\')">' + data.items[i].name + '</li>')
+     	}
      }
      
      
@@ -677,6 +680,7 @@ function clickPreviousTrack(){
 }
 
 $(document).ready(function(){
+
 
 $("#myRange").on("input", function() {
   console.log("slider", this.value);

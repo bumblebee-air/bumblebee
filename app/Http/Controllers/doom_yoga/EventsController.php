@@ -111,10 +111,20 @@ class EventsController extends Controller
     }
     
     public function getEventData(Request $request){
+        
+        $event = DoomYogaEvent::find($request->eventId);
+        $event->attending =4;
+        
         return response()->json(array(
-            "msg" => "The Event Was Created Successfully",
-            "eventId" => $request->eventId
+            "event"=>$event
         ),200);
+    }
+    
+    public function  postLaunchMeeting(Request $request){
+        //dd($request);
+        
+        alert()->success('The event launched successfully');
+        return redirect()->back();
     }
 }
 

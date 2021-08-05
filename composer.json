@@ -9,8 +9,6 @@
         "ext-json": "*",
         "barryvdh/laravel-ide-helper": "^2.6",
         "doctrine/dbal": "2.5.*",
-        "elasticquent/elasticquent": "^1.0",
-        "elasticsearch/elasticsearch": "~6.0",
         "fideloper/proxy": "^4.3",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^6.5",

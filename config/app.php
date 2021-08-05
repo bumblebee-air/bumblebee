@@ -167,7 +167,7 @@ return [
         /*
          * Package Service Providers...
          */
-        Elasticquent\ElasticquentServiceProvider::class,
+        //Elasticquent\ElasticquentServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -233,7 +233,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Input' => Illuminate\Support\Facades\Input::class,
-        'Es' => Elasticquent\ElasticquentElasticsearchFacade::class,
+        //'Es' => Elasticquent\ElasticquentElasticsearchFacade::class,
         //Sweet Alert
         'Alert' => UxWeb\SweetAlert\SweetAlert::class,
 

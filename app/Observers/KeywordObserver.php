@@ -3,11 +3,11 @@
 namespace App\Observers;
 
 use App\Keyword;
-use Elasticquent\ElasticquentTrait;
+//use Elasticquent\ElasticquentTrait;
 
 class KeywordObserver
 {
-  use ElasticquentTrait;
+  //use ElasticquentTrait;
 
   /**
    * Handle the keyword "created" event.
@@ -21,7 +21,7 @@ class KeywordObserver
       'id' => $keyword->id
     ]);
 
-    $keyword->addToIndex();
+    //$keyword->addToIndex();
   }
 
   /**
@@ -32,7 +32,7 @@ class KeywordObserver
    */
   public function updated(Keyword $keyword)
   {
-    $keyword->updateIndex();
+    //$keyword->updateIndex();
   }
 
   /**
@@ -43,6 +43,6 @@ class KeywordObserver
    */
   public function deleted(Keyword $keyword)
   {
-    $keyword->removeFromIndex();
+    //$keyword->removeFromIndex();
   }
 }

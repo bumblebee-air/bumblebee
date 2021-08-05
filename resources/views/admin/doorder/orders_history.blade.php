@@ -115,7 +115,7 @@
                                             </td>
                                              <td>
                                                 <img class="order_status_icon" src="{{asset('images/doorder_icons/order_comment_not_delivered.png')}}" v-if="order.status === 'not_delivered'"
-                                                	data-toggle="tooltip" data-placement="top" :title="'Package not delivered' + order.comments.map(x => {return `1&#013;` + x.comment})">
+                                                	data-toggle="tooltip" data-placement="top" :title="'Package not delivered' + order.comments.map(x => {return `&#013;` + x.comment})">
                                                 <img class="order_status_icon" src="{{asset('images/doorder_icons/order_comment_delivered.png')}}" v-else 
                                                 data-toggle="tooltip" data-placement="top" :title="'Package ' +  order.status + order.comments.map(x => {return `&#013;` + x.comment})">
                                             </td>

@@ -3,11 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Elasticquent\ElasticquentTrait;
+//use Elasticquent\ElasticquentTrait;
 
 class Keyword extends Model
 {
-    use ElasticquentTrait;
+    //use ElasticquentTrait;
+    //Add to composer and fix
+    /*"elasticquent/elasticquent": "^1.0",
+    "elasticsearch/elasticsearch": "~6.0",*/
 
     /**
      * The attributes that are mass assignable.

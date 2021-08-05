@@ -109,6 +109,13 @@ class EventsController extends Controller
             'myevents' => $events
         ]);
     }
+    
+    public function getEventData(Request $request){
+        return response()->json(array(
+            "msg" => "The Event Was Created Successfully",
+            "eventId" => $request->eventId
+        ),200);
+    }
 }
 
 class Event

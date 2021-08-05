@@ -31,6 +31,11 @@ input[type="radio"]:checked+div i, input[type="radio"]:checked+div i:before
 	color: #fff;
 	font-weight: 900;
 }
+
+.select2-container--default .select2-selection--multiple, .select2-container .select2-selection--single{
+background: transparent !important;
+border-bottom: 2px solid #eaecef !important;
+}
 </style>
 @endsection @section('content')
 

@@ -1007,6 +1007,25 @@ input.form-control, textarea.form-control,select.form-control {
 	text-align: center;
 }
 
+
+.modal-header .close {
+	width: 15px;
+	height: 15px;
+	margin: 39px 37px 35px 49px;
+	background-color: #4f4f4f;
+	border-radius: 30px;
+	color: white !important;
+	padding: 0.6rem;
+	opacity: 1 !important;
+	width: 15px;
+}
+
+.modal-header .close i {
+	font-size: 10px !important;
+	margin: -5px;
+}
+
+
 /************************* datetime picker **************************/
 .bootstrap-datetimepicker-widget table td.active:hover>div,
 	.bootstrap-datetimepicker-widget table td.active>div {

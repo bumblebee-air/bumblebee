@@ -371,6 +371,8 @@ Route::group([
                 Route::post('add_event', 'doom_yoga\EventsController@postNewEvent')->name('postNewEventDoomYoga');
                 Route::get('my_events', 'doom_yoga\EventsController@getEvents')->name('getEventsDoomYoga');
                 Route::post('share_event', 'doom_yoga\EventsController@postShareEvent')->name('postShareEventDoomYoga');
+                Route::get('get_event_data', 'doom_yoga\EventsController@getEventData')->name('getEventDataDoomYoga');
+                Route::post('launch_meeting', 'doom_yoga\EventsController@postLaunchMeeting')->name('postLaunchMeetingDoomYoga');
             });
 
             Route::get('videos_list', 'doom_yoga\MediaController@getVideosList')->name('doomyoga_getVideosList');

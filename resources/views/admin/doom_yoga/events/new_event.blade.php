@@ -57,22 +57,20 @@ Event') @section('page-styles')
 .modal-dialog .modal-header .close {
 	top: 20px !important;
 }
+#logInZoomBtn{
 
-.modal-header .close {
-	width: 15px;
-	height: 15px;
-	margin: 39px 37px 35px 49px;
-	background-color: #4f4f4f;
-	border-radius: 30px;
-	color: white !important;
-	padding: 0.6rem;
-	opacity: 1 !important;
-	width: 15px;
-}
-
-.modal-header .close i {
-	font-size: 10px !important;
-	margin: -5px;
+    font-family: 'Futura', Fallback, sans-serif !important;
+    font-size: 14px !important;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal !important;
+    letter-spacing: 0.77px;
+    text-transform: none !important;
+    height: auto !important;
+    height: auto !important;
+    padding: 13px 40px;
+    border-radius: 13px;
 }
 </style>
 @endsection @section('page-content')
@@ -260,16 +258,16 @@ Event') @section('page-styles')
 									</div>
 
 									<div class="row">
-										<div class="col-sm-6">
+										<div class="col-sm-12">
 											<div class="form-group bmd-form-group">
 												<label class="formLabel">Automatic zoom link</label>
 												<div class="radio-container row">
 													<div
 														class="col-6 form-check form-check-radio  d-flex justify-content-between">
 														<label class="form-check-label"> <input type="radio"
-															name="automatic_zoom_link" id="inlineRadioZ1" value="1"
-															class="form-check-input" required> Yes <span
-															class="circle"> <span class="check"></span>
+															name="automatic_zoom_link" v-model="automatic_zoom_link"
+															id="inlineRadioZ1" value="1" class="form-check-input"
+															required> Yes <span class="circle"> <span class="check"></span>
 														</span>
 														</label>
 													</div>
@@ -277,9 +275,9 @@ Event') @section('page-styles')
 													<div
 														class="col-6 form-check form-check-radio  d-flex justify-content-between">
 														<label class="form-check-label"> <input type="radio"
-															name="automatic_zoom_link" id="inlineRadioZ0" value="0"
-															class="form-check-input" required> No <span
-															class="circle"> <span class="check"></span>
+															name="automatic_zoom_link" v-model="automatic_zoom_link"
+															id="inlineRadioZ0" value="0" class="form-check-input"
+															required> No <span class="circle"> <span class="check"></span>
 														</span>
 														</label>
 													</div>
@@ -287,7 +285,14 @@ Event') @section('page-styles')
 
 											</div>
 										</div>
-										<div class="col-sm-6">
+										<div class="col-sm-6 text-center"
+											v-if="automatic_zoom_link != '' && automatic_zoom_link == 1">
+											<a href="" class="btn btn-doomyoga-grey" id="logInZoomBtn">Log in with
+												Zoom</a>
+										</div>
+
+										<div class="col-sm-6"
+											v-if="automatic_zoom_link != '' && automatic_zoom_link == 0">
 											<div class="form-group bmd-form-group">
 												<label class="formLabel">Stream link (eg Zoom)</label> <input
 													type="text" class="form-control" name="stream_link"
@@ -296,7 +301,8 @@ Event') @section('page-styles')
 										</div>
 
 
-										<div class="col-sm-6">
+										<div class="col-sm-6"
+											v-if="automatic_zoom_link != '' && automatic_zoom_link == 0">
 											<div class="form-group bmd-form-group">
 												<label class="formLabel">Stream password</label> <input
 													type="text" class="form-control" name="stream_password"
@@ -542,6 +548,19 @@ Event') @section('page-styles')
 @endsection @section('page-scripts')
 
 <script type="text/javascript">
+
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                automatic_zoom_link: '',
+            },
+            mounted() {
+            },
+            methods: {   
+            }
+        });
+
 
 var eventId;
  $(document).ready(function() {

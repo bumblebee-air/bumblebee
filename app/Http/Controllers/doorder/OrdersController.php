@@ -262,8 +262,7 @@ class OrdersController extends Controller
         if ($request->has('to')) {
             $orders = $orders->whereDate('created_at', '<=', $request->to);
         }
-        $orders = $orders->paginate(50);
-
+        $orders = $orders->with('comments')->paginate(50);
         foreach ($orders as $order) {
             $order->time = $order->created_at->format('d M H:i');
             $order->driver = $order->orderDriver ? $order->orderDriver->name : null;

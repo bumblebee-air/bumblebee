@@ -422,7 +422,8 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 										<div class="form-group">
 											<label for="fulfilment" class="control-label">Driver Name</label>
 											<input id="fulfilment" type="text" name="fulfilment"
-												class="form-control" value="{{$order->orderDriver->name}}"
+												class="form-control" value="@if($order->orderDriver) {{$order->orderDriver->name}}
+													@else N/A @endif"
 												required>
 										</div>
 									</div>
@@ -607,7 +608,7 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 										<div class="col-12">
 											<div class="form-group">
 												<label for="comment" class="control-label">Comment</label>
-												<textarea rows="5" cols="" name="comment"
+												<textarea rows="5" cols="" name="comment" @if($order->is_archived) disabled @endif
 													class="form-control">@if($order->is_archived && count($order->comments) > 0){{ $order->comments[count($order->comments)-1]->comment }}@endif</textarea>
 											</div>
 										</div>

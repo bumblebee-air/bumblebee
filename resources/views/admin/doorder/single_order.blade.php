@@ -547,10 +547,13 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 					</div>
 				</div>
 
-				@endif @endif @if(auth()->user()->user_role != 'retailer'  && !$order->is_archived)
+				@endif
+				@endif
+				@if(auth()->user()->user_role != 'retailer')
 				<div class="card">
-					<form method="POST" id="update-order-status"
-						action="{{url('doorder/order/update')}}">
+					@if(!$order->is_archived)
+					<form method="POST" id="update-order-status" action="{{url('doorder/order/update')}}">
+					@endif
 						@csrf <input type="hidden" id="order-id" name="order_id"
 							value="{{$order->id}}" />
 						<div class="card-header" data-toggle="collapse"
@@ -580,7 +583,7 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 										<div class="col-12">
 											<div class="form-group">
 												<label for="order_status" class="control-label">Order status</label>
-												<select id="order_status" name="order_status"
+												<select id="order_status" name="order_status" @if($order->is_archived) disabled @endif
 													data-style="select-with-transition"
 													class="form-control selectpicker">
 													<option value="matched" @if($order->status=='matched')
@@ -605,23 +608,25 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 											<div class="form-group">
 												<label for="comment" class="control-label">Comment</label>
 												<textarea rows="5" cols="" name="comment"
-													class="form-control">{{--@if(count($order->comments) > 0){{ $order->comments[count($order->comments)-1]->comment }}@endif--}}</textarea>
+													class="form-control">@if($order->is_archived && count($order->comments) > 0){{ $order->comments[count($order->comments)-1]->comment }}@endif</textarea>
 											</div>
 										</div>
 									</div>
-
+									@if(!$order->is_archived)
 									<div class="row mt-3">
 										<div class="col-sm-12 text-center">
 											<button type="submit" id="submitChangeSatus"
 												class="btn bt-submit  w-50 orderSubmitButton">Submit</button>
 										</div>
 									</div>
+									@endif
 								</div>
 							</div>
 						</div>
 
-
+					@if(!$order->is_archived)
 					</form>
+					@endif
 				</div>
 				@endif
 

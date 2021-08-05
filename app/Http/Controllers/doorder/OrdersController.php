@@ -235,6 +235,7 @@ class OrdersController extends Controller
             return redirect()->back();
         }
         $order->status = $order_status;
+        $order->driver_status = $order_status;
         if ($order_status == 'not_delivered') {
             $order->is_archived = true;
         }

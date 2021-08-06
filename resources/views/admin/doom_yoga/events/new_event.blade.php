@@ -285,10 +285,14 @@ Event') @section('page-styles')
 
 											</div>
 										</div>
-										<div class="col-sm-6 text-center"
-											v-if="automatic_zoom_link != '' && automatic_zoom_link == 1">
-											<a href="" class="btn btn-doomyoga-grey" id="logInZoomBtn">Log in with
-												Zoom</a>
+										<div class="col-sm-6 text-center">
+											<button type="button" class="btn btn-doomyoga-grey" id="logInZoomBtn"
+												v-if="automatic_zoom_link != '' && automatic_zoom_link == 1 && logged_in_zoom == false"
+												v-on:click="openZoomLogin()">Log in with Zoom</button>
+											<p
+												v-if="automatic_zoom_link != '' && automatic_zoom_link == 1 && logged_in_zoom == true">
+												Logged in with Zoom!
+											</p>
 										</div>
 
 										<div class="col-sm-6"
@@ -548,84 +552,95 @@ Event') @section('page-styles')
 @endsection @section('page-scripts')
 
 <script type="text/javascript">
+	var app = new Vue({
+		el: '#app',
+		data: {
+			automatic_zoom_link: '',
+			logged_in_zoom: false
+		},
+		mounted() {
+		},
+		methods: {
+			openZoomLogin: function(){
+				window.open('{{url("doom-yoga/authenticate-zoom")}}', '_blank');
+			}
+		}
+	});
 
+	var eventId;
+	$(document).ready(function() {
+		$('#share-event-modal select').css('width', '100%');
+		$('#shareWithSelect').select2({minimumResultsForSearch: -1}).val('all');
+		$('#levelSelect').select2({minimumResultsForSearch: -1,placeholder:'Select level'});
+		$('#selectedSubscribersSelect').select2({dropdownParent: "#share-event-modal"});
 
-        var app = new Vue({
-            el: '#app',
-            data: {
-                automatic_zoom_link: '',
-            },
-            mounted() {
-            },
-            methods: {   
-            }
-        });
+		$('#date_time').datetimepicker({
+			icons: {
+				time: "fa fa-clock",
+				date: "fa fa-calendar",
+				up: "fa fa-chevron-up",
+				down: "fa fa-chevron-down",
+				previous: 'fa fa-chevron-left',
+				next: 'fa fa-chevron-right',
+				today: 'fa fa-screenshot',
+				clear: 'fa fa-trash',
+				close: 'fa fa-remove'
+			},
+		});
 
-
-var eventId;
- $(document).ready(function() {
- $('#share-event-modal select').css('width', '100%');
- $('#shareWithSelect').select2({    minimumResultsForSearch: -1}).val('all');
- $('#levelSelect').select2({    minimumResultsForSearch: -1,placeholder:'Select level' });
-  $('#selectedSubscribersSelect').select2({ dropdownParent: "#share-event-modal" });
-  
-        $('#date_time').datetimepicker({
-						icons: {
-							time: "fa fa-clock",
-							date: "fa fa-calendar",
-							up: "fa fa-chevron-up",
-							down: "fa fa-chevron-down",
-							previous: 'fa fa-chevron-left',
-							next: 'fa fa-chevron-right',
-							today: 'fa fa-screenshot',
-							clear: 'fa fa-trash',
-							close: 'fa fa-remove'
-						}, 
-					});
-					
 		$('#addEventForm').on('submit', function(e) {
-    e.preventDefault(); 
-    console.log($(this).serialize());
-    $.ajax({
-        type: "POST",
-       	url: '{{url("doom-yoga/events/add_event")}}',
-        data: $(this).serialize(),
-        success: function(data) {
-       
-        console.log(data.subscribers);
-        
-         $("#selectedSubscribersSelect").html("");
-        for(var i=0; i<data.subscribers.length; i++){
-        $("#selectedSubscribersSelect").append('<option value="'+data.subscribers[i].id+'">'+data.subscribers[i].name+'</option>');
-        }
+			e.preventDefault();
+			console.log($(this).serialize());
+			$.ajax({
+				type: "POST",
+				url: '{{url("doom-yoga/events/add_event")}}',
+				data: $(this).serialize(),
+				success: function(data) {
+					console.log(data.subscribers);
 
+					$("#selectedSubscribersSelect").html("");
+					for(var i=0; i<data.subscribers.length; i++){
+						$("#selectedSubscribersSelect").append('<option value="'+data.subscribers[i].id+'">'+data.subscribers[i].name+'</option>');
+					}
 
-        
-        eventId = data.eventId;
-$('#success-new-event-modal').modal('show')
-$('#success-new-event-modal #successMessageHeaderDiv').html(data.msg);
-        }
-    });
-});			
-    });
+					eventId = data.eventId;
+					$('#success-new-event-modal').modal('show')
+					$('#success-new-event-modal #successMessageHeaderDiv').html(data.msg);
+				}
+			});
+		});
+
+		testZoomApi();
+	});
     
-function clickShareEvent(){
-$('#success-new-event-modal').modal('hide')
-$('#share-event-modal').modal('show')
-$('#share-event-modal #eventId').val(eventId);
-}    
-
-
-
-function shangeShareSelect(){
-	var shareSelectVal = $("#shareWithSelect").val();
-	if(shareSelectVal=='level'){
-    	$("#levelSelectDiv").css('display','block');
-    	$("#selectedSubscribersSelectDiv").css('display','none');
-	}else if(shareSelectVal=='selected_subscribers'){
-    	$("#levelSelectDiv").css('display','none');
-    	$("#selectedSubscribersSelectDiv").css('display','block');
+	function clickShareEvent(){
+		$('#success-new-event-modal').modal('hide')
+		$('#share-event-modal').modal('show')
+		$('#share-event-modal #eventId').val(eventId);
 	}
-}
+	function shangeShareSelect(){
+		var shareSelectVal = $("#shareWithSelect").val();
+		if(shareSelectVal=='level'){
+			$("#levelSelectDiv").css('display','block');
+			$("#selectedSubscribersSelectDiv").css('display','none');
+		}else if(shareSelectVal=='selected_subscribers'){
+			$("#levelSelectDiv").css('display','none');
+			$("#selectedSubscribersSelectDiv").css('display','block');
+		}
+	}
+
+	function testZoomApi() {
+		$.ajax({
+			type: "GET",
+			url: '{{url("test-zoom")}}',
+			success: function (data) {
+				let resp = JSON.parse(data);
+				if(resp.error_code!==401){
+					app.logged_in_zoom = true;
+				}
+				console.log(app.logged_in_zoom);
+			}
+		});
+	}
 </script>
 @endsection

@@ -431,8 +431,14 @@ Route::group([
             Route::get('get_contract_expire', 'unified\CalendarController@getContractExpireList')->name('unified_getContractExpire');
             Route::post('get_engineer_location', 'unified\CalendarController@getEngineerLocation')->name('unified_getEngineerLocation');
         });
+        Route::get('authenticate-zoom','ZoomController@getAuthenticateZoom');
     });
-
+Route::group(['middleware' => 'auth:garden-help,doorder,doom-yoga,unified'], function() {
+    // Zoom redirect
+    Route::get('zoom-oauth-redirect','ZoomController@authenticateZoomRedirect');
+    // Zoom API test for token validation
+    Route::get('test-zoom','ZoomController@testZoomApi');
+});
 // DoOrder Routes
 Route::get('driver_app', function () {
     return view('templates/driver_app');

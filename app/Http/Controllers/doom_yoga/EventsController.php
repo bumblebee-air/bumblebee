@@ -3,6 +3,7 @@ namespace App\Http\Controllers\doom_yoga;
 
 use App\DoomYogaEvent;
 use App\Http\Controllers\Controller;
+use App\UserToken;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -23,7 +24,8 @@ class EventsController extends Controller
         //$createNewEvent->level = $request->level;
         $createNewEvent->short_description = $request->short_description;
         $createNewEvent->max_participants = $request->max_participants;
-        $createNewEvent->date_Time = Carbon::parse($request->date_time)->toDateTimeString();
+        $event_datetime = Carbon::parse($request->date_time);
+        $createNewEvent->date_Time = $event_datetime->toDateTimeString();
         $createNewEvent->duration = $request->duration_in_minutes;
         $createNewEvent->is_person = $request->is_event_person;
         $createNewEvent->is_reccuring = $request->is_event_reccuring;
@@ -36,15 +38,43 @@ class EventsController extends Controller
         $createNewEvent->price = $request->price;
         $createNewEvent->save();
         // $createNewEvent->id = 1;
-         
-         $subscriberData1 = new SubscriberData(1, "Jane Dow");
-         $subscriberData2 = new SubscriberData(2, "Adam Andrews");
-         $subscribers = array($subscriberData1,$subscriberData2);
+        $zoom_meeting_data = null;
+        if($request->automatic_zoom_link == '1') {
+            //Create Zoom meeting for the event
+            $current_user = \Auth::user();
+            if ($current_user) {
+                $user_tokens = UserToken::where('user_id', $current_user->id)->first();
+                if (!$user_tokens || $user_tokens->zoom_api == null) {
+                    return json_encode(['error_code' => 401, 'error_message' => 'No user tokens yet']);
+                }
+                $access_token = $user_tokens->zoom_api;
+                $guzzle_client = new \GuzzleHttp\Client();
+                $token_request = $guzzle_client->request('POST', 'https://api.zoom.us/v2/users/me/meetings', [
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . $access_token,
+                    ],
+                    'json' => [
+                        "topic" => $request->event_name,
+                        "type" => 2,
+                        "start_time" => $event_datetime->toIso8601ZuluString(),
+                        "duration" => $request->duration_in_minutes,
+                        //"timezone": "string",
+                        //"password": "string",
+                    ]
+                ]);
+                $response = $token_request->getBody()->getContents();
+                $zoom_meeting_data = $response;
+            }
+        }
+        $subscriberData1 = new SubscriberData(1, "Jane Dow");
+        $subscriberData2 = new SubscriberData(2, "Adam Andrews");
+        $subscribers = array($subscriberData1,$subscriberData2);
          
         return response()->json(array(
             "msg" => "The Event Was Created Successfully",
             "eventId" => $createNewEvent->id,
-            "subscribers" => $subscribers
+            "subscribers" => $subscribers,
+            'zoom_meeting_data' => $zoom_meeting_data
         ),200);
     }
 

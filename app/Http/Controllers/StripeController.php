@@ -164,10 +164,15 @@ class StripeController extends Controller
     }
 
     public function getOnboard($onboard_code){
+        $branding = $this->fetchPageBranding();
+        $logo = $branding['logo'];
+        $favicon = $branding['favicon'];
         $stripe_account = StripeAccount::where('onboard_code','=',$onboard_code)->first();
         //dd($stripe_account);
         if(!$stripe_account){
-            return view('stripe_onboard',['title'=>'Error', 'text'=>'No registered account was found!']);
+            return view('stripe_onboard',['title'=>'Error',
+                'text'=>'No registered account was found!',
+                'logo'=>$logo, 'favicon'=>$favicon]);
         }
         $stripe_key = $this->stripe_key;
         if($stripe_key==null){
@@ -184,20 +189,37 @@ class StripeController extends Controller
     }
 
     public function getOnboardRefresh(){
-        return view('stripe_onboard',['title'=>'Refresh required', 'text'=>'Please click again on the link sent to your phone to refresh the Stripe on-boarding form']);
+        $branding = $this->fetchPageBranding();
+        $logo = $branding['logo'];
+        $favicon = $branding['favicon'];
+        return view('stripe_onboard',['title'=>'Refresh required',
+            'text'=>'Please click again on the link sent to your phone to refresh the Stripe on-boarding form',
+            'logo'=>$logo, 'favicon'=>$favicon]);
     }
 
     public function getOnboardSuccess(){
-        $logo = '';
-        $favicon = '';
-        $request_url = request()->url();
-        if(strpos($request_url,'doorder')!==false){
-            $logo = asset('images/doorder-logo.png');
-            $favicon = asset('images/doorder-favicon.svg');
-        }
+        $branding = $this->fetchPageBranding();
+        $logo = $branding['logo'];
+        $favicon = $branding['favicon'];
         return view('stripe_onboard',['title'=>'Success',
             'text'=>'The Stripe on-boarding form has been submitted successfully, please make sure that there were no missing data',
             'logo'=>$logo, 'favicon'=>$favicon]);
+    }
+
+    public function fetchPageBranding(){
+        $logo = '';
+        $favicon = '';
+        $request_url = request()->url();
+        if(strpos($request_url,'doorder.')!==false){
+            $logo = asset('images/doorder-logo.png');
+            $favicon = asset('images/doorder-favicon.svg');
+        }elseif(strpos($request_url,'gardenhelp')!==false
+            || strpos($request_url,'ghstaging.')!==false
+            || strpos($request_url,'iot.bumblebeeai')!==false){
+            $logo = asset('images/Garden-Help-Logo.png');
+            $favicon = asset('images/garden-help-fav.png');
+        }
+        return ['logo'=>$logo, 'favicon'=>$favicon];
     }
 
     public function accountUpdateWebhook(Request $request){

@@ -212,7 +212,7 @@ var minDate, maxDate;
 // Custom filtering function which will search data in column four between two values
 $.fn.dataTable.ext.search.push(
     function( settings, data, dataIndex ) {
-//    	console.log("search")
+    	console.log("search")
 //     	var start =$('#startDate').val(), end = $('#endDate').val();
 //         var min = new Date(start);//moment( $('#startDate').val()).toDate();
 //         var max = new Date(end);//moment( $('#endDate').val()).toDate();

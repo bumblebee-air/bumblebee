@@ -149,7 +149,8 @@
 } */
 .btn-customer-account {
 	width: 95%;
-	padding: 60px 100px;
+	padding-top: 60px;
+	padding-bottom:60px;
 	box-shadow: 0 2px 5px 0 rgba(221, 221, 221, 0.5);
 	border: solid 0.7px #ffffff;
 	background-color: rgba(255, 255, 255, 0.6);

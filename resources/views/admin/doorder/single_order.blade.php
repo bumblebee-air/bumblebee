@@ -166,6 +166,19 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 	font-size: 16px !important;
 	letter-spacing: 0.88px !important;
 }
+#printButton {
+	font-size: 14px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.72px;
+	color: #ffffff;
+	border-radius: 12px 0;
+	text-transform: inherit !important;
+	height: auto;
+	padding: 10px;
+}
 </style>
 @endsection @section('title','DoOrder | View Order')
 @section('page-content')
@@ -175,7 +188,8 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 		<div class="row">
 			<div class="col-12 col-sm-6" id="details-container">
 				<div class="card">
-					<div class="card-header card-header-icon card-header-rose">
+					<div class="card-header card-header-icon card-header-rose row">
+					<div class="col-12 col-md-9">
 						<div class="card-icon">
 							<img class="page_icon"
 								src="{{asset('images/doorder_icons/orders_table_white.png')}}">
@@ -213,6 +227,12 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 								alt="delivered"> <span class="statusSpan"> Delivered </span>
 							@endif
 						</h5>
+						</div>
+						<div class="col-12 col-md-3 mt-3">
+							<a id="printButton"
+										href="{{url('doorder/orders/print_label')}}/{{$order->id}}"
+										class="btn btn-primary doorder-btn" style="float: right">Print label</a>	
+						</div>
 					</div>
 					<div style="padding: 10px 0;"></div>
 				</div>

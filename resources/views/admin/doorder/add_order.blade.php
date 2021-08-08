@@ -40,6 +40,7 @@
 										href="{{url('doorder/orders/upload_orders')}}"
 										class="btn btn-primary doorder-btn" style="float: right">Upload
 										mass order</a>
+									
 								</div>
 							</div>
 							<div class="card-body">

@@ -227,7 +227,8 @@ $('#delete-driver-modal #driverId').val(driverId);
                 	    	
                 	    }
                 		else{
-                   			window.location.href = "{{url('doorder/drivers/view/')}}/"+driver_id;
+                   			//window.location.href = "{{url('doorder/drivers/view/')}}/"+driver_id;
+                   			window.location.href = "{{url('doorder/drivers/view_orders/')}}/"+driver_id;
                    		}
                 },
                 parseDateTime(date) {

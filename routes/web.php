@@ -315,6 +315,7 @@ Route::group([
                 Route::get('drivers', 'doorder\DriversController@getDrivers')->name('doorder_drivers');
                 Route::get('drivers/{id}', 'doorder\DriversController@getSingleDriver')->name('doorder_drivers_single_driver');
                 Route::get('drivers/view/{id}', 'doorder\DriversController@getViewDriver')->name('doorder_drivers_view_driver');
+                Route::get('drivers/view_orders/{id}', 'doorder\DriversController@getViewDriverAndOrders')->name('doorder_drivers_view_driver_orders');
                 // Retailers
                 Route::get('retailers/requests', 'doorder\RetailerController@getRetailerRequests')->name('doorder_retailers_requests');
                 Route::get('retailers/requests/{id}', 'doorder\RetailerController@getSingleRequest')->name('doorder_retailers_single_request');
@@ -332,6 +333,7 @@ Route::group([
                 Route::get('orders/add', 'doorder\OrdersController@addNewOrder')->name('doorder_addNewOrder');
                 Route::post('orders/save', 'doorder\OrdersController@saveNewOrder')->name('doorder_saveNewOrder');
                 Route::get('orders/upload_orders', 'doorder\OrdersController@importOrders')->name('doorder_uploadOrders');
+                Route::get('orders/print_label/{id}', 'doorder\OrdersController@printLabel')->name('doorder_printLabel');
             });
 
             Route::post('driver/delete', 'doorder\DriversController@deleteDriver')->name('doorder_deleteDriver');

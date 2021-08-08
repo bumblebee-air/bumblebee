@@ -736,6 +736,22 @@ class DriversController extends Controller
         }
         return view('admin.doorder.drivers.single_driver', ['driver' => $driver,'readOnly'=>true]);
     }
+    public function getViewDriverAndOrders($client_name,$id) {
+        $driver = DriverProfile::find($id);
+        //dd($driver);
+        if (!$driver) {
+            //abort(404);
+            alert()->error('Deliverer not found!');
+            return redirect()->back();
+        }
+        
+        
+        $driver_orders = Order::where('driver','=',(string)$driver->user_id)->get();
+        //dd($driver_orders);
+        
+        return view('admin.doorder.drivers.single_driver_orders', ['driver' => $driver,'driver_orders'=>$driver_orders]);
+        
+    }
     
     public function saveUpdateDriver($client_name,$id, Request $request) {
         //dd($request->all());

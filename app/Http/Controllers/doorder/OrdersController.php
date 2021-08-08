@@ -314,4 +314,11 @@ class OrdersController extends Controller
         alert()->success('The order deleted successfully');
         return redirect()->to('doorder/orders');
     }
+    
+    public function printLabel($client_name, $id) {
+        //dd("print label ". $id);
+        $order = Order::find($id);
+        
+        return view('admin.doorder.print_label_order', ['order' => $order]);
+    }
 }

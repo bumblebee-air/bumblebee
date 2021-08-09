@@ -224,7 +224,8 @@ class StripeController extends Controller
     }
 
     public function accountUpdateWebhook(Request $request){
-        //\Log::info(json_encode($request->all()));
+        \Log::info('New Stripe request on update');
+        \Log::info(json_encode($request->all()));
         $account_ready_flag = true;
         $account_id = $request->get('account');
         $data = $request->get('data');

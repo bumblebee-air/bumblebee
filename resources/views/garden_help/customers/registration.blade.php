@@ -33,7 +33,7 @@
 @section('content')
 
     <div class="container" id="app">
-        <form action="{{route('postCustomerRegistration', 'garden-help')}}" method="POST" enctype="multipart/form-data" autocomplete="off">
+        <form action="{{route('postCustomerRegistration', 'garden-help')}}" method="POST" enctype="multipart/form-data" autocomplete="off" @submit="submitForm" id="customer-registration-form">
             {{csrf_field()}}
             <div class="main main-raised">
                 <div class="h-100 row align-items-center">
@@ -877,6 +877,24 @@
                             }
                         });*/
                     }, 500)
+                },
+                submitForm(e) {
+                    e.preventDefault();
+                    if ($('#area_coordinates').val() == "") {
+                        swal({
+                            icon: 'warning',
+                            text: 'Please make sure you have selected the area on the map!',
+                        });
+                        return;
+                    }
+                    if ($('#location_coordinates').val() == "") {
+                        swal({
+                            icon: 'warning',
+                            text: 'Please make sure you have selected an address from Google suggestions!',
+                        });
+                        return;
+                    }
+                    $('#customer-registration-form').submit();
                 }
             }
         });

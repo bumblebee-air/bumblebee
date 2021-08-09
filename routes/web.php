@@ -419,6 +419,18 @@ Route::group([
                 Route::get('add_customer', 'unified\CustomerController@getAddCustomer')->name('unified_getAddCustomer');
                 Route::post('add_customer', 'unified\CustomerController@postAddCustomer')->name('unified_postAddCustomer');
             });
+            
+            Route::group([
+                'prefix' => 'engineers'
+            ], function () {
+                Route::get('list', 'unified\EngineerController@getEngineersList')->name('unified_getEngineersList');
+                Route::post('delete', 'unified\EngineerController@deleteEngineer')->name('unifiedDeleteEngineer');
+                Route::get('view/{id}', 'unified\EngineerController@getSingleEngineer')->name('unified_getEngineerSingleView');
+                Route::get('edit/{id}', 'unified\EngineerController@getSingleEngineerEdit')->name('unified_getEngineerSingleEdit');
+                Route::post('edit/{id}', 'unified\EngineerController@postEditEngineer')->name('unified_postEngineerSingleEdit');
+                Route::get('add_engineer', 'unified\EngineerController@getAddEngineer')->name('unified_getAddEngineer');
+                Route::post('add_engineer', 'unified\EngineerController@postAddEngineer')->name('unified_postAddEngineer');
+            });
 
             Route::get('calendar', 'unified\CalendarController@getCalendar')->name('unified_getCalendar');
             Route::get('calendar-events', 'unified\CalendarController@getCalendarEvents')->name('unified_getCalendarEvents');

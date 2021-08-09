@@ -1023,7 +1023,7 @@ input.form-control, textarea.form-control,select.form-control {
 }
 
 .modal-dialog .modal-header {
-	padding: 0;
+	padding: 1rem;
 }
 
 .modal-content {

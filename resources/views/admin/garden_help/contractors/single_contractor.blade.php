@@ -425,8 +425,7 @@ Contractor View') @section('page-styles')
 												<div class=" row">
 													<label class="requestLabel  col-12">VAT number <input
 														class="form-control" type="text" name="vat_number"
-														value="{{$contractor->vat_number ? $contractor->vat_number :
-														''}}" /></label>
+														value="{{$contractor->vat_number ?: ''}}" /></label>
 												</div>
 											</div>
 											<div class=" col-12 mb-3">
@@ -434,7 +433,7 @@ Contractor View') @section('page-styles')
 													<label class="requestLabel  col-12">Insurance document:</label>
 													<div class="col-md-4 aDiv">
 														<a target="_blank"
-															href="{{asset($contractor->job_reference)}}"
+															href="{{asset($contractor->insurance_document)}}"
 															class="btn btn-primary clickBtn">Click here to insurance
 															document</a>
 													</div>

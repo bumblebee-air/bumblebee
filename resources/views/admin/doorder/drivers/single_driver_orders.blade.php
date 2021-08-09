@@ -146,53 +146,7 @@ div.dataTables_wrapper div.dataTables_filter {
 					</div>
 
 					<div class="card">
-						<div class="card-header card-header-icon card-header-rose row">
-							<div class="col-12 col-lg-5 col-md-6"></div>
-							<div class="col-12 col-lg-7 col-md-6">
-								<div class="status">
-									<div class="status_item">
-										<img class="status_icon"
-											src="{{asset('images/doorder_icons/order_status_pending.png')}}"
-											alt="pending"> pending order fulfilment
-									</div>
-									<div class="status_item">
-										<img class="status_icon"
-											src="{{asset('images/doorder_icons/order_status_ready.png')}}"
-											alt="ready"> Ready to collect
-									</div>
-									<div class="status_item">
-										<img class="status_icon"
-											src="{{asset('images/doorder_icons/order_status_matched.png')}}"
-											alt="matched"> Matched
-									</div>
-									<div class="status_item">
-										<img class="status_icon"
-											src="{{asset('images/doorder_icons/order_status_on_route_pickup.png')}}"
-											alt="matched"> On-route to pickup
-									</div>
-									<div class="status_item">
-										<img class="status_icon"
-											src="{{asset('images/doorder_icons/order_status_picked_up.png')}}"
-											alt="picked up"> Picked up
-									</div>
-									<div class="status_item">
-										<img class="status_icon"
-											src="{{asset('images/doorder_icons/order_status_on_route.png')}}"
-											alt="on route"> On-route
-									</div>
-									<div class="status_item">
-										<img class="status_icon"
-											src="{{asset('images/doorder_icons/order_status_delivery_arrived.png')}}"
-											alt="on route"> Arrived to location
-									</div>
-									<div class="status_item">
-										<img class="status_icon"
-											src="{{asset('images/doorder_icons/order_status_delivered.png')}}"
-											alt="delivered"> Delivered
-									</div>
-								</div>
-							</div>
-						</div>
+						
 						<div class="card-body">
 							<div class="container">
 								<div class="row">

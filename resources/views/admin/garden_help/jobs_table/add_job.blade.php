@@ -847,6 +847,20 @@ Job') @section('page-styles')
             methods: {
             	beforeSubmitForm(e) {
             		e.preventDefault();
+					if ($('#area_coordinates').val() == "") {
+						swal({
+							icon: 'warning',
+							text: 'Please make sure you have selected the area on the map!',
+						});
+						return;
+					}
+					if ($('#location_coordinates').val() == "") {
+						swal({
+							icon: 'warning',
+							text: 'Please make sure you have selected an address from Google suggestions!',
+						});
+						return;
+					}
             		generateStripeToken(e)
 				},
 				getVat(percentage, total_price) {

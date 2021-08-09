@@ -116,6 +116,37 @@
 											</div>
 										</div>
 
+<div class="col-md-6">
+											<div class="" style="margin-top: 15px">
+												<label class="labelRadio col-12" for="">Job type</label>
+												<div class="col-12 row">
+													<div class="col">
+														<div class="form-check form-check-radio">
+															<label class="form-check-label"> <input
+																class="form-check-input" type="radio"
+																id="exampleRadios2" name="job_type" value="full_time"
+																{{$engineer->job_type =='full_time' ? 'checked' : ''}} required
+																> Full time <span class="circle"> <span
+																	class="check"></span>
+															</span>
+															</label>
+														</div>
+													</div>
+													<div class="col">
+														<div class="form-check form-check-radio">
+															<label class="form-check-label"> <input
+																class="form-check-input" type="radio"
+																id="exampleRadios1" name="job_type" value="contract"
+																{{$engineer->job_type=='contract' ? 'checked' : ''}} required
+																> Contract <span class="circle"> <span
+																	class="check"></span>
+															</span>
+															</label>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
 
 									</div>
 								</div>

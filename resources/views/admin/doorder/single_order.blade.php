@@ -245,6 +245,9 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 								@elseif($order->status == 'delivered') <img class="status_icon"
 									src="{{asset('images/doorder_icons/order_status_delivered.png')}}"
 									alt="delivered"> <span class="statusSpan"> Delivered </span>
+								@elseif($order->status == 'not_delivered') <img class="status_icon"
+									src="{{asset('images/doorder_icons/order_status_not_delivered.png')}}"
+									alt="delivered"> <span class="statusSpan"> Not delivered </span>	
 								@endif
 							</h5>
 						</div>
@@ -827,14 +830,14 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 		</div>
 		<div class="row mx-auto" style="background-color: #f6f7fa;">
 
-			<div class="col-6  ">
+			<div class="col-12  ">
 				<div class="form-group  mx-auto">
 					<label class="control-label  ">Name </label> <span
 						class="control-label  "
 						style="display: block; font-weight: 600"> {{$order->customer_name}} </span>
 				</div>
 			</div>
-			<div class="col-6">
+			<div class="col-12">
 				<div class="form-group ">
 					<label class="control-label">Eircode </label> <span
 						class="control-label"

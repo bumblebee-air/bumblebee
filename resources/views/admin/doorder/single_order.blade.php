@@ -166,6 +166,7 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 	font-size: 16px !important;
 	letter-spacing: 0.88px !important;
 }
+
 #printButton {
 	font-size: 14px;
 	font-weight: 600;
@@ -179,6 +180,25 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 	height: auto;
 	padding: 10px;
 }
+#printDiv{
+	background-color: #f6f7fa;
+	display: none;
+	}
+#printDiv .col-md-12{
+     text-align:center; 
+ } 
+ #printDiv img{margin-top:20px}
+/* @media print { */
+/*     #printDiv{ */
+/*         width: 21cm; */
+/*         height: 15cm; */
+/*         text-align: center; */
+/*         /* change the margins as you want them to be. */ */
+/*    }  */
+/*    #printDiv .col-md-12{ */
+/*     text-align:center; */
+/*    } */
+/* } */
 </style>
 @endsection @section('title','DoOrder | View Order')
 @section('page-content')
@@ -189,49 +209,49 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 			<div class="col-12 col-sm-6" id="details-container">
 				<div class="card">
 					<div class="card-header card-header-icon card-header-rose row">
-					<div class="col-12 col-md-9">
-						<div class="card-icon">
-							<img class="page_icon"
-								src="{{asset('images/doorder_icons/orders_table_white.png')}}">
-						</div>
-						<h4 class="card-title ">Order Number {{$order->order_id}}</h4>
-						<h5 class="card-category ">
-							Order Status @if($order->status == 'pending') <img
-								class="status_icon"
-								src="{{asset('images/doorder_icons/order_status_pending.png')}}"
-								alt="pending"> <span class="statusSpan"> Pending order
-								fulfilment</span> @elseif($order->status == 'ready') <img
-								class="status_icon"
-								src="{{asset('images/doorder_icons/order_status_ready.png')}}"
-								alt="ready"> <span class="statusSpan"> Ready to collect</span>
-							@elseif($order->status == 'matched' || $order->status ==
-							'assigned') <img class="status_icon"
-								src="{{asset('images/doorder_icons/order_status_matched.png')}}"
-								alt="matched"> <span class="statusSpan"> Matched </span>
-							@elseif($order->status == 'on_route_pickup') <img
-								class="status_icon"
-								src="{{asset('images/doorder_icons/order_status_on_route_pickup.png')}}"
-								alt="matched"> <span class="statusSpan"> On-route to pickup </span>
-							@elseif($order->status == 'picked_up') <img class="status_icon"
-								src="{{asset('images/doorder_icons/order_status_picked_up.png')}}"
-								alt="picked up"> <span class="statusSpan"> Picked up </span>
-							@elseif($order->status == 'on_route') <img class="status_icon"
-								src="{{asset('images/doorder_icons/order_status_on_route.png')}}"
-								alt="on route"> <span class="statusSpan"> On-route </span>
-							@elseif($order->status == 'delivery_arrived') <img
-								class="status_icon"
-								src="{{asset('images/doorder_icons/order_status_delivery_arrived.png')}}"
-								alt="on route"> <span class="statusSpan"> Arrived to location </span>
-							@elseif($order->status == 'delivered') <img class="status_icon"
-								src="{{asset('images/doorder_icons/order_status_delivered.png')}}"
-								alt="delivered"> <span class="statusSpan"> Delivered </span>
-							@endif
-						</h5>
+						<div class="col-12 col-md-9">
+							<div class="card-icon">
+								<img class="page_icon"
+									src="{{asset('images/doorder_icons/orders_table_white.png')}}">
+							</div>
+							<h4 class="card-title ">Order Number {{$order->order_id}}</h4>
+							<h5 class="card-category ">
+								Order Status @if($order->status == 'pending') <img
+									class="status_icon"
+									src="{{asset('images/doorder_icons/order_status_pending.png')}}"
+									alt="pending"> <span class="statusSpan"> Pending order
+									fulfilment</span> @elseif($order->status == 'ready') <img
+									class="status_icon"
+									src="{{asset('images/doorder_icons/order_status_ready.png')}}"
+									alt="ready"> <span class="statusSpan"> Ready to collect</span>
+								@elseif($order->status == 'matched' || $order->status ==
+								'assigned') <img class="status_icon"
+									src="{{asset('images/doorder_icons/order_status_matched.png')}}"
+									alt="matched"> <span class="statusSpan"> Matched </span>
+								@elseif($order->status == 'on_route_pickup') <img
+									class="status_icon"
+									src="{{asset('images/doorder_icons/order_status_on_route_pickup.png')}}"
+									alt="matched"> <span class="statusSpan"> On-route to pickup </span>
+								@elseif($order->status == 'picked_up') <img class="status_icon"
+									src="{{asset('images/doorder_icons/order_status_picked_up.png')}}"
+									alt="picked up"> <span class="statusSpan"> Picked up </span>
+								@elseif($order->status == 'on_route') <img class="status_icon"
+									src="{{asset('images/doorder_icons/order_status_on_route.png')}}"
+									alt="on route"> <span class="statusSpan"> On-route </span>
+								@elseif($order->status == 'delivery_arrived') <img
+									class="status_icon"
+									src="{{asset('images/doorder_icons/order_status_delivery_arrived.png')}}"
+									alt="on route"> <span class="statusSpan"> Arrived to location </span>
+								@elseif($order->status == 'delivered') <img class="status_icon"
+									src="{{asset('images/doorder_icons/order_status_delivered.png')}}"
+									alt="delivered"> <span class="statusSpan"> Delivered </span>
+								@endif
+							</h5>
 						</div>
 						<div class="col-12 col-md-3 mt-3">
-							<a id="printButton"
-										href="{{url('doorder/orders/print_label')}}/{{$order->id}}"
-										class="btn btn-primary doorder-btn" style="float: right">Print label</a>	
+							@if(auth()->user()->user_role == 'retailer') <button id="printButton"
+								onclick="printDiv()" class="btn btn-primary doorder-btn" style="float: right">Print
+								label</button> @endif
 						</div>
 					</div>
 					<div style="padding: 10px 0;"></div>
@@ -434,15 +454,16 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 						<div class="card-body" style="padding-top: 20px !important;">
 							<div class="container">
 								<div class="row">
-<!-- 									<div class="col-12 text-center"> -->
-										<!--  <p class="control-label" style="font-weight: normal">Order has -->
-<!-- 											already been delivered</p> -->
-<!-- 									</div> -->
+									<!-- 									<div class="col-12 text-center"> -->
+									<!--  <p class="control-label" style="font-weight: normal">Order has -->
+									<!-- 											already been delivered</p> -->
+									<!-- 									</div> -->
 									<div class="col-12">
 										<div class="form-group">
 											<label for="fulfilment" class="control-label">Driver Name</label>
 											<input id="fulfilment" type="text" name="fulfilment"
-												class="form-control" value="@if($order->orderDriver) {{$order->orderDriver->name}}
+												class="form-control"
+												value="@if($order->orderDriver) {{$order->orderDriver->name}}
 													@else N/A @endif"
 												required>
 										</div>
@@ -568,14 +589,12 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 					</div>
 				</div>
 
-				@endif
-				@endif
-				@if(auth()->user()->user_role != 'retailer')
+				@endif @endif @if(auth()->user()->user_role != 'retailer')
 				<div class="card">
 					@if(!$order->is_archived)
-					<form method="POST" id="update-order-status" action="{{url('doorder/order/update')}}">
-					@endif
-						@csrf <input type="hidden" id="order-id" name="order_id"
+					<form method="POST" id="update-order-status"
+						action="{{url('doorder/order/update')}}">
+						@endif @csrf <input type="hidden" id="order-id" name="order_id"
 							value="{{$order->id}}" />
 						<div class="card-header" data-toggle="collapse"
 							id="deliverer-details-header" data-target="#deliverer-details"
@@ -604,8 +623,8 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 										<div class="col-12">
 											<div class="form-group">
 												<label for="order_status" class="control-label">Order status</label>
-												<select id="order_status" name="order_status" @if($order->is_archived) disabled @endif
-													data-style="select-with-transition"
+												<select id="order_status" name="order_status" @if($order->is_archived)
+													disabled @endif data-style="select-with-transition"
 													class="form-control selectpicker">
 													<option value="matched" @if($order->status=='matched')
 														selected @endif> Matched</option>
@@ -645,7 +664,7 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 							</div>
 						</div>
 
-					@if(!$order->is_archived)
+						@if(!$order->is_archived)
 					</form>
 					@endif
 				</div>
@@ -799,10 +818,53 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 	</div>
 </div>
 
+<div id="printDiv" >
+<div  class="row" style="background-color: #ededed; height: 100px;-webkit-print-color-adjust: exact;color-adjust: exact;">
+			<div class="col-md-12 text-center py-3">
+				<img src="{{asset('images/doorder-logo.png')}}" height="80px"
+					width="250px">
+			</div>
+		</div>
+		<div class="row mx-auto" style="background-color: #f6f7fa;">
+
+			<div class="col-6  ">
+				<div class="form-group  mx-auto">
+					<label class="control-label  ">Name </label> <span
+						class="control-label  "
+						style="display: block; font-weight: 600"> {{$order->customer_name}} </span>
+				</div>
+			</div>
+			<div class="col-6">
+				<div class="form-group ">
+					<label class="control-label">Eircode </label> <span
+						class="control-label"
+						style="display: block; font-weight: 600"> {{$order->eircode}}</span>
+				</div>
+			</div>
+			<div class="col-12">
+				<div class="form-group ">
+					<label class="control-label ">Address </label> <span
+						class="control-label "
+						style="display: block; font-weight: 600"> {{$order->customer_address}}</span>
+				</div>
+			</div>
+			<div class="col-12">
+				<div class="form-group ">
+					<label class="control-label ">Phone number </label>
+					<span class="control-label "
+						style="display: block; font-weight: 600"> {{$order->customer_phone}}</span>
+				</div>
+			</div>
+
+		</div>
+</div>
 @endsection @section('page-scripts')
 <script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js"></script>
+<script
+	src="{{asset('js/print.min.js')}}"></script>
+
 <script>
         // var input = document.getElementById('customer_address');
         // var autocomplete = '';
@@ -836,9 +898,24 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
         // }
         
         
+        function printDiv() {
+           /*  var divContents = document.getElementById("printDiv").innerHTML;
+            var a = window.open('', '', 'height=500, width=500');
+            a.document.write('<html>');
+            a.document.write('<body > <h1>Div contents are <br>');
+            a.document.write(divContents);
+            a.document.write('</body></html>');
+            a.document.close();
+            a.print(); */
+            printJS({ printable: 'printDiv', 
+            		type: 'html',
+            		style: '#printDiv .col-md-12 { text-align: center;}',
+            		css: '{{asset('css/material-dashboard.min.css')}}'
+            		})
+        }
 
         $(document).ready(function(){
-        	
+        
         	$('#minimizeSidebar').trigger('click')
         
         	$("#notify-all-drivers").click(function () {

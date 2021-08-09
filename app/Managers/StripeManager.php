@@ -109,7 +109,7 @@ class StripeManager
         $client_name = strtolower($client->name);
         if($client_name=='gardenhelp'){
             try {
-                if ($user->contractor_profile->status != 'completed') {
+                if ($user->contractor_profile->status == 'completed') {
                     $new_pass = Str::random(6);
                     $user->password = bcrypt($new_pass);
                     $user->save();

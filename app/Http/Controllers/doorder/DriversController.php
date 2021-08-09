@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\doorder;
 
+use App\Contractor;
 use App\DriverProfile;
 use App\Helpers\CustomNotificationHelper;
 use App\Helpers\SecurityHelper;
@@ -591,6 +592,71 @@ class DriversController extends Controller
                         "from" => $sender_name,
                         "body" => "Hi $checkIfUserExists->name, this message has been sent upon a reset password request.\n".
                         "This is your reset password code: " . $resetPasswordCode
+                    ]
+                );
+            } catch (\Exception $exception) {
+                \Log::error($exception->getMessage(),$exception->getTrace());
+            }
+
+            UserPasswordReset::create([
+                'user_id' => $checkIfUserExists->id,
+                'code' => $resetPasswordCode
+            ]);
+            $response = [
+                'access_token' => '',
+                'message' => 'Please enter the reset password code.',
+                'error' => 0
+            ];
+            return response()->json($response);
+        } else {
+            $response = [
+                'access_token' => '',
+                'message' => 'No user was found with this phone number',
+                'error' => 1
+            ];
+            return response()->json($response)->setStatusCode(422);
+        }
+    }
+
+    public function sendGHForgotPasswordCode(Request $request) {
+        $checkIfUserExists = User::where('phone', $request->phone)->first();
+        if ($checkIfUserExists) {
+            //Check if deliverer profile has been completed
+            $driver_profile = Contractor::where('user_id','=',$checkIfUserExists->id)->first();
+            if(!$driver_profile){
+                $response = [
+                    'access_token' => '',
+                    'message' => 'No contractor profile was found',
+                    'error' => 1
+                ];
+                return response()->json($response)->setStatusCode(422);
+            }
+            if($driver_profile->status!="completed"){
+                $response = [
+                    'access_token' => '',
+                    'message' => 'Contractor profile has not been accepted yet',
+                    'error' => 1
+                ];
+                return response()->json($response)->setStatusCode(422);
+            }
+            //$resetPasswordCode = Str::random(6);
+            $rand_code = rand(100000,999999);
+            $resetPasswordCode = strval($rand_code);
+            try {
+                $sid = env('TWILIO_SID', '');
+                $token = env('TWILIO_AUTH', '');
+                $twilio = new Client($sid, $token);
+                $sender_name = "GardenHelp";
+                foreach($this->unallowed_sms_alpha_codes as $country_code){
+                    if(strpos($checkIfUserExists->phone,$country_code)!==false){
+                        $sender_name = env('TWILIO_NUMBER','DoOrder');
+                    }
+                }
+                $twilio->messages->create($checkIfUserExists->phone,
+                    [
+                        "from" => $sender_name,
+                        "body" => "Hi $checkIfUserExists->name, this message has been sent upon a reset password request.\n".
+                            "This is your reset password code: " . $resetPasswordCode
                     ]
                 );
             } catch (\Exception $exception) {

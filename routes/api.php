@@ -50,6 +50,7 @@ Route::post('bigcommerce/fulfill-order', 'BigCommerceController@fulfillOrder');
 Route::post('driver-registration','doorder\DriversController@postDriverRegistration');
 Route::post('driver-login','doorder\DriversController@driversLogin');
 Route::post('driver-forgot-password','doorder\DriversController@sendForgotPasswordCode');
+Route::post('contractor-forgot-password','doorder\DriversController@sendGHForgotPasswordCode');
 Route::post('driver-check-code','doorder\DriversController@checkForgotPasswordCode');
 Route::post('driver-change-password','doorder\DriversController@changeUserPassword');
 Route::group(['middleware' => "auth:api"],function () {

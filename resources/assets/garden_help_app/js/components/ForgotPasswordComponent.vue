@@ -1,12 +1,12 @@
 <template>
-  <div class="wrapper" style='background-image: url("images/doorder_driver_assets/login-screen.jpg");'>
+  <div class="wrapper" style='background-image: url("images/garden-help-side-bg.jpg");'>
     <div class="container">
       <div class="row login-row">
         <div class="col-lg-4 col-md-6 col-sm-8 mx-auto my-auto">
           <div class="card card-login">
             <div class="card-header text-center">
               <!--                            <a href="https://bumblebee.host">-->
-              <img class="img-fluid login-logo" src="images/doorder-logo.png" alt="Bumblebee Logo">
+              <img class="img-fluid login-logo" src="images/gardenhelp/Garden-help-new-logo.png" alt="GardenHelp Logo">
               <!--                            </a>-->
             </div>
             <div class="card-body">
@@ -98,7 +98,7 @@ export default {
     forgotPassword(e) {
       e.preventDefault();
       this.isLoading = true;
-      axios.post(process.env.MIX_API_URL + 'driver-forgot-password', {
+      axios.post(process.env.MIX_API_URL + 'contractor-forgot-password', {
         phone: this.phone.replaceAll(' ', ''),
       }, {
         headers: {
@@ -214,7 +214,7 @@ export default {
 
 .login-logo {
   width: 85px;
-  height: 52px;
+  /*height: 52px;*/
 }
 
 .forgot-password {

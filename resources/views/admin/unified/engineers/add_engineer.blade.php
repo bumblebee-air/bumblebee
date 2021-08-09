@@ -103,6 +103,7 @@
 												<label>Address</label>
 												<textarea class="form-control" name="address" id="address"
 													placeholder="Address" required></textarea>
+												<input type="hidden" name="address_coordinates" id="address_coordinates">
 											</div>
 										</div>
 										<div class="col-md-6">
@@ -215,7 +216,7 @@ function addIntelInput(input_id, input_name) {
 					let place_lat = place.geometry.location.lat();
 					let place_lon = place.geometry.location.lng();
 
-					//document.getElementById("address_coordinates").value = '{"lat": ' + place_lat.toFixed(5) + ', "lon": ' + place_lon.toFixed(5) + '}';
+					document.getElementById("address_coordinates").value = '{"lat": ' + place_lat.toFixed(5) + ', "lon": ' + place_lon.toFixed(5) + '}';
 				}
 			});
 		}

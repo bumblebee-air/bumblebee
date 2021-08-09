@@ -19,6 +19,7 @@ class StripeController extends Controller
         'business_profile.url' => "Business URL",
         'business_profile.product_description' => "Business URL",
         'tos_acceptance.ip' => "Terms of service",
+        'tos_acceptance.date' => "Terms of service",
         'external_account' => 'External account',
         'individual.first_name' => "Name",
         'individual.last_name' => "Name",

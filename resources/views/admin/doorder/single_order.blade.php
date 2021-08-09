@@ -824,7 +824,7 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 <div id="printDiv" >
 <div  class="row" style="background-color: #ededed; height: 100px;-webkit-print-color-adjust: exact;color-adjust: exact;">
 			<div class="col-md-12 text-center py-3">
-				<img src="{{asset('images/doorder-logo.png')}}" height="80px"
+				<img src="{{asset('images/doorder-logo2.png')}}" height="80px"
 					width="250px">
 			</div>
 		</div>

@@ -168,7 +168,7 @@
                                             <div class=" row">
                                                 <label class="requestLabel  col-12">Insurance Document:
                                                  <span class="form-control customerRequestSpan col-12">
-                                                 {{$contractor_request->vat_number ? $contractor_request->vat_number : 'N/A'}}</span></label>
+                                                 {{$contractor_request->insurance_document ? asset($contractor_request->insurance_document): 'N/A'}}</span></label>
                                             </div>
                                         </div>
                                         @if($contractor_request->experience_level_value != 1)

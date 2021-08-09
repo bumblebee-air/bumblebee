@@ -291,7 +291,7 @@ class StripeController extends Controller
     }
 
     private static function checkIfRequirementExists($item, $requirements_array) {
-        $is_exists = false;
+        $is_exists = true;
         if (!in_array($item, $requirements_array)) {
             if (in_array($item, ['tos_acceptance.ip', 'tos_acceptance.date'])) {
                 $similar_items = ['tos_acceptance.ip', 'tos_acceptance.date'];
@@ -307,8 +307,8 @@ class StripeController extends Controller
                         $is_exists = true;
                     }
                 }
-            }else if (in_array($item, ["business_profile.product_description" ,"business_profile.url"])) {
-                $similar_items = ["individual.first_name" ,"individual.last_name"];
+            } else if (in_array($item, ["business_profile.product_description" ,"business_profile.url"])) {
+                $similar_items = ["business_profile.product_description" ,"business_profile.url"];
                 foreach ($similar_items as $recurred_item) {
                     if (in_array($recurred_item, $requirements_array)) {
                         $is_exists = true;

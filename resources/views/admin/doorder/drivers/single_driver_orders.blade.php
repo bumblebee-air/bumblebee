@@ -1,7 +1,9 @@
 @extends('templates.dashboard') @section('page-styles')
 
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css"/>
-<link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.1.0/css/dataTables.dateTime.min.css"/>
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" />
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/datetime/1.1.0/css/dataTables.dateTime.min.css" />
 
 <style>
 .verificationDocs .form-group {
@@ -17,7 +19,6 @@
 	padding-bottom: 3px !important;
 }
 
-
 .ui-datepicker-calendar td {
 	min-width: auto;
 }
@@ -25,6 +26,7 @@
 .ui-draggable, .ui-droppable {
 	background-position: top;
 }
+
 .dataTables_wrapper.no-footer .dataTables_scrollBody {
 	border: none !important;
 }
@@ -35,35 +37,42 @@ table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
 }
 
 .ui-icon-circle-triangle-w {
-	background: url('{{asset('images/doorder_icons/angle-arrow-left.png')}}')
+	background: url('{{asset(' images/ doorder_icons/ angle-arrow-left.png ')}}')
 		no-repeat center !important;
 	background-size: cover;
 }
 
 .ui-icon-circle-triangle-e {
-	background: url('{{asset('images/doorder_icons/angle-arrow-right.png')}}')
+	background: url('{{asset(' images/ doorder_icons/ angle-arrow-right.png ')}}')
 		no-repeat center !important;
 	background-size: cover;
 }
 
-.dt-datetime-table thead tr th, .dt-datetime-table tbody tr td{
-    min-width: 30px !important;
-    max-width: 30px !important;
-    width: 30px !important;
+.dt-datetime-table thead tr th, .dt-datetime-table tbody tr td {
+	min-width: 30px !important;
+	max-width: 30px !important;
+	width: 30px !important;
 }
 
 div.dt-datetime {
-padding: 1px;
+	padding: 1px;
 }
-div.dt-datetime table th{
-padding: 4px 0;
+
+div.dt-datetime table th {
+	padding: 4px 0;
 }
-div.dt-datetime table td.selectable.now{
-background-color: #f7dc69;
-color: white;
+
+div.dt-datetime table td.selectable.now {
+	background-color: #f7dc69;
+	color: white;
 }
-div.dt-datetime table td.selectable button:hover{
-background-color: #d6b93d;
+
+div.dt-datetime table td.selectable button:hover {
+	background-color: #d6b93d;
+}
+
+div.dataTables_wrapper div.dataTables_filter {
+	display: none;
 }
 </style>
 @endsection @section('title','DoOrder | Driver ' . $driver->first_name .
@@ -200,7 +209,8 @@ background-color: #d6b93d;
 													<!-- <input class="form-control inputDate" id="startDate"
 														type="text" placeholder="From" required="true"
 														aria-required="true" name="from"> -->
-														<input type="text"  class="form-control " placeholder="From"  id="min" name="min">
+													<input type="text" class="form-control " placeholder="From"
+														id="min" name="min">
 												</div>
 											</div>
 											<div class="col-md-3">
@@ -208,7 +218,8 @@ background-color: #d6b93d;
 													<!-- <input class="form-control inputDate" id="endDate"
 														type="text" placeholder="To" required="true"
 														aria-required="true" name="to"> -->
-														<input type="text"  class="form-control " placeholder="To"  id="max" name="max">
+													<input type="text" class="form-control " placeholder="To"
+														id="max" name="max">
 												</div>
 											</div>
 										</div>
@@ -308,7 +319,8 @@ background-color: #d6b93d;
 
 <script type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-	<script type="text/javascript" src="https://cdn.datatables.net/datetime/1.1.0/js/dataTables.dateTime.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.datatables.net/datetime/1.1.0/js/dataTables.dateTime.min.js"></script>
 
 <script type="text/javascript">
 

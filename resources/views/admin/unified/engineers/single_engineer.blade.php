@@ -43,8 +43,7 @@
 								<div class="col-12 col-md-8">
 									<div class="card-icon p-3">
 										<img class="page_icon"
-											src="{{asset('images/unified/Customer.png')}}"
-											style="width: 42px !important; height: 32px !important;">
+											src="{{asset('images/unified/Engineers.png')}}">
 									</div>
 									<h4 class="card-title customerProfile">{{$engineer->first_name}} {{$engineer->last_name}}</h4>
 								</div>

@@ -123,6 +123,10 @@ Route::get('obd-admin', function () {
 // open insurance
 Route::get('insurance_entity', 'OpenInsuranceController@getInsuranceEntity');
 Route::post('save_insurance_entity', 'OpenInsuranceController@postInsuranceEntity');
+Route::get('personal', 'OpenInsuranceController@getPersonal');
+Route::post('save_personal', 'OpenInsuranceController@postPersonal');
+Route::get('product', 'OpenInsuranceController@getProduct');
+Route::post('save_product', 'OpenInsuranceController@postProduct');
 
 // Customer
 Route::get('create-customer', 'AdminController@createCustomer');
@@ -431,7 +435,8 @@ Route::group([
                 Route::get('add_engineer', 'unified\EngineerController@getAddEngineer')->name('unified_getAddEngineer');
                 Route::post('add_engineer', 'unified\EngineerController@postAddEngineer')->name('unified_postAddEngineer');
             });
-
+            
+            Route::get('unified_dashboard', 'unified\DashboardController@index')->name('unified_dashboard');
             Route::get('calendar', 'unified\CalendarController@getCalendar')->name('unified_getCalendar');
             Route::get('calendar-events', 'unified\CalendarController@getCalendarEvents')->name('unified_getCalendarEvents');
             Route::get('calendar/add_scheduled_job/{date}/{serviceId}', 'unified\CalendarController@getAddScheduledJob')->name('unified_getAddScheduledJob');

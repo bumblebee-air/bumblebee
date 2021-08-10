@@ -1,5 +1,5 @@
 <template>
-  <div class="container" v-if="steps == 1">
+  <div class="container" v-if="steps == 1" style="overflow-x: auto;">
     <form action="" @submit="submitServices">
       <div class="row">
         <div class="col-md-12 image-container">
@@ -432,5 +432,8 @@ export default {
 
   .danger {
     background-color: #d85656!important;
+  }
+  #app {
+    overflow: auto;
   }
 </style>

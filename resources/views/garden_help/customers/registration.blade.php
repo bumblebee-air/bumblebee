@@ -894,7 +894,9 @@
                         });
                         return;
                     }
-                    $('#customer-registration-form').submit();
+                    setTimeout(function () {
+                        $('#customer-registration-form').submit();
+                    }, 300);
                 }
             }
         });

@@ -511,7 +511,42 @@ class ContractorsController extends Controller
 
     public function postEditContractor(Request $request)
     {
-        // dd($request);
+        $contractor = Contractor::find($request->contractorId);
+        if (!$contractor) {
+            alert()->warning('There is contractor with ths ID.');
+            return redirect()->back();
+        }
+
+        $contractor->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone_number' => $request->phone_number,
+            'experience_level' => $request->experience_level,
+            'experience_level_value' => $request->experience_level_value,
+            'age_proof' => $request->hasFile('age_proof') ? $request->file('age_proof')->store('uploads/contractors_uploads') : $contractor->age_proof,
+            'cv' => $request->hasFile('cv') ? $request->file('cv')->store('uploads/contractors_uploads') : null,
+            'job_reference' => $request->hasFile('job_reference') ? $request->file('job_reference')->store('uploads/contractors_uploads') : $contractor->job_reference,
+            'available_equipments' => $request->available_equipments,
+            'type_of_work_exp' => $request->type_of_work_exp,
+            'address' => $request->address,
+            'address_coordinates' => $request->address_coordinates,
+            'company_number' => $request->company_number,
+            'vat_number' => $request->vat_number,
+            'insurance_document' => $request->hasFile('insurance_document') ? $request->file('insurance_document')->store('uploads/contractors_uploads') : $contractor->insurance_document,
+            'has_smartphone' => $request->has_smartphone,
+            'type_of_transport' => $request->type_of_transport,
+            'charge_type' => $request->charge_type,
+            'charge_rate' => $request->charge_rate,
+            'has_callout_fee' => $request->has_callout_fee,
+            'callout_fee_value' => $request->callout_fee_value,
+            'rate_of_green_waste' => $request->rate_of_green_waste,
+            'green_waste_collection_method' => $request->green_waste_collection_method,
+            'social_profile' => $request->social_profiles,
+            'website_address' => $request->website,
+            'type_of_work' => $request->type_of_work,
+            'contact_through' => $request->contact_through,
+            'type_of_work_selected_value' => $request->type_of_work_selected_value
+        ]);
         alert()->success('Contractor updated successfully');
         return redirect()->to('garden-help/contractors/contractors_list');
     }

@@ -409,7 +409,7 @@ Contractor View') @section('page-styles')
 														id="address" type="text" class="form-control"
 														name="address" value="{{$contractor->address}}" required></label>
 													<input type="hidden" id="address_coordinates"
-														name="address_coordinates">
+														name="address_coordinates" value="{{$contractor->address_coordinates}}">
 												</div>
 											</div>
 

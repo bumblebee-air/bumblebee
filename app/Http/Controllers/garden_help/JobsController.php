@@ -160,7 +160,7 @@ class JobsController extends Controller
             ]);
 
             $user = User::where('email','=',$request->email)
-                ->where('phone','=',$request->phone)->first();
+                ->where('phone','=',$request->phone)->where('user_role', 'customer')->first();
             if(!$user) {
                 $check_phone = User::where('phone','=',$request->phone)->first();
                 if($check_phone!=null){

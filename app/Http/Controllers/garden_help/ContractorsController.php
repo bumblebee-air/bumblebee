@@ -334,7 +334,6 @@ class ContractorsController extends Controller
                             StripePaymentHelper::transferPaymentToConnectedAccount($request->user()->stripe_account->account_id, round(($client_setting->the_value / 100 ) * $actual_services_amount));
                         }
                     }
-                    return response()->json([], 500);
                     $job->is_paid = true;
                 }
                 $job->save();

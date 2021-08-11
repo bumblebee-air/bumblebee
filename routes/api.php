@@ -76,3 +76,7 @@ Route::group(['middleware' => "auth:api"],function () {
 });
 
 Route::post('stripe-account-update','StripeController@accountUpdateWebhook');
+
+//App Details
+Route::get('app-details', 'AppDetailsController@view');
+Route::post('app-details', 'AppDetailsController@update');

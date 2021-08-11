@@ -386,7 +386,7 @@ Job') @section('page-styles')
 													<div class="form-group bmd-form-group is-filled">
 														<label for="available_date_time">Schedual at</label>
 														{{--                                <div class="d-flex justify-content-between">--}}
-														<input name="available_date_time" type="text" class="form-control datetimepicker" id="available_date_time" {{old('available_date_time')}} required>
+														<input name="available_date_time" type="text" class="form-control datetimepicker" id="available_date_time" value="{{old('available_date_time')}}" required>
 														{{--                                    <a class="select-icon">--}}
 														{{--                                        <i class="fas fa-caret-down"></i>--}}
 														{{--                                    </a>--}}

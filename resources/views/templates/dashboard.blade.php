@@ -120,7 +120,7 @@
 			<nav
 				class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top">
 				<div class="container-fluid">
-					<div class="navbar-wrapper">
+					<div class="navbar-wrapper col-md-1">
 						<div class="navbar-minimize">
 							<button id="minimizeSidebar"
 								class="btn btn-just-icon btn-white btn-fab btn-round">
@@ -139,7 +139,7 @@
 							class="navbar-toggler-icon icon-bar"></span> <span
 							class="navbar-toggler-icon icon-bar"></span>
 					</button>
-					<div class="collapse navbar-collapse justify-content-end">
+					<div class="collapse navbar-collapse justify-content-end col-md-11">
 						<div class="searchFormContainerDiv"
 							style="">
 						<form 

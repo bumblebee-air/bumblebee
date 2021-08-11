@@ -284,6 +284,16 @@
 								class="sidebar-mini sidebar-span">IE</span>
 								<p>Insurance Entity</p>
 						</a></li>
+						<li class="nav-item "><a class="nav-link"
+							href="{{url('personal')}}"> <span
+								class="sidebar-mini sidebar-span">Pe</span>
+								<p>Personal</p>
+						</a></li>
+						<li class="nav-item "><a class="nav-link"
+							href="{{url('product')}}"> <span
+								class="sidebar-mini sidebar-span">Pr</span>
+								<p>Product</p>
+						</a></li>
 						
 					</ul>
 				</div></li>
@@ -673,7 +683,7 @@
 		@elseif(Auth::guard('unified')->check())
 				<ul class="nav">
 			<li class="nav-item"><a class="nav-link d-flex"
-				href="">  <img class="my-nav-icon"
+				href="{{route('unified_dashboard', 'unified')}}">  <img class="my-nav-icon"
 					src="{{asset('images/unified/Dashboard.png')}}"
 					alt="Dashboard">
 					<p>Dashboard </p>
@@ -691,10 +701,10 @@
 					<p>Jobs Table </p>
 			</a></li>
 			<li class="nav-item"><a class="nav-link d-flex"
-				href="">  <img class="my-nav-icon"
+				href="{{route('unified_getCalendar', 'unified')}}">  <img class="my-nav-icon"
 					src="{{asset('images/unified/Add.png')}}"
 					alt="Add New Job">
-					<p>Add New Job / Contract </p>
+					<p>Add New Job </p>
 			</a></li>
 			<li class="nav-item"><a class="nav-link d-flex"
 				href="{{route('unified_getCustomersList', 'unified')}}">  <img class="my-nav-icon"

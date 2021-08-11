@@ -626,3 +626,122 @@ input.form-control, textarea.form-control, select.form-control {
 	background-color: #d58242 !important;
 	border-color: #d58242 !important;
 }
+
+/************* dashboard **************/
+@media screen and (min-width: 992px) {
+	#dashboardFilterRowDiv {
+		margin-left: 10px;
+	}
+}
+
+.cardDashboardValueH3 {
+	font-size: 24.5px;
+	font-weight: bold;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.87px;
+	color: #eda166 !important;
+}
+.card-dashboard-content .card-footer {
+	margin: 0 !important;
+}
+
+.card-dashboard-content .card-footer .stats {
+	font-size: 13px !important;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.46px;
+	color: #c2c8d5 !important;
+}
+
+
+#dashboardCardDiv .btn {
+	font-size: 14px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.72px;
+	color: #ffffff;
+	padding: 9px 52px;
+	text-transform: inherit !important;
+}
+
+.tableDashboardH3 {
+	font-family: 'Roboto', sans-serif;
+	font-size: 14px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.5px;
+	color: #7b7b7b;
+	padding: 10px;
+}
+
+.cardContentTableDiv {
+	padding: 0rem 0.25rem 0 0.25rem;
+}
+
+.ct-chart .ct-series-a .ct-area, .ct-chart .ct-series-a .ct-bar,
+	.ct-chart .ct-series-a .ct-line, .ct-chart .ct-series-a .ct-point,
+	.ct-chart .ct-series-a .ct-slice-donut, .ct-chart .ct-series-a .ct-slice-donut-solid,
+	.ct-chart .ct-series-a .ct-slice-pie {
+	stroke: #d58242 !important;
+	stroke-width: 10px;
+}
+.filterLabelDashboard {
+	font-size: 14px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.66px;
+	color: #4d4d4d;
+	max-width: fit-content;
+}
+
+.dashboard-card-icon {
+	background: #fff !important;
+	box-shadow: none !important;
+}
+
+.dashboard-card-icon-container {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+}
+
+.dashboard-card-img {
+	width: 63px;
+	height: 65px;
+}
+
+.card-dashboard-content {
+	padding: 1.3rem 1.2rem;
+}
+p.card-category {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.5px;
+    color: #7b7b7b !important;
+}
+
+
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight{
+background-color: #efae7b;
+border-color: #efae7b;
+color:white;	
+}
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover{
+	background-color: #d58242;
+	border-color: #d58242;
+}

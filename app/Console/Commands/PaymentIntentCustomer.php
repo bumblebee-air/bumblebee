@@ -50,8 +50,9 @@ class PaymentIntentCustomer extends Command
 
         foreach ($customers as $customer) {
             //Get Amount
+//            dd(Carbon::now()->getTimestamp() <= Carbon::parse($customer->available_date_time)->getTimestamp() && Carbon::now()->getTimestamp() >= Carbon::parse($customer->available_date_time)->subDays(6)->getTimestamp());
 //            dd(Carbon::parse($customer->available_date_time)->toDateTimeString(), Carbon::now()->toDateTimeString(), Carbon::parse($customer->available_date_time)->addDays(6)->toDateTimeString());
-            if ($customer->available_date_time && Carbon::now()->getTimestamp() >= Carbon::parse($customer->available_date_time)->getTimestamp() && Carbon::now()->getTimestamp() <= Carbon::parse($customer->available_date_time)->addDays(6)->getTimestamp()) {
+            if ($customer->available_date_time && (Carbon::now()->getTimestamp() <= Carbon::parse($customer->available_date_time)->getTimestamp() && Carbon::now()->getTimestamp() >= Carbon::parse($customer->available_date_time)->subDays(6)->getTimestamp())) {
                 if ($customer->services_types_json && $customer->stripe_customer) {
                     $service_types_amount = ServicesTypesHelper::getJobServicesTypesAmount($customer);
                     $amount = $service_types_amount + ServicesTypesHelper::getVat(13.5, $service_types_amount);

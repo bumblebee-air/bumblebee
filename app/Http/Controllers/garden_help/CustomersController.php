@@ -227,10 +227,12 @@ class CustomersController extends Controller
             abort(404);
         }
         $this->validate($request, [
-            'stripeToken' => 'required'
+            'stripeToken' => 'required',
+            'schedule_at' => 'required'
         ]);
         $customer->type = 'job';
         $customer->status = 'ready';
+        $customer->available_date_time = $request->schedule_at;
 
         //Create Stripe Customer
         try {

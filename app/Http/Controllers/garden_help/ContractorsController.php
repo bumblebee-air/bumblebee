@@ -297,13 +297,13 @@ class ContractorsController extends Controller
                             $data = base64_decode($data);
                             $base64_image_path = 'uploads/jobs_uploads/' . Str::random(10) . ".$base64_image_format[1]";
                             Storage::disk('local')->put($base64_image_path, $data);
-                            $job->expenses_receipt_file = $base64_image_path;
+                            $job->job_expenses_receipt_file = $base64_image_path;
                         }
                     }
                     $job->status = $request->status;
                     $job->skip_reason = $request->skip_reason;
                     $job->job_services_types_json = $request->job_services_types_json;
-                    $job->other_expenses = $request->extra_expenses_json;
+                    $job->job_other_expenses_json = $request->extra_expenses_json;
                     //Capture the payment intent
                     $extra_expenses = ServicesTypesHelper::getExtraExpensesAmount($request->extra_expenses_json);
                     $services_amount = ServicesTypesHelper::getJobServicesTypesAmount($job);

@@ -11,6 +11,8 @@ use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use Stripe\InvoiceItem;
 
+use Stripe\StripeClient;
+
 class InvoiceController extends Controller
 {
 
@@ -74,6 +76,8 @@ class InvoiceController extends Controller
         $user = User::find($retailer->user_id);
         //dd($user);
         
+        $retailer->invoice_number = '1234569';
+        
         return view('admin.doorder.invoice.single_invoice', ["invoice"=>$invoice,'retailer' => $retailer,'user'=>$user, 
             'subtotal' => $subtotal,'vat'=> $vat, 'total'=>$total,'month'=>$request->month]);
     }
@@ -100,5 +104,53 @@ class InvoiceController extends Controller
         }
         alert()->success('Invoiced successfully');
         return redirect()->route('doorder_getInvoiceList', 'doorder');
+    }
+    
+    public function getSendInvoiceEmail($client_name, $retailer_id, $invoice_number) {
+       // dd($retailer_id.'  '.$invoice_number);
+        $retailer = Retailer::find($retailer_id);
+        return view('email.doorder_invoice_retailer',["retailer_name"=>$retailer->name, "url"=>url('doorder/invoice_view/1?month=Jul%202021')]);
+    }
+    
+    public function getPayInvoice($client_name, $retailer_id, $invoice_number) {
+        //dd('pay invoice '.$retailer_id.' '.$invoice_number);
+        $retailer = Retailer::find($retailer_id);
+        return view('admin.doorder.pay_invoice',["customer_name"=>$retailer->name,"id"=>$retailer_id,"invoice_number"=>'12234545',"amount"=>100.0]);
+        
+        
+    }
+    public function postPaymentDetails(Request $request)
+    {
+        dd("post payment details");
+//         $this->validate($request, [
+//             'invoice_number' => 'required',
+//             'amount' => 'required|integer',
+//             'stripeToken' => 'required',
+//             'customer_name' => 'required|string',
+//         ]);
+        
+//         //Creating new class from Stripe Client
+//         $stripe = new StripeClient(env('STRIPE_SECRET'));
+//         //Creating Stripe Charge
+//         $charge = $stripe->charges->create([
+//             'amount' => $request->amount*100,
+//             'currency' => env('STRIPE_CURRENCY','eur'),
+//             'source' => $request->stripeToken,
+//             'description' => 'Name: '.$request->customer_name.' , Invoice No.: '.$request->invoice_number
+//         ]);
+        
+//         #Check if succeed
+//         if ($charge->status == "succeeded") {
+//             Transaction::create([
+//                 'transaction_id' => $charge->id,
+//                 'amount' => $request->amount,
+//                 'invoice_number' => $request->invoice_number,
+//                 'customer_name' => $request->customer_name,
+//                 'payment_amount' => $request->amount,
+//                 'stripe_response' => json_encode($charge),
+//             ]);
+//         }
+        flashy()->success('Payment has been processed successfully');
+        return redirect()->back();
     }
 }

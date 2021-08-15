@@ -129,7 +129,8 @@
 												<div class="col-12">
 													<div class="form-group bmd-form-group" id="dateDiv">
 														<label>Date</label> <input type="text" id="date"
-															class="form-control" name="date" value="{{$date==0 ? '' : $date }}"
+															class="form-control" name="date"
+															value="{{$date==0 ? '' : $date }}"
 															placeholder="Select date" required>
 													</div>
 												</div>
@@ -165,8 +166,9 @@
 														<label>Customer location</label>
 														<textarea class="form-control" name="address" id="address"
 															placeholder="Customer location" required> </textarea>
-															
-														<input type="hidden" name="address_coordinates" id="address_coordinates">
+
+														<input type="hidden" name="address_coordinates"
+															id="address_coordinates">
 													</div>
 												</div>
 												<div class="col-12">
@@ -199,7 +201,8 @@
 														<label>Pickup address</label>
 														<textarea class="form-control" name="pickupAddress"
 															id="pickupAddress" placeholder="Pickup address" required> </textarea>
-														<input type="hidden" name="pickup_coordinates" id="pickup_coordinates">	
+														<input type="hidden" name="pickup_coordinates"
+															id="pickup_coordinates">
 													</div>
 												</div>
 												<div class="col-12">

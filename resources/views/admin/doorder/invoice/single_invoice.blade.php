@@ -179,6 +179,15 @@ tbody tr td:first-child, thead tr th:first-child {
 	font-family: Quicksand;
 	font-size: 18px;
 }
+
+.invoiceBtn,.payBtn{
+color: white !important;
+}
+a.invoiceBtn{
+background: #747474 !important;
+border-color: #747474 !important;
+box-shadow: 0 2px 2px 0 rgb(116 116 116 / 14%), 0 3px 1px -2px rgb(116 116 116 / 20%), 0 1px 5px 0 rgb(116 116 116 / 12%) !important
+}
 </style>
 @endsection @section('title','DoOrder | Invoice ' . $retailer->id)
 @section('page-content')
@@ -313,14 +322,30 @@ tbody tr td:first-child, thead tr th:first-child {
 						</div>
 					</div>
 
+					@if(auth()->user()->user_role != 'retailer')
 					<div class="row ">
-						<div class="col text-center">
+						<div class="col-sm-6 text-center">
 							<form method="POST"
 								action="{{route('doorder_sendInvoice',['doorder',$retailer->id, 'month' => $_GET['month']])}}"
-								id="invoice_orders_form">{{csrf_field()}}</form>
-							<button class="btn bt-submit" @click="submitForm">Invoice</button>
+								id="invoice_orders_form" style="margin: 0 !important;">{{csrf_field()}}</form>
+							<button class="btn bt-submit invoiceBtn" @click="submitForm">Invoice</button>
+						</div>
+						<div class="col-sm-6 text-center">
+							<a class="btn btn-primary doorder-btn-lg doorder-btn invoiceBtn"
+								href="{{url('doorder/send_invoice_email/')}}/{{$retailer->id}}/{{$retailer->invoice_number}}"
+							>Send invoice email</a>
 						</div>
 					</div>
+					@else
+					<div class="row ">
+						
+						<div class="col text-center">
+							<a class="btn btn-primary doorder-btn-lg doorder-btn payBtn"
+								href="{{url('doorder/pay_invoice/')}}/{{$retailer->id}}/{{$retailer->invoice_number}}"
+							>Pay</a>
+						</div>
+					</div>
+					@endif
 				</div>
 			</div>
 		</div>

@@ -6,6 +6,13 @@ body {
 	font-family: Roboto
 }
 
+.dropdown-menu .dropdown-item:focus, .dropdown-menu .dropdown-item:hover, .dropdown-menu a:active, .dropdown-menu a:focus, .dropdown-menu a:hover{
+	background-color: #60a244 !important;
+	color: white !important;
+	text-decoration: none !important;
+	box-shadow: 0 4px 20px 0 rgb(0 0 0 / 14%), 0 7px 10px -5px rgb(96 168 68 / 40%);
+}
+
 .sidebar .user .photo img {
 	width: 100px !important;
 	height: 100px !important;
@@ -327,7 +334,8 @@ td {
 }
 
 .card-body {
-	padding-top: 40px !important;
+	/* padding-top: 40px !important; */
+	padding-top: 5px !important;
 }
 
 .modal-body .card-body .container {
@@ -401,6 +409,7 @@ td {
 
 .btn-primary {
 	background-color: #60a244 !important;
+	box-shadow: 0 2px 2px 0 rgb(96 162 68 / 14%), 0 3px 1px -2px rgb(96 162 68 / 20%), 0 1px 5px 0 rgb(96 162 68 / 12%) !important;
 }
 
 .garden-btn-lg {

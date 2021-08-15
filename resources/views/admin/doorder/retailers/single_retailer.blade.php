@@ -1,7 +1,7 @@
 @extends('templates.dashboard') @section('page-styles')
 <link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
 
-    <link rel="stylesheet" href="{{asset('css/jquery.businessHours.css')}}">
+<link rel="stylesheet" href="{{asset('css/jquery.businessHours.css')}}">
 <style>
 .workingBusinssDay {
 	background-color: #e8ca49;
@@ -27,30 +27,48 @@ textarea {
 	box-shadow: none !important;
 }
 
- .business_day_switch {
-            width: 75px;
-            height: 31px;
-            margin: 45px 18px 10px 85px;
-            border-radius: 2px;
-            background-color: #eeeeee;
-        }
+.business_day_switch {
+	width: 75px;
+	height: 31px;
+	margin: 45px 18px 10px 85px;
+	border-radius: 2px;
+	background-color: #eeeeee;
+}
 
-        .business_day_switch_checked {
-            background-color: #e8ca49;
-        }
-         .workingBusinssDay {
-            background-color: #e8ca49;
-            border-radius: 2px!important;
-            border: none!important;
-            max-height: 21px!important;
-        }
+.business_day_switch_checked {
+	background-color: #e8ca49;
+}
 
-        .dayOff {
-            background-color: #eeeeee;
-            border-radius: 2px;
-            border: none!important;
-            max-height: 21px!important;
-        }
+.workingBusinssDay {
+	background-color: #e8ca49;
+	border-radius: 2px !important;
+	border: none !important;
+	max-height: 21px !important;
+}
+
+.dayOff {
+	background-color: #eeeeee;
+	border-radius: 2px;
+	border: none !important;
+	max-height: 21px !important;
+}
+
+.my-check-box {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	color: #c3c7d2;
+	padding-right: 20px;
+	cursor: pointer;
+}
+
+.my-check-box-checked {
+	color: #f7dc69;
+}
+
+.my-check-box i {
+	font-size: 18px
+}
 </style>
 @endsection @section('title','DoOrder | Retailer ' . $retailer->name)
 @section('page-content')
@@ -62,7 +80,7 @@ textarea {
 					@if($readOnly==0)
 					<form id="order-form" method="POST"
 						action="{{route('post_doorder_retailers_single_retailer', ['doorder', $retailer->id])}}"
-						@submit="submitForm">
+						v-on:submit="checkPaymentCard">
 						@endif {{csrf_field()}} <input type="hidden" name="retailer_id"
 							value="{{$retailer->id}}">
 						<div class="card">
@@ -182,8 +200,7 @@ textarea {
 															v-model="location.address" required></textarea>
 														<input :id="'location_'+ (index+1) +'_coordinates'"
 															:name="'address_coordinates_' + (index + 1)"
-															v-model="location.coordinates"
-															type="hidden">
+															v-model="location.coordinates" type="hidden">
 													</div>
 												</div>
 
@@ -199,22 +216,18 @@ textarea {
 														<label>Country</label> <input type="text"
 															class="form-control" :id="'country' + (index + 1)"
 															:name="'country' + (index + 1)" value="Ireland"
-															 placeholder="Country" required>
+															placeholder="Country" required>
 													</div>
 												</div>
 
 												<div class="col-sm-6">
 													<div class="form-group bmd-form-group">
-														<label>Working days and hours</label>
-														
-														<input type="text" class="form-control"
-															:id="'business_hours' + (index + 1)"
-															:name="'business_hours' + (index + 1)"
-															value=""
+														<label>Working days and hours</label> <input type="text"
+															class="form-control" :id="'business_hours' + (index + 1)"
+															:name="'business_hours' + (index + 1)" value=""
 															v-model="location.business_hours"
 															placeholder="Working Days and Hours" data-toggle="modal"
-															:data-target="'#exampleModal' + index" required> 
-															<input
+															:data-target="'#exampleModal' + index" required> <input
 															type="hidden" :id="'business_hours_json' + (index + 1)"
 															:name="'business_hours_json' + (index + 1)"
 															v-model="location.business_hours_json">
@@ -225,8 +238,7 @@ textarea {
 													<div class="form-group bmd-form-group">
 														<label>County</label> <input type="text"
 															class="form-control" :id="'county' + (index + 1)"
-															 :name="'county' + (index + 1)"
-															value="Dublin"
+															:name="'county' + (index + 1)" value="Dublin"
 															placeholder="County" required>
 													</div>
 												</div>
@@ -397,6 +409,77 @@ textarea {
 						</div>
 
 						@if($readOnly==0)
+						<div class="card">
+							<div class="card-body">
+								<div class="container">
+									<div class="row">
+										<div class="col-md-12 d-flex form-head pl-3">
+											<span> 5 </span>
+											<h5 class="singleViewSubTitleH5">Payment Details</h5>
+										</div>
+
+										<div class="col-md-12">
+											<div class="row">
+												<div class="col-12">
+													<div class="form-group pl-2">
+														<div class="d-flex form-group bmd-form-group"
+															@click="requireCardDetails()">
+															<label><div id="check"
+																	:class="require_card ? 'my-check-box my-check-box-checked' : 'my-check-box'">
+																	<i class="fas fa-check-square"></i>
+																</div> Add card details?</label>
+														</div>
+													</div>
+												</div>
+												<div class="col-md-12" v-if="require_card===true">
+													<div class="row">
+														<div class="col-sm-6">
+															<div class="form-group bmd-form-group">
+																<label>Card number</label><input type="text"
+																	class="form-control" id="card_number"
+																	value="{{old('payment_card_number')}}"
+																	placeholder="Card number" required>
+															</div>
+														</div>
+
+														<div class="col-sm-6">
+															<div class="form-group bmd-form-group">
+																<label>CVC number</label> <input type="text"
+																	class="form-control" id="cvc"
+																	value="{{old('payment_cvc_number')}}"
+																	placeholder="CVC Number" required>
+															</div>
+														</div>
+
+														<div class="col-sm-6">
+															<div class="form-group bmd-form-group">
+																<label>Expiry date (MM/YY)</label><input type="text"
+																	class="form-control" id="payment_exp_date"
+																	value="{{old('payment_exp_date')}}"
+																	placeholder="Expiry date (MM/YY)" required>
+															</div>
+														</div>
+
+														<div class="col-sm-6">
+															<div class="form-group bmd-form-group">
+																<img src="{{asset('images/stripelogo.png')}}"
+																	style="max-width: 100%; max-height: 70px"
+																	alt="Pay With Stripe">
+															</div>
+														</div>
+													</div>
+												</div>
+												<input type='hidden' name='stripeToken'
+													v-model="stripeToken" />
+
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>@endif 
+						
+						@if($readOnly==0)
 						<div class="row">
 							<div class="col-sm-6 text-center">
 
@@ -466,6 +549,7 @@ textarea {
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <script
 	src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=places"></script>
 
@@ -501,7 +585,10 @@ $('.addCircle,.removeCircle').css("display","none")
 					counties: [],
                     business_hours: {},
                     counties: [],
-                    
+                    stripeToken: '',
+                    require_card: false,
+                    readOnly : {!! $readOnly !!},
+                    disabled:''
 				}
             },
 			mounted() {
@@ -622,8 +709,8 @@ $('.addCircle,.removeCircle').css("display","none")
                 removeContact(index){
 					this.contacts.splice(index, 1);
                 },
-				submitForm(e){
-					e.preventDefault();
+				submitForm(){
+					//e.preventDefault();
 					let location_details = [];
 					let contacts_details = [];
 					//Make Location Details Input
@@ -781,6 +868,40 @@ $('.addCircle,.removeCircle').css("display","none")
 						uncheckedColorClass: 'dayOff',
 					})
 				},
+				
+                requireCardDetails(){
+                    this.require_card = (this.require_card === false)? true : false;
+                },
+                
+                checkPaymentCard(e) {
+                    e.preventDefault();
+                    if(this.require_card===true) {
+                        let exp_date = $('#payment_exp_date').val();
+                        let exp_month = exp_date.split('/')[0];
+                        let exp_year = exp_date.split('/')[1];
+                        Stripe.setPublishableKey('{{env('STRIPE_PUBLIC_KEY')}}');
+                        Stripe.createToken({
+                            number: $('#card_number').val(),
+                            cvc: $('#cvc').val(),
+                            exp_month: exp_month,
+                            exp_year: exp_year
+                        }, this.stripeResponseHandler);
+                        return false;
+                    }else{
+                       this.submitForm();
+                       //this.validateEmailAndPhone();
+                    }
+                },
+                stripeResponseHandler(status, response) {
+                    if (response.error) {
+                        alert(response.error.message);
+                    } else {
+                        // token contains id, last4, and card type
+                        this.stripeToken = response['id'];
+                        this.submitForm();
+                        //this.validateEmailAndPhone();
+                    }
+                },
 			}
         });
         Vue.config.devtools = true

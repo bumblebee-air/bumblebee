@@ -33,6 +33,9 @@ li .nav-link:hover {
 	font-weight: 500;
 	line-height: 1.5;
 }
+li .nav-link:hover .profileNameNavbar,.profileNameNavbar:hover{
+	color: #f7dc69 !important;
+}
 
 li .nav-link:hover .my-nav-icon-top {
 	display: inline;

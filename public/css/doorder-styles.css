@@ -2,7 +2,9 @@
 	width: 98%;
 	max-width: 98%;
 }
-
+.dropdown-menu .dropdown-item:focus, .dropdown-menu .dropdown-item:hover, .dropdown-menu a:active, .dropdown-menu a:focus, .dropdown-menu a:hover{
+	background: #e8ca49;
+}
 .sidebar .user {
 	padding-bottom: 0;
 }

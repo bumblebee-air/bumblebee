@@ -186,9 +186,9 @@
 									<i class="material-icons">person</i>
 									<p class="profileNameNavbar">{{$user->name}}</p>
 								</a>
-								<div class="dropdown-menu dropdown-menu-left"
+								<div class="dropdown-menu dropdown-menu-right"
 									aria-labelledby="navbarDropdownProfile">
-									<a class="dropdown-item" href="{{url($guard_name.'/profile')}}">edit Password</a>
+									<a class="dropdown-item" href="{{url($guard_name.'/profile')}}">Edit Password</a>
 									@if(auth()->user()->user_role == 'retailer')
 										<a class="dropdown-item" href="{{url($guard_name.'/profile/edit')}}">Edit Profile</a>
 									@endif

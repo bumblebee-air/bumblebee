@@ -228,6 +228,25 @@ class RetailerController extends Controller
             alert()->error('Retailer not found!');
             return redirect()->back();
         }
+        $stripe_token = $request->get('stripeToken');
+        if($stripe_token!=null && $stripe_token!='') {
+            $user = User::find($retailer->user_id);
+            if(!$user){
+                alert()->error('The associated user of this retailer was not found!');
+                return redirect()->back();
+            }
+            if (env('APP_ENV') == 'local' || env('APP_ENV') == 'development') {
+                $stripe_token = 'tok_visa';
+            }
+            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+            $customer = $stripe->customers->create([
+                'name' => $user->name,
+                'email' => $user->email,
+                'source' => $stripe_token
+            ]);
+            $customer_id = $customer->id;
+            $retailer->stripe_customer_id = $customer_id;
+        }
         $retailer->name = $request->get('company_name');
         $retailer->company_website = $request->get('company_website');
         $retailer->business_type = $request->get('business_type');

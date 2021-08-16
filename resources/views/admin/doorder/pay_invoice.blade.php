@@ -72,7 +72,7 @@ background-size:cover;
 				style="background-color: white; border-radius: 30px;">
 				<img src="{{asset('images/doorder-logo.png')}}" class="img-fluid"
 					alt="DoOrder Logo" style="width: 110px; height: 80px;">
-				<!--<form method="post" id="details-form" action="{{route('postPaymentDetails','doorder')}}" onsubmit="submitToStripe(event)">-->
+				<!--<form method="post" id="details-form" action="" onsubmit="submitToStripe(event)">-->
 				@csrf
 				<div id="details-section">
 					<h3 class="titles_custom mb-3">Invoice details</h3>

@@ -115,42 +115,29 @@ class InvoiceController extends Controller
     public function getPayInvoice($client_name, $retailer_id, $invoice_number) {
         //dd('pay invoice '.$retailer_id.' '.$invoice_number);
         $retailer = Retailer::find($retailer_id);
-        return view('admin.doorder.pay_invoice',["customer_name"=>$retailer->name,"id"=>$retailer_id,"invoice_number"=>'12234545',"amount"=>100.0]);
-        
-        
-    }
-    public function postPaymentDetails(Request $request)
-    {
-        dd("post payment details");
-//         $this->validate($request, [
-//             'invoice_number' => 'required',
-//             'amount' => 'required|integer',
-//             'stripeToken' => 'required',
-//             'customer_name' => 'required|string',
-//         ]);
-        
-//         //Creating new class from Stripe Client
-//         $stripe = new StripeClient(env('STRIPE_SECRET'));
-//         //Creating Stripe Charge
-//         $charge = $stripe->charges->create([
-//             'amount' => $request->amount*100,
-//             'currency' => env('STRIPE_CURRENCY','eur'),
-//             'source' => $request->stripeToken,
-//             'description' => 'Name: '.$request->customer_name.' , Invoice No.: '.$request->invoice_number
-//         ]);
-        
-//         #Check if succeed
-//         if ($charge->status == "succeeded") {
-//             Transaction::create([
-//                 'transaction_id' => $charge->id,
-//                 'amount' => $request->amount,
-//                 'invoice_number' => $request->invoice_number,
-//                 'customer_name' => $request->customer_name,
-//                 'payment_amount' => $request->amount,
-//                 'stripe_response' => json_encode($charge),
-//             ]);
-//         }
-        flashy()->success('Payment has been processed successfully');
-        return redirect()->back();
+        $invoice_number_split = explode('-',$invoice_number);
+        $invoice_date = $invoice_number_split[1] ?? $invoice_number_split[0];
+        $invoice_month = substr($invoice_date,0,2);
+        $invoice_year = substr($invoice_date,2);
+        //$the_month_datetime = Carbon::now()->startOfYear()->addMonths($invoice_month);
+        try {
+            $the_month_datetime = Carbon::createFromDate($invoice_year, $invoice_month, 1);
+            $month_days = $the_month_datetime->daysInMonth;
+        } catch (\Exception $exception){
+            die('The invoice number is incorrect!');
+        }
+        $invoice=[];
+        $subtotal = 0;
+        for($i = 0; $i < $month_days; $i++) {
+            $date = $the_month_datetime->startOfMonth()->addDays($i);
+            $count = Order::where('retailer_id', $retailer_id)->with(['orderDriver', 'retailer'])->whereDate('created_at', $date)->where('is_archived', false)->where('status', 'delivered')->count();
+            if ($count > 0) {
+                $subtotal += $count * 10;
+            }
+        }
+        $vat = $subtotal * 0.23;
+        $total = $subtotal + $vat;
+        return view('admin.doorder.pay_invoice',["customer_name"=>$retailer->name,
+            "id"=>$retailer_id, "invoice_number"=>$invoice_number, "amount"=>$total]);
     }
 }

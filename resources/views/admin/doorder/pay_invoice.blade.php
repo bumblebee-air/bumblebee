@@ -190,7 +190,7 @@ background-size:cover;
     let cardCvc = null;
 
     $(document).ready(function () {
-        let stripe = Stripe('{{env('STRIPE_KEY')}}');
+        let stripe = Stripe('{{env('STRIPE_PUBLIC_KEY')}}');
         elements = stripe.elements({
 
         });
@@ -214,7 +214,7 @@ background-size:cover;
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     },
-                    url: '{{url('customer-payment-details')}}',
+                    url: '{{url('doorder/set-invoice-payment-intent')}}',
                     data: {
                         amount: amount_value,
                         invoice_number: invoice_number,
@@ -388,7 +388,7 @@ background-size:cover;
     function submitToStripe(e) {
         e.preventDefault();
         // console.log($form);
-        Stripe.setPublishableKey('{{env('STRIPE_KEY')}}');
+        Stripe.setPublishableKey('{{env('STRIPE_PUBLIC_KEY')}}');
         Stripe.createToken({
             number: $('#card_number').val(),
             cvc: $('#cvc').val(),

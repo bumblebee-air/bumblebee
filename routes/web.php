@@ -354,8 +354,7 @@ Route::group([
             Route::get('send_invoice_email/{retailer_id}/{invoice_number}', 'doorder\InvoiceController@getSendInvoiceEmail')->name('doorder_sendInvoiceEmail');
             Route::get('pay_invoice/{retailer_id}/{invoice_number}', 'doorder\InvoiceController@getPayInvoice')->name('doorder_payInvoice');
             Route::post('pay', 'InvoiceController@postPaymentDetails')->name('postPaymentDetails');
-            
-            
+            Route::post('set-invoice-payment-intent', 'StripeController@setInvoicePaymentIntent');
 
             // Edit Retailer profile
             Route::get('profile/edit', 'doorder\RetailerController@editRetailerProfile')->name('doorder_retailers_view_retailer');

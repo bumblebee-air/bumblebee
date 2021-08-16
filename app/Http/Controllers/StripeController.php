@@ -427,4 +427,30 @@ class StripeController extends Controller
         }
         return $is_exists;
     }
+
+    public function setInvoicePaymentIntent(Request $request){
+        try {
+            $stripe_secret = env('STRIPE_SECRET');
+            \Stripe\Stripe::setApiKey($stripe_secret);
+            $amount = $request->get('amount');
+            $amount = floatval($amount);
+            $invoice_number = $request->get('invoice_number');
+            $customer_name = $request->get('customer_name');
+            $payment_intent = \Stripe\PaymentIntent::create([
+                'payment_method_types' => ['card'],
+                'amount' => $amount * 100,
+                'currency' => 'eur',
+                'description' => 'Invoice No.: ' . $invoice_number
+                /*'application_fee_amount' => $amount*10,
+                'transfer_data' => [
+                    'destination' => 'acct_1H6cxdDEnaX8ijhf',
+                ],*/
+            ]);
+        } catch (\Exception $e){
+            return json_encode(['client_secret' => null,
+                'error'=>1, 'error_message'=>$e->getMessage()]);
+        }
+        return json_encode(['client_secret' => $payment_intent->client_secret,
+            'error'=>0, 'error_message'=>'']);
+    }
 }

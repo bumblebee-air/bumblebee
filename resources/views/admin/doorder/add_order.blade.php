@@ -40,7 +40,7 @@
 										href="{{url('doorder/orders/upload_orders')}}"
 										class="btn btn-primary doorder-btn" style="float: right">Upload
 										mass order</a>
-									
+
 								</div>
 							</div>
 							<div class="card-body">
@@ -51,7 +51,7 @@
 										</div>
 										<div class="col-sm-6">
 											<div class="form-group">
-												<label for="email" class="control-label"> First Name: <span
+												<label for="email" class="control-label"> First name <span
 													style="color: red">*</span>
 												</label> <input id="first_name" type="text"
 													class="form-control" value="{{old('first_name')}}"
@@ -60,7 +60,7 @@
 										</div>
 										<div class="col-sm-6">
 											<div class="form-group">
-												<label for="email" class="control-label"> Last Name: <span
+												<label for="email" class="control-label"> Last name<span
 													style="color: red">*</span>
 												</label> <input id="last_name" type="text"
 													class="form-control" value="{{old('last_name')}}"
@@ -71,7 +71,7 @@
 									<div class="row">
 										<div class="col-sm-6">
 											<div class="form-group">
-												<label for="email" class="control-label">Email:</label> <input
+												<label for="email" class="control-label">Email</label> <input
 													id="email" type="email" class="form-control"
 													value="{{old('email')}}" name="email">
 											</div>
@@ -80,7 +80,7 @@
 										<div class="col-sm-6">
 											<div class="form-group">
 												<label for="customer_phone" class="control-label">Contact
-													Number:<span style="color: red">*</span>
+													number<span style="color: red">*</span>
 												</label>
 												<div>
 													<input id="customer_phone" type="tel" class="form-control"
@@ -91,22 +91,26 @@
 
 										<div class="col-sm-6">
 											<div class="form-group">
-												<label for="customer_address" class="control-label">Address:<span
-													style="color: red">*</span></label> <input
-													id="customer_address" type="text" class="form-control"
-													value="{{old('customer_address')}}" name="customer_address"
-													required> <input type="hidden" name="customer_lat"
-													id="customer_lat" value="{{old('customer_lat')}}"> <input
-													type="hidden" name="customer_lon" id="customer_lon"
+												<label for="customer_address" class="control-label">Address
+													<span style="color: red">*</span> <span
+													style="font-size: smaller">(please fill in Eircode first)</span>
+												</label> <input id="customer_address" type="text"
+													class="form-control" value="{{old('customer_address')}}"
+													name="customer_address" required> <input type="hidden"
+													name="customer_lat" id="customer_lat"
+													value="{{old('customer_lat')}}"> <input type="hidden"
+													name="customer_lon" id="customer_lon"
 													value="{{old('customer_lon')}}">
 											</div>
 										</div>
 
 										<div class="col-sm-6">
 											<div class="form-group">
-												<label for="eircode" class="control-label">Eircode:<span
-													style="color: red">*</span></label> <input id="eircode"
-													type="text" class="form-control" value="{{old('eircode')}}"
+												<label for="eircode" class="control-label">Eircode <span
+													style="color: red">*</span> <span
+													style="font-size: smaller">(choose Eircode in drop down)</span>
+												</label> <input id="eircode" type="text"
+													class="form-control" value="{{old('eircode')}}"
 													name="eircode" required>
 											</div>
 										</div>
@@ -125,7 +129,7 @@
 										<div class="col-sm-6">
 											<div class="form-group">
 												<label for="pick_address" class="control-label">Pickup
-													Address<span style="color: red">*</span>
+													address<span style="color: red">*</span>
 												</label> <select id="pick_address" name="pickup_address"
 													data-style="select-with-transition"
 													class="form-control selectpicker" required>
@@ -144,8 +148,9 @@
 										</div>
 										<div class="col-sm-6">
 											<div class="form-group">
-												<label for="fulfilment" class="control-label">Time until
-													order is ready for collection (Minutes)</label> <input
+												<label for="fulfilment" class="control-label">Time order is ready for collection</label>
+												
+												 <input
 													id="fulfilment" type="number" name="fulfilment"
 													class="form-control" value="{{old('fulfilment')}}" required>
 											</div>
@@ -154,7 +159,7 @@
 									<div class="row">
 										<div class="col-sm-6">
 											<div class="form-group">
-												<label for="weight" class="control-label">Package Weight<span
+												<label for="weight" class="control-label">Package weight<span
 													style="color: red">*</span></label> <select id="weight"
 													name="weight" data-style="select-with-transition"
 													class="form-control selectpicker" required>
@@ -171,7 +176,7 @@
 										<div class="col-sm-6">
 											<div class="form-group">
 												<label for="dimensions" class="control-label">Package
-													Dimensions<span style="color: red">*</span>
+													dimensions<span style="color: red">*</span>
 												</label> <select id="dimensions" name="dimensions"
 													data-style="select-with-transition"
 													class="form-control selectpicker" required>
@@ -187,7 +192,7 @@
 
 										<div class="col-sm-6">
 											<div class="form-group">
-												<label for="notes" class="control-label">Other Details</label>
+												<label for="notes" class="control-label">Other details</label>
 												<input id="notes" type="text" name="notes"
 													class="form-control" value="{{old('notes')}}">
 											</div>
@@ -195,7 +200,7 @@
 
 										<div class="col-sm-6">
 											<div class="form-group">
-												<label for="deliver_by" class="control-label">Deliver By:</label>
+												<label for="deliver_by" class="control-label">Deliver by</label>
 												<select id="deliver_by" name="deliver_by"
 													data-style="select-with-transition"
 													class="form-control selectpicker">
@@ -209,7 +214,7 @@
 										<div class="col-sm-12">
 											<div class="form-group">
 												<label for="deliver_by" class="control-label">Fragile
-													Package?<span style="color: red">*</span>
+													package?<span style="color: red">*</span>
 												</label>
 												<p id="fragileErrorMessage"
 													style="color: red; font-weight: 500; display: none; margin-bottom: 0">Please
@@ -276,8 +281,7 @@
 							style="width: 120px" alt="warning">
 					</div>
 					<div class="text-center mt-3">
-						<label class="warning-label">Please ensure to select drop down
-							address suggestion to move forward</label>
+						<label class="warning-label">Please enter Eircode to continue (select drop down suggestion)</label>
 
 					</div>
 				</div>

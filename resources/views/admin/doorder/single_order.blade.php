@@ -279,21 +279,21 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 									<div class="row">
 										<div class="col-12">
 											<div class="form-group">
-												<label for="first_name" class="control-label">First Name:</label>
+												<label for="first_name" class="control-label">First name</label>
 												<input id="first_name" type="text" class="form-control"
 													value="{{$order->first_name}}" name="first_name" required>
 											</div>
 										</div>
 										<div class="col-12">
 											<div class="form-group">
-												<label for="last_name" class="control-label">Last Name:</label>
+												<label for="last_name" class="control-label">Last name</label>
 												<input id="last_name" type="text" class="form-control"
 													value="{{$order->last_name}}" name="last_name" required>
 											</div>
 										</div>
 										<div class="col-12">
 											<div class="form-group">
-												<label for="email" class="control-label">Email:</label> <input
+												<label for="email" class="control-label">Email</label> <input
 													id="email" type="email" class="form-control"
 													value="{{$order->customer_email}}" name="email">
 											</div>
@@ -301,14 +301,14 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 										<div class="col-12">
 											<div class="form-group">
 												<label for="customer_phone" class="control-label">Contact
-													Number:</label> <input id="customer_phone" type="tel"
+													number</label> <input id="customer_phone" type="tel"
 													class="form-control" value="{{$order->customer_phone}}"
 													name="customer_phone" required>
 											</div>
 										</div>
 										<div class="col-12">
 											<div class="form-group">
-												<label for="customer_address" class="control-label">Address:</label>
+												<label for="customer_address" class="control-label">Address</label>
 												<input id="customer_address" type="text"
 													class="form-control" value="{{$order->customer_address}}"
 													name="customer_address" required> <input type="hidden"
@@ -320,7 +320,7 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 										</div>
 										<div class="col-12">
 											<div class="form-group">
-												<label for="eircode" class="control-label">Eircode:</label>
+												<label for="eircode" class="control-label">Eircode</label>
 												<input id="eircode" type="text" class="form-control"
 													value="{{$order->eircode}}" name="eircode">
 											</div>
@@ -348,7 +348,7 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 										<div class="col-12">
 											<div class="form-group">
 												<label for="pick_address" class="control-label">Pickup
-													Address</label> <input id="pick_address"
+													address</label> <input id="pick_address"
 													name="pickup_address" type="text" class="form-control"
 													value="{{$order->pickup_address}}" required>
 												<!--<select id="pick_address" name="pickup_address" data-style="select-with-transition" class="form-control selectpicker">
@@ -364,15 +364,16 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 										<div class="col-12">
 											<div class="form-group">
 												<label for="fulfilment" class="control-label">Order
-													Fulfilment</label> <input id="fulfilment" type="text"
+													fulfilment</label> 
+													
+													<input id="fulfilment" type="text"
 													name="fulfilment" class="form-control"
 													value="{{$order->fulfilment}}" required>
 											</div>
 										</div>
 										<div class="col-12">
 											<div class="form-group">
-												<label for="weight" class="control-label">Package Weight in
-													Kg</label> <input id="weight" type="text"
+												<label for="weight" class="control-label">Package weight </label> <input id="weight" type="text"
 													class="form-control" name="weight"
 													value="{{$order->weight}}" required>
 											</div>
@@ -380,21 +381,21 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 										<div class="col-12">
 											<div class="form-group">
 												<label for="dimensions" class="control-label">Package
-													Dimensions in cm</label> <input id="dimensions" type="text"
+													dimensions</label> <input id="dimensions" type="text"
 													name="dimensions" class="form-control"
 													value="{{$order->dimensions}}" required>
 											</div>
 										</div>
 										<div class="col-12">
 											<div class="form-group">
-												<label for="notes" class="control-label">Other Details</label>
+												<label for="notes" class="control-label">Other details</label>
 												<input id="notes" type="text" name="notes"
 													class="form-control" value="{{$order->notes}}">
 											</div>
 										</div>
 										<div class="col-12">
 											<div class="form-group">
-												<label for="deliver_by" class="control-label">Deliver By:</label>
+												<label for="deliver_by" class="control-label">Deliver by</label>
 												<select id="deliver_by" name="deliver_by"
 													data-style="select-with-transition"
 													class="form-control selectpicker">
@@ -407,7 +408,7 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 										</div>
 										<div class="col-12">
 											<div class="form-group">
-												<label for="fragile" class="control-label">Fragile Package?</label>
+												<label for="fragile" class="control-label">Fragile package?</label>
 												<div class="radio-container row">
 													<div
 														class="form-check form-check-radio form-check-inline d-flex justify-content-between">
@@ -463,7 +464,7 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 									<!-- 									</div> -->
 									<div class="col-12">
 										<div class="form-group">
-											<label for="fulfilment" class="control-label">Driver Name</label>
+											<label for="fulfilment" class="control-label">Driver name</label>
 											<input id="fulfilment" type="text" name="fulfilment"
 												class="form-control"
 												value="@if($order->orderDriver) {{$order->orderDriver->name}}
@@ -473,7 +474,7 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 									</div>
 									<div class="col-12">
 										<div class="form-group">
-											<label for="fulfilment" class="control-label">Delivery Status</label>
+											<label for="fulfilment" class="control-label">Delivery status</label>
 											<input id="fulfilment" type="text" name="fulfilment"
 												class="form-control"
 												value="{{$order->delivery_confirmation_status && $order->delivery_confirmation_status == 'confirmed' ? 'The customer has confirmed the delivery' : 'The deliverer has skipped the confirmation'}}"
@@ -483,8 +484,8 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 									@if($order->delivery_confirmation_status != 'confirmed')
 									<div class="col-12">
 										<div class="form-group">
-											<label for="fulfilment" class="control-label">Delivery Skip
-												Reason</label> <input id="fulfilment" type="text"
+											<label for="fulfilment" class="control-label">Delivery skip
+												reason</label> <input id="fulfilment" type="text"
 												name="fulfilment" class="form-control"
 												value="{{$order->delivery_confirmation_skip_reason ? $order->delivery_confirmation_skip_reason : 'N/A'}}"
 												required>
@@ -810,8 +811,10 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 							style="width: 120px" alt="warning">
 					</div>
 					<div class="text-center mt-3">
-						<label class="warning-label">Please ensure to select drop down
-							address suggestion to move forward</label>
+						<!-- <label class="warning-label">Please ensure to select drop down
+							address suggestion to move forward</label> -->
+						
+						<label class="warning-label">Please enter Eircode to continue (select drop down suggestion)</label>	
 
 					</div>
 				</div>

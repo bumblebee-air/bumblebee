@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Client;
+use App\ClientSetting;
 use App\Order;
 use App\StripeAccount;
 use App\StripePaymentLog;
@@ -43,10 +45,35 @@ class PayoutDeliverer extends Command
      */
     public function handle()
     {
-        $startOfMonth = Carbon::now()->subMonth()->startOfMonth()->toDateTimeString();
-        $endOfMonth = Carbon::now()->subMonth()->endOfMonth()->toDateTimeString();
+        $startOfMonth = Carbon::now()->subDays(30)->toDateTimeString();
+        $endOfMonth = Carbon::now()->toDateTimeString();
         /*$startOfMonth = Carbon::parse('2020-12-01')->subMonth()->startOfMonth()->toDateTimeString();
         $endOfMonth = Carbon::parse('2020-12-01')->subMonth()->endOfMonth()->toDateTimeString();*/
+
+        $doorder_client = Client::where('name','like','doorder')->first();
+        if(!$doorder_client){
+            $this->error('DoOrder client entry not found, exiting!');
+            return false;
+        }
+        $day_time_of_deliverer_charging = ClientSetting::where('client_id',$doorder_client->id)
+            ->where('name','day_time_of_driver_charging')->first();
+        if (!$day_time_of_deliverer_charging) {
+            $this->info('The schedule charge is off!');
+            return false;
+        }
+
+        $this->info("Currently date time of charging: and time: $day_time_of_deliverer_charging");
+        $current_day_time = Carbon::now();
+        $charge_day_time = Carbon::parse($day_time_of_deliverer_charging->the_value);
+        if ($current_day_time->format('D') == $charge_day_time->format('D')) {
+            if ($current_day_time->hour != $charge_day_time->hour) {
+                $this->info('The Datetime is not the deliverer charging day, exiting!');
+                return false;
+            }
+        } else {
+            $this->info('The Datetime is not the deliverer charging day, exiting!');
+            return false;
+        }
 
         $delivered_orders = Order::whereBetween('created_at', [$startOfMonth, $endOfMonth])
             ->where('status', 'delivered')

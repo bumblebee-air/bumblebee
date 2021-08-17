@@ -51,13 +51,16 @@ padding: 1rem !important;
 }
 @media ( min-width : 768px) {
 	.containerDiv {
-		padding: 3rem !important;
+		padding: 2rem 3rem !important;
 	}
 }
 .bg-cover{
-background: url({{asset('images/doorder-login-bg.jpg')}});
-background-size:cover;
+background: url("{{asset('images/doorder-login-bg.jpg')}}") no-repeat center center fixed;
+  background-size: cover;
+  height: 100%;
 }
+.form-group{margin: 0 !important;}
+.form-group label{float: left}
 </style>
 
 <script src="https://js.stripe.com/v3/"></script>
@@ -75,29 +78,32 @@ background-size:cover;
 				<!--<form method="post" id="details-form" action="" onsubmit="submitToStripe(event)">-->
 				@csrf
 				<div id="details-section">
-					<h3 class="titles_custom mb-3">Invoice details</h3>
+					<h3 class="titles_custom my-1">Invoice details</h3>
 
-					<div class="form-group">
+					<div class="form-group bmd-form-group">
+						<label>Customer name</label>
 						<input name="customer_name" type="text" class="form-control"
-							id="customer-name" placeholder="Your Name" disabled="disabled"
+							id="customer-name" placeholder="Your name" disabled="disabled"
 							value="{{$customer_name}}"> @if($errors &&
 						$errors->has('customer_name')) <small id="emailHelp"
 							class="form-text text-danger">{{$errors->first('customer_name')}}</small>
 						@endif
 					</div>
 
-					<div class="form-group">
+					<div class="form-group bmd-form-group">
+						<label>Invoice number</label>
 						<input name="invoice_number" type="text" class="form-control"
-							id="invoice-number" placeholder="Invoice Number"
+							id="invoice-number" placeholder="Invoice number"
 							disabled="disabled" value="{{$invoice_number}}"> @if($errors &&
 						$errors->has('invoice_number')) <small id="emailHelp"
 							class="form-text text-danger">{{$errors->first('invoice_number')}}</small>
 						@endif
 					</div>
 
-					<div class="form-group">
+					<div class="form-group bmd-form-group">
+						<label>Amount to pay</label>
 						<input name="amount" type="text" class="form-control" id="amount"
-							placeholder="Amount To Pay" required value="{{$amount}}"
+							placeholder="Amount to pay" required value="{{$amount}}"
 							disabled="disabled"> @if($errors && $errors->has('amount')) <small
 							id="emailHelp" class="form-text text-danger">{{$errors->first('amount')}}</small>
 						@endif
@@ -114,14 +120,16 @@ background-size:cover;
 
 					<button role="button" id="confirm-details"
 						class="btn btn-primary doorder-btn-lg doorder-btn submit_button_custom mt-3">Confirm
-						& Proceed to payment</button>
+						& proceed to payment</button>
 				</div>
 
 				<div id="payment-section" style="display: none;">
-					<h3 class="titles_custom">Card details</h3>
+					<h3 class="titles_custom mt-2 mn-1">Card details</h3>
 
 					<div class="form-group">
-						<!--<input type="text" name="card_number" class="form-control" id="card_number" placeholder="Card Number" minlength="16" maxlength="16" size="16" required>-->
+						<input type="text" name="card_number" class="form-control" id="card_number" placeholder="Card Number"
+						 minlength="16" maxlength="16" size="16" required> 
+						 
 						<div id="card-number"></div>
 						@if($errors && $errors->has('card_number')) <small id="emailHelp"
 							class="form-text text-danger">{{$errors->first('card_number')}}</small>
@@ -139,11 +147,13 @@ background-size:cover;
                                 minlength="2" maxlength="2" size="2">
                         </div>-->
 							<div class="col-sm-6">
+								<input type="number" name="cvc" class="form-control" id="cvc" placeholder="CVC" required
+                                minlength="3" maxlength="4" size="4">
 								<div id="card-expiry"></div>
 							</div>
 							<div class="col-sm-3">
-								<!--<input type="number" name="cvc" class="form-control" id="cvc" placeholder="CVC" required
-                                minlength="3" maxlength="4" size="4">-->
+								<input type="number" name="cvc" class="form-control" id="cvc" placeholder="CVC" required
+                                minlength="3" maxlength="4" size="4">
 								<div id="card-cvc"></div>
 							</div>
 

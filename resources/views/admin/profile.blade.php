@@ -4,7 +4,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="card changePasswordDiv" id="dashboardCardDiv">
-				<div class="card-header card-header-icon card-header-rose row">
+				<div class="card-header card-header-icon  row">
 					<div class="col-md-12">
 						<div class="card-icon">
 							<img class="page_icon"

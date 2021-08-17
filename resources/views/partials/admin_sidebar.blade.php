@@ -701,7 +701,7 @@
 					<p>Jobs Table </p>
 			</a></li>
 			<li class="nav-item"><a class="nav-link d-flex"
-				href="{{route('unified_getCalendar', 'unified')}}">  <img class="my-nav-icon"
+				href="{{url('unified/calendar/add_scheduled_job/0/0')}}">  <img class="my-nav-icon"
 					src="{{asset('images/unified/Add.png')}}"
 					alt="Add New Job">
 					<p>Add New Job </p>

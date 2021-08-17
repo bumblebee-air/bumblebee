@@ -281,7 +281,8 @@ class StripeController extends Controller
                     Log::warning("There requirement not exists: $item");
                 }
             }
-            TwilioHelper::sendSMS('GardenHelp', $user->phone, $message);
+            $client = $user->client;
+            TwilioHelper::sendSMS($client->name, $user->phone, $message);
         }
         $stripe_account->onboard_status = ($account_ready_flag==true)? 'complete' : 'incomplete';
         $stripe_account->save();

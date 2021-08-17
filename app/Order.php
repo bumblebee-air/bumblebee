@@ -33,7 +33,9 @@ class Order extends Model
         'delivery_confirmation_status',
         'delivery_confirmation_skip_reason',
         'retailer_id',
-        'is_archived'
+        'is_archived',
+        'is_paidout_retailer',
+        'is_paidout_driver'
     ];
 
     public function orderDriver() {

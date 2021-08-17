@@ -49,7 +49,10 @@ class PayoutDeliverer extends Command
         $endOfMonth = Carbon::parse('2020-12-01')->subMonth()->endOfMonth()->toDateTimeString();*/
 
         $delivered_orders = Order::whereBetween('created_at', [$startOfMonth, $endOfMonth])
-            ->where('status', 'delivered')->get();
+            ->where('status', 'delivered')
+            ->where('is_paidout_retailer', true)
+            ->where('is_paidout_driver', false)
+            ->get();
         $deliverers_to_be_paid = [];
         foreach($delivered_orders as $order){
             $driver_id = $order->driver;
@@ -118,6 +121,11 @@ class PayoutDeliverer extends Command
                     $this->error($e->getMessage());
                 }
             }
+        }
+        foreach ($delivered_orders as $order) {
+            $order->update([
+                'is_paidout_driver' => true
+            ]);
         }
         $this->info('finished');
         return true;

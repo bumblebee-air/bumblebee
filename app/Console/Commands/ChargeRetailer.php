@@ -72,7 +72,7 @@ class ChargeRetailer extends Command
             $startOfMonth = Carbon::now()->subMonth()->startOfMonth()->toDateTimeString();
             $endOfMonth = Carbon::now()->subMonth()->endOfMonth()->toDateTimeString();
             $retailer_orders = $retailer->orders->whereBetween('created_at', [$startOfMonth, $endOfMonth])
-                ->where('status', 'delivered')->where('is_archived',0);
+                ->where('status', 'delivered')->where('is_archived',0)->where('is_paidout_retailer', false);
 
             if (env('APP_ENV') == 'local' || env('APP_ENV') == 'development') {
                 $stripetoken = 'tok_visa';
@@ -105,6 +105,7 @@ class ChargeRetailer extends Command
                     ]);
                     foreach($retailer_orders as $order){
                         $order->is_archived = 1;
+                        $order->is_paidout_retailer = true;
                         $order->save();
                     }
                     $this->info('charged retailer: ' . $retailer->name . ' for ' . count($retailer_orders) . ' orders');

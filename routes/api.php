@@ -44,8 +44,11 @@ Route::post('magento/order', 'MagentoController@receiveOrder');
 Route::post('magento/fulfill-order', 'MagentoController@fulfillOrder');
 Route::post('woocommerce/order', 'WooCommerceController@receiveOrder');
 Route::post('woocommerce/fulfill-order', 'WooCommerceController@fulfillOrder');
+Route::post('bigcommerce/webhook-order', 'BigCommerceController@receiveWebhookOrder');
 Route::post('bigcommerce/order', 'BigCommerceController@receiveOrder');
 Route::post('bigcommerce/fulfill-order', 'BigCommerceController@fulfillOrder');
+Route::post('bigcommerce/create-webhook', 'BigCommerceController@createBigCommerceWebhook');
+Route::post('bigcommerce/list-or-delete-webhook', 'BigCommerceController@listOrDeleteBigCommerceWebhook');
 
 Route::post('driver-registration','doorder\DriversController@postDriverRegistration');
 Route::post('driver-login','doorder\DriversController@driversLogin');

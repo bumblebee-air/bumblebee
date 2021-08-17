@@ -10,6 +10,153 @@ use Illuminate\Support\Facades\Redis;
 
 class BigCommerceController extends Controller
 {
+    private $api_path = 'https://api.bigcommerce.com/stores/';
+    private $scope = 'order/*';
+    private $api_webhook_version = 'v3';
+    private $api_data_version = 'v2';
+
+    public function receiveWebhookOrder(Request $request){
+        $post_arr = $status_arr = [];
+        $total_weight = $option_count = $product_count = 0;
+
+        $webhook_content = NULL;
+        $webhook = fopen('php://input' , 'rb');
+        while (!feof($webhook)) {
+            $webhook_content .= fread($webhook, 4096);
+        }
+        fclose($webhook);
+        $orders = json_decode($webhook_content);
+        $order_id = $orders->data->id;
+        if(empty($order_id)){
+            $order_id = 0;
+        }
+        $store_producer = $orders->producer;
+        $store_hash = str_replace("stores/","",$store_producer);
+        $action = $orders->scope;
+        $action = str_replace("store/","",$action);
+        if($action!='order/created' && $action!='order/updated' && $action!='order/statusUpdated'){
+            return response()->json(['error'=>1,'message'=>'Irrelevant order status']);
+        }
+        $the_retailer = Retailer::where('api_key','=',$store_hash)->first();
+        if(!$the_retailer){
+            \Log::info('No retailer found with the BigCommerce store hash: '.$store_hash);
+            return response()->json(['error'=>1,'message'=>'Unregistered on platform']);
+        }
+        $token = $the_retailer->api_secret;
+        $url = $this->api_path.$store_hash.'/'.$this->api_data_version.'/orders/'.$order_id;
+        $url_store = $this->api_path.$store_hash.'/'.$this->api_data_version.'/store';
+        if($action=='order/created') {
+            //GET STORE DATA
+            $response_store = $this->curl_connection($token, $url_store, "GET");
+            $response_store_array = json_decode($response_store, true);
+
+            //GET ORDER DATA
+            $response = $this->curl_connection($token, $url, "GET");
+            $response_array = json_decode($response, true);
+
+            //GET PRODUCT DATA
+            $url_product = $url . '/products';
+            $response_product = $this->curl_connection($token, $url_product, "GET");
+            $response_product_array = json_decode($response_product, true);
+
+            //GET SHIPPING ADDRESS
+            $url_shipping = $url . '/shipping_addresses';
+            $response_shipping = $this->curl_connection($token, $url_shipping, "GET");
+            $response_shipping_array = json_decode($response_shipping, true);
+
+            $store_id = $response_store_array['id'];
+            $store_name = $response_store_array['name'];
+            $store_address = $response_store_array['address'];
+            $store_token = $token;
+            $shipping_method = $response_shipping_array['0']['shipping_method']; // for dynamic shipping_method
+            //$shipping_method = "doorder"; // or "same day" //static
+            $notes = $response_array['customer_message'];
+            $currency_code = $response_array['currency_code'];
+
+            $product_lineitems_array = array();
+            $product_count = count($response_product_array);
+
+            for ($k = 0; $k < $product_count; $k++) {
+                $option_count = count($response_product_array[$k]['product_options']);
+                $option_array = array();
+                $array_options = array();
+                for ($j = 0; $j < $option_count; $j++) {
+                    $option_array = array(
+                        array(
+                            'product_option_id' => $response_product_array[$k]['product_options'][$j]['product_option_id'],
+                            'display_name' => $response_product_array[$k]['product_options'][$j]['display_name'],
+                            'display_value' => $response_product_array[$k]['product_options'][$j]['display_value']
+                        )
+                    );
+                    $array_options = array_merge($option_array, $array_options);
+                }
+
+                $product_array = array(array(
+                    'product_id' => $response_product_array[$k]['product_id'],
+                    'title' => $response_product_array[$k]['name'],
+                    'quantity' => $response_product_array[$k]['quantity'],
+                    'grams' => $response_product_array[$k]['weight'] * 1000,
+                    'price' => $response_product_array[$k]['base_price'],
+                    'base_cost_price' => $response_product_array[$k]['base_cost_price'],
+                    'product_options' => $array_options
+                ));
+
+                if (empty($product_array[$k]['grams'])) {
+                    $product_array[$k]['grams'] = 0;
+                }
+
+                $product_lineitems_array = array_merge($product_array, $product_lineitems_array);
+                $total_weight += ($response_product_array[$k]['weight'] * 1000);
+            }
+
+            $product_lineitems_json = json_encode($product_lineitems_array);
+
+            if (empty($total_weight)) {
+                $total_weight = 0;
+            }
+
+            $customer_name = $response_array['billing_address']['first_name'] . ' ' . $response_array['billing_address']['last_name'];
+            $customer_phone = $response_array['billing_address']['phone'];
+            $customer_email = $response_array['billing_address']['email'];
+            $customer_shipping_address = $response_shipping_array['0']['street_1'] . ', ' . $response_shipping_array['0']['street_2'] . ', ' . $response_shipping_array['0']['city'] . ', ' . $response_shipping_array['0']['state'] . ', ' . $response_shipping_array['0']['country'];
+            $zip_code = $response_shipping_array['0']['zip'];
+
+            $post_arr['store_name'] = $store_name;
+            $post_arr['store_address'] = $store_address;
+            $post_arr['api_key'] = $store_id;
+            $post_arr['api_secret'] = $store_token;
+            $post_arr['shipping_method_name'] = $shipping_method;
+            $post_arr['order_id'] = $order_id;
+            $post_arr['note'] = $notes;
+            $post_arr['total_weight'] = $total_weight;
+            $post_arr['currency'] = $currency_code;
+            $post_arr['line_items'] = $product_lineitems_json;
+            $post_arr['customer_name'] = $customer_name;
+            $post_arr['customer_phone'] = $customer_phone;
+            $post_arr['customer_email'] = $customer_email;
+            $post_arr['shipping_address'] = $customer_shipping_address;
+            $post_arr['zip'] = $zip_code;
+            $post_arr['action'] = $action;
+            //Send data to API
+            $response_post = $this->curl_connection($token, url('api/bigcommerce/order'), "POST", $post_arr, $store_hash, $token);
+        } elseif($action=='order/updated' || $action=='order/statusUpdated'){
+            //GET ORDER DATA
+            $response = $this->curl_connection($token, $url, "GET");
+            $response_array = json_decode($response, true);
+            $status_arr['store_name'] = 'N/A';
+            $status_arr['api_key'] = $store_hash;
+            $status_arr['api_secret'] = $token;
+            $status_arr['order_id'] = $order_id;
+
+            $order_status = strtolower($response_array['status']);
+            if($order_status == 'awaiting shipment' || $order_status == 'awaiting pickup'){
+                //Send data to API
+                $response_status = $this->curl_connection($token, url('api/bigcommerce/fulfill-order'), "POST", $status_arr, $store_hash, $token);
+            }
+        }
+        return response()->json(['error'=>0,'message'=>'Received successfully']);
+    }
+
     public function receiveOrder(Request $request){
         \Log::debug("BigCommerce incoming order with details: " . json_encode($request->all()));
         $shop_name = $request->get('store_name');
@@ -192,5 +339,83 @@ class BigCommerceController extends Controller
             \Log::error($e->getMessage());
         }
         return $coordinates;
+    }
+
+    public function createBigCommerceWebhook(Request $request){
+        $retailer_id = $request->get('retailer_id');
+        $retailer = Retailer::find($retailer_id);
+        if(!$retailer){
+            return response()->json(['error_message'=>'No Retailer found with this ID'])->setStatusCode(403);
+        }
+        $store_id = $retailer->api_key;
+        $token = $retailer->api_secret;
+        $url = $this->api_path.$store_id.'/'.$this->api_webhook_version.'/hooks';
+        $data_array=array(
+            'scope'=>'store/'.$this->scope,
+            'destination'=>url('api/bigcommerce/webhook-order'),
+            'is_active'=> true
+        );
+        $response = $this->curl_connection($token, $url, "POST", $data_array);
+        $result_array = json_decode($response, true);
+        return response()->json($result_array);
+    }
+
+    public function listOrDeleteBigCommerceWebhook(Request $request){
+        $retailer_id = $request->get('retailer_id');
+        $webhook_id = $request->get('webhook_id');
+        $method = $request->get('method');
+        if(!$method){
+            return response()->json(['error_message'=>'No provided method'])->setStatusCode(403);
+        }
+        $retailer = Retailer::find($retailer_id);
+        if(!$retailer){
+            return response()->json(['error_message'=>'No Retailer found with this ID'])->setStatusCode(403);
+        }
+        $store_id = $retailer->api_key;
+        $token = $retailer->api_secret;
+        $data_array = [];
+        if(strtolower($method)=='delete') {
+            if(!$webhook_id){
+                return response()->json(['error_message'=>'No provided webhook ID'])->setStatusCode(403);
+            }
+            $url = $this->api_path . $store_id . '/' . $this->api_webhook_version . '/hooks/' . $webhook_id;
+            $response = $this->curl_connection($token, $url, strtoupper($method),$data_array);
+        } elseif(strtolower($method)=='get'){
+            $data_array['limit'] = '10';
+            $url = $this->api_path . $store_id . '/' . $this->api_webhook_version . '/hooks';
+            $response = $this->curl_connection($token, $url, strtoupper($method),$data_array);
+        } else {
+            return response()->json(['error_message'=>'Method is invalid'])->setStatusCode(403);
+        }
+        $result_array = json_decode($response, true);
+        return response()->json($result_array);
+    }
+
+    public function curl_connection($token='', $url='', $curl_type='', $array=[], $username='', $password=''){
+        $headers = array();
+        $headers[] = 'Content-Type: application/json';
+        $headers[] = 'Accept: application/json';
+
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        if(empty($username) && empty($password)){
+            $headers[] = "x-auth-token: $token";
+            curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        }
+        else{
+            curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($curl, CURLOPT_USERPWD, "$username:$password");
+        }
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_VERBOSE, 0);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $curl_type);
+        if($curl_type = "POST"){
+            curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($array));
+        }
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        $response = curl_exec($curl);
+        curl_close($curl);
+
+        return $response;
     }
 }

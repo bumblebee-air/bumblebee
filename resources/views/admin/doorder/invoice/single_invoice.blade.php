@@ -331,9 +331,9 @@ box-shadow: 0 2px 2px 0 rgb(116 116 116 / 14%), 0 3px 1px -2px rgb(116 116 116 /
 							<button class="btn bt-submit invoiceBtn" @click="submitForm">Invoice</button>
 						</div>
 						<div class="col-sm-6 text-center">
-							<a class="btn btn-primary doorder-btn-lg doorder-btn invoiceBtn"
-								href="{{url('doorder/send_invoice_email/')}}/{{$retailer->id}}/{{$retailer->invoice_number}}"
-							>Send invoice email</a>
+							<button type="button" class="btn btn-primary doorder-btn-lg doorder-btn invoiceBtn"
+								onclick="clickSendEmail({{$retailer->id}},'{{$month}}')"
+							>Send invoice email</button>
 						</div>
 					</div>
 					@else
@@ -353,8 +353,61 @@ box-shadow: 0 2px 2px 0 rgb(116 116 116 / 14%), 0 3px 1px -2px rgb(116 116 116 /
 	</div>
 </div>
 
+<!-- send email modal -->
+<div class="modal fade" id="send-email-modal" tabindex="-1"
+	role="dialog" aria-labelledby="send-email-label"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close d-flex justify-content-center"
+					data-dismiss="modal" aria-label="Close">
+					<i class="fas fa-times"></i>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="modal-dialog-header deleteHeader">
+Are you sure you want to send the invoice email to the retailer</div>
+
+				<div>
+
+					<form method="POST" id="sendEmailForm"
+						action="{{url('doorder/send_invoice_email')}}"
+						style="margin-bottom: 0 !important;">
+						@csrf
+						 <input type="hidden" id="retailer_id" name="retailer_id" value="" />
+						 <input type="hidden" id="month" name="month" value="" />
+					</form>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<button type="button"
+					class="btn btn-primary doorder-btn-lg doorder-btn"
+					onclick="$('form#sendEmailForm').submit()">Yes</button></div>
+				<div class="col-sm-6">
+					<button type="button"
+					class="btn btn-danger doorder-btn-lg doorder-btn"
+					data-dismiss="modal">Cancel</button></div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- end send email modal -->
+
+
+
 @endsection @section('page-scripts')
 <script>
+function clickSendEmail(retailer_id,month){
+	console.log("send email",retailer_id,month);
+	
+	
+$('#send-email-modal').modal('show')
+$('#send-email-modal #retailer_id').val(retailer_id);
+$('#send-email-modal #month').val(month);
+}
+
 $( document ).ready(function() {
     var table= $('#invoiceListTable').DataTable({
     		"paging":   false,

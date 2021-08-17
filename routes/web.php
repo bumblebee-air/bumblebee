@@ -330,6 +330,7 @@ Route::group([
                 // Setting
                 Route::get('settings', 'doorder\SettingsController@getSettings')->name('doorder_getSettings');
                 Route::post('save_notification', 'doorder\SettingsController@postSaveNotification')->name('doorder_postSaveNotification');
+                Route::post('save_stripe_api', 'doorder\SettingsController@postSaveStripeApi')->name('doorder_postSaveStripeApi');
             });
             Route::group([
                 'middleware' => "retailer"
@@ -351,7 +352,7 @@ Route::group([
             Route::get('invoice_view/{id}', 'doorder\InvoiceController@getSingleInvoice')->name('doorder_getSingleInvoice');
             Route::post('send_invoice/{id}', 'doorder\InvoiceController@postSendInvoice')->name('doorder_sendInvoice');
             
-            Route::get('send_invoice_email/{retailer_id}/{invoice_number}', 'doorder\InvoiceController@getSendInvoiceEmail')->name('doorder_sendInvoiceEmail');
+            Route::post('send_invoice_email', 'doorder\InvoiceController@getSendInvoiceEmail')->name('doorder_sendInvoiceEmail');
             Route::get('pay_invoice/{retailer_id}/{invoice_number}', 'doorder\InvoiceController@getPayInvoice')->name('doorder_payInvoice');
             Route::post('set-invoice-payment-intent', 'StripeController@setInvoicePaymentIntent');
 

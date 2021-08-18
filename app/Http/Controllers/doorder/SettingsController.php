@@ -107,30 +107,43 @@ class SettingsController extends Controller
         $client_id = ($current_user->client != null) ? $current_user->client->client_id : null;
         $the_client = Client::find($client_id);
         $client_setting = $the_client->setting;
-//         if ($requst->retailerAutomaticCharging) {
-//            dd($requst->retailerAutomaticCharging . ' ' . $requst->dayOfMonth); //if $requst->retailerAutomaticCharging=1
-//            // day of month return empty if not selected :D
-//        } else {
-//            dd($requst->dayOfMonth);
-//        }
-         if ($request->has('delivererPayout')) {
-             $check_if_deliverer_payout_exists = $client_setting->where('name', 'day_time_of_driver_charging');
-             if (count($check_if_deliverer_payout_exists) > 0) {
-                 $deliverer_payout = $check_if_deliverer_payout_exists[0];
-                 $deliverer_payout->update([
-                     'the_value' => "$request->weekday 00:00"
-                 ]);
-             } else {
-                 ClientSetting::create([
-                     'name' => 'day_time_of_driver_charging',
-                     'client_id' => $the_client->id,
-                     'the_value' => "$request->weekday 00:00",
-                     'display_name' => 'The Schedule datetime'
-                 ]);
-             }
-         } else {
-             ClientSetting::where('client_id', $the_client->id)->where('name', 'day_time_of_driver_charging')->delete();
-         }
+//        dd($request->all());
+        if ($request->has('retailerAutomaticCharging')) {
+            $check_if_deliverer_payout_exists = $client_setting->where('name', 'day_of_retailer_charging');
+            if (count($check_if_deliverer_payout_exists) > 0) {
+             $deliverer_payout = $check_if_deliverer_payout_exists->first();
+             $deliverer_payout->update([
+                 'the_value' => $request->dayOfMonth
+             ]);
+            } else {
+             ClientSetting::create([
+                 'name' => 'day_of_retailer_charging',
+                 'client_id' => $the_client->id,
+                 'the_value' => $request->dayOfMonth,
+                 'display_name' => 'The Schedule datetime'
+             ]);
+            }
+        } else {
+         ClientSetting::where('client_id', $the_client->id)->where('name', 'day_of_retailer_charging')->delete();
+        }
+        if ($request->has('delivererPayout')) {
+        $check_if_deliverer_payout_exists = $client_setting->where('name', 'day_time_of_driver_charging');
+        if (count($check_if_deliverer_payout_exists) > 0) {
+         $deliverer_payout = $check_if_deliverer_payout_exists->first();
+         $deliverer_payout->update([
+             'the_value' => "$request->weekday 00:00"
+         ]);
+        } else {
+         ClientSetting::create([
+             'name' => 'day_time_of_driver_charging',
+             'client_id' => $the_client->id,
+             'the_value' => "$request->weekday 00:00",
+             'display_name' => 'The Schedule datetime'
+         ]);
+        }
+        } else {
+        ClientSetting::where('client_id', $the_client->id)->where('name', 'day_time_of_driver_charging')->delete();
+        }
         alert()->success('Stripe settings saved successfully');
         return redirect()->route('doorder_getSettings', 'doorder');
     }

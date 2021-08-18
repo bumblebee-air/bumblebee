@@ -184,10 +184,10 @@ class CustomersController extends Controller
         if (!$singleRequest) {
             abort(404);
         }
-        if ($request->rejection_reason) {
+        if ($request->rejected) {
             $singleRequest->rejection_reason = $request->rejection_reason;
-            //$singleRequest->status = 'missing';
-            //$singleRequest->save();
+            $singleRequest->status = 'missing';
+            $singleRequest->save();
             alert()->success('Customer rejected successfully');
         } else {
             $singleRequest->status = 'quote_sent';

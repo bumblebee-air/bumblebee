@@ -39,6 +39,10 @@
                                                 Quotation Sent
                                             </div>
                                             <div class="status_item">
+                                                <img class="status_icon" src="{{asset('images/doorder_icons/order_status_on_route_pickup.png')}}" alt="Missing Data">
+                                                Missing Data
+                                            </div>
+                                            <div class="status_item">
                                                 <img class="status_icon" src="{{asset('images/doorder_icons/order_status_delivered.png')}}" alt="Service booked">
                                                 Service booked
                                             </div>
@@ -72,6 +76,7 @@
                                                     <td>
                                                         <img class="status_icon" src="{{asset('images/doorder_icons/order_status_matched.png')}}" alt="Request received" v-if="item.status === 'received'">
                                                         <img class="status_icon" src="{{asset('images/doorder_icons/order_status_picked_up.png')}}" alt="Quotation Sent" v-else-if="item.status === 'quote_sent'">
+                                                        <img class="status_icon" src="{{asset('images/doorder_icons/order_status_on_route_pickup.png')}}" alt="Missing Data" v-else-if="item.status === 'missing'">
                                                         <img class="status_icon" src="{{asset('images/doorder_icons/order_status_delivered.png')}}" alt="Service booked" v-else>
                                                     </td>
                                                     <td>

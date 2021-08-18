@@ -64,6 +64,8 @@
 	left: 0;
 	top: -5px;
 }
+#toggleButtonConnectedApi label .toggle:after{
+top: 0 !important;}
 
 .togglebutton label input[type=checkbox]:checked+.toggle:after {
 	border-color: #f7dc69;
@@ -220,7 +222,9 @@
 
 					<div class="tab-pane " id="securityLogin" aria-expanded="false"></div>
 					<div class="tab-pane " id="users" aria-expanded="false"></div>
-					<div class="tab-pane " id="connectedAPIs" aria-expanded="false"></div>
+					<div class="tab-pane " id="connectedAPIs" aria-expanded="false">
+						@include('admin.doorder.settings.connected_apis')
+					</div>
 				</div>
 			</div>
 		</div>

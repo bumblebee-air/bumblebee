@@ -194,9 +194,15 @@
 
 
 <script type="text/javascript">
-	$( document ).ready(function() {
-         
-     }); 
+	 function changeToggleRetAutoCharging(){
+	 console.log($("#retailerAutomaticCharging:checked").val())
+      		if($("#retailerAutomaticCharging:checked").val()==1){
+      			$("#dayOfMonthDiv").css("display","block");
+      		}else{
+      			$("#dayOfMonthDiv").css("display","none");
+      			$("#dayOfMonth").val("")
+      		}
+      }
      
 Vue.use('vue-cascader-select');
         Vue.component('treeselect', VueTreeselect.Treeselect);

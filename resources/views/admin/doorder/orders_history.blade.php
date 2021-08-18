@@ -64,6 +64,9 @@
                             </div>
                             <div class="card-body">
                                 <div class="float-right">
+                                	<a 
+										href="{{url('doorder/metrics_dashboard')}}"
+										class="btn btn-primary filterButton" >Metrics</a>
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table" id="historyTable" width="100%">

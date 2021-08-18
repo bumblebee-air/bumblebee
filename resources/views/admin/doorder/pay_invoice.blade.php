@@ -79,7 +79,7 @@ background: url("{{asset('images/doorder-login-bg.jpg')}}") no-repeat center cen
 				@csrf
 				<div id="details-section">
 					<h3 class="titles_custom my-1">Invoice details</h3>
-
+					<input id="retailer-id" type="hidden" value="{{$id}}"/>
 					<div class="form-group bmd-form-group">
 						<label>Customer name</label>
 						<input name="customer_name" type="text" class="form-control"
@@ -127,8 +127,8 @@ background: url("{{asset('images/doorder-login-bg.jpg')}}") no-repeat center cen
 					<h3 class="titles_custom mt-2 mn-1">Card details</h3>
 
 					<div class="form-group">
-						<input type="text" name="card_number" class="form-control" id="card_number" placeholder="Card Number"
-						 minlength="16" maxlength="16" size="16" required> 
+						<!--<input type="text" name="card_number" class="form-control" id="card_number" placeholder="Card Number"
+						 minlength="16" maxlength="16" size="16" required>-->
 						 
 						<div id="card-number"></div>
 						@if($errors && $errors->has('card_number')) <small id="emailHelp"
@@ -147,13 +147,13 @@ background: url("{{asset('images/doorder-login-bg.jpg')}}") no-repeat center cen
                                 minlength="2" maxlength="2" size="2">
                         </div>-->
 							<div class="col-sm-6">
-								<input type="number" name="cvc" class="form-control" id="cvc" placeholder="CVC" required
-                                minlength="3" maxlength="4" size="4">
+								<!--<input type="number" name="cvc" class="form-control" id="cvc" placeholder="CVC" required
+                                minlength="3" maxlength="4" size="4">-->
 								<div id="card-expiry"></div>
 							</div>
 							<div class="col-sm-3">
-								<input type="number" name="cvc" class="form-control" id="cvc" placeholder="CVC" required
-                                minlength="3" maxlength="4" size="4">
+								<!--<input type="number" name="cvc" class="form-control" id="cvc" placeholder="CVC" required
+                                minlength="3" maxlength="4" size="4">-->
 								<div id="card-cvc"></div>
 							</div>
 
@@ -262,6 +262,7 @@ background: url("{{asset('images/doorder-login-bg.jpg')}}") no-repeat center cen
         $('#confirm-payment').on('click',function() {
             let customer_name = $('#customer-name').val();
             let invoice_number = $('#invoice-number').val();
+            let retailer_id = $('#retailer-id').val();
             $(this).attr('disabled','disabled');
             let button_original_text = $(this).html();
             $(this).html('<span class="spinner-border spinner-border-sm"></span>'
@@ -298,6 +299,25 @@ background: url("{{asset('images/doorder-login-bg.jpg')}}") no-repeat center cen
                         // execution. Set up a webhook or plugin to listen for the
                         // payment_intent.succeeded event that handles any business critical
                         // post-payment actions.
+						$.ajax({
+							headers: {
+								'X-CSRF-TOKEN': '{{ csrf_token() }}'
+							},
+							url: '{{url('doorder/pay-invoice')}}',
+							data: {
+								retailer_id: retailer_id,
+								invoice_number: invoice_number,
+								charge_id: result.paymentIntent.id,
+								charge_status: result.paymentIntent.status
+							},
+							dataType: 'json',
+							method: 'POST',
+							success: function (resp) {
+								if(resp.error == 1){
+									console.log(resp);
+								}
+							}
+						});
                     }
                 }
             });

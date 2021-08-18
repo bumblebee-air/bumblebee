@@ -4,10 +4,12 @@ namespace App\Http\Controllers\doorder;
 use App\Exports\InvoiceOrderExport;
 use App\Order;
 use App\Retailer;
+use App\StripePaymentLog;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use Stripe\InvoiceItem;
 
@@ -75,11 +77,13 @@ class InvoiceController extends Controller
         $total = $subtotal + $vat;
         $user = User::find($retailer->user_id);
         //dd($user);
-        
-        $retailer->invoice_number = '1234569';
+        //$retailer->invoice_number = '1234569';
+        $carbon_invoice_date = Carbon::parse($request->month);
+        $invoice_number = $retailer->id.'-'.$carbon_invoice_date->format('mY');
         
         return view('admin.doorder.invoice.single_invoice', ["invoice"=>$invoice,'retailer' => $retailer,'user'=>$user, 
-            'subtotal' => $subtotal,'vat'=> $vat, 'total'=>$total,'month'=>$request->month]);
+            'subtotal' => $subtotal,'vat'=> $vat, 'total'=>$total,'month'=>$request->month,
+            'invoice_number'=>$invoice_number]);
     }
     
     public function postSendInvoice(Request $request,$client_name, $id) {
@@ -106,10 +110,35 @@ class InvoiceController extends Controller
         return redirect()->route('doorder_getInvoiceList', 'doorder');
     }
     
-    public function getSendInvoiceEmail($client_name, $retailer_id, $invoice_number) {
-       // dd($retailer_id.'  '.$invoice_number);
+    public function postSendInvoiceEmail(Request $request) {
+        //dd($retailer_id.'  '.$invoice_number);
+        $retailer_id = $request->get('retailer_id');
+        $month = $request->get('month');
         $retailer = Retailer::find($retailer_id);
-        return view('email.doorder_invoice_retailer',["retailer_name"=>$retailer->name, "url"=>url('doorder/invoice_view/1?month=Jul%202021')]);
+        if(!$retailer){
+            alert()->error('No retailer found with this ID!');
+            return redirect()->back();
+        }
+        $contact_details = json_decode($retailer->contacts_details);
+        $main_contact = $contact_details[0];
+        $retailer_email = $main_contact->contact_email;
+        $retailer_name = $retailer->name;
+        $month = str_replace(' ', '%20', $month);
+        try {
+            Mail::send('email.doorder_invoice_retailer', [
+                'retailer_name' => $retailer_name,
+                'url' => url('doorder/invoice_view/' . $retailer->id . '?month=' . $month)
+            ],
+                function ($message) use ($retailer_email, $retailer_name) {
+                    $message->from('no-reply@doorder.eu', 'DoOrder platform');
+                    $message->to($retailer_email, $retailer_name)->subject('New invoice generated');
+                });
+        } catch (\Exception $exception){
+            alert()->error('There was an error with sending the invoice email to the retailer');
+            return redirect()->back();
+        }
+        alert()->success('Invoice email has been sent successfully');
+        return redirect()->back();
     }
     
     public function getPayInvoice($client_name, $retailer_id, $invoice_number) {
@@ -139,5 +168,45 @@ class InvoiceController extends Controller
         $total = $subtotal + $vat;
         return view('admin.doorder.pay_invoice',["customer_name"=>$retailer->name,
             "id"=>$retailer_id, "invoice_number"=>$invoice_number, "amount"=>$total]);
+    }
+
+    public function postPayInvoice(Request $request){
+        $retailer_id = $request->get('retailer_id');
+        $retailer = Retailer::find($retailer_id);
+        $invoice_number = $request->get('invoice_number');
+        $charge_id = $request->get('charge_id');
+        $charge_status = $request->get('charge_status');
+        $charge_failure_message = $request->get('charge_failure_message')?? '';
+        //Archive the orders
+        $invoice_number_split = explode('-',$invoice_number);
+        $invoice_date = $invoice_number_split[1] ?? $invoice_number_split[0];
+        $invoice_month = substr($invoice_date,0,2);
+        $invoice_year = substr($invoice_date,2);
+        try {
+            $the_month_datetime = Carbon::createFromDate($invoice_year, $invoice_month, 1);
+            $month_days = $the_month_datetime->daysInMonth;
+        } catch (\Exception $exception){
+            die('The invoice number is incorrect!');
+        }
+        for($i = 0; $i < $month_days; $i++) {
+            $date = $the_month_datetime->startOfMonth()->addDays($i);
+            $orders = Order::where('retailer_id', $retailer_id)->with(['orderDriver', 'retailer'])->whereDate('created_at', $date)->where('is_archived', false)->where('status', 'delivered')->get();
+            foreach ($orders as $order) {
+                $order->update([
+                    'is_archived' => true
+                ]);
+            }
+        }
+
+        StripePaymentLog::create([
+            'model_id' => $retailer_id,
+            'model_name' => 'retailer',
+            'description' => 'charged retailer: ' . $retailer->name . ' for invoice number: '.$invoice_number,
+            'status' => $charge_status,
+            'operation_id' => $charge_id,
+            'operation_type' => 'charge',
+            'fail_message' => $charge_failure_message
+        ]);
+        return response()->json(['error'=>0, 'message'=>'Orders invoiced successfully']);
     }
 }

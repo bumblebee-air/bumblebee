@@ -341,7 +341,7 @@ box-shadow: 0 2px 2px 0 rgb(116 116 116 / 14%), 0 3px 1px -2px rgb(116 116 116 /
 						
 						<div class="col text-center">
 							<a class="btn btn-primary doorder-btn-lg doorder-btn payBtn"
-								href="{{url('doorder/pay_invoice/')}}/{{$retailer->id}}/{{$retailer->invoice_number}}"
+								href="{{url('doorder/pay_invoice/')}}/{{$retailer->id}}/{{$invoice_number}}"
 							>Pay</a>
 						</div>
 					</div>

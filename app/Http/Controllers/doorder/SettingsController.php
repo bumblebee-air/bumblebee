@@ -2,9 +2,11 @@
 namespace App\Http\Controllers\doorder;
 
 use App\Client;
+use App\ClientSetting;
 use App\CustomNotification;
 use App\Http\Controllers\Controller;
 use App\User;
+use Carbon\Carbon;
 use function GuzzleHttp\json_encode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -17,6 +19,7 @@ class SettingsController extends Controller
         $current_user = auth()->user();
         $client_id = ($current_user->client != null) ? $current_user->client->client_id : null;
         $the_client = Client::find($client_id);
+        $client_setting = $the_client->setting;
         $adminsData = [];
         $callCenterOptions = [];
         $savedNotificationsData = [];
@@ -44,14 +47,14 @@ class SettingsController extends Controller
                 'phone_number' => json_decode($notification->send_to, true),
                 'email' => json_decode($notification->send_to, true),
                 'user_type' => $notification->send_to,
-                'notification_content' => $notification->content
+                'notification_content' => $notification->content,
             ];
         }
-
         return view('admin.doorder.settings.index', [
             'adminOptions' => json_encode($adminsData),
             'callCenterOptions' => json_encode($callCenterOptions),
-            'savedNotifications' => ($savedNotificationsData)
+            'savedNotifications' => ($savedNotificationsData),
+            'client_setting' => $client_setting
         ]);
     }
 
@@ -98,14 +101,36 @@ class SettingsController extends Controller
         return redirect()->route('doorder_getSettings', 'doorder');
     }
 
-    public function postSaveStripeApi(Request $requst)
+    public function postSaveStripeApi(Request $request)
     {
-         if ($requst->retailerAutomaticCharging) {
-            dd($requst->retailerAutomaticCharging . ' ' . $requst->dayOfMonth); //if $requst->retailerAutomaticCharging=1
-            // day of month return empty if not selected :D
-        } else {
-            dd($requst->dayOfMonth); 
-        } 
+        $current_user = auth()->user();
+        $client_id = ($current_user->client != null) ? $current_user->client->client_id : null;
+        $the_client = Client::find($client_id);
+        $client_setting = $the_client->setting;
+//         if ($requst->retailerAutomaticCharging) {
+//            dd($requst->retailerAutomaticCharging . ' ' . $requst->dayOfMonth); //if $requst->retailerAutomaticCharging=1
+//            // day of month return empty if not selected :D
+//        } else {
+//            dd($requst->dayOfMonth);
+//        }
+         if ($request->has('delivererPayout')) {
+             $check_if_deliverer_payout_exists = $client_setting->where('name', 'day_time_of_driver_charging');
+             if (count($check_if_deliverer_payout_exists) > 0) {
+                 $deliverer_payout = $check_if_deliverer_payout_exists[0];
+                 $deliverer_payout->update([
+                     'the_value' => "$request->weekday 00:00"
+                 ]);
+             } else {
+                 ClientSetting::create([
+                     'name' => 'day_time_of_driver_charging',
+                     'client_id' => $the_client->id,
+                     'the_value' => "$request->weekday 00:00",
+                     'display_name' => 'The Schedule datetime'
+                 ]);
+             }
+         } else {
+             ClientSetting::where('client_id', $the_client->id)->where('name', 'day_time_of_driver_charging')->delete();
+         }
         alert()->success('Stripe settings saved successfully');
         return redirect()->route('doorder_getSettings', 'doorder');
     }

@@ -55,7 +55,7 @@
 							<label>Deliverer automatic payout </label>
 							<div class="togglebutton toggleButtonConnectedApi"
 								style="display: inline-block;">
-								<label> <input type="checkbox" id="delivererPayout" value="1"
+								<label> <input type="checkbox" id="delivererPayout" value="1" {{ count($client_setting->where('name', 'day_time_of_driver_charging')) > 0 ? 'checked' : ''}}
 									name="delivererPayout" onclick="changeToggleDelivererPayout()">
 									<span class="toggle"></span>
 								</label>
@@ -65,22 +65,21 @@
 					</div>
 				</div>
 
-				<div class="row" id="dayOfWeekDiv" style="display: none">
+				<div class="row" id="dayOfWeekDiv" style="display: {{ count($client_setting->where('name', 'day_time_of_driver_charging')) > 0 ? 'block' : 'none'}}">
 
 					<div class="col-sm-6">
 						<div class=" ">
-							<label class="control-label" for="weekday">Weekday </label><select
-								class="form-control " data-style="select-with-transition"
+							<label class="control-label" for="weekday">Weekday </label>
+							<select class="form-control " data-style="select-with-transition"
 								name="weekday" id="weekday">
 								<option value="">Select day</option>
-								<option value="Monday">Monday</option>
-								<option value="Tuesday">Tuesday</option>
-								<option value="Wednesday">Wednesday</option>
-								<option value="Thursday">Thursday</option>
-								<option value="Friday">Friday</option>
-								<option value="Saturday">Saturday</option>
-								<option value="Sunday">Sunday</option>
-
+								<option value="Mon" {{count($client_setting->where('name', 'day_time_of_driver_charging')) > 0 && \Carbon\Carbon::parse($client_setting->where('name', 'day_time_of_driver_charging')[0]['the_value'])->format('D') == 'Mon' ? 'selected' : ''}}>Monday</option>
+								<option value="Tue" {{count($client_setting->where('name', 'day_time_of_driver_charging')) > 0 &&\Carbon\Carbon::parse($client_setting->where('name', 'day_time_of_driver_charging')[0]['the_value'])->format('D') == 'Tue' ? 'selected' : ''}}>Tuesday</option>
+								<option value="Wed" {{count($client_setting->where('name', 'day_time_of_driver_charging')) > 0 &&\Carbon\Carbon::parse($client_setting->where('name', 'day_time_of_driver_charging')[0]['the_value'])->format('D') == 'Wed' ? 'selected' : ''}}>Wednesday</option>
+								<option value="Thu" {{count($client_setting->where('name', 'day_time_of_driver_charging')) > 0 &&\Carbon\Carbon::parse($client_setting->where('name', 'day_time_of_driver_charging')[0]['the_value'])->format('D') == 'Thu' ? 'selected' : ''}}>Thursday</option>
+								<option value="Fri" {{count($client_setting->where('name', 'day_time_of_driver_charging')) > 0 &&\Carbon\Carbon::parse($client_setting->where('name', 'day_time_of_driver_charging')[0]['the_value'])->format('D') == 'Fri' ? 'selected' : ''}}>Friday</option>
+								<option value="Sat" {{count($client_setting->where('name', 'day_time_of_driver_charging')) > 0 &&\Carbon\Carbon::parse($client_setting->where('name', 'day_time_of_driver_charging')[0]['the_value'])->format('D') == 'Sat' ? 'selected' : ''}}>Saturday</option>
+								<option value="Sun" {{count($client_setting->where('name', 'day_time_of_driver_charging')) > 0 &&\Carbon\Carbon::parse($client_setting->where('name', 'day_time_of_driver_charging')[0]['the_value'])->format('D') == 'Sun' ? 'selected' : ''}}>Sunday</option>
 							</select>
 						</div>
 					</div>

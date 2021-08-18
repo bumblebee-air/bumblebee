@@ -76,7 +76,7 @@ class CustomersController extends Controller
                 'is_parking_site' => 'required_if:type_of_work,Residential',
                 'contact_name' => 'required_if:type_of_work,Commercial',
                 'contact_number' => 'required_if:type_of_work,Commercial',
-                'available_date_time' => 'required_if:type_of_work,Commercial',
+//                'available_date_time' => 'required_if:type_of_work,Commercial',
                 'service_types_json' => 'required_if:type_of_work,Residential',
             ]);
 

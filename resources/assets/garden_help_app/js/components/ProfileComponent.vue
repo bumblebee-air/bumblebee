@@ -207,7 +207,6 @@ export default {
       this.business_hours_json = businessHours;
     },
     changePassword(e) {
-      alert('ss');
       e.preventDefault();
       //Check if password confirmed
       if (this.new_password === this.password_confirmation) {

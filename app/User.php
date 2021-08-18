@@ -57,4 +57,8 @@ class User extends Authenticatable
     public function stripe_account() {
         return $this->hasOne(StripeAccount::class, 'user_id');
     }
+
+    public function engineer_profile() {
+        return $this->hasOne(UnifiedEngineer::class, 'user_id');
+    }
 }

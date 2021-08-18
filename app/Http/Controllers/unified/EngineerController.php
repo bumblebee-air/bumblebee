@@ -2,9 +2,14 @@
 namespace App\Http\Controllers\unified;
 
 use App\Http\Controllers\Controller;
+use App\UnifiedCustomer;
 use App\UnifiedEngineer;
+use App\UnifiedJob;
+use App\UnifiedJobType;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class EngineerController extends Controller
 {
@@ -99,20 +104,83 @@ class EngineerController extends Controller
         alert()->success('Engineer updated successfully');
         return redirect()->route('unified_getEngineersList', 'unified');
     }
-}
 
-class Engineer
-{
+    public function getJobsList(Request $request) {
+        $this->validate($request, [
+            'status' => 'in:in_progress,completed'
+        ]);
+        $user = $request->user();
+        $engineer_profile = $user->engineer_profile;
+        $jobs = UnifiedJob::query();
+        if ($request->has('job_type_id')) {
+            $jobs = $jobs->where('job_type_id', $request->job_type_id);
+        }
+        $jobs = $jobs->whereHas('engineers', function ($q) use ($engineer_profile) {
+            $q->where('engineer_id', $engineer_profile->id);
+        });
+        if ($request->has('status')) {
+            $jobs = $jobs->whereHas('engineers', function ($q) use ($request) {
+                $q->where('status', $request->status);
+            });
+        } else {
+            $jobs = $jobs->whereHas('engineers', function ($q) use ($request) {
+                $q->where('status', $request->status);
+            });
+        }
+        $jobs = $jobs->get();
+        return response()->json([
+            'data' => $jobs
+        ]);
+    }
 
-    public $id, $first_name, $last_name, $phone, $email, $address;
+    public function getJobsTypes(Request $request) {
+        $jobs_types = UnifiedJobType::all();
+        return response()->json([
+            'data' => $jobs_types
+        ]);
+    }
 
-    public function __construct($id, $first_name, $last_name, $phone, $email, $address)
-    {
-        $this->id = $id;
-        $this->first_name = $first_name;
-        $this->last_name = $last_name;
-        $this->phone = $phone;
-        $this->email = $email;
-        $this->address = $address;
+    public function getJobDetails(Request $request, $id) {
+        $job = UnifiedJob::find($id);
+        if (!$job) {
+            return response()->json([
+                'message' => 'The job id is not valid.'
+            ],422);
+        }
+        return response()->json([
+            'data' => $job
+        ]);
+    }
+
+    public function postJob(Request $request, $id) {
+        $user = $request->user();
+        $engineer_profile = $user->engineer_profile;
+        $job = UnifiedJob::find($id);
+        if (!$job) {
+            return response()->json([
+                'message' => 'The job id is not valid.'
+            ],422);
+        }
+        //Check If the job checked out by the engineer
+        $checkIfJobAssignedToTheEngineer = $job->engineers->where('engineer_id', $engineer_profile->id)->first();
+        if ($checkIfJobAssignedToTheEngineer && $checkIfJobAssignedToTheEngineer->status == 'checked_out') {
+            return response()->json([
+                'message' => 'The job is checked out.'
+            ],422);
+        }
+        if ($request->has('status')) {
+            $this->validate($request->status, [
+                'status' => 'in:in_progress,accepted,completed,arrived,picked_up'
+            ]);
+        } else {
+            $this->validate($request, [
+                'job_type_id' => 'required|exists:unified_job_types,id',
+                'service_id' => 'required|exists:unified_services_job,id'
+            ]);
+
+        }
+        return response()->json([
+            'message' => 'Success'
+        ]);
     }
 }

@@ -76,10 +76,25 @@ Route::group(['middleware' => "auth:api"],function () {
     Route::post('change-password','garden_help\ContractorsController@changePassword');
     Route::post('update-profile','garden_help\ContractorsController@updateProfile');
     Route::get('get-profile','garden_help\ContractorsController@getProfile');
+
+
+    //Unified
+    Route::group(['prefix' => 'unified'], function() {
+        Route::get('jobs', 'unified\EngineerController@getJobsList');
+        Route::get('jobs/{id}', 'unified\EngineerController@getJobDetails');
+        Route::post('jobs/{id}', 'unified\EngineerController@postJob');
+        Route::get('jobs_types', 'unified\EngineerController@getJobsTypes');
+    });
 });
+
 
 Route::post('stripe-account-update','StripeController@accountUpdateWebhook');
 
 //App Details
 Route::get('app-details', 'AppDetailsController@view');
 Route::post('app-details', 'AppDetailsController@update');
+
+//Auth API
+Route::group(['prefix' => 'auth'], function () {
+    Route::post('login', 'Auth\ApiAuthController@login');
+});

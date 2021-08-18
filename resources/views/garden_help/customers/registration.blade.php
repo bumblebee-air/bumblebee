@@ -326,7 +326,7 @@
                             <div class="form-group bmd-form-group">
                                 <label for="type_of_experience">Site details</label>
                                 <div class="d-flex justify-content-between" @click="openModal('site_details')">
-                                    <input name="site_details" type="text" class="form-control" id="site_details" v-model="site_details_input" {{old('site_details')}} required>
+                                    <input name="site_details" type="text" class="form-control" id="site_details" v-model="site_details_input" value="{{old('site_details')}}" required>
                                     <a class="select-icon">
                                         <i class="fas fa-caret-down"></i>
                                     </a>

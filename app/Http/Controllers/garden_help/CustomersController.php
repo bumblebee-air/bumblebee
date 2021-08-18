@@ -192,22 +192,8 @@ class CustomersController extends Controller
         } else {
             $singleRequest->status = 'quote_sent';
             $singleRequest->save();
-
-            try {
-                //Sending booking URL via SMS
-                $sid = env('TWILIO_SID', '');
-                $token = env('TWILIO_AUTH', '');
-                $twilio = new Client($sid, $token);
-                $twilio->messages->create($singleRequest->phone_number,
-                    [
-                        "from" => "GardenHelp",
-                        "body" => "Hi $singleRequest->name, Please visit " . route('garde_help_getServicesBooking', $singleRequest->id) . " to view quotation and book your service. "
-                    ]
-                );
-            }catch(\Exception $exception){
-                \Log::error($exception->getMessage(),$exception->getTrace());
-            }
-           
+            $body = "Hi $singleRequest->name, Please visit " . route('garde_help_getServicesBooking', $singleRequest->id) . " to view quotation and book your service. ";
+            TwilioHelper::sendSMS('GardenHelp', $singleRequest->phone_number, $body);
             alert()->success('The Quotation was sent successfully to the client');
         }
         return redirect()->route('garden_help_getCustomerssRequests', 'garden-help');

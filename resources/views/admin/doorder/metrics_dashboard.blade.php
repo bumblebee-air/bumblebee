@@ -153,7 +153,7 @@ color: #645b5b !important;
 	margin-bottom: 4px;
 }
 
-.profitLabel {
+.chartDataLabel.activeLabel {
 	font-weight: bold;
 	color: #E9C218;
 }
@@ -165,6 +165,14 @@ color: #645b5b !important;
 	font-size: 17px;
 	line-height: 21px;
 	color: #212529;
+}
+.ct-label{
+font-weight: 600;
+font-size: 12px;
+color: #B5B5C3 !important;
+}
+#chart2 .ct-label{
+color: #645b5b !important;
 }
 </style>
 
@@ -354,32 +362,32 @@ color: #645b5b !important;
 											<div class="col-md-12 px-3 mx-2">
 												<div class="row">
 													<div class="col-6">
-														<p class="chartDataLabel">Profit</p>
-														<h5 class="chartDataValue">{{$profitPercentage}}</h5>
+														<p class="chartDataLabel" onclick="clickChartDataLabel(this,'profitPercentage')">Profit</p>
+														<h5 class="chartDataValue" id="profitPercentage">{{$profitPercentage}}</h5>
 													</div>
 													<div class="col-6">
-														<p class="chartDataLabel">Loss</p>
-														<h5 class="chartDataValue">{{$lossPercentage}}</h5>
-													</div>
-												</div>
-												<div class="row">
-													<div class="col-6">
-														<p class="chartDataLabel profitLabel">Profit</p>
-														<h5 class="chartDataValue">{{$profit}}</h5>
-													</div>
-													<div class="col-6">
-														<p class="chartDataLabel">Loss</p>
-														<h5 class="chartDataValue">{{$loss}}</h5>
+														<p class="chartDataLabel" onclick="clickChartDataLabel(this,'lossPercentage')">Loss</p>
+														<h5 class="chartDataValue" id="lossPercentage">{{$lossPercentage}}</h5>
 													</div>
 												</div>
 												<div class="row">
 													<div class="col-6">
-														<p class="chartDataLabel">Deliverers Charge</p>
-														<h5 class="chartDataValue">{{$deliverersCharge}}</h5>
+														<p class="chartDataLabel activeLabel" onclick="clickChartDataLabel(this,'profitValue')">Profit</p>
+														<h5 class="chartDataValue" id="profitValue">{{$profit}}</h5>
 													</div>
 													<div class="col-6">
-														<p class="chartDataLabel">Retailer Charge</p>
-														<h5 class="chartDataValue">{{$retailerCharge}}</h5>
+														<p class="chartDataLabel" onclick="clickChartDataLabel(this,'lossValue')">Loss</p>
+														<h5 class="chartDataValue" id="lossValue">{{$loss}}</h5>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-6">
+														<p class="chartDataLabel" onclick="clickChartDataLabel(this,'deliverersCharge')">Deliverers Charge</p>
+														<h5 class="chartDataValue" id="deliverersCharge">{{$deliverersCharge}}</h5>
+													</div>
+													<div class="col-6">
+														<p class="chartDataLabel" onclick="clickChartDataLabel(this,'retailerCharge')">Retailer Charge</p>
+														<h5 class="chartDataValue" id="retailerCharge">{{$retailerCharge}}</h5>
 													</div>
 												</div>
 											</div>
@@ -579,13 +587,57 @@ color: #645b5b !important;
                           ]
                         };
 					  new Chartist.Bar('#chart2', data2, options2, responsiveOptions);
-                      
+         
+                    	$("#profitPercentage").text(data.profitPercentage);
+                    	$("#lossPercentage").text(data.lossPercentage);
+                    	$("#profitValue").text(data.profit);
+                    	$("#lossValue").text(data.loss);
+                    	$("#deliverersCharge").text(data.deliverersCharge);
+                    	$("#retailerCharge").text(data.retailerCharge);  
                    }
             	});
      		}
      	}
      }
-      
+     
+														
+     function clickChartDataLabel(e,id){
+     	console.log(e )
+     	console.log(id)
+     	$('.chartDataLabel').removeClass('activeLabel');
+     	$(e).addClass('activeLabel')
+     	
+     	var startDate = $("#startDate").val();
+     	var endDate = $("#endDate").val();
+     	var fromDate = Date.parse(startDate);
+     	var toDate = Date.parse(endDate);
+     	
+     	
+     	 $.ajax({
+                   type:'GET',
+                   url: '{{url("doorder/get_metrics_chart_label_data")}}'+'?from_date='+startDate+'&to_date='+endDate+'&label_name='+id,
+                   success:function(data) {
+                      console.log(data);
+                      
+                       var data2 = {
+                          labels:data.profit_loss_chart_labels,
+                          series: [
+                           data.profit_loss_chart_data,
+                          ]
+                        };
+                        
+                        var options22 = {
+                          height: 215,seriesBarDistance: 10,
+                          
+                        };
+                        
+					  new Chartist.Bar('#chart2', data2, options22, responsiveOptions);                
+					  $('#chart2 ul.ct-legend').remove();
+					  
+                      
+                   }
+         });        
+     } 
       
       var data = {
           labels:JSON.parse('{!! json_encode($annual_chart_labels) !!}'),

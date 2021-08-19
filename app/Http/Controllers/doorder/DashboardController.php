@@ -341,7 +341,76 @@ class DashboardController extends Controller
             'profitPercentage', 'lossPercentage', 'profit', 'loss', 'deliverersCharge', 'retailerCharge',
             'profit_loss_chart_labels','profit_loss_chart_data_profit','profit_loss_chart_data_loss'));
     }
-
+    
+    public function getMetricsChartLabelData(Request $request){
+        $from_date = null;
+        $to_date = null;
+        $filter_from_date = $request->get('from_date');
+        $filter_to_date = $request->get('to_date');
+        
+        $profit_loss_chart_labels = [];
+        $profit_loss_chart_data = [];
+        
+        $label_name = $request->get('label_name');
+        
+        if ($filter_from_date != null && $filter_to_date != null) {
+            $filter_from_date = new Carbon($filter_from_date);
+            $filter_to_date = new Carbon($filter_to_date);
+            $from_date = $filter_from_date->startOfDay()->toDateTimeString();
+            $to_date = $filter_to_date->endOfDay()->toDateTimeString();
+            
+            if($label_name=='profitPercentage'){
+                $profit_loss_chart_labels = ['Aug'];
+                $profit_loss_chart_data = [10];
+            }else if($label_name=='lossPercentage'){
+                $profit_loss_chart_labels = ['Aug'];
+                $profit_loss_chart_data = [8];
+            }else if($label_name=='profitValue'){
+                $profit_loss_chart_labels = ['Aug'];
+                $profit_loss_chart_data = [30000];
+                
+            }else if($label_name=='lossValue'){
+                $profit_loss_chart_labels = ['Aug'];
+                $profit_loss_chart_data = [4500];
+            }else if($label_name=='deliverersCharge'){
+                $profit_loss_chart_labels = ['Aug'];
+                $profit_loss_chart_data = [75000];
+            }else if($label_name=='retailerCharge'){
+                $profit_loss_chart_labels = ['Aug'];
+                $profit_loss_chart_data = [800000];
+            }
+        }
+        else{
+            if($label_name=='profitPercentage'){
+                $profit_loss_chart_labels = ['Jul','Aug'];
+                $profit_loss_chart_data = [10,20];
+            }else if($label_name=='lossPercentage'){
+                $profit_loss_chart_labels = ['Jul','Aug'];
+                $profit_loss_chart_data = [5,7];
+            }else if($label_name=='profitValue'){
+                $profit_loss_chart_labels = ['Jul','Aug'];
+                $profit_loss_chart_data = [20000,10000];
+                
+            }else if($label_name=='lossValue'){
+                $profit_loss_chart_labels = ['Jul','Aug'];
+                $profit_loss_chart_data = [7000,8000];
+            }else if($label_name=='deliverersCharge'){
+                $profit_loss_chart_labels = ['Jul','Aug'];
+                $profit_loss_chart_data = [100233,65000];
+            }else if($label_name=='retailerCharge'){
+                $profit_loss_chart_labels = ['Jul','Aug'];
+                $profit_loss_chart_data = [500000,650000];
+            }
+        }
+        
+        
+        return response()->json([
+            'profit_loss_chart_labels'=>$profit_loss_chart_labels,
+            'profit_loss_chart_data'=>$profit_loss_chart_data,
+            
+        ]);
+    }
+														
     private function adminMetricsDashboardData($from_date, $to_date)
     {
         $custom_date = true;
@@ -521,7 +590,7 @@ class DashboardController extends Controller
         $profit = '€650';
         $loss = '€29,000';
         $deliverersCharge = '€233,600';
-        $retailerCharge = '€1,480,00';
+        $retailerCharge = '€2,480,00';
 
         return [
             'all_orders_count' => $all_orders_count,

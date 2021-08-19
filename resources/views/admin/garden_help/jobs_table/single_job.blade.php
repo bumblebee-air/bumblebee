@@ -510,6 +510,7 @@ input[type="radio"]:checked+div i {
 												<textarea class="form-control" name="rejection_reason"
 													rows="4" required></textarea>
 											</div>
+											<input type="hidden" name="rejected" value="rejected">
 										</form>
 									</div>
 								</div>

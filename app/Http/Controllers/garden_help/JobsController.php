@@ -19,7 +19,7 @@ class JobsController extends Controller
 
     public function getJobsTable()
     {
-        $jobs = Customer::where('type', 'job')->orderBy('id', 'desc')->paginate(20);
+        $jobs = Customer::where('type', 'job')->where('status', '!=', 'missing')->orderBy('id', 'desc')->paginate(20);
 
         return view('admin.garden_help.jobs_table.jobs', [
             'jobs' => $jobs

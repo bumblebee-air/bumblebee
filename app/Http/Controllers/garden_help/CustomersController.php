@@ -79,7 +79,9 @@ class CustomersController extends Controller
 //                'available_date_time' => 'required_if:type_of_work,Commercial',
                 'service_types_json' => 'required_if:type_of_work,Residential',
             ]);
-
+            if ($request->has('contact_number')) {
+                $request->phone = $request->contact_number;
+            }
             $user = User::where('email','=',$request->email)
                 ->where('phone','=',$request->phone)->where('user_role', 'customer')->first();
             if(!$user) {
@@ -138,7 +140,7 @@ class CustomersController extends Controller
             $customer->address = $request->address;
             $customer->services_types_json = $request->service_types_json;
             $customer->save();
-          
+
             //Sending Redis event
             try{
                 Redis::publish('garden-help-channel', json_encode([
@@ -157,28 +159,28 @@ class CustomersController extends Controller
         alert()->success('We will Get back to you shortly.', 'Thank you for filling the Registration Form');
         return redirect()->back();
     }
-    
-    
+
+
     public function getCustomersRequests() {
         $customers_requests = Customer::orderBy('id', 'desc')
             ->where('type', 'request')->paginate(20);
         return view('admin.garden_help.customers.requests', ['customers_requests' => $customers_requests]);
     }
-    
+
     public function getSingleRequest($client_name, $id) {
         $customer_request = Customer::find($id);
         $customer_request->email = $customer_request->user->email;
-       // dd($customer_request);
+        // dd($customer_request);
         if (!$customer_request) {
             abort(404);
         }
         if($customer_request->type_of_work=="Commercial"){
             return view('admin.garden_help.customers.single_request', ['customer_request' => $customer_request]);
         }else{
-            return view('admin.garden_help.customers.single_request_residential', ['customer_request' => $customer_request]);            
+            return view('admin.garden_help.customers.single_request_residential', ['customer_request' => $customer_request]);
         }
     }
-    
+
     public function postSingleRequest(Request $request, $client_name, $id) {
         $singleRequest = Customer::find($id);
         if (!$singleRequest) {

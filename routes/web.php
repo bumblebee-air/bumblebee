@@ -302,6 +302,7 @@ Route::group([
         ], function () {
             Route::get('dashboard', 'doorder\DashboardController@index')->name('doorder_dashboard');
             Route::get('metrics_dashboard', 'doorder\DashboardController@metricsDashboard')->name('doorder_metrics_dashboard');
+            Route::get('get_metrics_chart_label_data','doorder\DashboardController@getMetricsChartLabelData')->name('doorder_metrics_chart_label_data');
             Route::get('orders', 'doorder\OrdersController@getOrdersTable')->name('doorder_ordersTable');
             Route::get('orders/history', 'doorder\OrdersController@getOrdersHistoryTable')->name('doorder_ordersHistoryTable');
             Route::get('single-order/{id}', 'doorder\OrdersController@getSingleOrder')->name('doorder_singleOrder');

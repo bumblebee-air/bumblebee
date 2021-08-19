@@ -2,6 +2,7 @@
 
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.css">
+<link rel="stylesheet" href="{{asset('css/mdtimepicker.css')}}">
 <style>
 div[data-toggle='collapse'] {
 	cursor: pointer;
@@ -180,25 +181,58 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 	height: auto;
 	padding: 10px;
 }
-#printDiv{
+
+#printDiv {
 	background-color: #f6f7fa;
 	display: none;
-	}
-#printDiv .col-md-12{
-     text-align:center; 
- } 
- #printDiv img{margin-top:20px}
-/* @media print { */
-/*     #printDiv{ */
-/*         width: 21cm; */
-/*         height: 15cm; */
-/*         text-align: center; */
-/*         /* change the margins as you want them to be. */ */
-/*    }  */
-/*    #printDiv .col-md-12{ */
-/*     text-align:center; */
-/*    } */
-/* } */
+}
+
+#printDiv .col-md-12 {
+	text-align: center;
+}
+
+#printDiv img {
+	margin-top: 20px
+}
+ 
+
+.mdtp__wrapper[data-theme='blue'] .mdtp__time_holder{
+	background-color: #F7DC69 !important;
+}
+
+.mdtp__wrapper[data-theme='blue'] .mdtp__digit.active span,
+	.mdtp__wrapper[data-theme='blue'] .mdtp__clock .mdtp__digit span:hover
+	{
+	background-color: #F7DC69 !important;
+}
+
+.mdtp__wrapper[data-theme='blue'] .mdtp__digit.active:before {
+	background-color: #F7DC69 !important;
+}
+
+.mdtp__wrapper[data-theme='blue'] .mdtp__clock .mdtp__clock_dot {
+	background-color: #F7DC69 !important;
+}
+
+.mdtp__wrapper[data-theme='blue'] .mdtp__clock .mdtp__am.active,
+	.mdtp__wrapper[data-theme='blue'] .mdtp__clock .mdtp__pm.active {
+	background-color: #F7DC69 !important;
+	border-color: #F7DC69 !important;
+}
+
+.mdtp__wrapper[data-theme='blue'] .mdtp__button {
+	color: #F7DC69;
+}
+
+.mdtp__button:hover {
+	color: white !important;
+}
+
+.mdtp__wrapper {
+	bottom: 0 !important;
+	top: 10%;
+	box-shadow: none !important;
+}
 </style>
 @endsection @section('title','DoOrder | View Order')
 @section('page-content')
@@ -245,16 +279,19 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 								@elseif($order->status == 'delivered') <img class="status_icon"
 									src="{{asset('images/doorder_icons/order_status_delivered.png')}}"
 									alt="delivered"> <span class="statusSpan"> Delivered </span>
-								@elseif($order->status == 'not_delivered') <img class="status_icon"
+								@elseif($order->status == 'not_delivered') <img
+									class="status_icon"
 									src="{{asset('images/doorder_icons/order_status_not_delivered.png')}}"
-									alt="delivered"> <span class="statusSpan"> Not delivered </span>	
+									alt="delivered"> <span class="statusSpan"> Not delivered </span>
 								@endif
 							</h5>
 						</div>
 						<div class="col-12 col-md-3 mt-3">
-							@if(auth()->user()->user_role == 'retailer') <button id="printButton"
-								onclick="printDiv()" class="btn btn-primary doorder-btn" style="float: right">Print
-								label</button> @endif
+							@if(auth()->user()->user_role == 'retailer')
+							<button id="printButton" onclick="printDiv()"
+								class="btn btn-primary doorder-btn" style="float: right">Print
+								label</button>
+							@endif
 						</div>
 					</div>
 					<div style="padding: 10px 0;"></div>
@@ -320,8 +357,8 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 										</div>
 										<div class="col-12">
 											<div class="form-group">
-												<label for="eircode" class="control-label">Eircode</label>
-												<input id="eircode" type="text" class="form-control"
+												<label for="eircode" class="control-label">Eircode</label> <input
+													id="eircode" type="text" class="form-control"
 													value="{{$order->eircode}}" name="eircode">
 											</div>
 										</div>
@@ -364,18 +401,16 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 										<div class="col-12">
 											<div class="form-group">
 												<label for="fulfilment" class="control-label">Order
-													fulfilment</label> 
-													
-													<input id="fulfilment" type="text"
+													fulfilment</label> <input id="fulfilment" type="text"
 													name="fulfilment" class="form-control"
 													value="{{$order->fulfilment}}" required>
 											</div>
 										</div>
 										<div class="col-12">
 											<div class="form-group">
-												<label for="weight" class="control-label">Package weight </label> <input id="weight" type="text"
-													class="form-control" name="weight"
-													value="{{$order->weight}}" required>
+												<label for="weight" class="control-label">Package weight </label>
+												<input id="weight" type="text" class="form-control"
+													name="weight" value="{{$order->weight}}" required>
 											</div>
 										</div>
 										<div class="col-12">
@@ -813,8 +848,9 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 					<div class="text-center mt-3">
 						<!-- <label class="warning-label">Please ensure to select drop down
 							address suggestion to move forward</label> -->
-						
-						<label class="warning-label">Please enter Eircode to continue (select drop down suggestion)</label>	
+
+						<label class="warning-label">Please enter Eircode to continue
+							(select drop down suggestion)</label>
 
 					</div>
 				</div>
@@ -824,52 +860,53 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 	</div>
 </div>
 
-<div id="printDiv" >
-<div  class="row" style="background-color: #ededed; height: 100px;-webkit-print-color-adjust: exact;color-adjust: exact;">
-			<div class="col-md-12 text-center py-3">
-				<img src="{{asset('images/doorder-logo2.png')}}" height="80px"
-					width="250px">
+<div id="printDiv">
+	<div class="row"
+		style="background-color: #ededed; height: 100px; -webkit-print-color-adjust: exact; color-adjust: exact;">
+		<div class="col-md-12 text-center py-3">
+			<img src="{{asset('images/doorder-logo2.png')}}" height="80px"
+				width="250px">
+		</div>
+	</div>
+	<div class="row mx-auto" style="background-color: #f6f7fa;">
+
+		<div class="col-12  ">
+			<div class="form-group  mx-auto">
+				<label class="control-label  ">Name </label> <span
+					class="control-label  " style="display: block; font-weight: 600">
+					{{$order->customer_name}} </span>
 			</div>
 		</div>
-		<div class="row mx-auto" style="background-color: #f6f7fa;">
-
-			<div class="col-12  ">
-				<div class="form-group  mx-auto">
-					<label class="control-label  ">Name </label> <span
-						class="control-label  "
-						style="display: block; font-weight: 600"> {{$order->customer_name}} </span>
-				</div>
+		<div class="col-12">
+			<div class="form-group ">
+				<label class="control-label">Eircode </label> <span
+					class="control-label" style="display: block; font-weight: 600">
+					{{$order->eircode}}</span>
 			</div>
-			<div class="col-12">
-				<div class="form-group ">
-					<label class="control-label">Eircode </label> <span
-						class="control-label"
-						style="display: block; font-weight: 600"> {{$order->eircode}}</span>
-				</div>
-			</div>
-			<div class="col-12">
-				<div class="form-group ">
-					<label class="control-label ">Address </label> <span
-						class="control-label "
-						style="display: block; font-weight: 600"> {{$order->customer_address}}</span>
-				</div>
-			</div>
-			<div class="col-12">
-				<div class="form-group ">
-					<label class="control-label ">Phone number </label>
-					<span class="control-label "
-						style="display: block; font-weight: 600"> {{$order->customer_phone}}</span>
-				</div>
-			</div>
-
 		</div>
+		<div class="col-12">
+			<div class="form-group ">
+				<label class="control-label ">Address </label> <span
+					class="control-label " style="display: block; font-weight: 600">
+					{{$order->customer_address}}</span>
+			</div>
+		</div>
+		<div class="col-12">
+			<div class="form-group ">
+				<label class="control-label ">Phone number </label> <span
+					class="control-label " style="display: block; font-weight: 600">
+					{{$order->customer_phone}}</span>
+			</div>
+		</div>
+
+	</div>
 </div>
 @endsection @section('page-scripts')
 <script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js"></script>
-<script
-	src="{{asset('js/print.min.js')}}"></script>
+<script src="{{asset('js/print.min.js')}}"></script>
+<script src="{{asset('js/mdtimepicker.js')}}"></script>
 
 <script>
         // var input = document.getElementById('customer_address');
@@ -922,6 +959,8 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 
         $(document).ready(function(){
         
+        	$('#fulfilment').mdtimepicker({readOnly:false});
+        	
         	$('#minimizeSidebar').trigger('click')
         
         	$("#notify-all-drivers").click(function () {

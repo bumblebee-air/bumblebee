@@ -1,5 +1,6 @@
 @extends('templates.dashboard') @section('page-styles')
 <link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
+<link rel="stylesheet" href="{{asset('css/mdtimepicker.css')}}">
 <style>
 #importButton {
 	font-size: 14px;
@@ -14,6 +15,28 @@
 	height: auto;
 	padding: 10px;
 }
+
+.mdtp__wrapper[data-theme='blue'] .mdtp__time_holder{
+    background-color: #F7DC69 !important;
+}
+.mdtp__wrapper[data-theme='blue'] .mdtp__digit.active span, .mdtp__wrapper[data-theme='blue'] .mdtp__clock .mdtp__digit span:hover{
+    background-color: #F7DC69 !important;
+}
+.mdtp__wrapper[data-theme='blue'] .mdtp__digit.active:before{
+    background-color: #F7DC69 !important;
+}
+.mdtp__wrapper[data-theme='blue'] .mdtp__clock .mdtp__clock_dot{
+    background-color: #F7DC69 !important;
+}
+.mdtp__wrapper[data-theme='blue'] .mdtp__clock .mdtp__am.active, .mdtp__wrapper[data-theme='blue'] .mdtp__clock .mdtp__pm.active{
+    background-color: #F7DC69 !important;
+    border-color: #F7DC69 !important;
+}
+.mdtp__wrapper[data-theme='blue'] .mdtp__button{color: #F7DC69;}
+.mdtp__button:hover{color:white !important;}
+.mdtp__wrapper{bottom: 0 !important;
+top: 10%;
+box-shadow: none !important;}
 </style>
 @endsection @section('title','DoOrder | Add New Order')
 @section('page-content')
@@ -149,10 +172,12 @@
 										<div class="col-sm-6">
 											<div class="form-group">
 												<label for="fulfilment" class="control-label">Time order is ready for collection</label>
-												
-												 <input
-													id="fulfilment" type="number" name="fulfilment"
+												<input
+													id="fulfilment" type="text" name="fulfilment"
 													class="form-control" value="{{old('fulfilment')}}" required>
+<!-- 												 <input -->
+<!-- 													id="fulfilment" type="number" name="fulfilment" -->
+<!-- 													class="form-control" value="{{old('fulfilment')}}" required> -->
 											</div>
 										</div>
 									</div>
@@ -294,6 +319,7 @@
 @endsection @section('page-scripts')
 <script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
 <script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>
+<script src="{{asset('js/mdtimepicker.js')}}"></script>
 <script>
         // var input = document.getElementById('customer_address');
         // var autocomplete = '';
@@ -404,6 +430,8 @@
         }
 
         $(document).ready(function(){
+        	$('#fulfilment').mdtimepicker({readOnly:false});
+        
             $('#pick_address').on('change',function(){
                 let picked_address = $(this).val();
                 let pickup_lat_field = $('#pickup_lat');

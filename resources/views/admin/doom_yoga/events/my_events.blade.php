@@ -8,7 +8,8 @@ tr.order-row:hover, tr.order-row:focus {
 
 .modal-dialog .modal-header .close {
 	top: 0 !important;
-	right: 15px
+	right: 15px;
+	margin-top: 28px;
 }
 
 .formLabel {
@@ -63,13 +64,13 @@ tr.order-row:hover, tr.order-row:focus {
 										<tbody>
 											@if(count($myevents) > 0) @foreach($myevents as $event)
 											<tr class="order-row" onclick="clickEvent({{$event->id}})">
-												<td>{{$event->dateTime}}</td>
-												<td>{{$event->event_name}}</td>
-												<td>{{$event->event_type}}</td>
-												<td>{{$event->eventInPerson}}</td>
-												<td>{{$event->durationInMins}}</td>
-												<td>{{$event->attending}}</td>
-												<td>{{$event->reccuring}}</td>
+												<td>{{$event->date_Time}}</td>
+												<td>{{$event->name}}</td>
+												<td>{{$event->type}}</td>
+												<td>{{($event->is_person==1)? 'Yes' : 'No'}}</td>
+												<td>{{$event->duration}}</td>
+												<td>{{($event->attending)?? '0'}}</td>
+												<td>{{($event->is_reccuring==1)? 'Yes' : 'No'}}</td>
 											</tr>
 											@endforeach @endif
 										</tbody>

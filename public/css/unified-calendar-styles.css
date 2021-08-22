@@ -89,7 +89,7 @@
 
 .list-group-item, .list-group-item a {
 	padding: 15px;
-	margin: 5px 10px;
+	margin: 5px;
 	border-radius: 10px !important;
 	font-family: Roboto;
 	font-size: 18px;
@@ -443,4 +443,8 @@ input[type="checkbox"]:checked+label i {
 #calendar-modal-job-list .btn-add-calendar img {
 	width: 65px !important;
 	height: 65px !important;
+}
+
+.bootstrap-datetimepicker-widget a[data-action]:hover{
+	background-color: transparent !important;
 }

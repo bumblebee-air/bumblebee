@@ -99,7 +99,7 @@ class CalendarController extends Controller
                     ->whereDate('end_at', '<=', $end_date->toDateString());
             }
         ])->get();
-        //dd($services);
+        // dd($services);
 
         // Get Services Events by day
         $events = [];
@@ -179,11 +179,15 @@ class CalendarController extends Controller
         }
 
         if ($customerData->contract) {
-            $customerData->contractStartDate = '06/01/2021';
-            $customerData->contractEndDate = '06/30/2021';
+            if ($customerData->contract_start_date) {
+                $customerData->contractStartDate = Carbon::parse($customerData->contract_start_date)->format('m/d/Y');
+            }
+            if ($customerData->contract_end_date) {
+                $customerData->contractEndDate = Carbon::parse($customerData->contract_end_date)->format('m/d/Y');
+            }
         }
-        
-        $customerData->addressLatlng =  array(
+
+        $customerData->addressLatlng = array(
             "lat" => 53.341060324,
             "lng" => - 6.251008668
         );
@@ -237,7 +241,7 @@ class CalendarController extends Controller
 
     public function postAddScheduledJob(Request $request, $client_name)
     {
-        //dd($request);
+        // dd($request);
         $this->validate($request, [
             'typeOfJob' => 'required|exists:unified_job_types,id',
             'engineer' => 'required|exists:unified_engineers,id',
@@ -252,7 +256,7 @@ class CalendarController extends Controller
         $customer = UnifiedCustomer::find($request->companyName);
         $engineer = UnifiedEngineer::find($request->engineer);
         $service = UnifiedService::find($request->selectedServiceType);
-        $title = "$customer->name / $service->name / $request->time / Enginner: $engineer->name";
+        $title = "$customer->name / $service->name / $request->time / Enginner: $engineer->first_name $engineer->last_name";
         $job = new UnifiedJob();
         $job->title = $title;
         $job->address = $request->address;
@@ -294,8 +298,12 @@ class CalendarController extends Controller
         $jobData->serviceTypes = $serviceTypes;
 
         if ($customer->contract) {
-            $jobData->contractStartDate = '07/01/2021';
-            $jobData->contractEndDate = '07/30/2021';
+            if ($customer->contract_start_date) {
+                $jobData->contractStartDate = Carbon::parse($customer->contract_start_date)->format('m/d/Y');
+            }
+            if ($customer->contract_end_date) {
+                $jobData->contractEndDate = Carbon::parse($customer->contract_end_date)->format('m/d/Y');
+            }
         }
 
         return response()->json(array(
@@ -324,30 +332,33 @@ class CalendarController extends Controller
         $jobData->contract = (bool) $customer->contract;
         $jobData->sendEmail = (bool) $jobData->is_reminder;
         $jobData->serviceTypes = $serviceTypes;
-        
-        $jobData->job_description='description';
-        $jobData->accounts_note='notes';
-        $jobData->pickup_needed=1;
+
+        $jobData->job_description = 'description';
+        $jobData->accounts_note = 'notes';
+        $jobData->pickup_needed = 1;
         $jobData->pickupAddress = 'Killarney, County Kerry, Ireland';
-        $jobData->costEstimate=200.0;
-        
+        $jobData->costEstimate = 200.0;
+
         $jobData->engineer_location = array(
             "lat" => 53.3463204,
             "lng" => - 6.2586608
         );
-        $jobData->address_coordinates=array(
+        $jobData->address_coordinates = array(
             "lat" => 53.34060324,
             "lng" => - 6.25008668
         );
-        $jobData->pickup_coordinates=array(
+        $jobData->pickup_coordinates = array(
             "lat" => 53.34063204,
             "lng" => - 6.25086608
         );
-        
-        
+
         if ($customer->contract) {
-            $jobData->contractStartDate = '07/01/2021';
-            $jobData->contractEndDate = '08/30/2021';
+            if ($customer->contract_start_date) {
+                $jobData->contractStartDate = Carbon::parse($customer->contract_start_date)->format('m/d/Y');
+            }
+            if ($customer->contract_end_date) {
+                $jobData->contractEndDate = Carbon::parse($customer->contract_end_date)->format('m/d/Y');
+            }
         }
         $companyNames = UnifiedCustomer::select([
             'id',
@@ -360,13 +371,14 @@ class CalendarController extends Controller
         return view('admin.unified.edit_job', [
             'companyNames' => $companyNames,
             'jobTypes' => $jobTypes,
-            'engineers' => $engineers,'job'=>$jobData
+            'engineers' => $engineers,
+            'job' => $jobData
         ]);
     }
 
     public function postEditScheduledJob(Request $request, $client_name)
     {
-        //dd($request);
+        // dd($request);
         $job = UnifiedJob::find($request->jobId);
         if (! $job) {
             abort(404);
@@ -386,7 +398,7 @@ class CalendarController extends Controller
         $customer = UnifiedCustomer::find($request->companyName);
         $engineer = UnifiedEngineer::find($request->engineer);
         $service = UnifiedService::find($request->selectedServiceType);
-        $title = "$customer->name / $service->name / $request->time / Enginner: $engineer->name";
+        $title = "$customer->name / $service->name / $request->time / Enginner: $engineer->first_name $engineer->last_name";
         $job->title = $title;
         $job->address = $request->address;
         $job->start_at = Carbon::parse("$request->date $request->time")->toDateTimeString();
@@ -474,8 +486,9 @@ class CalendarController extends Controller
         ));
     }
 
-    public function getContractExpireList(Request $request)
+    public function getContractExpireList(Request $request) // it is supposed display customers names that their contracts will expire in this day 
     {
+        
         $date = Carbon::parse($request->date);
         $expiredJobs = [];
         $jobs = UnifiedJob::whereDate('start_at', $date->toDateString())->whereHas('customer', function ($q) use ($date) {

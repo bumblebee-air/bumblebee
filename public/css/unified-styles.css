@@ -9,6 +9,15 @@ body {
 /* { */
 /* 	position: initial !important; */
 /* } */
+
+
+.dropdown-menu .dropdown-item:focus, .dropdown-menu .dropdown-item:hover, .dropdown-menu a:active, .dropdown-menu a:focus, .dropdown-menu a:hover{
+	background-color: #d58242 !important;
+	color: white !important;
+	text-decoration: none !important;
+	box-shadow: 0 4px 20px 0 rgb(0 0 0 / 14%), 0 7px 10px -5px rgb(213 130 66 / 40%);
+}
+
 .btnSearchDropdownNavbar {
 	border-radius: 4px !important;
 	border: solid 0.2px #b7b7b7 !important;

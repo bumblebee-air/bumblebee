@@ -14,9 +14,9 @@
 <!-- Styles -->
 <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
 <link href="{{asset('css/fontawesome/all.css')}}" rel="stylesheet">
-<link href="{{asset('css/main.css')}}" rel="stylesheet">
 <link href="{{asset('css/material-dashboard.min.css')}}"
 	rel="stylesheet">
+<link href="{{asset('css/main.css')}}" rel="stylesheet">
 <link rel="stylesheet" href="{{asset('css/jquery-ui.css')}}">
 <link rel="stylesheet" href="{{asset('css/chartist.min.css')}}">
 <link rel="stylesheet"

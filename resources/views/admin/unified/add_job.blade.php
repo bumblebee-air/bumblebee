@@ -7,30 +7,60 @@
 
 <link rel="stylesheet"
 	href="{{asset('css/unified-calendar-styles.css')}}">
-	
-<style>
-.expireContract{
-position: absolute;
-/* bottom: 0; */
-top: -5px;
-}
-.expireContract .fc-content,
-.expireContract .fc-content i{
-color: #d95353 !important;
-font-size: 18px;
-
-}
-</style>
 
 <style>
+.expireContract {
+	position: absolute;
+	/* bottom: 0; */
+	top: -5px;
+}
+
+.expireContract .fc-content, .expireContract .fc-content i {
+	color: #d95353 !important;
+	font-size: 18px;
+}
 .select2-container--default .select2-selection--single .select2-selection__arrow
 	{
 	top: 20%;
 }
-.card-body{
-padding-left: 0;
-padding-right: 0;
+
+.card-body {
+	padding-left: 0;
+	padding-right: 0;
 }
+
+
+#navAddJobUl li a {
+width: 155px;
+font-family:'Roboto', sans-serif !important;
+padding:10px 35px;
+	font-size: 16px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.5;
+	letter-spacing: 0.15px;
+	color: #7b7b7b;
+	background: transparent;
+}
+
+#navAddJobUl li a.active, #navAddJobUl li a:hover {
+	background-color: #d58242;
+	border-color: #d58242;
+	color:white !important;
+	box-shadow:  0 4px 20px 0 rgb(0 0 0 / 14%), 0 7px 10px -5px rgb(213 130 66 / 40%);
+	border-radius: 30px !important;
+}
+
+.tab-space {
+	padding: 0 !important;
+}
+
+.tab-pane{
+height: calc(100% - 50px);
+}
+
+
 </style>
 @endsection @section('title', 'Unified | Schedule A Job')
 @section('page-content')
@@ -168,8 +198,8 @@ padding-right: 0;
 															<option value="" selected class="placeholdered">Select
 																engineer</option> @if(count($engineers) > 0)
 															@foreach($engineers as $engineer)
-															<option value="{{$engineer->id}}">{{$engineer->first_name}} {{$engineer->last_name}}</option>
-															@endforeach @endif
+															<option value="{{$engineer->id}}">{{$engineer->first_name}}
+																{{$engineer->last_name}}</option> @endforeach @endif
 														</select>
 													</div>
 												</div>
@@ -244,16 +274,34 @@ padding-right: 0;
 											</div>
 										</div>
 										<div class="col-12 col-sm-6" id="calendar-container">
-<!-- 											<div id="map" 
-												style="width: 100%; height: 100%; min-height: 400px; margin-top: 0; border-radius: 6px;"></div> -->
-												<h3 class="servicesCalendarTitleH3">Services</h3>
+											<ul
+												class="nav nav-pills nav-pills-primary justify-content-start justify-content-md-center mb-3"
+												role="tablist" id="navAddJobUl">
+												<li class="nav-item"><a class="nav-link active" data-toggle="tab"
+													href="#mapContainerDiv" role="tablist" aria-expanded="true">
+														Map </a></li>
+												<li class="nav-item"><a class="nav-link" data-toggle="tab"
+													href="#calendarContainerDiv" role="tablist"
+													aria-expanded="false"> Calendar </a></li>
+											</ul>
+											<div class="tab-content tab-space h-100">
+												<div class="tab-pane active" id="mapContainerDiv"
+													aria-expanded="false">
+													<div id="map"
+														style="width: 100%; height: 100%; min-height: 400px; margin-top: 0; border-radius: 6px;"></div>
+												</div>
 
-										<ul class="servicesCalendarUl" id="serciesUiUl">
+												<div class="tab-pane " id="calendarContainerDiv"
+													aria-expanded="false">
+													<h3 class="servicesCalendarTitleH3">Services</h3>
 
-										
-										</ul>
-										
-												<div id='calendar'></div>
+													<ul class="servicesCalendarUl" id="serciesUiUl">
+													</ul>
+													<div id='calendar'></div>
+												</div>
+											</div>
+
+
 										</div>
 									</div>
 
@@ -279,8 +327,8 @@ padding-right: 0;
 </div>
 
 
-						@include('admin.unified.calendar_modals')
-@endsection @section('page-scripts')
+@include('admin.unified.calendar_modals') @endsection
+@section('page-scripts')
 
 <script src="{{asset('js/calender-design.js')}}"></script>
 <script src="{{asset('js/fullcalendar.js')}}"></script>
@@ -288,7 +336,8 @@ padding-right: 0;
 	src="https://www.jqueryscript.net/demo/jQuery-Plugin-To-Turn-Radio-Buttons-Checkboxes-Into-Labels-zInput/zInput.js"></script>
 <script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>
 
-<script type = "text/javascript" src="{{asset('js/unified_calendar_js_functions.js')}}"></script>
+<script type="text/javascript"
+	src="{{asset('js/unified_calendar_js_functions.js')}}"></script>
 
 <script type="text/javascript">
 
@@ -491,6 +540,11 @@ function changeCompany(){
             $('#mobile').val(company.mobile);
             $('#phone').val(company.phone);
             $('#address').val(company.address);
+            var position = new google.maps.LatLng(company.addressLatlng.lat,company.addressLatlng.lng);
+            markerAddress.setPosition(position);
+            markerAddress.setVisible(true);
+            markers[0] = markerAddress;
+  			fitBoundsMap();
             
             if(company.contract ==true){
             	//console.log(company.contractStartDate)
@@ -570,17 +624,25 @@ function changeEngineer(){
 	var engineerId =$("#engineerSelect").val();
 	setSubmitButtonEnable();
 	
-// 		var token ='{{csrf_token()}}';
+		var token ='{{csrf_token()}}';
 	
-// 	 $.ajax({
-//         type: "POST",
-//         method:"post",
-//        	url: '{{url("unified/get_engineer_location/")}}',
-//        	data: {_token: token, engineerId:engineerId},
-//         success: function(data) {
+	 $.ajax({
+        type: "POST",
+        method:"post",
+       	url: '{{url("unified/get_engineer_location/")}}',
+       	data: {_token: token, engineerId:engineerId},
+        success: function(data) {
+            console.log(data);
+            console.log(data.location);
+            console.log(JSON.parse(data.location));
+            var location = JSON.parse(data.location);
+                      markerEngineer.setPosition(new google.maps.LatLng(location.lat,location.lng))
+                      markers[2] = markerEngineer;
+         			  fitBoundsMap();
+//                       map.setZoom(12);   
                       
-//         }
-//     });
+        }
+    });
 }
 function setSubmitButtonEnable(){
 	var companyVal = $("#companyNameSelect").val();
@@ -648,65 +710,122 @@ function addIntelInput(input_id, input_name) {
 
 
  
-  //Map Js
-		window.initAutoComplete = function initAutoComplete() {
+ ////////////////// map 
+ 
+		       
+		let map;
+		let markerAddress ,markerPickup,markerEngineer ;
+		let markers=[];
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 12,
+                center: {lat: 53.346324, lng: -6.258668}
+            });
+             markerAddress = new google.maps.Marker({
+                        map,
+                        anchorPoint: new google.maps.Point(0, -29),
+                        icon: {
+                            url:"{{asset('images/unified/marker-orange.png')}}", // url
+                            scaledSize: new google.maps.Size(50, 50), // scaled size
+                        },
+                      });
+        	 markerPickup = new google.maps.Marker({
+                        map,
+                        anchorPoint: new google.maps.Point(0, -29),
+                        icon: {
+                            url:"{{asset('images/unified/marker-grey.png')}}", // url
+                            scaledSize: new google.maps.Size(50, 50), // scaled size
+                        },
+                        scaledSize: new google.maps.Size(30, 35), // scaled size
+                      });   
+            markerEngineer =new google.maps.Marker({
+                        map,
+                        anchorPoint: new google.maps.Point(0, -29),
+                        icon: {
+                            url:"{{asset('images/unified/marker-blue.png')}}", // url
+                            scaledSize: new google.maps.Size(50, 50), // scaled size
+                        },
+                        scaledSize: new google.maps.Size(30, 35), // scaled size
+                      });                    
+
 			//Autocomplete Initialization
-			let location_input = document.getElementById('address');
-			//Mutation observer hack for chrome address autofill issue
-			let observerHackAddress = new MutationObserver(function() {
-				observerHackAddress.disconnect();
-				location_input.setAttribute("autocomplete", "new-password");
-			});
-			observerHackAddress.observe(location_input, {
-				attributes: true,
-				attributeFilter: ['autocomplete']
-			});
-			let autocomplete_location = new google.maps.places.Autocomplete(location_input);
-			autocomplete_location.setComponentRestrictions({'country': ['ie']});
-			autocomplete_location.addListener('place_changed', () => {
-				let place = autocomplete_location.getPlace();
-				if (!place.geometry) {
-					// User entered the name of a Place that was not suggested and
-					// pressed the Enter key, or the Place Details request failed.
-					window.alert("No details available for input: '" + place.name + "'");
-				} else {
-					let place_lat = place.geometry.location.lat();
-					let place_lon = place.geometry.location.lng();
-
-					document.getElementById("address_coordinates").value = '{"lat": ' + place_lat.toFixed(5) + ', "lon": ' + place_lon.toFixed(5) + '}';
-				}
-			});
 			
-			let pickup_input = document.getElementById('pickupAddress');
-			//Mutation observer hack for chrome address autofill issue
-			let observerHackPickup = new MutationObserver(function() {
-				observerHackPickup.disconnect();
-				pickup_input.setAttribute("autocomplete", "new-password");
-			});
-			observerHackPickup.observe(pickup_input, {
-				attributes: true,
-				attributeFilter: ['autocomplete']
-			});
-			let autocomplete_location_pickup = new google.maps.places.Autocomplete(pickup_input);
-			autocomplete_location_pickup.setComponentRestrictions({'country': ['ie']});
-			autocomplete_location_pickup.addListener('place_changed', () => {
-				let place = autocomplete_location_pickup.getPlace();
-				if (!place.geometry) {
-					// User entered the name of a Place that was not suggested and
-					// pressed the Enter key, or the Place Details request failed.
-					window.alert("No details available for input: '" + place.name + "'");
-				} else {
-					let place_lat = place.geometry.location.lat();
-					let place_lon = place.geometry.location.lng();
+			autoCompDrawMarkMap('address','marker-orange.png');
+			autoCompDrawMarkMap('pickupAddress','marker-grey.png');
 
-					document.getElementById("pickup_coordinates").value = '{"lat": ' + place_lat.toFixed(5) + ', "lon": ' + place_lon.toFixed(5) + '}';
-				}
-			});
+         }
+		function autoCompDrawMarkMap(inputId,markerImage){
+				let location_input = document.getElementById(inputId);
+						//Mutation observer hack for chrome address autofill issue
+        			let observerHackAddress = new MutationObserver(function() {
+        				observerHackAddress.disconnect();
+        				location_input.setAttribute("autocomplete", "new-password");
+        			});
+        			observerHackAddress.observe(location_input, {
+        				attributes: true,
+        				attributeFilter: ['autocomplete']
+        			});
+        			let autocomplete_location = new google.maps.places.Autocomplete(location_input);
+        			autocomplete_location.setComponentRestrictions({'country': ['ie']});
+        			
+        			autocomplete_location.addListener('place_changed', () => {
+        				let place = autocomplete_location.getPlace();
+        				if (!place.geometry) {
+        					// User entered the name of a Place that was not suggested and
+        					// pressed the Enter key, or the Place Details request failed.
+        					window.alert("No details available for input: '" + place.name + "'");
+        				} else {
+        					console.log(place.geometry.location.lat() +" "+place.geometry.location.lng());
+        					console.log(place.geometry.viewport);
+        					if (place.geometry.viewport) {
+                              map.fitBounds(place.geometry.viewport);
+                            } else {
+                              map.setCenter(place.geometry.location);
+                            }
+                           
+                            console.log("before if "+location_input)
+                            if(inputId=='address'){
+                            	markerAddress.setPosition(place.geometry.location);
+                            	markerAddress.setVisible(true);
+                            	markers[0] = markerAddress;
+                            	
+								let place_lat = place.geometry.location.lat();
+                                let place_lon = place.geometry.location.lng();
+                                document.getElementById("address_coordinates").value = '{lat: ' + place_lat.toFixed(5) + ', lon: ' + place_lon.toFixed(5) +'}';	
+                            }else{
+                            	markerPickup.setPosition(place.geometry.location);
+                            	markerPickup.setVisible(true);
+                            	markers[1] = markerPickup; 
+                            	
+								let place_lat = place.geometry.location.lat();
+                                let place_lon = place.geometry.location.lng();
+                                document.getElementById("pickup_coordinates").value = '{lat: ' + place_lat.toFixed(5) + ', lon: ' + place_lon.toFixed(5) +'}';
+                            }
+        					fitBoundsMap();
+        				}
+        			});
+		}	
+		function fitBoundsMap(){
+						
+  			if (markers.length>1) { 
+  				var bounds = new google.maps.LatLngBounds();
+                for (var i = 0; i < markers.length; i++) {
+                	if(markers[i]){
+                 		bounds.extend(markers[i].position);
+                 	}	
+                }
+                map.fitBounds(bounds);
+    			
+            }    
+            
+	
 		}
+
 		
 		
     </script>
 <script async defer
-	src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=geometry,places,drawing&callback=initAutoComplete"></script>
+	src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=geometry,places,drawing&callback=initMap"></script>
 
 @endsection

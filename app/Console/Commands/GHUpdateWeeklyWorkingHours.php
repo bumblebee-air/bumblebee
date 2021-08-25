@@ -45,7 +45,7 @@ class GHUpdateWeeklyWorkingHours extends Command
             if ($this->argument('type') != null) {
                 $message = "Hi $contractor->name, this is a reminder to update your weekly working hours if you haven't already";
             } else {
-                $message = "Hey $contractor->name, Please click on the following link to update your weekly working days and hours with GardenHelp. https://iot.bumblebeeai.io/contractors_app#/update-working-hours";
+                $message = "Hey $contractor->name, Please click on the following link to update your weekly working days and hours with GardenHelp. ". env('APP_URL', 'https://iot.bumblebeeai.io') ."/contractors_app#/update-working-hours";
             }
             TwilioHelper::sendSMS('GardenHelp', $contractor->phone_number, $message);
         }

@@ -331,15 +331,16 @@ class DashboardController extends Controller
         $loss = $admin_data['loss'];
         $deliverersCharge = $admin_data['deliverersCharge'];
         $retailerCharge = $admin_data['retailerCharge'];
-
-        
+        $deliverersRevenuePercentage = $admin_data['deliverersRevenuePercentage'];
+        $retailersRevenuePercentage = $admin_data['retailersRevenuePercentage'];
+       
         if ($ajax_flag == true) {
             return response()->json($admin_data);
         }
         return view('admin.doorder.metrics_dashboard', compact('all_orders_count', 'delivered_orders_count', 'retailers_count', 'deliverers_count', 
             'deliverers_order_charges', 'retailers_order_charges', 'annual_chart_labels', 'annual_chart_data_orders', 'annual_chart_data_revenue', 
             'profitPercentage', 'lossPercentage', 'profit', 'loss', 'deliverersCharge', 'retailerCharge',
-            'profit_loss_chart_labels','profit_loss_chart_data_profit','profit_loss_chart_data_loss'));
+            'profit_loss_chart_labels','profit_loss_chart_data_profit','profit_loss_chart_data_loss','deliverersRevenuePercentage','retailersRevenuePercentage'));
     }
     
     public function getMetricsChartLabelData(Request $request){
@@ -591,6 +592,8 @@ class DashboardController extends Controller
         $loss = '€29,000';
         $deliverersCharge = '€233,600';
         $retailerCharge = '€2,480,00';
+        $deliverersRevenuePercentage = '+40%';
+        $retailersRevenuePercentage = '+60%';
 
         return [
             'all_orders_count' => $all_orders_count,
@@ -610,7 +613,9 @@ class DashboardController extends Controller
             'retailerCharge' => $retailerCharge,
             'profit_loss_chart_labels'=>$profit_loss_chart_labels,
             'profit_loss_chart_data_profit'=>$profit_loss_chart_data_profit,
-            'profit_loss_chart_data_loss'=>$profit_loss_chart_data_loss
+            'profit_loss_chart_data_loss'=>$profit_loss_chart_data_loss,
+            'deliverersRevenuePercentage'=>$deliverersRevenuePercentage,
+            'retailersRevenuePercentage'=>$retailersRevenuePercentage
         ];
     }
 }

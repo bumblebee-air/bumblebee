@@ -332,7 +332,10 @@ Route::group([
                 // Setting
                 Route::get('settings', 'doorder\SettingsController@getSettings')->name('doorder_getSettings');
                 Route::post('save_notification', 'doorder\SettingsController@postSaveNotification')->name('doorder_postSaveNotification');
-                Route::post('save_stripe_api', 'doorder\SettingsController@postSaveStripeApi')->name('doorder_postSaveStripeApi');
+                Route::post('save_stripe_api', 'doorder\SettingsController@postSaveStripeApi')->name('doorder_postSaveStripeApi'); 
+                Route::post('user/delete', 'doorder\SettingsController@deleteUser')->name('doorder_deleteUser');
+                Route::post('user/save', 'doorder\SettingsController@saveUser')->name('doorder_saveUser');
+                Route::post('user/edit', 'doorder\SettingsController@editUser')->name('doorder_editUser');
             });
             Route::group([
                 'middleware' => "retailer"

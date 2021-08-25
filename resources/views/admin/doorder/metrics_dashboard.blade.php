@@ -174,6 +174,13 @@ color: #B5B5C3 !important;
 #chart2 .ct-label{
 color: #645b5b !important;
 }
+.chartDataDiff{
+font-family: Quicksand;
+font-style: normal;
+font-weight: bold;
+font-size: 13px;
+line-height: 14px;
+color: #E9C218;}
 </style>
 
 @endsection @section('page-content')
@@ -382,12 +389,14 @@ color: #645b5b !important;
 												</div>
 												<div class="row">
 													<div class="col-6">
-														<p class="chartDataLabel" onclick="clickChartDataLabel(this,'deliverersCharge')">Deliverers Charge</p>
-														<h5 class="chartDataValue" id="deliverersCharge">{{$deliverersCharge}}</h5>
+														<p class="chartDataLabel" onclick="clickChartDataLabel(this,'deliverersCharge')">Deliverers Revenue</p>
+														<h5 class="chartDataValue mb-0" id="deliverersCharge">{{$deliverersCharge}}</h5>
+														<span class="chartDataDiff" id="deliverersRevenuePercentage">{{$deliverersRevenuePercentage}}</span>
 													</div>
 													<div class="col-6">
-														<p class="chartDataLabel" onclick="clickChartDataLabel(this,'retailerCharge')">Retailer Charge</p>
-														<h5 class="chartDataValue" id="retailerCharge">{{$retailerCharge}}</h5>
+														<p class="chartDataLabel" onclick="clickChartDataLabel(this,'retailerCharge')">Retailer Revenue</p>
+														<h5 class="chartDataValue mb-0" id="retailerCharge">{{$retailerCharge}}</h5>
+														<span class="chartDataDiff" id="retailersRevenuePercentage">{{$retailersRevenuePercentage}}</span>
 													</div>
 												</div>
 											</div>
@@ -594,6 +603,8 @@ color: #645b5b !important;
                     	$("#lossValue").text(data.loss);
                     	$("#deliverersCharge").text(data.deliverersCharge);
                     	$("#retailerCharge").text(data.retailerCharge);  
+                    	$("#deliverersRevenuePercentage").text(data.deliverersRevenuePercentage);
+                    	$("#retailersRevenuePercentage").text(data.retailersRevenuePercentage);
                    }
             	});
      		}

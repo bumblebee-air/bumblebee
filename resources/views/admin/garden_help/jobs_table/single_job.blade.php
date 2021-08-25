@@ -204,13 +204,13 @@ input[type="radio"]:checked+div i {
 													</label>
 												</div>
 											</div>
+											@endif
 											<div class="col-12">
 												<div class=" row">
 													<label class="requestLabel col-12">Site details: <span
 														class="form-control customerRequestSpan col-12">{{$job->site_details}}</span></label>
 												</div>
 											</div>
-											@endif
 											<div class="col-12">
 												<div class=" row">
 													<label class="requestLabel col-12">Is there a parking

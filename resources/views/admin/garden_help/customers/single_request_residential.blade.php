@@ -177,13 +177,13 @@ Request') @section('page-styles')
 													</label>
 												</div>
 											</div>
+											@endif
 											<div class="col-12">
 												<div class=" row">
 													<label class="requestLabel col-12">Site details: <span
 														class="form-control customerRequestSpan col-12">{{$customer_request->site_details}}</span></label>
 												</div>
 											</div>
-											@endif
 											<div class="col-12">
 												<div class=" row">
 													<label class="requestLabel col-12">Is there a parking

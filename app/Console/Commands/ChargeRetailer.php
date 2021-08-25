@@ -43,7 +43,7 @@ class ChargeRetailer extends Command
      */
     public function handle()
     {
-        $doorder_client = Client::where('name','like','GardenHelp')->first();
+        $doorder_client = Client::where('name','like','doorder')->first();
         if(!$doorder_client){
             $this->error('DoOrder client entry not found, exiting!');
             return false;

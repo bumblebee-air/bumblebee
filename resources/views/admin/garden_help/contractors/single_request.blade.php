@@ -172,49 +172,49 @@
                                             </div>
                                         </div>
                                         @if($contractor_request->experience_level_value != 1)
-                                            <div class="col-12">
-                                                <div class=" row">
-                                                    <label class="requestLabel  col-12">What type of charge? :
-                                                     <span class="form-control customerRequestSpan col-12">{{$contractor_request->charge_type}}</span></label>
-                                                </div>
-                                            </div>
+{{--                                            <div class="col-12">--}}
+{{--                                                <div class=" row">--}}
+{{--                                                    <label class="requestLabel  col-12">What type of charge? :--}}
+{{--                                                     <span class="form-control customerRequestSpan col-12">{{$contractor_request->charge_type}}</span></label>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
                                             <div class="col-12">
                                                 <div class=" row">
                                                     <label class="requestLabel  col-12">What rate of charge? :
                                                      <span class="form-control customerRequestSpan col-12">{{$contractor_request->charge_rate}}</span></label>
                                                 </div>
                                             </div>
-                                            <div class="col-12">
-                                                <div class="row">
-                                                    <label class="requestLabel  col-12">Do you charge a call out fee? :
-                                                     <span class="form-control customerRequestSpan col-12">
-                                                     {{$contractor_request->has_callout_fee ? 'Yes' : 'No'}}</span></label>
-                                                </div>
-                                            </div>
-                                            @if($contractor_request->has_callout_fee)
-                                                <div class="col-12">
-                                                    <div class="row">
-                                                        <label class="requestLabel col-12">Call out fee charge:
-                                                         <span class="form-control customerRequestSpan col-12">
-                                                         {{$contractor_request->callout_fee_value}}</span></label>
-                                                    </div>
-                                                </div>
-                                            @endif
+{{--                                            <div class="col-12">--}}
+{{--                                                <div class="row">--}}
+{{--                                                    <label class="requestLabel  col-12">Do you charge a call out fee? :--}}
+{{--                                                     <span class="form-control customerRequestSpan col-12">--}}
+{{--                                                     {{$contractor_request->has_callout_fee ? 'Yes' : 'No'}}</span></label>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                            @if($contractor_request->has_callout_fee)--}}
+{{--                                                <div class="col-12">--}}
+{{--                                                    <div class="row">--}}
+{{--                                                        <label class="requestLabel col-12">Call out fee charge:--}}
+{{--                                                         <span class="form-control customerRequestSpan col-12">--}}
+{{--                                                         {{$contractor_request->callout_fee_value}}</span></label>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                            @endif--}}
 
-                                            <div class="col-12">
-                                                <div class="row">
-                                                    <label class="requestLabel col-12">Rate of green waste:
-                                                    < <span class="form-control customerRequestSpan col-12">
-                                                    {{$contractor_request->rate_of_green_waste}}</span></label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class=" row">
-                                                    <label class="requestLabel  col-12">Green waste collection method:
-                                                     <span class="form-control customerRequestSpan col-12">
-                                                     {{$contractor_request->green_waste_collection_method}}</span></label>
-                                                </div>
-                                            </div>
+{{--                                            <div class="col-12">--}}
+{{--                                                <div class="row">--}}
+{{--                                                    <label class="requestLabel col-12">Rate of green waste:--}}
+{{--                                                     <span class="form-control customerRequestSpan col-12">--}}
+{{--                                                    {{$contractor_request->rate_of_green_waste}}</span></label>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                            <div class="col-12">--}}
+{{--                                                <div class=" row">--}}
+{{--                                                    <label class="requestLabel  col-12">Green waste collection method:--}}
+{{--                                                     <span class="form-control customerRequestSpan col-12">--}}
+{{--                                                     {{$contractor_request->green_waste_collection_method}}</span></label>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
                                         @endif
                                         <div class="col-12">
                                             <div class=" row">

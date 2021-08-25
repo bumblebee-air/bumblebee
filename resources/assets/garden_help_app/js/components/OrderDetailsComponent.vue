@@ -523,7 +523,7 @@
                 if (this.job_data.status != 'ready') {
                     this.maxHeight = 50;
                 } else {
-                    this.maxHeight = 25;
+                    this.maxHeight = 50;
                 }
             },
             navigateToOrderDelivered(delivery_confirmation_code = null) {
@@ -661,7 +661,7 @@
         box-shadow: 10px 10px 20px 0 rgba(0, 0, 0, 0.1);
         background-color: #ffffff;
         bottom: 0;
-        height: 25em;
+        height: 50em;
         width: 100%;
         position: fixed;
     }

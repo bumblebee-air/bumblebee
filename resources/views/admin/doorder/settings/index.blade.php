@@ -67,8 +67,10 @@
 	left: 0;
 	top: -5px;
 }
-.toggleButtonConnectedApi label .toggle:after{
-top: 0 !important;}
+
+.toggleButtonConnectedApi label .toggle:after {
+	top: 0 !important;
+}
 
 .togglebutton label input[type=checkbox]:checked+.toggle:after {
 	border-color: #f7dc69;
@@ -164,9 +166,35 @@ top: 0 !important;}
 	margin-left: 0 !important;
 }
 
-	.iti {
-		width: 100%;
-	}
+.iti {
+	width: 100%;
+}
+
+.card #usersTable tr td:first-child, .card #usersTable tr th:first-child
+	{
+	text-align: left;
+}
+
+#usersTable .nameSpan {
+	font-weight: 700 !important;
+	color: #4D4D4D !important;
+	height: 1.5rem;
+}
+
+.addUserModalHeader,.editUserModalHeader {
+	font-family: Quicksand;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 20px;
+	line-height: 19px;
+	letter-spacing: 0.8px;
+	color: #000000;
+}
+#add-user-modal #addUserBtn,#edit-user-modal #editUserBtn{
+height: 40px;
+text-transform: capitalize;
+ padding: 8px;
+}
 </style>
 
 @endsection @section('page-content')
@@ -185,10 +213,10 @@ top: 0 !important;}
 							<h4 class="card-title ">Settings</h4>
 						</div>
 						<div class="col-12 col-lg-7 col-md-6 mt-md-4 ">
-							<div class="row justify-content-end float-sm-right">
-								<a class=" btn btn-primary doorder-btn-lg doorder-btn addBtn"
-									href=""> Add new user </a>
-							</div>
+							<!-- 							<div class="row justify-content-end float-sm-right"> -->
+							<!-- 								<a class=" btn btn-primary doorder-btn-lg doorder-btn addBtn" -->
+							<!-- 									href=""> Add new user </a> -->
+							<!-- 							</div> -->
 
 						</div>
 					</div>
@@ -228,18 +256,16 @@ top: 0 !important;}
 						@include('admin.doorder.settings.notifications')</div>
 
 					<div class="tab-pane " id="securityLogin" aria-expanded="false"></div>
-					<div class="tab-pane " id="users" aria-expanded="false"></div>
+					<div class="tab-pane " id="users" aria-expanded="false">
+						@include('admin.doorder.settings.users')</div>
 					<div class="tab-pane " id="connectedAPIs" aria-expanded="false">
-						@include('admin.doorder.settings.connected_apis')
-					</div>
+						@include('admin.doorder.settings.connected_apis')</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-@endsection
-
-@section('page-scripts')
+@endsection @section('page-scripts')
 
 <script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
 
@@ -255,6 +281,49 @@ top: 0 !important;}
 
 
 <script type="text/javascript">
+
+////////////////////// users tab
+
+$(document).ready(function() {
+    var table= $('#usersTable').DataTable({
+    "pagingType": "full_numbers",
+        "lengthMenu": [
+          [10, 25, 50,100, -1],
+          [10, 25, 50,100, "All"]
+        ],
+        responsive: true,
+    	"language": {  
+    		search: '',
+			"searchPlaceholder": "Search ",
+    	},
+    	"columnDefs": [ {
+    		"targets": -1,
+    		"orderable": false
+    	} ],
+        "initComplete": function() {
+            
+        }
+    });
+    
+      $(".filterhead").each(function (i) {
+                 if (i == 2 ) {
+                     var select = $('<select ><option value="">Select user type</option></select>')
+                         .appendTo($(this).empty())
+                         .on('change', function () {
+                             var term = $(this).val();
+                             table.column(i).search(term, false, false).draw();
+                         });
+                     table.column(i).data().unique().sort().each(function (d, j) {
+                         select.append('<option value="' + d + '">' + d + '</option>')
+                     });
+                 } else {
+                    $(this).empty();
+                 }
+             });
+    
+} );
+////////////////////// end users tab
+
 	 function changeToggleRetAutoCharging(){
 	 		console.log($("#retailerAutomaticCharging:checked").val())
       		if($("#retailerAutomaticCharging:checked").val()==1){
@@ -284,6 +353,8 @@ Vue.use('vue-cascader-select');
             el: '#app',
             
              data: {
+             	users: {!! $users !!},
+             
              	//customNotifications:[{"customNotification":"","notification_type":null,"notification_name":"","notification_channel":null,"phone_number":"","email":"","user_type":null,"notification_content":""}],
              	customNotifications: {!! count($savedNotifications) ? json_encode($savedNotifications) : '[{"id":null,"customNotification":"1","notification_type":null,"notification_name":"","notification_channel":null,"phone_number":[{value: ""}],"email":[{value: ""}],"user_type":null,"notification_content":""}]' !!},
                 // define the default value
@@ -434,6 +505,26 @@ Vue.use('vue-cascader-select');
 				   preferredCountries: ['IE', 'GB'],
 				   utilsScript: "{{asset('js/intlTelInput/utils.js')}}"
 			   });
+		   },
+		   clickEditUser(userId,name, email, userTypeId){
+		   		console.log("edit user ",userId,name, email, userTypeId);
+		   		
+		   		$("#edit-user-modal").modal('show');
+		   		$("#edit-user-modal #userId").val(userId);
+		   		$("#edit-user-modal #user_nameEdit").val(name);
+		   		$("#edit-user-modal #emailEdit").val(email);
+		   		$("#edit-user-modal #userTypeSelectEdit").val(userTypeId);
+		   		$('#edit-user-modal .selectpicker').selectpicker('refresh')
+		   },
+		   clickDeleteUser(userId){
+		   		console.log("delete user ",userId);
+                		   		
+                $('#delete-user-modal').modal('show')
+                $('#delete-user-modal #userId').val(userId);
+		   },
+		   clickAddUser(){
+		   		console.log("click add user");
+		   		$("#add-user-modal").modal('show');
 		   }
       	}
         });

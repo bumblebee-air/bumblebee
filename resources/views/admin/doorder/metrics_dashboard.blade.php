@@ -435,7 +435,7 @@ color: #645b5b !important;
 								<div class="card ">
 									<div class="cardContentTableDiv">
 										<div class="">
-											<h3 class="card-title tableDashboardH3">Retailers Charges</h3>
+											<h3 class="card-title tableDashboardH3">Retailers Revenue</h3>
 										</div>
 										<div class="row">
 											<div class="col-md-12">

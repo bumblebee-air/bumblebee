@@ -220,6 +220,7 @@ td {
 
 .form-control:focus {
 	border-color: #f7dc69 !important;
+	background-image: none !important;
 }
 /*.form-group select {*/
 /*    margin-top: 32px;*/

@@ -125,6 +125,12 @@ Route::get('insurance_entity', 'OpenInsuranceController@getInsuranceEntity');
 Route::post('save_insurance_entity', 'OpenInsuranceController@postInsuranceEntity');
 Route::get('personal', 'OpenInsuranceController@getPersonal');
 Route::post('save_personal', 'OpenInsuranceController@postPersonal');
+Route::get('commercial', 'OpenInsuranceController@getCommercial');
+Route::post('save_commercial', 'OpenInsuranceController@postCommercial');
+Route::get('driver', 'OpenInsuranceController@getDriver');
+Route::post('save_driver', 'OpenInsuranceController@postDriver');
+Route::get('vehicle', 'OpenInsuranceController@getVehicle');
+Route::post('save_vehicle', 'OpenInsuranceController@postVehicle');
 Route::get('product', 'OpenInsuranceController@getProduct');
 Route::post('save_product', 'OpenInsuranceController@postProduct');
 

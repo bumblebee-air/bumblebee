@@ -290,6 +290,21 @@
 								<p>Personal</p>
 						</a></li>
 						<li class="nav-item "><a class="nav-link"
+							href="{{url('commercial')}}"> <span
+								class="sidebar-mini sidebar-span">Co</span>
+								<p>Commercial</p>
+						</a></li>
+						<li class="nav-item "><a class="nav-link"
+							href="{{url('driver')}}"> <span
+								class="sidebar-mini sidebar-span">Dr</span>
+								<p>Driver</p>
+						</a></li>
+						<li class="nav-item "><a class="nav-link"
+							href="{{url('vehicle')}}"> <span
+								class="sidebar-mini sidebar-span">Ve</span>
+								<p>Vehicle</p>
+						</a></li>
+						<li class="nav-item "><a class="nav-link"
 							href="{{url('product')}}"> <span
 								class="sidebar-mini sidebar-span">Pr</span>
 								<p>Product</p>

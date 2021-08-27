@@ -56,7 +56,22 @@ class StripePaymentHelper
             ]);
             return $charge;
         } catch (\Exception $e) {
-            dd($e->getMessage());
+            Log::error($e->getMessage());
+            return null;
+        }
+    }
+
+    public static function chargePaymentWithSource($amount, $source, $currency = 'eur', $description = 'Customer charge creation') {
+        try {
+            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+            $charge = $stripe->charges->create([
+                'amount' => $amount * 100,
+                'currency' => $currency,
+                'source' => $source,
+                'description' => $description
+            ]);
+            return $charge;
+        } catch (\Exception $e) {
             Log::error($e->getMessage());
             return null;
         }

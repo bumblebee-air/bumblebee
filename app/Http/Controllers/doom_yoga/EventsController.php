@@ -1,7 +1,10 @@
 <?php
 namespace App\Http\Controllers\doom_yoga;
 
+use App\DoomYogaCustomer;
+use App\DoomYogaCustomerEvent;
 use App\DoomYogaEvent;
+use App\Helpers\StripePaymentHelper;
 use App\Http\Controllers\Controller;
 use App\UserToken;
 use Carbon\Carbon;
@@ -119,13 +122,45 @@ class EventsController extends Controller
 
     public function postEventBooking(Request $request)
     {
-        dd($request);
+        dd($request->all());
         // alert()->success('The event was booked successfully');
         return redirect()->back();
     }
 
     public function postSignupEventBooking(Request $request)
     {
+        $event = DoomYogaEvent::find($request->id);
+        if (!$event) {
+            alert()->info('The event ID is not found.');
+            return redirect()->back();
+        }
+        $customer = DoomYogaCustomer::where('phone', $request->phone_number)->where('type', 'non-subscriber')->first();
+        if ($customer) {
+            if (StripePaymentHelper::chargePaymentWithSource($event->price, $request->stripeToken)) {
+                DoomYogaCustomerEvent::create([
+                    'customer_id' => $customer->id,
+                    'event_id' => $event->id,
+                ]);
+            } else {
+                alert()->error('Can\'t charge currently, please make sure the card have enough balance and try again');
+                return redirect()->back();
+            }
+        } else {
+            $customer = new DoomYogaCustomer();
+            $customer->phone = $request->phone_number;
+            $customer->contact_through = json_encode($request->contact_through);
+            $customer->type = 'non-subscriber';
+            $customer->save();
+            if (StripePaymentHelper::chargePaymentWithSource($event->price, $request->stripeToken)) {
+                DoomYogaCustomerEvent::create([
+                    'customer_id' => $customer->id,
+                    'event_id' => $event->id,
+                ]);
+            } else {
+                alert()->error('Can\'t charge currently, please make sure the card have enough balance and try again');
+                return redirect()->back();
+            }
+        }
         alert()->success('The event was booked successfully.');
         return redirect()->back();
     }

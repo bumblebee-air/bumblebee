@@ -59,7 +59,7 @@ class CustomerController extends Controller
         // Create Stripe Customer
         $stripe_customer_id = StripePaymentHelper::createCustomer("$customer->first_name $customer->last_name", $customer->email, $request->stripeToken);
         if ($stripe_customer_id) {
-            $customer->customer_id = $stripe_customer_id;
+            $customer->stripe_customer_id = $stripe_customer_id;
             $customer->save();
             // Create customer subscription
             StripePaymentHelper::createCustomerSubscription($stripe_customer_id, $request->price_id);

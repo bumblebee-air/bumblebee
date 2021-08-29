@@ -176,7 +176,11 @@ class OpenInsuranceController extends Controller
         return redirect()->back();
     }
     public function getReceipt(){
-        return view('open_insurance.receipt');
+        
+        $receiptTypes =  $this->getReceiptTypes();
+        $receiptCalculations = $this->getReceiptCalculations();
+        
+        return view('open_insurance.receipt',['receiptTypes'=>$receiptTypes,'receiptCalculations'=>$receiptCalculations]);
     }
     public function postReceipt(Request $request)
     {

@@ -72,6 +72,20 @@ letter-spacing: 0.244706px;
 
 color: #E8CA49;
 }
+
+.forgetPasswordH6{
+font-family: Quicksand;
+font-style: normal;
+font-weight: normal;
+font-size: 16px;
+line-height: 20px;
+/* identical to box height */
+
+letter-spacing: 0.301176px;
+text-transform: capitalize;
+margin-bottom:0;
+color: #656565
+}
     </style>
 
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Quicksand" />
@@ -86,52 +100,39 @@ color: #E8CA49;
                         <div class="card-header text-center">
                             <a href="{{url('/')}}"><img class="img-fluid" src="{{asset('images/doorder-logo.png')}}"
                                                         alt="DoOrder Logo" style="width: 180px; height: 110px;"></a>
+                              <h6 class="forgetPasswordH6">Reset your password </h6>                          
                         </div>
                         <div class="card-body">
-                            <form class="form-signin" method="POST" action="{{url('login')}}">
+                            @if (session('status'))
+                                <div class="alert alert-success" role="alert">
+                                    {{ session('status') }}
+                                </div>
+                        	@endif
+                            <form class="form-signin" method="POST" action="{{ route('password.email') }}">
                                 {{ csrf_field() }}
 
-                                <div class="bmd-form-group my-4">
+                                <div class="bmd-form-group mt-2 mb-4">
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                        <span class="input-group-text">
+                                        <span class="input-group-text" style="color: #E8CA49;">
                                             <i class="material-icons">email</i>
                                         </span>
                                         </div>
-                                        <input id="email" class="form-control" name="email" placeholder="Email" required autofocus>
+                                        <input id="email" class="form-control" name="email" placeholder="Enter your registered E-mail" required autofocus>
+                                        
+                                         @error('email')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div>
 
-                                <div class="bmd-form-group my-2">
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            <i class="material-icons">lock_outline</i>
-                                        </span>
-                                        </div>
-                                        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
-                                    </div>
-                                </div>
-
-                                <div class="row ml-2">
-                                <div class="col-md-6 mt-1 mb-4">
-                                    <div class="form-check">
-                                        <label class="form-check-label" for="remember-me">
-                                            <input type="checkbox" class="form-check-input" id="remember-me" name="remember">
-                                            Remember me
-                                            <span class="form-check-sign">
-                                            <span class="check"></span>
-                                        </span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mt-1 mb-4"><a id="forgetPasswordA" href="" class="float-right">Forget password?</a></div>
-                                </div>
                                 
                                 <input type="hidden" name="guard" value="doorder">
                                 <div class="d-flex justify-content-center align-content-center">
                                     <button class="btn btn-login"
-                                            type="submit">Login</button>
+                                            type="submit">Send E-mail</button>
                                 </div>
                             </form>
                         </div>

@@ -229,7 +229,8 @@ Route::group([
     function () {
         Route::get('login', 'Auth\LoginController@showLoginForm')->name('clientLogin');
         Route::post('login', 'Auth\LoginController@login')->name('clientLogin');
-
+        Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('clientForgetPassword');
+        
         Route::middleware("auth:garden-help,doorder,doom-yoga,unified")->group(function () {
             Route::get('profile', 'ProfileController@getProfile');
             Route::post('profile/password-reset', 'ProfileController@postPasswordReset');
@@ -510,3 +511,7 @@ Route::post('customer/delivery_confirmation', 'doorder\CustomerController@postDe
 Route::post('frontend/error', 'HelperController@logFrontendError');
 
 Route::get('da-lgs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

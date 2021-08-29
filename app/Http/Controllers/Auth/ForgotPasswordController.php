@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -8,15 +7,15 @@ use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 class ForgotPasswordController extends Controller
 {
     /*
-    |--------------------------------------------------------------------------
-    | Password Reset Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller is responsible for handling password reset emails and
-    | includes a trait which assists in sending these notifications from
-    | your application to your users. Feel free to explore this trait.
-    |
-    */
+     * |--------------------------------------------------------------------------
+     * | Password Reset Controller
+     * |--------------------------------------------------------------------------
+     * |
+     * | This controller is responsible for handling password reset emails and
+     * | includes a trait which assists in sending these notifications from
+     * | your application to your users. Feel free to explore this trait.
+     * |
+     */
 
     use SendsPasswordResetEmails;
 
@@ -29,4 +28,15 @@ class ForgotPasswordController extends Controller
     {
         $this->middleware('guest');
     }
+
+    public function showLinkRequestForm()
+    {
+        if (strpos(request()->getHost(), 'doorder.eu') !== false || str_contains(request()->url(), 'doorder/password/reset')) {
+            return view("auth.doorder.passwords.email");
+        } else {
+            return view('auth.passwords.email');
+        }
+    }
+
+   
 }

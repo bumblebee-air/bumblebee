@@ -133,6 +133,18 @@ Route::get('vehicle', 'OpenInsuranceController@getVehicle');
 Route::post('save_vehicle', 'OpenInsuranceController@postVehicle');
 Route::get('product', 'OpenInsuranceController@getProduct');
 Route::post('save_product', 'OpenInsuranceController@postProduct');
+Route::get('claim', 'OpenInsuranceController@getClaim');
+Route::post('save_claim', 'OpenInsuranceController@postClaim');
+Route::get('coverage', 'OpenInsuranceController@getCoverage');
+Route::post('save_coverage', 'OpenInsuranceController@postCoverage');
+Route::get('beneficiary', 'OpenInsuranceController@getBeneficiary');
+Route::post('save_beneficiary', 'OpenInsuranceController@postBeneficiary');
+Route::get('receipt', 'OpenInsuranceController@getReceipt');
+Route::post('save_receipt', 'OpenInsuranceController@postReceipt');
+Route::get('premium_bordereau', 'OpenInsuranceController@getPremiumBordereau');
+Route::post('save__premium_bordereau', 'OpenInsuranceController@postPremiumBordereau');
+Route::get('claims_bordereau', 'OpenInsuranceController@getClaimsBordereau');
+Route::post('save_claims_bordereau', 'OpenInsuranceController@postClaimsBordereau');
 
 // Customer
 Route::get('create-customer', 'AdminController@createCustomer');

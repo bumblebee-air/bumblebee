@@ -69,9 +69,13 @@ class OpenInsuranceController extends Controller
     public function getDriver()
     {
         $sexList = $this->getSexList();
+        $workStatusList = $this->getWorkStatusList();
+        $vehicles = $this->getVehicles();
 
         return view('open_insurance.driver', [
-            'sexList' => $sexList
+            'sexList' => $sexList,
+            'workStatusList' => $workStatusList,
+            'vehicles' => $vehicles
         ]);
     }
 
@@ -109,7 +113,7 @@ class OpenInsuranceController extends Controller
         $productCatalogs = $this->getProductCatalogs();
         $productModels = $this->getProductModels();
         $contractTypes = $this->getContractTypes();
-        $currencys = $this->getCurrencys();
+        $currencies = $this->getCurrencies();
         $paymentMethods = $this->getPaymentMethods();
         $coverages = $this->getCoverages();
 
@@ -117,7 +121,7 @@ class OpenInsuranceController extends Controller
             'productCatalogs' => $productCatalogs,
             'productModels' => $productModels,
             'contractTypes' => $contractTypes,
-            'currencys' => $currencys,
+            'currencies' => $currencies,
             'paymentMethods' => $paymentMethods,
             'coverages' => $coverages
         ]);
@@ -130,6 +134,76 @@ class OpenInsuranceController extends Controller
         return redirect()->back();
     }
 
+    public function getClaim()
+    {
+        $claimTypes = $this->getClaimTypes();
+        $perils = $this->getPerils();
+        $claimStatusList = $this->getClaimStatusList();
+        $paymentMethods = $this->getPaymentMethods();
+
+        return view('open_insurance.claim', [
+            'claimTypes' => $claimTypes,
+            'perils' => $perils,
+            'claimStatusList' => $claimStatusList,
+            'paymentMethods' => $paymentMethods
+        ]);
+    }
+
+    public function postClaim(Request $request)
+    {
+        // dd($request);
+        alert()->success('Claim saved successfully');
+        return redirect()->back();
+    }
+    
+    public function getCoverage(){
+        return view('open_insurance.coverage');
+    }
+    public function postCoverage(Request $request)
+    {
+        // dd($request);
+        alert()->success('Coverage saved successfully');
+        return redirect()->back();
+    }
+    
+    public function getBeneficiary(){
+        return view('open_insurance.beneficiary');
+    }
+    public function postBeneficiary(Request $request)
+    {
+        // dd($request);
+        alert()->success('Beneficiary saved successfully');
+        return redirect()->back();
+    }
+    public function getReceipt(){
+        return view('open_insurance.receipt');
+    }
+    public function postReceipt(Request $request)
+    {
+        // dd($request);
+        alert()->success('Receipt saved successfully');
+        return redirect()->back();
+    }
+    public function getPremiumBordereau(){
+        return view('open_insurance.premium_bordereau');
+    }
+    public function postPremiumBordereau(Request $request)
+    {
+        // dd($request);
+        alert()->success('Premium bordereau saved successfully');
+        return redirect()->back();
+    }
+    public function getClaimsBordereau(){
+        return view('open_insurance.claims_bordereau');
+    }
+    public function postClaimsBordereau(Request $request)
+    {
+        // dd($request);
+        alert()->success('Claims bordereau saved successfully');
+        return redirect()->back();
+    }
+
+    
     private function getEntityTypes()
     {
         $entityType1 = new ItemData(1, "reinsurance company");
@@ -365,7 +439,7 @@ class OpenInsuranceController extends Controller
         return $contractTypes;
     }
 
-    private function getCurrencys()
+    private function getCurrencies()
     {
         $currency0 = new ItemData(0, "fiat (ISO-4217)");
         $currency1 = new ItemData(1, "cryptocurrency and tokens (Non-ISO 4217)");
@@ -559,8 +633,340 @@ class OpenInsuranceController extends Controller
             $vehicleUse3,
             $vehicleUse4
         );
-        
+
         return $vehicleUses;
+    }
+
+    private function getWorkStatusList()
+    {
+        $workStatus0 = new ItemData(0, "self employed");
+        $workStatus1 = new ItemData(1, "retired");
+        $workStatus2 = new ItemData(2, "employed");
+        $workStatus3 = new ItemData(3, "redundnt");
+
+        $workStatusList = array(
+            $workStatus0,
+            $workStatus1,
+            $workStatus2,
+            $workStatus3
+        );
+
+        return $workStatusList;
+    }
+
+    private function getVehicles()
+    {
+        $vehicle1 = new ItemData(1, "123456");
+        $vehicle2 = new ItemData(2, "789123");
+        $vehicle3 = new ItemData(3, "456789");
+
+        $vehicles = array(
+            $vehicle1,
+            $vehicle2,
+            $vehicle3
+        );
+
+        return $vehicles;
+    }
+
+    private function getClaimTypes()
+    {
+        $claimType0 = new ItemData(0, "own property damage");
+        $claimType1 = new ItemData(1, "third party bodily injury");
+        $claimType2 = new ItemData(2, "third party property damage");
+        $claimType3 = new ItemData(3, "other");
+
+        $claimTypes = array(
+            $claimType0,
+            $claimType1,
+            $claimType2,
+            $claimType3
+        );
+
+        return $claimTypes;
+    }
+
+    private function getClaimStatusList()
+    {
+        $claimStatus0 = new ItemData(0, "open");
+        $claimStatus1 = new ItemData(1, "closed");
+        $claimStatus2 = new ItemData(2, "reopened");
+
+        $claimStatusList = array(
+            $claimStatus0,
+            $claimStatus1,
+            $claimStatus2
+        );
+
+        return $claimStatusList;
+    }
+
+    private function getPerils()
+    {
+        $peril0 = new ItemData(0, "liability towards third parties");
+        $peril1 = new ItemData(1, "fire");
+        $peril2 = new ItemData(2, "theft");
+        $peril3 = new ItemData(3, "accidental damage");
+        $peril4 = new ItemData(4, "windshield damage");
+        $peril5 = new ItemData(5, "malicious damage");
+        $peril6 = new ItemData(6, "terrorism and sabotage");
+        $peril7 = new ItemData(7, "flood");
+        $peril8 = new ItemData(8, "earthquake");
+        $peril9 = new ItemData(9, "volcanic erruption");
+        $peril10 = new ItemData(10, "tsunami");
+        $peril11 = new ItemData(11, "hail");
+        $peril12 = new ItemData(12, "unkown or hit and run");
+        $peril13 = new ItemData(13, "riots");
+        $peril14 = new ItemData(14, "strikes");
+        $peril15 = new ItemData(15, "civil commotion");
+        $peril16 = new ItemData(16, "war");
+
+        $perils = array(
+            $peril0,
+            $peril1,
+            $peril2,
+            $peril3,
+            $peril4,
+            $peril5,
+            $peril6,
+            $peril7,
+            $peril8,
+            $peril9,
+            $peril10,
+            $peril11,
+            $peril12,
+            $peril13,
+            $peril14,
+            $peril15,
+            $peril16
+        );
+
+        return $perils;
+    }
+
+    private function getNotifiableConditions()
+    {
+        $notifiableCondition0 = new ItemData(0, "diabetes");
+        $notifiableCondition1 = new ItemData(1, "syncope");
+        $notifiableCondition2 = new ItemData(2, "heart condition");
+        $notifiableCondition3 = new ItemData(3, "sleep aponea");
+        $notifiableCondition4 = new ItemData(4, "epilepsy");
+        $notifiableCondition5 = new ItemData(5, "strokes");
+        $notifiableCondition6 = new ItemData(6, "glaucoma");
+
+        $notifiableConditions = array(
+            $notifiableCondition0,
+            $notifiableCondition1,
+            $notifiableCondition2,
+            $notifiableCondition3,
+            $notifiableCondition4,
+            $notifiableCondition5,
+            $notifiableCondition6
+        );
+
+        return $notifiableConditions;
+    }
+
+    private function getBenefits()
+    {
+        $benefit0 = new ItemData(0, "personal accident");
+        $benefit1 = new ItemData(1, "replacement vehicle");
+        $benefit2 = new ItemData(2, "roadside assisstance");
+
+        $benefits = array(
+            $benefit0,
+            $benefit1,
+            $benefit2
+        );
+
+        return $benefits;
+    }
+
+    private function getPremiumPaymentFrequencies()
+    {
+        $premiumPaymentFrequency0 = new ItemData(0, "annual");
+        $premiumPaymentFrequency1 = new ItemData(1, "bi-annual");
+        $premiumPaymentFrequency2 = new ItemData(2, "quarterly");
+        $premiumPaymentFrequency3 = new ItemData(3, "monthly");
+        $premiumPaymentFrequency4 = new ItemData(4, "bi-monthly");
+        $premiumPaymentFrequency5 = new ItemData(5, "weekly");
+        $premiumPaymentFrequency6 = new ItemData(6, "daily");
+        $premiumPaymentFrequency7 = new ItemData(7, "usage based or on demand");
+        $premiumPaymentFrequency8 = new ItemData(8, "subscription (not an annual contract)");
+        $premiumPaymentFrequency9 = new ItemData(9, "other");
+
+        $premiumPaymentFrequencies = array(
+            $premiumPaymentFrequency0,
+            $premiumPaymentFrequency1,
+            $premiumPaymentFrequency2,
+            $premiumPaymentFrequency3,
+            $premiumPaymentFrequency4,
+            $premiumPaymentFrequency5,
+            $premiumPaymentFrequency6,
+            $premiumPaymentFrequency7,
+            $premiumPaymentFrequency8,
+            $premiumPaymentFrequency9
+        );
+
+        return $premiumPaymentFrequencies;
+    }
+
+    private function getEndorsementTypes()
+    {
+        $endorsementType0 = new ItemData(0, "addition/increase");
+        $endorsementType1 = new ItemData(1, "deletion/decrease");
+        $endorsementType2 = new ItemData(2, "policy cancellation");
+        $endorsementType3 = new ItemData(3, "policy extension");
+        $endorsementType4 = new ItemData(4, "policy declaration");
+        $endorsementType5 = new ItemData(5, "policy transfer");
+        $endorsementType6 = new ItemData(6, "policy renewal");
+
+        $endorsementTypes = array(
+            $endorsementType0,
+            $endorsementType1,
+            $endorsementType2,
+            $endorsementType3,
+            $endorsementType4,
+            $endorsementType5,
+            $endorsementType6
+        );
+
+        return $endorsementTypes;
+    }
+
+    private function getReceiptTypes()
+    {
+        $receiptType0 = new ItemData(0, "new policy");
+        $receiptType1 = new ItemData(1, "policy renewal");
+        $receiptType2 = new ItemData(2, "mid term adjustment");
+        $receiptType3 = new ItemData(3, "claim payment");
+        $receiptType4 = new ItemData(4, "brokerage payment");
+        $receiptType5 = new ItemData(5, "profit share payment");
+        $receiptType6 = new ItemData(6, "other");
+
+        $receiptTypes = array(
+            $receiptType0,
+            $receiptType1,
+            $receiptType2,
+            $receiptType3,
+            $receiptType4,
+            $receiptType5,
+            $receiptType6
+        );
+
+        return $receiptTypes;
+    }
+
+    private function getReceiptCalculations()
+    {
+        $receiptCalculation0 = new ItemData(0, "pro data");
+        $receiptCalculation1 = new ItemData(1, "flat");
+
+        $receiptCalculations = array(
+            $receiptCalculation0,
+            $receiptCalculation1
+        );
+
+        return $receiptCalculations;
+    }
+    
+    private function getPolicyStatusList() {
+        
+        
+        $policyStatus0 = new ItemData( 0	, "in force");
+        $policyStatus1 = new ItemData(1	, "cancelled");
+        $policyStatus2 = new ItemData(2	, "lapsed");
+        $policyStatus3 = new ItemData(3	, "extended");
+        
+        $policyStatusList = array($policyStatus0,$policyStatus1,$policyStatus2,$policyStatus3);
+        
+        return $policyStatusList;
+        
+    }
+    
+    private function getOffenceCodes() {
+        $offernceCodes = array();
+        
+        array_push($offernceCodes, new ItemData("AC10", "Failing to stop after an accident"));
+        array_push($offernceCodes, new ItemData("AC20", "Failing to give particulars or report an accident within 24 hours"));
+        array_push($offernceCodes, new ItemData("AC30", "Undefined accident offences"));
+        array_push($offernceCodes, new ItemData("BA10", "Driving while disqualified by order of court"));
+        array_push($offernceCodes, new ItemData("BA30", "Attempting to drive while disqualified by order of court"));
+        array_push($offernceCodes, new ItemData("BA40", "Causing death by driving while disqualified"));
+        array_push($offernceCodes, new ItemData("BA60", "Causing serious injury by driving while disqualified"));
+        array_push($offernceCodes, new ItemData("CD10", "Driving without due care and attention"));
+        array_push($offernceCodes, new ItemData("CD20", "Driving without reasonable consideration for other road users"));
+        array_push($offernceCodes, new ItemData("CD30", "Driving without due care and attention or without reasonable consideration for other road users"));
+        array_push($offernceCodes, new ItemData("CD40", "Causing death through careless driving when unfit through drink"));
+        array_push($offernceCodes, new ItemData("CD50", "Causing death by careless driving when unfit through drugs"));
+        array_push($offernceCodes, new ItemData("CD60", "Causing death by careless driving with alcohol level above the limit"));
+        array_push($offernceCodes, new ItemData("CD70", "Causing death by careless driving then failing to supply a specimen for alcohol analysis"));
+        array_push($offernceCodes, new ItemData("CD80", "Causing death by careless, or inconsiderate, driving"));
+        array_push($offernceCodes, new ItemData("CD90", "Causing death by driving: unlicensed, disqualified or uninsured drivers"));
+        array_push($offernceCodes, new ItemData("CU10", "Using a vehicle with defective brakes"));
+        array_push($offernceCodes, new ItemData("CU20", "Causing or likely to cause danger by reason of use of unsuitable vehicle or using a vehicle with parts or accessories (excluding brakes, steering or tyres) in a dangerous condition"));
+        array_push($offernceCodes, new ItemData("CU30", "Using a vehicle with defective tyre(s)"));
+        array_push($offernceCodes, new ItemData("CU40", "Using a vehicle with defective steering"));
+        array_push($offernceCodes, new ItemData("CU50", "Causing or likely to cause danger by reason of load or passengers"));
+        array_push($offernceCodes, new ItemData("CU80", "Breach of requirements as to control of the vehicle, such as using a mobile phone"));
+        array_push($offernceCodes, new ItemData("DD10", "Causing serious injury by dangerous driving"));
+        array_push($offernceCodes, new ItemData("DD40", "Dangerous driving"));
+        array_push($offernceCodes, new ItemData("DD60", "Manslaughter or culpable homicide while driving a vehicle"));
+        array_push($offernceCodes, new ItemData("DD80", "Causing death by dangerous driving"));
+        array_push($offernceCodes, new ItemData("DD90", "Furious driving"));
+        array_push($offernceCodes, new ItemData("DR10", "Driving or attempting to drive with alcohol level above limit"));
+        array_push($offernceCodes, new ItemData("DR20", "Driving or attempting to drive while unfit through drink"));
+        array_push($offernceCodes, new ItemData("DR30", "Driving or attempting to drive then failing to supply a specimen for analysis"));
+        array_push($offernceCodes, new ItemData("DR31", "Driving or attempting to drive then refusing to give permission for analysis of a blood sample that was taken without consent due to incapacity"));
+        array_push($offernceCodes, new ItemData("DR61", "Refusing to give permission for analysis of a blood sample that was taken without consent due to incapacity in circumstances other than driving or attempting to drive"));
+        array_push($offernceCodes, new ItemData("DR40", "In charge of a vehicle while alcohol level above limit"));
+        array_push($offernceCodes, new ItemData("DR50", "In charge of a vehicle while unfit through drink"));
+        array_push($offernceCodes, new ItemData("DR60", "Failure to provide a specimen for analysis in circumstances other than driving or attempting to drive"));
+        array_push($offernceCodes, new ItemData("DR70", "Failing to co-operate with a preliminary test"));
+        array_push($offernceCodes, new ItemData("DG10", "Driving or attempting to drive with drug level above the specified limit"));
+        array_push($offernceCodes, new ItemData("DG60", "Causing death by careless driving with drug level above the limit"));
+        array_push($offernceCodes, new ItemData("DR80", "Driving or attempting to drive when unfit through drugs"));
+        array_push($offernceCodes, new ItemData("DG40", "In charge of a vehicle while drug level above specified limit"));
+        array_push($offernceCodes, new ItemData("DR70", "Failing to co-operate with a preliminary test"));
+        array_push($offernceCodes, new ItemData("DR90", "In charge of a vehicle when unfit through drugs"));
+        array_push($offernceCodes, new ItemData("IN10", "Using a vehicle uninsured against third party risks"));
+        array_push($offernceCodes, new ItemData("LC20", "Driving otherwise than in accordance with a licence"));
+        array_push($offernceCodes, new ItemData("LC30", "Driving after making a false declaration about fitness when applying for a licence"));
+        array_push($offernceCodes, new ItemData("LC40", "Driving a vehicle having failed to notify a disability"));
+        array_push($offernceCodes, new ItemData("LC50", "Driving after a licence has been cancelled (revoked) or refused on medical grounds"));
+        array_push($offernceCodes, new ItemData("MS10", "Leaving a vehicle in a dangerous position"));
+        array_push($offernceCodes, new ItemData("MS20", "Unlawful pillion riding"));
+        array_push($offernceCodes, new ItemData("MS30", "Play street offences"));
+        array_push($offernceCodes, new ItemData("MS50", "Motor racing on the highway"));
+        array_push($offernceCodes, new ItemData("MS60", "Offences not covered by other codes (including offences relating to breach of requirements as to control of vehicle)"));
+        array_push($offernceCodes, new ItemData("MS70", "Driving with uncorrected defective eyesight"));
+        array_push($offernceCodes, new ItemData("MS80", "Refusing to submit to an eyesight test"));
+        array_push($offernceCodes, new ItemData("MS90", "Failure to give information as to identity of driver etc"));
+        array_push($offernceCodes, new ItemData("MW10", "Contravention of special roads regulations (excluding speed limits)"));
+        array_push($offernceCodes, new ItemData("PC10", "Undefined contravention of pedestrian crossing regulations"));
+        array_push($offernceCodes, new ItemData("PC20", "Contravention of pedestrian crossing regulations with moving vehicle"));
+        array_push($offernceCodes, new ItemData("PC30", "Contravention of pedestrian crossing regulations with stationary vehicle"));
+        array_push($offernceCodes, new ItemData("SP10", "Exceeding goods vehicle speed limits"));
+        array_push($offernceCodes, new ItemData("SP20", "Exceeding speed limit for type of vehicle (excluding goods or passenger vehicles)"));
+        array_push($offernceCodes, new ItemData("SP30", "Exceeding statutory speed limit on a public road"));
+        array_push($offernceCodes, new ItemData("SP40", "Exceeding passenger vehicle speed limit"));
+        array_push($offernceCodes, new ItemData("SP50", "Exceeding speed limit on a motorway"));
+        array_push($offernceCodes, new ItemData("TS10", "Failing to comply with traffic light signals"));
+        array_push($offernceCodes, new ItemData("TS20", "Failing to comply with double white lines"));
+        array_push($offernceCodes, new ItemData("TS30", "Failing to comply with ‘stop’ sign"));
+        array_push($offernceCodes, new ItemData("TS40", "Failing to comply with direction of a constable/warden"));
+        array_push($offernceCodes, new ItemData("TS50", "Failing to comply with traffic sign (excluding ‘stop’ signs, traffic lights or double white lines)"));
+        array_push($offernceCodes, new ItemData("TS60", "Failing to comply with a school crossing patrol sign"));
+        array_push($offernceCodes, new ItemData("TS70", "Undefined failure to comply with a traffic direction sign"));
+        array_push($offernceCodes, new ItemData("UT50", "Aggravated taking of a vehicle"));
+        array_push($offernceCodes, new ItemData("MR09", "Reckless or dangerous driving (whether or not resulting in death, injury or serious risk)"));
+        array_push($offernceCodes, new ItemData("MR19", "Wilful failure to carry out the obligation placed on driver after being involved in a road accident (hit or run)"));
+        array_push($offernceCodes, new ItemData("MR29", "Driving a vehicle while under the influence of alcohol or other substance affecting or diminishing the mental and physical abilities of a driver"));
+        array_push($offernceCodes, new ItemData("MR39", "Driving a vehicle faster than the permitted speed"));
+        array_push($offernceCodes, new ItemData("MR49", "Driving a vehicle whilst disqualified"));
+        array_push($offernceCodes, new ItemData("MR59", "Other conduct constituting an offence for which a driving disqualification has been imposed by the State of Offence"));
+        
+        return $offernceCodes;
     }
     
 }

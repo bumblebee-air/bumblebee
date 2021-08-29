@@ -309,6 +309,36 @@
 								class="sidebar-mini sidebar-span">Pr</span>
 								<p>Product</p>
 						</a></li>
+						<li class="nav-item "><a class="nav-link"
+							href="{{url('claim')}}"> <span
+								class="sidebar-mini sidebar-span">Cl</span>
+								<p>Claim</p>
+						</a></li>
+						<li class="nav-item "><a class="nav-link"
+							href="{{url('coverage')}}"> <span
+								class="sidebar-mini sidebar-span">Co</span>
+								<p>Coverage</p>
+						</a></li>
+						<li class="nav-item "><a class="nav-link"
+							href="{{url('beneficiary')}}"> <span
+								class="sidebar-mini sidebar-span">Be</span>
+								<p>Beneficiary</p>
+						</a></li>
+						<li class="nav-item "><a class="nav-link"
+							href="{{url('receipt')}}"> <span
+								class="sidebar-mini sidebar-span">Re</span>
+								<p>Receipt</p>
+						</a></li>
+						<li class="nav-item "><a class="nav-link"
+							href="{{url('premium_bordereau')}}"> <span
+								class="sidebar-mini sidebar-span">PB</span>
+								<p>Premium Bordereau</p>
+						</a></li>
+						<li class="nav-item "><a class="nav-link"
+							href="{{url('claims_bordereau')}}"> <span
+								class="sidebar-mini sidebar-span">CB</span>
+								<p>Claims Bordereau</p>
+						</a></li>
 						
 					</ul>
 				</div></li>

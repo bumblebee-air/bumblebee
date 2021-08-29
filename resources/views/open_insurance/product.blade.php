@@ -163,7 +163,7 @@ form .form-group select.form-control {
 										class="form-control" required>
 										<option value="">Select currency
 										</option>
-										@foreach($currencys as $currency)
+										@foreach($currencies as $currency)
 										<option value="{{$currency->id}}">
 											{{$currency->name}}</option> @endforeach
 
@@ -182,7 +182,7 @@ form .form-group select.form-control {
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group bmd-form-group">
-									<label for="payment_method_select">* Payment method</label> <select
+									<label for="payment_method_select"> Payment method</label> <select
 										id="payment_method_select" name="payment_method"
 										class="form-control" >
 										<option value="">Select payment method

@@ -87,7 +87,7 @@ form .form-group select.form-control {
 <div class="content">
 	<div class="container-fluid">
 		<div class="">
-			<form id="customer-form" action="{{url('save_personal')}}"
+			<form id="customer-form" action="{{url('save_driver')}}"
 				method="post">
 				{{ csrf_field() }}
 				<div class="card">
@@ -95,7 +95,7 @@ form .form-group select.form-control {
 						<div class="card-icon">
 							<i class="material-icons">add_circle_outline</i>
 						</div>
-						<h4 class="card-title">Personal</h4>
+						<h4 class="card-title">Driver</h4>
 					</div>
 
 					<div class="card-body ">
@@ -114,29 +114,6 @@ form .form-group select.form-control {
 									<label for="name">* Last name</label> <input name="last_name"
 										type="text" class="form-control" id="last_name"
 										placeholder="Enter last name" required>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group bmd-form-group">
-									<label for="salutation_select"> Salutation</label> <select
-										id="salutation_select" name="salutation" class="form-control"><option
-											value="">Select salutation</option> @foreach($salutations as
-										$salutation)
-										<option value="{{$salutation->id}}">{{$salutation->name}}</option>
-										@endforeach
-
-									</select>
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group bmd-form-group">
-									<label for="nationality_select">* Nationality</label> <select
-										id="nationality_select" name="nationality"
-										class="form-control" required>
-										<option value="">Select nationality</option>
-									</select>
 								</div>
 							</div>
 						</div>
@@ -163,16 +140,33 @@ form .form-group select.form-control {
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group bmd-form-group">
-									<label for="email">* Email</label> <input name="email"
-										type="email" class="form-control" id="email"
-										placeholder="Enter email" required>
+									<label class="formLabel">* Is primary driver? </label>
+									<div class="radio-container row ml-0">
+										<div
+											class="col-6 form-check form-check-radio  d-flex justify-content-between">
+											<label class="form-check-label"> <input type="radio"
+												name="is_primary_driver" id="is_primary_driver_radioPr"
+												value="primary" class="form-check-input" required> Primary driver <span
+												class="circle"> <span class="check"></span>
+											</span>
+											</label>
+										</div>
+
+										<div
+											class="col-6 form-check form-check-radio  d-flex justify-content-between">
+											<label class="form-check-label"> <input type="radio"
+												name="is_primary_driver" id="is_primary_driver_radioPe"
+												value="permitted" class="form-check-input" required> Permitted driver <span
+												class="circle"> <span class="check"></span>
+											</span>
+											</label>
+										</div>
+									</div>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group bmd-form-group">
-									<label for="mobile_phone">* Mobile phone</label> <input
-										name="mobile_phone" type="tel" class="form-control"
-										id="mobile_phone" required>
+									<label >* Licence</label>
 								</div>
 							</div>
 
@@ -181,76 +175,121 @@ form .form-group select.form-control {
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group bmd-form-group">
-									<label for="phone">Phone</label> <input name="phone" type="tel"
-										class="form-control" id="phone">
+									<label for="no_claims_bonus">* No claims bonus</label> <input name="doors"
+										type="number" class="form-control" id="no_claims_bonus"
+										placeholder="Enter no claims bonus" required>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group bmd-form-group">
-									<label for="address">* Address</label> <input name="address"
-										type="text" class="form-control" id="address"
-										placeholder="Enter address" required> <input type="hidden"
-										name="address_lat" id="address_lat" value=""> <input
-										type="hidden" name="address_lon" id="address_lon" value="">
+									<label >* Conviction</label>
 								</div>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group bmd-form-group">
-									<label for="id_type_select">* ID type</label> <select
-										id="id_type_select" name="id_type" class="form-control"
-										required><option value="">Select type</option>
-										@foreach($idTypes as $type)
-										<option value="{{$type->id}}">{{$type->name}}</option>
+									<label >* Medical conditon</label>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group bmd-form-group">
+									<label for="disablility">* Disablility</label> <input name="disablility"
+										type="text" class="form-control" id="disablility"
+										placeholder="Enter disablility" required>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group bmd-form-group">
+									<label for="loading">* Loading</label> <input name="loading"
+										type="number" step="any" class="form-control" id="loading"
+										placeholder="Enter loading" required>
+								</div>
+							</div><div class="col-md-6">
+								<div class="form-group bmd-form-group">
+									<label class="formLabel">* Blue badge adapted </label>
+									<div class="radio-container row ml-0">
+										<div
+											class="col-6 form-check form-check-radio  d-flex justify-content-between">
+											<label class="form-check-label"> <input type="radio"
+												name="blue_badge_adapted" id="blue_badge_adapted_radio1"
+												value="1" class="form-check-input" required> Yes <span
+												class="circle"> <span class="check"></span>
+											</span>
+											</label>
+										</div>
+
+										<div
+											class="col-6 form-check form-check-radio  d-flex justify-content-between">
+											<label class="form-check-label"> <input type="radio"
+												name="blue_badge_adapted" id="blue_badge_adapted_radio0"
+												value="0" class="form-check-input" required> No <span
+												class="circle"> <span class="check"></span>
+											</span>
+											</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							
+							<div class="col-md-6">
+								<div class="form-group bmd-form-group">
+									<label for="non_motor_conviction">* Non motor conviction</label> <input name="non_motor_conviction"
+										type="text" class="form-control" id="non_motor_conviction"
+										placeholder="Enter non motor conviction" required>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group bmd-form-group">
+									<label for="pleasure_miles">* Pleasure miles</label> <input name="pleasure_miles"
+										type="number" class="form-control" id="pleasure_miles"
+										placeholder="Enter pleasure miles" required>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group bmd-form-group">
+									<label for="business_miles">* Business miles</label> <input name="business_miles"
+										type="number" class="form-control" id="business_miles"
+										placeholder="Enter business miles" required>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group bmd-form-group">
+									<label for="work_status_select" class="formLabel">* Work status</label>
+									<select id="work_status_select" name="work_status"
+										class="form-control" required><option value="">Select status</option> @foreach($workStatusList as $wStatus)
+										<option value="{{$wStatus->id}}">{{$wStatus->name}}</option>
 										@endforeach
 
 									</select>
 								</div>
-
-							</div>
-							<div class="col-md-6">
-								<div class="form-group bmd-form-group">
-									<label for="id_number">* ID number</label> <input
-										name="id_number" type="text" class="form-control"
-										id="id_number" placeholder="Enter ID number" required>
-								</div>
 							</div>
 						</div>
-
 						<div class="row">
+							
 							<div class="col-md-6">
 								<div class="form-group bmd-form-group">
 									<label for="occupation_select">* Occupation</label> <select
 										id="occupation_select" name="occupation" class="form-control"
 										required><option value="">Select occupation</option>
-										<!-- 										@foreach($occupations as $occupation) -->
-										<!-- 										<option value="{{$occupation->id}}">{{$occupation->name}}</option> -->
-										<!-- 										@endforeach -->
 
 									</select>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group bmd-form-group">
-									<label for="policy_holder_preferred_language_select"> Policy
-										holder preferred language</label> <select
-										name="policy_holder_preferred_language" class="form-control"
-										id="policy_holder_preferred_language_select">
-										<option value="">Select language</option>
-
-									</select>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group bmd-form-group">
-									<label for="product_select">* Product</label> <select
-										id="product_select" name="product" class="form-control"
-										required><option value="">Select product</option>
-										@foreach($products as $product)
-										<option value="{{$product->id}}">{{$product->name}}</option>
+									<label for="vehicle_select" class="formLabel">* Vehicle </label>
+									<select id="vehicle_select" name="vehicle"
+										class="form-control" required><option value="">Select vehicle
+											</option> @foreach($vehicles as $vehicle)
+										<option value="{{$vehicle->id}}">{{$vehicle->name}}</option>
 										@endforeach
 
 									</select>
@@ -280,14 +319,10 @@ form .form-group select.form-control {
   
 
 $(document).ready(function() {
-
-	$("#salutation_select").select2({ allowClear: true,placeholder:'Select salutation'}).trigger('change');
-	$("#nationality_select").select2({ allowClear: true,placeholder:'Select nationality'}).trigger('change');
 	$("#sex_select").select2({ allowClear: true,placeholder:'Select sex'}).trigger('change');
-	$("#id_type_select").select2({ allowClear: true,placeholder:'Select type'}).trigger('change');
 	$("#occupation_select").select2({ allowClear: true,placeholder:'Select occupation'}).trigger('change');
-	$("#policy_holder_preferred_language_select").select2({ allowClear: true,placeholder:'Select language'}).trigger('change');
-	$("#product_select").select2({ allowClear: true,placeholder:'Select product'}).trigger('change');
+	$("#vehicle_select").select2({ allowClear: true,placeholder:'Select vehicle'}).trigger('change');
+	$("#work_status_select").select2({ allowClear: true,placeholder:'Select work status'}).trigger('change');
 	
 	var test1 = $.getJSON("{{asset('world_countries.json')}}", function(json) {
     	console.log(json); // this will show the info it in firebug console
@@ -365,45 +400,5 @@ function addIntelInput(input_id, input_name) {
             });
         }
 
-        function initMap() {
-            let address_input = document.getElementById('address');
-            //Mutation observer hack for chrome address autofill issue
-            let observerHackAddress = new MutationObserver(function() {
-                observerHackAddress.disconnect();
-				address_input.setAttribute("autocomplete", "new-password");
-            });
-            observerHackAddress.observe(address_input, {
-                attributes: true,
-                attributeFilter: ['autocomplete']
-            });
-            let autocomplete = new google.maps.places.Autocomplete(address_input);
-            autocomplete.setComponentRestrictions({'country': ['ie']});
-            autocomplete.addListener('place_changed', function () {
-                let place = autocomplete.getPlace();
-                if (!place.geometry) {
-                    // User entered the name of a Place that was not suggested and
-                    // pressed the Enter key, or the Place Details request failed.
-                    window.alert("No details available for input: '" + place.name + "'");
-                } else {
-                	
-					console.log(place)
-						let place_lat = place.geometry.location.lat();
-						let place_lon = place.geometry.location.lng();
-						document.getElementById("address_lat").value = place_lat.toFixed(5);
-						document.getElementById("address_lon").value = place_lon.toFixed(5);
-						//address_input.value = eircode_value.long_name;
-						// if (customer_address_input.value != '') {
-						//	address_input.value = place.formatted_address;
-						// }
-					
-                }
-            });
-
-           
-           
-        }
 </script>
-<script async defer
-	src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=geometry,places&callback=initMap"></script>
-
 @endsection

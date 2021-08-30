@@ -155,51 +155,96 @@ class OpenInsuranceController extends Controller
         alert()->success('Claim saved successfully');
         return redirect()->back();
     }
-    
-    public function getCoverage(){
-        return view('open_insurance.coverage');
+
+    public function getCoverage()
+    {
+        $drivers = $this->getDrivers();
+        $policyStatusList = $this->getPolicyStatusList();
+        $perils = $this->getPerils();
+        $benefits = $this->getBenefits();
+        $premiumPaymentFrequencies = $this->getPremiumPaymentFrequencies();
+        $vehicles = $this->getVehicles();
+        $endorsementTypes = $this->getEndorsementTypes();
+        $beneficiaries = $this->getBeneficiaries();
+        $receipts = $this->getReceipts();
+        $claims = $this->getClaims();
+        
+        return view('open_insurance.coverage',[
+            'drivers'=>$drivers,
+            'policyStatusList'=>$policyStatusList,
+            'perils'=>$perils,
+            'benefits'=>$benefits,
+            'premiumPaymentFrequencies'=>$premiumPaymentFrequencies,
+            'vehicles'=>$vehicles,
+            'endorsementTypes'=>$endorsementTypes,
+            'beneficiaries'=>$beneficiaries,
+            'receipts'=>$receipts,
+            'claims'=>$claims
+        ]);
     }
+
     public function postCoverage(Request $request)
     {
         // dd($request);
         alert()->success('Coverage saved successfully');
         return redirect()->back();
     }
-    
-    public function getBeneficiary(){
+
+    public function getBeneficiary()
+    {
         return view('open_insurance.beneficiary');
     }
+
     public function postBeneficiary(Request $request)
     {
         // dd($request);
         alert()->success('Beneficiary saved successfully');
         return redirect()->back();
     }
-    public function getReceipt(){
-        
-        $receiptTypes =  $this->getReceiptTypes();
+
+    public function getReceipt()
+    {
+        $receiptTypes = $this->getReceiptTypes();
         $receiptCalculations = $this->getReceiptCalculations();
-        
-        return view('open_insurance.receipt',['receiptTypes'=>$receiptTypes,'receiptCalculations'=>$receiptCalculations]);
+
+        return view('open_insurance.receipt', [
+            'receiptTypes' => $receiptTypes,
+            'receiptCalculations' => $receiptCalculations
+        ]);
     }
+
     public function postReceipt(Request $request)
     {
         // dd($request);
         alert()->success('Receipt saved successfully');
         return redirect()->back();
     }
-    public function getPremiumBordereau(){
-        return view('open_insurance.premium_bordereau');
+
+    public function getPremiumBordereau()
+    {
+        $receiptTypes = $this->getReceiptTypes();
+
+        return view('open_insurance.premium_bordereau', [
+            'receiptTypes' => $receiptTypes
+        ]);
     }
+
     public function postPremiumBordereau(Request $request)
     {
         // dd($request);
         alert()->success('Premium bordereau saved successfully');
         return redirect()->back();
     }
-    public function getClaimsBordereau(){
-        return view('open_insurance.claims_bordereau');
+
+    public function getClaimsBordereau()
+    {
+        $claimStatusList = $this->getClaimStatusList();
+
+        return view('open_insurance.claims_bordereau', [
+            "claimStatusList" => $claimStatusList
+        ]);
     }
+
     public function postClaimsBordereau(Request $request)
     {
         // dd($request);
@@ -207,7 +252,6 @@ class OpenInsuranceController extends Controller
         return redirect()->back();
     }
 
-    
     private function getEntityTypes()
     {
         $entityType1 = new ItemData(1, "reinsurance company");
@@ -873,24 +917,28 @@ class OpenInsuranceController extends Controller
 
         return $receiptCalculations;
     }
-    
-    private function getPolicyStatusList() {
-        
-        
-        $policyStatus0 = new ItemData( 0	, "in force");
-        $policyStatus1 = new ItemData(1	, "cancelled");
-        $policyStatus2 = new ItemData(2	, "lapsed");
-        $policyStatus3 = new ItemData(3	, "extended");
-        
-        $policyStatusList = array($policyStatus0,$policyStatus1,$policyStatus2,$policyStatus3);
-        
+
+    private function getPolicyStatusList()
+    {
+        $policyStatus0 = new ItemData(0, "in force");
+        $policyStatus1 = new ItemData(1, "cancelled");
+        $policyStatus2 = new ItemData(2, "lapsed");
+        $policyStatus3 = new ItemData(3, "extended");
+
+        $policyStatusList = array(
+            $policyStatus0,
+            $policyStatus1,
+            $policyStatus2,
+            $policyStatus3
+        );
+
         return $policyStatusList;
-        
     }
-    
-    private function getOffenceCodes() {
+
+    private function getOffenceCodes()
+    {
         $offernceCodes = array();
-        
+
         array_push($offernceCodes, new ItemData("AC10", "Failing to stop after an accident"));
         array_push($offernceCodes, new ItemData("AC20", "Failing to give particulars or report an accident within 24 hours"));
         array_push($offernceCodes, new ItemData("AC30", "Undefined accident offences"));
@@ -969,10 +1017,61 @@ class OpenInsuranceController extends Controller
         array_push($offernceCodes, new ItemData("MR39", "Driving a vehicle faster than the permitted speed"));
         array_push($offernceCodes, new ItemData("MR49", "Driving a vehicle whilst disqualified"));
         array_push($offernceCodes, new ItemData("MR59", "Other conduct constituting an offence for which a driving disqualification has been imposed by the State of Offence"));
-        
+
         return $offernceCodes;
     }
-    
+
+    private function getDrivers()
+    {
+        $driver1 = new ItemData(1, "driver 1");
+        $driver2 = new ItemData(2, "driver 2");
+
+        $drivers = array(
+            $driver1,
+            $driver2
+        );
+
+        return $drivers;
+    }
+
+    private function getBeneficiaries()
+    {
+        $beneficiary1 = new ItemData(1, "beneficiary 1");
+        $beneficiary2 = new ItemData(2, "beneficiary 2");
+
+        $beneficiaries = array(
+            $beneficiary1,
+            $beneficiary2
+        );
+
+        return $beneficiaries;
+    }
+
+    private function getReceipts()
+    {
+        $receipt1 = new ItemData(1, "receipt 1");
+        $receipt2 = new ItemData(2, "receipt 2");
+
+        $receipts = array(
+            $receipt1,
+            $receipt2
+        );
+
+        return $receipts;
+    }
+
+    private function getClaims()
+    {
+        $claim1 = new ItemData(1, "claim 1");
+        $claim2 = new ItemData(2, "claim 2");
+
+        $claims = array(
+            $claim1,
+            $claim2
+        );
+
+        return $claims;
+    }
 }
 
 class ItemData

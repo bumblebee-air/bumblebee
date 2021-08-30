@@ -142,7 +142,7 @@ Route::post('save_beneficiary', 'OpenInsuranceController@postBeneficiary');
 Route::get('receipt', 'OpenInsuranceController@getReceipt');
 Route::post('save_receipt', 'OpenInsuranceController@postReceipt');
 Route::get('premium_bordereau', 'OpenInsuranceController@getPremiumBordereau');
-Route::post('save__premium_bordereau', 'OpenInsuranceController@postPremiumBordereau');
+Route::post('save_premium_bordereau', 'OpenInsuranceController@postPremiumBordereau');
 Route::get('claims_bordereau', 'OpenInsuranceController@getClaimsBordereau');
 Route::post('save_claims_bordereau', 'OpenInsuranceController@postClaimsBordereau');
 

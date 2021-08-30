@@ -47,8 +47,8 @@
 <script src="{{asset('js/select2.min.js')}}"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/vue-toast-notification/dist/theme-sugar.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/vue-toast-notification"></script>
+<link href="https://cdn.jsdelivr.net/npm/vue-toast-notification@0.6.2/dist/theme-sugar.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue-toast-notification@0.6.2"></script>
 
 @yield('scripts')
 </body>

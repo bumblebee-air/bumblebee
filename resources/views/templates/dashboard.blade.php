@@ -229,9 +229,9 @@
 	<audio id="alert-audio" src="{{asset('audio/update.mp3')}}"></audio>
 	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
 	<link
-		href="https://cdn.jsdelivr.net/npm/vue-toast-notification/dist/theme-sugar.css"
+		href="https://cdn.jsdelivr.net/npm/vue-toast-notification@0.6.2/dist/theme-sugar.css"
 		rel="stylesheet">
-	<script src="https://cdn.jsdelivr.net/npm/vue-toast-notification"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue-toast-notification@0.6.2"></script>
 	<script>
 	md = {
       misc: {

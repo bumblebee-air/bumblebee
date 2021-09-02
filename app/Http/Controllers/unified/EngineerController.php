@@ -1,15 +1,20 @@
 <?php
 namespace App\Http\Controllers\unified;
 
+use App\Helpers\TwilioHelper;
 use App\Http\Controllers\Controller;
 use App\UnifiedCustomer;
 use App\UnifiedEngineer;
+use App\UnifiedEngineerJob;
+use App\UnifiedEngineerJobExpenses;
 use App\UnifiedJob;
 use App\UnifiedJobType;
 use App\User;
+use App\UserPasswordReset;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Twilio\Rest\Client;
 
 class EngineerController extends Controller
 {
@@ -112,17 +117,14 @@ class EngineerController extends Controller
         $user = $request->user();
         $engineer_profile = $user->engineer_profile;
         $jobs = UnifiedJob::query();
+        $jobs = $jobs->whereHas('engineers', function ($q) use ($engineer_profile) {
+            $q->where('engineer_id', $engineer_profile->id)->where('status', '!=', 'skipped');
+        });
+        $jobs = $jobs->orDoesntHave('engineers');
         if ($request->has('job_type_id')) {
             $jobs = $jobs->where('job_type_id', $request->job_type_id);
         }
-        $jobs = $jobs->whereHas('engineers', function ($q) use ($engineer_profile) {
-            $q->where('engineer_id', $engineer_profile->id);
-        });
         if ($request->has('status')) {
-            $jobs = $jobs->whereHas('engineers', function ($q) use ($request) {
-                $q->where('status', $request->status);
-            });
-        } else {
             $jobs = $jobs->whereHas('engineers', function ($q) use ($request) {
                 $q->where('status', $request->status);
             });
@@ -141,10 +143,17 @@ class EngineerController extends Controller
     }
 
     public function getJobDetails(Request $request, $id) {
+        $user = $request->user();
+        $engineer_profile = $user->engineer_profile;
         $job = UnifiedJob::find($id);
         if (!$job) {
             return response()->json([
                 'message' => 'The job id is not valid.'
+            ],422);
+        }
+        if ($job->engineer_id && $job->engineer_id != $engineer_profile->id) {
+            return response()->json([
+                'message' => 'The job id is assigned to another engineer.'
             ],422);
         }
         return response()->json([
@@ -169,15 +178,59 @@ class EngineerController extends Controller
             ],422);
         }
         if ($request->has('status')) {
-            $this->validate($request->status, [
-                'status' => 'in:in_progress,accepted,completed,arrived,picked_up'
+            $this->validate($request, [
+                'status' => 'in:in_progress,accepted,completed,arrived,picked_up,skipped',
+                'skip_reason' => 'required_if:status,==,skipped'
             ]);
+            if ($checkIfJobAssignedToTheEngineer) {
+                $checkIfJobAssignedToTheEngineer->update([
+                    'status' => $request->status,
+                    'skip_reason' => $request->skip_reason,
+                ]);
+            } else {
+                UnifiedEngineerJob::create([
+                    'status' => $request->status,
+                    'engineer_id' => $engineer_profile->id,
+                    'job_id' => $id
+                ]);
+            }
         } else {
             $this->validate($request, [
                 'job_type_id' => 'required|exists:unified_job_types,id',
-                'service_id' => 'required|exists:unified_services_job,id'
+//                'service_id' => 'required|exists:unified_services_job,id',
+                'additional_service_id' => 'exists:unified_services_job,id',
+                'expenses' => 'array',
+                'expenses.*.name' => 'required',
+                'expenses.*.cost' => 'required',
+                'expenses.*.file' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
+                'job_images' => 'array',
+                'job_images.*' => 'required|mimes:jpeg,jpg,png,gif|required|max:10000',
             ]);
-
+            if (!$checkIfJobAssignedToTheEngineer) {
+                return response()->json([
+                    'message' => 'The job id is not assigned to you.'
+                ],422);
+            }
+            $job_images_paths = [];
+            if ($request->has('job_images')) {
+                foreach ($request->job_images as $key => $job_image) {
+                    $job_images_paths[] = $request->job_images[$key]->store('uploads/unified_uploads');
+                }
+            }
+            $checkIfJobAssignedToTheEngineer->update([
+                'additional_service_id' => $request->additional_service_id,
+                'job_images' => json_encode($job_images_paths),
+            ]);
+            if ($request->has('expenses')) {
+                foreach ($request->expenses as $key => $item) {
+                    UnifiedEngineerJobExpenses::create([
+                        'name' => $item['name'],
+                        'cost' => $item['cost'],
+                        'comment' => array_key_exists('comment', $item) ? $item['comment'] : null,
+                        'file' => array_key_exists('file', $item) ? $request->expenses[$key]['file']->store('uploads/unified_uploads') : null,
+                    ]);
+                }
+            }
         }
         return response()->json([
             'message' => 'Success'

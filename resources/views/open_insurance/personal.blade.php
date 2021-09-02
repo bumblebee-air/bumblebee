@@ -1,13 +1,73 @@
 @extends('templates.dashboard') @section('page-styles')
 <link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
 <link rel="stylesheet" href="{{asset('css/open_insurance_styles.css')}}">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/@riophae/vue-treeselect@^0.4.0/dist/vue-treeselect.min.css">
 <style>
+.vue-treeselect__control {
+	border: none !important;
+	margin-top: -6px;
+}
+
+.vue-treeselect__menu {
+	font-size: 13px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #494949;
+}
+
+.vue-treeselect__menu li:hover {
+	background: #e8ca49;
+	font-weight: bold;
+	color: white;
+	box-shadow: none !important;
+}
+
+.vue-treeselect__menu li:hover .vue-treeselect__label,
+	.vue-treeselect__option--highlight .vue-treeselect__label,
+	.vue-treeselect--single .vue-treeselect__option--selected .vue-treeselect__label
+	{
+	/* font-weight: bold !important; */
+	color: white !important;
+	box-shadow: none !important;
+}
+
+.vue-treeselect__option--highlight, .vue-treeselect--single .vue-treeselect__option--selected
+	{
+	background: #5897fb !important;
+	font-weight: bold !important;
+	color: white !important;
+	box-shadow: none !important;
+}
+
+.vue-treeselect__indent-level-0 .vue-treeselect__option {
+	padding: 5px
+}
+
+.vue-treeselect__indent-level-1 {
+	margin-left: 8px;
+}
+
+.vue-treeselect__indent-level-2 {
+	margin-left: 8px;
+}
+
+.vue-treeselect__indent-level-3 {
+	margin-left: 10px;
+}
+
+.vue-treeselect__indent-level-4 {
+	margin-left: 12px;
+}
 </style>
 @endsection @section('page-content')
 <div class="content">
 	<div class="container-fluid">
 		<div class="">
-			<form id="customer-form" action="{{url('save_personal')}}"
+			<form id="customer-form" action="{{url('open_insurance/save_personal')}}"
 				method="post">
 				{{ csrf_field() }}
 				<div class="card">
@@ -141,14 +201,22 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group bmd-form-group">
-									<label for="occupation_select">* Occupation</label> <select
-										id="occupation_select" name="occupation" class="form-control"
-										required><option value="">Select occupation</option>
-										<!-- 										@foreach($occupations as $occupation) -->
-										<!-- 										<option value="{{$occupation->id}}">{{$occupation->name}}</option> -->
-										<!-- 										@endforeach -->
+									<label for="occupation_select">* Occupation </label>
 
-									</select>
+									<div id="component_occupation_select">
+										<template>
+											<treeselect class="form-control" v-model="occupation"
+												name="occupation" id="occupation" placeholder="Select type"
+												:multiple="false" :options="options" :clearable="true"
+												:searchable="true" :openOnClick="true"
+												:disable-branch-nodes="true" :closeOnSelect="true"
+												:flat="true" :open-on-focus="true" :always-open="false"
+												:normalizer="normalizer" required>
+											<div slot="value-label" slot-scope="{ node }">@{{node.raw.customLabel}}</div>
+
+											</treeselect>
+										</template>
+									</div>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -196,8 +264,41 @@
 @endsection @section('page-scripts')
 <script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/@riophae/vue-treeselect@^0.4.0/dist/vue-treeselect.umd.min.js"></script>
+
+
 <script type="text/javascript">
   
+
+Vue.use('vue-cascader-select');
+        Vue.component('treeselect', VueTreeselect.Treeselect);
+        var occupations_array=[];
+               var app = new Vue({
+            el: '#app',
+            
+             data: {
+             	occupation: null,
+        
+                // define options
+                options: occupations_array,
+                
+	      },
+		   mounted() {
+		   },
+		   methods: {
+    			normalizer(node) {
+    			 	return {
+    					id: node.id,
+    					label: node.label,
+    					customLabel: node.customLabel,
+    					children: node.children,
+    				}
+    			},
+      		}
+        });
+        /////////////////////////////////////
 
 $(document).ready(function() {
 
@@ -205,7 +306,7 @@ $(document).ready(function() {
 	$("#nationality_select").select2({ allowClear: true,placeholder:'Select nationality'}).trigger('change');
 	$("#sex_select").select2({ allowClear: true,placeholder:'Select sex'}).trigger('change');
 	$("#id_type_select").select2({ allowClear: true,placeholder:'Select type'}).trigger('change');
-	$("#occupation_select").select2({ allowClear: true,placeholder:'Select occupation'}).trigger('change');
+	//$("#occupation_select").select2({ allowClear: true,placeholder:'Select occupation'}).trigger('change');
 	$("#policy_holder_preferred_language_select").select2({ allowClear: true,placeholder:'Select language'}).trigger('change');
 	$("#product_select").select2({ allowClear: true,placeholder:'Select product'}).trigger('change');
 	
@@ -261,6 +362,63 @@ $(document).ready(function() {
     
     }, 1000); // How long do you want the delay to be (in milliseconds)? 
     ////////////
+
+
+    var occupations_json = $.getJSON("{{asset('occupations.json')}}", function(json) {
+    	console.log(json.Blad1); // this will show the info it in firebug console
+	});
+	
+    setTimeout(function (){
+    	console.log(occupations_json.responseJSON.Blad1);
+    	var all_occupations = occupations_json.responseJSON.Blad1;
+    	var level_1_Data,level_2_Data,level_3_Data,level_4_Data;
+    	for(var i=0;i<all_occupations.length;i++){
+    		//console.log(all_occupations[i]);
+    		//console.log(all_occupations[i].level);
+    		if(all_occupations[i].level=="1"){
+    			level_1_Data = {
+    					level: all_occupations[i].level,
+    					id :all_occupations[i].CODE,
+    					label :all_occupations[i].ENGLISH,
+    					children:[]
+    			};
+    			occupations_array.push(level_1_Data);
+    		}
+    		if(all_occupations[i].level=="2"){
+    			level_2_Data = {
+    					level: all_occupations[i].level,
+    					id :all_occupations[i].CODE,
+    					label :all_occupations[i].ENGLISH,
+    					children:[]
+    			};
+    			level_1_Data.children.push(level_2_Data);
+    		}
+    		if(all_occupations[i].level=="3"){
+    			level_3_Data = {
+    					level: all_occupations[i].level,
+    					id:  all_occupations[i].CODE,
+    					label :all_occupations[i].ENGLISH,
+    					children:[]
+    			};
+    			level_2_Data.children.push(level_3_Data);
+    		}
+    		
+    		if(all_occupations[i].level=="4"){
+    			level_4_Data = {
+    					level: all_occupations[i].level,
+    					id:  all_occupations[i].CODE,
+    					label: all_occupations[i].ENGLISH,
+    					customLabel: all_occupations[i].ENGLISH,
+    			};
+    			level_3_Data.children.push(level_4_Data);
+    		}
+    	}
+    	
+    	console.log(occupations_array);
+     }, 1000); // How long do you want the delay to be (in milliseconds)? 
+     
+        
+    ///////////////
 
     $("#date_of_birth").datetimepicker({
     		format: 'YYYY-MM-DD ',

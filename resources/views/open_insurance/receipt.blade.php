@@ -7,7 +7,7 @@
 <div class="content">
 	<div class="container-fluid">
 		<div class="">
-			<form id="customer-form" action="{{url('save_receipt')}}"
+			<form id="customer-form" action="{{url('open_insurance/save_receipt')}}"
 				method="post">
 				{{ csrf_field() }}
 				<div class="card">

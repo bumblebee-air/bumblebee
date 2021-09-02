@@ -280,62 +280,62 @@
 				<div class="collapse" id="openInsurance">
 					<ul class="nav">
 						<li class="nav-item "><a class="nav-link"
-							href="{{url('insurance_entity')}}"> <span
+							href="{{url('open_insurance/insurance_entity')}}"> <span
 								class="sidebar-mini sidebar-span">IE</span>
 								<p>Insurance Entity</p>
 						</a></li>
 						<li class="nav-item "><a class="nav-link"
-							href="{{url('personal')}}"> <span
+							href="{{url('open_insurance/personal')}}"> <span
 								class="sidebar-mini sidebar-span">Pe</span>
 								<p>Personal</p>
 						</a></li>
 						<li class="nav-item "><a class="nav-link"
-							href="{{url('commercial')}}"> <span
+							href="{{url('open_insurance/commercial')}}"> <span
 								class="sidebar-mini sidebar-span">Co</span>
 								<p>Commercial</p>
 						</a></li>
 						<li class="nav-item "><a class="nav-link"
-							href="{{url('driver')}}"> <span
+							href="{{url('open_insurance/driver')}}"> <span
 								class="sidebar-mini sidebar-span">Dr</span>
 								<p>Driver</p>
 						</a></li>
 						<li class="nav-item "><a class="nav-link"
-							href="{{url('vehicle')}}"> <span
+							href="{{url('open_insurance/vehicle')}}"> <span
 								class="sidebar-mini sidebar-span">Ve</span>
 								<p>Vehicle</p>
 						</a></li>
 						<li class="nav-item "><a class="nav-link"
-							href="{{url('product')}}"> <span
+							href="{{url('open_insurance/product')}}"> <span
 								class="sidebar-mini sidebar-span">Pr</span>
 								<p>Product</p>
 						</a></li>
 						<li class="nav-item "><a class="nav-link"
-							href="{{url('claim')}}"> <span
+							href="{{url('open_insurance/claim')}}"> <span
 								class="sidebar-mini sidebar-span">Cl</span>
 								<p>Claim</p>
 						</a></li>
 						<li class="nav-item "><a class="nav-link"
-							href="{{url('coverage')}}"> <span
+							href="{{url('open_insurance/coverage')}}"> <span
 								class="sidebar-mini sidebar-span">Co</span>
 								<p>Coverage</p>
 						</a></li>
 						<li class="nav-item "><a class="nav-link"
-							href="{{url('beneficiary')}}"> <span
+							href="{{url('open_insurance/beneficiary')}}"> <span
 								class="sidebar-mini sidebar-span">Be</span>
 								<p>Beneficiary</p>
 						</a></li>
 						<li class="nav-item "><a class="nav-link"
-							href="{{url('receipt')}}"> <span
+							href="{{url('open_insurance/receipt')}}"> <span
 								class="sidebar-mini sidebar-span">Re</span>
 								<p>Receipt</p>
 						</a></li>
 						<li class="nav-item "><a class="nav-link"
-							href="{{url('premium_bordereau')}}"> <span
+							href="{{url('open_insurance/premium_bordereau')}}"> <span
 								class="sidebar-mini sidebar-span">PB</span>
 								<p>Premium Bordereau</p>
 						</a></li>
 						<li class="nav-item "><a class="nav-link"
-							href="{{url('claims_bordereau')}}"> <span
+							href="{{url('open_insurance/claims_bordereau')}}"> <span
 								class="sidebar-mini sidebar-span">CB</span>
 								<p>Claims Bordereau</p>
 						</a></li>

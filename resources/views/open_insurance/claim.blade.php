@@ -19,7 +19,7 @@
 <div class="content">
 	<div class="container-fluid">
 		<div class="">
-			<form id="customer-form" action="{{url('save_claim')}}"
+			<form id="customer-form" action="{{url('open_insurance/save_claim')}}"
 				enctype="multipart/form-data" method="post">
 				{{ csrf_field() }}
 				<div class="card">

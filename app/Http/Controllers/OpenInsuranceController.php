@@ -71,11 +71,17 @@ class OpenInsuranceController extends Controller
         $sexList = $this->getSexList();
         $workStatusList = $this->getWorkStatusList();
         $vehicles = $this->getVehicles();
+        $offenceCodes = $this->getOffenceCodes();
+        $currencies = $this->getCurrencies();
+        $notifiableConditions = $this->getNotifiableConditions();
 
         return view('open_insurance.driver', [
             'sexList' => $sexList,
             'workStatusList' => $workStatusList,
-            'vehicles' => $vehicles
+            'vehicles' => $vehicles,
+            'offenceCodes'=>$offenceCodes,
+            'currencies'=>$currencies,
+            'notifiableConditions'=>$notifiableConditions
         ]);
     }
 

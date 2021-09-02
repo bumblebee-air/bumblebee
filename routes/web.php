@@ -120,31 +120,31 @@ Route::get('obd-admin', function () {
     return view('obd_general');
 });
 
-// open insurance
-Route::get('insurance_entity', 'OpenInsuranceController@getInsuranceEntity');
-Route::post('save_insurance_entity', 'OpenInsuranceController@postInsuranceEntity');
-Route::get('personal', 'OpenInsuranceController@getPersonal');
-Route::post('save_personal', 'OpenInsuranceController@postPersonal');
-Route::get('commercial', 'OpenInsuranceController@getCommercial');
-Route::post('save_commercial', 'OpenInsuranceController@postCommercial');
-Route::get('driver', 'OpenInsuranceController@getDriver');
-Route::post('save_driver', 'OpenInsuranceController@postDriver');
-Route::get('vehicle', 'OpenInsuranceController@getVehicle');
-Route::post('save_vehicle', 'OpenInsuranceController@postVehicle');
-Route::get('product', 'OpenInsuranceController@getProduct');
-Route::post('save_product', 'OpenInsuranceController@postProduct');
-Route::get('claim', 'OpenInsuranceController@getClaim');
-Route::post('save_claim', 'OpenInsuranceController@postClaim');
-Route::get('coverage', 'OpenInsuranceController@getCoverage');
-Route::post('save_coverage', 'OpenInsuranceController@postCoverage');
-Route::get('beneficiary', 'OpenInsuranceController@getBeneficiary');
-Route::post('save_beneficiary', 'OpenInsuranceController@postBeneficiary');
-Route::get('receipt', 'OpenInsuranceController@getReceipt');
-Route::post('save_receipt', 'OpenInsuranceController@postReceipt');
-Route::get('premium_bordereau', 'OpenInsuranceController@getPremiumBordereau');
-Route::post('save_premium_bordereau', 'OpenInsuranceController@postPremiumBordereau');
-Route::get('claims_bordereau', 'OpenInsuranceController@getClaimsBordereau');
-Route::post('save_claims_bordereau', 'OpenInsuranceController@postClaimsBordereau');
+// open_insurance
+Route::get('open_insurance/insurance_entity', 'OpenInsuranceController@getInsuranceEntity');
+Route::post('open_insurance/save_insurance_entity', 'OpenInsuranceController@postInsuranceEntity');
+Route::get('open_insurance/personal', 'OpenInsuranceController@getPersonal');
+Route::post('open_insurance/save_personal', 'OpenInsuranceController@postPersonal');
+Route::get('open_insurance/commercial', 'OpenInsuranceController@getCommercial');
+Route::post('open_insurance/save_commercial', 'OpenInsuranceController@postCommercial');
+Route::get('open_insurance/driver', 'OpenInsuranceController@getDriver');
+Route::post('open_insurance/save_driver', 'OpenInsuranceController@postDriver');
+Route::get('open_insurance/vehicle', 'OpenInsuranceController@getVehicle');
+Route::post('open_insurance/save_vehicle', 'OpenInsuranceController@postVehicle');
+Route::get('open_insurance/product', 'OpenInsuranceController@getProduct');
+Route::post('open_insurance/save_product', 'OpenInsuranceController@postProduct');
+Route::get('open_insurance/claim', 'OpenInsuranceController@getClaim');
+Route::post('open_insurance/save_claim', 'OpenInsuranceController@postClaim');
+Route::get('open_insurance/coverage', 'OpenInsuranceController@getCoverage');
+Route::post('open_insurance/save_coverage', 'OpenInsuranceController@postCoverage');
+Route::get('open_insurance/beneficiary', 'OpenInsuranceController@getBeneficiary');
+Route::post('open_insurance/save_beneficiary', 'OpenInsuranceController@postBeneficiary');
+Route::get('open_insurance/receipt', 'OpenInsuranceController@getReceipt');
+Route::post('open_insurance/save_receipt', 'OpenInsuranceController@postReceipt');
+Route::get('open_insurance/premium_bordereau', 'OpenInsuranceController@getPremiumBordereau');
+Route::post('open_insurance/save_premium_bordereau', 'OpenInsuranceController@postPremiumBordereau');
+Route::get('open_insurance/claims_bordereau', 'OpenInsuranceController@getClaimsBordereau');
+Route::post('open_insurance/save_claims_bordereau', 'OpenInsuranceController@postClaimsBordereau');
 
 // Customer
 Route::get('create-customer', 'AdminController@createCustomer');

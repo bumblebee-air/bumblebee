@@ -6,7 +6,7 @@
 <div class="content">
 	<div class="container-fluid">
 		<div class="">
-			<form id="customer-form" action="{{url('save_vehicle')}}"
+			<form id="customer-form" action="{{url('open_insurance/save_vehicle')}}"
 				method="post">
 				{{ csrf_field() }}
 				<div class="card">

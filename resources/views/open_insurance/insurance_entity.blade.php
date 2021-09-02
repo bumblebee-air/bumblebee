@@ -7,7 +7,7 @@
 <div class="content">
 	<div class="container-fluid">
 		<div class="">
-			<form id="customer-form" action="{{url('save_insurance_entity')}}"
+			<form id="customer-form" action="{{url('open_insurance/save_insurance_entity')}}"
 				method="post">
 				{{ csrf_field() }}
 				<div class="card">

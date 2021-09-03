@@ -255,7 +255,7 @@ $( document ).ready(function() {
 
 	
 	$("#serviceTypeSelect").select2({
-	  placeholder: 'Select service type',
+	  placeholder: 'Select product type',
 	  tags: true
 	});
 

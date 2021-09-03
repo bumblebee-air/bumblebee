@@ -452,6 +452,12 @@ Route::group([
                 Route::post('get_company_data', 'unified\CalendarController@getCompanyData')->name('unified_getCompanyData');
                 Route::get('add_customer', 'unified\CustomerController@getAddCustomer')->name('unified_getAddCustomer');
                 Route::post('add_customer', 'unified\CustomerController@postAddCustomer')->name('unified_postAddCustomer');
+                Route::get('add_product_to_customer/{id}','unified\CustomerController@getAddProductToCustomer')->name('unified_getAddProductToCustomer');
+                Route::post('save_productCustomer_hostedCpbx','unified\CustomerController@postSaveProductHostedCpbx')->name('unified_saveProductCustomer_hostedCpbx');
+                Route::post('save_productCustomer_accessControl','unified\CustomerController@postSaveProductAccessControl')->name('unified_saveProductCustomer_accessControl');
+                Route::post('save_productCustomer_cctv','unified\CustomerController@postSaveProductCCTV')->name('unified_saveProductCustomer_cctv');
+                
+                
             });
             
             Route::group([

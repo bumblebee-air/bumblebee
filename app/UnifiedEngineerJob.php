@@ -16,7 +16,8 @@ class UnifiedEngineerJob extends Model
         'number_of_hours',
         'job_images',
         'engineer_id',
-        'job_id'
+        'job_id',
+        'expenses_receipt'
     ];
 
     public $casts = [

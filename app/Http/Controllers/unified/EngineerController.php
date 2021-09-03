@@ -117,10 +117,11 @@ class EngineerController extends Controller
         $user = $request->user();
         $engineer_profile = $user->engineer_profile;
         $jobs = UnifiedJob::query();
-        $jobs = $jobs->whereHas('engineers', function ($q) use ($engineer_profile) {
-            $q->where('engineer_id', $engineer_profile->id)->where('status', '!=', 'skipped');
+        $jobs = $jobs->where(function ($query) use ($engineer_profile) {
+            $query->whereHas('engineers', function ($q) use ($engineer_profile) {
+                $q->where('engineer_id', $engineer_profile->id)->where('status', '!=', 'skipped');
+            })->orDoesntHave('engineers');
         });
-        $jobs = $jobs->orDoesntHave('engineers');
         if ($request->has('job_type_id')) {
             $jobs = $jobs->where('job_type_id', $request->job_type_id);
         }
@@ -129,7 +130,7 @@ class EngineerController extends Controller
                 $q->where('status', $request->status);
             });
         }
-        $jobs = $jobs->get();
+        $jobs = $jobs->paginate(50);
         return response()->json([
             'data' => $jobs
         ]);
@@ -202,9 +203,9 @@ class EngineerController extends Controller
                 'expenses' => 'array',
                 'expenses.*.name' => 'required',
                 'expenses.*.cost' => 'required',
-                'expenses.*.file' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
+                'expenses_receipt' => 'mimes:jpeg,jpg,png|required|max:10000',
                 'job_images' => 'array',
-                'job_images.*' => 'required|mimes:jpeg,jpg,png,gif|required|max:10000',
+                'job_images.*' => 'required|mimes:jpeg,jpg,png|required|max:10000',
             ]);
             if (!$checkIfJobAssignedToTheEngineer) {
                 return response()->json([
@@ -220,14 +221,15 @@ class EngineerController extends Controller
             $checkIfJobAssignedToTheEngineer->update([
                 'additional_service_id' => $request->additional_service_id,
                 'job_images' => json_encode($job_images_paths),
+                'expenses_receipt' => $request->has('expenses_receipt') ? $request->expenses[$key]['file']->store('uploads/unified_uploads') : null
             ]);
-            if ($request->has('expenses')) {
+            if ($request->has('expenses') && count($request->expenses) > 0) {
                 foreach ($request->expenses as $key => $item) {
                     UnifiedEngineerJobExpenses::create([
                         'name' => $item['name'],
                         'cost' => $item['cost'],
                         'comment' => array_key_exists('comment', $item) ? $item['comment'] : null,
-                        'file' => array_key_exists('file', $item) ? $request->expenses[$key]['file']->store('uploads/unified_uploads') : null,
+//                        'file' => array_key_exists('file', $item) ? $request->expenses[$key]['file']->store('uploads/unified_uploads') : null,
                     ]);
                 }
             }

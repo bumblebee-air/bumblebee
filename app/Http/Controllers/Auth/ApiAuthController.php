@@ -66,7 +66,7 @@ class ApiAuthController extends Controller
         ]);
 
         $user = User::query();
-        if ($user->email) {
+        if ($request->email) {
             $user = $user->where('email', $request->email);
         } else {
             $user = $user->where('phone', $request->phone);
@@ -74,10 +74,11 @@ class ApiAuthController extends Controller
         $user = $user->where('user_role', $request->role);
         $user = $user->first();
 
-        $rand_code = rand(100000,999999);
+        UserPasswordReset::where('user_id', $user->id)->delete();
+        $rand_code = rand(1000,9999);
         $resetPasswordCode = strval($rand_code);
         $client = GeneralHelpers::getUserClientViaRole($request->role);
-        if ($client->email) {
+        if ($request->email) {
             //Sending Verification Email
         } else {
             TwilioHelper::sendSMS($client->name, $request->phone, "Your verification code is: $resetPasswordCode");
@@ -106,7 +107,7 @@ class ApiAuthController extends Controller
         ]);
 
         $user = User::query();
-        if ($user->email) {
+        if ($request->email) {
             $user = $user->where('email', $request->email);
         } else {
             $user = $user->where('phone', $request->phone);
@@ -129,7 +130,7 @@ class ApiAuthController extends Controller
             'data' => [
                 'name' => $user->name,
                 'access_token' => $access_token->accessToken,
-                'token_type' => 'Bearer ',
+                'token_type' => 'Bearer',
             ]
         ]);
     }
@@ -141,7 +142,7 @@ class ApiAuthController extends Controller
             'password' => 'required|min:8',
         ]);
 
-        $user = $request->user()->id;
+        $user = $request->user();
         if ($request->has('code')) {
             $checkIfCodeExists = UserPasswordReset::where('code', $request->code)->where('user_id', $user->id)->first();
             if (!$checkIfCodeExists) {
@@ -152,6 +153,7 @@ class ApiAuthController extends Controller
                     ]
                 ]);
             }
+            $checkIfCodeExists->delete();
         } else {
             if (!password_verify($request->password, $user->password)) {
                 return response()->json([
@@ -162,5 +164,8 @@ class ApiAuthController extends Controller
                 ]);
             }
         }
+        return response()->json([
+            'message' => 'Success.'
+        ]);
     }
 }

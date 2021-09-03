@@ -75,8 +75,9 @@ class ApiAuthController extends Controller
         $user = $user->first();
 
         UserPasswordReset::where('user_id', $user->id)->delete();
-        $rand_code = rand(1000,9999);
-        $resetPasswordCode = strval($rand_code);
+//        $rand_code = rand(1000,9999);
+//        $resetPasswordCode = strval($rand_code);
+        $resetPasswordCode = '1234';
         $client = GeneralHelpers::getUserClientViaRole($request->role);
         if ($request->email) {
             //Sending Verification Email

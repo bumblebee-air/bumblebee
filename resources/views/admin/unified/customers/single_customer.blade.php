@@ -24,6 +24,9 @@
 	color: #df5353;
 	font-size: 18px;
 }
+.btn-import{
+box-shadow: none !important;
+}
 </style>
 @endsection @section('title','Unified | Customer ' . $customer->name)
 @section('page-content')
@@ -48,16 +51,21 @@
 									</div>
 									<h4 class="card-title customerProfile">{{$customer->name}}</h4>
 								</div>
-								@if($readOnly==1)
+								
 								<div class="col-6 col-md-4 mt-4">
 									<div class="row justify-content-end">
+										@if($readOnly==1)
 										<a class="btn btn-unified-primary btn-import"
 											href="{{url('unified/customers/edit')}}/{{$customer->id}}">
 											Edit customer </a>
+										@endif	
+										<a class="btn btn-unified-grey btn-import ml-1"
+											href="{{url('unified/customers/add_product_to_customer')}}/{{$customer->id}}">
+											Add product </a>	
 									</div>
 
 								</div>
-								@endif
+								
 							</div>
 							<div class="card-body">
 								<div class="container">
@@ -344,7 +352,7 @@ $( document ).ready(function() {
 	$("select").prop('disabled', true);
 	}
 	$("#serviceTypeSelect").select2({
-	  placeholder: 'Select service type',
+	  placeholder: 'Select product type',
 	  tags: true
 	}).val({!! json_encode($customer->selectedServiceType) !!}).change();
 	

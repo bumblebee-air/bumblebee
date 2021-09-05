@@ -330,17 +330,7 @@ Route::group([
             Route::group([
                 'middleware' => "client"
             ], function () {
-                Route::post('order/assign', 'doorder\OrdersController@assignDriverToOrder')->name('doorder_assignOrder');
-                Route::post('order/update', 'doorder\OrdersController@updateOrder')->name('doorder_updateOrder');
                 Route::get('admin-map', 'doorder\DashboardController@getAdminMap')->name('doorder_adminMap');
-                // Drivers
-                Route::get('drivers/requests', 'doorder\DriversController@getDriverRegistrationRequests')->name('doorder_drivers_requests');
-                Route::get('drivers/requests/{id}', 'doorder\DriversController@getSingleRequest')->name('doorder_drivers_single_request');
-                Route::post('drivers/requests/{id}', 'doorder\DriversController@postSingleRequest')->name('post_doorder_drivers_single_request');
-                Route::get('drivers', 'doorder\DriversController@getDrivers')->name('doorder_drivers');
-                Route::get('drivers/{id}', 'doorder\DriversController@getSingleDriver')->name('doorder_drivers_single_driver');
-                Route::get('drivers/view/{id}', 'doorder\DriversController@getViewDriver')->name('doorder_drivers_view_driver');
-                Route::get('drivers/view_orders/{id}', 'doorder\DriversController@getViewDriverAndOrders')->name('doorder_drivers_view_driver_orders');
                 // Retailers
                 Route::get('retailers/requests', 'doorder\RetailerController@getRetailerRequests')->name('doorder_retailers_requests');
                 Route::get('retailers/requests/{id}', 'doorder\RetailerController@getSingleRequest')->name('doorder_retailers_single_request');
@@ -355,6 +345,20 @@ Route::group([
                 Route::post('user/delete', 'doorder\SettingsController@deleteUser')->name('doorder_deleteUser');
                 Route::post('user/save', 'doorder\SettingsController@saveUser')->name('doorder_saveUser');
                 Route::post('user/edit', 'doorder\SettingsController@editUser')->name('doorder_editUser');
+            });
+            Route::group([
+                'middleware' => ["client_or_driver_manager"]
+            ], function () {
+                Route::post('order/assign', 'doorder\OrdersController@assignDriverToOrder')->name('doorder_assignOrder');
+                Route::post('order/update', 'doorder\OrdersController@updateOrder')->name('doorder_updateOrder');
+                // Drivers
+                Route::get('drivers/requests', 'doorder\DriversController@getDriverRegistrationRequests')->name('doorder_drivers_requests');
+                Route::get('drivers/requests/{id}', 'doorder\DriversController@getSingleRequest')->name('doorder_drivers_single_request');
+                Route::post('drivers/requests/{id}', 'doorder\DriversController@postSingleRequest')->name('post_doorder_drivers_single_request');
+                Route::get('drivers', 'doorder\DriversController@getDrivers')->name('doorder_drivers');
+                Route::get('drivers/{id}', 'doorder\DriversController@getSingleDriver')->name('doorder_drivers_single_driver');
+                Route::get('drivers/view/{id}', 'doorder\DriversController@getViewDriver')->name('doorder_drivers_view_driver');
+                Route::get('drivers/view_orders/{id}', 'doorder\DriversController@getViewDriverAndOrders')->name('doorder_drivers_view_driver_orders');
             });
             Route::group([
                 'middleware' => "retailer"

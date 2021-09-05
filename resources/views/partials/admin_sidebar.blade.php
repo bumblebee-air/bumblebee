@@ -3,7 +3,7 @@
       Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
       Tip 2: you can also add an image using data-image tag
     -->
-	@if(($user_type == 'client' || $user_type == 'retailer') &&
+	@if(($user_type == 'client' || $user_type == 'retailer' || $user_type == 'driver_manager') &&
 	$admin_nav_logo!=null)
 	<div class="user" style="z-index: 3">
 		<div class="photo photo-full text-center">
@@ -18,10 +18,10 @@
 	@else
 	<div class="logo">
 		<a href="{{url('/')}}" class="simple-text logo-mini"> @if($user_type
-			== 'client' || $user_type == 'retailer') {{$admin_client_name[0]}}
+			== 'client' || $user_type == 'retailer' || $user_type == 'driver_manager') {{$admin_client_name[0]}}
 			@else BB @endif </a> <a href="{{url('/')}}"
 			class="simple-text logo-normal"> @if($user_type == 'client' ||
-			$user_type == 'retailer') {{$admin_client_name}} @else Bumblebee
+			$user_type == 'retailer' || $user_type == 'driver_manager') {{$admin_client_name}} @else Bumblebee
 			@endif </a>
 	</div>
 	@endif
@@ -496,6 +496,41 @@
 				href="{{url('logout')}}">  <img class="my-nav-icon"
 					src="{{asset('images/doorder_icons/logout-outline.png')}}"
 					alt="logout"> <img class="my-nav-icon my-nav-icon-top"
+					src="{{asset('images/doorder_icons/logout-outline-yellow.png')}}"
+					alt="logout">
+					<p>Logout</p>
+			</a></li>
+		</ul>
+		@elseif(auth()->user()->user_role == 'driver_manager')
+		<ul class="nav">
+			<li class="nav-item"><a class="nav-link d-flex"
+				href="{{route('doorder_drivers', 'doorder')}}"> <img
+				class="my-nav-icon"
+				src="{{asset('images/doorder_icons/Deliverers-white.png')}}" alt="">
+				<img class="my-nav-icon my-nav-icon-top"
+					 src="{{asset('images/doorder_icons/Deliverers-yellow.png')}}" alt="">
+				<p>Deliverers</p>
+			</a></li>
+			<li class="nav-item"><a class="nav-link d-flex"
+				href="{{route('doorder_drivers_requests', 'doorder')}}"> <img
+				class="my-nav-icon"
+				src="{{asset('images/doorder_icons/Requests.png')}}" alt=""
+				style=""> <img class="my-nav-icon my-nav-icon-top"
+			  		src="{{asset('images/doorder_icons/Requests-yellow.png')}}" alt="">
+					<p>Deliverer Requests</p>
+			</a></li>
+			<li class="nav-item"><a class="nav-link d-flex"
+				href="{{route('doorder_ordersTable', 'doorder')}}"> <img
+					class="my-nav-icon"
+					src="{{asset('images/doorder_icons/orders_table_white.png')}}"
+					alt=""> <img class="my-nav-icon my-nav-icon-top"
+				 		src="{{asset('images/doorder_icons/orders_table.png')}}" alt="">
+					<p>Order Table</p>
+			</a></li>
+			<li class="nav-item "><a class="nav-link d-flex"
+		 		href="{{url('logout')}}">  <img class="my-nav-icon"
+				src="{{asset('images/doorder_icons/logout-outline.png')}}"
+			 	alt="logout"> <img class="my-nav-icon my-nav-icon-top"
 					src="{{asset('images/doorder_icons/logout-outline-yellow.png')}}"
 					alt="logout">
 					<p>Logout</p>

@@ -6,7 +6,11 @@ use App\ClientSetting;
 use App\CustomNotification;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\UserClient;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use function GuzzleHttp\json_encode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -51,9 +55,21 @@ class SettingsController extends Controller
             ];
         }
         
-        $userData1 = new UserData(1, "sara", "sara@doorder.eu", "August, 24 2021", "Admin",1);
-        $userData2 = new UserData(2, "sara reda", "sarareda@doorder.eu", "August, 25 2021", "Driver manager",2);
-        $users=array($userData1,$userData2);
+        /*$userData1 = new UserData(1, "sara", "sara@doorder.eu", "August, 24 2021", "Admin",1);
+        $userData2 = new UserData(2, "sara reda", "sarareda@doorder.eu", "August, 25 2021", "Driver manager",1);
+        $users=array($userData1,$userData2);*/
+        $current_user = auth()->user();
+        $client_id = ($current_user->client != null) ? $current_user->client->client_id : null;
+        $the_client = Client::find($client_id);
+        $client_users = UserClient::where('client_id',$the_client->id)->pluck('user_id')->toArray();
+        $users = User::whereIn('id',$client_users)->whereNotIn('user_role',['retailer','driver','client'])->get();
+        foreach($users as $user){
+            if($user->user_role=='client' || $user->user_role=='admin'){
+                $user->user_type = 'Admin';
+            } elseif($user->user_role=='driver_manager'){
+                $user->user_type = 'Driver Manager';
+            }
+        }
         
         return view('admin.doorder.settings.index', [
             'adminOptions' => json_encode($adminsData),
@@ -156,24 +172,127 @@ class SettingsController extends Controller
     
     public function deleteUser(Request $request){
         //dd('delete user settings '.$request->userId);
-        
+        $user_id = $request->get('userId');
+        $current_user = auth()->user();
+        $client_id = ($current_user->client != null) ? $current_user->client->client_id : null;
+        $the_client = Client::find($client_id);
+        if(!$the_client){
+            alert()->error('Your user is not connected to a client, please contact the administration!');
+        }
+        $user_client = UserClient::where('user_id',$user_id)
+            ->where('client_id',$client_id)->first();
+        if(!$user_client){
+            alert()->error('User does not belong to this account');
+        }
+        $user_client->delete();
+        $user = User::find($user_id);
+        $user->delete();
         alert()->success('User deleted successfully');
         return redirect()->route('doorder_getSettings', 'doorder');
     }
     public function saveUser(Request $request){
-        // dd($request);
+        //dd($request->all());
+        $name = $request->get('user_name');
+        $email = $request->get('email');
+        $user_type = $request->get('user_type');
+        $pass_pre_hash = mt_rand(100000,999999);
+        $password = Hash::make($pass_pre_hash);
+        $request->merge(['password'=>$password]);
+        try {
+            $this->userValidator($request->all())->validate();
+        } catch (ValidationException $e) {
+            $validation_errors = $e->errors();
+            $errors_string = '';
+            foreach($validation_errors as $item_errors) {
+                foreach($item_errors as $item_error){
+                    $errors_string .= $item_error."\r\n";
+                }
+            }
+            alert()->error($errors_string);
+            return redirect()->back();
+        }
+        $current_user = auth()->user();
+        $client_id = ($current_user->client != null) ? $current_user->client->client_id : null;
+        $the_client = Client::find($client_id);
+        if(!$the_client){
+            alert()->error('Your user is not connected to a client, please contact the administration!');
+        }
+        $new_user = User::create([
+            'name' => $name,
+            'email' => $email,
+            'password' => $password,
+            'user_role' => $user_type
+        ]);
+        $user_client = new UserClient();
+        $user_client->user_id = $new_user->id;
+        $user_client->client_id = $client_id;
+        $user_client->save();
+        \Mail::send([], [], function ($message) use($email, $name, $pass_pre_hash) {
+            $message->from('no-reply@doorder.eu', 'DoOrder platform')
+                ->to($email)
+                ->subject('Platform Registration')
+                ->setBody("Hi {$name}, you have been registered on DoOrder and here are your ".
+                    "login credentials:<br/><br/> <strong>Email:</strong> {$email}<br/> ".
+                    "<strong>Password</strong>: {$pass_pre_hash}", 'text/html');
+        });
         alert()->success('User added successfully');
         return redirect()->route('doorder_getSettings', 'doorder');
     }
     
     public function editUser(Request $request){
-       //  dd($request);
-        alert()->success('User updated successfully');
+        //dd($request->all());
+        $user_id = $request->get('userId');
+        $name = $request->get('user_name');
+        $email = $request->get('email');
+        $user_role = $request->get('user_type');
+        $user = User::find($user_id);
+        if(!$user){
+            alert()->error('This user was not found!');
+        }
+        $user->name = $name;
+        $user->email = $email;
+        $user->user_role = $user_role;
+        if($user->isDirty()){
+            $validation_rules = [];
+            $validation_rules['user_name'] = ['required', 'string', 'max:255'];
+            $validation_rules['email'] = ['required', 'string', 'email', 'max:255'];
+            if($user->getOriginal('email')!=$email){
+                $validation_rules['email'][] = 'unique:users';
+            }
+            $user_validator = Validator::make($request->all(),$validation_rules,[
+                'user_name.required' => 'Name is required',
+                'email.required' => 'Email is required',
+                'email.email' => 'The email format is not valid',
+                'email.unique' => 'Email is already taken',
+                'password.required' => 'Password is required'
+            ]);
+            if($user_validator->fails()){
+                return redirect()->back()->withErrors($user_validator);
+            }
+            $user->save();
+            alert()->success('User was updated successfully');
+            return redirect()->back();
+        }
+        alert()->success('No user data was changed');
         return redirect()->route('doorder_getSettings', 'doorder');
+    }
+
+    protected function userValidator(array $data){
+        return Validator::make($data, [
+            'user_name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:6'],
+        ],[
+            'user_name.required' => 'Name is required',
+            'email.required' => 'Email is required',
+            'email.email' => 'The email format is not valid',
+            'email.unique' => 'Email is already taken',
+            'password.required' => 'Password is required'
+        ]);
     }
 }
 
-class UserData
+/*class UserData
 {
 
     public $id, $name, $email, $lastActivity, $userType,$userTypeId;
@@ -187,4 +306,4 @@ class UserData
         $this->userType = $userType;
         $this->userTypeId = $userTypeId;
     }
-}
+}*/

@@ -41,11 +41,11 @@
 							class="order-row">
 							<td><span class="nameSpan"> @{{ user.name}} </span>@{{user.email}}
 							</td>
-							<td>@{{ user.lastActivity}}</td>
-							<td>@{{ user.userType }}</td>
+							<td>@{{ user.last_activity}}</td>
+							<td>@{{ user.user_type }}</td>
 							<td><button type="button"
 								class="btn  btn-link btn-primary-doorder btn-just-icon edit"
-								@click="clickEditUser(user.id,user.name,user.email,user.userTypeId)"><i class="fas fa-pen-fancy"></i></button>
+								@click="clickEditUser(user.id,user.name,user.email,user.user_role)"><i class="fas fa-pen-fancy"></i></button>
 								<button type="button"
 									class="btn btn-link btn-danger btn-just-icon remove"
 									@click="clickDeleteUser(user.id)">
@@ -152,8 +152,8 @@
 									data-style="select-with-transition" id="userTypeSelect"
 									name="user_type" required="required">
 									<option value="" selected disabled>Select role</option>
-									<option value="1">Admin</option>
-									<option value="2">Driver manager</option>
+									<option value="admin">Admin</option>
+									<option value="driver_manager">Driver manager</option>
 								</select>
 							</div>
 						</div>
@@ -223,8 +223,8 @@
 									data-style="select-with-transition" id="userTypeSelectEdit"
 									name="user_type" required="required">
 									<option value=""  disabled>Select role</option>
-									<option value="1">Admin</option>
-									<option value="2">Driver manager</option>
+									<option value="admin">Admin</option>
+									<option value="driver_manager">Driver manager</option>
 								</select>
 							</div>
 						</div>

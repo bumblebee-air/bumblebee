@@ -506,14 +506,14 @@ Vue.use('vue-cascader-select');
 				   utilsScript: "{{asset('js/intlTelInput/utils.js')}}"
 			   });
 		   },
-		   clickEditUser(userId,name, email, userTypeId){
-		   		console.log("edit user ",userId,name, email, userTypeId);
+		   clickEditUser(user_id,name, email, user_type){
+		   		console.log("edit user ",user_id,name, email, user_type);
 		   		
 		   		$("#edit-user-modal").modal('show');
-		   		$("#edit-user-modal #userId").val(userId);
+		   		$("#edit-user-modal #userId").val(user_id);
 		   		$("#edit-user-modal #user_nameEdit").val(name);
 		   		$("#edit-user-modal #emailEdit").val(email);
-		   		$("#edit-user-modal #userTypeSelectEdit").val(userTypeId);
+		   		$("#edit-user-modal #userTypeSelectEdit").val(user_type);
 		   		$('#edit-user-modal .selectpicker').selectpicker('refresh')
 		   },
 		   clickDeleteUser(userId){

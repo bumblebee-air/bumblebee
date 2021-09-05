@@ -15,7 +15,9 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
         $user_role = auth()->user()->user_role;
-        if ($user_role == 'retailer') {
+        if ($user_role == 'driver_manager') {
+            return redirect()->to('doorder/orders');
+        } elseif ($user_role == 'retailer') {
             $admin_data = $this->retailerDashboardData();
             $drivers_arr = $admin_data['drivers_arr'];
             if ($request->has('accept_json')) {

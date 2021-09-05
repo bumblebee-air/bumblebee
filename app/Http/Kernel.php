@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\RedirectIfNotAuthAsClient;
+use App\Http\Middleware\RedirectIfNotAuthAsClientOrDriverManager;
 use App\Http\Middleware\RedirectIfNotAuthAsRetailer;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -64,5 +65,6 @@ class Kernel extends HttpKernel
         'insurance' => \App\Http\Middleware\Insurance::class,
         'retailer' => RedirectIfNotAuthAsRetailer::class,
         'client' => RedirectIfNotAuthAsClient::class,
+        'client_or_driver_manager' => RedirectIfNotAuthAsClientOrDriverManager::class,
     ];
 }

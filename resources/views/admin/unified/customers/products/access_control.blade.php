@@ -189,7 +189,7 @@
 							</div>
 							<div class="col-md-6">
 								<div class="form-group bmd-form-group">
-									<label>last maintenance date</label> <input type="text"
+									<label>Last maintenance date</label> <input type="text"
 										class="form-control" name="access_last_maintenance_date"
 										id="access_last_maintenance_date" placeholder="Enter date" />
 								</div>

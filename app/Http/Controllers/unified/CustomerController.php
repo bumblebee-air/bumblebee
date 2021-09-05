@@ -258,7 +258,19 @@ class CustomerController extends Controller
         $monitoringCentreListCCTV = $this->getMonitoringCentreListCCTV();
         $cameraBrandsCCTV = $this->getCameraBrandsCCTV();
         $maintenanceFrequenciesCCTV = $this->getMaintenanceFrequenciesCCTV();
-
+        /////////// fire
+        $systemTypesFireAlarm = $this->getSystemTypesFire();
+        $wiredWirlessFireAlarm = $this->getWiredWirlessFire();
+        $manufacturersFireAlarm = $this->getManufacturersFireAlarm() ;
+        $modelsFireAlarm = $this->getModelsFireAlarm();
+        $protocolsFireAlarm = $this->getProtocolsFireAlarm();
+        $panelOperationsFireAlarm = $this->getPanelOperationsFireAlarm();
+        $monitoredListFireAlarm = $this->getMonitoredListFireAlarm();
+        $monitoringCentreListFireAlarm =  $this->getMonitoringCentreListFireAlarm();
+        $digiTypesFireAlarm = $this->getDigiTypesFireAlarm();
+        $maintenanceFrequenciesFireAlarm = $this->getMaintenanceFrequenciesFireAlarm();
+        $accountTypesFireAlarm = $this->getAccountTypesFireAlarm();
+        
         return view('admin.unified.customers.products.add_product', [
             'serviceTypes' => $services_types,
             'customer' => $customer,
@@ -276,7 +288,18 @@ class CustomerController extends Controller
             'modelsCCTV'=>$modelsCCTV,
             'monitoringCentreListCCTV'=>$monitoringCentreListCCTV,
             'cameraBrandsCCTV'=>$cameraBrandsCCTV,
-            'maintenanceFrequenciesCCTV'=>$maintenanceFrequenciesCCTV
+            'maintenanceFrequenciesCCTV'=>$maintenanceFrequenciesCCTV,
+            'systemTypesFireAlarm'=>$systemTypesFireAlarm,
+            'wiredWirlessFireAlarm'=>$wiredWirlessFireAlarm,
+            'manufacturersFireAlarm'=>$manufacturersFireAlarm,
+            'modelsFireAlarm'=>$modelsFireAlarm,
+            'protocolsFireAlarm'=>$protocolsFireAlarm,
+            'panelOperationsFireAlarm'=>$panelOperationsFireAlarm,
+            'monitoredListFireAlarm'=>$monitoredListFireAlarm,
+            'monitoringCentreListFireAlarm'=>$monitoringCentreListFireAlarm,
+            'digiTypesFireAlarm'=>$digiTypesFireAlarm,
+            'maintenanceFrequenciesFireAlarm'=>$maintenanceFrequenciesFireAlarm,
+            'accountTypesFireAlarm'=>$accountTypesFireAlarm
         ]);
     }
     
@@ -291,9 +314,14 @@ class CustomerController extends Controller
         return redirect()->back();
     }
     public function postSaveProductCCTV(Request $request){
-        dd($request);
+        //dd($request);
         alert()->success('CCTV data saved successfully.');
         return redirect()->back();
+    }
+    public function postSaveProductFireAlarm(Request $request){
+       // dd($request);
+        alert()->success('Fire alarm data saved successfully.');
+        return redirect()->back();        
     }
 
     private function getHostedPackages()
@@ -451,7 +479,7 @@ class CustomerController extends Controller
         
         $manufacturers = array($manufacturer1,$manufacturer2,$manufacturer3,$manufacturer4);
         
-        $manufacturers;
+        return $manufacturers;
     }
     private function getModelsCCTV(){
         $model1 = new ItemData(1, "4CHPOE");
@@ -488,6 +516,86 @@ class CustomerController extends Controller
         $maintenanceFrequencies = array($maintenanceFrequency1,$maintenanceFrequency2);
         
         return $maintenanceFrequencies;
+    }
+    private function getSystemTypesFire() {
+        $systemType1 = new ItemData(1, "Conventional");
+        $systemType2 = new ItemData(2, "Addressable");
+        
+        $systemTypes =  array($systemType1,$systemType2);
+        
+        return $systemTypes;
+    }
+    private function getWiredWirlessFire(){
+        $item1 = new ItemData(1, "Wired");
+        $item2 = new ItemData(2, "Wireless");
+        $item3 = new ItemData(3, "Hybrid");
+        
+        $wiredWirelessList = array($item1,$item2,$item3);
+        
+        return $wiredWirelessList;
+    }
+    private function getManufacturersFireAlarm(){
+        
+        $manufacturer1 = new ItemData(1, "Ctec");
+        $manufacturer2 = new ItemData(2, "Apollo");
+        $manufacturer3 = new ItemData(3, "Advanced");
+        $manufacturer4 = new ItemData(4, "Morley");
+        $manufacturer5 = new ItemData(5, "Syncro");
+        
+        $manufacturers = array($manufacturer1,$manufacturer2,$manufacturer3,$manufacturer4,$manufacturer5);
+        
+        return $manufacturers;
+    }
+    private function getModelsFireAlarm(){
+        
+        $models =array();
+        return $models;
+    }
+    private function getProtocolsFireAlarm() {
+        $protocol1 = new ItemData(1, "Hochiki");
+        $protocol2 = new ItemData(2, "Apollo");
+        $protocol3 = new ItemData(3, "Other");
+        
+        $protocols = array($protocol1,$protocol2,$protocol3);
+        
+        return $protocols;
+    }
+    
+    private function getPanelOperationsFireAlarm(){
+               
+        $panelOperation1 = new ItemData(1, "Keyswitch");
+        $panelOperation2 = new ItemData(2, "Buttons");
+        $panelOperation3 = new ItemData(3, "code");
+        
+        $panelOperations = array($panelOperation1,$panelOperation2,$panelOperation3);
+        
+        return $panelOperations;
+    }
+    private function getMonitoredListFireAlarm(){
+        $monitoredList = array();
+        return $monitoredList;
+    }
+    private function getMonitoringCentreListFireAlarm(){
+        $monitoringCentreList = array();
+        return $monitoringCentreList;
+    }
+    private function getDigiTypesFireAlarm() {
+        $digiTypes = array();
+        return $digiTypes;
+    }
+    private function getMaintenanceFrequenciesFireAlarm() {
+        
+        $maintenanceFrequency1 = new ItemData(1, "Quarterly");
+        $maintenanceFrequency2 = new ItemData(2, "6 months");
+        
+        $maintenanceFrequencies = array($maintenanceFrequency1,$maintenanceFrequency2);
+        
+        return $maintenanceFrequencies;
+    }
+    private function getAccountTypesFireAlarm(){
+        
+        $accountTypes = array();
+        return $accountTypes;
     }
 }
 

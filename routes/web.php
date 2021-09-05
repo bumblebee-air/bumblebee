@@ -456,6 +456,7 @@ Route::group([
                 Route::post('save_productCustomer_hostedCpbx','unified\CustomerController@postSaveProductHostedCpbx')->name('unified_saveProductCustomer_hostedCpbx');
                 Route::post('save_productCustomer_accessControl','unified\CustomerController@postSaveProductAccessControl')->name('unified_saveProductCustomer_accessControl');
                 Route::post('save_productCustomer_cctv','unified\CustomerController@postSaveProductCCTV')->name('unified_saveProductCustomer_cctv');
+                Route::post('save_productCustomer_fireAlarm','unified\CustomerController@postSaveProductFireAlarm')->name('unified_saveProductCustomer_fireAlarm');
                 
                 
             });

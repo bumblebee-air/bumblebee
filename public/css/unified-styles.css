@@ -558,7 +558,7 @@ input.form-control, textarea.form-control, select.form-control {
 	font-weight: normal;
 	font-stretch: normal;
 	font-style: normal;
-	line-height: normal;
+	line-height: normal !important;
 	letter-spacing: 0.66px;
 	color: #656565;
 	width: 100%;

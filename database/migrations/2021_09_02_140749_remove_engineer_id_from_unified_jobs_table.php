@@ -14,6 +14,7 @@ class RemoveEngineerIdFromUnifiedJobsTable extends Migration
     public function up()
     {
         Schema::table('unified_jobs', function (Blueprint $table) {
+            $table->dropForeign('unified_jobs_engineer_id_foreign');
             $table->dropColumn('engineer_id');
         });
     }
@@ -26,7 +27,8 @@ class RemoveEngineerIdFromUnifiedJobsTable extends Migration
     public function down()
     {
         Schema::table('unified_jobs', function (Blueprint $table) {
-            $table->unsignedBigInteger('engineer_id');
+            $table->unsignedInteger('engineer_id');
+            $table->foreign('engineer_id')->references('id')->on('unified_engineers')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 }

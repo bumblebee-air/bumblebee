@@ -245,32 +245,47 @@ class CustomerController extends Controller
         $ipVendors = $this->getIPVendors();
         $accountTypes = $this->getAccountTypes();
         $systemModels = $this->getSystemModels();
-        $lineTypes=$this->getLineTypes();
+        $lineTypes = $this->getLineTypes();
         $lineVendors = $this->getLineVendors();
-        //////////// access control
+        // ////////// access control
         $accountTypesAccessControl = $this->getAccountTypesAccessControl();
-        $brandsAccessControl  =$this->getBrandsAccessControl();
+        $brandsAccessControl = $this->getBrandsAccessControl();
         $systemTypesAccessControl = $this->getSystemTypesAccessControl();
         $cardFobListAccessControl = $this->getCardFobListAccessControl();
-        /////////// CCTV 
-        $manufacturersCCTV = $this->getManufacturersCCTV();   
+        // ///////// CCTV
+        $manufacturersCCTV = $this->getManufacturersCCTV();
         $modelsCCTV = $this->getModelsCCTV();
         $monitoringCentreListCCTV = $this->getMonitoringCentreListCCTV();
         $cameraBrandsCCTV = $this->getCameraBrandsCCTV();
         $maintenanceFrequenciesCCTV = $this->getMaintenanceFrequenciesCCTV();
-        /////////// fire
+        // ///////// fire
         $systemTypesFireAlarm = $this->getSystemTypesFire();
         $wiredWirlessFireAlarm = $this->getWiredWirlessFire();
-        $manufacturersFireAlarm = $this->getManufacturersFireAlarm() ;
+        $manufacturersFireAlarm = $this->getManufacturersFireAlarm();
         $modelsFireAlarm = $this->getModelsFireAlarm();
         $protocolsFireAlarm = $this->getProtocolsFireAlarm();
         $panelOperationsFireAlarm = $this->getPanelOperationsFireAlarm();
         $monitoredListFireAlarm = $this->getMonitoredListFireAlarm();
-        $monitoringCentreListFireAlarm =  $this->getMonitoringCentreListFireAlarm();
+        $monitoringCentreListFireAlarm = $this->getMonitoringCentreListFireAlarm();
         $digiTypesFireAlarm = $this->getDigiTypesFireAlarm();
         $maintenanceFrequenciesFireAlarm = $this->getMaintenanceFrequenciesFireAlarm();
         $accountTypesFireAlarm = $this->getAccountTypesFireAlarm();
-        
+        // ///////// Intruder Alarm
+        $accountTypesIntruderAlarm = $this->getAccountTypesIntruderAlarm();
+        $systemTypesIntruderAlarm = $this->getWiredWirlessFire();
+        $manufacturersIntruderAlarm = $this->getManufacturersIntruderAlarm();
+        $panelTypesIntruderAlarm = $this->getPanelTypesIntruderAlarm();
+        $digiTypesIntruderAlarm = $this->getDigiTypesIntruderAlarm();
+        // ///////// Wifi data
+        $systemTypesWifiData = $this->getSystemTypesWifiData();
+        $manufacturersWifiData = $this->getSystemTypesWifiData();
+        $switchTypesWifiData = $this->getSwitchTypesWifiData();
+        $uplinksWifiData = $this->getUplinksWifiData();
+        $broabbandProvidersWifiData = $this->getBroabbandProvidersWifiData();
+        // ////////// structured_cabling_systems
+        $modelsStructuredCabling = $this->getModelsStructuredCabling();
+        $accountTypesStructuredCabling= $this->getAccountTypesStructuredCabling();
+
         return view('admin.unified.customers.products.add_product', [
             'serviceTypes' => $services_types,
             'customer' => $customer,
@@ -278,50 +293,90 @@ class CustomerController extends Controller
             'ipVendors' => $ipVendors,
             'accountTypes' => $accountTypes,
             'systemModels' => $systemModels,
-            'lineTypes'=>$lineTypes,
-            'lineVendors'=>$lineVendors,
-            'accountTypesAccessControl'=>$accountTypesAccessControl,
-            'brandsAccessControl'=>$brandsAccessControl,
-            'systemTypesAccessControl'=>$systemTypesAccessControl,
-            'cardFobListAccessControl'=>$cardFobListAccessControl,
-            'manufacturersCCTV'=>$manufacturersCCTV,
-            'modelsCCTV'=>$modelsCCTV,
-            'monitoringCentreListCCTV'=>$monitoringCentreListCCTV,
-            'cameraBrandsCCTV'=>$cameraBrandsCCTV,
-            'maintenanceFrequenciesCCTV'=>$maintenanceFrequenciesCCTV,
-            'systemTypesFireAlarm'=>$systemTypesFireAlarm,
-            'wiredWirlessFireAlarm'=>$wiredWirlessFireAlarm,
-            'manufacturersFireAlarm'=>$manufacturersFireAlarm,
-            'modelsFireAlarm'=>$modelsFireAlarm,
-            'protocolsFireAlarm'=>$protocolsFireAlarm,
-            'panelOperationsFireAlarm'=>$panelOperationsFireAlarm,
-            'monitoredListFireAlarm'=>$monitoredListFireAlarm,
-            'monitoringCentreListFireAlarm'=>$monitoringCentreListFireAlarm,
-            'digiTypesFireAlarm'=>$digiTypesFireAlarm,
-            'maintenanceFrequenciesFireAlarm'=>$maintenanceFrequenciesFireAlarm,
-            'accountTypesFireAlarm'=>$accountTypesFireAlarm
+            'lineTypes' => $lineTypes,
+            'lineVendors' => $lineVendors,
+            'accountTypesAccessControl' => $accountTypesAccessControl,
+            'brandsAccessControl' => $brandsAccessControl,
+            'systemTypesAccessControl' => $systemTypesAccessControl,
+            'cardFobListAccessControl' => $cardFobListAccessControl,
+            'manufacturersCCTV' => $manufacturersCCTV,
+            'modelsCCTV' => $modelsCCTV,
+            'monitoringCentreListCCTV' => $monitoringCentreListCCTV,
+            'cameraBrandsCCTV' => $cameraBrandsCCTV,
+            'maintenanceFrequenciesCCTV' => $maintenanceFrequenciesCCTV,
+            'systemTypesFireAlarm' => $systemTypesFireAlarm,
+            'wiredWirlessFireAlarm' => $wiredWirlessFireAlarm,
+            'manufacturersFireAlarm' => $manufacturersFireAlarm,
+            'modelsFireAlarm' => $modelsFireAlarm,
+            'protocolsFireAlarm' => $protocolsFireAlarm,
+            'panelOperationsFireAlarm' => $panelOperationsFireAlarm,
+            'monitoredListFireAlarm' => $monitoredListFireAlarm,
+            'monitoringCentreListFireAlarm' => $monitoringCentreListFireAlarm,
+            'digiTypesFireAlarm' => $digiTypesFireAlarm,
+            'maintenanceFrequenciesFireAlarm' => $maintenanceFrequenciesFireAlarm,
+            'accountTypesFireAlarm' => $accountTypesFireAlarm,
+            'accountTypesIntruderAlarm' => $accountTypesIntruderAlarm,
+            'systemTypesIntruderAlarm' => $systemTypesIntruderAlarm,
+            'manufacturersIntruderAlarm' => $manufacturersIntruderAlarm,
+            'panelTypesIntruderAlarm' => $panelTypesIntruderAlarm,
+            'digiTypesIntruderAlarm' => $digiTypesIntruderAlarm,
+            'systemTypesWifiData' => $systemTypesWifiData,
+            'manufacturersWifiData' => $manufacturersWifiData,
+            'switchTypesWifiData' => $switchTypesWifiData,
+            'uplinksWifiData' => $uplinksWifiData,
+            'broabbandProvidersWifiData' => $broabbandProvidersWifiData,
+            'modelsStructuredCabling'=>$modelsStructuredCabling,
+            'accountTypesStructuredCabling'=>$accountTypesStructuredCabling
         ]);
     }
-    
-    public function postSaveProductHostedCpbx(Request $request){
-        //dd($request);
+
+    public function postSaveProductHostedCpbx(Request $request)
+    {
+        // dd($request);
         alert()->success('Hosted/Cpbx data saved successfully.');
         return redirect()->back();
     }
-    public function postSaveProductAccessControl(Request $request){
-        //dd($request);
+
+    public function postSaveProductAccessControl(Request $request)
+    {
+        // dd($request);
         alert()->success('Access control data saved successfully.');
         return redirect()->back();
     }
-    public function postSaveProductCCTV(Request $request){
-        //dd($request);
+
+    public function postSaveProductCCTV(Request $request)
+    {
+        // dd($request);
         alert()->success('CCTV data saved successfully.');
         return redirect()->back();
     }
-    public function postSaveProductFireAlarm(Request $request){
-       // dd($request);
+
+    public function postSaveProductFireAlarm(Request $request)
+    {
+        // dd($request);
         alert()->success('Fire alarm data saved successfully.');
-        return redirect()->back();        
+        return redirect()->back();
+    }
+
+    public function postSaveProductIntruderAlarm(Request $request)
+    {
+        // dd($request);
+        alert()->success('Intruder alarm data saved successfully.');
+        return redirect()->back();
+    }
+
+    public function postSaveProductWifiData(Request $request)
+    {
+        // dd($request);
+        alert()->success('Wifi/data data saved successfully.');
+        return redirect()->back();
+    }
+
+    public function postStructuredCablingSystems(Request $request)
+    {
+        //dd($request);
+        alert()->success('Structured cabling systems data saved successfully.');
+        return redirect()->back();
     }
 
     private function getHostedPackages()
@@ -409,192 +464,429 @@ class CustomerController extends Controller
         $lineType3 = new ItemData(3, "ISDN FRA");
         $lineType4 = new ItemData(4, " ISDN PRA");
         $lineType5 = new ItemData(5, " PSTN");
-        
-        $lineTypes = array($lineType1,$lineType2,$lineType3,$lineType4,$lineType5);
-        
+
+        $lineTypes = array(
+            $lineType1,
+            $lineType2,
+            $lineType3,
+            $lineType4,
+            $lineType5
+        );
+
         return $lineTypes;
     }
-    
-    private function getLineVendors(){
+
+    private function getLineVendors()
+    {
         $lineVendor1 = new ItemData(1, "IP Telecom");
         $lineVendor2 = new ItemData(2, "Cloudvoice");
         $lineVendor3 = new ItemData(3, "Eir");
         $lineVendor4 = new ItemData(4, "Vodafone");
         $lineVendor5 = new ItemData(5, "Magnet");
         $lineVendor6 = new ItemData(6, "Other");
-        
-        $lineVendors = array($lineVendor1,$lineVendor2,$lineVendor3,$lineVendor4,$lineVendor5,$lineVendor6);
-        
+
+        $lineVendors = array(
+            $lineVendor1,
+            $lineVendor2,
+            $lineVendor3,
+            $lineVendor4,
+            $lineVendor5,
+            $lineVendor6
+        );
+
         return $lineVendors;
     }
-    
+
     private function getAccountTypesAccessControl()
     {
         $accountType1 = new ItemData(1, "Commercial");
         $accountType2 = new ItemData(2, "Domestic");
-        
+
         $accountTypes = array(
             $accountType1,
             $accountType2
         );
-        
+
         return $accountTypes;
     }
-    
-    private function getBrandsAccessControl(){
+
+    private function getBrandsAccessControl()
+    {
         $brand1 = new ItemData(1, "ACT");
         $brand2 = new ItemData(2, "HKC");
         $brand3 = new ItemData(3, "Aritech");
-        
-        $brands =array($brand1,$brand2,$brand3);
-        
+
+        $brands = array(
+            $brand1,
+            $brand2,
+            $brand3
+        );
+
         return $brands;
     }
-    private function getSystemTypesAccessControl() {
+
+    private function getSystemTypesAccessControl()
+    {
         $systemType1 = new ItemData(1, "Network");
         $systemType2 = new ItemData(2, "Standalone");
         $systemType3 = new ItemData(3, "Wireless");
-        
-        $systemTypes = array($systemType1,$systemType2,$systemType3);
-        
+
+        $systemTypes = array(
+            $systemType1,
+            $systemType2,
+            $systemType3
+        );
+
         return $systemTypes;
     }
-    private function getCardFobListAccessControl(){
+
+    private function getCardFobListAccessControl()
+    {
         $cardFob1 = new ItemData(1, "Act Mifare Card");
         $cardFob2 = new ItemData(2, "Act Mifare FOB");
         $cardFob3 = new ItemData(3, "HID Prox Card");
         $cardFob4 = new ItemData(4, "HID Prox FOB");
         $cardFob5 = new ItemData(5, "Site Code Card");
         $cardFob6 = new ItemData(6, "Site Code FOB");
-        
-        $cardFobList = array($cardFob1,$cardFob2,$cardFob3,$cardFob4,$cardFob5,$cardFob6);
-        
+
+        $cardFobList = array(
+            $cardFob1,
+            $cardFob2,
+            $cardFob3,
+            $cardFob4,
+            $cardFob5,
+            $cardFob6
+        );
+
         return $cardFobList;
     }
-    private function getManufacturersCCTV(){
+
+    private function getManufacturersCCTV()
+    {
         $manufacturer1 = new ItemData(1, "HIK Vision");
         $manufacturer2 = new ItemData(2, "Avigilon");
         $manufacturer3 = new ItemData(3, "SmartWatch");
         $manufacturer4 = new ItemData(4, "Hi-Tel");
-        
-        $manufacturers = array($manufacturer1,$manufacturer2,$manufacturer3,$manufacturer4);
-        
+
+        $manufacturers = array(
+            $manufacturer1,
+            $manufacturer2,
+            $manufacturer3,
+            $manufacturer4
+        );
+
         return $manufacturers;
     }
-    private function getModelsCCTV(){
+
+    private function getModelsCCTV()
+    {
         $model1 = new ItemData(1, "4CHPOE");
         $model2 = new ItemData(2, "8CHPOE");
         $model3 = new ItemData(3, "16CHPOE");
         $model4 = new ItemData(4, "32CHPOE");
-        
-        $models = array($model1,$model2,$model3,$model4);
-        
+
+        $models = array(
+            $model1,
+            $model2,
+            $model3,
+            $model4
+        );
+
         return $models;
     }
-    private function getMonitoringCentreListCCTV(){
+
+    private function getMonitoringCentreListCCTV()
+    {
         $monitoringCentre1 = new ItemData(1, "Alarm 24");
         $monitoringCentre2 = new ItemData(2, "Other");
-        
-        $monitoringCentreList = array($monitoringCentre1,$monitoringCentre2);
-        
+
+        $monitoringCentreList = array(
+            $monitoringCentre1,
+            $monitoringCentre2
+        );
+
         return $monitoringCentreList;
     }
-    private function getCameraBrandsCCTV(){
+
+    private function getCameraBrandsCCTV()
+    {
         $cameraBrand1 = new ItemData(1, "HIK Vision");
         $cameraBrand2 = new ItemData(2, "Avigilon");
         $cameraBrand3 = new ItemData(3, "Motorola");
         $cameraBrand4 = new ItemData(4, "AVE");
-        
-        $cameraBrands = array($cameraBrand1,$cameraBrand2,$cameraBrand3,$cameraBrand4);
-        
+
+        $cameraBrands = array(
+            $cameraBrand1,
+            $cameraBrand2,
+            $cameraBrand3,
+            $cameraBrand4
+        );
+
         return $cameraBrands;
     }
-    private function getMaintenanceFrequenciesCCTV(){
+
+    private function getMaintenanceFrequenciesCCTV()
+    {
         $maintenanceFrequency1 = new ItemData(1, "6 months");
         $maintenanceFrequency2 = new ItemData(2, "12 months");
-        
-        $maintenanceFrequencies = array($maintenanceFrequency1,$maintenanceFrequency2);
-        
+
+        $maintenanceFrequencies = array(
+            $maintenanceFrequency1,
+            $maintenanceFrequency2
+        );
+
         return $maintenanceFrequencies;
     }
-    private function getSystemTypesFire() {
+
+    private function getSystemTypesFire()
+    {
         $systemType1 = new ItemData(1, "Conventional");
         $systemType2 = new ItemData(2, "Addressable");
-        
-        $systemTypes =  array($systemType1,$systemType2);
-        
+
+        $systemTypes = array(
+            $systemType1,
+            $systemType2
+        );
+
         return $systemTypes;
     }
-    private function getWiredWirlessFire(){
+
+    private function getWiredWirlessFire()
+    {
         $item1 = new ItemData(1, "Wired");
         $item2 = new ItemData(2, "Wireless");
         $item3 = new ItemData(3, "Hybrid");
-        
-        $wiredWirelessList = array($item1,$item2,$item3);
-        
+
+        $wiredWirelessList = array(
+            $item1,
+            $item2,
+            $item3
+        );
+
         return $wiredWirelessList;
     }
-    private function getManufacturersFireAlarm(){
-        
+
+    private function getManufacturersFireAlarm()
+    {
         $manufacturer1 = new ItemData(1, "Ctec");
         $manufacturer2 = new ItemData(2, "Apollo");
         $manufacturer3 = new ItemData(3, "Advanced");
         $manufacturer4 = new ItemData(4, "Morley");
         $manufacturer5 = new ItemData(5, "Syncro");
-        
-        $manufacturers = array($manufacturer1,$manufacturer2,$manufacturer3,$manufacturer4,$manufacturer5);
-        
+
+        $manufacturers = array(
+            $manufacturer1,
+            $manufacturer2,
+            $manufacturer3,
+            $manufacturer4,
+            $manufacturer5
+        );
+
         return $manufacturers;
     }
-    private function getModelsFireAlarm(){
-        
-        $models =array();
+
+    private function getModelsFireAlarm()
+    {
+        $models = array();
         return $models;
     }
-    private function getProtocolsFireAlarm() {
+
+    private function getProtocolsFireAlarm()
+    {
         $protocol1 = new ItemData(1, "Hochiki");
         $protocol2 = new ItemData(2, "Apollo");
         $protocol3 = new ItemData(3, "Other");
-        
-        $protocols = array($protocol1,$protocol2,$protocol3);
-        
+
+        $protocols = array(
+            $protocol1,
+            $protocol2,
+            $protocol3
+        );
+
         return $protocols;
     }
-    
-    private function getPanelOperationsFireAlarm(){
-               
+
+    private function getPanelOperationsFireAlarm()
+    {
         $panelOperation1 = new ItemData(1, "Keyswitch");
         $panelOperation2 = new ItemData(2, "Buttons");
         $panelOperation3 = new ItemData(3, "code");
-        
-        $panelOperations = array($panelOperation1,$panelOperation2,$panelOperation3);
-        
+
+        $panelOperations = array(
+            $panelOperation1,
+            $panelOperation2,
+            $panelOperation3
+        );
+
         return $panelOperations;
     }
-    private function getMonitoredListFireAlarm(){
+
+    private function getMonitoredListFireAlarm()
+    {
         $monitoredList = array();
         return $monitoredList;
     }
-    private function getMonitoringCentreListFireAlarm(){
+
+    private function getMonitoringCentreListFireAlarm()
+    {
         $monitoringCentreList = array();
         return $monitoringCentreList;
     }
-    private function getDigiTypesFireAlarm() {
+
+    private function getDigiTypesFireAlarm()
+    {
         $digiTypes = array();
         return $digiTypes;
     }
-    private function getMaintenanceFrequenciesFireAlarm() {
-        
+
+    private function getMaintenanceFrequenciesFireAlarm()
+    {
         $maintenanceFrequency1 = new ItemData(1, "Quarterly");
         $maintenanceFrequency2 = new ItemData(2, "6 months");
-        
-        $maintenanceFrequencies = array($maintenanceFrequency1,$maintenanceFrequency2);
-        
+
+        $maintenanceFrequencies = array(
+            $maintenanceFrequency1,
+            $maintenanceFrequency2
+        );
+
         return $maintenanceFrequencies;
     }
-    private function getAccountTypesFireAlarm(){
-        
+
+    private function getAccountTypesFireAlarm()
+    {
         $accountTypes = array();
+        return $accountTypes;
+    }
+
+    private function getAccountTypesIntruderAlarm()
+    {
+        $accountTypes = array();
+        return $accountTypes;
+    }
+
+    private function getManufacturersIntruderAlarm()
+    {
+        $manufacturer1 = new ItemData(1, "HKC");
+        $manufacturer2 = new ItemData(2, "Aritech");
+        $manufacturer3 = new ItemData(3, "UTC");
+        $manufacturer4 = new ItemData(4, "Other");
+
+        $manufacturers = array(
+            $manufacturer1,
+            $manufacturer2,
+            $manufacturer3,
+            $manufacturer4
+        );
+
+        return $manufacturers;
+    }
+
+    private function getPanelTypesIntruderAlarm()
+    {
+        $panelType1 = new ItemData(1, "HKC Quantum");
+        $panelType2 = new ItemData(2, "HKC 10/70");
+        $panelType3 = new ItemData(3, "HKC 10/240");
+        $panelType4 = new ItemData(4, "HKC 16/120");
+        $panelType5 = new ItemData(5, "HKC8/12/Advisor Advanced");
+        $panelType6 = new ItemData(6, "Aritech CD95");
+
+        $panelTypes = array(
+            $panelType1,
+            $panelType2,
+            $panelType3,
+            $panelType4,
+            $panelType5,
+            $panelType6
+        );
+
+        return $panelTypes;
+    }
+
+    private function getDigiTypesIntruderAlarm()
+    {
+        $digiType1 = new ItemData(1, "HKC Plug on GSM");
+        $digiType2 = new ItemData(2, "HKC DTM");
+        $digiType3 = new ItemData(3, "HKC Plug on and Dual Comm");
+        $digiType4 = new ItemData(4, "Dual Comm");
+        $digiType5 = new ItemData(5, "UTC Dual Comm");
+
+        $digiTypes = array(
+            $digiType1,
+            $digiType2,
+            $digiType3,
+            $digiType4,
+            $digiType5
+        );
+        return $digiTypes;
+    }
+
+    private function getSystemTypesWifiData()
+    {
+        $systemType1 = new ItemData(1, "Ubiquity");
+        $systemType2 = new ItemData(2, "Other");
+
+        $systemTypes = array(
+            $systemType1,
+            $systemType2
+        );
+
+        return $systemTypes;
+    }
+
+    private function getSwitchTypesWifiData()
+    {
+        $switchType1 = new ItemData(1, "4 Port POE");
+        $switchType2 = new ItemData(2, "8 Port POE");
+        $switchType3 = new ItemData(3, "16 Port POE");
+        $switchType4 = new ItemData(4, "24 Port POE");
+
+        $switchTypes = array(
+            $switchType1,
+            $switchType2,
+            $switchType3,
+            $switchType4
+        );
+
+        return $switchTypes;
+    }
+
+    private function getUplinksWifiData()
+    {
+        $uplink1 = new ItemData(1, "Data Cable");
+        $uplink2 = new ItemData(2, "Fibre");
+
+        $uplinks = array(
+            $uplink1,
+            $uplink2
+        );
+
+        return $uplinks;
+    }
+
+    private function getBroabbandProvidersWifiData()
+    {
+        $broabbandProvider1 = new ItemData(1, "EIR");
+        $broabbandProvider2 = new ItemData(2, "Virgin Media");
+        $broabbandProvider3 = new ItemData(3, "Other");
+
+        $broabbandProviders = array(
+            $broabbandProvider1,
+            $broabbandProvider2,
+            $broabbandProvider3
+        );
+        return $broabbandProviders;
+    }
+
+    private function getModelsStructuredCabling()
+    {
+        $models = array();
+
+        return $models;
+    }
+    private function getAccountTypesStructuredCabling()
+    {
+        $accountTypes = array();
+        
         return $accountTypes;
     }
 }

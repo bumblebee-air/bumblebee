@@ -145,14 +145,14 @@
 							<div class="col-12">
 								<div class="form-group bmd-form-group">
 									<label>Installation date</label> <input type="text"
-										class="form-control" name="hosted_installation_date"
+										class="form-control dateInput" name="hosted_installation_date"
 										id="hosted_installation_date" placeholder="Enter date"/>
 								</div>
 							</div>
 							<div class="col-12">
 								<div class="form-group bmd-form-group">
 									<label>Maintenance due date</label> <input type="text"
-										class="form-control" name="hosted_maintenance_due_date"
+										class="form-control dateInput" name="hosted_maintenance_due_date"
 										id="hosted_maintenance_due_date" placeholder="Enter date"/>
 								</div>
 							</div>
@@ -395,14 +395,14 @@
 							<div class="col-12">
 								<div class="form-group bmd-form-group">
 									<label>Installation date</label> <input type="text"
-										class="form-control" name="cpbx_installation_date"
+										class="form-control dateInput" name="cpbx_installation_date"
 										id="cpbx_installation_date" placeholder="Enter date"/>
 								</div>
 							</div>
 							<div class="col-12">
 								<div class="form-group bmd-form-group">
 									<label>Maintenance due date</label> <input type="text"
-										class="form-control" name="cpbx_maintenance_due_date"
+										class="form-control dateInput" name="cpbx_maintenance_due_date"
 										id="cpbx_maintenance_due_date" placeholder="Enter date"/>
 								</div>
 							</div>

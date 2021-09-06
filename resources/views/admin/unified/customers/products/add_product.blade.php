@@ -121,7 +121,7 @@ $customer->name) @section('page-content')
 									Access Control </a></li>
 							<li class="nav-item"><a class="nav-link " data-toggle="tab"
 								href="#cctv_div" role="tablist" aria-expanded="false"> CCTV </a></li>
-							<li class="nav-item"><a class="nav-link active" data-toggle="tab"
+							<li class="nav-item"><a class="nav-link" data-toggle="tab"
 								href="#fire_alarm_div" role="tablist" aria-expanded="false">
 									Fire Alarm</a></li>
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
@@ -130,7 +130,7 @@ $customer->name) @section('page-content')
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
 								href="#wifi_data_div" role="tablist" aria-expanded="false">
 									Wifi/Data </a></li>
-							<li class="nav-item"><a class="nav-link" data-toggle="tab"
+							<li class="nav-item"><a class="nav-link active" data-toggle="tab"
 								href="#structured_cabling_systems_div" role="tablist"
 								aria-expanded="false"> Structured Cabling Systems </a></li>
 						</ul>
@@ -144,14 +144,14 @@ $customer->name) @section('page-content')
 							@include('admin.unified.customers.products.access_control')</div>
 						<div class="tab-pane" id="cctv_div" aria-expanded="false">
 							@include('admin.unified.customers.products.cctv')</div>
-						<div class="tab-pane active" id="fire_alarm_div" aria-expanded="false">
+						<div class="tab-pane " id="fire_alarm_div" aria-expanded="false">
 							@include('admin.unified.customers.products.fire_alarm')</div>
-						<div class="tab-pane " id="intruder_alarm_div"
-							aria-expanded="false">Intruder Alarm</div>
+						<div class="tab-pane " id="intruder_alarm_div" aria-expanded="false">
+							@include('admin.unified.customers.products.intruder_alarm')</div>
 						<div class="tab-pane " id="wifi_data_div" aria-expanded="false">
-							Wifi/Data</div>
-						<div class="tab-pane " id="structured_cabling_systems_div"
-							aria-expanded="false">structured cabling systems</div>
+							@include('admin.unified.customers.products.wifi_data')</div>
+						<div class="tab-pane active" id="structured_cabling_systems_div" aria-expanded="false">
+							@include('admin.unified.customers.products.structured_cabling_systems')</div>
 					</div>
 				</div>
 			</div>
@@ -173,54 +173,8 @@ $( document ).ready(function() {
 // 	  tags: true
 // 	}).val({!! json_encode($customer->selectedServiceType) !!}).change();
 	
-	
-	$('#hosted_installation_date, #hosted_maintenance_due_date,#cpbx_installation_date, #cpbx_maintenance_due_date').datetimepicker({
-                         format: 'L', 
-                        icons: { time: "fa fa-clock",
-                                                date: "fa fa-calendar",
-                                                up: "fa fa-chevron-up",
-                                                down: "fa fa-chevron-down",
-                                                previous: 'fa fa-chevron-left',
-                                                next: 'fa fa-chevron-right',
-                                                today: 'fa fa-screenshot',
-                                                clear: 'fa fa-trash',
-                                                close: 'fa fa-remove'
-                        }
-                     });
-
-
-	$('#access_installation_date, #access_maintenance_start_date,#access_maintenance_cancellation_date,#access_last_maintenance_date,#access_maintenance_due_date')
-	.datetimepicker({
-                         format: 'L', 
-                        icons: { time: "fa fa-clock",
-                                                date: "fa fa-calendar",
-                                                up: "fa fa-chevron-up",
-                                                down: "fa fa-chevron-down",
-                                                previous: 'fa fa-chevron-left',
-                                                next: 'fa fa-chevron-right',
-                                                today: 'fa fa-screenshot',
-                                                clear: 'fa fa-trash',
-                                                close: 'fa fa-remove'
-                        }
-                     });
-	
-	$('#cctv_installation_date, #cctv_maintenance_start_date,#cctv_maintenance_cancellation_date,#cctv_last_maintenance_date,#cctv_maintenance_due_date')
-	.datetimepicker({
-                         format: 'L', 
-                        icons: { time: "fa fa-clock",
-                                                date: "fa fa-calendar",
-                                                up: "fa fa-chevron-up",
-                                                down: "fa fa-chevron-down",
-                                                previous: 'fa fa-chevron-left',
-                                                next: 'fa fa-chevron-right',
-                                                today: 'fa fa-screenshot',
-                                                clear: 'fa fa-trash',
-                                                close: 'fa fa-remove'
-                        }
-                     });
      
-	$('#fire_installation_date, #fire_maintenance_start_date,#fire_maintenance_cancellation_date,#fire_maintenance_due_date')
-	.datetimepicker({
+	$('.dateInput').datetimepicker({
                          format: 'L', 
                         icons: { time: "fa fa-clock",
                                                 date: "fa fa-calendar",
@@ -239,7 +193,8 @@ $( document ).ready(function() {
 });
         function initMap() {
         	autoLocationMap('cctv_location');
-        	autoLocationMap('fire_panel_location');            
+        	autoLocationMap('fire_panel_location');
+        	autoLocationMap('intruder_panel_location');            
         }
         
         function autoLocationMap(inputId){

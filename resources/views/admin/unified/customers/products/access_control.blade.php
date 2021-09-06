@@ -167,14 +167,14 @@
 							<div class="col-md-6">
 								<div class="form-group bmd-form-group">
 									<label>Installation date</label> <input type="text"
-										class="form-control" name="access_installation_date"
+										class="form-control dateInput" name="access_installation_date"
 										id="access_installation_date" placeholder="Enter date" />
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group bmd-form-group">
 									<label>Maintenance start date</label> <input type="text"
-										class="form-control" name="access_maintenance_start_date"
+										class="form-control dateInput" name="access_maintenance_start_date"
 										id="access_maintenance_start_date" placeholder="Enter date" />
 								</div>
 							</div>
@@ -183,14 +183,14 @@
 							<div class="col-md-6">
 								<div class="form-group bmd-form-group">
 									<label>Maintenance cancellation date</label> <input type="text"
-										class="form-control" name="access_maintenance_cancellation_date"
+										class="form-control dateInput" name="access_maintenance_cancellation_date"
 										id="access_maintenance_cancellation_date" placeholder="Enter date" />
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group bmd-form-group">
 									<label>Last maintenance date</label> <input type="text"
-										class="form-control" name="access_last_maintenance_date"
+										class="form-control dateInput" name="access_last_maintenance_date"
 										id="access_last_maintenance_date" placeholder="Enter date" />
 								</div>
 							</div>
@@ -199,7 +199,7 @@
 							<div class="col-md-6">
 								<div class="form-group bmd-form-group">
 									<label>Maintenance due date</label> <input type="text"
-										class="form-control" name="access_maintenance_due_date"
+										class="form-control dateInput" name="access_maintenance_due_date"
 										id="access_maintenance_due_date" placeholder="Enter date" />
 								</div>
 							</div>

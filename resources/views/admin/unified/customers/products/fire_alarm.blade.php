@@ -265,7 +265,7 @@
 							<div class="col-md-6">
 								<div class="form-group bmd-form-group">
 									<label>Installation date</label> <input type="text"
-										class="form-control" name="fire_installation_date"
+										class="form-control dateInput" name="fire_installation_date"
 										id="fire_installation_date" placeholder="Enter date" />
 								</div>
 							</div>
@@ -303,14 +303,14 @@
 							<div class="col-md-6">
 								<div class="form-group bmd-form-group">
 									<label>Maintenance start date</label> <input type="text"
-										class="form-control" name="fire_maintenance_start_date"
+										class="form-control dateInput" name="fire_maintenance_start_date"
 										id="fire_maintenance_start_date" placeholder="Enter date" />
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group bmd-form-group">
 									<label>Maintenance cancellation date</label> <input type="text"
-										class="form-control" name="fire_maintenance_cancellation_date"
+										class="form-control dateInput" name="fire_maintenance_cancellation_date"
 										id="fire_maintenance_cancellation_date" placeholder="Enter date" />
 								</div>
 							</div>
@@ -332,7 +332,7 @@
 							<div class="col-md-6">
 								<div class="form-group bmd-form-group">
 									<label>Maintenance due date</label> <input type="text"
-										class="form-control" name="fire_maintenance_due_date"
+										class="form-control dateInput" name="fire_maintenance_due_date"
 										id="fire_maintenance_due_date" placeholder="Enter date" />
 								</div>
 							</div>

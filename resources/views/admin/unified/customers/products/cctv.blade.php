@@ -228,7 +228,7 @@
 							<div class="col-md-6">
 								<div class="form-group bmd-form-group">
 									<label>Installation date</label> <input type="text"
-										class="form-control" name="cctv_installation_date"
+										class="form-control dateInput" name="cctv_installation_date"
 										id="cctv_installation_date" placeholder="Enter date" />
 								</div>
 							</div>
@@ -267,7 +267,7 @@
 							<div class="col-md-6">
 								<div class="form-group bmd-form-group">
 									<label>Maintenance start date</label> <input type="text"
-										class="form-control" name="cctv_maintenance_start_date"
+										class="form-control dateInput" name="cctv_maintenance_start_date"
 										id="cctv_maintenance_start_date" placeholder="Enter date" />
 								</div>
 							</div>
@@ -276,7 +276,7 @@
 							<div class="col-md-6">
 								<div class="form-group bmd-form-group">
 									<label>Maintenance cancellation date</label> <input type="text"
-										class="form-control" name="cctv_maintenance_cancellation_date"
+										class="form-control dateInput" name="cctv_maintenance_cancellation_date"
 										id="cctv_maintenance_cancellation_date"
 										placeholder="Enter date" />
 								</div>
@@ -284,7 +284,7 @@
 							<div class="col-md-6">
 								<div class="form-group bmd-form-group">
 									<label>Last maintenance date</label> <input type="text"
-										class="form-control" name="cctv_last_maintenance_date"
+										class="form-control dateInput" name="cctv_last_maintenance_date"
 										id="cctv_last_maintenance_date" placeholder="Enter date" />
 								</div>
 							</div>
@@ -293,7 +293,7 @@
 							<div class="col-md-6">
 								<div class="form-group bmd-form-group">
 									<label>Maintenance due date</label> <input type="text"
-										class="form-control" name="cctv_maintenance_due_date"
+										class="form-control dateInput" name="cctv_maintenance_due_date"
 										id="cctv_maintenance_due_date" placeholder="Enter date" />
 								</div>
 							</div>

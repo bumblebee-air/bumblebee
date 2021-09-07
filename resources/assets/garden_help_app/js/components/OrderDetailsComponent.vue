@@ -93,7 +93,8 @@
                                     Job Location
                                 </p>
                                 <p class="order-address-value">
-                                    {{job_data.location}}
+                                  {{job_data.location}}
+                                  <a href="#" @click="redirectToGoogleMaps(job_data.location_coordinates)">(Open on maps)</a>
                                 </p>
                             </div>
                         </div>
@@ -607,30 +608,11 @@
                     window.open("maps://www.google.com/maps/dir/?api=1&travelmode=driving&layer=traffic&destination="+ lat +"," + lng);
                 else
                     window.open("https://www.google.com/maps/dir/?api=1&travelmode=driving&layer=traffic&destination="+ lat +"," + lng);
+            },
+            redirectToGoogleMaps(location_coordinates) {
+              let coordinates = JSON.parse(location_coordinates);
+                window.open('http://maps.google.com?q='+coordinates.lat+','+coordinates.lon);
             }
-            // getDistance(lat1, long1, lat2, long2) {
-            //     // let originLanLang = new this.google.maps.LatLng(lat1, long1);
-            //     // let destinationLanLang = new this.google.maps.LatLng(lat2, long2);
-            //     // let distance = this.google.maps.geometry.spherical.computeDistanceBetween(originLanLang, destinationLanLang);
-            //     // console.log(distance)
-            //
-            //     var directionsService = new this.google.maps.DirectionsService();
-            //
-            //     var request = {
-            //         origin : new this.google.maps.LatLng(lat1, long1),
-            //         destination : new this.google.maps.LatLng(lat2, long2),
-            //         travelMode : this.google.maps.TravelMode.WALKING
-            //     };
-            //
-            //     directionsService.route(request, function(response, status) {
-            //         if (status == this.google.maps.DirectionsStatus.OK) {
-            //             console.log(response)
-            //             // ... and triggers listener for 'directions_changed'
-            //         } else {
-            //             console.log('Not Ok')
-            //         }
-            //     });
-            // }
         }
     }
 </script>

@@ -137,10 +137,10 @@
     </div>
     <div class="row justify-content-center align-content-center mt-5">
       <div class="col-md-12 text-center">
-        <button class="btn btn-lg doorder-btn" style="width: 80%" type="submit" @click="submitJobImage('submit')">
-          <!--        {{!isLoading ? 'Submit' : ''}}-->
-          <!--        <i class="fas fa-spinner fa-pulse" v-if="isLoading"></i>-->
-          SUBMIT
+        <button class="btn btn-lg doorder-btn" style="width: 80%" type="submit" @click="submitJobImage('submit')" :disabled="isLoading">
+                  {{!isLoading ? 'SUBMIT' : ''}}
+                  <i class="fas fa-spinner fa-pulse" v-if="isLoading"></i>
+<!--          SUBMIT-->
         </button>
       </div>
       <div class="col-md-12 mt-2"></div>
@@ -168,7 +168,10 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn modal-button-close" data-dismiss="modal">Close</button>
-            <button type="button" class="btn modal-button-done" data-dismiss="modal" @click="submitJobImage('skip')">Submit</button>
+            <button type="button" class="btn modal-button-done" data-dismiss="modal" @click="submitJobImage('skip')" :disabled="isLoading">
+              {{!isLoading ? 'Submit' : ''}}
+              <i class="fas fa-spinner fa-pulse" v-if="isLoading"></i>
+            </button>
           </div>
         </div>
       </div>
@@ -215,7 +218,8 @@ export default {
       ],
       other_expenses_input: '',
       job_other_expenses_json: [],
-      other_expenses_receipt: ''
+      other_expenses_receipt: '',
+      isLoading: false
     }
   },
   mounted() {
@@ -256,6 +260,7 @@ export default {
       this.steps = 2;
     },
     submitJobImage(type) {
+      this.isLoading = true;
       if (type !== 'skip' && !this.job_image) {
         Vue.$toast.warning('Job image is required.', {
           position: 'top'

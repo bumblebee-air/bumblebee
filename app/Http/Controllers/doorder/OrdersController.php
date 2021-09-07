@@ -57,6 +57,9 @@ class OrdersController extends Controller
         ]);
         $current_user = auth()->user();
         $retailer_profile = $current_user->retailer_profile;
+        $fulfill_start = Carbon::now();
+        $fulfill_end = Carbon::now()->setTimeFromTimeString($request->fulfilment);
+        $fulfill_time = $fulfill_end->diffInMinutes($fulfill_start);
         $order = Order::create([
             'customer_name' => "$request->first_name $request->last_name",
             'order_id' => random_int(000001, 999999),
@@ -69,7 +72,7 @@ class OrdersController extends Controller
             'pickup_address' => ($request->pickup_address=='Other')? $request->pickup_address_alt : $request->pickup_address,
             'pickup_lat' => $request->pickup_lat,
             'pickup_lon' => $request->pickup_lon,
-            'fulfilment' => $request->fulfilment,
+            'fulfilment' => $fulfill_time,
             'notes' => $request->notes,
             'deliver_by' => $request->deliver_by,
             'fragile' => $request->fragile,

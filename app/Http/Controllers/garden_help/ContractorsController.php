@@ -235,6 +235,7 @@ class ContractorsController extends Controller
             ];
             return response()->json($response)->setStatusCode(403);
         }
+        $job->kpi_timestamps = KPITimestamp::where('model', 'gardenhelp_job')->where('model_id', $job_id)->first();
 
         $response = [
             'job' => $job,

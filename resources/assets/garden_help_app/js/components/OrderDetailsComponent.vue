@@ -6,6 +6,7 @@
                 <div v-for="(status, index) in job_status" v-if="job_data.status == status.status">
                     <i class="fas fa-circle" :style="'color:' + status.color "></i>
                     {{status.text}}
+                  {{job_data.kpi_timestamps ?  (status.status == 'assigned' ? job_data.kpi_timestamps.assigned : (status.status == 'accepted' ? job_data.kpi_timestamps.accepted : (status.status == 'on_route' ? job_data.kpi_timestamps.on_the_way_first : (status.status == 'arrived' ? job_data.kpi_timestamps.arrived_first : '' )))) : '' }}
                 </div>
             </a>
             <i class="fas fa-arrow-left back-btn" @click="$router.push({name: 'orders-list'})"></i>

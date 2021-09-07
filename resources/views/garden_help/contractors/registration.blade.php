@@ -291,7 +291,7 @@
 							<label class="" for="cv"> Upload CV @{{experience_level_selected_value == 3 ? '*' : ''}} <br> </label>
 							<input id="cv" name="cv" type="file" class="inputFileHidden" @change="onChangeFile($event, 'cv_input')">
 							<div class="input-group" @click="addFile('cv')">
-								<input type="text" id="cv_input" class="form-control inputFileVisible" placeholder="Upload file">
+								<input type="text" id="cv_input" class="form-control inputFileVisible" placeholder="Upload file" required>
 								<span class="input-group-btn">
 									<button type="button" class="btn btn-fab btn-round btn-success">
 										<i class="fas fa-cloud-upload-alt"></i>
@@ -306,7 +306,7 @@
 							<label class="" for="job_reference"> Upload job
 								references  <br></label> <input id="job_reference"
 								name="job_reference" type="file" class="inputFileHidden"
-								@change="onChangeFile($event,'job_reference_input')">
+								@change="onChangeFile($event,'job_reference_input')" required>
 							<div class="input-group" @click="addFile('job_reference')">
 								<input type="text" id="job_reference_input"
 									class="form-control inputFileVisible" placeholder="Upload file">

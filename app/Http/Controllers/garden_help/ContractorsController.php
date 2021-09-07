@@ -7,6 +7,7 @@ use App\Customer;
 use App\Helpers\ServicesTypesHelper;
 use App\Helpers\StripePaymentHelper;
 use App\Helpers\TwilioHelper;
+use App\KPITimestamp;
 use App\Mail\ContractorRegistrationMail;
 use App\Mail\ContractorRegistrationSuccessMail;
 use App\Managers\StripeManager;
@@ -259,6 +260,15 @@ class ContractorsController extends Controller
         // Check if this job exists
         $job = Customer::where('id', $request->job_id)->where('type', 'job')->first();
         if ($job) {
+            $timestamps = KPITimestamp::where('model','=','gardenhelp_job')
+                ->where('model_id','=',$job->id)->first();
+            if(!$timestamps){
+                $timestamps = new KPITimestamp();
+                $timestamps->model = 'gardenhelp_job';
+                $timestamps->model_id = $job->id;
+            }
+            $current_timestamp = Carbon::now();
+            $current_timestamp = $current_timestamp->toDateTimeString();
             if (! in_array($request->status, [
                 'accepted',
                 'rejected'
@@ -272,9 +282,11 @@ class ContractorsController extends Controller
                 if ($request->status == 'on_route') {
                     $job->status = $request->status;
                     $body = "The contractor is on his way to you.";
+                    $timestamps->on_the_way_first = $current_timestamp;
                     TwilioHelper::sendSMS('GardenHelp', $job->phone_number, $body);
                 } elseif ($request->status == 'arrived') {
                     $job->status = $request->status;
+                    $timestamps->arrived_first = $current_timestamp;
                 } elseif ($request->status == 'completed') {
                     // Saving Job Image
                     if ($request->job_image) {
@@ -335,6 +347,7 @@ class ContractorsController extends Controller
                         }
                     }
                     $job->is_paid = true;
+                    $timestamps->completed = $current_timestamp;
                 }
                 $job->save();
                 if ($request->status != 'delivery_arrived') {
@@ -365,6 +378,7 @@ class ContractorsController extends Controller
                     // Sending Twilio SMS
                     $body = "Your request has accepted by: " . $request->user()->name . " and has been scheduled in " . $job->available_date_time;
                     TwilioHelper::sendSMS('GardenHelp', $job->phone_number, $body);
+                    $timestamps->accepted = $current_timestamp;
                 } elseif ($request->status == 'rejected') {
                     if ($job->driver != $request->user()->id) {
                         return response()->json([

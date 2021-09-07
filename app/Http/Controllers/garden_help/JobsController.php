@@ -7,8 +7,10 @@ use App\CustomerExtraData;
 use App\GardenServiceType;
 use App\Helpers\TwilioHelper;
 use App\Http\Controllers\Controller;
+use App\KPITimestamp;
 use App\User;
 use App\UserClient;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -88,10 +90,20 @@ class JobsController extends Controller
         if (! $job) {
             abort(404);
         }
-
+        $timestamps = KPITimestamp::where('model','=','gardenhelp_job')
+            ->where('model_id','=',$job->id)->first();
+        if(!$timestamps){
+            $timestamps = new KPITimestamp();
+            $timestamps->model = 'gardenhelp_job';
+            $timestamps->model_id = $job->id;
+        }
+        $current_timestamp = Carbon::now();
+        $current_timestamp = $current_timestamp->toDateTimeString();
         $job->status = 'assigned';
         $job->contractor_id = $contractor->user->id;
         $job->save();
+        $timestamps->assigned = $current_timestamp;
+        $timestamps->save();
         $user_tokens = $contractor->user->firebase_tokens;
         if (count($user_tokens) > 0) {
             self::sendFCM($user_tokens, [

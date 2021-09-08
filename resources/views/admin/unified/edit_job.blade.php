@@ -282,22 +282,22 @@ height: calc(100% - 50px);
 											<ul
 												class="nav nav-pills nav-pills-primary justify-content-start justify-content-md-center mb-3"
 												role="tablist" id="navAddJobUl">
-												<li class="nav-item"><a class="nav-link active" data-toggle="tab"
+												<li class="nav-item"><a class="nav-link " data-toggle="tab"
 													href="#mapContainerDiv" role="tablist" aria-expanded="true">
 														Map </a></li>
-												<li class="nav-item"><a class="nav-link" data-toggle="tab"
+												<li class="nav-item"><a class="nav-link active" data-toggle="tab"
 													href="#calendarContainerDiv" role="tablist"
 													aria-expanded="false"> Calendar </a></li>
 											</ul>
 											
 											<div class="tab-content tab-space h-100">
-												<div class="tab-pane active" id="mapContainerDiv"
+												<div class="tab-pane" id="mapContainerDiv"
 													aria-expanded="false">
 													<div id="map"
 														style="width: 100%; height: 100%; min-height: 400px; margin-top: 0; border-radius: 6px;"></div>
 												</div>
 
-												<div class="tab-pane " id="calendarContainerDiv"
+												<div class="tab-pane active" id="calendarContainerDiv"
 													aria-expanded="false">
 													<h3 class="servicesCalendarTitleH3">Services</h3>
 

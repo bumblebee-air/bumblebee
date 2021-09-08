@@ -394,7 +394,8 @@ $(document).ready(function(){
 	$('#minimizeSidebar').trigger('click')
 	
 
-var job = {!! $job !!}
+var job = {!! $job !!};
+console.log(job)
 			$("#companyNameSelect").val(job.companyId).select2();
 			$("#typeOfJobSelect").val(''+job.jobTypeId).select2();
 			$("#engineerSelect").select2();

@@ -353,7 +353,6 @@ $(document).ready(function(){
         addIntelInput('mobile','mobile');
         
           $('#time').datetimepicker({
-          debug:true,
                          format: 'LT', 
                           icons: { time: "fa fa-clock",
                                     date: "fa fa-calendar",

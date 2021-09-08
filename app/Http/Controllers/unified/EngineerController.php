@@ -9,6 +9,7 @@ use App\UnifiedEngineerJob;
 use App\UnifiedEngineerJobExpenses;
 use App\UnifiedJob;
 use App\UnifiedJobType;
+use App\UnifiedService;
 use App\User;
 use App\UserPasswordReset;
 use Carbon\Carbon;
@@ -211,13 +212,11 @@ class EngineerController extends Controller
             }
         } else {
             $this->validate($request, [
-                'job_type_id' => 'required|exists:unified_job_types,id',
-//                'service_id' => 'required|exists:unified_services_job,id',
-                'additional_service_id' => 'exists:unified_services_job,id',
-                'expenses' => 'array',
-                'expenses.*.name' => 'required',
-                'expenses.*.cost' => 'required',
-                'expenses_receipt' => 'mimes:jpeg,jpg,png|required|max:10000',
+                'additional_job_type_id' => 'exists:unified_job_types,id',
+                'service_id' => 'exists:unified_services_job,id',
+                'comment' => 'string|max:500',
+                'expenses_receipts' => 'array',
+                'expenses_receipts.*' => 'mimes:jpeg,jpg,png|required|max:10000',
                 'job_images' => 'array',
                 'job_images.*' => 'required|mimes:jpeg,jpg,png|required|max:10000',
             ]);
@@ -227,29 +226,36 @@ class EngineerController extends Controller
                 ],422);
             }
             $job_images_paths = [];
+            $expenses_receipts_paths = [];
             if ($request->has('job_images')) {
                 foreach ($request->job_images as $key => $job_image) {
                     $job_images_paths[] = $request->job_images[$key]->store('uploads/unified_uploads');
                 }
             }
-            $checkIfJobAssignedToTheEngineer->update([
-                'additional_service_id' => $request->additional_service_id,
-                'job_images' => json_encode($job_images_paths),
-                'expenses_receipt' => $request->has('expenses_receipt') ? $request->expenses[$key]['file']->store('uploads/unified_uploads') : null
-            ]);
-            if ($request->has('expenses') && count($request->expenses) > 0) {
-                foreach ($request->expenses as $key => $item) {
-                    UnifiedEngineerJobExpenses::create([
-                        'name' => $item['name'],
-                        'cost' => $item['cost'],
-                        'comment' => array_key_exists('comment', $item) ? $item['comment'] : null,
-//                        'file' => array_key_exists('file', $item) ? $request->expenses[$key]['file']->store('uploads/unified_uploads') : null,
-                    ]);
+            if ($request->has('expenses_receipts')) {
+                foreach ($request->expenses_receipts as $key => $expenses_receipt) {
+                    $expenses_receipts_paths[] = $request->expenses_receipts[$key]->store('uploads/unified_uploads');
                 }
             }
+            $checkIfJobAssignedToTheEngineer->update([
+                'service_id' => $request->service_id,
+                'job_images' => json_encode($job_images_paths),
+                'expenses_receipts' => json_encode($expenses_receipts_paths),
+                'comment' => json_encode($expenses_receipts_paths),
+                'additional_cost' => $request->additional_cost,
+                'additional_job_type_id' => $request->additional_job_type_id
+            ]);
         }
         return response()->json([
             'message' => 'Success'
+        ]);
+    }
+
+    public function getServices() {
+        $service = UnifiedService::all();
+        return response()->json([
+            'message' => 'Success.',
+            'data' => $service
         ]);
     }
 }

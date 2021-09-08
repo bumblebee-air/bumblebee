@@ -457,11 +457,7 @@ class CalendarController extends Controller
                 $job->backgroundColor = $job->service->backgroundColor;
             }
         } else {
-            $jobsList = UnifiedJob::where('service_id', $serviceId)->whereDate('start_at', '>=', Carbon::now()->startOfMonth()
-                ->toDateString())
-                ->whereDate('start_at', '<=', Carbon::now()->endOfMonth()
-                ->toDateString())
-                ->get();
+            $jobsList = UnifiedJob::where('service_id', $serviceId)->whereDate('start_at', Carbon::parse($date))->get();
             foreach ($jobsList as $job) {
                 $job->backgroundColor = $job->service->backgroundColor;
             }
@@ -501,14 +497,12 @@ class CalendarController extends Controller
 
     public function getContractExpireList(Request $request) // it is supposed display customers names that their contracts will expire in this day 
     {
-        
         $date = Carbon::parse($request->date);
         $expiredJobs = [];
         $jobs = UnifiedJob::whereDate('start_at', $date->toDateString())->whereHas('customer', function ($q) use ($date) {
-            $q->whereDate('start_at', '>=', Carbon::now()->toDateString())
-                ->whereDate('end_at', '<=', Carbon::now()->toDateString());
-        })
-            ->get();
+            $q->whereDate('contract_start_date', '>=', Carbon::now())
+                ->whereDate('contract_end_date', '<=', Carbon::now());
+        })->get();
 
         foreach ($jobs as $job) {
             $expiredJobs[] = [

@@ -12,12 +12,14 @@ class UnifiedEngineerJob extends Model
         'status',
         'rejection_reason',
         'skip_reason',
-        'additional_service_id',
+        'service_id',
+        'additional_job_type_id',
         'number_of_hours',
         'job_images',
         'engineer_id',
         'job_id',
-        'expenses_receipt'
+        'expenses_receipts',
+        'additional_cost'
     ];
 
     public $casts = [

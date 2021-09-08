@@ -84,6 +84,12 @@ input[type="checkbox"] {
 input[type="checkbox"]:checked+label i {
 	color: #d58242
 }
+#navProductUl .nav-item{
+    display:none;
+}
+#navProductUl .nav-item.selectedService{
+    display:block;
+}
 </style>
 @endsection @section('title','Unified | Add Product | Customer ' .
 $customer->name) @section('page-content')
@@ -113,24 +119,24 @@ $customer->name) @section('page-content')
 						<ul
 							class="nav nav-pills nav-pills-primary justify-content-start justify-content-md-center"
 							role="tablist" id="navProductUl">
-							<li class="nav-item"><a class="nav-link" data-toggle="tab"
+							<li class="nav-item" id="hosted_cpbx_li"><a class="nav-link " data-toggle="tab"
 								href="#hosted_cpbx_div" role="tablist" aria-expanded="true">
 									Hosted/Cpbx </a></li>
-							<li class="nav-item"><a class="nav-link " data-toggle="tab"
+							<li class="nav-item" id="access_control_li"><a class="nav-link" data-toggle="tab"
 								href="#access_control_div" role="tablist" aria-expanded="false">
 									Access Control </a></li>
-							<li class="nav-item"><a class="nav-link " data-toggle="tab"
+							<li class="nav-item" id="cctv_li"><a class="nav-link " data-toggle="tab"
 								href="#cctv_div" role="tablist" aria-expanded="false"> CCTV </a></li>
-							<li class="nav-item"><a class="nav-link" data-toggle="tab"
+							<li class="nav-item" id="fire_alarm_li"><a class="nav-link " data-toggle="tab"
 								href="#fire_alarm_div" role="tablist" aria-expanded="false">
 									Fire Alarm</a></li>
-							<li class="nav-item"><a class="nav-link" data-toggle="tab"
+							<li class="nav-item" id="intruder_alarm_li"><a class="nav-link " data-toggle="tab"
 								href="#intruder_alarm_div" role="tablist" aria-expanded="false">
 									Intruder Alarm </a></li>
-							<li class="nav-item"><a class="nav-link" data-toggle="tab"
+							<li class="nav-item" id="wifi_data_li"><a class="nav-link" data-toggle="tab"
 								href="#wifi_data_div" role="tablist" aria-expanded="false">
 									Wifi/Data </a></li>
-							<li class="nav-item"><a class="nav-link active" data-toggle="tab"
+							<li class="nav-item" id="structured_cabling_systems_li"><a class="nav-link " data-toggle="tab"
 								href="#structured_cabling_systems_div" role="tablist"
 								aria-expanded="false"> Structured Cabling Systems </a></li>
 						</ul>
@@ -139,10 +145,10 @@ $customer->name) @section('page-content')
 					<div class="tab-content tab-space">
 						<div class="tab-pane " id="hosted_cpbx_div" aria-expanded="false">
 							@include('admin.unified.customers.products.hosted_cpbx')</div>
-						<div class="tab-pane " id="access_control_div"
+						<div class="tab-pane" id="access_control_div"
 							aria-expanded="false">
 							@include('admin.unified.customers.products.access_control')</div>
-						<div class="tab-pane" id="cctv_div" aria-expanded="false">
+						<div class="tab-pane " id="cctv_div" aria-expanded="false">
 							@include('admin.unified.customers.products.cctv')</div>
 						<div class="tab-pane " id="fire_alarm_div" aria-expanded="false">
 							@include('admin.unified.customers.products.fire_alarm')</div>
@@ -150,7 +156,7 @@ $customer->name) @section('page-content')
 							@include('admin.unified.customers.products.intruder_alarm')</div>
 						<div class="tab-pane " id="wifi_data_div" aria-expanded="false">
 							@include('admin.unified.customers.products.wifi_data')</div>
-						<div class="tab-pane active" id="structured_cabling_systems_div" aria-expanded="false">
+						<div class="tab-pane " id="structured_cabling_systems_div" aria-expanded="false">
 							@include('admin.unified.customers.products.structured_cabling_systems')</div>
 					</div>
 				</div>
@@ -173,6 +179,40 @@ $( document ).ready(function() {
 // 	  tags: true
 // 	}).val({!! json_encode($customer->selectedServiceType) !!}).change();
 	
+	var customerServices = {!! json_encode($customer->selectedServiceType) !!};
+	console.log(customerServices)
+	console.log(customerServices.indexOf(8))
+	
+	if(customerServices.indexOf(1)!=-1){
+		$("#hosted_cpbx_li").addClass("selectedService");
+		$("#hosted_cpbx_li .nav-link").addClass("selectedServiceA");
+	}
+	if(customerServices.indexOf(2)!=-1){
+		$("#access_control_li").addClass("selectedService");
+		$("#access_control_li .nav-link").addClass("selectedServiceA");
+	}
+	if(customerServices.indexOf(3)!=-1){
+		$("#cctv_li").addClass("selectedService");
+		$("#cctv_li .nav-link").addClass("selectedServiceA");
+	}
+	if(customerServices.indexOf(4)!=-1){
+		$("#fire_alarm_li").addClass("selectedService");
+		$("#fire_alarm_li .nav-link").addClass("selectedServiceA");
+	}
+	if(customerServices.indexOf(5)!=-1){
+		$("#intruder_alarm_li").addClass("selectedService");
+		$("#intruder_alarm_li .nav-link").addClass("selectedServiceA");
+	}
+	if(customerServices.indexOf(6)!=-1){
+		$("#wifi_data_li").addClass("selectedService");
+		$("#wifi_data_li .nav-link").addClass("selectedServiceA");
+	}
+	if(customerServices.indexOf(7)!=-1){
+		$("#structured_cabling_systems_li").addClass("selectedService");
+		$("#structured_cabling_systems_li .nav-link").addClass("selectedServiceA");
+	}
+	$(".selectedService:first a").addClass("active")
+	$($(".selectedService:first a").attr("href")).addClass("active")
      
 	$('.dateInput').datetimepicker({
                          format: 'L', 

@@ -21,11 +21,14 @@
 							<div class="col-12">
 								<div class="form-group bmd-form-group">
 									<label>Hosted package</label> <select class="form-control"
-										id="hosted_package_select" name="hosted_package">
+										id="hosted_package_select" name="hosted_package" >
 										<option value="">Select hosted package</option>
-										@if(count($hostedPackages) > 0) @foreach($hostedPackages as
-										$item)
-										<option value="{{$item->id}}">{{$item->name}}</option>
+										@if(count($hostedPackages) > 0) @foreach($hostedPackages as $item)
+    										@if(isset($hostedCpbxData) && $item->id==$hostedCpbxData->hosted_package)
+    										<option value="{{$item->id}}" selected>{{$item->name}}</option> 
+    										@else
+    										<option value="{{$item->id}}">{{$item->name}}</option>
+    										@endif
 										@endforeach @endif
 									</select>
 								</div>
@@ -37,7 +40,11 @@
 										id="hosted_ip_vendor_select" name="hosted_ip_vendor">
 										<option value="">Select IP vendor</option>
 										@if(count($ipVendors) > 0) @foreach($ipVendors as $item)
-										<option value="{{$item->id}}">{{$item->name}}</option>
+											@if(isset($hostedCpbxData) && $item->id==$hostedCpbxData->hosted_ip_vendor)
+											<option value="{{$item->id}}" selected>{{$item->name}}</option>
+											@else
+											<option value="{{$item->id}}">{{$item->name}}</option>
+											@endif
 										@endforeach @endif
 									</select>
 								</div>
@@ -46,42 +53,48 @@
 								<div class="form-group bmd-form-group">
 									<label>Provisioning URL </label> <input type="text"
 										class="form-control" name="hosted_provisioning_url"
-										id="hosted_provisioning_url" placeholder="Enter provisioning URL" />
+										id="hosted_provisioning_url" placeholder="Enter provisioning URL"
+										@if(isset($hostedCpbxData)) value="{{$hostedCpbxData->hosted_provisioning_url}}" @endif	 />
 								</div>
 							</div>
 							<div class="col-12">
 								<div class="form-group bmd-form-group">
 									<label>Account portal ID</label> <input type="text"
 										class="form-control" name="hosted_account_portal_id"
-										id="hosted_account_portal_id" placeholder="Enter account portal ID"/>
+										id="hosted_account_portal_id" placeholder="Enter account portal ID"
+										@if(isset($hostedCpbxData)) value="{{$hostedCpbxData->hosted_account_portal_id}}" @endif/>
 								</div>
 							</div>
 							<div class="col-12">
 								<div class="form-group bmd-form-group">
 									<label>Line & DDI numbers</label> <input type="text"
 										class="form-control" name="hosted_line_ddi_numbers"
-										id="hosted_line_ddi_numbers" placeholder="Enter line & DDI numbers"/>
+										id="hosted_line_ddi_numbers" placeholder="Enter line & DDI numbers"
+										@if(isset($hostedCpbxData)) value="{{$hostedCpbxData->hosted_line_ddi_numbers}}" @endif/>
 								</div>
 							</div>
 							<div class="col-12">
 								<div class="form-group bmd-form-group">
 									<label>Broadband provider</label> <input type="text"
 										class="form-control" name="hosted_broadband_provider"
-										id="hosted_broadband_provider" placeholder="Enter broadband provider" />
+										id="hosted_broadband_provider" placeholder="Enter broadband provider" 
+										@if(isset($hostedCpbxData)) value="{{$hostedCpbxData->hosted_broadband_provider}}" @endif/>
 								</div>
 							</div>
 							<div class="col-12">
 								<div class="form-group bmd-form-group">
 									<label>Number of users</label> <input type="number"
 										class="form-control" name="hosted_number_of_users"
-										id="hosted_number_of_users" placeholder="Enter number of users" />
+										id="hosted_number_of_users" placeholder="Enter number of users" 
+										@if(isset($hostedCpbxData)) value="{{$hostedCpbxData->hosted_number_of_users}}" @endif/>
 								</div>
 							</div>
 							<div class="col-12">
 								<div class="form-group bmd-form-group">
 									<label>Handset type</label> <input type="text"
 										class="form-control" name="hosted_handset_type"
-										id="hosted_handset_type" placeholder="Enter handset type"/>
+										id="hosted_handset_type" placeholder="Enter handset type"
+										@if(isset($hostedCpbxData)) value="{{$hostedCpbxData->hosted_handset_type}}" @endif/>
 								</div>
 							</div>
 							<div class="col-12">
@@ -93,7 +106,8 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													id="hosted_call_recording_Yes" name="hosted_call_recording"
-													value="1" > Yes <span class="circle"> <span
+													value="1" {{isset($hostedCpbxData) && $hostedCpbxData->hosted_call_recording ? 'checked' : ''}}>
+													 Yes <span class="circle"> <span
 														class="check"></span>
 												</span>
 												</label>
@@ -104,7 +118,8 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													id="hosted_call_recording_No" name="hosted_call_recording"
-													value="0" > No <span class="circle"> <span
+													value="0" {{isset($hostedCpbxData) && $hostedCpbxData->hosted_call_recording==0 ? 'checked' : ''}}>
+													 No <span class="circle"> <span
 														class="check"></span>
 												</span>
 												</label>
@@ -122,7 +137,8 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													id="hosted_crm_interface_Yes" name="hosted_crm_interface"
-													value="1" > Yes <span class="circle"> <span
+													value="1" {{isset($hostedCpbxData) && $hostedCpbxData->hosted_crm_interface ? 'checked' : ''}}>
+													 Yes <span class="circle"> <span
 														class="check"></span>
 												</span>
 												</label>
@@ -133,7 +149,8 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													id="hosted_crm_interface_No" name="hosted_crm_interface"
-													value="0" > No <span class="circle"> <span
+													value="0" {{isset($hostedCpbxData) && $hostedCpbxData->hosted_crm_interface==0 ? 'checked' : ''}}>
+													 No <span class="circle"> <span
 														class="check"></span>
 												</span>
 												</label>
@@ -146,14 +163,16 @@
 								<div class="form-group bmd-form-group">
 									<label>Installation date</label> <input type="text"
 										class="form-control dateInput" name="hosted_installation_date"
-										id="hosted_installation_date" placeholder="Enter date"/>
+										id="hosted_installation_date" placeholder="Enter date"
+										@if(isset($hostedCpbxData)) value="{{$hostedCpbxData->hosted_installation_date}}" @endif/>
 								</div>
 							</div>
 							<div class="col-12">
 								<div class="form-group bmd-form-group">
 									<label>Maintenance due date</label> <input type="text"
 										class="form-control dateInput" name="hosted_maintenance_due_date"
-										id="hosted_maintenance_due_date" placeholder="Enter date"/>
+										id="hosted_maintenance_due_date" placeholder="Enter date"
+										@if(isset($hostedCpbxData)) value="{{$hostedCpbxData->hosted_maintenance_due_date}}" @endif/>
 								</div>
 							</div>
 							<div class="col-12">
@@ -165,7 +184,8 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													id="hosted_maintenance_yes" name="hosted_maintenance"
-													value="1" > Yes <span class="circle"> <span
+													value="1"  {{isset($hostedCpbxData) && $hostedCpbxData->hosted_maintenance ? 'checked' : ''}}>
+													 Yes <span class="circle"> <span
 														class="check"></span>
 												</span>
 												</label>
@@ -176,7 +196,8 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													id="hosted_maintenance_no" name="hosted_maintenance"
-													value="0" > No <span class="circle"> <span
+													value="0"  {{isset($hostedCpbxData) && $hostedCpbxData->hosted_maintenance==0 ? 'checked' : ''}}>
+													 No <span class="circle"> <span
 														class="check"></span>
 												</span>
 												</label>
@@ -192,7 +213,11 @@
 										id="hosted_account_type_select" name="hosted_account_type">
 										<option value="">Select account type</option>
 										@if(count($accountTypes) > 0) @foreach($accountTypes as $item)
-										<option value="{{$item->id}}">{{$item->name}}</option>
+											@if(isset($hostedCpbxData) && $item->id==$hostedCpbxData->hosted_account_type)
+												<option value="{{$item->id}}" selected>{{$item->name}}</option>
+											@else
+												<option value="{{$item->id}}">{{$item->name}}</option>
+											@endif	
 										@endforeach @endif
 									</select>
 								</div>
@@ -202,7 +227,8 @@
 								<div class="form-group bmd-form-group">
 									<label>Account notes</label> <input type="text"
 										class="form-control" name="hosted_account_notes"
-										id="hosted_account_notes" placeholder="Enter account notes"/>
+										id="hosted_account_notes" placeholder="Enter account notes"
+										@if(isset($hostedCpbxData)) value="{{$hostedCpbxData->hosted_account_notes}}" @endif/>
 								</div>
 							</div>
 
@@ -228,7 +254,11 @@
 										id="cpbx_system_model_select" name="cpbx_system_model">
 										<option value="">Select system model</option>
 										@if(count($systemModels) > 0) @foreach($systemModels as $item)
-										<option value="{{$item->id}}">{{$item->name}}</option>
+											@if(isset($hostedCpbxData) && $item->id==$hostedCpbxData->cpbx_system_model)
+												<option value="{{$item->id}}" selected>{{$item->name}}</option>
+											@else
+												<option value="{{$item->id}}">{{$item->name}}</option>
+											@endif	
 										@endforeach @endif
 									</select>
 								</div>
@@ -238,14 +268,16 @@
 								<div class="form-group bmd-form-group">
 									<label>System user ID</label> <input class="form-control"
 										type="text" name="cpbx_system_user_id"
-										id="cpbx_system_user_id" placeholder="Enter system user ID">
+										id="cpbx_system_user_id" placeholder="Enter system user ID"
+										@if(isset($hostedCpbxData)) value="{{$hostedCpbxData->cpbx_system_user_id}}" @endif/>
 								</div>
 							</div>
 							<div class="col-12">
 								<div class="form-group bmd-form-group">
 									<label>System password</label> <input class="form-control"
 										type="text" name="cpbx_system_password"
-										id="cpbx_system_password" placeholder="Enter system password">
+										id="cpbx_system_password" placeholder="Enter system password"
+										@if(isset($hostedCpbxData)) value="{{$hostedCpbxData->cpbx_system_password}}" @endif/>
 								</div>
 							</div>
 
@@ -255,7 +287,11 @@
 										id="cpbx_line_type_select" name="cpbx_line_type">
 										<option value="">Select line type</option>
 										@if(count($lineTypes) > 0) @foreach($lineTypes as $item)
-										<option value="{{$item->id}}">{{$item->name}}</option>
+											@if(isset($hostedCpbxData) && $item->id==$hostedCpbxData->cpbx_line_type)
+												<option value="{{$item->id}}" selected>{{$item->name}}</option>
+											@else
+												<option value="{{$item->id}}">{{$item->name}}</option>
+											@endif	
 										@endforeach @endif
 									</select>
 								</div>
@@ -267,7 +303,11 @@
 										id="cpbx_line_vendor_select" name="cpbx_line_vendor">
 										<option value="">Select line vendor</option>
 										@if(count($lineVendors) > 0) @foreach($lineVendors as $item)
-										<option value="{{$item->id}}">{{$item->name}}</option>
+											@if(isset($hostedCpbxData) && $item->id==$hostedCpbxData->cpbx_line_vendor)
+												<option value="{{$item->id}}" selected>{{$item->name}}</option>
+											@else
+												<option value="{{$item->id}}">{{$item->name}}</option>
+											@endif	
 										@endforeach @endif
 									</select>
 								</div>
@@ -277,7 +317,8 @@
 									<label>SIP account user ID</label> <input class="form-control"
 										type="text" name="cpbx_sip_account_user_id"
 										id="cpbx_sip_account_user_id"
-										placeholder="Enter SIP account user ID">
+										placeholder="Enter SIP account user ID"
+										@if(isset($hostedCpbxData)) value="{{$hostedCpbxData->cpbx_sip_account_user_id}}" @endif/>
 								</div>
 							</div>
 							<div class="col-12">
@@ -285,14 +326,16 @@
 									<label>SIP account password</label> <input class="form-control"
 										type="text" name="cpbx_sip_account_password"
 										id="cpbx_sip_account_password"
-										placeholder="Enter SIP account password">
+										placeholder="Enter SIP account password"
+										@if(isset($hostedCpbxData)) value="{{$hostedCpbxData->cpbx_sip_account_password}}" @endif/>
 								</div>
 							</div>
 							<div class="col-12">
 								<div class="form-group bmd-form-group">
 									<label>Number of users</label> <input type="number"
 										class="form-control" name="cpbx_number_of_users"
-										id="cpbx_number_of_users" placeholder="Enter number of users" />
+										id="cpbx_number_of_users" placeholder="Enter number of users" 
+										@if(isset($hostedCpbxData)) value="{{$hostedCpbxData->cpbx_number_of_users}}" @endif/>
 								</div>
 							</div>
 							
@@ -300,7 +343,8 @@
 								<div class="form-group bmd-form-group">
 									<label>Handset type</label> <input type="text"
 										class="form-control" name="cpbx_handset_type"
-										id="cpbx_handset_type" placeholder="Enter handset type"/>
+										id="cpbx_handset_type" placeholder="Enter handset type"
+										@if(isset($hostedCpbxData)) value="{{$hostedCpbxData->cpbx_handset_type}}" @endif/>
 								</div>
 							</div>
 							
@@ -308,13 +352,15 @@
 								<div class="form-group bmd-form-group">
 									<label>Static IP address</label> 
 									<input class="form-control" type="text" name="cpbx_static_ip_address" id="cpbx_static_ip_address" 
-									placeholder="Enter static IP address">
+									placeholder="Enter static IP address"
+										@if(isset($hostedCpbxData)) value="{{$hostedCpbxData->cpbx_static_ip_address}}" @endif/>
 								</div>
 							</div>
 							<div class="col-12">
 								<div class="form-group bmd-form-group">
 									<label>Port number</label> <input class="form-control" type="text" 
-									name="cpbx_port_number" id="cpbx_port_number" placeholder="Enter port number">
+									name="cpbx_port_number" id="cpbx_port_number" placeholder="Enter port number"
+										@if(isset($hostedCpbxData)) value="{{$hostedCpbxData->cpbx_port_number}}" @endif/>
 								</div>
 							</div>
 							
@@ -323,14 +369,16 @@
 								<div class="form-group bmd-form-group">
 									<label>Line & DDI numbers</label> <input type="text"
 										class="form-control" name="cpbx_line_ddi_numbers"
-										id="cpbx_line_ddi_numbers" placeholder="Enter line & DDI numbers"/>
+										id="cpbx_line_ddi_numbers" placeholder="Enter line & DDI numbers"
+										@if(isset($hostedCpbxData)) value="{{$hostedCpbxData->cpbx_line_ddi_numbers}}" @endif/>
 								</div>
 							</div>
 							<div class="col-12">
 								<div class="form-group bmd-form-group">
 									<label>Broadband provider</label> <input type="text"
 										class="form-control" name="cpbx_broadband_provider"
-										id="cpbx_broadband_provider" placeholder="Enter broadband provider" />
+										id="cpbx_broadband_provider" placeholder="Enter broadband provider"
+										@if(isset($hostedCpbxData)) value="{{$hostedCpbxData->cpbx_broadband_provider}}" @endif/>
 								</div>
 							</div>
 							
@@ -343,7 +391,8 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													id="cpbx_call_recording_Yes" name="cpbx_call_recording"
-													value="1" > Yes <span class="circle"> <span
+													value="1" {{isset($hostedCpbxData) && $hostedCpbxData->cpbx_call_recording ? 'checked' : ''}}>
+													 Yes <span class="circle"> <span
 														class="check"></span>
 												</span>
 												</label>
@@ -354,7 +403,8 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													id="cpbx_call_recording_No" name="cpbx_call_recording"
-													value="0" > No <span class="circle"> <span
+													value="0" {{isset($hostedCpbxData) && $hostedCpbxData->cpbx_call_recording==0 ? 'checked' : ''}}>
+													 No <span class="circle"> <span
 														class="check"></span>
 												</span>
 												</label>
@@ -372,7 +422,8 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													id="cpbx_crm_interface_Yes" name="cpbx_crm_interface"
-													value="1" > Yes <span class="circle"> <span
+													value="1" {{isset($hostedCpbxData) && $hostedCpbxData->cpbx_crm_interface ? 'checked' : ''}}>
+													 Yes <span class="circle"> <span
 														class="check"></span>
 												</span>
 												</label>
@@ -383,7 +434,8 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													id="cpbx_crm_interface_No" name="cpbx_crm_interface"
-													value="0" > No <span class="circle"> <span
+													value="0" {{isset($hostedCpbxData) && $hostedCpbxData->cpbx_crm_interface==0 ? 'checked' : ''}}>
+													 No <span class="circle"> <span
 														class="check"></span>
 												</span>
 												</label>
@@ -396,14 +448,16 @@
 								<div class="form-group bmd-form-group">
 									<label>Installation date</label> <input type="text"
 										class="form-control dateInput" name="cpbx_installation_date"
-										id="cpbx_installation_date" placeholder="Enter date"/>
+										id="cpbx_installation_date" placeholder="Enter date"
+										@if(isset($hostedCpbxData)) value="{{$hostedCpbxData->cpbx_installation_date}}" @endif/>
 								</div>
 							</div>
 							<div class="col-12">
 								<div class="form-group bmd-form-group">
 									<label>Maintenance due date</label> <input type="text"
 										class="form-control dateInput" name="cpbx_maintenance_due_date"
-										id="cpbx_maintenance_due_date" placeholder="Enter date"/>
+										id="cpbx_maintenance_due_date" placeholder="Enter date"
+										@if(isset($hostedCpbxData)) value="{{$hostedCpbxData->cpbx_maintenance_due_date}}" @endif/>
 								</div>
 							</div>
 							<div class="col-12">
@@ -415,7 +469,8 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													id="cpbx_maintenance_yes" name="cpbx_maintenance"
-													value="1" > Yes <span class="circle"> <span
+													value="1" {{isset($hostedCpbxData) && $hostedCpbxData->cpbx_maintenance ? 'checked' : ''}}>
+													 Yes <span class="circle"> <span
 														class="check"></span>
 												</span>
 												</label>
@@ -426,7 +481,8 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													id="cpbx_maintenance_no" name="cpbx_maintenance"
-													value="0" > No <span class="circle"> <span
+													value="0" {{isset($hostedCpbxData) && $hostedCpbxData->cpbx_maintenance==0 ? 'checked' : ''}}>
+													 No <span class="circle"> <span
 														class="check"></span>
 												</span>
 												</label>
@@ -442,7 +498,11 @@
 										id="cpbx_account_type_select" name="cpbx_account_type">
 										<option value="">Select account type</option>
 										@if(count($accountTypes) > 0) @foreach($accountTypes as $item)
-										<option value="{{$item->id}}">{{$item->name}}</option>
+											@if(isset($hostedCpbxData) && $item->id==$hostedCpbxData->cpbx_account_type)
+												<option value="{{$item->id}}" selected>{{$item->name}}</option>
+											@else
+												<option value="{{$item->id}}">{{$item->name}}</option>
+											@endif	
 										@endforeach @endif
 									</select>
 								</div>
@@ -452,7 +512,8 @@
 								<div class="form-group bmd-form-group">
 									<label>Account notes</label> <input type="text"
 										class="form-control" name="cpbx_account_notes"
-										id="cpbx_account_notes" placeholder="Enter account notes"/>
+										id="cpbx_account_notes" placeholder="Enter account notes"
+										@if(isset($hostedCpbxData)) value="{{$hostedCpbxData->cpbx_account_notes}}" @endif/>
 								</div>
 							</div>
 

@@ -191,9 +191,9 @@ height: calc(100% - 50px);
 												</div>
 												<div class="col-12">
 													<div class="form-group bmd-form-group">
-														<label>Engineer</label> <select name="engineer"
+														<label>Engineer</label> <select name="engineers[]"
 															class="form-control" id="engineerSelect"
-															onchange="changeEngineer()">
+															onchange="changeEngineer()" multiple>
 															<option value="" selected class="placeholdered">Select
 																engineer</option> @if(count($engineers) > 0)
 															@foreach($engineers as $engineer)
@@ -395,10 +395,11 @@ $(document).ready(function(){
 	
 
 var job = {!! $job !!}
-//console.log(job);
 			$("#companyNameSelect").val(job.companyId).select2();
 			$("#typeOfJobSelect").val(''+job.jobTypeId).select2();
-			$("#engineerSelect").val(''+job.engineerId).select2();
+			$("#engineerSelect").select2();
+			$("#engineerSelect").val(job.engineers_array).change();
+
 			if(job.contract){
 				$('#contractYes').prop("checked",true);
 				clickContract(1);

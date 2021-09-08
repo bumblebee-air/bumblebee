@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\UnifiedCompany;
 use App\UnifiedCustomer;
 use App\UnifiedEngineer;
+use App\UnifiedEngineerJob;
 use App\UnifiedJob;
 use App\UnifiedJobType;
 use App\UnifiedService;
@@ -241,7 +242,7 @@ class CalendarController extends Controller
 
     public function postAddScheduledJob(Request $request, $client_name)
     {
-        // dd($request);
+        //dd($request->all());
         $this->validate($request, [
             'typeOfJob' => 'required|exists:unified_job_types,id',
             'engineer' => 'required|exists:unified_engineers,id',
@@ -314,7 +315,7 @@ class CalendarController extends Controller
 
     public function getEditScheduledJob($client_name, $id)
     {
-        $jobData = UnifiedJob::find($id);
+        $jobData = UnifiedJob::with(['engineers'])->find($id);
         $serviceTypes = UnifiedService::whereHas('customers', function ($q) use ($jobData) {
             $q->where('customer_id', $jobData->company_id);
         })->select([
@@ -328,7 +329,7 @@ class CalendarController extends Controller
         $jobData->selectedServiceType = $jobData->service_id;
         $jobData->date = Carbon::parse($jobData->start_at)->format('m/d/Y');
         $jobData->time = Carbon::parse($jobData->start_at)->format('h:i A');
-        $jobData->engineerId = $jobData->engineer_id;
+        $jobData->engineers_array = $jobData->engineers->pluck('engineer_id')->toArray();
         $jobData->contract = (bool) $customer->contract;
         $jobData->sendEmail = (bool) $jobData->is_reminder;
         $jobData->serviceTypes = $serviceTypes;
@@ -367,7 +368,6 @@ class CalendarController extends Controller
 
         $jobTypes = UnifiedJobType::all();
         $engineers = UnifiedEngineer::all();
-
         return view('admin.unified.edit_job', [
             'companyNames' => $companyNames,
             'jobTypes' => $jobTypes,
@@ -378,15 +378,16 @@ class CalendarController extends Controller
 
     public function postEditScheduledJob(Request $request, $client_name)
     {
-        // dd($request);
+//        dd($request->all());
         $job = UnifiedJob::find($request->jobId);
         if (! $job) {
-            abort(404);
+            alert()->info('The job was invalid');
+            return redirect()->back();
         }
-
         $this->validate($request, [
             'typeOfJob' => 'required|exists:unified_job_types,id',
-            'engineer' => 'required|exists:unified_engineers,id',
+            'engineers' => 'required|array',
+            'engineers.*' => 'required|exists:unified_engineers,id',
             'selectedServiceType' => 'required|exists:unified_services_job,id',
             'date' => 'required',
             'time' => 'required',
@@ -396,9 +397,9 @@ class CalendarController extends Controller
             'companyName' => 'required'
         ]);
         $customer = UnifiedCustomer::find($request->companyName);
-        $engineer = UnifiedEngineer::find($request->engineer);
         $service = UnifiedService::find($request->selectedServiceType);
-        $title = "$customer->name / $service->name / $request->time / Enginner: $engineer->first_name $engineer->last_name";
+//        $title = "$customer->name / $service->name / $request->time / Enginner: $engineer->first_name $engineer->last_name";
+        $title = "$customer->name / $service->name / $request->time";
         $job->title = $title;
         $job->address = $request->address;
         $job->start_at = Carbon::parse("$request->date $request->time")->toDateTimeString();
@@ -406,13 +407,20 @@ class CalendarController extends Controller
         $job->email = $request->email;
         $job->phone = $request->phone;
         $job->mobile = $request->mobile;
-        $job->engineer_id = $request->engineer;
         $job->job_type_id = $request->typeOfJob;
         $job->service_id = $request->selectedServiceType;
         $job->is_reminder = (bool) $request->send_reminder;
         $job->company_id = $customer->id;
         $job->update();
 
+        foreach ($request->engineers as $engineer) {
+            if (!UnifiedEngineerJob::where('job_id', $job->id)->where('engineer_id', $engineer)->first()) {
+                $engineerJob = new UnifiedEngineerJob();
+                $engineerJob->job_id = $job->id;
+                $engineerJob->engineer_id = $engineer;
+                $engineerJob->save();
+            }
+        }
         alert()->success('The job updated successfully');
         return redirect()->back();
     }

@@ -418,6 +418,7 @@ class CalendarController extends Controller
                 $engineerJob = new UnifiedEngineerJob();
                 $engineerJob->job_id = $job->id;
                 $engineerJob->engineer_id = $engineer;
+                $engineerJob->status = 'assigned';
                 $engineerJob->save();
 
                 /*

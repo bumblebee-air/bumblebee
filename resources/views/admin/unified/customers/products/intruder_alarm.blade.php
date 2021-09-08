@@ -3,7 +3,6 @@
 	method="POST" id="save_productCustomer_intruderAlarm">
 	{{csrf_field()}} <input type="hidden" name="customer_id"
 		value="{{$customer->id}}">
-
 	<div class="row">
 		<div class="col-12">
 			<div class="card">
@@ -18,7 +17,11 @@
 										<option value="">Select account type</option>
 										@if(count($accountTypesIntruderAlarm) > 0)
 										@foreach($accountTypesIntruderAlarm as $item)
-										<option value="{{$item->id}}">{{$item->name}}</option>
+											@if(isset($intruderAlarmData) && $item->id==$intruderAlarmData->intruder_account_type)
+												<option value="{{$item->id}}" selected>{{$item->name}}</option>
+											@else
+												<option value="{{$item->id}}">{{$item->name}}</option>
+											@endif	
 										@endforeach @endif
 									</select>
 								</div>
@@ -30,7 +33,11 @@
 										<option value="">Select system type</option>
 										@if(count($systemTypesIntruderAlarm) > 0)
 										@foreach($systemTypesIntruderAlarm as $item)
-										<option value="{{$item->id}}">{{$item->name}}</option>
+											@if(isset($intruderAlarmData) && $item->id==$intruderAlarmData->intruder_system_type)
+												<option value="{{$item->id}}" selected>{{$item->name}}</option>
+											@else
+												<option value="{{$item->id}}">{{$item->name}}</option>
+											@endif	
 										@endforeach @endif
 									</select>
 								</div>
@@ -44,7 +51,11 @@
 										<option value="">Select manufacturer</option>
 										@if(count($manufacturersIntruderAlarm) > 0)
 										@foreach($manufacturersIntruderAlarm as $item)
-										<option value="{{$item->id}}">{{$item->name}}</option>
+											@if(isset($intruderAlarmData) && $item->id==$intruderAlarmData->intruder_manufacturer)
+												<option value="{{$item->id}}" selected>{{$item->name}}</option>
+											@else
+												<option value="{{$item->id}}">{{$item->name}}</option>
+											@endif	
 										@endforeach @endif
 									</select>
 								</div>
@@ -56,7 +67,11 @@
 										<option value="">Select panel type</option>
 										@if(count($panelTypesIntruderAlarm) > 0)
 										@foreach($panelTypesIntruderAlarm as $item)
-										<option value="{{$item->id}}">{{$item->name}}</option>
+											@if(isset($intruderAlarmData) && $item->id==$intruderAlarmData->intruder_panel_type)
+												<option value="{{$item->id}}" selected>{{$item->name}}</option>
+											@else
+												<option value="{{$item->id}}">{{$item->name}}</option>
+											@endif	
 										@endforeach @endif
 									</select>
 								</div>
@@ -68,11 +83,14 @@
 									<label for="intruder_panel_location">Panel location</label> <input
 										name="intruder_panel_location" type="text"
 										class="form-control" id="intruder_panel_location"
-										placeholder="Enter location"> <input type="hidden"
+										placeholder="Enter location"
+										@if(isset($intruderAlarmData)) value="{{$intruderAlarmData->intruder_panel_location}}" @endif> <input type="hidden"
 										name="intruder_panel_location_lat"
-										id="intruder_panel_location_lat" value=""> <input
+										id="intruder_panel_location_lat" 
+										@if(isset($intruderAlarmData)) value="{{$intruderAlarmData->intruder_panel_location_lat}}" @endif> <input
 										type="hidden" name="intruder_panel_location_lon"
-										id="intruder_panel_location_lon" value="">
+										id="intruder_panel_location_lon" 
+										@if(isset($intruderAlarmData)) value="{{$intruderAlarmData->intruder_panel_location_lon}}" @endif>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -80,7 +98,8 @@
 									<label for="intruder_panel_location">Panel battery date</label>
 									<input type="text" class="form-control dateInput"
 										id="intruder_panel_battery_date"
-										name="intruder_panel_battery_date" placeholder="Enter date">
+										name="intruder_panel_battery_date" placeholder="Enter date"
+										@if(isset($intruderAlarmData)) value="{{$intruderAlarmData->intruder_panel_battery_date}}" @endif>
 								</div>
 							</div>
 
@@ -93,7 +112,8 @@
 									<label for="intruder_wireless_location">Wireless battery date</label>
 									<input type="text" class="form-control dateInput"
 										id="intruder_wireless_battery_date"
-										name="intruder_wireless_battery_date" placeholder="Enter date">
+										name="intruder_wireless_battery_date" placeholder="Enter date"
+										@if(isset($intruderAlarmData)) value="{{$intruderAlarmData->intruder_wireless_battery_date}}" @endif>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -105,7 +125,9 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													id="intruder_networked_Yes" name="intruder_networked"
-													value="1"> Yes <span class="circle"> <span class="check"></span>
+													value="1"
+													{{isset($intruderAlarmData) && $intruderAlarmData->intruder_networked ? 'checked' : ''}}>
+													 Yes <span class="circle"> <span class="check"></span>
 												</span>
 												</label>
 											</div>
@@ -115,7 +137,9 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													id="intruder_networked_No" name="intruder_networked"
-													value="0"> no <span class="circle"> <span class="check"></span>
+													value="0" 
+													{{isset($intruderAlarmData) && $intruderAlarmData->intruder_networked==0 ? 'checked' : ''}}>
+													 No <span class="circle"> <span class="check"></span>
 												</span>
 												</label>
 											</div>
@@ -136,7 +160,8 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													id="intruder_remote_access_Yes"
-													name="intruder_remote_access" value="1"> Yes <span
+													name="intruder_remote_access" value="1"
+													{{isset($intruderAlarmData) && $intruderAlarmData->intruder_remote_access ? 'checked' : ''}}> Yes <span
 													class="circle"> <span class="check"></span>
 												</span>
 												</label>
@@ -147,7 +172,8 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													id="intruder_remote_access_No"
-													name="intruder_remote_access" value="0"> No <span
+													name="intruder_remote_access" value="0"
+													{{isset($intruderAlarmData) && $intruderAlarmData->intruder_remote_access==0 ? 'checked' : ''}}> No <span
 													class="circle"> <span class="check"></span>
 												</span>
 												</label>
@@ -161,7 +187,8 @@
 									<label>Secure comm ID</label> <input class="form-control"
 										type="number" name="intruder_secure_comm_id"
 										id="intruder_secure_comm_id"
-										placeholder="Enter secure comm ID">
+										placeholder="Enter secure comm ID"
+										@if(isset($intruderAlarmData)) value="{{$intruderAlarmData->intruder_secure_comm_id}}" @endif>
 								</div>
 							</div>
 						</div>
@@ -172,7 +199,8 @@
 									<label>Secure comm code</label> <input class="form-control"
 										type="number" name="intruder_secure_comm_code"
 										id="intruder_secure_comm_code"
-										placeholder="Enter secure comm code">
+										placeholder="Enter secure comm code"
+										@if(isset($intruderAlarmData)) value="{{$intruderAlarmData->intruder_secure_comm_code}}" @endif>
 								</div>
 							</div>
 
@@ -181,7 +209,8 @@
 									<label>Remote user code</label> <input class="form-control"
 										type="number" name="intruder_remote_user_code"
 										id="intruder_remote_user_code"
-										placeholder="Enter remote user code">
+										placeholder="Enter remote user code"
+										@if(isset($intruderAlarmData)) value="{{$intruderAlarmData->intruder_remote_user_code}}" @endif>
 								</div>
 							</div>
 						</div>
@@ -197,7 +226,8 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													id="intruder_monitored_Yes" name="intruder_monitored"
-													value="1"> Yes <span class="circle"> <span class="check"></span>
+													value="1" {{isset($intruderAlarmData) && $intruderAlarmData->intruder_monitored ? 'checked' : ''}}>
+													 Yes <span class="circle"> <span class="check"></span>
 												</span>
 												</label>
 											</div>
@@ -207,7 +237,8 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													id="intruder_monitored_No" name="intruder_monitored"
-													value="0"> no <span class="circle"> <span class="check"></span>
+													value="0" {{isset($intruderAlarmData) && $intruderAlarmData->intruder_monitored==0 ? 'checked' : ''}}>
+													No <span class="circle"> <span class="check"></span>
 												</span>
 												</label>
 											</div>
@@ -223,7 +254,11 @@
 										<option value="">Select monitoring centre</option>
 										@if(count($monitoringCentreListCCTV) > 0)
 										@foreach($monitoringCentreListCCTV as $item)
-										<option value="{{$item->id}}">{{$item->name}}</option>
+											@if(isset($intruderAlarmData) && $item->id==$intruderAlarmData->intruder_monitoring_centre)
+												<option value="{{$item->id}}" selected>{{$item->name}}</option>
+											@else
+												<option value="{{$item->id}}">{{$item->name}}</option>
+											@endif	
 										@endforeach @endif
 									</select>
 								</div>
@@ -238,7 +273,11 @@
 										<option value="">Select digi type</option>
 										@if(count($digiTypesIntruderAlarm) > 0)
 										@foreach($digiTypesIntruderAlarm as $item)
-										<option value="{{$item->id}}">{{$item->name}}</option>
+											@if(isset($intruderAlarmData) && $item->id==$intruderAlarmData->intruder_digi_type)
+												<option value="{{$item->id}}" selected>{{$item->name}}</option>
+											@else
+												<option value="{{$item->id}}">{{$item->name}}</option>
+											@endif	
 										@endforeach @endif
 									</select>
 								</div>
@@ -247,7 +286,8 @@
 								<div class="form-group bmd-form-group">
 									<label>Digi number</label> <input class="form-control"
 										type="number" name="intruder_digi_number"
-										id="intruder_digi_number" placeholder="Enter digi number">
+										id="intruder_digi_number" placeholder="Enter digi number"
+										@if(isset($intruderAlarmData)) value="{{$intruderAlarmData->intruder_digi_number}}" @endif>
 								</div>
 							</div>
 						</div>
@@ -256,7 +296,8 @@
 								<div class="form-group bmd-form-group">
 									<label>Radio number</label> <input class="form-control"
 										type="number" name="intruder_radio_number"
-										id="intruder_radio_number" placeholder="Enter radio number">
+										id="intruder_radio_number" placeholder="Enter radio number"
+										@if(isset($intruderAlarmData)) value="{{$intruderAlarmData->intruder_radio_number}}" @endif>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -268,7 +309,8 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													id="intruder_app_only_monitoring_Yes"
-													name="intruder_app_only_monitoring" value="1"> Yes <span
+													name="intruder_app_only_monitoring" value="1"
+													{{isset($intruderAlarmData) && $intruderAlarmData->intruder_app_only_monitoring ? 'checked' : ''}}> Yes <span
 													class="circle"> <span class="check"></span>
 												</span>
 												</label>
@@ -279,7 +321,8 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													id="intruder_app_only_monitoring_No"
-													name="intruder_app_only_monitoring" value="0"> no <span
+													name="intruder_app_only_monitoring" value="0"
+													{{isset($intruderAlarmData) && $intruderAlarmData->intruder_app_only_monitoring==0 ? 'checked' : ''}}> No <span
 													class="circle"> <span class="check"></span>
 												</span>
 												</label>
@@ -296,7 +339,8 @@
 									<label>Number of devices</label> <input class="form-control"
 										type="number" name="intruder_number_of_devices"
 										id="intruder_number_of_devices"
-										placeholder="Enter number of devices">
+										placeholder="Enter number of devices"
+										@if(isset($intruderAlarmData)) value="{{$intruderAlarmData->intruder_number_of_devices}}" @endif>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -304,7 +348,8 @@
 									<label>Installation date</label> <input type="text"
 										class="form-control dateInput"
 										name="intruder_installation_date"
-										id="intruder_installation_date" placeholder="Enter date" />
+										id="intruder_installation_date" placeholder="Enter date" 
+										@if(isset($intruderAlarmData)) value="{{$intruderAlarmData->intruder_installation_date}}" @endif/>
 								</div>
 							</div>
 						</div>
@@ -318,7 +363,8 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													id="intruder_maintenace_contract_Yes"
-													name="intruder_maintenace_contract" value="1"> Yes <span
+													name="intruder_maintenace_contract" value="1"
+													{{isset($intruderAlarmData) && $intruderAlarmData->intruder_maintenace_contract ? 'checked' : ''}}> Yes <span
 													class="circle"> <span class="check"></span>
 												</span>
 												</label>
@@ -329,7 +375,8 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													id="intruder_maintenace_contract_No"
-													name="intruder_maintenace_contract" value="0"> No <span
+													name="intruder_maintenace_contract" value="0"
+													{{isset($intruderAlarmData) && $intruderAlarmData->intruder_maintenace_contract==0 ? 'checked' : ''}}> No <span
 													class="circle"> <span class="check"></span>
 												</span>
 												</label>
@@ -343,7 +390,8 @@
 									<label>Maintenance start date</label> <input type="text"
 										class="form-control dateInput"
 										name="intruder_maintenance_start_date"
-										id="intruder_maintenance_start_date" placeholder="Enter date" />
+										id="intruder_maintenance_start_date" placeholder="Enter date" 
+										@if(isset($intruderAlarmData)) value="{{$intruderAlarmData->intruder_maintenance_start_date}}" @endif/>
 								</div>
 							</div>
 						</div>
@@ -354,7 +402,8 @@
 										class="form-control dateInput"
 										name="intruder_maintenance_canceled_date"
 										id="intruder_maintenance_canceled_date"
-										placeholder="Enter date" />
+										placeholder="Enter date" 
+										@if(isset($intruderAlarmData)) value="{{$intruderAlarmData->intruder_maintenance_canceled_date}}" @endif/>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -366,7 +415,11 @@
 										<option value="">Select maintenance frequency</option>
 										@if(count($maintenanceFrequenciesCCTV) > 0)
 										@foreach($maintenanceFrequenciesCCTV as $item)
-										<option value="{{$item->id}}">{{$item->name}}</option>
+											@if(isset($intruderAlarmData) && $item->id==$intruderAlarmData->intruder_maintenance_frequency)
+												<option value="{{$item->id}}" selected>{{$item->name}}</option>
+											@else
+												<option value="{{$item->id}}">{{$item->name}}</option>
+											@endif	
 										@endforeach @endif
 									</select>
 								</div>
@@ -378,7 +431,8 @@
 									<label>Last maintenance date</label> <input type="text"
 										class="form-control dateInput"
 										name="intruder_last_maintenance_date"
-										id="intruder_last_maintenance_date" placeholder="Enter date" />
+										id="intruder_last_maintenance_date" placeholder="Enter date" 
+										@if(isset($intruderAlarmData)) value="{{$intruderAlarmData->intruder_last_maintenance_date}}" @endif/>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -386,7 +440,8 @@
 									<label>Maintenance due date</label> <input type="text"
 										class="form-control dateInput"
 										name="intruder_maintenance_due_date"
-										id="intruder_maintenance_due_date" placeholder="Enter date" />
+										id="intruder_maintenance_due_date" placeholder="Enter date" 
+										@if(isset($intruderAlarmData)) value="{{$intruderAlarmData->intruder_maintenance_due_date}}" @endif/>
 								</div>
 							</div>
 						</div>
@@ -397,7 +452,8 @@
 										type="number" step="any" class="form-control"
 										name="intruder_maintenance_and_monitoring_cost"
 										id="intruder_maintenance_and_monitoring_cost"
-										placeholder="Enter maintenance and monitoring cost" />
+										placeholder="Enter maintenance and monitoring cost" 
+										@if(isset($intruderAlarmData)) value="{{$intruderAlarmData->intruder_maintenance_and_monitoring_cost}}" @endif/>
 								</div>
 							</div>
 
@@ -405,7 +461,8 @@
 								<div class="form-group bmd-form-group">
 									<label>Account notes</label> <input type="text"
 										class="form-control" name="intruder_account_notes"
-										id="intruder_account_notes" placeholder="Enter account notes" />
+										id="intruder_account_notes" placeholder="Enter account notes" 
+										@if(isset($intruderAlarmData)) value="{{$intruderAlarmData->intruder_account_notes}}" @endif/>
 								</div>
 							</div>
 

@@ -4,7 +4,7 @@
 	method="POST" id="save_productCustomer_fireAlarm">
 	{{csrf_field()}} <input type="hidden" name="customer_id"
 		value="{{$customer->id}}">
-
+		
 	<div class="row">
 		<div class="col-12">
 			<div class="card">
@@ -19,7 +19,11 @@
 										<option value="">Select system type</option>
 										@if(count($systemTypesFireAlarm) > 0)
 										@foreach($systemTypesFireAlarm as $item)
-										<option value="{{$item->id}}">{{$item->name}}</option>
+											@if(isset($fireAlarmData) && $item->id==$fireAlarmData->fire_system_type)
+												<option value="{{$item->id}}" selected>{{$item->name}}</option>
+											@else
+												<option value="{{$item->id}}">{{$item->name}}</option>
+											@endif	
 										@endforeach @endif
 									</select>
 								</div>
@@ -32,7 +36,11 @@
 										<option value="">Select wired / wireless</option>
 										@if(count($wiredWirlessFireAlarm) > 0)
 										@foreach($wiredWirlessFireAlarm as $item)
-										<option value="{{$item->id}}">{{$item->name}}</option>
+											@if(isset($fireAlarmData) && $item->id==$fireAlarmData->fire_wired)
+												<option value="{{$item->id}}" selected>{{$item->name}}</option>
+											@else
+												<option value="{{$item->id}}">{{$item->name}}</option>
+											@endif	
 										@endforeach @endif
 									</select>
 								</div>
@@ -46,7 +54,11 @@
 										<option value="">Select manufacturer</option>
 										@if(count($manufacturersFireAlarm) > 0) 
 										@foreach($manufacturersFireAlarm as $item)
-										<option value="{{$item->id}}">{{$item->name}}</option>
+											@if(isset($fireAlarmData) && $item->id==$fireAlarmData->fire_manufacturer)
+												<option value="{{$item->id}}" selected>{{$item->name}}</option>
+											@else
+												<option value="{{$item->id}}">{{$item->name}}</option>
+											@endif	
 										@endforeach @endif
 									</select>
 								</div>
@@ -58,7 +70,11 @@
 										<option value="">Select model</option>
 										@if(count($modelsFireAlarm) > 0) 
 										@foreach($modelsFireAlarm as $item)
-										<option value="{{$item->id}}">{{$item->name}}</option>
+											@if(isset($fireAlarmData) && $item->id==$fireAlarmData->fire_model)
+												<option value="{{$item->id}}" selected>{{$item->name}}</option>
+											@else
+												<option value="{{$item->id}}">{{$item->name}}</option>
+											@endif	
 										@endforeach @endif
 									</select>
 								</div>
@@ -69,9 +85,12 @@
 								<div class="form-group bmd-form-group">
 									<label for="fire_panel_location">Panel location</label> <input name="fire_panel_location"
 										type="text" class="form-control" id="fire_panel_location"
-										placeholder="Enter location" > <input type="hidden"
-										name="fire_panel_location_lat" id="fire_panel_location_lat" value=""> <input
-										type="hidden" name="fire_panel_location_lon" id="fire_panel_location_lon" value="">
+										placeholder="Enter location" 
+										@if(isset($fireAlarmData)) value="{{$fireAlarmData->fire_panel_location}}" @endif> <input type="hidden"
+										name="fire_panel_location_lat" id="fire_panel_location_lat" 
+										@if(isset($fireAlarmData)) value="{{$fireAlarmData->fire_panel_location_lat}}" @endif> <input
+										type="hidden" name="fire_panel_location_lon" id="fire_panel_location_lon" 
+										@if(isset($fireAlarmData)) value="{{$fireAlarmData->fire_panel_location_lon}}" @endif>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -81,7 +100,12 @@
 										name="fire_number_of_loops">
 										<option value="">Select number of loops</option> @for($i=1;
 										$i<=8; $i++)
-										<option value="{{$i}}">{{$i}}</option> @endfor
+											@if(isset($fireAlarmData) && $i==$fireAlarmData->fire_number_of_loops)
+												<option value="{{$i}}" selected>{{$i}}</option>
+											@else
+												<option value="{{$i}}">{{$i}}</option>
+											@endif	
+										 @endfor
 									</select>
 								</div>
 							</div>
@@ -97,7 +121,11 @@
 										<option value="">Select protocol</option>
 										@if(count($protocolsFireAlarm) > 0)
 										@foreach($protocolsFireAlarm as $item)
-										<option value="{{$item->id}}">{{$item->name}}</option>
+											@if(isset($fireAlarmData) && $item->id==$fireAlarmData->fire_protocol)
+												<option value="{{$item->id}}" selected>{{$item->name}}</option>
+											@else
+												<option value="{{$item->id}}">{{$item->name}}</option>
+											@endif	
 										@endforeach @endif
 									</select>
 								</div>
@@ -110,7 +138,11 @@
 										<option value="">Select panel operation</option>
 										@if(count($panelOperationsFireAlarm) > 0)
 										@foreach($panelOperationsFireAlarm as $item)
-										<option value="{{$item->id}}">{{$item->name}}</option>
+											@if(isset($fireAlarmData) && $item->id==$fireAlarmData->fire_panel_operation)
+												<option value="{{$item->id}}" selected>{{$item->name}}</option>
+											@else
+												<option value="{{$item->id}}">{{$item->name}}</option>
+											@endif	
 										@endforeach @endif
 									</select>
 								</div>
@@ -128,7 +160,8 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													id="fire_networked_Yes"
-													name="fire_networked" value="1"> Yes <span
+													name="fire_networked" value="1"
+													{{isset($fireAlarmData) && $fireAlarmData->fire_networked ? 'checked' : ''}}> Yes <span
 													class="circle"> <span class="check"></span>
 												</span>
 												</label>
@@ -139,7 +172,8 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													id="fire_networked_No"
-													name="fire_networked" value="0"> no <span
+													name="fire_networked" value="0"
+													{{isset($fireAlarmData) && $fireAlarmData->fire_networked==0 ? 'checked' : ''}}> no <span
 													class="circle"> <span class="check"></span>
 												</span>
 												</label>
@@ -154,7 +188,8 @@
 								<div class="form-group bmd-form-group">
 									<label>Password level 1</label> <input class="form-control" type="text"
 										name="fire_password_level1" id="fire_password_level1"
-										placeholder="Enter password">
+										placeholder="Enter password"
+										@if(isset($fireAlarmData)) value="{{$fireAlarmData->fire_password_level1}}" @endif>
 								</div>
 							</div>
 						</div>
@@ -164,14 +199,16 @@
 								<div class="form-group bmd-form-group">
 									<label>Password level 2</label> <input class="form-control" type="text"
 										name="fire_password_level2" id="fire_password_level2"
-										placeholder="Enter password">
+										placeholder="Enter password"
+										@if(isset($fireAlarmData)) value="{{$fireAlarmData->fire_password_level2}}" @endif>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group bmd-form-group">
 									<label>Password level 3</label> <input class="form-control" type="text"
 										name="fire_password_level3" id="fire_password_level3"
-										placeholder="Enter password">
+										placeholder="Enter password"
+										@if(isset($fireAlarmData)) value="{{$fireAlarmData->fire_password_level3}}" @endif>
 								</div>
 							</div>
 							
@@ -186,7 +223,9 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													id="fire_remote_access_Yes" name="fire_remote_access"
-													value="1"> Yes <span class="circle"> <span class="check"></span>
+													value="1"
+													{{isset($fireAlarmData) && $fireAlarmData->fire_remote_access ? 'checked' : ''}}>
+													 Yes <span class="circle"> <span class="check"></span>
 												</span>
 												</label>
 											</div>
@@ -196,7 +235,9 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													id="fire_remote_access_No" name="fire_remote_access"
-													value="0"> No <span class="circle"> <span class="check"></span>
+													value="0"
+													{{isset($fireAlarmData) && $fireAlarmData->fire_remote_access==0 ? 'checked' : ''}}> 
+													No <span class="circle"> <span class="check"></span>
 												</span>
 												</label>
 											</div>
@@ -212,7 +253,11 @@
 										<option value="">Select monitored</option>
 										@if(count($monitoredListFireAlarm) > 0)
 										@foreach($monitoredListFireAlarm as $item)
-										<option value="{{$item->id}}">{{$item->name}}</option>
+											@if(isset($fireAlarmData) && $item->id==$fireAlarmData->fire_monitored)
+												<option value="{{$item->id}}" selected>{{$item->name}}</option>
+											@else
+												<option value="{{$item->id}}">{{$item->name}}</option>
+											@endif	
 										@endforeach @endif
 									</select>
 								</div>
@@ -226,7 +271,11 @@
 										<option value="">Select monitoring centre</option>
 										@if(count($monitoringCentreListFireAlarm) > 0) 
 										@foreach($monitoringCentreListFireAlarm as $item)
-										<option value="{{$item->id}}">{{$item->name}}</option>
+											@if(isset($fireAlarmData) && $item->id==$fireAlarmData->fire_monitoring_centre)
+												<option value="{{$item->id}}" selected>{{$item->name}}</option>
+											@else
+												<option value="{{$item->id}}">{{$item->name}}</option>
+											@endif	
 										@endforeach @endif
 									</select>
 								</div>
@@ -238,7 +287,11 @@
 										<option value="">Select digi type</option>
 										@if(count($digiTypesFireAlarm) > 0) 
 										@foreach($digiTypesFireAlarm as $item)
-										<option value="{{$item->id}}">{{$item->name}}</option>
+											@if(isset($fireAlarmData) && $item->id==$fireAlarmData->fire_digi_type)
+												<option value="{{$item->id}}" selected>{{$item->name}}</option>
+											@else
+												<option value="{{$item->id}}">{{$item->name}}</option>
+											@endif	
 										@endforeach @endif
 									</select>
 								</div>
@@ -250,14 +303,16 @@
 								<div class="form-group bmd-form-group">
 									<label>Digi number</label> <input class="form-control" type="number"
 										name="fire_digi_number" id="fire_digi_number"
-										placeholder="Enter digi number">
+										placeholder="Enter digi number"
+										@if(isset($fireAlarmData)) value="{{$fireAlarmData->fire_digi_number}}" @endif>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group bmd-form-group">
 									<label>Number of devices</label> <input class="form-control" type="number"
 										name="fire_number_of_devices" id="fire_number_of_devices"
-										placeholder="Enter number of devices">
+										placeholder="Enter number of devices"
+										@if(isset($fireAlarmData)) value="{{$fireAlarmData->fire_number_of_devices}}" @endif>
 								</div>
 							</div>
 						</div>
@@ -266,7 +321,8 @@
 								<div class="form-group bmd-form-group">
 									<label>Installation date</label> <input type="text"
 										class="form-control dateInput" name="fire_installation_date"
-										id="fire_installation_date" placeholder="Enter date" />
+										id="fire_installation_date" placeholder="Enter date" 
+										@if(isset($fireAlarmData)) value="{{$fireAlarmData->fire_installation_date}}" @endif/>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -278,7 +334,8 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													id="fire_maintenace_contract_Yes"
-													name="fire_maintenace_contract" value="1"> Yes <span
+													name="fire_maintenace_contract" value="1"
+													{{isset($fireAlarmData) && $fireAlarmData->fire_maintenace_contract ? 'checked' : ''}}> Yes <span
 													class="circle"> <span class="check"></span>
 												</span>
 												</label>
@@ -289,7 +346,8 @@
 												<label class="form-check-label"> <input
 													class="form-check-input" type="radio"
 													id="fire_maintenace_contract_No"
-													name="fire_maintenace_contract" value="0"> No <span
+													name="fire_maintenace_contract" value="0"
+													{{isset($fireAlarmData) && $fireAlarmData->fire_maintenace_contract==0 ? 'checked' : ''}}> No <span
 													class="circle"> <span class="check"></span>
 												</span>
 												</label>
@@ -304,14 +362,16 @@
 								<div class="form-group bmd-form-group">
 									<label>Maintenance start date</label> <input type="text"
 										class="form-control dateInput" name="fire_maintenance_start_date"
-										id="fire_maintenance_start_date" placeholder="Enter date" />
+										id="fire_maintenance_start_date" placeholder="Enter date"
+										@if(isset($fireAlarmData)) value="{{$fireAlarmData->fire_maintenance_start_date}}" @endif />
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group bmd-form-group">
 									<label>Maintenance cancellation date</label> <input type="text"
 										class="form-control dateInput" name="fire_maintenance_cancellation_date"
-										id="fire_maintenance_cancellation_date" placeholder="Enter date" />
+										id="fire_maintenance_cancellation_date" placeholder="Enter date" 
+										@if(isset($fireAlarmData)) value="{{$fireAlarmData->fire_maintenance_cancellation_date}}" @endif/>
 								</div>
 							</div>
 						</div>
@@ -324,7 +384,11 @@
 										<option value="">Select maintenance frequency</option>
 										@if(count($maintenanceFrequenciesFireAlarm) > 0)
 										@foreach($maintenanceFrequenciesFireAlarm as $item)
-										<option value="{{$item->id}}">{{$item->name}}</option>
+											@if(isset($fireAlarmData) && $item->id==$fireAlarmData->fire_maintenance_frequency)
+												<option value="{{$item->id}}" selected>{{$item->name}}</option>
+											@else
+												<option value="{{$item->id}}">{{$item->name}}</option>
+											@endif	
 										@endforeach @endif 
 									</select>
 								</div>
@@ -333,7 +397,8 @@
 								<div class="form-group bmd-form-group">
 									<label>Maintenance due date</label> <input type="text"
 										class="form-control dateInput" name="fire_maintenance_due_date"
-										id="fire_maintenance_due_date" placeholder="Enter date" />
+										id="fire_maintenance_due_date" placeholder="Enter date"
+										@if(isset($fireAlarmData)) value="{{$fireAlarmData->fire_maintenance_due_date}}" @endif />
 								</div>
 							</div>
 						</div>
@@ -342,7 +407,8 @@
 								<div class="form-group bmd-form-group">
 									<label>Maintenance cost</label> <input type="number" step="any"
 										class="form-control" name="fire_maintenance_cost"
-										id="fire_maintenance_cost" placeholder="Enter maintenance cost" />
+										id="fire_maintenance_cost" placeholder="Enter maintenance cost" 
+										@if(isset($fireAlarmData)) value="{{$fireAlarmData->fire_maintenance_cost}}" @endif/>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -353,7 +419,11 @@
 										<option value="">Select account type</option>
 										@if(count($accountTypesFireAlarm) > 0)
 										@foreach($accountTypesFireAlarm as $item)
-										<option value="{{$item->id}}">{{$item->name}}</option>
+											@if(isset($fireAlarmData) && $item->id==$fireAlarmData->fire_account_type)
+												<option value="{{$item->id}}" selected>{{$item->name}}</option>
+											@else
+												<option value="{{$item->id}}">{{$item->name}}</option>
+											@endif	
 										@endforeach @endif 
 									</select>
 								</div>
@@ -365,7 +435,8 @@
 								<div class="form-group bmd-form-group">
 									<label>Account notes</label> <input type="text"
 										class="form-control" name="fire_account_notes"
-										id="fire_account_notes" placeholder="Enter account notes" />
+										id="fire_account_notes" placeholder="Enter account notes" 
+										@if(isset($fireAlarmData)) value="{{$fireAlarmData->fire_account_notes}}" @endif/>
 								</div>
 							</div>
 

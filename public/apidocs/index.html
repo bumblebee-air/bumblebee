@@ -1,445 +1,445 @@
 
 <!doctype html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>API Reference</title>
 
     <style media="screen">
-      .highlight table td { padding: 5px; }
-.highlight table pre { margin: 0; }
-.highlight .gh {
-  color: #999999;
-}
-.highlight .sr {
-  color: #f6aa11;
-}
-.highlight .go {
-  color: #888888;
-}
-.highlight .gp {
-  color: #555555;
-}
-.highlight .gs {
-}
-.highlight .gu {
-  color: #aaaaaa;
-}
-.highlight .nb {
-  color: #f6aa11;
-}
-.highlight .cm {
-  color: #75715e;
-}
-.highlight .cp {
-  color: #75715e;
-}
-.highlight .c1 {
-  color: #75715e;
-}
-.highlight .cs {
-  color: #75715e;
-}
-.highlight .c, .highlight .ch, .highlight .cd, .highlight .cpf {
-  color: #75715e;
-}
-.highlight .err {
-  color: #960050;
-}
-.highlight .gr {
-  color: #960050;
-}
-.highlight .gt {
-  color: #960050;
-}
-.highlight .gd {
-  color: #49483e;
-}
-.highlight .gi {
-  color: #49483e;
-}
-.highlight .ge {
-  color: #49483e;
-}
-.highlight .kc {
-  color: #66d9ef;
-}
-.highlight .kd {
-  color: #66d9ef;
-}
-.highlight .kr {
-  color: #66d9ef;
-}
-.highlight .no {
-  color: #66d9ef;
-}
-.highlight .kt {
-  color: #66d9ef;
-}
-.highlight .mf {
-  color: #ae81ff;
-}
-.highlight .mh {
-  color: #ae81ff;
-}
-.highlight .il {
-  color: #ae81ff;
-}
-.highlight .mi {
-  color: #ae81ff;
-}
-.highlight .mo {
-  color: #ae81ff;
-}
-.highlight .m, .highlight .mb, .highlight .mx {
-  color: #ae81ff;
-}
-.highlight .sc {
-  color: #ae81ff;
-}
-.highlight .se {
-  color: #ae81ff;
-}
-.highlight .ss {
-  color: #ae81ff;
-}
-.highlight .sd {
-  color: #e6db74;
-}
-.highlight .s2 {
-  color: #e6db74;
-}
-.highlight .sb {
-  color: #e6db74;
-}
-.highlight .sh {
-  color: #e6db74;
-}
-.highlight .si {
-  color: #e6db74;
-}
-.highlight .sx {
-  color: #e6db74;
-}
-.highlight .s1 {
-  color: #e6db74;
-}
-.highlight .s, .highlight .sa, .highlight .dl {
-  color: #e6db74;
-}
-.highlight .na {
-  color: #a6e22e;
-}
-.highlight .nc {
-  color: #a6e22e;
-}
-.highlight .nd {
-  color: #a6e22e;
-}
-.highlight .ne {
-  color: #a6e22e;
-}
-.highlight .nf, .highlight .fm {
-  color: #a6e22e;
-}
-.highlight .vc {
-  color: #ffffff;
-}
-.highlight .nn {
-  color: #ffffff;
-}
-.highlight .ni {
-  color: #ffffff;
-}
-.highlight .bp {
-  color: #ffffff;
-}
-.highlight .vg {
-  color: #ffffff;
-}
-.highlight .vi {
-  color: #ffffff;
-}
-.highlight .nv, .highlight .vm {
-  color: #ffffff;
-}
-.highlight .w {
-  color: #ffffff;
-}
-.highlight {
-  color: #ffffff;
-}
-.highlight .n, .highlight .py, .highlight .nx {
-  color: #ffffff;
-}
-.highlight .nl {
-  color: #f92672;
-}
-.highlight .ow {
-  color: #f92672;
-}
-.highlight .nt {
-  color: #f92672;
-}
-.highlight .k, .highlight .kv {
-  color: #f92672;
-}
-.highlight .kn {
-  color: #f92672;
-}
-.highlight .kp {
-  color: #f92672;
-}
-.highlight .o {
-  color: #f92672;
-}
+        .highlight table td { padding: 5px; }
+        .highlight table pre { margin: 0; }
+        .highlight .gh {
+            color: #999999;
+        }
+        .highlight .sr {
+            color: #f6aa11;
+        }
+        .highlight .go {
+            color: #888888;
+        }
+        .highlight .gp {
+            color: #555555;
+        }
+        .highlight .gs {
+        }
+        .highlight .gu {
+            color: #aaaaaa;
+        }
+        .highlight .nb {
+            color: #f6aa11;
+        }
+        .highlight .cm {
+            color: #75715e;
+        }
+        .highlight .cp {
+            color: #75715e;
+        }
+        .highlight .c1 {
+            color: #75715e;
+        }
+        .highlight .cs {
+            color: #75715e;
+        }
+        .highlight .c, .highlight .ch, .highlight .cd, .highlight .cpf {
+            color: #75715e;
+        }
+        .highlight .err {
+            color: #960050;
+        }
+        .highlight .gr {
+            color: #960050;
+        }
+        .highlight .gt {
+            color: #960050;
+        }
+        .highlight .gd {
+            color: #49483e;
+        }
+        .highlight .gi {
+            color: #49483e;
+        }
+        .highlight .ge {
+            color: #49483e;
+        }
+        .highlight .kc {
+            color: #66d9ef;
+        }
+        .highlight .kd {
+            color: #66d9ef;
+        }
+        .highlight .kr {
+            color: #66d9ef;
+        }
+        .highlight .no {
+            color: #66d9ef;
+        }
+        .highlight .kt {
+            color: #66d9ef;
+        }
+        .highlight .mf {
+            color: #ae81ff;
+        }
+        .highlight .mh {
+            color: #ae81ff;
+        }
+        .highlight .il {
+            color: #ae81ff;
+        }
+        .highlight .mi {
+            color: #ae81ff;
+        }
+        .highlight .mo {
+            color: #ae81ff;
+        }
+        .highlight .m, .highlight .mb, .highlight .mx {
+            color: #ae81ff;
+        }
+        .highlight .sc {
+            color: #ae81ff;
+        }
+        .highlight .se {
+            color: #ae81ff;
+        }
+        .highlight .ss {
+            color: #ae81ff;
+        }
+        .highlight .sd {
+            color: #e6db74;
+        }
+        .highlight .s2 {
+            color: #e6db74;
+        }
+        .highlight .sb {
+            color: #e6db74;
+        }
+        .highlight .sh {
+            color: #e6db74;
+        }
+        .highlight .si {
+            color: #e6db74;
+        }
+        .highlight .sx {
+            color: #e6db74;
+        }
+        .highlight .s1 {
+            color: #e6db74;
+        }
+        .highlight .s, .highlight .sa, .highlight .dl {
+            color: #e6db74;
+        }
+        .highlight .na {
+            color: #a6e22e;
+        }
+        .highlight .nc {
+            color: #a6e22e;
+        }
+        .highlight .nd {
+            color: #a6e22e;
+        }
+        .highlight .ne {
+            color: #a6e22e;
+        }
+        .highlight .nf, .highlight .fm {
+            color: #a6e22e;
+        }
+        .highlight .vc {
+            color: #ffffff;
+        }
+        .highlight .nn {
+            color: #ffffff;
+        }
+        .highlight .ni {
+            color: #ffffff;
+        }
+        .highlight .bp {
+            color: #ffffff;
+        }
+        .highlight .vg {
+            color: #ffffff;
+        }
+        .highlight .vi {
+            color: #ffffff;
+        }
+        .highlight .nv, .highlight .vm {
+            color: #ffffff;
+        }
+        .highlight .w {
+            color: #ffffff;
+        }
+        .highlight {
+            color: #ffffff;
+        }
+        .highlight .n, .highlight .py, .highlight .nx {
+            color: #ffffff;
+        }
+        .highlight .nl {
+            color: #f92672;
+        }
+        .highlight .ow {
+            color: #f92672;
+        }
+        .highlight .nt {
+            color: #f92672;
+        }
+        .highlight .k, .highlight .kv {
+            color: #f92672;
+        }
+        .highlight .kn {
+            color: #f92672;
+        }
+        .highlight .kp {
+            color: #f92672;
+        }
+        .highlight .o {
+            color: #f92672;
+        }
     </style>
     <style media="print">
-      * {
-        -webkit-transition:none!important;
-        transition:none!important;
-      }
-      .highlight table td { padding: 5px; }
-.highlight table pre { margin: 0; }
-.highlight, .highlight .w {
-  color: #586e75;
-}
-.highlight .err {
-  color: #002b36;
-  background-color: #dc322f;
-}
-.highlight .c, .highlight .ch, .highlight .cd, .highlight .cm, .highlight .cpf, .highlight .c1, .highlight .cs {
-  color: #657b83;
-}
-.highlight .cp {
-  color: #b58900;
-}
-.highlight .nt {
-  color: #b58900;
-}
-.highlight .o, .highlight .ow {
-  color: #93a1a1;
-}
-.highlight .p, .highlight .pi {
-  color: #93a1a1;
-}
-.highlight .gi {
-  color: #859900;
-}
-.highlight .gd {
-  color: #dc322f;
-}
-.highlight .gh {
-  color: #268bd2;
-  background-color: #002b36;
-  font-weight: bold;
-}
-.highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
-  color: #6c71c4;
-}
-.highlight .kc {
-  color: #cb4b16;
-}
-.highlight .kt {
-  color: #cb4b16;
-}
-.highlight .kd {
-  color: #cb4b16;
-}
-.highlight .s, .highlight .sb, .highlight .sc, .highlight .dl, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
-  color: #859900;
-}
-.highlight .sa {
-  color: #6c71c4;
-}
-.highlight .sr {
-  color: #2aa198;
-}
-.highlight .si {
-  color: #d33682;
-}
-.highlight .se {
-  color: #d33682;
-}
-.highlight .nn {
-  color: #b58900;
-}
-.highlight .nc {
-  color: #b58900;
-}
-.highlight .no {
-  color: #b58900;
-}
-.highlight .na {
-  color: #268bd2;
-}
-.highlight .m, .highlight .mb, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mx {
-  color: #859900;
-}
-.highlight .ss {
-  color: #859900;
-}
+        * {
+            -webkit-transition:none!important;
+            transition:none!important;
+        }
+        .highlight table td { padding: 5px; }
+        .highlight table pre { margin: 0; }
+        .highlight, .highlight .w {
+            color: #586e75;
+        }
+        .highlight .err {
+            color: #002b36;
+            background-color: #dc322f;
+        }
+        .highlight .c, .highlight .ch, .highlight .cd, .highlight .cm, .highlight .cpf, .highlight .c1, .highlight .cs {
+            color: #657b83;
+        }
+        .highlight .cp {
+            color: #b58900;
+        }
+        .highlight .nt {
+            color: #b58900;
+        }
+        .highlight .o, .highlight .ow {
+            color: #93a1a1;
+        }
+        .highlight .p, .highlight .pi {
+            color: #93a1a1;
+        }
+        .highlight .gi {
+            color: #859900;
+        }
+        .highlight .gd {
+            color: #dc322f;
+        }
+        .highlight .gh {
+            color: #268bd2;
+            background-color: #002b36;
+            font-weight: bold;
+        }
+        .highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
+            color: #6c71c4;
+        }
+        .highlight .kc {
+            color: #cb4b16;
+        }
+        .highlight .kt {
+            color: #cb4b16;
+        }
+        .highlight .kd {
+            color: #cb4b16;
+        }
+        .highlight .s, .highlight .sb, .highlight .sc, .highlight .dl, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+            color: #859900;
+        }
+        .highlight .sa {
+            color: #6c71c4;
+        }
+        .highlight .sr {
+            color: #2aa198;
+        }
+        .highlight .si {
+            color: #d33682;
+        }
+        .highlight .se {
+            color: #d33682;
+        }
+        .highlight .nn {
+            color: #b58900;
+        }
+        .highlight .nc {
+            color: #b58900;
+        }
+        .highlight .no {
+            color: #b58900;
+        }
+        .highlight .na {
+            color: #268bd2;
+        }
+        .highlight .m, .highlight .mb, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mx {
+            color: #859900;
+        }
+        .highlight .ss {
+            color: #859900;
+        }
     </style>
     <link href="stylesheets/screen-686a605b.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print-953e3353.css" rel="stylesheet" media="print" />
-      <script src="javascripts/all-a9fde460.js"></script>
+    <script src="javascripts/all-a9fde460.js"></script>
 
     <script>
-      $(function() { setupCodeCopy(); });
+        $(function() { setupCodeCopy(); });
     </script>
-  </head>
+</head>
 
-  <body class="index" data-languages="[]">
-    <a href="#" id="nav-button">
+<body class="index" data-languages="[]">
+<a href="#" id="nav-button">
       <span>
         NAV
         <img src="images/navbar-cad8cdcb.png" alt="" />
       </span>
-    </a>
-    <div class="toc-wrapper">
-      <img src="images/logo-0d579a97.png" class="logo" alt="" />
-        <div class="search">
-          <input type="text" class="search" id="input-search" placeholder="Search">
-        </div>
-        <ul class="search-results"></ul>
-      <ul id="toc" class="toc-list-h1">
-          <li>
-            <a href="#overview" class="toc-h1 toc-link" data-title="Overview">Overview</a>
-              <ul class="toc-list-h2">
-                  <li>
-                    <a href="#introduction" class="toc-h2 toc-link" data-title="Introduction">Introduction</a>
-                  </li>
-                  <li>
-                    <a href="#headers" class="toc-h2 toc-link" data-title="Headers">Headers</a>
-                  </li>
-                  <li>
-                    <a href="#authentication" class="toc-h2 toc-link" data-title="Authentication">Authentication</a>
-                  </li>
-              </ul>
-          </li>
-          <li>
-            <a href="#authentication-2" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
-              <ul class="toc-list-h2">
-                  <li>
-                    <a href="#login" class="toc-h2 toc-link" data-title="Login">Login</a>
-                  </li>
-                  <li>
-                    <a href="#forgot-password" class="toc-h2 toc-link" data-title="Forgot Password">Forgot Password</a>
-                  </li>
-                  <li>
-                    <a href="#verification-code-check" class="toc-h2 toc-link" data-title="Verification Code Check">Verification Code Check</a>
-                  </li>
-                  <li>
-                    <a href="#update-password" class="toc-h2 toc-link" data-title="Update Password">Update Password</a>
-                  </li>
-              </ul>
-          </li>
-          <li>
-            <a href="#unified-mobile-api" class="toc-h1 toc-link" data-title="Unified Mobile API">Unified Mobile API</a>
-              <ul class="toc-list-h2">
-                  <li>
-                    <a href="#get-jobs" class="toc-h2 toc-link" data-title="Get Jobs">Get Jobs</a>
-                  </li>
-                  <li>
-                    <a href="#view-job" class="toc-h2 toc-link" data-title="View Job">View Job</a>
-                  </li>
-                  <li>
-                    <a href="#get-job-types" class="toc-h2 toc-link" data-title="Get Job Types">Get Job Types</a>
-                  </li>
-                  <li>
-                    <a href="#update-job" class="toc-h2 toc-link" data-title="Update Job">Update Job</a>
-                  </li>
-              </ul>
-          </li>
-          <li>
-            <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
-          </li>
-      </ul>
+</a>
+<div class="toc-wrapper">
+    <img src="images/logo-0d579a97.png" class="logo" alt="" />
+    <div class="search">
+        <input type="text" class="search" id="input-search" placeholder="Search">
     </div>
-    <div class="page-wrapper">
-      <div class="dark-box"></div>
-      <div class="content">
+    <ul class="search-results"></ul>
+    <ul id="toc" class="toc-list-h1">
+        <li>
+            <a href="#overview" class="toc-h1 toc-link" data-title="Overview">Overview</a>
+            <ul class="toc-list-h2">
+                <li>
+                    <a href="#introduction" class="toc-h2 toc-link" data-title="Introduction">Introduction</a>
+                </li>
+                <li>
+                    <a href="#headers" class="toc-h2 toc-link" data-title="Headers">Headers</a>
+                </li>
+                <li>
+                    <a href="#authentication" class="toc-h2 toc-link" data-title="Authentication">Authentication</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#authentication-2" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
+            <ul class="toc-list-h2">
+                <li>
+                    <a href="#login" class="toc-h2 toc-link" data-title="Login">Login</a>
+                </li>
+                <li>
+                    <a href="#forgot-password" class="toc-h2 toc-link" data-title="Forgot Password">Forgot Password</a>
+                </li>
+                <li>
+                    <a href="#verification-code-check" class="toc-h2 toc-link" data-title="Verification Code Check">Verification Code Check</a>
+                </li>
+                <li>
+                    <a href="#update-password" class="toc-h2 toc-link" data-title="Update Password">Update Password</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#unified-mobile-api" class="toc-h1 toc-link" data-title="Unified Mobile API">Unified Mobile API</a>
+            <ul class="toc-list-h2">
+                <li>
+                    <a href="#get-jobs" class="toc-h2 toc-link" data-title="Get Jobs">Get Jobs</a>
+                </li>
+                <li>
+                    <a href="#view-job" class="toc-h2 toc-link" data-title="View Job">View Job</a>
+                </li>
+                <li>
+                    <a href="#get-job-types" class="toc-h2 toc-link" data-title="Get Job Types">Get Job Types</a>
+                </li>
+                <li>
+                    <a href="#update-job" class="toc-h2 toc-link" data-title="Update Job">Update Job</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
+        </li>
+    </ul>
+</div>
+<div class="page-wrapper">
+    <div class="dark-box"></div>
+    <div class="content">
         <h1 id='overview'>Overview</h1><h2 id='introduction'>Introduction</h2>
-<p>Bumblebee API (Application Programming Interface) is built around REST.</p>
+        <p>Bumblebee API (Application Programming Interface) is built around REST.</p>
 
-<p>Bumblebee API returns JSON-encoded responses and uses standard HTTP response codes and authentication</p>
+        <p>Bumblebee API returns JSON-encoded responses and uses standard HTTP response codes and authentication</p>
 
-<p>Each endpoint has full description with sample responses</p>
+        <p>Each endpoint has full description with sample responses</p>
 
-<p>Please go through the overview section before digging deeper into core resources.</p>
+        <p>Please go through the overview section before digging deeper into core resources.</p>
 
-<p><code>Base URL: https://iot.bumblebeeai.io/api/</code></p>
-<h2 id='headers'>Headers</h2>
-<p>When consuming Bumblebee API, ensure you include the below headers in every request</p>
+        <p><code>Base URL: https://iot.bumblebeeai.io/api/</code></p>
+        <h2 id='headers'>Headers</h2>
+        <p>When consuming Bumblebee API, ensure you include the below headers in every request</p>
 
-<p><code>Accept: application/json</code> <code>Content-Type: application/json</code></p>
-<h2 id='authentication'>Authentication</h2>
-<p>Bumblebee API uses Access Tokens to authenticate requests.</p>
+        <p><code>Accept: application/json</code> <code>Content-Type: application/json</code></p>
+        <h2 id='authentication'>Authentication</h2>
+        <p>Bumblebee API uses Access Tokens to authenticate requests.</p>
 
-<p>Bumblebee API uses OAuth2.0 Code Grant Authorization to enable your application to obtain Access Token. For detailed guide, please visit OAuth 2.0 Code Grant Flow</p>
+        <p>Bumblebee API uses OAuth2.0 Code Grant Authorization to enable your application to obtain Access Token. For detailed guide, please visit OAuth 2.0 Code Grant Flow</p>
 
-<p>Authorization is required in all API requests and is added as a header</p>
+        <p>Authorization is required in all API requests and is added as a header</p>
 
-<p><code>Authorization: Bearer meowmeowmeow</code></p>
+        <p><code>Authorization: Bearer meowmeowmeow</code></p>
 
-<p>Note: The word Bearer in Authorization is case sensitive, using bearer will result in authorization error</p>
+        <p>Note: The word Bearer in Authorization is case sensitive, using bearer will result in authorization error</p>
 
-<!-- An Access Token is restricted by Scopes, learn more in Scopes -->
+        <!-- An Access Token is restricted by Scopes, learn more in Scopes -->
 
-<p>Access Tokens carry many privileges, so be sure to keep them secure! Do not share your secret Access Token in publicly accessible areas such as public documents, client-side code, and so forth.</p>
+        <p>Access Tokens carry many privileges, so be sure to keep them secure! Do not share your secret Access Token in publicly accessible areas such as public documents, client-side code, and so forth.</p>
 
-<aside class="notice">
-You must replace <code>Bearer meowmeowmeow</code> with your personal API key.
-</aside>
-<h1 id='authentication-2'>Authentication</h1><h2 id='login'>Login</h2>
-<p><em>Login</em></p>
+        <aside class="notice">
+            You must replace <code>Bearer meowmeowmeow</code> with your personal API key.
+        </aside>
+        <h1 id='authentication-2'>Authentication</h1><h2 id='login'>Login</h2>
+        <p><em>Login</em></p>
 
-<p>The request should include the following parameters:</p>
+        <p>The request should include the following parameters:</p>
 
-<p><code>POST /auth/login</code></p>
+        <p><code>POST /auth/login</code></p>
 
-<table><thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>phone</td>
-<td>string</td>
-<td>Yes <code>Required without email input</code></td>
-<td>Unique mobile number of the the user, it must contains the country key <code>ex: +201000000000</code>.</td>
-</tr>
-<tr>
-<td>email</td>
-<td>string</td>
-<td>Yes <code>Required without phone input</code></td>
-<td>Unique email of the the user.</td>
-</tr>
-<tr>
-<td>password</td>
-<td>string</td>
-<td>true</td>
-<td>The password of the user. <code>min: 8 characters</code></td>
-</tr>
-<tr>
-<td>role</td>
-<td>string</td>
-<td>true</td>
-<td>The type of user must be in <code>unified_engineer, driver, contractor</code></td>
-</tr>
-</tbody></table>
+        <table><thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        </thead><tbody>
+        <tr>
+            <td>phone</td>
+            <td>string</td>
+            <td>Yes <code>Required without email input</code></td>
+            <td>Unique mobile number of the the user, it must contains the country key <code>ex: +201000000000</code>.</td>
+        </tr>
+        <tr>
+            <td>email</td>
+            <td>string</td>
+            <td>Yes <code>Required without phone input</code></td>
+            <td>Unique email of the the user.</td>
+        </tr>
+        <tr>
+            <td>password</td>
+            <td>string</td>
+            <td>true</td>
+            <td>The password of the user. <code>min: 8 characters</code></td>
+        </tr>
+        <tr>
+            <td>role</td>
+            <td>string</td>
+            <td>true</td>
+            <td>The type of user must be in <code>unified_engineer, driver, contractor</code></td>
+        </tr>
+        </tbody></table>
 
-<blockquote>
-<p>Example responses</p>
+        <blockquote>
+            <p>Example responses</p>
 
-<p>200 Response</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+            <p>200 Response</p>
+        </blockquote>
+        <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Success."</span><span class="p">,</span><span class="w">
     </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Hisham Magdy"</span><span class="p">,</span><span class="w">
@@ -448,73 +448,73 @@ You must replace <code>Bearer meowmeowmeow</code> with your personal API key.
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<blockquote>
-<p>401 Response</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+        <blockquote>
+            <p>401 Response</p>
+        </blockquote>
+        <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unauthenticated."</span><span class="p">,</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><h2 id='forgot-password'>Forgot Password</h2>
-<p><em>Forgot Password</em></p>
+        <p><em>Forgot Password</em></p>
 
-<p>The request should include the following parameters:</p>
+        <p>The request should include the following parameters:</p>
 
-<p><code>POST /auth/forgot_password</code></p>
+        <p><code>POST /auth/forgot_password</code></p>
 
-<table><thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>phone</td>
-<td>string</td>
-<td>true <code>Required without email input</code></td>
-<td>Unique mobile number of the the user, it must contains the country key <code>ex: +201000000000</code>.</td>
-</tr>
-<tr>
-<td>email</td>
-<td>string</td>
-<td>true <code>Required without phone input</code></td>
-<td>Unique email of the the user.</td>
-</tr>
-<tr>
-<td>password</td>
-<td>string</td>
-<td>true</td>
-<td>The password of the user. <code>min: 8 characters</code></td>
-</tr>
-<tr>
-<td>role</td>
-<td>string</td>
-<td>true</td>
-<td>The type of user must be in <code>unified_engineer, driver, contractor</code></td>
-</tr>
-</tbody></table>
+        <table><thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        </thead><tbody>
+        <tr>
+            <td>phone</td>
+            <td>string</td>
+            <td>true <code>Required without email input</code></td>
+            <td>Unique mobile number of the the user, it must contains the country key <code>ex: +201000000000</code>.</td>
+        </tr>
+        <tr>
+            <td>email</td>
+            <td>string</td>
+            <td>true <code>Required without phone input</code></td>
+            <td>Unique email of the the user.</td>
+        </tr>
+        <tr>
+            <td>password</td>
+            <td>string</td>
+            <td>true</td>
+            <td>The password of the user. <code>min: 8 characters</code></td>
+        </tr>
+        <tr>
+            <td>role</td>
+            <td>string</td>
+            <td>true</td>
+            <td>The type of user must be in <code>unified_engineer, driver, contractor</code></td>
+        </tr>
+        </tbody></table>
 
-<blockquote>
-<p>Example responses</p>
+        <blockquote>
+            <p>Example responses</p>
 
-<p>200 Response</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+            <p>200 Response</p>
+        </blockquote>
+        <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Success."</span><span class="p">,</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<blockquote>
-<p>402 Response</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+        <blockquote>
+            <p>402 Response</p>
+        </blockquote>
+        <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unauthenticated."</span><span class="p">,</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<blockquote>
-<p>422 Response</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+        <blockquote>
+            <p>422 Response</p>
+        </blockquote>
+        <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The given data was invalid."</span><span class="p">,</span><span class="w">
     </span><span class="nl">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="nl">"role"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
@@ -526,46 +526,46 @@ You must replace <code>Bearer meowmeowmeow</code> with your personal API key.
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><h2 id='verification-code-check'>Verification Code Check</h2>
-<p><em>Verification Code Check</em></p>
+        <p><em>Verification Code Check</em></p>
 
-<p>The request should include the following parameters:</p>
+        <p>The request should include the following parameters:</p>
 
-<p><code>POST /auth/code_verification</code></p>
+        <p><code>POST /auth/code_verification</code></p>
 
-<table><thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>phone</td>
-<td>string</td>
-<td>true <code>Required without email input</code></td>
-<td>Unique mobile number of the the user, it must contains the country key <code>ex: +201000000000</code>.</td>
-</tr>
-<tr>
-<td>email</td>
-<td>string</td>
-<td>true <code>Required without phone input</code></td>
-<td>Unique email of the the user.</td>
-</tr>
-<tr>
-<td>code</td>
-<td>string</td>
-<td>true</td>
-<td>The verification code of the user.</td>
-</tr>
-</tbody></table>
+        <table><thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        </thead><tbody>
+        <tr>
+            <td>phone</td>
+            <td>string</td>
+            <td>true <code>Required without email input</code></td>
+            <td>Unique mobile number of the the user, it must contains the country key <code>ex: +201000000000</code>.</td>
+        </tr>
+        <tr>
+            <td>email</td>
+            <td>string</td>
+            <td>true <code>Required without phone input</code></td>
+            <td>Unique email of the the user.</td>
+        </tr>
+        <tr>
+            <td>code</td>
+            <td>string</td>
+            <td>true</td>
+            <td>The verification code of the user.</td>
+        </tr>
+        </tbody></table>
 
-<blockquote>
-<p>Example responses</p>
+        <blockquote>
+            <p>Example responses</p>
 
-<p>200 Response</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+            <p>200 Response</p>
+        </blockquote>
+        <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Success."</span><span class="p">,</span><span class="w">
     </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unified Engineer"</span><span class="p">,</span><span class="w">
@@ -574,17 +574,17 @@ You must replace <code>Bearer meowmeowmeow</code> with your personal API key.
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<blockquote>
-<p>401 Response</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+        <blockquote>
+            <p>401 Response</p>
+        </blockquote>
+        <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unauthenticated."</span><span class="p">,</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<blockquote>
-<p>422 Response</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+        <blockquote>
+            <p>422 Response</p>
+        </blockquote>
+        <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The given data was invalid."</span><span class="p">,</span><span class="w">
     </span><span class="nl">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="nl">"role"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
@@ -599,58 +599,64 @@ You must replace <code>Bearer meowmeowmeow</code> with your personal API key.
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><h2 id='update-password'>Update Password</h2>
-<p><em>Update Password</em></p>
+        <p><em>Update Password</em></p>
 
-<p><code>POST /auth/update_password</code></p>
+        <p><code>POST /auth/update_password</code></p>
 
-<p><code>Description</code></p>
+        <p><code>Description</code></p>
 
-<p>You can use this API to reset password in <code>forgot password</code> or updating password in <code>profile</code></p>
+        <p>You can use this API to reset password in <code>forgot password</code> or updating password in <code>profile</code></p>
 
-<p>The request should include the following parameters:</p>
+        <p>The request should include the following parameters:</p>
 
-<table><thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>code</td>
-<td>string</td>
-<td>true <code>Required without old password input</code></td>
-<td>The verification code.</td>
-</tr>
-<tr>
-<td>old_password</td>
-<td>string</td>
-<td>true <code>Required without code input</code></td>
-<td>The old password of the user.</td>
-</tr>
-</tbody></table>
+        <table><thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        </thead><tbody>
+        <tr>
+            <td>code</td>
+            <td>string</td>
+            <td>true <code>Required without old password input</code></td>
+            <td>The verification code.</td>
+        </tr>
+        <tr>
+            <td>old_password</td>
+            <td>string</td>
+            <td>true <code>Required without code input</code></td>
+            <td>The old password of the user.</td>
+        </tr>
+        <tr>
+            <td>password</td>
+            <td>string</td>
+            <td>true</td>
+            <td>The new password of the user.</td>
+        </tr>
+        </tbody></table>
 
-<blockquote>
-<p>Example responses</p>
+        <blockquote>
+            <p>Example responses</p>
 
-<p>200 Response</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+            <p>200 Response</p>
+        </blockquote>
+        <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Success."</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<blockquote>
-<p>401 Response</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+        <blockquote>
+            <p>401 Response</p>
+        </blockquote>
+        <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unauthenticated."</span><span class="p">,</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<blockquote>
-<p>422 Response</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+        <blockquote>
+            <p>422 Response</p>
+        </blockquote>
+        <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The given data was invalid."</span><span class="p">,</span><span class="w">
     </span><span class="nl">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="nl">"old_password"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
@@ -665,34 +671,34 @@ You must replace <code>Bearer meowmeowmeow</code> with your personal API key.
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><h1 id='unified-mobile-api'>Unified Mobile API</h1><h2 id='get-jobs'>Get Jobs</h2>
-<p><em>Get Jobs</em></p>
+        <p><em>Get Jobs</em></p>
 
-<p><code>GET /unified/jobs</code></p>
+        <p><code>GET /unified/jobs</code></p>
 
-<p>The request should include the following parameters:</p>
+        <p>The request should include the following parameters:</p>
 
-<table><thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>status</td>
-<td>string</td>
-<td>false</td>
-<td>The status of jobs if you need to filter the list. must be in <code>in_progress, completed</code></td>
-</tr>
-</tbody></table>
+        <table><thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        </thead><tbody>
+        <tr>
+            <td>status</td>
+            <td>string</td>
+            <td>false</td>
+            <td>The status of jobs if you need to filter the list. must be in <code>in_progress, completed</code></td>
+        </tr>
+        </tbody></table>
 
-<blockquote>
-<p>Example responses</p>
+        <blockquote>
+            <p>Example responses</p>
 
-<p>200 Response</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+            <p>200 Response</p>
+        </blockquote>
+        <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="nl">"current_page"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
         </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
@@ -716,17 +722,17 @@ You must replace <code>Bearer meowmeowmeow</code> with your personal API key.
         </span><span class="p">]</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<blockquote>
-<p>401 Response</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+        <blockquote>
+            <p>401 Response</p>
+        </blockquote>
+        <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unauthenticated."</span><span class="p">,</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<blockquote>
-<p>422 Response</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+        <blockquote>
+            <p>422 Response</p>
+        </blockquote>
+        <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The given data was invalid."</span><span class="p">,</span><span class="w">
     </span><span class="nl">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
@@ -735,16 +741,16 @@ You must replace <code>Bearer meowmeowmeow</code> with your personal API key.
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><h2 id='view-job'>View Job</h2>
-<p><em>View Job</em></p>
+        <p><em>View Job</em></p>
 
-<p><code>GET /unified/jobs/{id}</code></p>
+        <p><code>GET /unified/jobs/{id}</code></p>
 
-<blockquote>
-<p>Example responses</p>
+        <blockquote>
+            <p>Example responses</p>
 
-<p>200 Response</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+            <p>200 Response</p>
+        </blockquote>
+        <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
                 </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
                 </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ACCA Ireland / Hosted/Cpbx / 2:06 AM / Enginner: Engineer 1"</span><span class="p">,</span><span class="w">
@@ -764,30 +770,30 @@ You must replace <code>Bearer meowmeowmeow</code> with your personal API key.
             </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<blockquote>
-<p>401 Response</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+        <blockquote>
+            <p>401 Response</p>
+        </blockquote>
+        <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unauthenticated."</span><span class="p">,</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<blockquote>
-<p>422 Response</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+        <blockquote>
+            <p>422 Response</p>
+        </blockquote>
+        <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The job id was invalid."</span><span class="p">,</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><h2 id='get-job-types'>Get Job Types</h2>
-<p><em>Get Job Types</em></p>
+        <p><em>Get Job Types</em></p>
 
-<p><code>GET /unified/jobs/jobs_types</code></p>
+        <p><code>GET /unified/jobs/jobs_types</code></p>
 
-<blockquote>
-<p>Example responses</p>
+        <blockquote>
+            <p>Example responses</p>
 
-<p>200 Response</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+            <p>200 Response</p>
+        </blockquote>
+        <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
             </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
@@ -804,111 +810,111 @@ You must replace <code>Bearer meowmeowmeow</code> with your personal API key.
     </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<blockquote>
-<p>401 Response</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+        <blockquote>
+            <p>401 Response</p>
+        </blockquote>
+        <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unauthenticated."</span><span class="p">,</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><h2 id='update-job'>Update Job</h2>
-<p><em>Update Job</em></p>
+        <p><em>Update Job</em></p>
 
-<p><code>POST /unified/jobs/{id}</code></p>
+        <p><code>POST /unified/jobs/{id}</code></p>
 
-<p>The request should include the following parameters:</p>
+        <p>The request should include the following parameters:</p>
 
-<table><thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>status</td>
-<td>string</td>
-<td>true <code>Required without feedback inputs</code></td>
-<td>The new status of the job.</td>
-</tr>
-<tr>
-<td>job_type_id</td>
-<td>integer</td>
-<td>true <code>Required without status input</code></td>
-<td>The ID of the service type.</td>
-</tr>
-<tr>
-<td>expenses</td>
-<td>array</td>
-<td>false</td>
-<td>The expenses of the job.</td>
-</tr>
-<tr>
-<td>expenses_receipt</td>
-<td>file</td>
-<td>false</td>
-<td>The expenses file of the job.</td>
-</tr>
-<tr>
-<td>job_images</td>
-<td>array</td>
-<td>false</td>
-<td>The job images of the job. <code>The array must contains files</code></td>
-</tr>
-</tbody></table>
+        <table><thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        </thead><tbody>
+        <tr>
+            <td>status</td>
+            <td>string</td>
+            <td>true <code>Required without feedback inputs</code></td>
+            <td>The new status of the job.</td>
+        </tr>
+        <tr>
+            <td>job_type_id</td>
+            <td>integer</td>
+            <td>true <code>Required without status input</code></td>
+            <td>The ID of the service type.</td>
+        </tr>
+        <tr>
+            <td>expenses</td>
+            <td>array</td>
+            <td>false</td>
+            <td>The expenses of the job.</td>
+        </tr>
+        <tr>
+            <td>expenses_receipt</td>
+            <td>file</td>
+            <td>false</td>
+            <td>The expenses file of the job.</td>
+        </tr>
+        <tr>
+            <td>job_images</td>
+            <td>array</td>
+            <td>false</td>
+            <td>The job images of the job. <code>The array must contains files</code></td>
+        </tr>
+        </tbody></table>
 
-<p>The expenses array should include the following parameters:</p>
+        <p>The expenses array should include the following parameters:</p>
 
-<table><thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>name</td>
-<td>string</td>
-<td>true</td>
-<td>The name of the expenses.</td>
-</tr>
-<tr>
-<td>cost</td>
-<td>string</td>
-<td>true</td>
-<td>The actual cost of the expenses.</td>
-</tr>
-<tr>
-<td>comment</td>
-<td>string</td>
-<td>false</td>
-<td>The comment of the expenses.</td>
-</tr>
-</tbody></table>
+        <table><thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        </thead><tbody>
+        <tr>
+            <td>name</td>
+            <td>string</td>
+            <td>true</td>
+            <td>The name of the expenses.</td>
+        </tr>
+        <tr>
+            <td>cost</td>
+            <td>string</td>
+            <td>true</td>
+            <td>The actual cost of the expenses.</td>
+        </tr>
+        <tr>
+            <td>comment</td>
+            <td>string</td>
+            <td>false</td>
+            <td>The comment of the expenses.</td>
+        </tr>
+        </tbody></table>
 
-<blockquote>
-<p>Example responses</p>
+        <blockquote>
+            <p>Example responses</p>
 
-<p>200 Response</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+            <p>200 Response</p>
+        </blockquote>
+        <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Success."</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<blockquote>
-<p>401 Response</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+        <blockquote>
+            <p>401 Response</p>
+        </blockquote>
+        <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unauthenticated."</span><span class="p">,</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<blockquote>
-<p>422 Response</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+        <blockquote>
+            <p>422 Response</p>
+        </blockquote>
+        <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The given data was invalid."</span><span class="p">,</span><span class="w">
     </span><span class="nl">"erorrs"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="nl">"expenses"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
@@ -929,67 +935,67 @@ You must replace <code>Bearer meowmeowmeow</code> with your personal API key.
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><h1 id='errors'>Errors</h1>
-<aside class="notice">
-This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
-</aside>
+        <aside class="notice">
+            This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
+        </aside>
 
-<p>The Kittn API uses the following error codes:</p>
+        <p>The Kittn API uses the following error codes:</p>
 
-<table><thead>
-<tr>
-<th>Error Code</th>
-<th>Meaning</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>400</td>
-<td>Bad Request -- Your request is invalid.</td>
-</tr>
-<tr>
-<td>401</td>
-<td>Unauthorized -- Your API key is wrong.</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Forbidden -- The kitten requested is hidden for administrators only.</td>
-</tr>
-<tr>
-<td>404</td>
-<td>Not Found -- The specified kitten could not be found.</td>
-</tr>
-<tr>
-<td>405</td>
-<td>Method Not Allowed -- You tried to access a kitten with an invalid method.</td>
-</tr>
-<tr>
-<td>406</td>
-<td>Not Acceptable -- You requested a format that isn&#39;t json.</td>
-</tr>
-<tr>
-<td>410</td>
-<td>Gone -- The kitten requested has been removed from our servers.</td>
-</tr>
-<tr>
-<td>418</td>
-<td>I&#39;m a teapot.</td>
-</tr>
-<tr>
-<td>429</td>
-<td>Too Many Requests -- You&#39;re requesting too many kittens! Slow down!</td>
-</tr>
-<tr>
-<td>500</td>
-<td>Internal Server Error -- We had a problem with our server. Try again later.</td>
-</tr>
-<tr>
-<td>503</td>
-<td>Service Unavailable -- We&#39;re temporarily offline for maintenance. Please try again later.</td>
-</tr>
-</tbody></table>
+        <table><thead>
+        <tr>
+            <th>Error Code</th>
+            <th>Meaning</th>
+        </tr>
+        </thead><tbody>
+        <tr>
+            <td>400</td>
+            <td>Bad Request -- Your request is invalid.</td>
+        </tr>
+        <tr>
+            <td>401</td>
+            <td>Unauthorized -- Your API key is wrong.</td>
+        </tr>
+        <tr>
+            <td>403</td>
+            <td>Forbidden -- The kitten requested is hidden for administrators only.</td>
+        </tr>
+        <tr>
+            <td>404</td>
+            <td>Not Found -- The specified kitten could not be found.</td>
+        </tr>
+        <tr>
+            <td>405</td>
+            <td>Method Not Allowed -- You tried to access a kitten with an invalid method.</td>
+        </tr>
+        <tr>
+            <td>406</td>
+            <td>Not Acceptable -- You requested a format that isn&#39;t json.</td>
+        </tr>
+        <tr>
+            <td>410</td>
+            <td>Gone -- The kitten requested has been removed from our servers.</td>
+        </tr>
+        <tr>
+            <td>418</td>
+            <td>I&#39;m a teapot.</td>
+        </tr>
+        <tr>
+            <td>429</td>
+            <td>Too Many Requests -- You&#39;re requesting too many kittens! Slow down!</td>
+        </tr>
+        <tr>
+            <td>500</td>
+            <td>Internal Server Error -- We had a problem with our server. Try again later.</td>
+        </tr>
+        <tr>
+            <td>503</td>
+            <td>Service Unavailable -- We&#39;re temporarily offline for maintenance. Please try again later.</td>
+        </tr>
+        </tbody></table>
 
-      </div>
-      <div class="dark-box">
-      </div>
     </div>
-  </body>
+    <div class="dark-box">
+    </div>
+</div>
+</body>
 </html>

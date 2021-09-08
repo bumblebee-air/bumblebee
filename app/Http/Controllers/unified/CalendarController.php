@@ -444,7 +444,7 @@ class CalendarController extends Controller
     public function getJobList(Request $request)
     {
         // dd($request);
-        $date = $request->date;
+        $date = str_replace('%20', ' ', $request->date);
         $serviceId = $request->serviceId; // 0 if all
         $titleModal = '';
         $viewName = '';
@@ -457,7 +457,8 @@ class CalendarController extends Controller
                 $job->backgroundColor = $job->service->backgroundColor;
             }
         } else {
-            $jobsList = UnifiedJob::where('service_id', $serviceId)->whereDate('start_at', Carbon::parse($date))->get();
+            $parsed_date = Carbon::parse($date);
+            $jobsList = UnifiedJob::where('service_id', $serviceId)->whereMonth('start_at', $parsed_date->month)->whereYear('start_at', $parsed_date->year)->get();
             foreach ($jobsList as $job) {
                 $job->backgroundColor = $job->service->backgroundColor;
             }

@@ -419,6 +419,10 @@ class CalendarController extends Controller
                 $engineerJob->job_id = $job->id;
                 $engineerJob->engineer_id = $engineer;
                 $engineerJob->save();
+
+                /*
+                 * Notifying User code
+                 */
             }
         }
         alert()->success('The job updated successfully');

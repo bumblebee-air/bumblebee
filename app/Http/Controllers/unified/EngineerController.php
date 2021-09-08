@@ -13,6 +13,7 @@ use App\User;
 use App\UserPasswordReset;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Twilio\Rest\Client;
 
@@ -48,8 +49,8 @@ class EngineerController extends Controller
         $this->validate($request, [
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
-            'phone' => 'required|max:255',
-            'email' => 'required|email|max:255',
+            'phone' => 'required|unique:users,phone|max:255',
+            'email' => 'required|email|unique:users,email|max:255',
             'address' => 'required',
             'job_type' => 'required|in:full_time,contract',
             'address_coordinates' => 'required',
@@ -63,6 +64,18 @@ class EngineerController extends Controller
             'address_coordinates' => $request->address_coordinates,
             'job_type' => $request->job_type,
         ]);
+        $user_password = bcrypt(Str::random(8));
+        User::create([
+            'name' => "$request->first_name $request->last_name",
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'password' => $user_password
+        ]);
+        /*
+         * Sending The credentials to the user
+         */
+        $body = "Welcome to Unified. These are your credentials to be able to access the mobile app. email: $request->email, password: $user_password";
+        TwilioHelper::sendSMS('Unified', $request->phone, $body);
         alert()->success('Engineer added successfully');
         return redirect()->route('unified_getEngineersList', 'unified');
     }

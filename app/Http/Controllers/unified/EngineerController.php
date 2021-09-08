@@ -65,12 +65,13 @@ class EngineerController extends Controller
             'job_type' => $request->job_type,
         ]);
         $user_password = bcrypt(Str::random(8));
-        User::create([
-            'name' => "$request->first_name $request->last_name",
-            'phone' => $request->phone,
-            'email' => $request->email,
-            'password' => $user_password
-        ]);
+        $user = new User();
+        $user->name = "$request->first_name $request->last_name";
+        $user->phone = $request->phone;
+        $user->email = $request->email;
+        $user->password = $user_password;
+        $user->role = 'unified_engineer';
+        $user->save();
         /*
          * Sending The credentials to the user
          */

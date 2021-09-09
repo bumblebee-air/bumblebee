@@ -100,6 +100,7 @@ class CalendarController extends Controller
             $month = substr($viewTitle, 0, 3);
             $year = substr($viewTitle,-4);
             $parsed_date = Carbon::parse("$month, $year");
+            $end_date->subDay();
         } else {
             $parsed_date = Carbon::parse($viewTitle);
         }
@@ -114,8 +115,7 @@ class CalendarController extends Controller
         $daysOfMonth = $end_date->diffInDays($start_date);
         foreach ($services as $service) {
             $date_for_loop = Carbon::createFromTimestamp($request->start_date);
-            for ($i = 0; $i < $daysOfMonth; $i ++) {
-                $date_for_loop->addDay();
+            for ($i = 0; $i < $daysOfMonth+1; $i ++) {
                 $JobsCount = UnifiedJob::where('service_id', $service->id)->whereDate('start_at', $date_for_loop->toDateString())
                     ->count();
                 $expiredContracts = UnifiedCustomer::whereDate('contract_end_date', $date_for_loop)->get();
@@ -145,6 +145,7 @@ class CalendarController extends Controller
                         'serviceId' => $service->id
                     ];
                 }
+                $date_for_loop->addDay();
             }
         }
 
@@ -217,14 +218,11 @@ class CalendarController extends Controller
 
     public function getEngineerLocation(Request $request)
     {
-        $location = array(
-            "lat" => 53.334613214,
-            "lng" => - 6.2581668
-        );
+        $engineer = UnifiedEngineer::find($request->engineerId);
         return response()->json(array(
             "msg" => "test test engineer location",
             "engineer" => $request->engineerId,
-            "location" => json_encode($location)
+            "location" => json_encode($engineer->address_coordinates)
         ));
     }
 

@@ -254,7 +254,6 @@ class CalendarController extends Controller
         $job->email = $request->email;
         $job->phone = $request->phone;
         $job->mobile = $request->mobile;
-        $job->engineer_id = $request->engineer;
         $job->job_type_id = $request->typeOfJob;
         $job->service_id = $request->selectedServiceType;
         $job->is_reminder = (bool) $request->send_reminder;

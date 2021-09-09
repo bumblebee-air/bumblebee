@@ -17,7 +17,7 @@ function getDetialsOfDate(date, serviceId,token,url) {
 		type: "GET",
 		url: url+'/get_job_list/' + '?date=' + date.format() + '&serviceId=' + serviceId,
 		success: function(data) {
-			//console.log(data);
+			console.log(data);
 
 			if (data.jobsList.length == 0) {
 				$('#calendar-modal-job-list-empty').modal();
@@ -112,7 +112,7 @@ function getDetialsOfDate(date, serviceId,token,url) {
         type: "GET",
        	url: url+'/get_job_list/?date='+viewTitle+'&serviceId='+serviceId+'&viewName='+viewName,
         success: function(data) {
-        	//console.log(data);
+        	console.log(data);
         	
         	if(data.jobsList.length==0){
                     $('#calendar-modal-job-list-empty').modal();

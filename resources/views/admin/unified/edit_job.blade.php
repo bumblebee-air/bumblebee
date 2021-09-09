@@ -469,7 +469,13 @@ console.log(job)
                                     close: 'fa fa-remove'
             	}
         });
-        
+       $('#date').datetimepicker().on('dp.change', function (event) {
+                console.log($(this).val());
+                var date = moment($(this).val()).format('YYYY-MM-DD');
+                //var date2 = date.toString('dd-MM-yy');
+                console.log(date);
+                $('#calendar').fullCalendar('gotoDate', date);
+       });
         
 		////////////////////////////////////////// calendar
 		
@@ -495,7 +501,8 @@ console.log(job)
 			editable: true,
 			firstDay: 1, //  1(Monday) this can be changed to 0(Sunday) for the USA system
 			contentHeight:'auto',
-			defaultView: 'month',
+			//defaultView: 'month',
+			  defaultView: 'agendaWeek',
 			
 			droppable: true, // this allows things to be dropped onto the calendar !!!
 			    disableDragging: true,

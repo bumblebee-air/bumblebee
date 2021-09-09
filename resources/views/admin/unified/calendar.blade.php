@@ -100,6 +100,7 @@ font-size: 18px;
 
 	var token = '{{csrf_token()}}';
 	$(document).ready(function() {
+	$('#minimizeSidebar').trigger('click')
 	
 	    var date = new Date();
 		var d = date.getDate();

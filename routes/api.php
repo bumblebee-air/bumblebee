@@ -100,5 +100,5 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('login', 'Auth\ApiAuthController@login');
     Route::post('forgot_password', 'Auth\ApiAuthController@forgotPassword');
     Route::post('code_verification', 'Auth\ApiAuthController@checkVerificationCode');
-    Route::post('update_password', 'Auth\ApiAuthController@updatePassword')->middleware('auth:apiZ');
+    Route::post('update_password', 'Auth\ApiAuthController@updatePassword')->middleware('auth:api');
 });

@@ -123,7 +123,7 @@ class ApiAuthController extends Controller
                 'errors' => [
                     'code' => 'The code was invalid'
                 ]
-            ]);
+            ], 422);
         }
         $access_token = $user->createToken('API user');
         return response()->json([

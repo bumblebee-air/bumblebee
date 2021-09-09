@@ -145,7 +145,7 @@ class EngineerController extends Controller
                 $q->where('status', $request->status);
             });
         }
-        $jobs = $jobs->with(['job_type', 'engineers' => function ($q) {
+        $jobs = $jobs->with(['service', 'job_type', 'engineers' => function ($q) {
             $q->where('engineer_id', auth()->user()->id)->first();
         }]);
         $jobs = $jobs->paginate(50);
@@ -167,7 +167,7 @@ class EngineerController extends Controller
     public function getJobDetails(Request $request, $id) {
         $user = $request->user();
         $engineer_profile = $user->engineer_profile;
-        $job = UnifiedJob::with(['job_type', 'engineers' => function ($q) {
+        $job = UnifiedJob::with(['service', 'job_type', 'engineers' => function ($q) {
             $q->where('engineer_id', auth()->user()->id)->first();
         }])->find($id);
         if (!$job) {

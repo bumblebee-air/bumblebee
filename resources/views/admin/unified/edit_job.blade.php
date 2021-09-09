@@ -513,36 +513,45 @@ console.log(job)
         	},
          	
        	events: function(start_date, end_date,timezone, callback) {
-       	       	
-				$.ajax({
-					type:'GET',
-					url: '{{url("unified/calendar-events")}}'+'?start_date='+Math.round(start_date/ 1000)+'&end_date='+Math.round(end_date / 1000),
-					success:function(data) {
-					//console.log(data);
-						//contractors = data.contractors;
-						callback(JSON.parse(data.events));
-						
-						var servicesUl = '';
-						for(var i =0; i<data.services.length; i++){
-							var service=data.services[i];
-							servicesUl += '<li class="mb-1" style="display:inline-block" onclick="clickServiceGetJobList('
-										+service.id
-										+',\''+token+'\',\'{{url("unified/")}}\')"> <div class="row m-0"> <div class="serviceColorLiDiv col-sm-2 mr-0 p-1" '
-										+ ' style="border-left: 4px solid '
-										+service.borderColor
-										+'; background-color:'
-										+service.backgroundColor 
-										+';"> </div> <div class="col-sm-10 pl-0 pl-1 my-1"> <p class="serviceNameCalendarP">'
-										+ service.name 
-										+'</p> <p class="serviceJobsCalendarP"> '
-										+service.jobs_count 
-										+' jobs in this month</p> </div> </div>	</li>';
-						}
-						
-						
-						$("#serciesUiUl").html(servicesUl);
-					}
-				});
+       	       	var view = $('#calendar').fullCalendar('getView');
+           	    setTimeout(function (){
+    				$.ajax({
+    					type:'GET',
+    					url: '{{url("unified/calendar-events")}}',
+        					 data: {
+                                // our hypothetical feed requires UNIX timestamps
+                                start_date: Math.round(start_date/ 1000),
+                                end_date: Math.round(end_date / 1000),
+                                viewTitle: view.title,
+                                viewName:view.name
+                              },
+                        success:function(data) {
+    						console.log(data);
+    						//contractors = data.contractors;
+    						callback(JSON.parse(data.events));
+    						
+    						var servicesUl = '';
+    						for(var i =0; i<data.services.length; i++){
+    							var service=data.services[i];
+    							servicesUl += '<li class="mb-1" style="display:inline-block" onclick="clickServiceGetJobList('
+    										+service.id
+    										+',\''+token+'\',\'{{url("unified/")}}\')"> <div class="row m-0"> <div class="serviceColorLiDiv col-sm-2 mr-0 p-1" '
+    										+ ' style="border-left: 4px solid '
+    										+service.borderColor
+    										+'; background-color:'
+    										+service.backgroundColor 
+    										+';"> </div> <div class="col-sm-10 pl-0 pl-1 my-1"> <p class="serviceNameCalendarP">'
+    										+ service.name 
+    										+'</p> <p class="serviceJobsCalendarP"> '
+    										+service.jobs_count 
+    										+' jobs in this month</p> </div> </div>	</li>';
+    						}
+    						
+    						
+    						$("#serciesUiUl").html(servicesUl);
+    					}
+    				});
+    			 }, 200); // How long do you want the delay to be (in milliseconds)? 	
 			},
         	
             eventRender: function(event, element) {

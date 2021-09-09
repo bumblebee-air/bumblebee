@@ -204,7 +204,7 @@ $(document).ready(function() {
                     if (duration <= 0) {
                         order.fulfilment_at = 'Ready'
                     } else {
-                        order.fulfilment_at = fulfil_time.format('d MMMM HH:mm A');
+                        order.fulfilment_at = fulfil_time.format('d MMMM HH:mm');
                     }
                 }
 

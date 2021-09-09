@@ -19,4 +19,8 @@ class UnifiedJob extends Model
     public function engineers() {
         return $this->hasMany(UnifiedEngineerJob::class, 'job_id');
     }
+
+    public function job_type() {
+        return $this->belongsTo(UnifiedJobType::class, 'job_type_id');
+    }
 }

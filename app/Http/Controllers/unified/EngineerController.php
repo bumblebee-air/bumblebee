@@ -145,7 +145,13 @@ class EngineerController extends Controller
                 $q->where('status', $request->status);
             });
         }
+        $jobs = $jobs->with(['customer', 'engineers' => function ($q) {
+            $q->where('engineer_id', auth()->user()->id)->first();
+        }]);
         $jobs = $jobs->paginate(50);
+        foreach ($jobs as $job) {
+            $job->company = $job->customer;
+        }
         return response()->json([
             'data' => $jobs
         ]);
@@ -161,7 +167,9 @@ class EngineerController extends Controller
     public function getJobDetails(Request $request, $id) {
         $user = $request->user();
         $engineer_profile = $user->engineer_profile;
-        $job = UnifiedJob::find($id);
+        $job = UnifiedJob::with(['customer', 'engineers' => function ($q) {
+            $q->where('engineer_id', auth()->user()->id)->first();
+        }])->find($id);
         if (!$job) {
             return response()->json([
                 'message' => 'The job id is not valid.'
@@ -172,6 +180,7 @@ class EngineerController extends Controller
                 'message' => 'The job id is assigned to another engineer.'
             ],422);
         }
+        $job->company = $job->customer;
         return response()->json([
             'data' => $job
         ]);

@@ -307,14 +307,16 @@ Route::group([
         /*
          * DoOrder Routes
          */
-
         // Driver Registration
         Route::get('driver_registration', 'doorder\DriversController@getDriverRegistration')->name('getDriverRegistration');
         Route::post('driver_registration', 'doorder\DriversController@postDriverRegistration')->name('postDriverRegistration');
-
         // Retailer Registration
         Route::get('retailer/registration', 'doorder\RetailerController@getRetailerRegistrationForm')->name('getRetailerRegistration');
         Route::post('retailer/registration', 'doorder\RetailerController@postRetailerRegistrationForm')->name('postRetailerRegistration');
+        // Order rating
+        Route::get('order/rating/{user_type}/{order_id}','doorder\RatingController@getRating')->name('doorder_getRating');
+        Route::post('order/save_rating','doorder\RatingController@saveRating')->name('doorder_saveRating');
+        Route::get('order/rating_success','doorder\RatingController@getSuccess')->name('doorder_ratingSuccess');
 
         Route::group([
             'middleware' => "auth:doorder"
@@ -387,10 +389,6 @@ Route::group([
 
             // Edit Retailer profile
             Route::get('profile/edit', 'doorder\RetailerController@editRetailerProfile')->name('doorder_retailers_view_retailer');
-         
-            Route::get('order/rating/{user_type}/{order_id}','doorder\RatingController@getRating')->name('doorder_getRating');
-            Route::post('order/save_rating','doorder\RatingController@saveRating')->name('doorder_saveRating');
-            Route::get('order/rating_success','doorder\RatingController@getSuccess')->name('doorder_ratingSuccess');
         });
         /*
          * Doom Yoga Routes
@@ -532,3 +530,5 @@ Route::get('da-lgs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('optimize-orders-route','doorder\OrdersController@optimizeOrdersRoute');

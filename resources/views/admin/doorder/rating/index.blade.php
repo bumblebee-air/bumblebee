@@ -57,18 +57,22 @@ border-radius: 42px;
 				<div class="col-md-6 offset-md-3 col-lg-4 offset-lg-4 text-center">
 					<img class="doorder-logo"
 						src="{{asset('images/doorder-logo.png')}}" alt="DoOrder">
+					@if(isset($error) && $error==1)
+						<h2 class="ratingH2 my-4">{{$error_message}}</h2>
+						<div><img src="{{asset('images/doorder_icons/rating.png')}}"
+					  		alt="rating" /></div>
+					@else
+						<h2 class="ratingH2 my-4">Package has been {{$user_type == 'retailer' ? 'picked up' : 'delivered'}} successfully</h2>
 
+						<div><img src="{{asset('images/doorder_icons/rating.png')}}"
+							alt="rating" /></div>
 
-					<h2 class="ratingH2 my-4">Package has been {{$user_type == 'retailer' ? 'picked up' : 'delivered'}} successfully</h2>
+						<label class="ratingLabel mt-5">Rate the driver</label>
+						<div class="overallRating" ></div>
 
-					<div><img src="{{asset('images/doorder_icons/rating.png')}}"
-						alt="rating" /></div>
-						
-					<label class="ratingLabel mt-5">Rate the driver</label>
-					<div class="overallRating" ></div>
-
-					<button type="submit"
-						class="btn  doorder-btn mt-4">Submit</button>
+						<button type="submit"
+							class="btn  doorder-btn mt-4">Submit</button>
+					@endif
 				</div>
 			</div>
 		</div>

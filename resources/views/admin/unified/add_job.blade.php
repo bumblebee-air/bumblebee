@@ -9,16 +9,6 @@
 	href="{{asset('css/unified-calendar-styles.css')}}">
 
 <style>
-.expireContract {
-	position: absolute;
-	/* bottom: 0; */
-	top: -5px;
-}
-
-.expireContract .fc-content, .expireContract .fc-content i {
-	color: #d95353 !important;
-	font-size: 18px;
-}
 .select2-container--default .select2-selection--single .select2-selection__arrow
 	{
 	top: 20%;
@@ -438,6 +428,7 @@ $(document).ready(function(){
                               },
                               success:function(data) {
     							console.log(data);
+    							console.log(JSON.parse(data.events))
     						//contractors = data.contractors;
     						callback(JSON.parse(data.events));
     						

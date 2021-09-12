@@ -74,6 +74,10 @@ div.dt-datetime table td.selectable button:hover {
 div.dataTables_wrapper div.dataTables_filter {
 	display: none;
 }
+.overallRating img{
+    width: 18px;
+    height: 18px;
+}
 </style>
 @endsection @section('title','DoOrder | Driver ' . $driver->first_name .
 ' ' . $driver->last_name) @section('page-content')
@@ -112,6 +116,7 @@ div.dataTables_wrapper div.dataTables_filter {
 													<th>Transport Type</th>
 													<th>Work Type</th>
 													<th>Shift Time</th>
+													<th>Overall Rating</th>
 													<th class="disabled-sorting ">Action</th>
 												</tr>
 											</thead>
@@ -126,6 +131,8 @@ div.dataTables_wrapper div.dataTables_filter {
 													<td>@{{ driver.transport }}</td>
 													<td></td>
 													<td></td>
+        											<td><div class="overallRating" :data-score="driver.overall_rating"></div>
+        											</td>
 													<td><a
 														class="btn  btn-link btn-primary-doorder btn-just-icon edit"
 														@click="openDriver(driver.id)"><i class="fas fa-pen-fancy"></i></a>
@@ -186,9 +193,10 @@ div.dataTables_wrapper div.dataTables_filter {
 													<th>Time</th>
 													<th>Order Number</th>
 													<th>Retailer Name</th>
-													<th>Status</th>
 													<th>Pickup Location</th>
 													<th>Delivery Location</th>
+													<th>Status</th>
+													<th>Rating</th>
 												</tr>
 											</thead>
 
@@ -202,12 +210,14 @@ div.dataTables_wrapper div.dataTables_filter {
 														'#'+order.order_id}}</td>
 
 													<td>@{{order.retailer_name}}</td>
-													<td><img class="order_status_icon"
-														:src="'{{asset('/')}}images/doorder_icons/order_status_' + (order.status === 'assigned' ? 'matched' :  order.status) + '.png'"
-														:alt="order.status"></td>
 
 													<td>@{{ order.pickup_address }}</td>
 													<td>@{{order.customer_address}}</td>
+													<td><img class="order_status_icon"
+														:src="'{{asset('/')}}images/doorder_icons/order_status_' + (order.status === 'assigned' ? 'matched' :  order.status) + '.png'"
+														:alt="order.status"></td>
+														<td><div class="overallRating" :data-score="order.rating"></div>
+														</td>
 												</tr>
 
 												<tr v-else>
@@ -276,6 +286,8 @@ div.dataTables_wrapper div.dataTables_filter {
 <script type="text/javascript"
 	src="https://cdn.datatables.net/datetime/1.1.0/js/dataTables.dateTime.min.js"></script>
 
+<script src="{{asset('js/jquery-raty.js')}}"></script>
+
 <script type="text/javascript">
 
 
@@ -291,7 +303,7 @@ $.fn.dataTable.ext.search.push(
  		console.log("min "+min)
  		console.log("max "+max)
  		console.log("date "+date)
- 		console.log("sadsadasdsadsdsdasas")
+ 		//console.log("sadsadasdsadsdsdasas")
  
         if (
             ( min === null && max === null ) ||
@@ -329,7 +341,7 @@ var table= $('#ordersTable').DataTable({
                     render: function (data, type, full, meta) {
                     	return '<span data-toggle="tooltip" data-placement="top" title="'+data+'">'+data+'</span>';
                     },
-                    targets: [-1,-2]
+                    targets: [4,5]
                 }
              ],
        
@@ -345,7 +357,13 @@ var table= $('#ordersTable').DataTable({
     $('#min, #max').on('change', function () {
         table.draw();
     });
- 
+  $('.overallRating').raty({
+  					readOnly: true, 
+                    starHalf:     '{{asset("images/doorder_icons/star-half.png")}}',
+                	starOff:      '{{asset("images/doorder_icons/star.png")}}',
+                	starOn:       '{{asset("images/doorder_icons/star-selected.png")}}',
+                	hints: null
+        });  
     
 });
 

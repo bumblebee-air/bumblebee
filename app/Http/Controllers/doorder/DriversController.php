@@ -760,6 +760,11 @@ class DriversController extends Controller
             ->where('is_confirmed', true)
             ->orderBy('created_at', 'desc')->get();
         //            ->whereNull('rejection_reason')->paginate(20)
+       
+            foreach ($drivers as $driver){
+                $driver->overall_rating = 4;
+            }
+            
         return view('admin.doorder.drivers.accepted_drivers', ['drivers' => $drivers]);
     }
     public function deleteDriver(Request $request){
@@ -814,6 +819,11 @@ class DriversController extends Controller
         
         $driver_orders = Order::where('driver','=',(string)$driver->user_id)->get();
         //dd($driver_orders);
+        
+        $driver->overall_rating=3.3;
+        foreach ($driver_orders as $order){
+            $order->rating = 4;
+        }
         
         return view('admin.doorder.drivers.single_driver_orders', ['driver' => $driver,'driver_orders'=>$driver_orders]);
         

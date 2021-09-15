@@ -1,6 +1,10 @@
 @extends('templates.dashboard') @section('page-styles')
-<style>
 
+<style>
+.overallRating img{
+    width: 18px;
+    height: 18px;
+}
 </style>
  @endsection
 @section('title', 'DoOrder | Deliverers') @section('page-content')
@@ -30,6 +34,7 @@
 										<tr>
 											<th class="filterhead">Location</th>
 											<th class="filterhead">Deliverer Name</th>
+											<th class="filterhead">Overall Rating</th>
 											<th class="filterhead">Address</th>
 											<th class="filterhead">Transport Type</th>
 											<th class="filterhead">Work Type</th>
@@ -41,6 +46,7 @@
 										<tr class="theadColumnsNameTr">
 											<th>Location</th>
 											<th>Deliverer Name</th>
+											<th>Overall Rating</th>
 											<th>Address</th>
 											<th>Transport Type</th>
 											<th>Work Type</th>
@@ -55,8 +61,9 @@
 											 @click="openViewDriver(event,driver.id)">
 											<td>@{{ JSON.parse(driver.work_location).name}}</td>
 											<td>@{{ driver.first_name}} @{{ driver.last_name }}</td>
+											<td><div class="overallRating" :data-score="driver.overall_rating"></div>
+											</td>
 											<td>@{{ driver.address}}</td>
-
 											<td>@{{ driver.transport }}</td>
 											<td></td>
 
@@ -133,6 +140,8 @@
 <!-- end delete driver modal -->
 
 @endsection @section('page-scripts')
+<script src="{{asset('js/jquery-raty.js')}}"></script>
+
 <script type="text/javascript">
 $(document).ready(function() {
     var table= $('#driversTable').DataTable({
@@ -153,7 +162,7 @@ $(document).ready(function() {
                     render: function (data, type, full, meta) {
                     	return '<span data-toggle="tooltip" data-placement="top" title="'+data+'">'+data+'</span>';
                     },
-                    targets: 2
+                    targets: 3
                 } ],
     	
         initComplete: function(settings, json) {
@@ -168,7 +177,7 @@ $(document).ready(function() {
     });
     
        $(".filterhead").each(function (i) {
-                 if (i == 0  || i==3 || i==4 ) {
+                 if (i == 0  || i==4 || i==5 ) {
                      var select = $('<select ><option value="">Select '+$(this).text()+'</option></select>')
                          .appendTo($(this).empty())
                          .on('change', function () {
@@ -182,6 +191,15 @@ $(document).ready(function() {
                     $(this).empty();
                  }
              });
+             
+        $('.overallRating').raty({
+  					readOnly: true, 
+                    starHalf:     '{{asset("images/doorder_icons/star-half.png")}}',
+                	starOff:      '{{asset("images/doorder_icons/star.png")}}',
+                	starOn:       '{{asset("images/doorder_icons/star-selected.png")}}',
+                	hints: null
+        });  
+           
     
 } );
 
@@ -191,8 +209,8 @@ $('#delete-driver-modal #driverId').val(driverId);
 
 }
 </script>
-<script>
-        Vue.use(VueToast);
+<script>    
+        
         var app = new Vue({
             el: '#app',
             data: {

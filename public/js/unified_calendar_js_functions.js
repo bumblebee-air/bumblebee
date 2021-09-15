@@ -106,6 +106,13 @@ function getDetialsOfDate(date, serviceId,token,url) {
 		var view = $('#calendar').fullCalendar('getView');
 		var viewTitle = view.title; //date
 		var viewName =view.name;
+		console.log(viewName)
+		if(viewName != 'month'){
+			viewTitle =  view.title.substring(0,3) + ' '+view.title.substring(view.title.length-4);
+			var titleDate = new Date(viewTitle);
+			viewTitle = titleDate.toLocaleString('default', { month: 'long' }) +" "+titleDate.getFullYear();
+			console.log(viewTitle)
+		}
 		//if(viewName==='month'){
 			//alert(viewTitle)
 			 $.ajax({

@@ -383,7 +383,7 @@ input[type="checkbox"]:checked+label i {
 #selectedServiceTypesDiv, #selectedServiceTypesDivEdit {
 	min-height: 50px;
 	height: 110px;
-	max-height:auto;
+	max-height: auto;
 	border-radius: 5px;
 	box-shadow: 0 2px 48px 0 rgb(0 0 0/ 8%);
 	background-color: #ffffff;
@@ -445,6 +445,19 @@ input[type="checkbox"]:checked+label i {
 	height: 65px !important;
 }
 
-.bootstrap-datetimepicker-widget a[data-action]:hover{
+.bootstrap-datetimepicker-widget a[data-action]:hover {
 	background-color: transparent !important;
+}
+.fc-agendaDay-view .expireContract , .fc-agendaWeek-view .expireContract{
+	top:3px;
+} 
+.fc-month-view .expireContract {
+	position: absolute;
+	/* bottom: 0; */
+	top: -5px;
+}
+
+.expireContract .fc-content, .expireContract .fc-content i {
+	color: #d95353 !important;
+	font-size: 18px;
 }

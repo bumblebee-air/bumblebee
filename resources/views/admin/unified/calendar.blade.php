@@ -11,17 +11,6 @@
 	href="{{asset('css/unified-calendar-styles.css')}}">
 
 <style>
-.expireContract{
-position: absolute;
-/* bottom: 0; */
-top: -5px;
-}
-.expireContract .fc-content,
-.expireContract .fc-content i{
-color: #d95353 !important;
-font-size: 18px;
-
-}
 </style>
 @endsection @section('title', 'Unified | Calendar')
 @section('page-content')
@@ -136,10 +125,10 @@ font-size: 18px;
          	
        	events: function(start_date, end_date,timezone, callback) {
        			var view = $('#calendar').fullCalendar('getView');
-//        	       	console.log($(this)[0].view.title);
-//        	       	console.log(view.name);
-//        	       	console.log(view.title);
-//        	       	console.log(timezone)
+       	       	console.log($(this)[0].view.title);
+       	       	console.log(view.name);
+       	       	console.log(view.title);
+       	       	console.log(timezone)
            	    setTimeout(function (){
     				$.ajax({
     					type:'GET',
@@ -153,8 +142,8 @@ font-size: 18px;
                           },
     					success:function(data) {
     					console.log(data);
-//     						console.log(JSON.parse(data.events))	
-//     						console.log(view.title);
+    					console.log(JSON.parse(data.events))	
+    						console.log(view.title);
     						
     						//contractors = data.contractors;
     						callback(JSON.parse(data.events));

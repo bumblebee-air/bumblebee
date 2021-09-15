@@ -53,4 +53,8 @@ class Order extends Model
     public function comments() {
         return $this->morphMany(JobComment::class, 'job', 'job_model', 'job_id', 'id');
     }
+
+    public function rating() {
+        return $this->hasOne(Rating::class, 'model_id');
+    }
 }

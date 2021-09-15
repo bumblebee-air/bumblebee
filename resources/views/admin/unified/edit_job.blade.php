@@ -377,14 +377,12 @@ height: calc(100% - 50px);
 <script type="text/javascript">
 
 	var token = '{{csrf_token()}}';
-
+	var job = {!! $job !!};
+	console.log(job);
 
 $(document).ready(function(){
 	$('#minimizeSidebar').trigger('click')
 	
-
-var job = {!! $job !!};
-console.log(job)
 			$("#companyNameSelect").val(job.companyId).select2();
 			$("#typeOfJobSelect").val(''+job.jobTypeId).select2();
 			$("#engineerSelect").select2();
@@ -417,19 +415,7 @@ console.log(job)
             $("#selectedServiceTypesDiv #serviceType"+job.selectedServiceType).parent().parent().parent().addClass("zSelected");
         
         
-            var position = new google.maps.LatLng(job.address_coordinates.lat,job.address_coordinates.lng);
-            markerAddress.setPosition(position);
-            markerAddress.setVisible(true);
-            markers[0] = markerAddress;
-            var position2 = new google.maps.LatLng(job.pickup_coordinates.lat,job.pickup_coordinates.lng);
-            markerPickup.setPosition(position2);
-            markerPickup.setVisible(true);
-            markers[1] = markerPickup;
-            var position3 = new google.maps.LatLng(job.engineer_location.lat,job.engineer_location.lng);
-            markerEngineer.setPosition(position3);
-            markerEngineer.setVisible(true);
-            markers[2] = markerEngineer;
-  			fitBoundsMap();
+            
         
           $('#time').datetimepicker({
                          format: 'LT', 
@@ -859,6 +845,23 @@ function clickDeleteJob(){
 			
 			autoCompDrawMarkMap('address','marker-orange.png');
 			autoCompDrawMarkMap('pickupAddress','marker-grey.png');
+			
+			
+			console.log(job);
+			console.log(job.address_coordinates);
+			var position = new google.maps.LatLng(job.address_coordinates.lat,job.address_coordinates.lng);
+            markerAddress.setPosition(position);
+            markerAddress.setVisible(true);
+            markers[0] = markerAddress;
+            var position2 = new google.maps.LatLng(job.pickup_coordinates.lat,job.pickup_coordinates.lng);
+            markerPickup.setPosition(position2);
+            markerPickup.setVisible(true);
+            markers[1] = markerPickup;
+            var position3 = new google.maps.LatLng(job.engineer_location.lat,job.engineer_location.lng);
+            markerEngineer.setPosition(position3);
+            markerEngineer.setVisible(true);
+            markers[2] = markerEngineer;
+  			fitBoundsMap();
 
          }
 		function autoCompDrawMarkMap(inputId,markerImage){

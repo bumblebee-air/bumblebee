@@ -230,7 +230,8 @@ class CalendarController extends Controller
     {
         $this->validate($request, [
             'typeOfJob' => 'required|exists:unified_job_types,id',
-            'engineer' => 'required|exists:unified_engineers,id',
+            'engineer' => 'required|array',
+            'engineer.*' => 'required|exists:unified_engineers,id',
             'selectedServiceType' => 'required|exists:unified_services_job,id',
             'date' => 'required',
             'time' => 'required',
@@ -240,9 +241,8 @@ class CalendarController extends Controller
             'companyName' => 'required|exists:unified_customers_list,id'
         ]);
         $customer = UnifiedCustomer::find($request->companyName);
-        $engineer = UnifiedEngineer::find($request->engineer);
         $service = UnifiedService::find($request->selectedServiceType);
-        $title = "$customer->name / $service->name / $request->time / Enginner: $engineer->first_name $engineer->last_name";
+        $title = "$customer->name / $service->name / $request->time";
         $job = new UnifiedJob();
         $job->title = $title;
         $job->address = $request->address;
@@ -264,6 +264,14 @@ class CalendarController extends Controller
         $job->date = Carbon::parse($request->date)->toDateString();
         $job->time = Carbon::parse($request->time)->toTimeString();
         $job->save();
+
+        foreach ($request->engineer as $engineer) {
+            UnifiedEngineerJob::create([
+                'status' => 'assigned',
+                'job_id' => $job->id,
+                'engineer_id' => $engineer,
+            ]);
+        }
         alert()->success('The job created successfully');
         return redirect()->back();
     }

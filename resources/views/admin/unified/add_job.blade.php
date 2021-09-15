@@ -182,15 +182,14 @@ height: calc(100% - 50px);
 												</div>
 												<div class="col-12">
 													<div class="form-group bmd-form-group">
-														<label>Engineer</label> <select name="engineer[]"
+														<label>Engineer</label> <select name="engineer"
 															class="form-control" id="engineerSelect"
-															onchange="changeEngineer()" multiple="">
-														 @if(count($engineers) > 0)
+															onchange="changeEngineer()">
+															<option value="" selected class="placeholdered">Select
+																engineer</option> @if(count($engineers) > 0)
 															@foreach($engineers as $engineer)
 															<option value="{{$engineer->id}}">{{$engineer->first_name}}
-															{{$engineer->last_name}}</option>
-															@endforeach
-														@endif
+																{{$engineer->last_name}}</option> @endforeach @endif
 														</select>
 													</div>
 												</div>

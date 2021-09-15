@@ -85,18 +85,22 @@
 
 .dropdown-menu .dropdown-item, .dropdown-menu li>a {
 	font-family: Quicksand;
-	font-size: 13px;
+	font-size: 14px;
 	font-weight: normal;
 	font-stretch: normal;
 	font-style: normal;
 	line-height: normal;
 	letter-spacing: normal;
 	color: #494949;
+	text-transform: inherit;
 }
-
+.filter-option-inner{
+text-transform: none;
+}
 .bootstrap-select .dropdown-item.active, .bootstrap-select .dropdown-item:hover
 	{
-	font-weight: bold;
+	font-size:14px;
+	font-weight: 600;
 	color: white;
 	box-shadow: none !important;
 }
@@ -181,7 +185,7 @@
 	height: 1.5rem;
 }
 
-.addUserModalHeader,.editUserModalHeader {
+.addUserModalHeader, .editUserModalHeader {
 	font-family: Quicksand;
 	font-style: normal;
 	font-weight: bold;
@@ -190,10 +194,84 @@
 	letter-spacing: 0.8px;
 	color: #000000;
 }
-#add-user-modal #addUserBtn,#edit-user-modal #editUserBtn{
-height: 40px;
-text-transform: capitalize;
- padding: 8px;
+
+#add-user-modal #addUserBtn, #edit-user-modal #editUserBtn {
+	height: 40px;
+	text-transform: capitalize;
+	padding: 8px;
+}
+
+.dataTables_empty {
+	text-align: center !important;
+}
+
+/* 
+.toggleButtonGeneralSettings label .toggle:after {
+	top: 0 !important;
+}
+.toggleButtonGeneralSettings label .toggle, .toggleButtonGeneralSettings label input[type=checkbox][disabled]+.toggle
+	{width: 50px !important;
+	}
+
+.toggleButtonGeneralSettings label input[type=checkbox]:checked+.toggle:after {
+	border-color: #f7dc69;
+	left: 35px;
+	content: "on";
+}	
+.toggleButtonGeneralSettings label input[type=checkbox]+.toggle:after {
+	content: "off";
+}	 */
+.btn-default.toggle-off, .btn-default.toggle-off:hover {
+	background-color: #656565 !important;
+	border-color: #656565 !important
+}
+
+.toggle-handle {
+	background: white !important;
+	border-radius: 50% !important;
+	height: 95% !important;
+	padding: 0 !important;
+	width: 30px !important;
+	top: 1px;
+}
+
+.toggle-handle:before {
+	border-radius: 50% !important;
+}
+
+.toggle-on, .toggle-off, .toggle {
+	border-radius: 25px !important;
+}
+
+.toggle .toggle-handle {
+	left: -17px;
+}
+
+.toggle.off .toggle-handle {
+	left: 17px;
+}
+
+.toggle-on.btn-sm {
+	padding-right: 40px !important;
+}
+
+.toggle-off.btn-sm {
+	padding-left: 40px !important;
+}
+
+label.toggle-on, label.toggle-off {
+	font-family: Quicksand;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 15px !important;
+	line-height: 22px;
+	color: #FFFFFF;
+}
+#uploadButton{
+height: 38px !important;
+    margin-top: 0;
+    box-shadow: 0px 2px 4px rgb(182 182 182 / 50%), 2px 2px 5px #ffffff;
+    background-color: white !important;
 }
 </style>
 
@@ -208,7 +286,7 @@ text-transform: capitalize;
 							<div class="card-icon">
 								<img class="page_icon"
 									src="{{asset('images/doorder_icons/Settings.png')}}"
-									alt="dashboard icon">
+									alt="settings icon">
 							</div>
 							<h4 class="card-title ">Settings</h4>
 						</div>
@@ -228,13 +306,13 @@ text-transform: capitalize;
 					<ul
 						class="nav nav-pills nav-pills-primary justify-content-start justify-content-md-center"
 						role="tablist" id="navSettingsUl">
-						<li class="nav-item"><a class="nav-link" data-toggle="tab"
+						<li class="nav-item"><a class="nav-link active" data-toggle="tab"
 							href="#generalSettings" role="tablist" aria-expanded="true">
 								General Settings </a></li>
 						<li class="nav-item"><a class="nav-link" data-toggle="tab"
 							href="#profile" role="tablist" aria-expanded="false"> Profile </a>
 						</li>
-						<li class="nav-item"><a class="nav-link active" data-toggle="tab"
+						<li class="nav-item"><a class="nav-link" data-toggle="tab"
 							href="#notificationsDiv" role="tablist" aria-expanded="false">
 								Notifications </a></li>
 						<li class="nav-item"><a class="nav-link " data-toggle="tab"
@@ -249,10 +327,11 @@ text-transform: capitalize;
 				</div>
 
 				<div class="tab-content tab-space">
-					<div class="tab-pane" id="generalSettings" aria-expanded="false"></div>
-					<div class="tab-pane" id="profile" aria-expanded="false"></div>
-					<div class="tab-pane active" id="notificationsDiv"
+					<div class="tab-pane active" id="generalSettings"
 						aria-expanded="false">
+						@include('admin.doorder.settings.general_settings')</div>
+					<div class="tab-pane" id="profile" aria-expanded="false"></div>
+					<div class="tab-pane" id="notificationsDiv" aria-expanded="false">
 						@include('admin.doorder.settings.notifications')</div>
 
 					<div class="tab-pane " id="securityLogin" aria-expanded="false"></div>
@@ -279,12 +358,34 @@ text-transform: capitalize;
 <!-- <script type="module" -->
 <!-- 	src="https://cdn.jsdelivr.net/npm/vue-cascader-select"></script> -->
 
+<link
+	href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css"
+	rel="stylesheet">
+<script
+	src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
 <script type="text/javascript">
 
-////////////////////// users tab
+
+
+function addIntelInput(input_id, input_name) {
+            let phone_input = document.querySelector("#" + input_id);
+            window.intlTelInput(phone_input, {
+                hiddenInput: input_name,
+                initialCountry: 'IE',
+                separateDialCode: true,
+                preferredCountries: ['IE', 'GB'],
+                utilsScript: "{{asset('js/intlTelInput/utils.js')}}"
+            });
+}  
+
 
 $(document).ready(function() {
+// general settings 
+addIntelInput('business_phone_number','business_phone_number');
+
+
+//////////////////// users tab
     var table= $('#usersTable').DataTable({
     "pagingType": "full_numbers",
         "lengthMenu": [
@@ -321,8 +422,8 @@ $(document).ready(function() {
                  }
              });
     
-} );
 ////////////////////// end users tab
+} );
 
 	 function changeToggleRetAutoCharging(){
 	 		console.log($("#retailerAutomaticCharging:checked").val())
@@ -569,6 +670,16 @@ Vue.use('vue-cascader-select');
  		$('#notificationChannelDataDiv').html('')
  	}
  }      
+ 
+function addFile(id) {
+                    $('#' + id).click();
+                }
+function onChangeFile(e, id) {
+console.log($(e));
+console.log($(e).files)
+                    $("#" + id).val(e.target.files[0].name);
+                }
+            
 </script>
 
 @endsection

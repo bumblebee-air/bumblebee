@@ -113,12 +113,11 @@ class CalendarController extends Controller
         // Get Services Events by day
         $events = [];
         $daysOfMonth = $end_date->diffInDays($start_date);
-        foreach ($services as $service) {
-            $date_for_loop = Carbon::createFromTimestamp($request->start_date);
-            for ($i = 0; $i < $daysOfMonth+1; $i ++) {
+        $date_for_loop = Carbon::createFromTimestamp($request->start_date);
+        for ($i = 0; $i < $daysOfMonth+1; $i ++) {
+            foreach ($services as $service) {
                 $JobsCount = UnifiedJob::where('service_id', $service->id)->whereDate('start_at', $date_for_loop->toDateString())
                     ->count();
-                $expiredContracts = UnifiedCustomer::whereDate('contract_end_date', $date_for_loop)->get();
                 if ($JobsCount > 0) {
                     $events[] = [
                         'id' => $service->id,
@@ -132,23 +131,23 @@ class CalendarController extends Controller
                         'serviceId' => $service->id
                     ];
                 }
-                if (count($expiredContracts) > 0) {
-                    $events[] = [
-                        'id' => '',
-                        'start' => $date_for_loop->toDateString(),
-                        'end' => $date_for_loop->toDateString(),
-                        'backgroundColor' => 'transparent',
-                        'borderColor' => $service->borderColor,
-                        'textColor' => '#d95353',
-                        'className' => 'expireContract',
-                        'title' => '',
-                        'serviceId' => $service->id
-                    ];
-                }
-                $date_for_loop->addDay();
             }
+            $expiredContracts = UnifiedCustomer::whereDate('contract_end_date', $date_for_loop)->get();
+            if (count($expiredContracts) > 0) {
+                $events[] = [
+                    'id' => '',
+                    'start' => $date_for_loop->toDateString(),
+                    'end' => $date_for_loop->toDateString(),
+                    'backgroundColor' => 'transparent',
+                    'borderColor' => $service->borderColor,
+                    'textColor' => '#d95353',
+                    'className' => 'expireContract',
+                    'title' => '',
+                    'serviceId' => $service->id
+                ];
+            }
+            $date_for_loop->addDay();
         }
-
         return response()->json([
             'events' => json_encode($events),
             'services' => $services

@@ -276,6 +276,12 @@ class SettingsController extends Controller
         alert()->success('No user data was changed');
         return redirect()->route('doorder_getSettings', 'doorder');
     }
+    
+    public function postSaveGeneralSettings(Request $request){
+        //dd($request);
+        alert()->success('General settings data updated successfully');
+        return redirect()->back();
+    }
 
     protected function userValidator(array $data){
         return Validator::make($data, [

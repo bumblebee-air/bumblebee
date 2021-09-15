@@ -133,10 +133,8 @@ class EngineerController extends Controller
         $user = $request->user();
         $engineer_profile = $user->engineer_profile;
         $jobs = UnifiedJob::query();
-        $jobs = $jobs->where(function ($query) use ($engineer_profile) {
-            $query->whereHas('engineers', function ($q) use ($engineer_profile) {
-                $q->where('engineer_id', $engineer_profile->id)->where('status', '!=', 'skipped');
-            })->orDoesntHave('engineers');
+        $jobs = $jobs->whereHas('engineers', function ($q) use ($engineer_profile) {
+            $q->where('engineer_id', $engineer_profile->id)->where('status', '!=', 'skipped');
         });
         if ($request->has('job_type_id')) {
             $jobs = $jobs->where('job_type_id', $request->job_type_id);

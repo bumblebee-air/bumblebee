@@ -8,6 +8,11 @@ class UnifiedJob extends Model
 {
     protected $table = 'unified_jobs';
 
+    protected $casts = [
+        'pickup_coordinates' => 'array',
+        'address_coordinates' => 'array',
+    ];
+
     public function service() {
         return $this->belongsTo(UnifiedService::class, 'service_id');
     }

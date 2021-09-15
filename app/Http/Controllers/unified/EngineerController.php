@@ -3,6 +3,7 @@ namespace App\Http\Controllers\unified;
 
 use App\Helpers\TwilioHelper;
 use App\Http\Controllers\Controller;
+use App\KPITimestamp;
 use App\UnifiedCustomer;
 use App\UnifiedEngineer;
 use App\UnifiedEngineerJob;
@@ -151,6 +152,8 @@ class EngineerController extends Controller
         $jobs = $jobs->paginate(50);
         foreach ($jobs as $job) {
             $job->company = $job->customer;
+            $job->kpi_timestamps = KPITimestamp::where('model','=','unified_job')
+                ->where('model_id','=',$job->id)->first();
         }
         return response()->json([
             'data' => $jobs
@@ -181,6 +184,8 @@ class EngineerController extends Controller
             ],422);
         }
         $job->company = $job->customer;
+        $job->kpi_timestamps = KPITimestamp::where('model','=','unified_job')
+            ->where('model_id','=',$job->id)->first();
         return response()->json([
             'data' => $job
         ]);
@@ -195,6 +200,13 @@ class EngineerController extends Controller
                 'message' => 'The job id is not valid.'
             ],422);
         }
+        $timestamps = KPITimestamp::where('model','=','unified_job')
+            ->where('model_id','=',$job->id)->first();
+        if(!$timestamps){
+            $timestamps = new KPITimestamp();
+            $timestamps->model = 'unified_job';
+            $timestamps->model_id = $job->id;
+        }
         //Check If the job checked out by the engineer
         $checkIfJobAssignedToTheEngineer = $job->engineers->where('engineer_id', $engineer_profile->id)->first();
         if ($checkIfJobAssignedToTheEngineer && $checkIfJobAssignedToTheEngineer->status == 'checked_out') {
@@ -207,6 +219,23 @@ class EngineerController extends Controller
                 'status' => 'in:in_progress,accepted,completed,arrived,picked_up,skipped',
                 'skip_reason' => 'required_if:status,==,skipped'
             ]);
+            switch ($request->status) {
+                case 'in_progress':
+                    $timestamps->in_progress = Carbon::now();
+                    break;
+                case 'accepted':
+                    $timestamps->accepted = Carbon::now();
+                    break;
+                case 'completed':
+                    $timestamps->completed = Carbon::now();
+                    break;
+                case 'picked_up':
+                    $timestamps->arrived_first = Carbon::now();
+                    break;
+                case 'arrived':
+                    $timestamps->arrived_second = Carbon::now();
+                    break;
+            }
             if ($checkIfJobAssignedToTheEngineer) {
                 $checkIfJobAssignedToTheEngineer->update([
                     'status' => $request->status,
@@ -219,6 +248,7 @@ class EngineerController extends Controller
                     'job_id' => $id
                 ]);
             }
+            $timestamps->save();
         } else {
             $this->validate($request, [
                 'additional_job_type_id' => 'exists:unified_job_types,id',

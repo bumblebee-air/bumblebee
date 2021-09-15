@@ -47,7 +47,7 @@ class ApiAuthController extends Controller
             'data' => [
                 'name' => $user->name,
                 'access_token' => $access_token->accessToken,
-                'token_type' => 'Bearer ',
+                'token_type' => 'Bearer',
             ]
         ]);
     }

@@ -702,6 +702,8 @@ function clickPickupNeeded(){
 	var pickupVal = $("#pickupNeededRadio:checked").val();
 	if(pickupVal==1){
 		$("#pickupAddressDiv").css("display","block")
+		//Pickup marker needed
+		autoCompDrawMarkMap('pickup_coordinates', '')
 		
 	}else{
 		$("#pickupAddressDiv").css("display","none")
@@ -803,7 +805,7 @@ function addIntelInput(input_id, input_name) {
                             	
 								let place_lat = place.geometry.location.lat();
                                 let place_lon = place.geometry.location.lng();
-                                document.getElementById("address_coordinates").value = '{lat: ' + place_lat.toFixed(5) + ', lon: ' + place_lon.toFixed(5) +'}';	
+                                document.getElementById("address_coordinates").value = '{"lat": ' + place_lat.toFixed(5) + ', "lon": ' + place_lon.toFixed(5) +'}';
                             }else{
                             	markerPickup.setPosition(place.geometry.location);
                             	markerPickup.setVisible(true);
@@ -811,7 +813,7 @@ function addIntelInput(input_id, input_name) {
                             	
 								let place_lat = place.geometry.location.lat();
                                 let place_lon = place.geometry.location.lng();
-                                document.getElementById("pickup_coordinates").value = '{lat: ' + place_lat.toFixed(5) + ', lon: ' + place_lon.toFixed(5) +'}';
+                                document.getElementById("pickup_coordinates").value = '{"lat": ' + place_lat.toFixed(5) + ', "lon": ' + place_lon.toFixed(5) +'}';
                             }
         					fitBoundsMap();
         				}

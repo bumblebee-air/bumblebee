@@ -228,7 +228,6 @@ class CalendarController extends Controller
 
     public function postAddScheduledJob(Request $request, $client_name)
     {
-        //dd($request->all());
         $this->validate($request, [
             'typeOfJob' => 'required|exists:unified_job_types,id',
             'engineer' => 'required|exists:unified_engineers,id',
@@ -247,6 +246,7 @@ class CalendarController extends Controller
         $job = new UnifiedJob();
         $job->title = $title;
         $job->address = $request->address;
+        $job->address_coordinates = json_decode($request->address_coordinates);
         $job->start_at = Carbon::parse("$request->date $request->time")->toDateTimeString();
         $job->end_at = Carbon::parse("$request->date $request->time")->toDateTimeString();
         $job->email = $request->email;
@@ -256,8 +256,14 @@ class CalendarController extends Controller
         $job->service_id = $request->selectedServiceType;
         $job->is_reminder = (bool) $request->send_reminder;
         $job->company_id = $customer->id;
+        $job->job_description = $request->job_description;
+        $job->accounts_note = $request->accounts_note;
+        $job->cost_estimate = $request->costEstimate;
+        $job->pickup_address = $request->pickupAddress;
+        $job->pickup_coordinates = json_decode($request->pickup_coordinates);
+        $job->date = Carbon::parse($request->date)->toDateString();
+        $job->time = Carbon::parse($request->time)->toTimeString();
         $job->save();
-
         alert()->success('The job created successfully');
         return redirect()->back();
     }

@@ -332,8 +332,7 @@ Job') @section('page-styles')
 													</div>
 												</div>
 
-												<div class="col-md-12"
-													v-if="is_first_time != '' && is_first_time == 0">
+												<div class="col-md-12">
 													<div class="form-group bmd-form-group">
 														<label for="type_of_experience">Site details</label>
 														<div class="d-flex justify-content-between"

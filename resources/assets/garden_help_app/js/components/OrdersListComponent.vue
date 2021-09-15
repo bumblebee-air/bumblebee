@@ -56,9 +56,11 @@
             this.timer = setInterval(() => {
                 this.getJobsData();
             }, 30000);
+            $('#app').css('overflow', 'scroll')
         },
         destroyed() {
             clearInterval(this.timer);
+          $('#app').css('overflow', 'hidden')
         },
         methods: {
             getJobsData() {

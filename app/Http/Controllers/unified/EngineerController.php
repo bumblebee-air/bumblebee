@@ -144,8 +144,8 @@ class EngineerController extends Controller
                 $q->where('status', $request->status);
             });
         }
-        $jobs = $jobs->with(['service', 'job_type', 'engineers' => function ($q) {
-            $q->where('engineer_id', auth()->user()->id)->first();
+        $jobs = $jobs->with(['service', 'job_type', 'engineers' => function ($q) use ($engineer_profile) {
+            $q->where('engineer_id', $engineer_profile->id)->first();
         }]);
         $jobs = $jobs->paginate(50);
         foreach ($jobs as $job) {

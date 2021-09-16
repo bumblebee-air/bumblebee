@@ -19,11 +19,10 @@
 	padding-right: 0;
 }
 
-
 #navAddJobUl li a {
-width: 155px;
-font-family:'Roboto', sans-serif !important;
-padding:10px 35px;
+	width: 155px;
+	font-family: 'Roboto', sans-serif !important;
+	padding: 10px 35px;
 	font-size: 16px;
 	font-weight: normal;
 	font-stretch: normal;
@@ -37,8 +36,9 @@ padding:10px 35px;
 #navAddJobUl li a.active, #navAddJobUl li a:hover {
 	background-color: #d58242;
 	border-color: #d58242;
-	color:white !important;
-	box-shadow:  0 4px 20px 0 rgb(0 0 0 / 14%), 0 7px 10px -5px rgb(213 130 66 / 40%);
+	color: white !important;
+	box-shadow: 0 4px 20px 0 rgb(0 0 0/ 14%), 0 7px 10px -5px
+		rgb(213 130 66/ 40%);
 	border-radius: 30px !important;
 }
 
@@ -46,11 +46,28 @@ padding:10px 35px;
 	padding: 0 !important;
 }
 
-.tab-pane{
-height: calc(100% - 50px);
+.tab-pane {
+	height: calc(100% - 50px);
 }
 
+.form-head {
+	padding: 20px 0 0;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 17px;
+	line-height: 1.19;
+	letter-spacing: 0.8px;
+	color: #4D4D4D;
+}
+.card-container-form{
 
+background: #FFFFFF;
+box-shadow: 0px 4px 31px rgba(0, 0, 0, 0.25);
+border-radius: 18px;}
+
+.card-container-form .card-body .container{
+padding: 0 !important;
+}
 </style>
 @endsection @section('title', 'Unified | Schedule A Job')
 @section('page-content')
@@ -79,201 +96,260 @@ height: calc(100% - 50px);
 
 
 							</div>
+							<!-- 							</div> -->
+							<!-- 						<div class="card">	 -->
 							<div class="card-body">
 								<div class="container">
 									<div class="row">
-										<div class="col-12 col-sm-6" id="details-container">
-											<div class="row">
-												<div class="col-12">
-													<div class="form-group bmd-form-group">
-														<label>Company name</label> <select name="companyName"
-															class="form-control" id="companyNameSelect"
-															onchange="changeCompany()">
-															<option value="" selected class="placeholdered">Select
-																company</option> @if(count($companyNames) > 0)
-															@foreach($companyNames as $companyName)
-															<option value="{{$companyName->id}}">{{$companyName->name}}</option>
-															@endforeach @endif
-														</select>
+										<div class="col-12 col-sm-6 pl-0" id="details-container">
+											<div class="card card-container-form">
+												<div class="card-header" data-toggle="collapse"
+													id="customer-details-header" data-target="#company-details"
+													aria-expanded="true" aria-controls="company-details">
+													<div class="d-flex form-head">
+														<span>1</span> Company Details
 													</div>
 												</div>
-												<div class="col-12">
-													<div class="form-group bmd-form-group">
-														<label>Type of job</label> <select name="typeOfJob"
-															class="form-control" id="typeOfJobSelect"
-															onchange="changeTypeOfJob()">
-															<option value="" selected class="placeholdered">Select
-																job type</option> @if(count($jobTypes) > 0)
-															@foreach($jobTypes as $jobType)
-															<option value="{{$jobType->id}}">{{$jobType->name}}</option>
-															@endforeach @endif
-														</select>
-													</div>
-												</div>
-												<div class="col-12">
-													<div class="form-group bmd-form-group">
-														<label>Job description </label>
-														<textarea class="form-control" name="job_description"
-															id="job_description" placeholder="Job description"
-															required rows="7"></textarea>
-													</div>
-												</div>
-												<div class="col-12">
-													<div class="form-group bmd-form-group">
-														<label>Accounts note </label>
-														<textarea class="form-control" name="accounts_note"
-															id="accounts_note" placeholder="Accounts note" required
-															rows="3"></textarea>
-													</div>
-												</div>
-												<div class="col-12">
-													<input type="hidden" name="serviceIdHidden"
-														id="serviceIdHidden" value="{{$serviceId}}">
-													<div class="form-group bmd-form-group">
-														<label>Product type</label>
-														<div id="selectedServiceTypesDiv"></div>
-													</div>
-												</div>
-												<div class="col-12">
-													<div class=" row" style="margin-top: 15px">
-														<label class="labelRadio col-12" for="">Contract</label>
-														<div class="col-12 row">
-															<div class="col">
-																<div class="form-check form-check-radio">
-																	<label class="form-check-label"> <input
-																		class="form-check-input" type="radio" id="contractYes"
-																		name="contract" value="1" required
-																		onclick="clickContract(1)"> Yes <span class="circle">
-																			<span class="check"></span>
-																	</span>
-																	</label>
+												<div id="company-details" class="collapse show"
+													aria-labelledby="company-details-header"
+													data-parent="#details-container">
+													<div class="card-body">
+														<div class="container">
+															<div class="row">
+																<div class="col-12">
+																	<div class="form-group bmd-form-group">
+																		<label>Company name</label> <select name="companyName"
+																			class="form-control" id="companyNameSelect"
+																			onchange="changeCompany()">
+																			<option value="" selected class="placeholdered">Select
+																				company</option> @if(count($companyNames) > 0)
+																			@foreach($companyNames as $companyName)
+																			<option value="{{$companyName->id}}">{{$companyName->name}}</option>
+																			@endforeach @endif
+																		</select>
+																	</div>
 																</div>
-															</div>
-															<div class="col">
-																<div class="form-check form-check-radio">
-																	<label class="form-check-label"> <input
-																		class="form-check-input" type="radio" id="contractNo"
-																		name="contract" value="0" required
-																		onclick="clickContract(0)"> No <span class="circle"> <span
-																			class="check"></span>
-																	</span>
-																	</label>
+																<div class="col-12">
+																	<div class="form-group bmd-form-group">
+																		<label>Type of job</label> <select name="typeOfJob"
+																			class="form-control" id="typeOfJobSelect"
+																			onchange="changeTypeOfJob()">
+																			<option value="" selected class="placeholdered">Select
+																				job type</option> @if(count($jobTypes) > 0)
+																			@foreach($jobTypes as $jobType)
+																			<option value="{{$jobType->id}}">{{$jobType->name}}</option>
+																			@endforeach @endif
+																		</select>
+																	</div>
+																</div>
+																<div class="col-12">
+																	<div class="form-group bmd-form-group">
+																		<label>Job description </label>
+																		<textarea class="form-control" name="job_description"
+																			id="job_description" placeholder="Job description"
+																			required rows="7"></textarea>
+																	</div>
+																</div>
+																<div class="col-12">
+																	<div class="form-group bmd-form-group">
+																		<label>Accounts note </label>
+																		<textarea class="form-control" name="accounts_note"
+																			id="accounts_note" placeholder="Accounts note"
+																			required rows="3"></textarea>
+																	</div>
+																</div>
+																<div class="col-12">
+																	<input type="hidden" name="serviceIdHidden"
+																		id="serviceIdHidden" value="{{$serviceId}}">
+																	<div class="form-group bmd-form-group">
+																		<label>Product type</label>
+																		<div id="selectedServiceTypesDiv"></div>
+																	</div>
 																</div>
 															</div>
 														</div>
 													</div>
 												</div>
-												<div class="col-12" id="contractStartDateDiv"></div>
-												<div class="col-12" id="contractEndDateDiv"></div>
-												<div class="col-12">
-													<div class="form-group bmd-form-group" id="dateDiv">
-														<label>Date</label> <input type="text" id="date"
-															class="form-control" name="date"
-															value="{{$date==0 ? '' : $date }}"
-															placeholder="Select date" required onchange="changeDate()">
+											</div>
+											<div class="card card-container-form">
+												<div class="card-header" data-toggle="collapse"
+													id="contact-details-header" data-target="#contact-details"
+													aria-expanded="true" aria-controls="contact-details">
+													<div class="d-flex form-head">
+														<span>2</span> Contact Details
 													</div>
 												</div>
-												<div class="col-12">
-													<div class="form-group bmd-form-group">
-														<label>Time</label> <input type="text" id="time"
-															class="form-control" name="time" value=""
-															placeholder="Select time" required>
+												<div id="contact-details" class="collapse"
+													aria-labelledby="contact-details-header"
+													data-parent="#details-container">
+													<div class="card-body">
+														<div class="container">
+															<div class="row">
+																<div class="col-12">
+																	<div class=" row" style="margin-top: 15px">
+																		<label class="labelRadio col-12" for="">Contract</label>
+																		<div class="col-12 row">
+																			<div class="col">
+																				<div class="form-check form-check-radio">
+																					<label class="form-check-label"> <input
+																						class="form-check-input" type="radio"
+																						id="contractYes" name="contract" value="1"
+																						required onclick="clickContract(1)"> Yes <span
+																						class="circle"> <span class="check"></span>
+																					</span>
+																					</label>
+																				</div>
+																			</div>
+																			<div class="col">
+																				<div class="form-check form-check-radio">
+																					<label class="form-check-label"> <input
+																						class="form-check-input" type="radio"
+																						id="contractNo" name="contract" value="0" required
+																						onclick="clickContract(0)"> No <span
+																						class="circle"> <span class="check"></span>
+																					</span>
+																					</label>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+																<div class="col-12" id="contractStartDateDiv"></div>
+																<div class="col-12" id="contractEndDateDiv"></div>
+																<div class="col-12">
+																	<div class="form-group bmd-form-group" id="dateDiv">
+																		<label>Date</label> <input type="text" id="date"
+																			class="form-control" name="date"
+																			value="{{$date==0 ? '' : $date }}"
+																			placeholder="Select date" required
+																			onchange="changeDate()">
+																	</div>
+																</div>
+																<div class="col-12">
+																	<div class="form-group bmd-form-group">
+																		<label>Time</label> <input type="text" id="time"
+																			class="form-control" name="time" value=""
+																			placeholder="Select time" required>
+																	</div>
+																</div>
+																<div class="col-12">
+																	<div class="form-group bmd-form-group">
+																		<label>Engineer</label> <select name="engineer[]"
+																			class="form-control" id="engineerSelect"
+																			onchange="changeEngineer()" multiple="">
+																			@if(count($engineers) > 0) @foreach($engineers as
+																			$engineer)
+																			<option value="{{$engineer->id}}">{{$engineer->first_name}}
+																				{{$engineer->last_name}}</option> @endforeach @endif
+																		</select>
+																	</div>
+																</div>
+															</div>
+														</div>
 													</div>
 												</div>
-												<div class="col-12">
-													<div class="form-group bmd-form-group">
-														<label>Engineer</label> <select name="engineer[]"
-															class="form-control" id="engineerSelect"
-															onchange="changeEngineer()" multiple="">
-														 @if(count($engineers) > 0)
-															@foreach($engineers as $engineer)
-															<option value="{{$engineer->id}}">{{$engineer->first_name}}
-															{{$engineer->last_name}}</option>
-															@endforeach
-														@endif
-														</select>
+											</div>
+											<div class="card card-container-form" >
+												<div class="card-header" data-toggle="collapse"
+													id="customer-details-header"
+													data-target="#customer-details" aria-expanded="true"
+													aria-controls="customer-details">
+													<div class="d-flex form-head">
+														<span>3</span> Customer Details
 													</div>
 												</div>
-												<div class="col-12">
-													<div class="form-group bmd-form-group">
-														<label>Email </label> <input type="text" id="email"
-															class="form-control" name="email" value=""
-															placeholder="Email " required>
-													</div>
-												</div>
-												<div class="col-12">
-													<div class="form-group bmd-form-group">
-														<label>Customer location</label>
-														<textarea class="form-control" name="address" id="address"
-															placeholder="Customer location" required> </textarea>
+												<div id="customer-details" class="collapse"
+													aria-labelledby="customer-details-header"
+													data-parent="#details-container">
+													<div class="card-body">
+														<div class="container">
+															<div class="row">
+																<div class="col-12">
+																	<div class="form-group bmd-form-group">
+																		<label>Email </label> <input type="text" id="email"
+																			class="form-control" name="email" value=""
+																			placeholder="Email " required>
+																	</div>
+																</div>
+																<div class="col-12">
+																	<div class="form-group bmd-form-group">
+																		<label>Customer location</label>
+																		<textarea class="form-control" name="address"
+																			id="address" placeholder="Customer location" required> </textarea>
 
-														<input type="hidden" name="address_coordinates"
-															id="address_coordinates">
+																		<input type="hidden" name="address_coordinates"
+																			id="address_coordinates">
+																	</div>
+																</div>
+																<div class="col-12">
+																	<div class="form-group bmd-form-group">
+																		<label>Mobile</label> <input type="tel"
+																			class="form-control" name="mobile" id="mobile"
+																			value="" placeholder="Mobile" required>
+																	</div>
+																</div>
+																<div class="col-12">
+																	<div class="form-group bmd-form-group">
+																		<label>Phone</label> <input type="tel"
+																			class="form-control" name="phone" id="phone" value=""
+																			placeholder="Phone" required>
+																	</div>
+																</div>
+																<div class="col-12 mt-2">
+																	<input type="checkbox" id="pickupNeededRadio"
+																		name="pickup_needed" value="1"
+																		onclick="clickPickupNeeded()"> <label
+																		class="form-check-label w-100 px-0 sendReminderLabel"
+																		for="pickupNeededRadio"> <i
+																		class="fas fa-check-circle"></i> Pickup needed
+																	</label>
+																</div>
+																<div class="col-12" id="pickupAddressDiv"
+																	style="display: none">
+																	<div class="form-group bmd-form-group">
+																		<label>Pickup address</label>
+																		<textarea class="form-control" name="pickupAddress"
+																			id="pickupAddress" placeholder="Pickup address"
+																			required> </textarea>
+																		<input type="hidden" name="pickup_coordinates"
+																			id="pickup_coordinates">
+																	</div>
+																</div>
+																<div class="col-12">
+																	<div class="form-group bmd-form-group">
+																		<label>Cost estimate </label> <input type="number"
+																			step="any" id="costEstimate" class="form-control"
+																			name="costEstimate" value=""
+																			placeholder="Cost estimate " required>
+																	</div>
+																</div>
+															</div>
+														</div>
 													</div>
 												</div>
-												<div class="col-12">
-													<div class="form-group bmd-form-group">
-														<label>Mobile</label> <input type="tel"
-															class="form-control" name="mobile" id="mobile" value=""
-															placeholder="Mobile" required>
-													</div>
-												</div>
-												<div class="col-12">
-													<div class="form-group bmd-form-group">
-														<label>Phone</label> <input type="tel"
-															class="form-control" name="phone" id="phone" value=""
-															placeholder="Phone" required>
-													</div>
-												</div>
-												<div class="col-12 mt-2">
-													<input type="checkbox" id="pickupNeededRadio"
-														name="pickup_needed" value="1"
-														onclick="clickPickupNeeded()"> <label
-														class="form-check-label w-100 px-0 sendReminderLabel"
-														for="pickupNeededRadio"> <i class="fas fa-check-circle"></i>
+											</div>
 
-														Pickup needed
-													</label>
-												</div>
-												<div class="col-12" id="pickupAddressDiv"
-													style="display: none">
-													<div class="form-group bmd-form-group">
-														<label>Pickup address</label>
-														<textarea class="form-control" name="pickupAddress"
-															id="pickupAddress" placeholder="Pickup address" required> </textarea>
-														<input type="hidden" name="pickup_coordinates"
-															id="pickup_coordinates">
-													</div>
-												</div>
-												<div class="col-12">
-													<div class="form-group bmd-form-group">
-														<label>Cost estimate </label> <input type="number"
-															step="any" id="costEstimate" class="form-control"
-															name="costEstimate" value="" placeholder="Cost estimate "
-															required>
-													</div>
-												</div>
-												<div class="col-12 mt-2">
+											<div class="row">
+												<div class="col-12 ">
 													<input type="checkbox" id="sendReminderRadio"
 														name="send_reminder"> <label
 														class="form-check-label w-100 px-0 sendReminderLabel"
 														for="sendReminderRadio"> <i class="fas fa-check-circle"></i>
-
 														Send an email reminder
 													</label>
 												</div>
 											</div>
 										</div>
-										<div class="col-12 col-sm-6" id="calendar-container">
+										<div class="col-12 col-sm-6 pr-0" id="calendar-container">
 											<ul
 												class="nav nav-pills nav-pills-primary justify-content-start justify-content-md-center mb-3"
 												role="tablist" id="navAddJobUl">
 												<li class="nav-item"><a class="nav-link" data-toggle="tab"
 													href="#mapContainerDiv" role="tablist" aria-expanded="true">
 														Map </a></li>
-												<li class="nav-item"><a class="nav-link active" data-toggle="tab"
-													href="#calendarContainerDiv" role="tablist"
-													aria-expanded="false"> Calendar </a></li>
+												<li class="nav-item"><a class="nav-link active"
+													data-toggle="tab" href="#calendarContainerDiv"
+													role="tablist" aria-expanded="false"> Calendar </a></li>
 											</ul>
 											<div class="tab-content tab-space h-100">
 												<div class="tab-pane " id="mapContainerDiv"
@@ -309,6 +385,7 @@ height: calc(100% - 50px);
 
 							</div>
 						</div>
+
 					</form>
 				</div>
 			</div>
@@ -553,6 +630,7 @@ function changeCompany(){
             $('#phone').val(company.phone);
             $('#address').val(company.address);
             var position = new google.maps.LatLng(company.addressLatlng.lat,company.addressLatlng.lng);
+            document.getElementById("address_coordinates").value = '{lat: ' + company.addressLatlng.lat + ', lon: ' + company.addressLatlng.lng +'}';	
             markerAddress.setPosition(position);
             markerAddress.setVisible(true);
             markers[0] = markerAddress;
@@ -704,7 +782,7 @@ function clickPickupNeeded(){
 	if(pickupVal==1){
 		$("#pickupAddressDiv").css("display","block")
 		//Pickup marker needed
-		autoCompDrawMarkMap('pickup_coordinates', '')
+		//autoCompDrawMarkMap('pickup_coordinates', '')
 		
 	}else{
 		$("#pickupAddressDiv").css("display","none")

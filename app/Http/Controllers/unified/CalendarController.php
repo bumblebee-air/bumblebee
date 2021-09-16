@@ -217,7 +217,9 @@ class CalendarController extends Controller
 
     public function getEngineerLocation(Request $request)
     {
-        $engineer = UnifiedEngineer::find($request->engineerId);
+        //$engineer = UnifiedEngineer::find($request->engineerId);
+        $engineer = UnifiedEngineer::where('id',$request->engineerId)->first();
+        //dd($engineer);
         return response()->json(array(
             "msg" => "test test engineer location",
             "engineer" => $request->engineerId,

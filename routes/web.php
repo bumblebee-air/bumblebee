@@ -329,6 +329,8 @@ Route::group([
             Route::get('single-order/{id}', 'doorder\OrdersController@getSingleOrder')->name('doorder_singleOrder');
             Route::post('orders/import', 'doorder\OrdersController@postImportOrders')->name('doorder_addNewOrder');
             Route::post('order/delete', 'doorder\OrdersController@deleteOrder')->name('doorder_deleteOrderOrder');
+            
+            Route::get('map_routes', 'doorder\MapRoutesConroller@index')->name('doorder_mapRoutes');
             Route::group([
                 'middleware' => "client"
             ], function () {

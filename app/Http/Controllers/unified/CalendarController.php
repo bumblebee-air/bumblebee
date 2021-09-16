@@ -332,24 +332,18 @@ class CalendarController extends Controller
         $jobData->sendEmail = (bool) $jobData->is_reminder;
         $jobData->serviceTypes = $serviceTypes;
 
-        $jobData->job_description = 'description';
-        $jobData->accounts_note = 'notes';
-        $jobData->pickup_needed = 1;
-        $jobData->pickupAddress = 'Killarney, County Kerry, Ireland';
-        $jobData->costEstimate = 200.0;
+        $jobData->pickup_needed = $jobData->pickup_address ? 1 : 0;
+        $jobData->pickupAddress = $jobData->pickup_address;
+        $jobData->costEstimate = $jobData->cost_estimate;
 
-        $jobData->engineer_location = array(
-            "lat" => 53.3463204,
-            "lng" => - 6.2586608
-        );
-        $jobData->address_coordinates = array(
-            "lat" => 53.34060324,
-            "lng" => - 6.25008668
-        );
-        $jobData->pickup_coordinates = array(
-            "lat" => 53.34063204,
-            "lng" => - 6.25086608
-        );
+//        $jobData->engineer_location = array(
+//            "lat" => 53.3463204,
+//            "lng" => - 6.2586608
+//        );
+//        $jobData->pickup_coordinates = array(
+//            "lat" => 53.34063204,
+//            "lng" => - 6.25086608
+//        );
 
         if ($customer->contract) {
             if ($customer->contract_start_date) {
@@ -409,6 +403,13 @@ class CalendarController extends Controller
         $job->service_id = $request->selectedServiceType;
         $job->is_reminder = (bool) $request->send_reminder;
         $job->company_id = $customer->id;
+        $job->job_description = $request->job_description;
+        $job->accounts_note = $request->accounts_note;
+        $job->cost_estimate = $request->costEstimate;
+        $job->pickup_address = $request->pickupAddress;
+        $job->pickup_coordinates = json_decode($request->pickup_coordinates);
+        $job->date = Carbon::parse($request->date)->toDateString();
+        $job->time = Carbon::parse($request->time)->toTimeString();
         $job->update();
 
         foreach ($request->engineers as $engineer) {

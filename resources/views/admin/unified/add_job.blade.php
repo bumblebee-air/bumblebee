@@ -275,7 +275,7 @@ padding: 0 !important;
 																	<div class="form-group bmd-form-group">
 																		<label>Customer location</label>
 																		<textarea class="form-control" name="address"
-																			id="address" placeholder="Customer location" required> </textarea>
+																			id="address" placeholder="Customer location" required></textarea>
 
 																		<input type="hidden" name="address_coordinates"
 																			id="address_coordinates">
@@ -448,10 +448,10 @@ $(document).ready(function(){
             	}
         });
        $('#date').datetimepicker().on('dp.change', function (event) {
-                console.log($(this).val());
+                //console.log($(this).val());
                 var date = moment($(this).val()).format('YYYY-MM-DD');
                 //var date2 = date.toString('dd-MM-yy');
-                console.log(date);
+                //console.log(date);
                 $('#calendar').fullCalendar('gotoDate', date);
        });
 		
@@ -505,9 +505,8 @@ $(document).ready(function(){
                                 viewName:view.name
                               },
                               success:function(data) {
-    							console.log(data);
-    							console.log(JSON.parse(data.events))
-    						//contractors = data.contractors;
+//     							console.log(data);
+//     							console.log(JSON.parse(data.events))
     						callback(JSON.parse(data.events));
     						
     						var servicesUl = '';
@@ -629,8 +628,9 @@ function changeCompany(){
             $('#mobile').val(company.mobile);
             $('#phone').val(company.phone);
             $('#address').val(company.address);
+            $('#address').change();
             var position = new google.maps.LatLng(company.addressLatlng.lat,company.addressLatlng.lng);
-            document.getElementById("address_coordinates").value = '{lat: ' + company.addressLatlng.lat + ', lon: ' + company.addressLatlng.lng +'}';	
+            document.getElementById("address_coordinates").value = '{"lat": ' + company.addressLatlng.lat + ', "lon": ' + company.addressLatlng.lng +'}';	
             markerAddress.setPosition(position);
             markerAddress.setVisible(true);
             markers[0] = markerAddress;
@@ -711,28 +711,55 @@ function changeTypeOfJob(){
 }
 function changeEngineer(){
 	//console.log("engineer " +$("#engineerSelect").val() );
-	var engineerId =$("#engineerSelect").val();
+	var engineerIds =$("#engineerSelect").val();
 	setSubmitButtonEnable();
 	
-		var token ='{{csrf_token()}}';
+	var token ='{{csrf_token()}}';
+		//console.log(markers);
+		for(var j=2; j<markers.length; j++){
+			markers[j].setMap(null);
+		}
+		markers.length = 2;
+		console.log(markers);
+                              
+	for(var i=0; i<engineerIds.length;i++){
+		//console.log(engineerIds[i]);
+		var engineerId = engineerIds[i];
+		 
+		 $.ajax({
+                type: "POST",
+                method:"post",
+               	url: '{{url("unified/get_engineer_location/")}}',
+               	data: {_token: token, engineerId: engineerId},
+                success: function(data) {
+//                     console.log(data);
+//                     console.log(data.location);
+//                     console.log(JSON.parse(data.location));
+                    var location = JSON.parse(data.location);
+                    
+                    var marker = new google.maps.Marker({
+                        map,
+                        anchorPoint: new google.maps.Point(0, -29),
+                        icon: {
+                            url:"{{asset('images/unified/marker-blue.png')}}", // url
+                            scaledSize: new google.maps.Size(50, 50), // scaled size
+                        },
+                        scaledSize: new google.maps.Size(30, 35), // scaled size
+                      });     
+                    marker.setPosition(new google.maps.LatLng(location.lat,location.lon))
+                     markers.push(marker);
+                     
+				//console.log(markers);
+                     
+                 			  fitBoundsMap();
+					//  map.setZoom(12);   
+                              
+                }
+            });
+        //console.log("-----------------------------------")    
+	}	
 	
-	 $.ajax({
-        type: "POST",
-        method:"post",
-       	url: '{{url("unified/get_engineer_location/")}}',
-       	data: {_token: token, engineerId:engineerId},
-        success: function(data) {
-            console.log(data);
-            console.log(data.location);
-            console.log(JSON.parse(data.location));
-            var location = JSON.parse(data.location);
-                      markerEngineer.setPosition(new google.maps.LatLng(location.lat,location.lng))
-                      markers[2] = markerEngineer;
-         			  fitBoundsMap();
-//                       map.setZoom(12);   
-                      
-        }
-    });
+	
 }
 function setSubmitButtonEnable(){
 	var companyVal = $("#companyNameSelect").val();
@@ -785,7 +812,8 @@ function clickPickupNeeded(){
 		//autoCompDrawMarkMap('pickup_coordinates', '')
 		
 	}else{
-		$("#pickupAddressDiv").css("display","none")
+		$("#pickupAddressDiv").css("display","none");
+		markerPickup.setMap(null)
 	}
 }
 
@@ -848,7 +876,9 @@ function addIntelInput(input_id, input_name) {
 
          }
 		function autoCompDrawMarkMap(inputId,markerImage){
+				console.log("auto complete draw marker map")
 				let location_input = document.getElementById(inputId);
+				console.log(location_input)
 						//Mutation observer hack for chrome address autofill issue
         			let observerHackAddress = new MutationObserver(function() {
         				observerHackAddress.disconnect();
@@ -862,6 +892,7 @@ function addIntelInput(input_id, input_name) {
         			autocomplete_location.setComponentRestrictions({'country': ['ie']});
         			
         			autocomplete_location.addListener('place_changed', () => {
+        				console.log("place changed")
         				let place = autocomplete_location.getPlace();
         				if (!place.geometry) {
         					// User entered the name of a Place that was not suggested and
@@ -899,11 +930,15 @@ function addIntelInput(input_id, input_name) {
         			});
 		}	
 		function fitBoundsMap(){
-						
+						//console.log(markers)
   			if (markers.length>1) { 
   				var bounds = new google.maps.LatLngBounds();
                 for (var i = 0; i < markers.length; i++) {
                 	if(markers[i]){
+
+    //                 	console.log(markers);
+    //                 	console.log(markers[i]);                	
+    //                 	console.log(markers[i].position.lat(),markers[i].position.lng());
                  		bounds.extend(markers[i].position);
                  	}	
                 }

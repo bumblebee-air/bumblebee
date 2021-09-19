@@ -118,6 +118,8 @@ display: inline-block;
 														<label>Address</label>
 														<textarea class="form-control" name="address" id="address"
 															placeholder="Address" required> </textarea>
+																		<input type="hidden" name="address_coordinates"
+																			id="address_coordinates">
 													</div></div>
 									</div>
 									<div class="row">

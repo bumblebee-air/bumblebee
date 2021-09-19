@@ -229,6 +229,7 @@ class CalendarController extends Controller
 
     public function postAddScheduledJob(Request $request, $client_name)
     {
+        //dd(($request->address_coordinates));
         $this->validate($request, [
             'typeOfJob' => 'required|exists:unified_job_types,id',
             'engineer' => 'required|array',
@@ -306,6 +307,7 @@ class CalendarController extends Controller
                 $jobData->contractEndDate = Carbon::parse($customer->contract_end_date)->format('m/d/Y');
             }
         }
+        
 
         return response()->json(array(
             "msg" => "test test ",
@@ -359,7 +361,9 @@ class CalendarController extends Controller
             'id',
             'name'
         ])->get();
-
+        
+        //dd($jobData);
+        
         $jobTypes = UnifiedJobType::all();
         $engineers = UnifiedEngineer::all();
         return view('admin.unified.edit_job', [

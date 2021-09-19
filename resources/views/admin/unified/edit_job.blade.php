@@ -712,8 +712,9 @@ function changeCompany(){
             $('#mobile').val(company.mobile);
             $('#phone').val(company.phone);
             $('#address').val(company.address);
+            $('#address').change();
             var position = new google.maps.LatLng(company.addressLatlng.lat,company.addressLatlng.lon);
-            document.getElementById("address_coordinates").value = '{lat: ' + company.addressLatlng.lat + ', lon: ' + company.addressLatlng.lon +'}';	
+            document.getElementById("address_coordinates").value = '{lat: ' + company.addressLatlng.lat + ', lon: ' + company.addressLatlng.lng +'}';	
             markerAddress.setPosition(position);
             markerAddress.setVisible(true);
             markers[0] = markerAddress;
@@ -793,30 +794,55 @@ function changeTypeOfJob(){
 	setSubmitButtonEnable()
 }
 function changeEngineer(){
-	console.log("engineer " +$("#engineerSelect").val() );
-	var engineerId =$("#engineerSelect").val();
+	
+	var engineerIds =$("#engineerSelect").val();
 	setSubmitButtonEnable();
+	console.log(engineerIds)
 	
-		var token ='{{csrf_token()}}';
-	
-	 $.ajax({
-        type: "POST",
-        method:"post",
-       	url: '{{url("unified/get_engineer_location/")}}',
-       	data: {_token: token, engineerId:engineerId},
-        success: function(data) {
-       
-            //console.log(data);
-            //console.log(data.location);
-            console.log(JSON.parse(data.location));
-            var location = JSON.parse(data.location);
-                      markerEngineer.setPosition(new google.maps.LatLng(location.lat,location.lon))
-                      markers[2] = markerEngineer;
-         			  fitBoundsMap();
-                      map.setZoom(12);  
-                                         
-        }
-    });
+	var token ='{{csrf_token()}}';
+		console.log(markers);
+		for(var j=2; j<markers.length; j++){
+			markers[j].setMap(null);
+		}
+		markers.length = 2;
+		console.log(markers);
+         
+         for(var i=0; i<engineerIds.length;i++){
+		console.log(engineerIds[i]);
+		var engineerId = engineerIds[i];
+		 
+        	 $.ajax({
+                type: "POST",
+                method:"post",
+               	url: '{{url("unified/get_engineer_location/")}}',
+               	data: {_token: token, engineerId:engineerId},
+                success: function(data) {
+               
+                    console.log(data);
+                    console.log(data.location);
+                    console.log(JSON.parse(data.location));
+                      var location = JSON.parse(data.location);
+                    
+                    var marker = new google.maps.Marker({
+                        map,
+                        anchorPoint: new google.maps.Point(0, -29),
+                        icon: {
+                            url:"{{asset('images/unified/marker-blue.png')}}", // url
+                            scaledSize: new google.maps.Size(50, 50), // scaled size
+                        },
+                        scaledSize: new google.maps.Size(30, 35), // scaled size
+                      });     
+                    marker.setPosition(new google.maps.LatLng(location.lat,location.lon))
+                     markers.push(marker);
+                     
+				//console.log(markers);
+                     
+                 			  fitBoundsMap();
+					  map.setZoom(12);              
+                                                 
+                }
+            });
+         }   
 }
 function setSubmitButtonEnable(){
 	var companyVal = $("#companyNameSelect").val();
@@ -943,19 +969,21 @@ function clickDeleteJob(){
 			console.log(job);
 			console.log(job.address_coordinates);
 			console.log(job.pickup_coordinates)
-			var position = new google.maps.LatLng(job.address_coordinates.lat,job.address_coordinates.lon);
-            markerAddress.setPosition(position);
-            markerAddress.setVisible(true);
-            markers[0] = markerAddress;
+			if(job.address_coordinates!=null){
+    			var position = new google.maps.LatLng(job.address_coordinates.lat,job.address_coordinates.lon);
+                markerAddress.setPosition(position);
+                markerAddress.setVisible(true);
+                markers[0] = markerAddress;
+            }    
             if(job.pickup_coordinates!=null){
                 var position2 = new google.maps.LatLng(job.pickup_coordinates.lat,job.pickup_coordinates.lon);
                 markerPickup.setPosition(position2);
                 markerPickup.setVisible(true);
                 markers[1] = markerPickup;
-                var position3 = new google.maps.LatLng(job.pickup_coordinates.lat,job.pickup_coordinates.lon);
-                markerEngineer.setPosition(position3);
-                markerEngineer.setVisible(true);
-                markers[2] = markerEngineer;
+//                 var position3 = new google.maps.LatLng(job.pickup_coordinates.lat,job.pickup_coordinates.lon);
+//                 markerEngineer.setPosition(position3);
+//                 markerEngineer.setVisible(true);
+//                 markers[2] = markerEngineer;
             }
   			fitBoundsMap();
 
@@ -1018,15 +1046,14 @@ function clickDeleteJob(){
   				console.log(markers)
                 for (var i = 0; i < markers.length; i++) {
                 	if(markers[i]){
-                	console.log(markers[i].position.lng())
+                	console.log(markers[i].position.lat(),markers[i].position.lng())
                  		bounds.extend(markers[i].position);
                  	}	
                 }
                 map.fitBounds(bounds);
     			
             }    
-            
-	
+                        
 		}
     </script>
 

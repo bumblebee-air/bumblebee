@@ -6,6 +6,7 @@ use App\Helpers\TwilioHelper;
 use App\StripeAccount;
 use App\User;
 use Illuminate\Support\Str;
+use Stripe\Exception\ApiErrorException;
 use Stripe\StripeClient;
 use Twilio\Rest\Client;
 
@@ -36,34 +37,49 @@ class StripeManager
         $account_type = 'express';
         $user_name = explode(' ',$user->name);
         $first_name = $user_name[0];
-        $last_name = isset($user_name[1])? $user_name[1] : '';
+        $last_name = $user_name[1] ?? '';
         $email = $user->email;
         $phone = $user->phone;
         $stripe = new StripeClient($this->stripe_key);
-        $stripe_account = $stripe->accounts->create([
-            'type' => $account_type,
-            'country' => 'IE',
-            'email' => $email,
-            'capabilities' => [
-                'card_payments' => ['requested' => true],
-                'transfers' => ['requested' => true],
-            ],
-            /*'address' => [
-                'line1' => $address
-            ],*/
-            'business_type' => $business_type,
-            'individual' => [
-                'first_name' => $first_name,
-                'last_name' => $last_name,
+        try {
+            $stripe_account = $stripe->accounts->create([
+                'type' => $account_type,
+                'country' => 'IE',
                 'email' => $email,
-                'phone' => $phone,
-            ],
-            'business_profile'=> [
-                'mcc' => $merchant_code,
-                'name' => $first_name.' '.$last_name,
-                'product_description' => $product_description
-            ]
-        ]);
+                'capabilities' => [
+                    'card_payments' => ['requested' => true],
+                    'transfers' => ['requested' => true],
+                ],
+                /*'address' => [
+                    'line1' => $address
+                ],*/
+                'business_type' => $business_type,
+                'individual' => [
+                    'first_name' => $first_name,
+                    'last_name' => $last_name,
+                    'email' => $email,
+                    'phone' => $phone,
+                ],
+                'business_profile' => [
+                    'mcc' => $merchant_code,
+                    'name' => $first_name . ' ' . $last_name,
+                    'product_description' => $product_description
+                ]
+            ]);
+        } catch (ApiErrorException $e) {
+            \Log::error('Stripe account creation error: '.$e->getMessage());
+            $request_url = \Request::getUri();
+            if(strpos($request_url,'api/')!==false){
+                $response = [
+                    'message' => 'Stripe account creation error: '.$e->getMessage(),
+                    'error' => 1
+                ];
+                return response()->json($response,500);
+            }else{
+                alert()->error('Stripe account creation error: '.$e->getMessage());
+                return redirect()->back();
+            }
+        }
         //dd($stripe_account);
         $onboard_code = '';
         for ($i = 0; $i<8; $i++) {
@@ -82,10 +98,7 @@ class StripeManager
         $twilio = new Client($sid, $token);
         $message_body = 'Hi '.$first_name.', Click on the following link to start your Stripe account on-boarding: '.
             url('stripe-onboard/'.$onboard_code);
-        $message = $twilio->messages->create($phone,
-            ["from" => $company_name,
-                "body" => $message_body]
-        );
+        TwilioHelper::sendSMS($company_name, $phone, $message_body);
         return $stripe_account;
     }
 

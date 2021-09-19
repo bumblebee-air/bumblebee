@@ -13,8 +13,6 @@ class TwilioHelper
      * @param $from
      * @param $to
      * @param $body
-     * @throws \Twilio\Exceptions\ConfigurationException
-     * @throws \Twilio\Exceptions\TwilioException
      */
     public static function sendSMS($from, $to, $body) {
         try {

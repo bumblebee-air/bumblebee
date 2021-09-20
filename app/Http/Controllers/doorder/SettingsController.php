@@ -231,7 +231,7 @@ class SettingsController extends Controller
             $message->from('no-reply@doorder.eu', 'DoOrder platform')
                 ->to($email)
                 ->subject('Platform Registration')
-                ->setBody("Hi {$name},<br/>You have been registered on DoOrder and here are your ".
+                ->setBody("Hi $name,<br/>You have been registered on DoOrder and here are your ".
                     "login credentials:<br/><br/> <strong>Email:</strong> $email<br/> ".
                     "<strong>Password</strong>: $pass_pre_hash <br/>".
                     "You can access the platform from <a href='".url('')."'>this link</a>", 'text/html');

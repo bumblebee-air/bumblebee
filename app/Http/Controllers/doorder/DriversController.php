@@ -6,6 +6,7 @@ use App\Contractor;
 use App\DriverProfile;
 use App\Helpers\CustomNotificationHelper;
 use App\Helpers\SecurityHelper;
+use App\Helpers\TwilioHelper;
 use App\KPITimestamp;
 use App\Managers\StripeManager;
 use App\Order;
@@ -330,8 +331,7 @@ class DriversController extends Controller
         $timestamps->completed = $current_timestamp->toDateTimeString();
         $order->save();
         $timestamps->save();
-
-        Redis::publish('doorder-channel', json_encode([
+        /*Redis::publish('doorder-channel', json_encode([
             'event' => 'new-order'.'-'.env('APP_ENV','dev'),
             'data' => [
                 'id' => $order->id,
@@ -344,8 +344,23 @@ class DriversController extends Controller
                 'customer_address' => $order->customer_address,
                 'created_at' => $order->created_at,
             ]
-        ]));
-
+        ]));*/
+        //Send driver rating SMS to customer and retailer
+        $msg_content = "Hi $order->customer_name , thank you for selecting DoOrder delivery, you can".
+            " rate your deliverer through the link: ".url('order/rating/2/'.$order_id);
+        TwilioHelper::sendSMS('DoOrder',$order->customer_phone,$msg_content);
+        $retailer = Retailer::find($order->retailer_id);
+        $retailer_number = 'N/A';
+        if($retailer!=null){
+            $contact_details = json_decode($retailer->contacts_details);
+            $main_contact = $contact_details[0];
+            $retailer_number = $main_contact->contact_phone;
+        }
+        if($retailer_number!='N/A') {
+            $msg_content = "Hi $retailer->name , the order no. $order->order_id has been delivered, you can" .
+                " rate your deliverer through the link: " . url('order/rating/1/' . $order_id);
+            TwilioHelper::sendSMS('DoOrder', $retailer_number, $msg_content);
+        }
         $response = [
             'message' => 'Delivery confirmation skipped successfully',
             'error' => 0
@@ -817,13 +832,29 @@ class DriversController extends Controller
         }
         
         
-        $driver_orders = Order::where('driver','=',(string)$driver->user_id)->get();
+        $driver_orders = Order::whereHas('rating', function ($q) {
+            $q->where('model', '=', 'order');
+        })->where('driver','=',(string)$driver->user_id)->get();
         //dd($driver_orders);
-        
-        $driver->overall_rating=3.3;
+        $order_ids = [];
         foreach ($driver_orders as $order){
-            $order->rating = 4;
+            $order_ids[] = $order->id;
+            if(count($order->rating)>0){
+                $order_rating = 0;
+                foreach($order->rating as $a_rating){
+                    $order_rating += $a_rating->rating;
+                }
+                $driver_rating = $order_rating / count($order->rating);
+                //Round to nearest half decimal
+                $order->driver_rating = round($driver_rating * 2)/2;
+            } else {
+                $order->driver_rating = 0;
+            }
         }
+        $driver_ratings = \DB::table('ratings')->where('model','=','order')
+            ->whereIn('model_id',$order_ids)->selectRaw('avg(rating) as average_rating')->first();
+        $driver_overall_rating = ($driver_ratings->average_rating!=null)? $driver_ratings->average_rating : 0;
+        $driver->overall_rating = round($driver_overall_rating * 2)/2;
         
         return view('admin.doorder.drivers.single_driver_orders', ['driver' => $driver,'driver_orders'=>$driver_orders]);
         

@@ -216,7 +216,7 @@ div.dataTables_wrapper div.dataTables_filter {
 													<td><img class="order_status_icon"
 														:src="'{{asset('/')}}images/doorder_icons/order_status_' + (order.status === 'assigned' ? 'matched' :  order.status) + '.png'"
 														:alt="order.status"></td>
-														<td><div class="overallRating" :data-score="order.rating"></div>
+														<td><div class="overallRating" :data-score="order.driver_rating"></div>
 														</td>
 												</tr>
 

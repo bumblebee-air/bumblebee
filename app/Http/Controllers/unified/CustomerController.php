@@ -147,6 +147,7 @@ class CustomerController extends Controller
             "contract" => $request->contract,
             "phone" => $request->companyPhoneNumner,
             "address" => $request->address,
+            "address_coordinates" => json_decode($request->address_coordinates),
             "contacts" => json_encode($contact_details_json),
             "contract_start_date" => Carbon::parse($request->contractStartDate)->toDateString(),
             "contract_end_date" => Carbon::parse($request->contractEndDate)->toDateString()
@@ -212,6 +213,7 @@ class CustomerController extends Controller
             "contract" => $request->contract,
             "phone" => $request->companyPhoneNumner,
             "address" => $request->address,
+            "address_coordinates" => json_decode($request->address_coordinates),
             "contacts" => json_encode($contact_details_json),
             "hosted_pbx" => in_array(1, $services_types_json),
             "access_control" => in_array(2, $services_types_json),

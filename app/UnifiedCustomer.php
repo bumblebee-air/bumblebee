@@ -33,6 +33,11 @@ class UnifiedCustomer extends Model
         "address",
         "contract_start_date",
         "contract_end_date",
+        "address_coordinates"
+    ];
+
+    protected $casts = [
+        "address_coordinates" => "array"
     ];
 
     public function user() {

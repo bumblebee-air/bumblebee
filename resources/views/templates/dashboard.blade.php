@@ -142,7 +142,7 @@
 					<div class="collapse navbar-collapse justify-content-end col-md-11">
 						<div class="searchFormContainerDiv"
 							style="">
-						<form 
+						<form
 							class="navbar-form"
 							style="">
 							<div class="input-group">
@@ -243,7 +243,7 @@
 
    		$('#minimizeSidebar').click(function() {
               var $btn = $(this);
-        
+
               if (md.misc.sidebar_mini_active == true) {
                 $('body').removeClass('sidebar-mini');
                 $("#adminNavLogoImg").css('width','100px!important');
@@ -253,12 +253,12 @@
                 $("#adminNavLogoImg").css('width','40px!important');
                 md.misc.sidebar_mini_active = true;
               }
-        
+
               // we simulate the window Resize so the charts will get updated in realtime.
               var simulateWindowResize = setInterval(function() {
                 window.dispatchEvent(new Event('resize'));
               }, 180);
-        
+
               // we stop the simulation of Window Resize after the animations are completed
               setTimeout(function() {
                 clearInterval(simulateWindowResize);
@@ -268,7 +268,7 @@
   	}
     $(document).ready(function () {
       md.initMinimizeSidebar();
-    
+
         $('.navbar-toggler').click(function () {
             // $('body').toggleClass('menu-on-left');
             // $(this).toggleClass('toggled');
@@ -305,7 +305,7 @@
                 // optional options Object
                 position: 'top-right',
                 duration: 3600000,
-                onClick: () => this.onClickToast(decodedData)
+                onClick: () => this.onClickToast(decodedData, text)
             });
             notificationAudio.play();
         });
@@ -380,7 +380,7 @@
                 }
             }).then(function (input) {
                 if (input === 'view') {
-                    console.log('View Page');
+                    window.location.href = 'single-order/' + decodedData.data.id
                 }
             });
         }

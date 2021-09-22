@@ -133,9 +133,15 @@ class EngineerController extends Controller
         $user = $request->user();
         $engineer_profile = $user->engineer_profile;
         $jobs = UnifiedJob::query();
-        $jobs = $jobs->whereHas('engineers', function ($q) use ($engineer_profile) {
-            $q->where('engineer_id', $engineer_profile->id)->where('status', '!=', 'skipped');
-        });
+        if ($request->has('status')) {
+            $jobs = $jobs->whereHas('engineers', function ($q) use ($engineer_profile, $request) {
+                $q->where('engineer_id', $engineer_profile->id)->where('status', $request->status);
+            });
+        } else {
+            $jobs = $jobs->whereHas('engineers', function ($q) use ($engineer_profile, $request) {
+                $q->where('engineer_id', $engineer_profile->id)->whereNotIn('status', ['skipped', 'completed']);
+            });
+        }
         if ($request->has('job_type_id')) {
             $jobs = $jobs->where('job_type_id', $request->job_type_id);
         }
@@ -144,9 +150,7 @@ class EngineerController extends Controller
                 $q->where('status', $request->status);
             });
         }
-        $jobs = $jobs->with(['service', 'job_type', 'engineers' => function ($q) use ($engineer_profile) {
-            $q->where('engineer_id', $engineer_profile->id)->first();
-        }]);
+        $jobs = $jobs->with(['service', 'job_type', 'engineers']);
         $jobs = $jobs->paginate(50);
         foreach ($jobs as $job) {
             $job->company = $job->customer;

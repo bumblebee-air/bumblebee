@@ -163,6 +163,10 @@
 																<div class="col-12">
 																	<input type="hidden" name="serviceIdHidden"
 																		id="serviceIdHidden">
+																	<p
+																		style="font-size: 14px; color: red; font-weight: 500px; display: none;"
+																		id="errorMessageServiceType">Please select product
+																		type</p>
 																	<div class="form-group bmd-form-group">
 																		<label>Product type</label>
 																		<div id="selectedServiceTypesDiv"></div>
@@ -188,7 +192,7 @@
 														<div class="container">
 															<div class="row">
 																<div class="col-12">
-																	<div class=" row" >
+																	<div class=" row">
 																		<div class="col-12">
 																			<div class=" row" style="margin-top: 15px">
 																				<label class="labelRadio col-12" for="">Contract</label>
@@ -286,7 +290,8 @@
 																		<textarea class="form-control" name="address"
 																			id="address" placeholder="Customer location" required>{{$job->address}}</textarea>
 																		<input type="hidden" name="address_coordinates"
-																			id="address_coordinates"  value="{{json_encode($job->address_coordinates)}}">
+																			id="address_coordinates"
+																			value="{{json_encode($job->address_coordinates)}}">
 																	</div>
 																</div>
 																<div class="col-12">
@@ -321,10 +326,10 @@
 																	<div class="form-group bmd-form-group">
 																		<label>Pickup address</label>
 																		<textarea class="form-control" name="pickupAddress"
-																			id="pickupAddress" placeholder="Pickup address"
-																			>@if($job->pickup_needed){{$job->pickupAddress}}@endif</textarea>
+																			id="pickupAddress" placeholder="Pickup address">@if($job->pickup_needed){{$job->pickupAddress}}@endif</textarea>
 																		<input type="hidden" name="pickup_coordinates"
-																			id="pickup_coordinates" value="{{json_encode($job->pickup_coordinates)}}">
+																			id="pickup_coordinates"
+																			value="{{json_encode($job->pickup_coordinates)}}">
 																	</div>
 																</div>
 																<div class="col-12">
@@ -469,10 +474,55 @@
 
 	var token = '{{csrf_token()}}';
 	var job = {!! $job !!};
-	console.log(job);
+	//console.log(job);
 
 $(document).ready(function(){
-	$('#minimizeSidebar').trigger('click')
+	$('#minimizeSidebar').trigger('click');
+	
+		$('.card-container-form').on('show.bs.collapse hide.bs.collapse', function() {
+
+      //$(this).toggleClass("panel-default panel-primary");
+      //$(this).find(".indicator").toggleClass("glyphicon-chevron-right glyphicon-chevron-down");
+    })
+    $('.collapse').collapse({
+      toggle: false,
+      parent: '#details-container'
+    });
+    
+    
+
+$('#editJobButton').click(function() {
+
+
+var inputs = $("#addScheduledJob input[required],#addScheduledJob textarea[required],#addScheduledJob select[required]");
+//console.log(inputs)
+
+  inputs.each(function() {
+
+    if ($(this).val() == "") {
+
+      var current = $(this).closest(".collapse");
+      //console.log(this)
+      //console.log(current)
+
+      if (!current.hasClass("show")) {
+        current.collapse("show");
+      }
+
+      return false;
+    }
+  });
+  
+  if($("input[name='selectedServiceType']:checked").val()=== null || $("input[name='selectedServiceType']:checked").val()=== undefined){
+  	//console.log("sasada")
+  	$("#errorMessageServiceType").css("display","block");
+  	$('html, body').animate({ scrollTop: $('#errorMessageServiceType').offset().top }, 'slow');
+  	return false;
+  }else{
+  	$("#errorMessageServiceType").css("display","none")
+  }
+  
+});
 	
 			$("#companyNameSelect").val(job.companyId).select2();
 			$("#typeOfJobSelect").val(''+job.jobTypeId).select2();
@@ -536,10 +586,10 @@ $(document).ready(function(){
             	}
         });
        $('#date').datetimepicker().on('dp.change', function (event) {
-                console.log($(this).val());
+               // console.log($(this).val());
                 var date = moment($(this).val()).format('YYYY-MM-DD');
                 //var date2 = date.toString('dd-MM-yy');
-                console.log(date);
+               // console.log(date);
                 $('#calendar').fullCalendar('gotoDate', date);
        });
         
@@ -592,7 +642,7 @@ $(document).ready(function(){
                                 viewName:view.name
                               },
                         success:function(data) {
-    						console.log(data);
+    						//console.log(data);
     						//contractors = data.contractors;
     						callback(JSON.parse(data.events));
     						
@@ -797,18 +847,18 @@ function changeEngineer(){
 	
 	var engineerIds =$("#engineerSelect").val();
 	setSubmitButtonEnable();
-	console.log(engineerIds)
+	//console.log(engineerIds)
 	
 	var token ='{{csrf_token()}}';
-		console.log(markers);
+		//console.log(markers);
 		for(var j=2; j<markers.length; j++){
 			markers[j].setMap(null);
 		}
 		markers.length = 2;
-		console.log(markers);
+		//console.log(markers);
          
          for(var i=0; i<engineerIds.length;i++){
-		console.log(engineerIds[i]);
+		//console.log(engineerIds[i]);
 		var engineerId = engineerIds[i];
 		 
         	 $.ajax({
@@ -818,9 +868,9 @@ function changeEngineer(){
                	data: {_token: token, engineerId:engineerId},
                 success: function(data) {
                
-                    console.log(data);
-                    console.log(data.location);
-                    console.log(JSON.parse(data.location));
+                   // console.log(data);
+                   // console.log(data.location);
+                   // console.log(JSON.parse(data.location));
                       var location = JSON.parse(data.location);
                     
                     var marker = new google.maps.Marker({
@@ -966,9 +1016,9 @@ function clickDeleteJob(){
 			autoCompDrawMarkMap('pickupAddress','marker-grey.png');
 			
 			
-			console.log(job);
-			console.log(job.address_coordinates);
-			console.log(job.pickup_coordinates)
+// 			console.log(job);
+// 			console.log(job.address_coordinates);
+// 			console.log(job.pickup_coordinates)
 			if(job.address_coordinates!=null){
     			var position = new google.maps.LatLng(job.address_coordinates.lat,job.address_coordinates.lon);
                 markerAddress.setPosition(position);
@@ -1009,15 +1059,15 @@ function clickDeleteJob(){
         					// pressed the Enter key, or the Place Details request failed.
         					window.alert("No details available for input: '" + place.name + "'");
         				} else {
-        					console.log(place.geometry.location.lat() +" "+place.geometry.location.lng());
-        					console.log(place.geometry.viewport);
+//         					console.log(place.geometry.location.lat() +" "+place.geometry.location.lng());
+//         					console.log(place.geometry.viewport);
         					if (place.geometry.viewport) {
                               map.fitBounds(place.geometry.viewport);
                             } else {
                               map.setCenter(place.geometry.location);
                             }
                           
- 							console.log("before if "+location_input)
+ 							//console.log("before if "+location_input)
                             if(inputId=='address'){
                             	markerAddress.setPosition(place.geometry.location);
                             	markerAddress.setVisible(true);
@@ -1043,10 +1093,10 @@ function clickDeleteJob(){
 						
   			if (markers.length>1) { 
   				var bounds = new google.maps.LatLngBounds();
-  				console.log(markers)
+  				//console.log(markers)
                 for (var i = 0; i < markers.length; i++) {
                 	if(markers[i]){
-                	console.log(markers[i].position.lat(),markers[i].position.lng())
+                		//console.log(markers[i].position.lat(),markers[i].position.lng())
                  		bounds.extend(markers[i].position);
                  	}	
                 }

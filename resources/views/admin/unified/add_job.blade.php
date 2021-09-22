@@ -120,7 +120,7 @@ padding: 0 !important;
 																	<div class="form-group bmd-form-group">
 																		<label>Company name</label> <select name="companyName"
 																			class="form-control" id="companyNameSelect"
-																			onchange="changeCompany()">
+																			onchange="changeCompany()" required>
 																			<option value="" selected class="placeholdered">Select
 																				company</option> @if(count($companyNames) > 0)
 																			@foreach($companyNames as $companyName)
@@ -161,6 +161,7 @@ padding: 0 !important;
 																<div class="col-12">
 																	<input type="hidden" name="serviceIdHidden"
 																		id="serviceIdHidden" value="{{$serviceId}}">
+																	<p style="font-size: 14px; color:red; font-weight: 500px;display: none;" id="errorMessageServiceType"> Please select product type </p>	
 																	<div class="form-group bmd-form-group">
 																		<label>Product type</label>
 																		<div id="selectedServiceTypesDiv"></div>
@@ -235,7 +236,7 @@ padding: 0 !important;
 																<div class="col-12">
 																	<div class="form-group bmd-form-group">
 																		<label>Engineer</label> <select name="engineer[]"
-																			class="form-control" id="engineerSelect"
+																			class="form-control" id="engineerSelect" required
 																			onchange="changeEngineer()" multiple="">
 																			@if(count($engineers) > 0) @foreach($engineers as
 																			$engineer)
@@ -413,7 +414,50 @@ padding: 0 !important;
 
 
 $(document).ready(function(){
-	$('#minimizeSidebar').trigger('click')
+	$('#minimizeSidebar').trigger('click');
+	
+	$('.card-container-form').on('show.bs.collapse hide.bs.collapse', function() {
+
+      //$(this).toggleClass("panel-default panel-primary");
+      //$(this).find(".indicator").toggleClass("glyphicon-chevron-right glyphicon-chevron-down");
+    })
+    $('.collapse').collapse({
+      toggle: false,
+      parent: '#details-container'
+    });
+    
+    
+
+$('#createJobButton').click(function() {
+var inputs = $("#addScheduledJob input[required],#addScheduledJob textarea[required],#addScheduledJob select[required]");
+//console.log(inputs)
+
+  inputs.each(function() {
+
+    if ($(this).val() == "") {
+
+      var current = $(this).closest(".collapse");
+//       console.log(this)
+//       console.log(current)
+
+      if (!current.hasClass("show")) {
+        current.collapse("show");
+      }
+
+      return false;
+    }
+  });
+  
+  if($("input[name='selectedServiceType']:checked").val()=== null || $("input[name='selectedServiceType']:checked").val()=== undefined){
+  	$("#errorMessageServiceType").css("display","block");
+  	$('html, body').animate({ scrollTop: $('#errorMessageServiceType').offset().top }, 'slow');
+  	return false;
+  }else{
+  	$("#errorMessageServiceType").css("display","none")
+  }
+  
+});
+    
 	
 
  $("#companyNameSelect,#typeOfJobSelect,#engineerSelect").select2({});
@@ -678,7 +722,7 @@ function changeCompany(){
             	//console.log("0000 "+serviceIdHidden)
                 for(var i=0; i<company.serviceType.length; i++){
                 	serviceTypesDivHtml += '<input type="radio" name="selectedServiceType" title="'+company.serviceType[i].name
-                							+'" value="'+company.serviceType[i].id+'" id="serviceType'+company.serviceType[i].id+ '" >';
+                							+'" value="'+company.serviceType[i].id+'" id="serviceType'+company.serviceType[i].id+ '" required>';
                 }
                 //console.log(serviceTypesDivHtml)
                 $("#selectedServiceTypesDiv").html(serviceTypesDivHtml);
@@ -720,7 +764,7 @@ function changeEngineer(){
 			markers[j].setMap(null);
 		}
 		markers.length = 2;
-		console.log(markers);
+		//console.log(markers);
                               
 	for(var i=0; i<engineerIds.length;i++){
 		//console.log(engineerIds[i]);
@@ -876,9 +920,9 @@ function addIntelInput(input_id, input_name) {
 
          }
 		function autoCompDrawMarkMap(inputId,markerImage){
-				console.log("auto complete draw marker map")
+				//console.log("auto complete draw marker map")
 				let location_input = document.getElementById(inputId);
-				console.log(location_input)
+				// console.log(location_input)
 						//Mutation observer hack for chrome address autofill issue
         			let observerHackAddress = new MutationObserver(function() {
         				observerHackAddress.disconnect();
@@ -892,22 +936,22 @@ function addIntelInput(input_id, input_name) {
         			autocomplete_location.setComponentRestrictions({'country': ['ie']});
         			
         			autocomplete_location.addListener('place_changed', () => {
-        				console.log("place changed")
+        				//console.log("place changed")
         				let place = autocomplete_location.getPlace();
         				if (!place.geometry) {
         					// User entered the name of a Place that was not suggested and
         					// pressed the Enter key, or the Place Details request failed.
         					window.alert("No details available for input: '" + place.name + "'");
         				} else {
-        					console.log(place.geometry.location.lat() +" "+place.geometry.location.lng());
-        					console.log(place.geometry.viewport);
+        					//console.log(place.geometry.location.lat() +" "+place.geometry.location.lng());
+        					//console.log(place.geometry.viewport);
         					if (place.geometry.viewport) {
                               map.fitBounds(place.geometry.viewport);
                             } else {
                               map.setCenter(place.geometry.location);
                             }
                            
-                            console.log("before if "+location_input)
+                           // console.log("before if "+location_input)
                             if(inputId=='address'){
                             	markerAddress.setPosition(place.geometry.location);
                             	markerAddress.setVisible(true);

@@ -145,12 +145,9 @@ class EngineerController extends Controller
         if ($request->has('job_type_id')) {
             $jobs = $jobs->where('job_type_id', $request->job_type_id);
         }
-        if ($request->has('status')) {
-            $jobs = $jobs->whereHas('engineers', function ($q) use ($request) {
-                $q->where('status', $request->status);
-            });
-        }
-        $jobs = $jobs->with(['service', 'job_type', 'engineers']);
+        $jobs = $jobs->with(['service', 'job_type', 'engineers' => function($q) use ($engineer_profile) {
+            $q->where('engineer_id', $engineer_profile->id);
+        }]);
         $jobs = $jobs->paginate(50);
         foreach ($jobs as $job) {
             $job->company = $job->customer;
@@ -172,8 +169,8 @@ class EngineerController extends Controller
     public function getJobDetails(Request $request, $id) {
         $user = $request->user();
         $engineer_profile = $user->engineer_profile;
-        $job = UnifiedJob::with(['service', 'job_type', 'engineers' => function ($q) {
-            $q->where('engineer_id', auth()->user()->id)->first();
+        $job = UnifiedJob::with(['service', 'job_type', 'engineers' => function ($q) use ($engineer_profile) {
+            $q->where('engineer_id', $engineer_profile->id)->first();
         }])->find($id);
         if (!$job) {
             return response()->json([

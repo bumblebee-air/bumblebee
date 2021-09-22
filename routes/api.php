@@ -85,6 +85,7 @@ Route::group(['middleware' => "auth:api"],function () {
         Route::post('jobs/{id}', 'unified\EngineerController@postJob');
         Route::get('jobs_types', 'unified\EngineerController@getJobsTypes');
         Route::get('services', 'unified\EngineerController@getServices');
+        Route::post('update_location', 'unified\EngineerController@updateLocation');
     });
 });
 

@@ -19,11 +19,14 @@ class UnifiedEngineerJob extends Model
         'engineer_id',
         'job_id',
         'expenses_receipts',
-        'additional_cost'
+        'additional_cost',
+        'latest_coordinates',
+        'latest_coordinates_updated_at',
     ];
 
     public $casts = [
-        'job_images' => 'array'
+        'job_images' => 'array',
+        'latest_coordinates' => 'array',
     ];
 
     public function job() {

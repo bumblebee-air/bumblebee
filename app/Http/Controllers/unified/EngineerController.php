@@ -296,4 +296,19 @@ class EngineerController extends Controller
             'data' => $service
         ]);
     }
+
+    public function updateLocation(Request $request) {
+        $this->validate($request, [
+            'lat' => 'required|numeric',
+            'lng' => 'required|numeric',
+        ]);
+        $user = $request->user();
+        $engineer_profile = $user->engineer_profile;
+        $engineer_profile->latest_coordinates = ['lat' => $request->lat, 'lng' => $request->lng];
+        $engineer_profile->latest_coordinates_updated_at = Carbon::now();
+        $engineer_profile->save();
+        return response()->json([
+            'message' => 'Success.'
+        ]);
+    }
 }

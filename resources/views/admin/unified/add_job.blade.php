@@ -673,8 +673,8 @@ function changeCompany(){
             $('#phone').val(company.phone);
             $('#address').val(company.address);
             $('#address').change();
-            var position = new google.maps.LatLng(company.addressLatlng.lat,company.addressLatlng.lng);
-            document.getElementById("address_coordinates").value = '{"lat": ' + company.addressLatlng.lat + ', "lon": ' + company.addressLatlng.lng +'}';	
+            var position = new google.maps.LatLng(company.address_coordinates.lat,company.address_coordinates.lng);
+            document.getElementById("address_coordinates").value = '{"lat": ' + company.address_coordinates.lat + ', "lon": ' + company.address_coordinates.lng +'}';
             markerAddress.setPosition(position);
             markerAddress.setVisible(true);
             markers[0] = markerAddress;

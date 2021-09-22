@@ -206,7 +206,7 @@ class CustomerController extends Controller
         $user->password = bcrypt(Str::random(8));
         $user->save();
 
-        UnifiedCustomer::create([
+        $customer = UnifiedCustomer::create([
             "user_id" => $user->id,
             "name" => $request->name,
             "post_code" => $request->postcode,
@@ -225,6 +225,12 @@ class CustomerController extends Controller
             "contract_start_date" => Carbon::parse($request->contractStartDate)->toDateString(),
             "contract_end_date" => Carbon::parse($request->contractEndDate)->toDateString()
         ]);
+        foreach ($services_types_json as $service_id) {
+            UnifiedCustomerService::create([
+                'service_id' => $service_id,
+                'customer_id' => $customer->id
+            ]);
+        }
         alert()->success('Customer has added successfully.');
         return redirect()->route('unified_getCustomersList', 'unified');
     }

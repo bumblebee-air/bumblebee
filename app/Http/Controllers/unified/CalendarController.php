@@ -176,11 +176,6 @@ class CalendarController extends Controller
             }
         }
 
-        $customerData->addressLatlng = array(
-            "lat" => 53.341060324,
-            "lng" => - 6.251008668
-        );
-
         return response()->json(array(
             "msg" => "test test",
             "company" => $customerData

@@ -211,13 +211,13 @@ class EngineerController extends Controller
                 'message' => 'The job id is not valid.'
             ],422);
         }
-        $engineer_job = $job->engineers->where('engineer_id', $engineer_profile->id);
+        $engineer_job = $job->engineers->where('engineer_id', $engineer_profile->id)->first();
         $timestamps = KPITimestamp::where('model','=','unified_job_engineer')
-            ->where('model_id','=',$engineer_job[0]->id)->first();
+            ->where('model_id','=',$engineer_job->id)->first();
         if(!$timestamps){
             $timestamps = new KPITimestamp();
             $timestamps->model = 'unified_job_engineer';
-            $timestamps->model_id = $engineer_job[0]->id;
+            $timestamps->model_id = $engineer_job->id;
         }
         //Check If the job checked out by the engineer
         $checkIfJobAssignedToTheEngineer = $job->engineers->where('engineer_id', $engineer_profile->id)->first();
@@ -342,9 +342,9 @@ class EngineerController extends Controller
             ], 422);
         }
         foreach ($completed_jobs as $completed_job) {
-            $engineer_job = $completed_job->engineers->where('engineer_id', $engineer_profile->id);
-            if (count($engineer_job) > 0) {
-                $engineer_job[0]->update([
+            $engineer_job = $completed_job->engineers->where('engineer_id', $engineer_profile->id)->first();
+            if ($engineer_job) {
+                $engineer_job->update([
                     'status' => 'checked_out'
                 ]);
             }

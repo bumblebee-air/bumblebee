@@ -763,13 +763,15 @@ function changeCompany(){
             $('#phone').val(company.phone);
             $('#address').val(company.address);
             $('#address').change();
-            var position = new google.maps.LatLng(company.addressLatlng.lat,company.addressLatlng.lon);
-            document.getElementById("address_coordinates").value = '{lat: ' + company.addressLatlng.lat + ', lon: ' + company.addressLatlng.lng +'}';	
-            markerAddress.setPosition(position);
-            markerAddress.setVisible(true);
-            markers[0] = markerAddress;
-  			fitBoundsMap();
-            
+            //console.log(company.address_coordinates)
+            if(company.address_coordinates!=null){
+                var position = new google.maps.LatLng(company.address_coordinates.lat,company.address_coordinates.lon);
+                document.getElementById("address_coordinates").value = '{lat: ' + company.address_coordinates.lat + ', lon: ' + company.address_coordinates.lon +'}';	
+                markerAddress.setPosition(position);
+                markerAddress.setVisible(true);
+                markers[0] = markerAddress;
+      			fitBoundsMap();
+            }
             
             if(company.contract ==true){
             	$('#contractYes').prop("checked",true);

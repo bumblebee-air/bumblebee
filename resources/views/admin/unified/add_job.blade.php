@@ -666,15 +666,15 @@ function changeCompany(){
        	data: {_token: token, companyId:companyVal},
         success: function(data) {
        
-           // console.log(data);
+            console.log(data);
             var company = data.company;
             $('#email').val(company.email);
             $('#mobile').val(company.mobile);
             $('#phone').val(company.phone);
             $('#address').val(company.address);
             $('#address').change();
-            var position = new google.maps.LatLng(company.address_coordinates.lat,company.address_coordinates.lng);
-            document.getElementById("address_coordinates").value = '{"lat": ' + company.address_coordinates.lat + ', "lon": ' + company.address_coordinates.lng +'}';
+            var position = new google.maps.LatLng(company.address_coordinates.lat,company.address_coordinates.lon);
+            document.getElementById("address_coordinates").value = '{"lat": ' + company.address_coordinates.lat + ', "lon": ' + company.address_coordinates.lon +'}';
             markerAddress.setPosition(position);
             markerAddress.setVisible(true);
             markers[0] = markerAddress;

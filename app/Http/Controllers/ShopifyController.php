@@ -161,7 +161,7 @@ class ShopifyController extends Controller
                     $paid = isset($aWebhook['paid'])? $aWebhook['paid'] : null;
                     $notes = isset($aWebhook['notes'])? $aWebhook['notes'] : null;
                     $retailer_name = isset($aWebhook['retailer_name'])? $aWebhook['retailer_name'] : null;
-                    $pickup_address = count($the_nearest_location) > 0 ? $the_nearest_location->address : (isset($aWebhook['pickup_address'])? $aWebhook['pickup_address'] : null);
+                    $pickup_address = count($the_nearest_location) > 0 ? $the_nearest_location['address'] : (isset($aWebhook['pickup_address'])? $aWebhook['pickup_address'] : null);
                     $pickup_lat = $the_nearest_location_coordinates ? $the_nearest_location_coordinates['lat'] : (isset($aWebhook['pickup_lat'])? $aWebhook['pickup_lat'] : null);
                     $pickup_lon = $the_nearest_location_coordinates ? $the_nearest_location_coordinates['lon'] : (isset($aWebhook['pickup_lon'])? $aWebhook['pickup_lon'] : null);
                     $customer_name = isset($aWebhook['customer_name'])? $aWebhook['customer_name'] : null;

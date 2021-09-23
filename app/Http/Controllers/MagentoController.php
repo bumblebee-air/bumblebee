@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\GoogleMapsHelper;
 use App\Order;
 use App\Retailer;
 use Illuminate\Support\Facades\Http;
@@ -23,12 +24,12 @@ class MagentoController extends Controller
         }
         $retailer_id = $retailer->id;
         $retailer_locations = json_decode($retailer->locations_details, true);
-        $retailer_first_location_coordinates = count($retailer_locations) > 0 ? $retailer_locations[0]['coordinates'] : null;
-        if ($retailer_first_location_coordinates) {
-            $retailer_first_location_coordinates = str_replace("lat", "\"lat\"", $retailer_first_location_coordinates);
-            $retailer_first_location_coordinates = str_replace("lon", "\"lon\"", $retailer_first_location_coordinates);
-            $retailer_first_location_coordinates = json_decode($retailer_first_location_coordinates, true);
-        }
+//        $retailer_first_location_coordinates = count($retailer_locations) > 0 ? $retailer_locations[0]['coordinates'] : null;
+//        if ($retailer_first_location_coordinates) {
+//            $retailer_first_location_coordinates = str_replace("lat", "\"lat\"", $retailer_first_location_coordinates);
+//            $retailer_first_location_coordinates = str_replace("lon", "\"lon\"", $retailer_first_location_coordinates);
+//            $retailer_first_location_coordinates = json_decode($retailer_first_location_coordinates, true);
+//        }
         $orders = $request->all();
         $shipping_method_name = $orders['shipping_method_name'];
         if(strpos(strtolower($shipping_method_name),"same day")!==false ||
@@ -82,7 +83,16 @@ class MagentoController extends Controller
             //$aWebhook["customer_address_lon"] = $orders['shipping_address_longitude'];
             $aWebhook["eircode"] = $orders['zip'];
 
-            try {
+            try {//Get the most near retailer location to the customer location
+                $customer_address_coordinates = $this->getCustomerAddressCoordinates($aWebhook['customer_address'] ?: null);
+                $the_nearest_location = GoogleMapsHelper::getTheNearestLocation($retailer_locations, ['lat' => $customer_address_coordinates['lat'], 'lon' => $customer_address_coordinates['lon']]);
+                $the_nearest_location_coordinates = $retailer_locations[0]['coordinates'];
+                if ($the_nearest_location_coordinates) {
+                    $the_nearest_location_coordinates = str_replace("lat", "\"lat\"", $the_nearest_location_coordinates);
+                    $the_nearest_location_coordinates = str_replace("lon", "\"lon\"", $the_nearest_location_coordinates);
+                    $the_nearest_location_coordinates = json_decode($the_nearest_location_coordinates, true);
+                }
+
                 $order_id = $aWebhook['order_id'] ?? null;
                 $description = $aWebhook['description'] ?? null;
                 $weight = $aWebhook['weight'] ?? null;
@@ -90,9 +100,9 @@ class MagentoController extends Controller
                 $paid = $aWebhook['paid'] ?? null;
                 $notes = $aWebhook['notes'] ?? null;
                 $retailer_name = $aWebhook['retailer_name'] ?? null;
-                $pickup_address = count($retailer_locations) > 0 ? $retailer_locations[0]['address'] : (isset($aWebhook['pickup_address'])? $aWebhook['pickup_address'] : null);
-                $pickup_lat = $retailer_first_location_coordinates ? $retailer_first_location_coordinates['lat'] : (isset($aWebhook['pickup_lat'])? $aWebhook['pickup_lat'] : null);
-                $pickup_lon = $retailer_first_location_coordinates ? $retailer_first_location_coordinates['lon'] : (isset($aWebhook['pickup_lon'])? $aWebhook['pickup_lon'] : null);
+                $pickup_address = count($the_nearest_location) > 0 ? $the_nearest_location->address : (isset($aWebhook['pickup_address'])? $aWebhook['pickup_address'] : null);
+                $pickup_lat = $the_nearest_location_coordinates ? $the_nearest_location_coordinates['lat'] : (isset($aWebhook['pickup_lat'])? $aWebhook['pickup_lat'] : null);
+                $pickup_lon = $the_nearest_location_coordinates ? $the_nearest_location_coordinates['lon'] : (isset($aWebhook['pickup_lon'])? $aWebhook['pickup_lon'] : null);
                 $customer_name = $aWebhook['customer_name'] ?? null;
                 $customer_phone = $aWebhook['customer_phone'] ?? null;
                 $customer_email = $aWebhook['customer_email'] ?? null;

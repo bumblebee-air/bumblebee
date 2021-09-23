@@ -85,7 +85,7 @@ class MagentoController extends Controller
 
             try {//Get the most near retailer location to the customer location
                 $customer_address_coordinates = $this->getCustomerAddressCoordinates($aWebhook['customer_address'] ?: null);
-                $the_nearest_location = GoogleMapsHelper::getTheNearestLocation($retailer_locations, ['lat' => $customer_address_coordinates['lat'], 'lon' => $customer_address_coordinates['lon']]);
+                $the_nearest_location = GoogleMapsHelper::getTheNearestLocation($retailer_locations, ['lat' => $customer_address_coordinates['lat'], 'lon' => $customer_address_coordinates['lng']]);
                 $the_nearest_location_coordinates = $retailer_locations[0]['coordinates'];
                 if ($the_nearest_location_coordinates) {
                     $the_nearest_location_coordinates = str_replace("lat", "\"lat\"", $the_nearest_location_coordinates);

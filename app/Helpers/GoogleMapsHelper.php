@@ -23,9 +23,8 @@ class GoogleMapsHelper
             $km    = round($miles * 1.609344, 2);
 
             // Convert unit and return distance
-            $distances[] = $km;
-
+            $distances[$key] = $km;
         }
-        return $locations[array_key_first(array_keys($distances, min($distances)))];
+        return $locations[array_keys($distances, min($distances))[0]];
     }
 }

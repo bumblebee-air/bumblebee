@@ -8,9 +8,9 @@ class GoogleMapsHelper
         $distances = [];
 //        $destination = ['lat' => 53.3242381, 'lon' => -6.1056228];
         foreach ($locations as $key => $location) {
-            $location->coordinates = str_replace('lat', '"lat"', $location->coordinates);
-            $location->coordinates = str_replace('lon', '"lon"', $location->coordinates);
-            $location_coordinates_decoded = json_decode($location->coordinates, true);
+            $location['coordinates'] = str_replace('lat', '"lat"', $location['coordinates']);
+            $location['coordinates'] = str_replace('lon', '"lon"', $location['coordinates']);
+            $location_coordinates_decoded = json_decode($location['coordinates'], true);
             /*
              * Calculate distance between latitude and longitude
              * $location => from, $destination(customer location) => to

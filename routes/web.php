@@ -331,6 +331,8 @@ Route::group([
             Route::post('order/delete', 'doorder\OrdersController@deleteOrder')->name('doorder_deleteOrderOrder');
             
             Route::get('map_routes', 'doorder\MapRoutesConroller@index')->name('doorder_mapRoutes');
+            Route::get('get_route_driver','doorder\MapRoutesConroller@getRouteOfDriver')->name('doorder_getRouteDriver');
+            
             Route::group([
                 'middleware' => "client"
             ], function () {

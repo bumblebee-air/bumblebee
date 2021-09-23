@@ -139,7 +139,7 @@ class EngineerController extends Controller
             });
         } else {
             $jobs = $jobs->whereHas('engineers', function ($q) use ($engineer_profile, $request) {
-                $q->where('engineer_id', $engineer_profile->id)->whereNotIn('status', ['skipped', 'completed']);
+                $q->where('engineer_id', $engineer_profile->id)->whereNotIn('status', ['skipped', 'completed', 'checked_out']);
             });
         }
         if ($request->has('job_type_id')) {
@@ -148,11 +148,23 @@ class EngineerController extends Controller
         $jobs = $jobs->with(['service', 'job_type', 'engineers' => function($q) use ($engineer_profile) {
             $q->where('engineer_id', $engineer_profile->id);
         }]);
+        $jobs = $jobs->with(['service', 'job_type', 'engineers' => function($q) use ($engineer_profile) {
+            $q->where('engineer_id', $engineer_profile->id);
+        }]);
         $jobs = $jobs->paginate(50);
         foreach ($jobs as $job) {
             $job->company = $job->customer;
-            $job->kpi_timestamps = KPITimestamp::where('model','=','unified_job')
+            $job->kpi_timestamps = KPITimestamp::where('model','=','unified_job_engineer')
                 ->where('model_id','=',$job->id)->first();
+            $job_engineers = UnifiedEngineerJob::where('job_id', $job->id)->get();
+            $engineers_names = [];
+            foreach ($job_engineers as $engineer) {
+                $job_engineer_profile = $engineer->engineer;
+                if ($job_engineer_profile) {
+                    $engineers_names[] = "$job_engineer_profile->first_name $job_engineer_profile->last_name";
+                }
+            }
+            $job->engineers_names = $engineers_names;
         }
         return response()->json([
             'data' => $jobs
@@ -182,9 +194,9 @@ class EngineerController extends Controller
                 'message' => 'The job id is assigned to another engineer.'
             ],422);
         }
-        $job->company = $job->customer;
-        $job->kpi_timestamps = KPITimestamp::where('model','=','unified_job')
-            ->where('model_id','=',$job->id)->first();
+        $engineer_job = $job->engineers->where('engineer_id', $engineer_profile->id);
+        $job->kpi_timestamps = KPITimestamp::where('model','=','unified_job_engineer')
+            ->where('model_id','=',$engineer_job[0]->id)->first();
         return response()->json([
             'data' => $job
         ]);
@@ -199,12 +211,13 @@ class EngineerController extends Controller
                 'message' => 'The job id is not valid.'
             ],422);
         }
-        $timestamps = KPITimestamp::where('model','=','unified_job')
-            ->where('model_id','=',$job->id)->first();
+        $engineer_job = $job->engineers->where('engineer_id', $engineer_profile->id);
+        $timestamps = KPITimestamp::where('model','=','unified_job_engineer')
+            ->where('model_id','=',$engineer_job[0]->id)->first();
         if(!$timestamps){
             $timestamps = new KPITimestamp();
-            $timestamps->model = 'unified_job';
-            $timestamps->model_id = $job->id;
+            $timestamps->model = 'unified_job_engineer';
+            $timestamps->model_id = $engineer_job[0]->id;
         }
         //Check If the job checked out by the engineer
         $checkIfJobAssignedToTheEngineer = $job->engineers->where('engineer_id', $engineer_profile->id)->first();
@@ -307,6 +320,35 @@ class EngineerController extends Controller
         $engineer_profile->latest_coordinates = ['lat' => $request->lat, 'lng' => $request->lng];
         $engineer_profile->latest_coordinates_updated_at = Carbon::now();
         $engineer_profile->save();
+        return response()->json([
+            'message' => 'Success.'
+        ]);
+    }
+
+    public function checkOutJobs(Request $request) {
+        $user = $request->user();
+        $engineer_profile = $user->engineer_profile;
+        $completed_jobs = UnifiedJob::whereHas('engineers', function ($q) use ($engineer_profile) {
+            $q->where('engineer_id', $engineer_profile->id)->where('status', 'completed');
+        })->get();
+
+        $feedback_filled_jobs_count = UnifiedJob::whereHas('engineers', function ($q) use ($engineer_profile) {
+            $q->where('engineer_id', $engineer_profile->id)->where('status', 'completed')->where('is_feedback_filled', true);
+        })->count();
+
+        if ($completed_jobs->count() != $feedback_filled_jobs_count) {
+            return response()->json([
+                'message' => 'There is a job not filled with the feedback.'
+            ], 422);
+        }
+        foreach ($completed_jobs as $completed_job) {
+            $engineer_job = $completed_job->engineers->where('engineer_id', $engineer_profile->id);
+            if (count($engineer_job) > 0) {
+                $engineer_job[0]->update([
+                    'status' => 'checked_out'
+                ]);
+            }
+        }
         return response()->json([
             'message' => 'Success.'
         ]);

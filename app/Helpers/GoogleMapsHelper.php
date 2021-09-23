@@ -6,7 +6,7 @@ class GoogleMapsHelper
 {
     public static function getTheNearestLocation($locations, $destination) {
         $distances = [];
-        $destination = ['lat' => 53.3242381, 'lon' => -6.1056228];
+//        $destination = ['lat' => 53.3242381, 'lon' => -6.1056228];
         foreach ($locations as $key => $location) {
             $location->coordinates = str_replace('lat', '"lat"', $location->coordinates);
             $location->coordinates = str_replace('lon', '"lon"', $location->coordinates);

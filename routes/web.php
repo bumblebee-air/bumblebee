@@ -471,7 +471,18 @@ Route::group([
                 Route::post('save_productCustomer_intruderAlarm','unified\CustomerController@postSaveProductIntruderAlarm')->name('unified_saveProductCustomer_intruderAlarm');
                 Route::post('save_productCustomer_wifiData','unified\CustomerController@postSaveProductWifiData')->name('unified_saveProductCustomer_wifiData');
                 Route::post('save_productCustomer_structuredCablingSystems','unified\CustomerController@postStructuredCablingSystems')->name('unified_saveProductCustomer_structuredCablingSystems');
-                
+               
+            });
+            Route::group([
+                'prefix' => 'product_types'
+            ], function () {
+                Route::get('list','unified\ProductFormController@getProductTypesList')->name('unified_getProductTypesList');
+                Route::post('delete', 'unified\ProductFormController@deleteProductType')->name('unifiedDeleteProductType');
+                Route::get('view/{id}', 'unified\ProductFormController@getSingleProductType')->name('unified_getProductTypeSingleView');
+                Route::get('edit/{id}', 'unified\ProductFormController@getSingleProductTypeEdit')->name('unified_getProductTypeSingleEdit');
+                Route::post('edit/{id}', 'unified\ProductFormController@postEditProductType')->name('unified_postProductTypeSingleEdit');
+                Route::get('add', 'unified\ProductFormController@getAddProductType')->name('unified_getAddProductType');
+                Route::post('add', 'unified\ProductFormController@postAddProductType')->name('unified_postAddProductType');                
             });
             
             Route::group([

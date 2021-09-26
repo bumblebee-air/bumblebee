@@ -18,6 +18,7 @@ use App\UserPasswordReset;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -984,6 +985,59 @@ class DriversController extends Controller
                 'business_hours' => $driver->business_hours,
                 'business_hours_json' => $driver->business_hours_json,
             ]
+        ]);
+    }
+
+    public function optimizeOrdersRoute(Request $request){
+        $current_user = \Auth::user();
+        $driver_id = $current_user->id;
+        $driver_coordinates = $request->get('driver_coordinates');
+        $order_ids = $request->get('order_ids');
+        if($driver_coordinates==null || $order_ids==null){
+            return response()->json([
+                'errors' => 1,
+                'error_msg' => 'The driver coordinates or the order IDs are missing',
+                'optimized_route' => []
+            ]);
+        }
+        //$order_ids = explode(',',$order_ids);
+        $order_ids = json_decode('[' . $order_ids . ']', true);
+        $orders = Order::whereIn('id',$order_ids)->get();
+        $orders_data = [];
+        foreach($orders as $order){
+            if(intval($order->driver) != $driver_id){
+                return response()->json([
+                    'errors' => 1,
+                    'error_msg' => 'The order with ID '.$order->id.' doesn\'t belong to this driver!',
+                    'optimized_route' => []
+                ]);
+            }
+            $orders_data[] = [
+                'order_id' => (string)$order->id,
+                'pickup' => $order->pickup_lat.','.$order->pickup_lon,
+                'dropoff' => $order->customer_address_lat.','.$order->customer_address_lon
+            ];
+        }
+        $route_opt_url = env('ROUTE_OPTIMIZE_URL','https://afternoon-lake-03061.herokuapp.com') . '/routing_table';
+        $route_optimization_req = Http::post($route_opt_url,[
+            'deliverer_coordinates' => $driver_coordinates,
+            'orders_address' => json_encode($orders_data)
+        ]);
+        if($route_optimization_req->status()!=200){
+            return response()->json([
+                'errors' => 1,
+                'error_msg' => 'The route optimization failed with the message: '
+                    .$route_optimization_req->body(),
+                'optimized_route' => []
+            ]);
+        }
+        $optimized_route_arr = json_decode($route_optimization_req->body());
+        //Remove the first item (driver's current coordinates)
+        array_shift($optimized_route_arr);
+        return response()->json([
+            'errors' => 0,
+            'error_msg' => 'The route optimization was successful',
+            'optimized_route' => $optimized_route_arr
         ]);
     }
 }

@@ -55,6 +55,6 @@ class Order extends Model
     }
 
     public function rating() {
-        return $this->hasOne(Rating::class, 'model_id');
+        return $this->hasMany(Rating::class, 'model_id');
     }
 }

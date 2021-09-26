@@ -14,6 +14,7 @@ use App\UserFirebaseToken;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redis;
 use Maatwebsite\Excel\Facades\Excel;
 use Twilio\Rest\Client;
@@ -323,5 +324,29 @@ class OrdersController extends Controller
         $order = Order::find($id);
         
         return view('admin.doorder.print_label_order', ['order' => $order]);
+    }
+
+    public function optimizeOrdersRoute(){
+        $order_ids = '10,26,36,78,90';
+        dd(json_decode('[' . $order_ids . ']', true));
+        $orders = Order::whereIn('id',[10,26,36])->get();
+        $orders_data = [];
+        foreach($orders as $order){
+            $orders_data[] = [
+                'order_id' => (string)$order->id,
+                'pickup_address' => $order->pickup_address,
+                'pickup' => $order->pickup_lat.','.$order->pickup_lon,
+                'dropdoff_address' => $order->customer_address,
+                'dropoff' => $order->customer_address_lat.','.$order->customer_address_lon
+            ];
+        }
+        $driver_coordinates = '53.425334,-6.231581';
+        //dd(['driver_coordinates'=>$driver_coordinates, 'orders_data'=>$orders_data]);
+        $route_opt_url = 'https://afternoon-lake-03061.herokuapp.com/routing_table';
+        $route_optimization_req = Http::post($route_opt_url,[
+            'deliverer_coordinates' => $driver_coordinates,
+            'orders_address' => json_encode($orders_data)
+        ]);
+        dd($route_optimization_req->status(), $route_optimization_req->body());
     }
 }

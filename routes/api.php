@@ -57,17 +57,17 @@ Route::post('contractor-forgot-password','doorder\DriversController@sendGHForgot
 Route::post('driver-check-code','doorder\DriversController@checkForgotPasswordCode');
 Route::post('driver-change-password','doorder\DriversController@changeUserPassword');
 Route::group(['middleware' => "auth:api"],function () {
+    //DoOrder
     Route::get('orders-list','doorder\DriversController@ordersList');
     Route::post('driver-status-update','doorder\DriversController@updateOrderDriverStatus');
     Route::post('order-details','doorder\DriversController@orderDetails');
     Route::post('driver-location-update','doorder\DriversController@updateDriverLocation');
     Route::post('skip-delivery-confirmation','doorder\DriversController@skipDeliveryConfirmation');
     Route::post('update-driver-firebase-token','doorder\DriversController@updateDriverFirebaseToken');
-
-    //DoOrder
     Route::post('update-driver-password','doorder\DriversController@changePassword');
     Route::get('get-driver-profile','doorder\DriversController@getProfile');
     Route::post('update-driver-profile','doorder\DriversController@updateProfile');
+    Route::post('optimize-orders-route','doorder\DriversController@optimizeOrdersRoute');
 
     //GardenHelp
     Route::get('jobs-list','garden_help\ContractorsController@getJobsList');

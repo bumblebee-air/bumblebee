@@ -488,7 +488,7 @@ new Chartist.Bar('.ct-chart', data, options, responsiveOptions);
             }
         }
 
-        let map_socket = io.connect(window.location.protocol+'//' + window.location.hostname + ':8890');
+        let map_socket = io.connect('{{env('SOCKET_URL')}}');
 
         map_socket.on('doorder-channel:update-driver-location'+'-'+'{{env('APP_ENV','dev')}}', (data) => {
             let decodedData = JSON.parse(data);

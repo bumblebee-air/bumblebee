@@ -186,7 +186,7 @@ $(document).ready(function() {
                 orders: {}
             },
             mounted() {
-                let orders_socket = io.connect(window.location.protocol+'//' + window.location.hostname + ':8890');
+                let orders_socket = io.connect('{{env('SOCKET_URL')}}');
                 @if(Auth::guard('doorder')->check() && auth()->user() && auth()->user()->user_role != "retailer")
                 orders_socket.on('doorder-channel:new-order'+'-'+'{{env('APP_ENV','dev')}}', (data) => {
                     let decodedData = JSON.parse(data)

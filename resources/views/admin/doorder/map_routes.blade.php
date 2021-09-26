@@ -90,32 +90,46 @@ $(document).ready(function(){
 
         let map;
         var routes = [];
-        var colors=['#D2691E','#DAA520','#FF8C00','#a9a9a9','#696969','#778899','#5e70e6','#6a5acd','#4682b4','#9acd32'];
+        var colors=['#D2691E','#4682b4','#FF8C00','#a9a9a9','#DAA520','#696969','#778899','#5e70e6','#6a5acd','#9acd32'];
         var icons;
        	let markerAddress ,markerPickup,markerDriver ;
         let directionsService
      
-      var routesOpt = [
-      			{
-      				"deliverer_location": "53.40264481,-6.4309825", 
-      				"921945_pickup": "53.4264481,-6.243099098", 
-      				"18_pickup": "53.42604481,-6.12499098", 
-      				"17_pickup": "53.29034,-6.17659", 
-      				"921945_dropoff": "53.289851,-6.24756", 
-      				"18_dropoff": "53.304581,-6.205543", 
-      				"17_dropoff": "53.34581, -6.25543"},
-      			{
-      				"deliverer_location": "53.34581,-6.5285543", 
-      				"123_pickup": "53.334981, -6.526025", 
-      				"45_pickup": "53.32604,-6.531861", 
-      				"123_dropoff": "53.234868,-6.539165", 
-// 					"123_pickup": "53.2344155,-6.53898908", 
-//       				"45_pickup": "53.3430084,-6.52864568", 
-//       				"123_dropoff": "53.325824,-6.53175112", 
-      				"45_dropoff": "53.2034868,-6.5020463", },
       
-      ];
-      console.log(routesOpt);
+      var routesOpt = [[   {"deliverer_location": "53.40264481,-6.4309825"},
+                        {"coordinates": "53.4264481,-6.243099098",
+                            "order_id": "14",
+                            "type": "pickup"},
+                        {"coordinates": "53.42604481,-6.12499098",
+                            "order_id": "13",
+                            "type": "pickup"},
+                        {"coordinates": "53.29034,-6.17659",
+                            "order_id": "15",
+                            "type": "pickup"},
+                        {"coordinates": "53.289851,-6.24756",
+                            "order_id": "14",
+                            "type": "dropoff"},
+                        {"coordinates": "53.304581,-6.205543",
+                            "order_id": "13",
+                            "type": "dropoff"},
+                        {"coordinates": "53.34581, -6.25543",
+                            "order_id": "15",
+                            "type": "dropoff"}
+                    ],[   {"deliverer_location": "53.34581,-6.5285543"},
+                        {"coordinates": "53.334981, -6.526025",
+                            "order_id": "14",
+                            "type": "pickup"},
+                        {"coordinates": "53.32604,-6.531861",
+                            "order_id": "13",
+                            "type": "pickup"},
+                        {"coordinates": "53.234868,-6.539165",
+                            "order_id": "13",
+                            "type": "dropoff"},
+                        {"coordinates": "53.2034868,-6.5020463",
+                            "order_id": "14",
+                            "type": "dropoff"}
+                    ]];
+		console.log(routesOpt)
       
       var directionsRendererArr = [], markersRoutesArr=[];
       var dirRendCount =0, markerRoutesCount=0;     
@@ -143,70 +157,42 @@ $(document).ready(function(){
               		//	mapTypeId: google.maps.MapTypeId.ROADMAP,
                     });        
         
-        		 for(var i=0;i<routesOpt.length;i++){
-                	var keysss=Object.keys(routesOpt[i]);
-                	var waypoints = [];
-                	for(var j=1;j<keysss.length-1; j++){
-                		console.log(routesOpt[i][keysss[j]]);
-                		console.log(keysss[j]);
-                		waypoints.push({location: new google.maps.LatLng(routesOpt[i][keysss[j]].split(",")[0],routesOpt[i][keysss[j]].split(",")[1]),
-                							stopover: true});
-//                    		 makeMarker(new google.maps.LatLng(routesOpt[i][keysss[j]].split(",")[0],routesOpt[i][keysss[j]].split(",")[1]),
-//                    		  markerPickup, 'title', map);
-							//	makeMarker(leg.start_location, markerPickup, "title", map);
-						
-// 						var  marker = new google.maps.Marker({
-//                               position: new google.maps.LatLng(routesOpt[i][keysss[j]].split(",")[0],routesOpt[i][keysss[j]].split(",")[1]),
-//                                 map: map,
-//                                zIndex:0,
-//                         		anchorPoint: new google.maps.Point(0, 0),
-//                         		icon: {
-//                                     url:"{{asset('images/doorder_driver_assets/pickup-address-pin-grey.png')}}", // url
-//                                     scaledSize: new google.maps.Size(30, 35), // scaled size
-//                                 },
-//                         });
-                    
-//                         google.maps.event.addListener(marker, 'click', (function(marker,i,j) {
-//                           return function() {
-//                             infowindow.setContent(routesOpt[i][keysss[j]].split(",")[0]+','+routesOpt[i][keysss[j]].split(",")[1]);
-//                             infowindow.open(map, marker);
-//                           }
-//                         })(marker, i,j));
 
-					
+            
+            for(var i=0;i<routesOpt.length; i++){
+                		var routeTemp = routesOpt[i];
+                		var waypoints=[];
+                		var destination;
+                		for(var j=1; j<routeTemp.length; j++){
+//                 			console.log(routeOpt[j])
+//                 			console.log("point "+j +" "+routeTemp[j]['coordinates'])
+                			if(j==routeTemp.length-1){
+                				destination = new google.maps.LatLng(routeTemp[j]['coordinates'].split(",")[0],routeTemp[j]['coordinates'].split(",")[1])
+                			}else{
+                				waypoints.push({location: new google.maps.LatLng(routeTemp[j]['coordinates'].split(",")[0],routeTemp[j]['coordinates'].split(",")[1]),
+                							stopover: true});	
+                			}				
+                		}
+//                 		console.log(waypoints)
+                		 route = {
+                    		origin:  new google.maps.LatLng(routeTemp[0]['deliverer_location'].split(",")[0],routeTemp[0]['deliverer_location'].split(",")[1]),
+                    		destination: destination,
+                    		waypoints:waypoints,
+                    		travelMode: google.maps.TravelMode.DRIVING,
+                		};
+                		console.log(route)
+                		console.log("------=====-----");
+                		directionsRendererArr[dirRendCount] = new google.maps.DirectionsRenderer({ polylineOptions: {
+                           strokeColor: colors[i%colors.length]
+                         },});
+                    	directionsRendererArr[dirRendCount].setMap(map);
+                    	calculateAndDisplayRoute(directionsService, directionsRendererArr[dirRendCount],route);
+                    	dirRendCount++;
                 	}
-                	console.log(waypoints)
-                	console.log("----------");
-                	var route = {
-                		origin:  new google.maps.LatLng(routesOpt[i][keysss[0]].split(",")[0],routesOpt[i][keysss[0]].split(",")[1]),
-                		destination: new google.maps.LatLng(routesOpt[i][keysss[keysss.length-1]].split(",")[0],
-                						routesOpt[i][keysss[keysss.length-1]].split(",")[1]),
-                		waypoints:waypoints,
-                		travelMode: google.maps.TravelMode.DRIVING,
-                	};
-//                 	routes.push(route)
-//                }
-        		
-//         		console.log(routes)
-        	    
-//             for(var i=0;i<routes.length; i++){
-            	directionsRendererArr[dirRendCount] = new google.maps.DirectionsRenderer({ polylineOptions: {
-                   strokeColor: colors[i%colors.length]
-                 },});
-//                          markerOptions: {
-//                   icon: {
-//                     scaledSize: new google.maps.Size(35, 35), 
-//                     url: 'http://res.cloudinary.com/tapsy/image/upload/v1572870098/u_fzktfv.png'
-//                   },}
-//                          });//suppressMarkers: true
-            	directionsRendererArr[dirRendCount].setMap(map);
-            	calculateAndDisplayRoute(directionsService, directionsRendererArr[dirRendCount],route);
-            	dirRendCount++;
-            }
             
                         
-    		console.log(directionsRendererArr)
-    		console.log(dirRendCount);        
+//     		console.log(directionsRendererArr)
+//     		console.log(dirRendCount);        
     
         }
         function calculateAndDisplayRoute(directionsService, directionsRenderer,route) {
@@ -245,49 +231,6 @@ $(document).ready(function(){
             console.log(markersRoutesArr);
             console.log(markerRoutesCount)
         }
-
-    
-    /*routes = [
-            	{	
-                  origin:  new google.maps.LatLng(53.49412,-6.4309825),
-                  destination: new google.maps.LatLng(53.304581,-6.205543),
-                  waypoints: [
-                  		{ 	location: new google.maps.LatLng(53.34581, -6.25543),
-            				stopover: true,
-            			},
-                  		{ 	location: new google.maps.LatLng(53.29034,-6.17659),
-            				stopover: true,
-            			},
-                  		{ 	location: new google.maps.LatLng(53.289851,-6.24756),
-            				stopover: true,
-            			},
-                  		{ 	location: new google.maps.LatLng(53.4264481,-6.2499098),
-            				stopover: true,
-            			},
-            	  ],
-            	   travelMode: google.maps.TravelMode.DRIVING,
-            	},
-            	{
-                  origin:  new google.maps.LatLng( 53.34981, -6.26025),
-                  destination: new google.maps.LatLng(53.049412,-6.04309825),
-                  waypoints: [
-                  		{ 	location: new google.maps.LatLng(53.34581,-6.285543 ),
-            				stopover: true,
-            			},
-                  		{ 	location: new google.maps.LatLng( 53.32604,-6.31861),
-            				stopover: true,
-            			},
-                  		{ 	location: new google.maps.LatLng( 53.234868,-6.039165),
-            				stopover: true,
-            			},
-                  		{ 	location: new google.maps.LatLng(53.037131,-6.020463 ),
-            				stopover: true,
-            			},
-            	  ],
-            	   //travelMode: google.maps.TravelMode.DRIVING,
-            	   travelMode: google.maps.TravelMode.WALKING,
-            	}
-        	];*/
         	
         function clickFilter(){
         	var driverId = $("#driverSelect").val();
@@ -311,24 +254,29 @@ $(document).ready(function(){
                     directionsRendererArr=[];
                     dirRendCount=0;
                      
-                    var keysss=Object.keys(routeTemp);
-                	var waypoints = [];
-                	for(var j=1;j<keysss.length-1; j++){
-                		console.log(routeTemp[keysss[j]]);
-                		console.log(keysss[j]);
-                		waypoints.push({location: new google.maps.LatLng(routeTemp[keysss[j]].split(",")[0],routeTemp[keysss[j]].split(",")[1]),
-                							stopover: true});
-				
-                	}
-                	console.log(waypoints)
-                	console.log("----------");
-                	var route = {
-                		origin:  new google.maps.LatLng(routeTemp[keysss[0]].split(",")[0],routeTemp[keysss[0]].split(",")[1]),
-                		destination: new google.maps.LatLng(routeTemp[keysss[keysss.length-1]].split(",")[0],
-                						routeTemp[keysss[keysss.length-1]].split(",")[1]),
-                		waypoints:waypoints,
-                		travelMode: google.maps.TravelMode.DRIVING,
-                	};
+                    var waypoints=[];
+                		var destination;
+                		for(var j=1; j<routeTemp.length; j++){
+//                 			console.log(routeTemp[j])
+//                 			console.log("point "+j +" "+routeTemp[j]['coordinates'])
+                			if(j==routeTemp.length-1){
+                				destination = new google.maps.LatLng(routeTemp[j]['coordinates'].split(",")[0],routeTemp[j]['coordinates'].split(",")[1])
+                			}else{
+                				waypoints.push({location: new google.maps.LatLng(routeTemp[j]['coordinates'].split(",")[0],routeTemp[j]['coordinates'].split(",")[1]),
+                							stopover: true});	
+                			}				
+                		}
+//                 		console.log(waypoints)
+                		var route = {
+                    		origin:  new google.maps.LatLng(routeTemp[0]['deliverer_location'].split(",")[0],routeTemp[0]['deliverer_location'].split(",")[1]),
+                    		destination: destination,
+                    		waypoints:waypoints,
+                    		travelMode: google.maps.TravelMode.DRIVING,
+                		};
+                		console.log(route)
+                		console.log("------=====-----");
+                		
+                	
                   	directionsRendererArr[dirRendCount] = new google.maps.DirectionsRenderer({ polylineOptions: {
                            strokeColor: colors[6]
                          },});

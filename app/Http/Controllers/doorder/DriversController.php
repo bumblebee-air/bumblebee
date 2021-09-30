@@ -1034,6 +1034,10 @@ class DriversController extends Controller
         $optimized_route_arr = json_decode($route_optimization_req->body());
         //Remove the first item (driver's current coordinates)
         array_shift($optimized_route_arr);
+        foreach($optimized_route_arr as $key=>$route_item){
+            $the_order = $orders->firstWhere('id',$route_item['order_id']);
+            $optimized_route_arr[$key]['status'] = ($the_order->driver_status!=null)? $the_order->driver_status : $the_order->status;
+        }
         return response()->json([
             'errors' => 0,
             'error_msg' => 'The route optimization was successful',

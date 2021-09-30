@@ -238,9 +238,9 @@ $( document ).ready(function() {
             		 e.preventDefault();
             		$("#form_builder_data").val(formBuilder.actions.getData('json')); 
             		console.log(formBuilder.actions.getData('json'))
-//     				setTimeout(() => {
-//     					$('#productTypeForm').submit();
-//     				}, 300);
+    				setTimeout(() => {
+    					$('#productTypeForm').submit();
+    				}, 300);
             	}
             }
         });  

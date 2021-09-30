@@ -1,0 +1,120 @@
+#build-wrap .form-group select.form-control {
+	position: relative !important;
+}
+
+#build-wrap .form-group input[type=file] {
+	z-index: 0;
+	opacity: 1;
+	position: relative;
+	box-shadow: none !important;
+}
+
+#build-wrap .form-field {
+	box-shadow: 0 1px 4px 0 rgb(0 0 0/ 25%);
+	margin-top: 15px;
+}
+
+#build-wrap select, #build-wrap select.form-control {
+	-moz-appearance: auto;
+	-webkit-appearance: auto;
+}
+
+#build-wrap .form-wrap.form-builder .frmb .form-elements input[type='number'],
+	#build-wrap .form-wrap.form-builder .frmb .form-elements input.fld-maxlength,
+	#build-wrap .form-wrap.form-builder .frmb .prev-holder input[type='number'],
+	#build-wrap .form-wrap.form-builder .frmb .prev-holder input[type='date']
+	{
+	width: 100%;
+}
+
+#build-wrap .form-wrap.form-builder .frmb .prev-holder select,
+	#build-wrap .form-wrap.form-builder .frmb .prev-holder input[type='text'],
+	#build-wrap .form-wrap.form-builder .frmb .prev-holder textarea,
+	#build-wrap .form-wrap.form-builder .frmb .prev-holder input[type='number']
+	{
+	box-shadow: 0 2px 48px 0 rgb(0 0 0/ 8%);
+	border: 0;
+}
+
+#build-wrap .form-wrap.form-builder .frmb-control li {
+	font-size: 15px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.5 !important;
+	letter-spacing: 0.15px;
+	color: #656565;
+}
+
+#build-wrap .remove.btn.formbuilder-icon-cancel {
+	background-color: transparent;
+	box-shadow: none;
+}
+
+#build-wrap .form-wrap.form-builder .frmb .sortable-options>li .remove:hover
+	{
+	background-color: #c10000;
+}
+
+#build-wrap .form-wrap.form-builder .frmb-control li:hover {
+	background-color: #d58242 !important;
+	color: #fff;
+}
+
+#build-wrap .form-wrap.form-builder .stage-wrap.empty::after {
+	font-size: 17px;
+	font-weight: 400;
+}
+
+.form-builder-dialog {
+	overflow-y: inherit !important;
+	padding: 11px 12px !important;
+}
+
+.form-wrap.form-builder .tooltip-element {
+	background: #d58242 !important;
+	font-size: 13px !important;
+	font-weight: 700;
+	padding: 2px;
+	width: 18px !important;
+	height: 18px !important;
+}
+
+.form-wrap.form-builder .frmb .sortable-options .option-selected {
+	display: none;
+}
+/* .form-wrap.form-builder .cb-wrap{ */
+/* 	width: 100% !important; */
+/* } */
+
+/* @media (max-width: 481px){ */
+/* .form-wrap.form-builder .stage-wrap { */
+/* 	width: 100%; */
+/* }} */
+.form-wrap.form-builder .cb-wrap {
+	padding-right: 0 !important;
+}
+
+.containerFormBuilder {
+	max-width: 100%;
+	width: 100%;
+}
+@media ( max-width : 576px) {
+	.container-fluid, .card-body {
+		padding-left: 0 !important;
+		padding-right: 0 !important;
+	}
+	#build-wrap .form-wrap.form-builder .frmb-control li {
+		text-align: center;
+	}
+	.form-wrap.form-builder .cb-wrap {
+		padding-right: 0 !important;
+	}
+	.containerFormBuilder {
+		max-width: 98% !important;width: 98%;
+	}
+}
+
+input.fld-name {
+	pointer-events: none;
+}

@@ -797,7 +797,15 @@
 					src="{{asset('images/unified/Engineers.png')}}"
 					alt="Engineers">
 					<p>Engineers </p>
-			</a></li><li class="nav-item"><a class="nav-link d-flex"
+			</a></li>
+			<li class="nav-item"><a class="nav-link d-flex"
+				href="{{route('unified_getProductTypesList', 'unified')}}">  <img class="my-nav-icon"
+					src="{{asset('images/unified/Add Service Form.png')}}"
+					alt="Add Service Form">
+					<p>Product Types </p>
+			</a></li>
+			
+			<li class="nav-item"><a class="nav-link d-flex"
 				href="">  <img class="my-nav-icon"
 					src="{{asset('images/unified/Add Service Form.png')}}"
 					alt="Add Service Form">

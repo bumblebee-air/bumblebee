@@ -3,8 +3,8 @@
       Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
       Tip 2: you can also add an image using data-image tag
     -->
-	@if(($user_type == 'client' || $user_type == 'retailer' || $user_type == 'driver_manager') &&
-	$admin_nav_logo!=null)
+	@if(($user_type == 'client' || $user_type == 'retailer' || $user_type == 'driver_manager'
+	|| $user_type == 'investor') && $admin_nav_logo!=null)
 	<div class="user" style="z-index: 3">
 		<div class="photo photo-full text-center">
 			<img src="{{asset($admin_nav_logo)}}" title="{{$admin_client_name}}"
@@ -17,11 +17,13 @@
 	</div>
 	@else
 	<div class="logo">
-		<a href="{{url('/')}}" class="simple-text logo-mini"> @if($user_type
-			== 'client' || $user_type == 'retailer' || $user_type == 'driver_manager') {{$admin_client_name[0]}}
+		<a href="{{url('/')}}" class="simple-text logo-mini"> @if($user_type == 'client'
+			|| $user_type == 'retailer' || $user_type == 'driver_manager'
+			|| $user_type == 'investor') {{$admin_client_name[0]}}
 			@else BB @endif </a> <a href="{{url('/')}}"
-			class="simple-text logo-normal"> @if($user_type == 'client' ||
-			$user_type == 'retailer' || $user_type == 'driver_manager') {{$admin_client_name}} @else Bumblebee
+			class="simple-text logo-normal"> @if($user_type == 'client'
+			|| $user_type == 'retailer' || $user_type == 'driver_manager'
+			|| $user_type == 'investor') {{$admin_client_name}} @else Bumblebee
 			@endif </a>
 	</div>
 	@endif
@@ -349,194 +351,181 @@
 					<p>Logout</p>
 			</a></li>
 		</ul>
-		@elseif(Auth::guard('doorder')->check()) @if(auth()->user()->user_role
-		== 'client')
+		@elseif(Auth::guard('doorder')->check())
 		<ul class="nav">
-			<li class="nav-item"><a class="nav-link d-flex"
-				href="{{route('doorder_adminMap', 'doorder')}}"> <img
-					class="my-nav-icon" src="{{asset('images/doorder_icons/Map.png')}}"
-					alt="Map"> <img class="my-nav-icon my-nav-icon-top"
-					src="{{asset('images/doorder_icons/Map-yellow.png')}}" alt="Map">
-					<p>Map</p>
-			</a></li>
-			<li class="nav-item"><a class="nav-link d-flex" href="{{url('/')}}">
-					<img class="my-nav-icon"
-					src="{{asset('images/doorder_icons/dashboard.png')}}" alt=""> <img
-					class="my-nav-icon my-nav-icon-top"
-					src="{{asset('images/doorder_icons/Dashboard-yellow.png')}}" alt="">
-					<p>Dashboard</p>
-			</a></li>
-			<li class="nav-item"><a class="nav-link d-flex"
-				href="{{route('doorder_ordersTable', 'doorder')}}"> <img
-					class="my-nav-icon"
-					src="{{asset('images/doorder_icons/orders_table_white.png')}}"
-					alt=""> <img class="my-nav-icon my-nav-icon-top"
-					src="{{asset('images/doorder_icons/orders_table.png')}}" alt="">
-					<p>Orders Table</p>
-			</a></li>
-			<li class="nav-item"><a class="nav-link d-flex"
-				href="{{route('doorder_retailers', 'doorder')}}"> <img
-					class="my-nav-icon"
-					src="{{asset('images/doorder_icons/Retailer.png')}}" alt=""> <img
-					class="my-nav-icon my-nav-icon-top"
-					src="{{asset('images/doorder_icons/Retailer-yellow.png')}}" alt="">
-					<p>Retailers</p>
-			</a></li>
-			<li class="nav-item"><a class="nav-link d-flex"
-				href="{{route('doorder_drivers', 'doorder')}}"> <img
-					class="my-nav-icon"
-					src="{{asset('images/doorder_icons/Deliverers-white.png')}}" alt="">
-					<img class="my-nav-icon my-nav-icon-top"
-					src="{{asset('images/doorder_icons/Deliverers-yellow.png')}}"
-					alt="">
-					<p>Deliverers</p>
-			</a></li>
+            @if(auth()->user()->user_role == 'client')
+                <li class="nav-item"><a class="nav-link d-flex"
+                    href="{{route('doorder_adminMap', 'doorder')}}"> <img
+                        class="my-nav-icon" src="{{asset('images/doorder_icons/Map.png')}}"
+                        alt="Map"> <img class="my-nav-icon my-nav-icon-top"
+                        src="{{asset('images/doorder_icons/Map-yellow.png')}}" alt="Map">
+                        <p>Map</p>
+                </a></li>
+                <li class="nav-item"><a class="nav-link d-flex" href="{{url('/')}}">
+                        <img class="my-nav-icon"
+                        src="{{asset('images/doorder_icons/dashboard.png')}}" alt=""> <img
+                        class="my-nav-icon my-nav-icon-top"
+                        src="{{asset('images/doorder_icons/Dashboard-yellow.png')}}" alt="">
+                        <p>Dashboard</p>
+                </a></li>
+                <li class="nav-item"><a class="nav-link d-flex"
+                    href="{{route('doorder_ordersTable', 'doorder')}}"> <img
+                        class="my-nav-icon"
+                        src="{{asset('images/doorder_icons/orders_table_white.png')}}"
+                        alt=""> <img class="my-nav-icon my-nav-icon-top"
+                        src="{{asset('images/doorder_icons/orders_table.png')}}" alt="">
+                        <p>Orders Table</p>
+                </a></li>
+                <li class="nav-item"><a class="nav-link d-flex"
+                    href="{{route('doorder_retailers', 'doorder')}}"> <img
+                        class="my-nav-icon"
+                        src="{{asset('images/doorder_icons/Retailer.png')}}" alt=""> <img
+                        class="my-nav-icon my-nav-icon-top"
+                        src="{{asset('images/doorder_icons/Retailer-yellow.png')}}" alt="">
+                        <p>Retailers</p>
+                </a></li>
+                <li class="nav-item"><a class="nav-link d-flex"
+                    href="{{route('doorder_drivers', 'doorder')}}"> <img
+                        class="my-nav-icon"
+                        src="{{asset('images/doorder_icons/Deliverers-white.png')}}" alt="">
+                        <img class="my-nav-icon my-nav-icon-top"
+                        src="{{asset('images/doorder_icons/Deliverers-yellow.png')}}"
+                        alt="">
+                        <p>Deliverers</p>
+                </a></li>
 
-			<li class="nav-item "><a class="nav-link collapsed d-flex"
-				data-toggle="collapse" href="#componentsExamples"
-				aria-expanded="false"> <img class="my-nav-icon"
-					src="{{asset('images/doorder_icons/Requests.png')}}" alt=""
-					style="width: 20px"> <img class="my-nav-icon my-nav-icon-top"
-					src="{{asset('images/doorder_icons/Requests-yellow.png')}}" alt=""
-					style="width: 20px">
-					<p style="padding-right: 30px;">
-						Requests <b class="caret"></b>
-					</p>
-			</a>
-				<div class="collapse" id="componentsExamples">
-					<ul class="nav">
-						<li class="nav-item "><a class="nav-link"
-							href="{{route('doorder_retailers_requests', 'doorder')}}"> <span
-								class="sidebar-mini">RR</span> <span class="sidebar-normal">
-									Retailers Requests </span>
-						</a></li>
-						<li class="nav-item "><a class="nav-link"
-							href="{{route('doorder_drivers_requests', 'doorder')}}"> <span
-								class="sidebar-mini">DR</span> <span class="sidebar-normal">
-									Drivers Requests </span>
-						</a></li>
-					</ul>
-				</div></li>
+                <li class="nav-item "><a class="nav-link collapsed d-flex"
+                    data-toggle="collapse" href="#componentsExamples"
+                    aria-expanded="false"> <img class="my-nav-icon"
+                        src="{{asset('images/doorder_icons/Requests.png')}}" alt=""
+                        style="width: 20px"> <img class="my-nav-icon my-nav-icon-top"
+                        src="{{asset('images/doorder_icons/Requests-yellow.png')}}" alt=""
+                        style="width: 20px">
+                        <p style="padding-right: 30px;">
+                            Requests <b class="caret"></b>
+                        </p>
+                </a>
+                    <div class="collapse" id="componentsExamples">
+                        <ul class="nav">
+                            <li class="nav-item "><a class="nav-link"
+                                href="{{route('doorder_retailers_requests', 'doorder')}}"> <span
+                                    class="sidebar-mini">RR</span> <span class="sidebar-normal">
+                                        Retailers Requests </span>
+                            </a></li>
+                            <li class="nav-item "><a class="nav-link"
+                                href="{{route('doorder_drivers_requests', 'doorder')}}"> <span
+                                    class="sidebar-mini">DR</span> <span class="sidebar-normal">
+                                        Drivers Requests </span>
+                            </a></li>
+                        </ul>
+                    </div></li>
 
-			<li class="nav-item">
-				<a class="nav-link d-flex" href="#"> <img
-					class="my-nav-icon"
-					src="{{asset('images/doorder_icons/Whatsapp.png')}}" alt="whatsapp">
-					<img class="my-nav-icon my-nav-icon-top"
-					src="{{asset('images/doorder_icons/Whatsapp-yellow.png')}}"
-					alt="whatsapp">
-					<p>WhatsApp</p>
-				</a>
-			</li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="#"> <img
+                        class="my-nav-icon"
+                        src="{{asset('images/doorder_icons/Whatsapp.png')}}" alt="whatsapp">
+                        <img class="my-nav-icon my-nav-icon-top"
+                        src="{{asset('images/doorder_icons/Whatsapp-yellow.png')}}"
+                        alt="whatsapp">
+                        <p>WhatsApp</p>
+                    </a>
+                </li>
 
-			<li class="nav-item">
-				<a class="nav-link d-flex" href="{{route('doorder_getInvoiceList', 'doorder')}}">
-					<img class="my-nav-icon" src="{{asset('images/doorder_icons/Invoice-white.png')}}" alt="whatsapp" style="width: 20px; height: 25px">
-					<img class="my-nav-icon my-nav-icon-top" src="{{asset('images/doorder_icons/Invoice-yellow.png')}}" style="width: 20px; height: 25px"
-						 alt="whatsapp">
-					<p>Invoice</p>
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link d-flex" href="{{route('doorder_ordersHistoryTable', 'doorder')}}">
-					<img class="my-nav-icon"
-					src="{{asset('images/doorder_icons/History-white.png')}}"
-					alt="whatsapp"> <img class="my-nav-icon my-nav-icon-top"
-					src="{{asset('images/doorder_icons/History-yellow.png')}}"
-					alt="whatsapp">
-					<p>History</p>
-				</a>
-			</li>
-			<li class="nav-item"><a class="nav-link d-flex" href="{{route('doorder_getSettings', 'doorder')}}"> <img
-					class="my-nav-icon"
-					src="{{asset('images/doorder_icons/Settings.png')}}" alt="whatsapp">
-					<img class="my-nav-icon my-nav-icon-top"
-					src="{{asset('images/doorder_icons/Settings-yellow.png')}}"
-					alt="whatsapp">
-					<p>Settings</p>
-			</a></li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{route('doorder_getInvoiceList', 'doorder')}}">
+                        <img class="my-nav-icon" src="{{asset('images/doorder_icons/Invoice-white.png')}}" alt="whatsapp" style="width: 20px; height: 25px">
+                        <img class="my-nav-icon my-nav-icon-top" src="{{asset('images/doorder_icons/Invoice-yellow.png')}}" style="width: 20px; height: 25px"
+                             alt="whatsapp">
+                        <p>Invoice</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{route('doorder_ordersHistoryTable', 'doorder')}}">
+                        <img class="my-nav-icon"
+                        src="{{asset('images/doorder_icons/History-white.png')}}"
+                        alt="whatsapp"> <img class="my-nav-icon my-nav-icon-top"
+                        src="{{asset('images/doorder_icons/History-yellow.png')}}"
+                        alt="whatsapp">
+                        <p>History</p>
+                    </a>
+                </li>
+                <li class="nav-item"><a class="nav-link d-flex" href="{{route('doorder_getSettings', 'doorder')}}"> <img
+                        class="my-nav-icon"
+                        src="{{asset('images/doorder_icons/Settings.png')}}" alt="whatsapp">
+                        <img class="my-nav-icon my-nav-icon-top"
+                        src="{{asset('images/doorder_icons/Settings-yellow.png')}}"
+                        alt="whatsapp">
+                        <p>Settings</p>
+                </a></li>
+		    @elseif(auth()->user()->user_role == 'retailer')
+                <li class="nav-item"><a class="nav-link d-flex"
+                    href="{{route('doorder_addNewOrder', 'doorder')}}"> <img class="my-nav-icon"
+                        src="{{asset('images/doorder_icons/add-plus-outline.png')}}" alt="">
+                         <img
+                        class="my-nav-icon my-nav-icon-top"
+                        src="{{asset('images/doorder_icons/add-plus-outline-yellow.png')}}" alt="">
+                        <p>Add New Order</p>
+                </a></li>
+                <li class="nav-item"><a class="nav-link d-flex" href="{{url('/')}}">
+                        <img class="my-nav-icon"
+                        src="{{asset('images/doorder_icons/dashboard.png')}}" alt=""> <img
+                        class="my-nav-icon my-nav-icon-top"
+                        src="{{asset('images/doorder_icons/Dashboard-yellow.png')}}" alt="">
+                        <p>Dashboard</p>
+                </a></li>
 
-
-			<li class="nav-item "><a class="nav-link d-flex"
-				href="{{url('logout')}}"> <img class="my-nav-icon"
-					src="{{asset('images/doorder_icons/logout-outline.png')}}"
-					alt="whatsapp"> <img class="my-nav-icon my-nav-icon-top"
-					src="{{asset('images/doorder_icons/logout-outline-yellow.png')}}"
-					alt="logout">
-					<p>Logout</p>
-			</a></li>
-		</ul>
-		@elseif(auth()->user()->user_role == 'retailer')
-		<ul class="nav">
-			<li class="nav-item"><a class="nav-link d-flex"
-				href="{{route('doorder_addNewOrder', 'doorder')}}"> <img class="my-nav-icon"
-					src="{{asset('images/doorder_icons/add-plus-outline.png')}}" alt="">
-					 <img
-					class="my-nav-icon my-nav-icon-top"
-					src="{{asset('images/doorder_icons/add-plus-outline-yellow.png')}}" alt="">
-					<p>Add New Order</p>
-			</a></li>
-			<li class="nav-item"><a class="nav-link d-flex" href="{{url('/')}}">
-					<img class="my-nav-icon"
-					src="{{asset('images/doorder_icons/dashboard.png')}}" alt=""> <img
-					class="my-nav-icon my-nav-icon-top"
-					src="{{asset('images/doorder_icons/Dashboard-yellow.png')}}" alt="">
-					<p>Dashboard</p>
-			</a></li>
-
-			<li class="nav-item"><a class="nav-link d-flex"
-				href="{{route('doorder_ordersTable', 'doorder')}}"> <img
-					class="my-nav-icon"
-					src="{{asset('images/doorder_icons/orders_table_white.png')}}"
-					alt=""> <img class="my-nav-icon my-nav-icon-top"
-					src="{{asset('images/doorder_icons/orders_table.png')}}" alt="">
-					<p>Order Table</p>
-			</a></li>
-			<li class="nav-item "><a class="nav-link d-flex"
-				href="{{url('logout')}}">  <img class="my-nav-icon"
-					src="{{asset('images/doorder_icons/logout-outline.png')}}"
-					alt="logout"> <img class="my-nav-icon my-nav-icon-top"
-					src="{{asset('images/doorder_icons/logout-outline-yellow.png')}}"
-					alt="logout">
-					<p>Logout</p>
-			</a></li>
-		</ul>
-		@elseif(auth()->user()->user_role == 'driver_manager')
-		<ul class="nav">
-			<li class="nav-item"><a class="nav-link d-flex"
-				href="{{route('doorder_drivers', 'doorder')}}"> <img
-				class="my-nav-icon"
-				src="{{asset('images/doorder_icons/Deliverers-white.png')}}" alt="">
-				<img class="my-nav-icon my-nav-icon-top"
-					 src="{{asset('images/doorder_icons/Deliverers-yellow.png')}}" alt="">
-				<p>Deliverers</p>
-			</a></li>
-			<li class="nav-item"><a class="nav-link d-flex"
-				href="{{route('doorder_drivers_requests', 'doorder')}}"> <img
-				class="my-nav-icon"
-				src="{{asset('images/doorder_icons/Requests.png')}}" alt=""
-				style=""> <img class="my-nav-icon my-nav-icon-top"
-			  		src="{{asset('images/doorder_icons/Requests-yellow.png')}}" alt="">
-					<p>Deliverer Requests</p>
-			</a></li>
-			<li class="nav-item"><a class="nav-link d-flex"
-				href="{{route('doorder_ordersTable', 'doorder')}}"> <img
-					class="my-nav-icon"
-					src="{{asset('images/doorder_icons/orders_table_white.png')}}"
-					alt=""> <img class="my-nav-icon my-nav-icon-top"
-				 		src="{{asset('images/doorder_icons/orders_table.png')}}" alt="">
-					<p>Order Table</p>
-			</a></li>
-			<li class="nav-item "><a class="nav-link d-flex"
-		 		href="{{url('logout')}}">  <img class="my-nav-icon"
-				src="{{asset('images/doorder_icons/logout-outline.png')}}"
-			 	alt="logout"> <img class="my-nav-icon my-nav-icon-top"
-					src="{{asset('images/doorder_icons/logout-outline-yellow.png')}}"
-					alt="logout">
-					<p>Logout</p>
-			</a></li>
-		</ul>
-		@endif @elseif(Auth::guard('garden-help')->check())
+                <li class="nav-item"><a class="nav-link d-flex"
+                    href="{{route('doorder_ordersTable', 'doorder')}}"> <img
+                        class="my-nav-icon"
+                        src="{{asset('images/doorder_icons/orders_table_white.png')}}"
+                        alt=""> <img class="my-nav-icon my-nav-icon-top"
+                        src="{{asset('images/doorder_icons/orders_table.png')}}" alt="">
+                        <p>Order Table</p>
+                </a></li>
+		    @elseif(auth()->user()->user_role == 'driver_manager')
+                <li class="nav-item"><a class="nav-link d-flex"
+                    href="{{route('doorder_drivers', 'doorder')}}"> <img
+                    class="my-nav-icon"
+                    src="{{asset('images/doorder_icons/Deliverers-white.png')}}" alt="">
+                    <img class="my-nav-icon my-nav-icon-top"
+                         src="{{asset('images/doorder_icons/Deliverers-yellow.png')}}" alt="">
+                    <p>Deliverers</p>
+                </a></li>
+                <li class="nav-item"><a class="nav-link d-flex"
+                    href="{{route('doorder_drivers_requests', 'doorder')}}"> <img
+                    class="my-nav-icon"
+                    src="{{asset('images/doorder_icons/Requests.png')}}" alt=""
+                    style=""> <img class="my-nav-icon my-nav-icon-top"
+                        src="{{asset('images/doorder_icons/Requests-yellow.png')}}" alt="">
+                        <p>Deliverer Requests</p>
+                </a></li>
+                <li class="nav-item"><a class="nav-link d-flex"
+                    href="{{route('doorder_ordersTable', 'doorder')}}"> <img
+                        class="my-nav-icon"
+                        src="{{asset('images/doorder_icons/orders_table_white.png')}}"
+                        alt=""> <img class="my-nav-icon my-nav-icon-top"
+                            src="{{asset('images/doorder_icons/orders_table.png')}}" alt="">
+                        <p>Order Table</p>
+                </a></li>
+            @elseif(auth()->user()->user_role == 'investor')
+                <li class="nav-item"><a class="nav-link d-flex" href="{{url('doorder/metrics_dashboard')}}">
+                    <img class="my-nav-icon" src="{{asset('images/doorder_icons/dashboard.png')}}"
+                        alt=""> <img class="my-nav-icon my-nav-icon-top"
+                        src="{{asset('images/doorder_icons/Dashboard-yellow.png')}}" alt="">
+                    <p>Metrics</p>
+                </a></li>
+            @endif
+            <li class="nav-item "><a class="nav-link d-flex" href="{{url('logout')}}">
+                <img class="my-nav-icon"
+                     src="{{asset('images/doorder_icons/logout-outline.png')}}"
+                     alt="logout">
+                <img class="my-nav-icon my-nav-icon-top"
+                     src="{{asset('images/doorder_icons/logout-outline-yellow.png')}}"
+                     alt="logout">
+                <p>Logout</p>
+            </a></li>
+        </ul>
+        @elseif(Auth::guard('garden-help')->check())
 		<ul class="nav">
 			<li class="nav-item"><a class="nav-link d-flex"
 				href="{{url('garden-help/home')}}"> {{-- <i

@@ -154,6 +154,7 @@
 									<option value="" selected disabled>Select role</option>
 									<option value="admin">Admin</option>
 									<option value="driver_manager">Driver manager</option>
+									<option value="investor">Investor</option>
 								</select>
 							</div>
 						</div>
@@ -225,6 +226,7 @@
 									<option value=""  disabled>Select role</option>
 									<option value="admin">Admin</option>
 									<option value="driver_manager">Driver manager</option>
+									<option value="investor">Investor</option>
 								</select>
 							</div>
 						</div>

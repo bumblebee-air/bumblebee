@@ -328,8 +328,9 @@ class OrdersController extends Controller
 
     public function optimizeOrdersRoute(){
         $order_ids = '10,26,36,78,90';
-        dd(json_decode('[' . $order_ids . ']', true));
-        $orders = Order::whereIn('id',[10,26,36])->get();
+        //dd(json_decode('[' . $order_ids . ']', true));
+        $order_ids = json_decode('[' . $order_ids . ']', true);
+        $orders = Order::whereIn('id',$order_ids)->get();
         $orders_data = [];
         foreach($orders as $order){
             $orders_data[] = [
@@ -340,6 +341,11 @@ class OrdersController extends Controller
                 'dropoff' => $order->customer_address_lat.','.$order->customer_address_lon
             ];
         }
+        foreach($orders_data as $key=>$an_order){
+            $the_order = $orders->firstWhere('id',$an_order['order_id']);
+            $orders_data[$key]['status'] = $the_order->status;
+        }
+        dd($orders_data);
         $driver_coordinates = '53.425334,-6.231581';
         //dd(['driver_coordinates'=>$driver_coordinates, 'orders_data'=>$orders_data]);
         $route_opt_url = 'https://afternoon-lake-03061.herokuapp.com/routing_table';

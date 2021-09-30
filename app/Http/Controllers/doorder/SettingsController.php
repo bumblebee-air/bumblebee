@@ -68,6 +68,8 @@ class SettingsController extends Controller
                 $user->user_type = 'Admin';
             } elseif($user->user_role=='driver_manager'){
                 $user->user_type = 'Driver Manager';
+            } elseif($user->user_role=='investor'){
+                $user->user_type = 'Investor';
             }
         }
         

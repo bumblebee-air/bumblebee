@@ -17,6 +17,8 @@ class DashboardController extends Controller
         $user_role = auth()->user()->user_role;
         if ($user_role == 'driver_manager') {
             return redirect()->to('doorder/orders');
+        } elseif ($user_role == 'investor') {
+            return redirect()->to('doorder/metrics_dashboard');
         } elseif ($user_role == 'retailer') {
             $admin_data = $this->retailerDashboardData();
             $drivers_arr = $admin_data['drivers_arr'];
@@ -382,31 +384,62 @@ class DashboardController extends Controller
                 $profit_loss_chart_labels = ['Aug'];
                 $profit_loss_chart_data = [800000];
             }
-        }
-        else{
+        } else {
+            $profit_loss_chart_labels = [];
+            $profit_loss_chart_data_profit = [];
+            $profit_loss_chart_data_loss = [];
+            $profit = 0;
+            $loss = 0;
+            $deliverersCharge = 0;
+            $retailerCharge = 0;
+            $deliverers_revenue = [];
+            $retailers_revenue = [];
+            for ($i = 2; $i > 0; $i--) {
+                $the_month = Carbon::now()->subMonths($i);
+                $profit_loss_chart_labels[] = $the_month->shortMonthName;
+                $start_of_month = $the_month->startOfMonth()->toDateTimeString();
+                $end_of_month = $the_month->endOfMonth()->toDateTimeString();
+                $the_month_orders = Order::whereBetween('created_at', [$start_of_month,$end_of_month])
+                    ->get();
+                $the_month_revenue = count($the_month_orders) * 10;
+                $the_month_profit = $the_month_revenue / 2;
+                $the_month_loss = $the_month_revenue / 2;
+                $profit_loss_chart_data_profit[] = $the_month_profit;
+                $profit_loss_chart_data_loss[] = 0;//$the_month_loss;//0 temporarily
+                $profit += $the_month_profit;
+                $loss += 0;//$the_month_loss;//0 temporarily
+                $deliverersCharge += $the_month_loss;
+                $retailerCharge += $the_month_revenue;
+                $deliverers_revenue[] = $the_month_loss;
+                $retailers_revenue[] = $the_month_revenue;
+            }
             if($label_name=='profitPercentage'){
-                $profit_loss_chart_labels = ['Jul','Aug'];
-                $profit_loss_chart_data = [10,20];
+                //$profit_loss_chart_labels = ['Jul','Aug'];
+                //$profit_loss_chart_data = [10,20];
+                $profit_loss_chart_data = $profit_loss_chart_data_profit;
             }else if($label_name=='lossPercentage'){
-                $profit_loss_chart_labels = ['Jul','Aug'];
-                $profit_loss_chart_data = [5,7];
+                //$profit_loss_chart_labels = ['Jul','Aug'];
+                //$profit_loss_chart_data = [5,7];
+                $profit_loss_chart_data = $profit_loss_chart_data_loss;
             }else if($label_name=='profitValue'){
-                $profit_loss_chart_labels = ['Jul','Aug'];
-                $profit_loss_chart_data = [20000,10000];
-                
+                //$profit_loss_chart_labels = ['Jul','Aug'];
+                //$profit_loss_chart_data = [20000,10000];
+                $profit_loss_chart_data = $profit_loss_chart_data_profit;
             }else if($label_name=='lossValue'){
-                $profit_loss_chart_labels = ['Jul','Aug'];
-                $profit_loss_chart_data = [7000,8000];
+                //$profit_loss_chart_labels = ['Jul','Aug'];
+                //$profit_loss_chart_data = [7000,8000];
+                $profit_loss_chart_data = $profit_loss_chart_data_loss;
             }else if($label_name=='deliverersCharge'){
-                $profit_loss_chart_labels = ['Jul','Aug'];
-                $profit_loss_chart_data = [100233,65000];
+                //$profit_loss_chart_labels = ['Jul','Aug'];
+                //$profit_loss_chart_data = [100233,65000];
+                $profit_loss_chart_data = $deliverers_revenue;
             }else if($label_name=='retailerCharge'){
-                $profit_loss_chart_labels = ['Jul','Aug'];
-                $profit_loss_chart_data = [500000,650000];
+                //$profit_loss_chart_labels = ['Jul','Aug'];
+                //$profit_loss_chart_data = [500000,650000];
+                $profit_loss_chart_data = $retailers_revenue;
             }
         }
-        
-        
+
         return response()->json([
             'profit_loss_chart_labels'=>$profit_loss_chart_labels,
             'profit_loss_chart_data'=>$profit_loss_chart_data,
@@ -558,7 +591,8 @@ class DashboardController extends Controller
         ])->get();
         $annual_chart_labels = [];
         $annual_chart_data_orders = [];
-        for ($i = 0; $i < 12; $i ++) {
+        $annual_chart_data_revenue = [];
+        for ($i = 0; $i < 12; $i++) {
             $current_month = Carbon::parse($startOfYear)->addMonths($i);
             $start_of_month = $current_month->startOfMonth()->toDateTimeString();
             $end_of_month = $current_month->endOfMonth()->toDateTimeString();
@@ -567,35 +601,67 @@ class DashboardController extends Controller
                 $end_of_month
             ]);
             $annual_chart_labels[] = $current_month->format('M');
-            $annual_chart_data_orders[] = (string) count($month_orders);
+            $orders_count = count($month_orders);
+            $annual_chart_data_orders[] = (string) $orders_count;
+            $annual_chart_data_revenue[] = $orders_count*10;
         }
-        $annual_chart_data_revenue = [
-            2,
-            5,
-            3,
-            4,
-            8,
-            4,
-            2,
-            3,
-            1,
-            0,
-            0,
-            0
-        ];
-        
-        $profit_loss_chart_labels = ['Jul','Aug'];
+        //$annual_chart_data_revenue = [2,5,3,4,8,4,2,3,1,0,0,0];
+        //Profit & loss chart data
+        /*$profit_loss_chart_labels = ['Jul','Aug'];
         $profit_loss_chart_data_profit = [10000,5000];
-        $profit_loss_chart_data_loss = [5000,2000];
-
-        $profitPercentage = '+60%';
+        $profit_loss_chart_data_loss = [5000,2000];*/
+        $profit_loss_chart_labels = [];
+        $profit_loss_chart_data_profit = [];
+        $profit_loss_chart_data_loss = [];
+        $profit = 0;
+        $loss = 0;
+        $deliverersCharge = 0;
+        $retailerCharge = 0;
+        $deliverers_revenue = [];
+        $retailers_revenue = [];
+        for ($i = 2; $i > 0; $i--) {
+            $the_month = Carbon::now()->subMonths($i);
+            $profit_loss_chart_labels[] = $the_month->shortMonthName;
+            $start_of_month = $the_month->startOfMonth()->toDateTimeString();
+            $end_of_month = $the_month->endOfMonth()->toDateTimeString();
+            $the_month_orders = Order::whereBetween('created_at', [$start_of_month,$end_of_month])
+                ->get();
+            $the_month_revenue = count($the_month_orders) * 10;
+            $the_month_profit = $the_month_revenue / 2;
+            $the_month_loss = $the_month_revenue / 2;
+            $profit_loss_chart_data_profit[] = $the_month_profit;
+            $profit_loss_chart_data_loss[] = 0;//$the_month_loss;//0 temporarily
+            $profit += $the_month_profit;
+            $loss += 0;//$the_month_loss;//0 temporarily
+            $deliverersCharge += $the_month_loss;
+            $retailerCharge += $the_month_revenue;
+            $deliverers_revenue[] = $the_month_loss;
+            $retailers_revenue[] = $the_month_revenue;
+        }
+        $profit_inc_dec = ($profit_loss_chart_data_profit[1] - $profit_loss_chart_data_profit[0]) / ($profit_loss_chart_data_profit[0]>0 ?$profit_loss_chart_data_profit[0]:1);
+        $profitPercentage = round($profit_inc_dec*100,2);
+        $profitPercentage = (($profitPercentage < 0)? '' : '+') . $profitPercentage . '%';
+        $loss_inc_dec = ($profit_loss_chart_data_loss[1] - $profit_loss_chart_data_loss[0]) / ($profit_loss_chart_data_loss[0]>0 ?$profit_loss_chart_data_loss[0]:1);
+        $lossPercentage = round($loss_inc_dec*100,2);
+        $lossPercentage = (($lossPercentage < 0)? '' : '+') . $lossPercentage . '%';
+        $profit = '€' . $profit;
+        $loss = '€' . $loss;
+        $deliverersCharge = '€' . $deliverersCharge;
+        $retailerCharge = '€' . $retailerCharge;
+        $deliverers_rev_inc_dec = ($deliverers_revenue[1] - $deliverers_revenue[0]) / ($deliverers_revenue[0]>0 ?$deliverers_revenue[0]:1);
+        $deliverersRevenuePercentage = round($deliverers_rev_inc_dec*100,2);
+        $deliverersRevenuePercentage = (($deliverersRevenuePercentage < 0)? '' : '+') . $deliverersRevenuePercentage . '%';
+        $retailers_rev_inc_dec = ($retailers_revenue[1] - $retailers_revenue[0]) / ($retailers_revenue[0]>0 ?$retailers_revenue[0]:1);
+        $retailersRevenuePercentage = round($retailers_rev_inc_dec*100,2);
+        $retailersRevenuePercentage = (($retailersRevenuePercentage < 0)? '' : '+') . $retailersRevenuePercentage . '%';
+        /*$profitPercentage = '+60%';
         $lossPercentage = '0%';
         $profit = '€650';
         $loss = '€29,000';
         $deliverersCharge = '€233,600';
         $retailerCharge = '€2,480,00';
         $deliverersRevenuePercentage = '+40%';
-        $retailersRevenuePercentage = '+60%';
+        $retailersRevenuePercentage = '+60%';*/
 
         return [
             'all_orders_count' => $all_orders_count,

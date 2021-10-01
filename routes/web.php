@@ -471,6 +471,11 @@ Route::group([
                 Route::post('save_productCustomer_intruderAlarm','unified\CustomerController@postSaveProductIntruderAlarm')->name('unified_saveProductCustomer_intruderAlarm');
                 Route::post('save_productCustomer_wifiData','unified\CustomerController@postSaveProductWifiData')->name('unified_saveProductCustomer_wifiData');
                 Route::post('save_productCustomer_structuredCablingSystems','unified\CustomerController@postStructuredCablingSystems')->name('unified_saveProductCustomer_structuredCablingSystems');
+                
+                Route::get('product_form','unified\ProductFormController@getProductForm')->name('unified_getProductForm');
+                Route::post('save_product_form','unified\ProductFormController@postSaveProductForm')->name('unified_postAddProductForm');
+                Route::post('get_customer_product_types','unified\ProductFormController@getProductTypesOfCustomer');
+                Route::post('get_product_type_fields','unified\ProductFormController@getFormFieldsOfProductType');
                
             });
             Route::group([

@@ -909,6 +909,7 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 <script src="{{asset('js/mdtimepicker.js')}}"></script>
 
 <script>
+	let autocomp_countries = JSON.parse('{!!$google_auto_comp_countries!!}');
         // var input = document.getElementById('customer_address');
         // var autocomplete = '';
         // var place = '';
@@ -1058,7 +1059,7 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
                 attributeFilter: ['autocomplete']
             });
             let autocomplete = new google.maps.places.Autocomplete(customer_address);
-            autocomplete.setComponentRestrictions({'country': ['ie','gb']});
+            autocomplete.setComponentRestrictions({'country': autocomp_countries});
             autocomplete.addListener('place_changed', function () {
                 let place = autocomplete.getPlace();
                 console.log(place);

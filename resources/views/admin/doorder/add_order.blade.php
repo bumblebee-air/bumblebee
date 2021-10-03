@@ -321,6 +321,7 @@ box-shadow: none !important;}
 <script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>
 <script src="{{asset('js/mdtimepicker.js')}}"></script>
 <script>
+	let autocomp_countries = JSON.parse('{!!$google_auto_comp_countries!!}');
         // var input = document.getElementById('customer_address');
         // var autocomplete = '';
         // var place = '';
@@ -364,7 +365,7 @@ box-shadow: none !important;}
                 attributeFilter: ['autocomplete']
             });
             let autocomplete = new google.maps.places.Autocomplete(eircode_input);
-            autocomplete.setComponentRestrictions({'country': ['ie']});
+            autocomplete.setComponentRestrictions({'country': autocomp_countries});
             autocomplete.addListener('place_changed', function () {
                 let place = autocomplete.getPlace();
                 if (!place.geometry) {
@@ -412,7 +413,7 @@ box-shadow: none !important;}
                 attributeFilter: ['autocomplete']
             });
             let autocomplete_pickup = new google.maps.places.Autocomplete(pickup_address_input);
-            autocomplete_pickup.setComponentRestrictions({'country': ['ie']});
+            autocomplete_pickup.setComponentRestrictions({'country': autocomp_countries});
             autocomplete_pickup.addListener('place_changed', function () {
                 let place = autocomplete_pickup.getPlace();
                 console.log(place);

@@ -554,17 +554,17 @@ textarea {
 	src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=places"></script>
 
 <script>
-$( document ).ready(function() {
-
-var readonly = {!! $readOnly !!};
-if(readonly==1){
-$("input").prop('disabled', true);
-$("textarea").prop('disabled', true);
-$("select").prop('disabled', true);
-$(".inputSearchNavbar").prop('disabled', false);
-$('.addCircle,.removeCircle').css("display","none")
-}
-});
+	let autocomp_countries = JSON.parse('{!!$google_auto_comp_countries!!}');
+	$(document).ready(function() {
+		var readonly = {!! $readOnly !!};
+		if(readonly==1){
+			$("input").prop('disabled', true);
+			$("textarea").prop('disabled', true);
+			$("select").prop('disabled', true);
+			$(".inputSearchNavbar").prop('disabled', false);
+			$('.addCircle,.removeCircle').css("display","none")
+		}
+	});
 
         let business_hours_initial_array = [
             {"isActive":true,"timeFrom":null,"timeTill":null},
@@ -607,7 +607,7 @@ $('.addCircle,.removeCircle').css("display","none")
 						attributeFilter: ['autocomplete']
 					});
 					let autocomplete_retailer_address = new google.maps.places.Autocomplete(retailer_eircode_input);
-					autocomplete_retailer_address.setComponentRestrictions({'country': ['ie']});
+					autocomplete_retailer_address.setComponentRestrictions({'country': autocomp_countries});
 					autocomplete_retailer_address.addListener('place_changed', function () {
 						let place = autocomplete_retailer_address.getPlace();
 						if (!place.geometry) {
@@ -770,7 +770,7 @@ $('.addCircle,.removeCircle').css("display","none")
                         attributeFilter: ['autocomplete']
                     });
                     let autocomplete_retailer_address = new google.maps.places.Autocomplete(retailer_eircode_input);
-                    autocomplete_retailer_address.setComponentRestrictions({'country': ['ie']});
+                    autocomplete_retailer_address.setComponentRestrictions({'country': autocomp_countries});
                     autocomplete_retailer_address.addListener('place_changed', function () {
                         let place = autocomplete_retailer_address.getPlace();
                         if (!place.geometry) {

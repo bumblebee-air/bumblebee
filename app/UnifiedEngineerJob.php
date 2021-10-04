@@ -22,6 +22,7 @@ class UnifiedEngineerJob extends Model
         'additional_cost',
         'latest_coordinates',
         'latest_coordinates_updated_at',
+        'comment',
     ];
 
     public $casts = [

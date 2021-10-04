@@ -266,6 +266,8 @@ class EngineerController extends Controller
                 'additional_job_type_id' => 'exists:unified_job_types,id',
                 'service_id' => 'exists:unified_services_job,id',
                 'comment' => 'string|max:500',
+                'number_of_hours' => 'numeric',
+                'additional_cost' => 'numeric',
                 'expenses_receipts' => 'array',
                 'expenses_receipts.*' => 'mimes:jpeg,jpg,png|required|max:10000',
                 'job_images' => 'array',
@@ -292,9 +294,13 @@ class EngineerController extends Controller
                 'service_id' => $request->service_id,
                 'job_images' => json_encode($job_images_paths),
                 'expenses_receipts' => json_encode($expenses_receipts_paths),
-                'comment' => json_encode($expenses_receipts_paths),
+                'comment' => $request->comment,
                 'additional_cost' => $request->additional_cost,
-                'additional_job_type_id' => $request->additional_job_type_id
+                'additional_job_type_id' => $request->additional_job_type_id,
+                'is_feedback_filled' => true,
+                'number_of_hours' => $request->number_of_hours,
+                'rejection_reason' => $request->rejection_reason,
+                'skip_reason' => $request->skip_reason,
             ]);
         }
         return response()->json([

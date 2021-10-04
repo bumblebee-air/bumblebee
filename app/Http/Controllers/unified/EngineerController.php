@@ -58,15 +58,6 @@ class EngineerController extends Controller
             'job_type' => 'required|in:full_time,contract',
             'address_coordinates' => 'required',
         ]);
-        UnifiedEngineer::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'phone' => $request->phone,
-            'email' => $request->email,
-            'address' => $request->address,
-            'address_coordinates' => $request->address_coordinates,
-            'job_type' => $request->job_type,
-        ]);
         $user_password = Str::random(8);
         $user = new User();
         $user->name = "$request->first_name $request->last_name";
@@ -75,6 +66,16 @@ class EngineerController extends Controller
         $user->password = bcrypt($user_password);
         $user->user_role = 'unified_engineer';
         $user->save();
+        UnifiedEngineer::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'address' => $request->address,
+            'address_coordinates' => $request->address_coordinates,
+            'job_type' => $request->job_type,
+            'user_id' => $user->id
+        ]);
         /*
          * Sending The credentials to the user
          */

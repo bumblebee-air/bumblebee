@@ -16,6 +16,7 @@ class UnifiedEngineer extends Model
         'address',
         'address_coordinates',
         'job_type',
+        'user_id'
     ];
 
     protected $casts = [

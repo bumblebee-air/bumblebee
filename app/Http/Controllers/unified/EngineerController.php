@@ -72,7 +72,7 @@ class EngineerController extends Controller
         $user->phone = $request->phone;
         $user->email = $request->email;
         $user->password = $user_password;
-        $user->role = 'unified_engineer';
+        $user->user_role = 'unified_engineer';
         $user->save();
         /*
          * Sending The credentials to the user

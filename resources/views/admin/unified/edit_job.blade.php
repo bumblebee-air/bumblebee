@@ -78,7 +78,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<form id="addScheduledJob" method="POST"
-						action="{{route('unified_postEditScheduledJob', ['unified'])}}">
+						action="{{route('unified_postEditScheduledJob', ['unified'])}}" onsubmit="checkContractDate(event)">
 						{{csrf_field()}} <input type="hidden" name="jobId" id="jobIdEdit"
 							value="{{$job->id}}">
 						<div class="card">
@@ -474,6 +474,8 @@
 
 	var token = '{{csrf_token()}}';
 	var job = {!! $job !!};
+	var company = '';
+
 	//console.log(job);
 
 $(document).ready(function(){
@@ -748,16 +750,15 @@ function changeCompany(){
 	var companyVal = $("#companyNameSelect").val();
 	//console.log(companyVal);
 	var token ='{{csrf_token()}}';
-	
 	 $.ajax({
         type: "POST",
         method:"post",
        	url: '{{url("unified/customers/get_company_data/")}}',
        	data: {_token: token, companyId:companyVal},
-        success: function(data) {
+        success: (data) => {
        
           //  console.log(data);
-            var company = data.company;
+			company = data.company
             $('#email').val(company.email);
             $('#mobile').val(company.mobile);
             $('#phone').val(company.phone);
@@ -779,13 +780,13 @@ function changeCompany(){
             						+' <label>Contract start date</label> <input type="text" id="contractStartDate" class="form-control" '
             						+' name="contractStartDate" value="'
             						+company.contractStartDate
-            						+'" placeholder="Select contract start date" required> </div>');
+            						+'" placeholder="Select contract start date" required disabled> </div>');
             						
             	$('#contractEndDateDiv').html(' <div class="form-group bmd-form-group" >  <label>Contract end date</label> '
             						+' <input type="text" id="contractEndDate" class="form-control" name="contractEndDate" value="'
             						+company.contractEndDate
             						+'" '
-            						+' placeholder="Select contract end date" required> </div> ');
+            						+' placeholder="Select contract end date" required disabled> </div> ');
             						
             	$('#contractStartDate,#contractEndDate').datetimepicker({
                          format: 'L', 
@@ -914,11 +915,15 @@ function clickContract(val){
 	if(val==1){
 	$('#contractStartDateDiv').html('<div class="form-group bmd-form-group" > '
             						+' <label>Contract start date</label> <input type="text" id="contractStartDate" class="form-control" '
-            						+' name="contractStartDate" value="" placeholder="Select contract start date" required> </div>');
+            						+' name="contractStartDate" value="'
+			+company.contractStartDate
+			+'" '
+			+'  placeholder="Select contract start date" required disabled> </div>');
             						
             	$('#contractEndDateDiv').html(' <div class="form-group bmd-form-group" >  <label>Contract end date</label> '
-            						+' <input type="text" id="contractEndDate" class="form-control" name="contractEndDate" value=""'
-            						+' placeholder="Select contract end date" required> </div> ');
+            						+' <input type="text" id="contractEndDate" class="form-control" name="contractEndDate" value="'
+						+company.contractEndDate
+						+'" '+' placeholder="Select contract end date" required disabled> </div> ');
 		
             	$('#contractStartDate, #contractEndDate').datetimepicker({
                          format: 'L', 
@@ -1107,6 +1112,27 @@ function clickDeleteJob(){
             }    
                         
 		}
+
+	let formContinue = false;
+	function checkContractDate(e) {
+		if (formContinue == false && company.contract == 1 && company.contractEndDate < $('#date').val()) {
+			e.preventDefault();
+			swal({
+				title: "Are you sure?",
+				text: "This date is after the contract's end date!",
+				icon: "warning",
+				buttons: ['Cancel', 'Continue'],
+				// dangerMode: true,
+			}).then((willDelete) => {
+				if (willDelete) {
+					formContinue = true;
+					$('#addScheduledJob').off('submit').submit()
+				} else {
+					return;
+				}
+			});
+		}
+	}
     </script>
 
 <script async defer

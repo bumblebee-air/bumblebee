@@ -371,7 +371,10 @@ box-shadow: none !important;}
                 if (!place.geometry) {
                     // User entered the name of a Place that was not suggested and
                     // pressed the Enter key, or the Place Details request failed.
-                    window.alert("No details available for input: '" + place.name + "'");
+					swal({
+						icon: 'error',
+						text: 'No details available for this address: "' + place.name + '"'
+					});
                 } else {
                 	//check if place has eircode
 					let eircode_value = place.address_components.find((x) => {
@@ -380,23 +383,23 @@ box-shadow: none !important;}
 						}
 						return undefined;
 					});
+					let place_lat = place.geometry.location.lat();
+					let place_lon = place.geometry.location.lng();
+					document.getElementById("customer_lat").value = place_lat.toFixed(5);
+					document.getElementById("customer_lon").value = place_lon.toFixed(5);
+					// if (customer_address_input.value != '') {
+						customer_address_input.value = place.formatted_address;
+					// }
 					if (eircode_value != undefined) {
-						let place_lat = place.geometry.location.lat();
-						let place_lon = place.geometry.location.lng();
-						document.getElementById("customer_lat").value = place_lat.toFixed(5);
-						document.getElementById("customer_lon").value = place_lon.toFixed(5);
 						eircode_input.value = eircode_value.long_name;
-						// if (customer_address_input.value != '') {
-							customer_address_input.value = place.formatted_address;
-						// }
 					} else {
-						document.getElementById("customer_lat").value = '';
-						document.getElementById("customer_lon").value = '';
+						/*document.getElementById("customer_lat").value = '';
+						document.getElementById("customer_lon").value = '';*/
 						eircode_input.value = '';
 						// customer_address_input.value = '';
 						swal({
 							icon: 'info',
-							text: 'Please enter a valid Eircode'
+							text: 'This address doesn\'t include an Eircode, please add it manually to the field'
 						});
 					}
                 }

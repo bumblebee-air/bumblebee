@@ -21,4 +21,8 @@ class UnifiedEngineer extends Model
     protected $casts = [
         'address_coordinates' => 'array'
     ];
+
+    public function user() {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

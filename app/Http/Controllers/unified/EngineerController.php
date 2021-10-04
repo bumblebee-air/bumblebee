@@ -37,6 +37,7 @@ class EngineerController extends Controller
             alert()->warning("There no engineer with this id #$request->engineerId");
             return redirect()->back();
         }
+        $checkIfExists->user->delete();
         $checkIfExists->delete();
         alert()->success('Engineer deleted successfully');
         return redirect()->route('unified_getEngineersList', 'unified');
@@ -66,12 +67,12 @@ class EngineerController extends Controller
             'address_coordinates' => $request->address_coordinates,
             'job_type' => $request->job_type,
         ]);
-        $user_password = bcrypt(Str::random(8));
+        $user_password = Str::random(8);
         $user = new User();
         $user->name = "$request->first_name $request->last_name";
         $user->phone = $request->phone;
         $user->email = $request->email;
-        $user->password = $user_password;
+        $user->password = bcrypt($user_password);
         $user->user_role = 'unified_engineer';
         $user->save();
         /*

@@ -141,6 +141,14 @@ class CustomerController extends Controller
         ]);
         $contact_details_json = json_decode($request->contact_detailss, true);
         $services_types_json = json_decode($request->serviceTypeSelectValues, true);
+        $request->request->add(['email' => $contact_details_json[0]['contactEmail'], 'phone' => $contact_details_json[0]['contactNumber']]);
+        $this->validate($request, [
+            'email' => 'unique:users',
+            'phone' => 'unique:users',
+        ], [
+            'email.unique' => "The email '$request->email' has already been taken.",
+            'phone.unique' => "The phone '$request->phone' has already been taken.",
+        ]);
         $customer->update([
             "name" => $request->name,
             "post_code" => $request->postcode,
@@ -193,11 +201,19 @@ class CustomerController extends Controller
             'companyPhoneNumner' => 'required',
             'serviceTypeSelectValues' => 'required',
             'contractStartDate' => 'required_if:contract,true|date',
-            'contractEndDate' => 'required_if:contract,true|date'
+            'contractEndDate' => 'required_if:contract,true|date',
         ]);
 
         $contact_details_json = json_decode($request->contact_detailss, true);
         $services_types_json = json_decode($request->serviceTypeSelectValues, true);
+        $request->request->add(['email' => $contact_details_json[0]['contactEmail'], 'phone' => $contact_details_json[0]['contactNumber']]);
+        $this->validate($request, [
+            'email' => 'unique:users',
+            'phone' => 'unique:users',
+        ], [
+            'email.unique' => "The email '$request->email' has already been taken.",
+            'phone.unique' => "The phone '$request->phone' has already been taken.",
+        ]);
         $user = new User();
         $user->name = $request->name;
         $user->email = $contact_details_json[0]['contactEmail'];

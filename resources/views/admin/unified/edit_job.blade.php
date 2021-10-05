@@ -946,6 +946,7 @@ function clickContract(val){
 }
 function clickPickupNeeded(){
 	var pickupVal = $("#pickupNeededRadio:checked").val();
+	console.log(pickupVal)
 	if(pickupVal==1){
 		$("#pickupAddressDiv").css("display","block")
 		$("#pickupAddress").attr("required",true)
@@ -953,7 +954,9 @@ function clickPickupNeeded(){
 		$("#pickupAddressDiv").css("display","none");
 		$("#pickupAddress").html('');
 		$("#pickup_coordinates").val('');
-		markerPickup.setVisible(false);
+		if(markerPickup!=null){
+			markerPickup.setVisible(false);
+		}	
 		$("#pickupAddress").attr("required",false)
 		
 	}
@@ -1032,7 +1035,8 @@ function clickDeleteJob(){
                 markerAddress.setVisible(true);
                 markers[0] = markerAddress;
             }    
-            if(job.pickup_coordinates!=null){
+            if(job.pickup_coordinates !=null){
+            	console.log("pick up",job.pickup_coordinates )
                 var position2 = new google.maps.LatLng(job.pickup_coordinates.lat,job.pickup_coordinates.lon);
                 markerPickup.setPosition(position2);
                 markerPickup.setVisible(true);

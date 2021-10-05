@@ -193,7 +193,7 @@
 						action="{{url('unified/engineers/delete')}}"
 						style="margin-bottom: 0 !important;">
 						@csrf <input type="hidden" id="engineerId" name="engineerId"
-							value="" />
+							value="{{$engineer->id}}" />
 					</form>
 				</div>
 			</div>

@@ -348,7 +348,7 @@ class DriversController extends Controller
         ]));*/
         //Send driver rating SMS to customer and retailer
         $msg_content = "Hi $order->customer_name , thank you for selecting DoOrder delivery, you can".
-            " rate your deliverer through the link: ".url('order/rating/2/'.$order_id);
+            " rate your deliverer through the link: ".url('doorder/order/rating/2/'.$order_id);
         TwilioHelper::sendSMS('DoOrder',$order->customer_phone,$msg_content);
         $retailer = Retailer::find($order->retailer_id);
         $retailer_number = 'N/A';
@@ -359,7 +359,7 @@ class DriversController extends Controller
         }
         if($retailer_number!='N/A') {
             $msg_content = "Hi $retailer->name , the order no. $order->order_id has been delivered, you can" .
-                " rate your deliverer through the link: " . url('order/rating/1/' . $order_id);
+                " rate your deliverer through the link: " . url('doorder/order/rating/1/' . $order_id);
             TwilioHelper::sendSMS('DoOrder', $retailer_number, $msg_content);
         }
         $response = [

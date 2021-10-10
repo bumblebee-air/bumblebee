@@ -118,7 +118,7 @@ class SettingsController extends Controller
             $customNotification->send_to = $send_to;
             $customNotification->content = $request["notification_content$i"];
             $customNotification->client_id = $client_id;
-            $customNotification->is_active = $request['customNotification0'] == 'true';
+            $customNotification->is_active = ($request["customNotification$i"] == 'true' || $request["customNotification$i"] == '1');
             $customNotification->save();
         }
         alert()->success('Notifications saved successfully');

@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Redis;
 class CustomNotificationHelper
 {
     public static function send($type, $id) {
-        $customNotifications = CustomNotification::where('type', $type)->get();
+        $customNotifications = CustomNotification::where('type', $type)
+            ->where('is_active','=','1')->get();
         $title = '';
         $url = '';
         switch ($type) {

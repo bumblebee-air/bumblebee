@@ -795,7 +795,7 @@
 			</a></li>
 			
 			<li class="nav-item"><a class="nav-link d-flex"
-				href="">  <img class="my-nav-icon"
+				href="{{route('unified_getProductForm', 'unified')}}">  <img class="my-nav-icon"
 					src="{{asset('images/unified/Add Service Form.png')}}"
 					alt="Add Service Form">
 					<p>Add Product Form </p>

@@ -257,119 +257,136 @@ class CustomerController extends Controller
         if (! $customer) {
             abort(404);
         }
-        $selectedServiceType = array_column($customer->services->toArray(), 'service_id');
-        $customer->selectedServiceType = $selectedServiceType;
-        $services_types = UnifiedService::select([
-            'id',
-            'name'
-        ])->get();
-
-        
-        // /////////// hosted
-        $hostedPackages = $this->getHostedPackages();
-        $ipVendors = $this->getIPVendors();
-        $accountTypes = $this->getAccountTypes();
-        $systemModels = $this->getSystemModels();
-        $lineTypes = $this->getLineTypes();
-        $lineVendors = $this->getLineVendors();
-        // ////////// access control
-        $accountTypesAccessControl = $this->getAccountTypesAccessControl();
-        $brandsAccessControl = $this->getBrandsAccessControl();
-        $systemTypesAccessControl = $this->getSystemTypesAccessControl();
-        $cardFobListAccessControl = $this->getCardFobListAccessControl();
-        // ///////// CCTV
-        $manufacturersCCTV = $this->getManufacturersCCTV();
-        $modelsCCTV = $this->getModelsCCTV();
-        $monitoringCentreListCCTV = $this->getMonitoringCentreListCCTV();
-        $cameraBrandsCCTV = $this->getCameraBrandsCCTV();
-        $maintenanceFrequenciesCCTV = $this->getMaintenanceFrequenciesCCTV();
-        // ///////// fire
-        $systemTypesFireAlarm = $this->getSystemTypesFire();
-        $wiredWirlessFireAlarm = $this->getWiredWirlessFire();
-        $manufacturersFireAlarm = $this->getManufacturersFireAlarm();
-        $modelsFireAlarm = $this->getModelsFireAlarm();
-        $protocolsFireAlarm = $this->getProtocolsFireAlarm();
-        $panelOperationsFireAlarm = $this->getPanelOperationsFireAlarm();
-        $monitoredListFireAlarm = $this->getMonitoredListFireAlarm();
-        $monitoringCentreListFireAlarm = $this->getMonitoringCentreListFireAlarm();
-        $digiTypesFireAlarm = $this->getDigiTypesFireAlarm();
-        $maintenanceFrequenciesFireAlarm = $this->getMaintenanceFrequenciesFireAlarm();
-        $accountTypesFireAlarm = $this->getAccountTypesFireAlarm();
-        // ///////// Intruder Alarm
-        $accountTypesIntruderAlarm = $this->getAccountTypesIntruderAlarm();
-        $systemTypesIntruderAlarm = $this->getWiredWirlessFire();
-        $manufacturersIntruderAlarm = $this->getManufacturersIntruderAlarm();
-        $panelTypesIntruderAlarm = $this->getPanelTypesIntruderAlarm();
-        $digiTypesIntruderAlarm = $this->getDigiTypesIntruderAlarm();
-        // ///////// Wifi data
-        $systemTypesWifiData = $this->getSystemTypesWifiData();
-        $manufacturersWifiData = $this->getSystemTypesWifiData();
-        $switchTypesWifiData = $this->getSwitchTypesWifiData();
-        $uplinksWifiData = $this->getUplinksWifiData();
-        $broabbandProvidersWifiData = $this->getBroabbandProvidersWifiData();
-        // ////////// structured_cabling_systems
-        $modelsStructuredCabling = $this->getModelsStructuredCabling();
-        $accountTypesStructuredCabling = $this->getAccountTypesStructuredCabling();
-
-        // service data
-        $hostedCpbxData = $this->getHostedCpbxDataOfCustomer($id);
-        $accessControlData = $this->getAccessControlDataOfCustomer($id);
-        $cctvData = $this->getCCTVDataOfCutomer($id);
-        $fireAlarmData = $this->getFireAlarmDataOfCustomer($id);
-        $intruderAlarmData = $this->getIntruderAlarmDataOfCustomer($id);
-        $wifiData = $this->getWifiDataOfCustomer($id);
-        $structuredCablingData = $this->getStructuredCablingDataOfCustomer($id);
-
-        return view('admin.unified.customers.products.add_product', [
+        $selectedServiceTypeIds = array_column($customer->services->toArray(), 'service_id');
+        $services_types =  UnifiedService::whereIn('id', $selectedServiceTypeIds)->get();
+               
+                
+        return  view('admin.unified.product_form.add_product_form', [
             'serviceTypes' => $services_types,
             'customer' => $customer,
-            'hostedPackages' => $hostedPackages,
-            'ipVendors' => $ipVendors,
-            'accountTypes' => $accountTypes,
-            'systemModels' => $systemModels,
-            'lineTypes' => $lineTypes,
-            'lineVendors' => $lineVendors,
-            'accountTypesAccessControl' => $accountTypesAccessControl,
-            'brandsAccessControl' => $brandsAccessControl,
-            'systemTypesAccessControl' => $systemTypesAccessControl,
-            'cardFobListAccessControl' => $cardFobListAccessControl,
-            'manufacturersCCTV' => $manufacturersCCTV,
-            'modelsCCTV' => $modelsCCTV,
-            'monitoringCentreListCCTV' => $monitoringCentreListCCTV,
-            'cameraBrandsCCTV' => $cameraBrandsCCTV,
-            'maintenanceFrequenciesCCTV' => $maintenanceFrequenciesCCTV,
-            'systemTypesFireAlarm' => $systemTypesFireAlarm,
-            'wiredWirlessFireAlarm' => $wiredWirlessFireAlarm,
-            'manufacturersFireAlarm' => $manufacturersFireAlarm,
-            'modelsFireAlarm' => $modelsFireAlarm,
-            'protocolsFireAlarm' => $protocolsFireAlarm,
-            'panelOperationsFireAlarm' => $panelOperationsFireAlarm,
-            'monitoredListFireAlarm' => $monitoredListFireAlarm,
-            'monitoringCentreListFireAlarm' => $monitoringCentreListFireAlarm,
-            'digiTypesFireAlarm' => $digiTypesFireAlarm,
-            'maintenanceFrequenciesFireAlarm' => $maintenanceFrequenciesFireAlarm,
-            'accountTypesFireAlarm' => $accountTypesFireAlarm,
-            'accountTypesIntruderAlarm' => $accountTypesIntruderAlarm,
-            'systemTypesIntruderAlarm' => $systemTypesIntruderAlarm,
-            'manufacturersIntruderAlarm' => $manufacturersIntruderAlarm,
-            'panelTypesIntruderAlarm' => $panelTypesIntruderAlarm,
-            'digiTypesIntruderAlarm' => $digiTypesIntruderAlarm,
-            'systemTypesWifiData' => $systemTypesWifiData,
-            'manufacturersWifiData' => $manufacturersWifiData,
-            'switchTypesWifiData' => $switchTypesWifiData,
-            'uplinksWifiData' => $uplinksWifiData,
-            'broabbandProvidersWifiData' => $broabbandProvidersWifiData,
-            'modelsStructuredCabling' => $modelsStructuredCabling,
-            'accountTypesStructuredCabling' => $accountTypesStructuredCabling,
-            'hostedCpbxData' => $hostedCpbxData,
-            'accessControlData' => $accessControlData,
-            'cctvData' => $cctvData,
-            'fireAlarmData' => $fireAlarmData,
-            'intruderAlarmData' => $intruderAlarmData,
-            'wifiData' => $wifiData,
-            'structuredCablingData'=>$structuredCablingData
+            
         ]);
     }
+    
+//     public function getAddProductToCustomer($client_name, $id)
+//     {
+//         $customer = UnifiedCustomer::find($id);
+//         if (! $customer) {
+//             abort(404);
+//         }
+//         $selectedServiceType = array_column($customer->services->toArray(), 'service_id');
+//         $customer->selectedServiceType = $selectedServiceType;
+//         $services_types = UnifiedService::select([
+//             'id',
+//             'name'
+//         ])->get();
+
+        
+//         // /////////// hosted
+//         $hostedPackages = $this->getHostedPackages();
+//         $ipVendors = $this->getIPVendors();
+//         $accountTypes = $this->getAccountTypes();
+//         $systemModels = $this->getSystemModels();
+//         $lineTypes = $this->getLineTypes();
+//         $lineVendors = $this->getLineVendors();
+//         // ////////// access control
+//         $accountTypesAccessControl = $this->getAccountTypesAccessControl();
+//         $brandsAccessControl = $this->getBrandsAccessControl();
+//         $systemTypesAccessControl = $this->getSystemTypesAccessControl();
+//         $cardFobListAccessControl = $this->getCardFobListAccessControl();
+//         // ///////// CCTV
+//         $manufacturersCCTV = $this->getManufacturersCCTV();
+//         $modelsCCTV = $this->getModelsCCTV();
+//         $monitoringCentreListCCTV = $this->getMonitoringCentreListCCTV();
+//         $cameraBrandsCCTV = $this->getCameraBrandsCCTV();
+//         $maintenanceFrequenciesCCTV = $this->getMaintenanceFrequenciesCCTV();
+//         // ///////// fire
+//         $systemTypesFireAlarm = $this->getSystemTypesFire();
+//         $wiredWirlessFireAlarm = $this->getWiredWirlessFire();
+//         $manufacturersFireAlarm = $this->getManufacturersFireAlarm();
+//         $modelsFireAlarm = $this->getModelsFireAlarm();
+//         $protocolsFireAlarm = $this->getProtocolsFireAlarm();
+//         $panelOperationsFireAlarm = $this->getPanelOperationsFireAlarm();
+//         $monitoredListFireAlarm = $this->getMonitoredListFireAlarm();
+//         $monitoringCentreListFireAlarm = $this->getMonitoringCentreListFireAlarm();
+//         $digiTypesFireAlarm = $this->getDigiTypesFireAlarm();
+//         $maintenanceFrequenciesFireAlarm = $this->getMaintenanceFrequenciesFireAlarm();
+//         $accountTypesFireAlarm = $this->getAccountTypesFireAlarm();
+//         // ///////// Intruder Alarm
+//         $accountTypesIntruderAlarm = $this->getAccountTypesIntruderAlarm();
+//         $systemTypesIntruderAlarm = $this->getWiredWirlessFire();
+//         $manufacturersIntruderAlarm = $this->getManufacturersIntruderAlarm();
+//         $panelTypesIntruderAlarm = $this->getPanelTypesIntruderAlarm();
+//         $digiTypesIntruderAlarm = $this->getDigiTypesIntruderAlarm();
+//         // ///////// Wifi data
+//         $systemTypesWifiData = $this->getSystemTypesWifiData();
+//         $manufacturersWifiData = $this->getSystemTypesWifiData();
+//         $switchTypesWifiData = $this->getSwitchTypesWifiData();
+//         $uplinksWifiData = $this->getUplinksWifiData();
+//         $broabbandProvidersWifiData = $this->getBroabbandProvidersWifiData();
+//         // ////////// structured_cabling_systems
+//         $modelsStructuredCabling = $this->getModelsStructuredCabling();
+//         $accountTypesStructuredCabling = $this->getAccountTypesStructuredCabling();
+
+//         // service data
+//         $hostedCpbxData = $this->getHostedCpbxDataOfCustomer($id);
+//         $accessControlData = $this->getAccessControlDataOfCustomer($id);
+//         $cctvData = $this->getCCTVDataOfCutomer($id);
+//         $fireAlarmData = $this->getFireAlarmDataOfCustomer($id);
+//         $intruderAlarmData = $this->getIntruderAlarmDataOfCustomer($id);
+//         $wifiData = $this->getWifiDataOfCustomer($id);
+//         $structuredCablingData = $this->getStructuredCablingDataOfCustomer($id);
+
+//         return view('admin.unified.customers.products.add_product', [
+//             'serviceTypes' => $services_types,
+//             'customer' => $customer,
+//             'hostedPackages' => $hostedPackages,
+//             'ipVendors' => $ipVendors,
+//             'accountTypes' => $accountTypes,
+//             'systemModels' => $systemModels,
+//             'lineTypes' => $lineTypes,
+//             'lineVendors' => $lineVendors,
+//             'accountTypesAccessControl' => $accountTypesAccessControl,
+//             'brandsAccessControl' => $brandsAccessControl,
+//             'systemTypesAccessControl' => $systemTypesAccessControl,
+//             'cardFobListAccessControl' => $cardFobListAccessControl,
+//             'manufacturersCCTV' => $manufacturersCCTV,
+//             'modelsCCTV' => $modelsCCTV,
+//             'monitoringCentreListCCTV' => $monitoringCentreListCCTV,
+//             'cameraBrandsCCTV' => $cameraBrandsCCTV,
+//             'maintenanceFrequenciesCCTV' => $maintenanceFrequenciesCCTV,
+//             'systemTypesFireAlarm' => $systemTypesFireAlarm,
+//             'wiredWirlessFireAlarm' => $wiredWirlessFireAlarm,
+//             'manufacturersFireAlarm' => $manufacturersFireAlarm,
+//             'modelsFireAlarm' => $modelsFireAlarm,
+//             'protocolsFireAlarm' => $protocolsFireAlarm,
+//             'panelOperationsFireAlarm' => $panelOperationsFireAlarm,
+//             'monitoredListFireAlarm' => $monitoredListFireAlarm,
+//             'monitoringCentreListFireAlarm' => $monitoringCentreListFireAlarm,
+//             'digiTypesFireAlarm' => $digiTypesFireAlarm,
+//             'maintenanceFrequenciesFireAlarm' => $maintenanceFrequenciesFireAlarm,
+//             'accountTypesFireAlarm' => $accountTypesFireAlarm,
+//             'accountTypesIntruderAlarm' => $accountTypesIntruderAlarm,
+//             'systemTypesIntruderAlarm' => $systemTypesIntruderAlarm,
+//             'manufacturersIntruderAlarm' => $manufacturersIntruderAlarm,
+//             'panelTypesIntruderAlarm' => $panelTypesIntruderAlarm,
+//             'digiTypesIntruderAlarm' => $digiTypesIntruderAlarm,
+//             'systemTypesWifiData' => $systemTypesWifiData,
+//             'manufacturersWifiData' => $manufacturersWifiData,
+//             'switchTypesWifiData' => $switchTypesWifiData,
+//             'uplinksWifiData' => $uplinksWifiData,
+//             'broabbandProvidersWifiData' => $broabbandProvidersWifiData,
+//             'modelsStructuredCabling' => $modelsStructuredCabling,
+//             'accountTypesStructuredCabling' => $accountTypesStructuredCabling,
+//             'hostedCpbxData' => $hostedCpbxData,
+//             'accessControlData' => $accessControlData,
+//             'cctvData' => $cctvData,
+//             'fireAlarmData' => $fireAlarmData,
+//             'intruderAlarmData' => $intruderAlarmData,
+//             'wifiData' => $wifiData,
+//             'structuredCablingData'=>$structuredCablingData
+//         ]);
+//     }
 
     public function postSaveProductHostedCpbx(Request $request)
     {

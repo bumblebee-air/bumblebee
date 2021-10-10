@@ -282,6 +282,12 @@ class DriversController extends Controller
         $lng = $request->get('lng');
         if($lat!=null && $lat!='' && $lng!=null && $lng!=''){
             $coordinates = ['lat'=>$lat, 'lng'=>$lng];
+        } else {
+            $response = [
+                'message' => 'Coordinates are missing!',
+                'error' => 1
+            ];
+            return response()->json($response)->setStatusCode(422);
         }
         $driver_profile = DriverProfile::where('user_id','=',$driver_id)->first();
         if(!$driver_profile){

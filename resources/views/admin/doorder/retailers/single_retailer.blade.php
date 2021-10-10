@@ -613,7 +613,7 @@ textarea {
 						if (!place.geometry) {
 							// User entered the name of a Place that was not suggested and
 							// pressed the Enter key, or the Place Details request failed.
-							window.alert("No details available for input: '" + place.name + "'");
+							window.alert("No details available for this address: '" + place.name + "'");
 						} else {
 							//check if place has eircode
 							let eircode_value = place.address_components.find((x) => {
@@ -622,21 +622,21 @@ textarea {
 								}
 								return undefined;
 							});
+							let place_lat = place.geometry.location.lat();
+							let place_lon = place.geometry.location.lng();
+							document.getElementById("location_"+index+"_coordinates").value = '{lat: ' + place_lat.toFixed(5) + ', lon: ' + place_lon.toFixed(5) +'}';
+							// if (retailer_address_input.value != '') {
+							retailer_address_input.value = place.formatted_address;
+							// }
 							if (eircode_value != undefined) {
-								let place_lat = place.geometry.location.lat();
-								let place_lon = place.geometry.location.lng();
-								document.getElementById("location_"+index+"_coordinates").value = '{lat: ' + place_lat.toFixed(5) + ', lon: ' + place_lon.toFixed(5) +'}';
 								retailer_eircode_input.value = eircode_value.long_name;
-								// if (retailer_address_input.value != '') {
-									retailer_address_input.value = place.formatted_address;
-								// }
 							} else {
-								document.getElementById("location_"+index+"_coordinates").value = '';
+								//document.getElementById("location_"+index+"_coordinates").value = '';
 								retailer_eircode_input.value = '';
-								retailer_address_input.value = '';
+								//retailer_address_input.value = '';
 								swal({
 									icon: 'info',
-									text: 'Please enter a valid Eircode'
+									text: 'This address doesn\'t include an Eircode, please add it manually to the field'
 								});
 							}
 						}
@@ -776,7 +776,7 @@ textarea {
                         if (!place.geometry) {
                             // User entered the name of a Place that was not suggested and
                             // pressed the Enter key, or the Place Details request failed.
-                            window.alert("No details available for input: '" + place.name + "'");
+                            window.alert("No details available for this address: '" + place.name + "'");
                         } else {
 							//check if place has eircode
 							let eircode_value = place.address_components.find((x) => {
@@ -785,21 +785,21 @@ textarea {
 								}
 								return undefined;
 							});
+							let place_lat = place.geometry.location.lat();
+							let place_lon = place.geometry.location.lng();
+							document.getElementById("location_"+latest_key+"_coordinates").value = '{lat: ' + place_lat.toFixed(5) + ', lon: ' + place_lon.toFixed(5) +'}';
+							// if (retailer_address_input.value != '') {
+							retailer_address_input.value = place.formatted_address;
+							// }
 							if (eircode_value != undefined) {
-								let place_lat = place.geometry.location.lat();
-								let place_lon = place.geometry.location.lng();
-								document.getElementById("location_"+latest_key+"_coordinates").value = '{lat: ' + place_lat.toFixed(5) + ', lon: ' + place_lon.toFixed(5) +'}';
 								retailer_eircode_input.value = eircode_value.long_name;
-								// if (retailer_address_input.value != '') {
-									retailer_address_input.value = place.formatted_address;
-								// }
 							} else {
-								document.getElementById("location_"+latest_key+"_coordinates").value = '';
+								//document.getElementById("location_"+latest_key+"_coordinates").value = '';
 								retailer_eircode_input.value = '';
-								retailer_address_input.value = '';
+								//retailer_address_input.value = '';
 								swal({
 									icon: 'info',
-									text: 'Please enter a valid Eircode'
+									text: 'This address doesn\'t include an Eircode, please add it manually to the field'
 								});
 							}
                         }

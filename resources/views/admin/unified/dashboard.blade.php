@@ -49,7 +49,7 @@ table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
 							<div class="col-md-12">
 								<div class="card-icon">
 									<img class="page_icon"
-										src="{{asset('images/unified/dashboard.png')}}"
+										src="{{asset('images/unified/Dashboard.png')}}"
 										alt="dashboard icon">
 								</div>
 								<h4 class="card-title ">Dashboard</h4>
@@ -102,7 +102,7 @@ table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
 														class="col-md-6 col-sm-6  dashboard-card-icon-container">
 														<div class="dashboard-card-icon">
 															<img class="dashboard-card-img"
-																src="{{asset('images/unified/Jobs table-orange.png')}}"
+																src="{{asset('images/unified/Jobs Table-orange.png')}}"
 																alt="orders icon">
 														</div>
 													</div>

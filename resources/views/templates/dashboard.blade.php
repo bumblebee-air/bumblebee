@@ -55,7 +55,18 @@
 	rel="stylesheet">
 <link rel="icon" type="image/jpeg"
 	href="{{asset('images/doorder-favicon.svg')}}">
-<!--         <link href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" rel="stylesheet"> -->
+	<!--<link href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" rel="stylesheet"> -->
+	<!-- Hotjar Tracking Code for https://admin.doorder.eu -->
+	<script>
+		(function(h,o,t,j,a,r){
+			h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+			h._hjSettings={hjid:2648038,hjsv:6};
+			a=o.getElementsByTagName('head')[0];
+			r=o.createElement('script');r.async=1;
+			r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+			a.appendChild(r);
+		})(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+	</script>
 @endif
 <!--DoomYoga Custom Style-->
 @if(Auth::guard('doom-yoga')->check())

@@ -170,7 +170,7 @@ class DriversController extends Controller
                         ]
                     );
                 } catch (\Exception $exception) {
-                    \Log::error($exception->getMessage(), $exception->getTrace());
+                    \Log::error($exception->getMessage());
                 }
             } elseif($status=='delivery_arrived'){
                 $order->status = $status;
@@ -568,7 +568,7 @@ class DriversController extends Controller
                     ]
                 );
             } catch (\Exception $exception){
-                \Log::error($exception->getMessage(),$exception->getTrace());
+                \Log::error($exception->getMessage());
             }
             alert()->success('Deliverer accepted successfully');
         }
@@ -617,7 +617,7 @@ class DriversController extends Controller
                     ]
                 );
             } catch (\Exception $exception) {
-                \Log::error($exception->getMessage(),$exception->getTrace());
+                \Log::error($exception->getMessage());
             }
 
             UserPasswordReset::create([
@@ -682,7 +682,7 @@ class DriversController extends Controller
                     ]
                 );
             } catch (\Exception $exception) {
-                \Log::error($exception->getMessage(),$exception->getTrace());
+                \Log::error($exception->getMessage());
             }
 
             UserPasswordReset::create([

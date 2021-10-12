@@ -158,7 +158,8 @@ box-shadow: none !important;}
 													class="form-control selectpicker" required>
 													<option value="">Select pickup address</option>
 													@foreach($pickup_addresses as $address)
-													<option value="{{$address['address']}}">{{$address['address']}}</option>
+														<option value="{{$address['address']}}"
+															@if(count($pickup_addresses)==1) selected @endif>{{$address['address']}}</option>
 													@endforeach {{--
 													<option value="Other">Other</option>--}}
 												</select> <input type="hidden" name="pickup_lat"
@@ -435,8 +436,9 @@ box-shadow: none !important;}
 
         $(document).ready(function(){
         	$('#fulfilment').mdtimepicker({readOnly:false});
-        
-            $('#pick_address').on('change',function(){
+
+			let pickup_address_field = $('#pick_address')
+            pickup_address_field.on('change',function(){
                 let picked_address = $(this).val();
                 let pickup_lat_field = $('#pickup_lat');
                 let pickup_lon_field = $('#pickup_lon');
@@ -463,6 +465,10 @@ box-shadow: none !important;}
                    }
                }
             });
+			//check if a pickup address is already selected
+			if(pickup_address_field.val()!=null && pickup_address_field.val()!=''){
+				pickup_address_field.change();
+			}
 
             let customer_phone_input = document.querySelector("#customer_phone");
             window.intlTelInput(customer_phone_input, {

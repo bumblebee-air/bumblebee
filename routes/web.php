@@ -317,6 +317,11 @@ Route::group([
         Route::get('order/rating/{user_type}/{order_id}','doorder\RatingController@getRating')->name('doorder_getRating');
         Route::post('order/save_rating','doorder\RatingController@saveRating')->name('doorder_saveRating');
         Route::get('order/rating_success','doorder\RatingController@getSuccess')->name('doorder_ratingSuccess');
+        // order update address
+        Route::get('order/update_address/{order_id}','doorder\OrdersController@getUpdateAddress')->name('doorder_getUpdateAddress');
+        Route::post('order/save_update_address','doorder\OrdersController@saveUpdateAddress')->name('doorder_saveUpdateAddress');
+        Route::get('order/save_address_success','doorder\OrdersController@getUpdateAddressSuccess')->name('doorder_saveAddressSuccess');
+        
 
         Route::group([
             'middleware' => "auth:doorder"

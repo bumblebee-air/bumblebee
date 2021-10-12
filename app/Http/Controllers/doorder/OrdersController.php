@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redis;
 use Maatwebsite\Excel\Facades\Excel;
 use Twilio\Rest\Client;
+use function GuzzleHttp\json_decode;
 
 class OrdersController extends Controller
 {
@@ -354,5 +355,26 @@ class OrdersController extends Controller
             'orders_address' => json_encode($orders_data)
         ]);
         dd($route_optimization_req->status(), $route_optimization_req->body());
+    }
+    
+    
+    public function getUpdateAddress($client_name,$order_id){
+       //dd($order_id);
+        $order = Order::find($order_id);
+        
+        $retailer_addresses = json_decode($order->retailer->locations_details);
+        //dd($retailer_addresses);
+        
+        return view('doorder.retailers.orders.update_address',['order_id'=>$order_id,'order'=>$order,'retailer_addresses'=>$retailer_addresses]);
+    }
+    
+    public function saveUpdateAddress(Request $request) {
+        //dd($request->all());
+   
+        return redirect('doorder/order/save_address_success');
+    }
+    
+    public function getUpdateAddressSuccess(){
+        return view('doorder.retailers.orders.success_update_address');
     }
 }

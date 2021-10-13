@@ -156,7 +156,7 @@ class ApiAuthController extends Controller
             }
             $checkIfCodeExists->delete();
         } else {
-            if (!password_verify($request->password, $user->password)) {
+            if (!password_verify($request->old_password, $user->password)) {
                 return response()->json([
                     'message' => 'The gavin parameters was invalid.',
                     'errors' => [

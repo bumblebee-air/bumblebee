@@ -624,9 +624,11 @@ textarea {
 							});
 							let place_lat = place.geometry.location.lat();
 							let place_lon = place.geometry.location.lng();
-							document.getElementById("location_"+index+"_coordinates").value = '{lat: ' + place_lat.toFixed(5) + ', lon: ' + place_lon.toFixed(5) +'}';
+							// document.getElementById("location_"+index+"_coordinates").value = '{lat: ' + place_lat.toFixed(5) + ', lon: ' + place_lon.toFixed(5) +'}';
+							app.locations[index-1].coordinates = '{lat: ' + place_lat.toFixed(5) + ', lon: ' + place_lon.toFixed(5) +'}';
+							app.locations[index-1].address = place.formatted_address;
 							// if (retailer_address_input.value != '') {
-							retailer_address_input.value = place.formatted_address;
+							// retailer_address_input.value = place.formatted_address;
 							// }
 							if (eircode_value != undefined) {
 								retailer_eircode_input.value = eircode_value.long_name;

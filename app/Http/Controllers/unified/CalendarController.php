@@ -12,6 +12,7 @@ use App\UnifiedJobType;
 use App\UnifiedService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use phpDocumentor\Reflection\PseudoTypes\True_;
 
 class CalendarController extends Controller
@@ -267,6 +268,8 @@ class CalendarController extends Controller
                 'status' => 'assigned',
                 'job_id' => $job->id,
                 'engineer_id' => $engineer,
+                'customer_confirmation_code' => Str::random(10),
+                'engineer_confirmation_code' => Str::random(10),
             ]);
         }
         alert()->success('The job created successfully');

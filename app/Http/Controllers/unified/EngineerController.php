@@ -230,8 +230,9 @@ class EngineerController extends Controller
         }
         if ($request->has('status')) {
             $this->validate($request, [
-                'status' => 'in:in_progress,accepted,completed,arrived,picked_up,skipped',
-                'skip_reason' => 'required_if:status,==,skipped'
+                'status' => 'in:in_progress,accepted,completed,arrived,picked_up,skipped,rejected',
+                'skip_reason' => 'required_if:status,==,skipped',
+                'rejection_reason' => 'required_if:status,==,rejected'
             ]);
             switch ($request->status) {
                 case 'in_progress':
@@ -254,6 +255,7 @@ class EngineerController extends Controller
                 $checkIfJobAssignedToTheEngineer->update([
                     'status' => $request->status,
                     'skip_reason' => $request->skip_reason,
+                    'rejection_reason' => $request->rejection_reason,
                 ]);
             } else {
                 UnifiedEngineerJob::create([
@@ -268,7 +270,7 @@ class EngineerController extends Controller
                 'additional_job_type_id' => 'exists:unified_job_types,id',
                 'service_id' => 'exists:unified_services_job,id',
                 'comment' => 'string|max:500',
-                'number_of_hours' => 'numeric',
+                'number_of_hours' => 'required_without:job_images|numeric',
                 'additional_cost' => 'numeric',
                 'expenses_receipts' => 'array',
                 'expenses_receipts.*' => 'mimes:jpeg,jpg,png|required|max:10000',
@@ -293,16 +295,15 @@ class EngineerController extends Controller
                 }
             }
             $checkIfJobAssignedToTheEngineer->update([
-                'service_id' => $request->service_id,
-                'job_images' => json_encode($job_images_paths),
-                'expenses_receipts' => json_encode($expenses_receipts_paths),
-                'comment' => $request->comment,
-                'additional_cost' => $request->additional_cost,
-                'additional_job_type_id' => $request->additional_job_type_id,
+                'service_id' => $request->service_id?: $checkIfJobAssignedToTheEngineer->service_id,
+                'job_images' => $job_images_paths ? json_encode($job_images_paths) : $checkIfJobAssignedToTheEngineer->job_images,
+                'expenses_receipts' => $expenses_receipts_paths ? json_encode($expenses_receipts_paths) : $checkIfJobAssignedToTheEngineer->expenses_receipts,
+                'comment' => $request->comment ?: $checkIfJobAssignedToTheEngineer->comment,
+                'additional_cost' => $request->additional_cost ?: $checkIfJobAssignedToTheEngineer->additional_cost,
+                'additional_job_type_id' => $request->additional_job_type_id ?: $checkIfJobAssignedToTheEngineer->additional_job_type_id,
                 'is_feedback_filled' => true,
-                'number_of_hours' => $request->number_of_hours,
-                'rejection_reason' => $request->rejection_reason,
-                'skip_reason' => $request->skip_reason,
+                'number_of_hours' => $request->number_of_hours ?: $checkIfJobAssignedToTheEngineer->number_of_hours,
+                'skip_reason' => $request->skip_reason ?: $checkIfJobAssignedToTheEngineer->skip_reason,
             ]);
         }
         return response()->json([

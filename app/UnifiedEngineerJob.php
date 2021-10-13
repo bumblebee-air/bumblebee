@@ -23,6 +23,13 @@ class UnifiedEngineerJob extends Model
         'latest_coordinates',
         'latest_coordinates_updated_at',
         'comment',
+        'is_feedback_filled',
+        'customer_confirmation_code',
+        'engineer_confirmation_code',
+    ];
+
+    protected $hidden = [
+        'customer_confirmation_code',
     ];
 
     public $casts = [

@@ -898,7 +898,7 @@
             <td>status</td>
             <td>string</td>
             <td>true <code>Required without feedback inputs</code></td>
-            <td>The new status of the job. must be in <code>accepted, picked_up, arrived ,in_progress ,completed</code></td>
+            <td>The new status of the job. must be in <code>accepted, picked_up, arrived ,in_progress ,completed, skipped, rejected</code></td>
         </tr>
         <tr>
             <td>additional_job_type_id</td>
@@ -919,7 +919,7 @@
             <td>The ID of the service type.</td>
         </tr>
         <tr>
-            <td>expenses_receipt</td>
+            <td>expenses_receipts</td>
             <td>array</td>
             <td>false</td>
             <td>The expenses files of the job. <code>file size max: 10mb</code></td>
@@ -933,19 +933,19 @@
         <tr>
             <td>skip_reason</td>
             <td>string</td>
-            <td>false</td>
+            <td>true <code>If the status equle skipped</code></td>
             <td>The skip reason of the job.</td>
         </tr>
         <tr>
             <td>rejection_reason</td>
             <td>string</td>
-            <td>false</td>
+            <td>true <code>If the status equle rejected</code></td>
             <td>The rejection reason of the job.</td>
         </tr>
         <tr>
             <td>number_of_hours</td>
             <td>numeric</td>
-            <td>false</td>
+            <td>true <code>Without: number_of_hours</code></td>
             <td>The number of hours of the job.</td>
         </tr>
         <tr>
@@ -980,7 +980,7 @@
         <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The given data was invalid."</span><span class="p">,</span><span class="w">
     </span><span class="nl">"erorrs"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"expenses_receipt"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="nl">"expenses_receipts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
           </span><span class="s2">"The expenses must be an array."</span><span class="w">
       </span><span class="p">],</span><span class="w">
       </span><span class="nl">"service_id"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">

@@ -373,7 +373,7 @@ form .form-group select.form-control {
 												<label> <span v-if="property.required">*</span> @{{property.label}}</label>
 												<span class="tooltip-element"  v-if="property.description" :title="property.description" data-toggle="tooltip">?</span>
 												<input :id="property.name" :multiple="property.multiple"
-                    								:name="property.name" type="file" class="inputFileHidden"
+                    								:name="property.name + '[]'" type="file" class="inputFileHidden"
                     								@change="onChangeFile($event, property.name+'_text')" >
                     							<div class="input-group" @click="addFile(property.name)">
                     								<textarea  :id="property.name+'_text'"

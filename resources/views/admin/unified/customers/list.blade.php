@@ -82,15 +82,25 @@ display: none
 											onclick="clickViewCustomer(event,{{$customer->id}})">
 											<td>{{$customer->name}}</td>
 											<td>{{$customer->serviceType}}</td>
-											<td>@if($customer->contract == true)<span
-												 class="hidden-val">Yes</span><img
-												class="status_icon"
-												src="{{asset('images/unified/Contract.png')}}"
-												alt="Contract"> @elseif($customer->contract == false) <span
-												 class="hidden-val">No</span><img
-												class="status_icon"
-												src="{{asset('images/unified/No contract.png')}}"
-												alt="NoContract"> @endif
+											<td>
+{{--												@if($customer->contract == true)<span--}}
+{{--												 class="hidden-val">Yes</span><img--}}
+{{--												class="status_icon"--}}
+{{--												src="{{asset('images/unified/Contract.png')}}"--}}
+{{--												alt="Contract"> @elseif($customer->contract == false) <span--}}
+{{--												 class="hidden-val">No</span><img--}}
+{{--												class="status_icon"--}}
+{{--												src="{{asset('images/unified/No contract.png')}}"--}}
+{{--												alt="NoContract"> @endif--}}
+												@if($customer->contract)
+													<span class="text-success">
+														YES
+													</span>
+												@else
+													<span class="text-danger">
+														NO
+													</span>
+												@endif
 											</td>
 											<td>
 												<span data-toggle="tooltip" data-placement="top" title="{{$customer->address}}">

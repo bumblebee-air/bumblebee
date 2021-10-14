@@ -3,6 +3,7 @@ namespace App\Http\Controllers\unified;
 
 use App\ServiceType;
 use App\UnifiedCustomerProductSelectedValues;
+use App\UnifiedJobType;
 use App\UnifiedService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -23,6 +24,12 @@ class ProductFormController extends Controller
 
     public function deleteProductType(Request $request)
     {
+        $checkIfExists = UnifiedService::find($request->productTypeId);
+        if(!$checkIfExists) {
+            alert()->warning("There no product with this id #$request->productTypeId");
+            return redirect()->back();
+        }
+        $checkIfExists->delete();
         alert()->success('Product type deleted successfully');
         return redirect()->route('unified_getProductTypesList', 'unified');
     }

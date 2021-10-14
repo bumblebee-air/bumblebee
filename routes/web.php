@@ -496,6 +496,18 @@ Route::group([
             });
             
             Route::group([
+                'prefix' => 'job_types'
+            ], function () {
+                Route::get('list','unified\JobTypeController@getJobTypesList')->name('unified_getJobTypesList');
+                Route::post('delete', 'unified\JobTypeController@deleteJobType')->name('unifiedDeleteJobType');
+                Route::get('view/{id}', 'unified\JobTypeController@getSingleJobType')->name('unified_getJobTypeSingleView');
+                Route::get('edit/{id}', 'unified\JobTypeController@getSingleJobTypeEdit')->name('unified_getJobTypeSingleEdit');
+                Route::post('edit/{id}', 'unified\JobTypeController@postEditJobType')->name('unified_postJobTypeSingleEdit');
+                Route::get('add', 'unified\JobTypeController@getAddJobType')->name('unified_getAddJobType');
+                Route::post('add', 'unified\JobTypeController@postAddJobType')->name('unified_postAddJobType');
+            });
+            
+            Route::group([
                 'prefix' => 'engineers'
             ], function () {
                 Route::get('list', 'unified\EngineerController@getEngineersList')->name('unified_getEngineersList');

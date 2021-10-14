@@ -184,7 +184,7 @@
 						action="{{url('unified/product_types/delete')}}"
 						style="margin-bottom: 0 !important;">
 						@csrf <input type="hidden" id="productTypeId" name="productTypeId"
-							value="" />
+							value="{{$productType->id}}" />
 					</form>
 				</div>
 			</div>

@@ -93,11 +93,11 @@ display: none
 {{--												src="{{asset('images/unified/No contract.png')}}"--}}
 {{--												alt="NoContract"> @endif--}}
 												@if($customer->contract)
-													<span class="text-success">
+													<span class="hidden-val">Yes</span><span class="text-success">
 														YES
 													</span>
 												@else
-													<span class="text-danger">
+													<span class="hidden-val">No</span><span class="text-danger">
 														NO
 													</span>
 												@endif

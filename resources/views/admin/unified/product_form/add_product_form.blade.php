@@ -346,7 +346,7 @@ form .form-group select.form-control {
             													class="form-check-input" type="checkbox"
             													:name="property.name+'[]'" :value="item.value" data-toggle="switch"
             													:id="property.name+'_'+item.value"
-            													:checked="property.selected_value.includes(item.value)"> 
+            													:checked="property.selected_value && property.selected_value.includes(item.value)"> 
             													@{{item.label}} <span class="form-check-sign"> <span class="check"></span> </span>
             												</label>
             											</div>
@@ -360,7 +360,7 @@ form .form-group select.form-control {
             													type="checkbox"
             													:name="property.name+'[]'" :value="item.value" 
             													:id="property.name+'_'+item.value"
-            													:checked="property.selected_value.includes(item.value)">  
+            													:checked="property.selected_value && property.selected_value.includes(item.value)">  
             													 <span class="toggle"></span>
             													@{{item.label}} 
             												</label>
@@ -562,6 +562,7 @@ function changeProductType(){
             console.log(JSON.parse(data.formFields))
             app.productTypeProperties = JSON.parse(data.formFields);
             
+            console.log(app.productTypeProperties)
             
             setTimeout(() => {
             	addIntlPhoneInput();

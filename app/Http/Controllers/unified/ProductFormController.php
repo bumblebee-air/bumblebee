@@ -25,7 +25,7 @@ class ProductFormController extends Controller
     public function deleteProductType(Request $request)
     {
         $checkIfExists = UnifiedService::find($request->productTypeId);
-        if(!$checkIfExists) {
+        if (! $checkIfExists) {
             alert()->warning("There no product with this id #$request->productTypeId");
             return redirect()->back();
         }
@@ -106,27 +106,29 @@ class ProductFormController extends Controller
 
     public function postSaveProductForm(Request $request)
     {
-//        dd($request->all());
+        // dd($request->all());
         $customer_id = $request->customer_id;
         $service_id = $request->productTypeSelect;
         $array = [];
         foreach ($request->all() as $key => $request_inputs) {
-            if (!in_array($key, ['_token', 'customer_id', 'productTypeSelect'])) {
+            if (! in_array($key, [
+                '_token',
+                'customer_id',
+                'productTypeSelect'
+            ])) {
                 if (substr($key, 0, 4) == 'file') {
-                    //The files are overwritten here. How can the user remove a file?
+                    // The files are overwritten here. How can the user remove a file?
                     $paths = [];
                     foreach ($request[$key] as $file_key => $file) {
                         $paths[] = $request[$key][$file_key]->store('uploads');
                     }
                     $array[$key] = $paths;
-
                 } else {
                     $array[$key] = $request_inputs;
                 }
             }
         }
-        $customer_product_selected_values =  UnifiedCustomerProductSelectedValues::where('customer_id', $customer_id)
-            ->where('service_id', $service_id)->first();
+        $customer_product_selected_values = UnifiedCustomerProductSelectedValues::where('customer_id', $customer_id)->where('service_id', $service_id)->first();
         if ($customer_product_selected_values) {
             $customer_product_selected_values->update([
                 'selected_values' => $array
@@ -159,13 +161,16 @@ class ProductFormController extends Controller
         $productTypeID = $request->productTypeId;
         $customerId = $request->customerId;
 
+        // dd($productTypeID . ' '.$customerId);
+
         $service = UnifiedService::find($productTypeID);
-        $selected_values = UnifiedCustomerProductSelectedValues::where('customer_id', $customerId)
-            ->where('service_id', $productTypeID)->first();
+        $selected_values = UnifiedCustomerProductSelectedValues::where('customer_id', $customerId)->where('service_id', $productTypeID)->first();
         $formData_decoded = json_decode($service->formData);
-        foreach ($formData_decoded as $key => $formData_input) {
-            if (array_key_exists($formData_input->name, $selected_values->selected_values)) {
-                $formData_decoded[$key]->selected_value = $selected_values->selected_values[$formData_input->name];
+        if ($selected_values != null) {
+            foreach ($formData_decoded as $key => $formData_input) {
+                if (array_key_exists($formData_input->name, $selected_values->selected_values)) {
+                    $formData_decoded[$key]->selected_value = $selected_values->selected_values[$formData_input->name];
+                }
             }
         }
         return response()->json(array(

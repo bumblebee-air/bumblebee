@@ -72,7 +72,7 @@ class EngineerController extends Controller
             'phone' => $request->phone,
             'email' => $request->email,
             'address' => $request->address,
-            'address_coordinates' => $request->address_coordinates,
+            'address_coordinates' => json_decode($request->address_coordinates),
             'job_type' => $request->job_type,
             'user_id' => $user->id
         ]);
@@ -121,7 +121,7 @@ class EngineerController extends Controller
             'phone' => $request->phone,
             'email' => $request->email,
             'address' => $request->address,
-            'address_coordinates' => $request->address_coordinates,
+            'address_coordinates' => json_decode($request->address_coordinates),
             'job_type' => $request->job_type,
         ]);
         alert()->success('Engineer updated successfully');

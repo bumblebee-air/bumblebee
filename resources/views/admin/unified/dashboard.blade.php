@@ -357,7 +357,7 @@ table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
              	
              	 $.ajax({
                    type:'GET',
-                   url: '{{url("doorder/dashboard")}}'+'?from_date='+startDate+'&to_date='+endDate,
+                   url: '{{url("doorder/unified_dashboard")}}'+'?from_date='+startDate+'&to_date='+endDate,
                    success:function(data) {
                       console.log(data);
                       

@@ -141,7 +141,7 @@ class EngineerController extends Controller
             });
         } else {
             $jobs = $jobs->whereHas('engineers', function ($q) use ($engineer_profile, $request) {
-                $q->where('engineer_id', $engineer_profile->id)->whereNotIn('status', ['skipped', 'completed', 'checked_out']);
+                $q->where('engineer_id', $engineer_profile->id)->whereNotIn('status', ['skipped', 'completed', 'checked_out', 'rejected']);
             });
         }
         if ($request->has('job_type_id')) {

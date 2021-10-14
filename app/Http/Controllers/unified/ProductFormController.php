@@ -106,7 +106,7 @@ class ProductFormController extends Controller
         foreach ($request->all() as $key => $request_inputs) {
             if (!in_array($key, ['_token', 'customer_id', 'productTypeSelect'])) {
                 if (substr($key, 0, 4) == 'file') {
-                    //There is an issue here: The file input doesn't return as array in case multiple files.
+                    //The files are overwritten here. How can the user remove a file?
                     $paths = [];
                     foreach ($request[$key] as $file_key => $file) {
                         $paths[] = $request[$key][$file_key]->store('uploads');

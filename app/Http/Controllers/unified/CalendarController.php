@@ -5,6 +5,7 @@ use App\Customer;
 use App\Http\Controllers\Controller;
 use App\UnifiedCompany;
 use App\UnifiedCustomer;
+use App\UnifiedCustomerProductSelectedValues;
 use App\UnifiedEngineer;
 use App\UnifiedEngineerJob;
 use App\UnifiedJob;
@@ -113,9 +114,11 @@ class CalendarController extends Controller
 
         // Get Services Events by day
         $events = [];
+        $maintenance_events  = [];
         $daysOfMonth = $end_date->diffInDays($start_date);
         $date_for_loop = Carbon::createFromTimestamp($request->start_date);
         for ($i = 0; $i < $daysOfMonth+1; $i ++) {
+            //Events/Jobs
             foreach ($services as $service) {
                 $JobsCount = UnifiedJob::where('service_id', $service->id)->whereDate('start_at', $date_for_loop->toDateString())
                     ->count();
@@ -133,6 +136,22 @@ class CalendarController extends Controller
                     ];
                 }
             }
+            //Maintenance events
+            //Not Finished Yet........
+//            $service_formData_decoded = json_decode($service->formData);
+//            $maintenance_input_name = '';
+//            if (count($service_formData_decoded) > 0) {
+//                foreach ($service_formData_decoded as $form_input) {
+//                    if ($form_input->label == 'File Upload') {
+//                        $maintenance_input_name = $form_input->name;
+//                        $service_selected_values = UnifiedCustomerProductSelectedValues::where('service_id', $service->id)->where('selected_values', 'LIKE', "%$maintenance_input_name%")->get();
+//                        foreach ($service_selected_values as $selected_value) {
+//                            $maintenance_frequency = $selected_value->selected_values[$maintenance_input_name];
+//                        }
+//                    }
+//                }
+//            }
+            //Customers contract expiry
             $expiredContracts = UnifiedCustomer::whereDate('contract_end_date', $date_for_loop)->get();
             if (count($expiredContracts) > 0) {
                 $events[] = [

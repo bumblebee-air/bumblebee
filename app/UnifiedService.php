@@ -15,4 +15,8 @@ class UnifiedService extends Model
     public function customers() {
         return $this->hasMany(UnifiedCustomerService::class, 'service_id');
     }
+
+    public function customers_selected_values() {
+        return $this->hasMany(UnifiedCustomerProductSelectedValues::class, 'service_id');
+    }
 }

@@ -52,19 +52,22 @@ body {
 	margin: 0;
 }
 
-@media (min-width :1000px) {
-	.searchFormContainerDiv {
-		display: flex;
-		justify-content: center;
-		position: absolute;
-		width: 100%;
-	}
+.searchFormContainerDiv{
+	display: none !important;
 }
+/* @media (min-width :1000px) { */
+/* 	.searchFormContainerDiv { */
+/* 		display: flex; */
+/* 		justify-content: center; */
+/* 		position: absolute; */
+/* 		width: 100%; */
+/* 	} */
+/* } */
 
-.searchFormContainerDiv form {
-	display: flex;
-	align-items: center;
-}
+/* .searchFormContainerDiv form { */
+/* 	display: flex; */
+/* 	align-items: center; */
+/* } */
 .navbar .collapse .navbar-nav .nav-item .nav-link{
 	padding: 10px 8px !important;
 }

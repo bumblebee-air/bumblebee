@@ -619,10 +619,14 @@ function changeProductType(){
                 
                 $(".selectInputType").select2({ allowClear: true});
                  $.each($(".selectInputType"), function(){
-                 	console.log(typeof $(this).data('value'))
+                 	console.log(typeof($(this).data('value')))
                         //$(this).select2('val', ''+$(this).data('value'));
-                        if($(this).data('value') != null){
+                        if($(this).data('value') != null && typeof($(this).data('value'))!='number'){
                            	$(this).val( $(this).data('value').split(","));
+    						$(this).trigger('change');
+    					}
+    					else if(typeof($(this).data('value'))=='number'){
+    						$(this).val( $(this).data('value'));
     						$(this).trigger('change');
     					}	
                 });

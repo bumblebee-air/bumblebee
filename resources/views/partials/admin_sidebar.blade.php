@@ -763,12 +763,12 @@
 					alt="Calendar">
 					<p>Calendar </p>
 			</a></li>
-			<li class="nav-item"><a class="nav-link d-flex"
-				href="">  <img class="my-nav-icon"
-					src="{{asset('images/unified/Jobs Table.png')}}"
-					alt="Jobs Table">
-					<p>Jobs Table </p>
-			</a></li>
+<!-- 			<li class="nav-item"><a class="nav-link d-flex" -->
+<!-- 				href="">  <img class="my-nav-icon" -->
+<!-- 					src="{{asset('images/unified/Jobs Table.png')}}" -->
+<!-- 					alt="Jobs Table"> -->
+<!-- 					<p>Jobs Table </p> -->
+<!-- 			</a></li> -->
 			<li class="nav-item"><a class="nav-link d-flex"
 				href="{{url('unified/calendar/add_scheduled_job/0/0')}}">  <img class="my-nav-icon"
 					src="{{asset('images/unified/Add.png')}}"
@@ -800,18 +800,18 @@
 					<p>Product Types </p>
 			</a></li>
 			
-			<li class="nav-item"><a class="nav-link d-flex"
-				href="{{route('unified_getProductForm', 'unified')}}">  <img class="my-nav-icon"
-					src="{{asset('images/unified/Add Service Form.png')}}"
-					alt="Add Service Form">
-					<p>Add Product Form </p>
-			</a></li>
-			<li class="nav-item"><a class="nav-link d-flex"
-				href="">  <img class="my-nav-icon-request"
-					src="{{asset('images/unified/Job Requests.png')}}"
-					alt="Calendar">
-					<p>Job Requests </p>
-			</a></li>
+<!-- 			<li class="nav-item"><a class="nav-link d-flex" -->
+<!-- 				href="{{route('unified_getProductForm', 'unified')}}">  <img class="my-nav-icon" -->
+<!-- 					src="{{asset('images/unified/Add Service Form.png')}}" -->
+<!-- 					alt="Add Service Form"> -->
+<!-- 					<p>Add Product Form </p> -->
+<!-- 			</a></li> -->
+<!-- 			<li class="nav-item"><a class="nav-link d-flex" -->
+<!-- 				href="">  <img class="my-nav-icon-request" -->
+<!-- 					src="{{asset('images/unified/Job Requests.png')}}" -->
+<!-- 					alt="Calendar"> -->
+<!-- 					<p>Job Requests </p> -->
+<!-- 			</a></li> -->
 			<li class="nav-item "><a class="nav-link d-flex"
 				href="{{url('logout')}}"> 
 					<img class="my-nav-icon"

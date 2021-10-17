@@ -260,7 +260,7 @@ form .form-group select.form-control {
 										<div class="col-md-6" v-for="(property, index) in productTypeProperties">
 											
 											<div class="form-group bmd-form-group" v-if="property.type=='text'">
-												<label> <span v-if="property.required">*</span> @{{property.label}}</label> 
+												<label v-html="property.label"> <span v-if="property.required">*</span> </label> 
 												<span class="tooltip-element" v-if="property.description" :title="property.description" data-toggle="tooltip">?</span>
 												<input v-if="property.subtype=='tel'" type="text" class="form-control phoneInputType" :name="property.name"
 													 :required="property.required" :value="property.selected_value"/>
@@ -280,25 +280,25 @@ form .form-group select.form-control {
 														:value="property.coordinates">
 											</div>
 											<div class="form-group bmd-form-group" v-else-if="property.type=='date'">
-												<label> <span v-if="property.required">*</span> @{{property.label}}</label>
+												<label v-html="property.label"> <span v-if="property.required">*</span> </label>
 												<span class="tooltip-element" v-if="property.description" :title="property.description" data-toggle="tooltip">?</span>
 												<input type="text" class="form-control dateInputType" :name="property.name" :required="property.required" 
 												 :placeholder="property.placeholder" :value="property.selected_value"/>
 											</div>
 											<div class="form-group bmd-form-group" v-else-if="property.type=='number'">
-												<label> <span v-if="property.required">*</span> @{{property.label}}</label>
+												<label  v-html="property.label"> <span v-if="property.required">*</span> </label>
 												<span class="tooltip-element" v-if="property.description" :title="property.description" data-toggle="tooltip">?</span>
 												<input type="number" class="form-control" :name="property.name" :step="property.step" :min="property.min" 
 													:max="property.max" :required="property.required" :placeholder="property.placeholder" :value="property.selected_value"/>
 											</div>
 											<div class="form-group bmd-form-group" v-else-if="property.type=='textarea'">
-												<label> <span v-if="property.required">*</span> @{{property.label}}</label>
+												<label v-html="property.label"> <span v-if="property.required">*</span></label>
 												<span class="tooltip-element" v-if="property.description" :title="property.description" data-toggle="tooltip">?</span>
 												<textarea class="form-control" :name="property.name" :rows="property.rows" 
 												:required="property.required" :maxlength="property.maxlength" :placeholder="property.placeholder">@{{property.selected_value}}</textarea>
 											</div>	
 											<div class="form-group bmd-form-group" v-else-if="property.type=='select'">
-												<label> <span v-if="property.required">*</span> @{{property.label}}</label>
+												<label v-html="property.label"> <span v-if="property.required">*</span> </label>
 												<span class="tooltip-element" v-if="property.description" :title="property.description" data-toggle="tooltip">?</span>
 												<select :name="property.multiple ? property.name+'[]' : property.name" class="form-control selectInputType"
 													:multiple="property.multiple" :required="property.required"
@@ -312,7 +312,7 @@ form .form-group select.form-control {
 												</select>
 											</div>
 											<div class=" row" style="margin-top: 15px" v-else-if="property.type=='radio-group'">
-            									<label class="labelRadio col-12" for=""> <span v-if="property.required">*</span> @{{property.label}} 
+            									<label  v-html="property.label" class="labelRadio col-12" for=""> <span v-if="property.required">*</span>  
 												<span class="tooltip-element" v-if="property.description" :title="property.description" data-toggle="tooltip">?</span> </label>
             									<div v-if="property.required" :id="property.name+'_errorMessage'" class="col-12 errorMessage"><p>Please select one option</p></div>
             									<div :class="property.required ? 'col-12 row requiredRadioInput ' : 'col-12 row '  "
@@ -335,7 +335,7 @@ form .form-group select.form-control {
             									</div>
             								</div>
             								<div class=" row" style="margin-top: 15px" v-else-if="property.type=='checkbox-group'">
-            									<label class="labelRadio col-12" for=""> <span v-if="property.required">*</span> @{{property.label}} 
+            									<label  v-html="property.label" class="labelRadio col-12" for=""> <span v-if="property.required">*</span>  
 												<span class="tooltip-element"  v-if="property.description" :title="property.description" data-toggle="tooltip">?</span> </label>
             									<div v-if="property.required" :id="property.name+'_errorMessage'" class="col-12 errorMessage"><p>Please select at least one option</p></div>
             									<div :class="property.required ? 'col-12 row requiredCheckboxInput ' : 'col-12 row '  "
@@ -370,7 +370,7 @@ form .form-group select.form-control {
             								</div>	
             								<div class="form-group bmd-form-group form-file-upload"
             									 v-else-if="property.type=='file'">
-												<label> <span v-if="property.required">*</span> @{{property.label}}</label>
+												<label  v-html="property.label"> <span v-if="property.required">*</span> </label>
 												<span class="tooltip-element"  v-if="property.description" :title="property.description" data-toggle="tooltip">?</span>
 												<input :id="property.name" :multiple="property.multiple"
                     								:name="property.name + '[]'" type="file" class="inputFileHidden"
@@ -403,7 +403,7 @@ form .form-group select.form-control {
 														</div>
 													</a>
 											</div>	
-											<div v-else>@{{property.label}}</div>	
+											<div v-else  v-html="property.label"></div>	
 											
 											
 											
@@ -513,6 +513,13 @@ $( document ).ready(function() {
                     	}
                     	$("#" + id).val(fileNames)
                     }
+                },
+                domDecoder (str) {
+                	console.log(str)
+                	let parser = new DOMParser();
+                    let dom = parser.parseFromString('<!doctype html><body>' + str, 'text/html');
+                    console.log( dom.body.textContent)
+                    return dom.body.textContent;
                 },
     		}
     });

@@ -2,7 +2,7 @@
 
 <style>
 </style>
-@endsection @section('title','Unified | Add Job Type ')
+@endsection @section('title','Unified | Edit Job Type ')
 @section('page-content')
 <div class="content" id="app">
 	<div class="container-fluid">

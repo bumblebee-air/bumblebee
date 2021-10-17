@@ -104,8 +104,8 @@
 			header: {
 				//left: 'title',
 				left:'prev title next',
-				center: 'today,agendaDay,agendaWeek,month,agendaYear',
-				right:''
+				center: 'agendaDay,agendaWeek,month,agendaYear',
+				right:'today'
 				//center: 'agendaDay,agendaWeek,month',
 				//right: 'prev,next today'
 			},

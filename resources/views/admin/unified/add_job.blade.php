@@ -20,26 +20,27 @@
 }
 
 #navAddJobUl li a {
-	width: 155px;
+/* 	width: 155px; */
 	font-family: 'Roboto', sans-serif !important;
-	padding: 10px 35px;
+/* 	padding: 10px 35px; */
+    padding:5px 8px;
 	font-size: 16px;
-	font-weight: normal;
+	font-weight: 500;
 	font-stretch: normal;
 	font-style: normal;
 	line-height: 1.5;
 	letter-spacing: 0.15px;
 	color: #7b7b7b;
 	background: transparent;
+	border-radius: 0 !important;
 }
 
 #navAddJobUl li a.active, #navAddJobUl li a:hover {
-	background-color: #d58242;
-	border-color: #d58242;
-	color: white !important;
-	box-shadow: 0 4px 20px 0 rgb(0 0 0/ 14%), 0 7px 10px -5px
-		rgb(213 130 66/ 40%);
-	border-radius: 30px !important;
+    background: transparent !important;
+	border-bottom:2px solid #d58242;
+	color: #d58242 !important;
+	box-shadow: none;
+	border-radius: 0 !important;
 }
 
 .tab-space {
@@ -130,6 +131,15 @@ padding: 0 !important;
 																	</div>
 																</div>
 																<div class="col-12">
+																	<input type="hidden" name="serviceIdHidden"
+																		id="serviceIdHidden" value="{{$serviceId}}">
+																	<p style="font-size: 14px; color:red; font-weight: 500px;display: none;" id="errorMessageServiceType"> Please select product type </p>	
+																	<div class="form-group bmd-form-group">
+																		<label>Product type</label>
+																		<div id="selectedServiceTypesDiv"></div>
+																	</div>
+																</div>
+																<div class="col-12">
 																	<div class="form-group bmd-form-group">
 																		<label>Type of job</label> <select name="typeOfJob"
 																			class="form-control" id="typeOfJobSelect"
@@ -156,15 +166,6 @@ padding: 0 !important;
 																		<textarea class="form-control" name="accounts_note"
 																			id="accounts_note" placeholder="Accounts note"
 																			required rows="3"></textarea>
-																	</div>
-																</div>
-																<div class="col-12">
-																	<input type="hidden" name="serviceIdHidden"
-																		id="serviceIdHidden" value="{{$serviceId}}">
-																	<p style="font-size: 14px; color:red; font-weight: 500px;display: none;" id="errorMessageServiceType"> Please select product type </p>	
-																	<div class="form-group bmd-form-group">
-																		<label>Product type</label>
-																		<div id="selectedServiceTypesDiv"></div>
 																	</div>
 																</div>
 															</div>
@@ -514,8 +515,8 @@ var inputs = $("#addScheduledJob input[required],#addScheduledJob textarea[requi
 			header: {
 				//left: 'title',
 				left:'prev title next',
-				center: 'today,agendaDay,agendaWeek,month,agendaYear',
-				right:''
+				center: 'agendaDay,agendaWeek,month,agendaYear',
+				right:'today'
 				//center: 'agendaDay,agendaWeek,month',
 				//right: 'prev,next today'
 			},

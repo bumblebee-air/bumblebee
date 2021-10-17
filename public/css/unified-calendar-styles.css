@@ -220,7 +220,7 @@ button:focus {
 	color: #222222;
 }
 
-.fc-center {
+.fc-center ,.fc-right{
 	margin-top: 2px;
 }
 
@@ -256,7 +256,7 @@ button:focus {
 	color: #222222;
 }
 
-.fc-center .fc-button {
+.fc-center .fc-button, .fc-right .fc-button{
 	padding: 4px !important;
 	margin-left: 1rem !important;
 	font-family: Roboto;
@@ -271,6 +271,25 @@ button:focus {
 	text-transform: capitalize;
 	border-radius: 2px
 }
+.fc-today-button {
+	padding: 4px !important;
+	margin-left: 1rem !important;
+	font-family: Roboto;
+	font-size: 12px;
+	font-weight: 400;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.26;
+	letter-spacing: 1.2px;
+	text-align: center;
+	color: #222222 !important;
+	text-transform: capitalize;
+	border: 2px solid #aaa !important;
+}
+
+.fc-right{
+	margin-right: 0.5rem !important;
+}
 
 .fc-state-down, .fc-state-active {
 	background-color: #fff !important;
@@ -278,9 +297,10 @@ button:focus {
 	box-shadow: none !important;
 }
 
-.fc-state-disabled {
-	background-color: #fff !important;
-	border-bottom: 2px solid #d58242 !important;
+.fc-today-button.fc-state-disabled {
+	background-color: #d58242 !important;
+	border: 2px solid #d58242 !important;
+	color: #fff !important;
 	box-shadow: none !important;
 }
 

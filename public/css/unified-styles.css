@@ -139,7 +139,7 @@ li .nav-link:hover p {
 
 .sidebar .nav li .dropdown-menu a, .sidebar .nav li a {
 	padding: 10px 10px;
-	margin: 10px 13px 0 !important;
+	margin: 13px 13px 0 !important;
 	font-size: 16px !important;
 	color: #fff !important;
 }
@@ -395,7 +395,7 @@ table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after,
 
 /************ modal ************/
 .deleteHeader {
-	margin: 25px;
+	margin:0 0 25px;
 	font-size: 25px;
 	font-weight: 500;
 	font-stretch: normal;
@@ -427,7 +427,7 @@ table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after,
 }
 
 .modal-content {
-	padding: 50px 40px;
+	padding: 40px 40px;
 	/*padding: 51px 51px 112px 51px;*/
 	border-radius: 30px !important;
 	border: solid 1px #979797 !important;

@@ -61,7 +61,7 @@ box-shadow: none !important;
 										@endif	
 										<a class="btn btn-unified-grey btn-import ml-1"
 											href="{{url('unified/customers/add_product_to_customer')}}/{{$customer->id}}">
-											Add product </a>	
+											Manage products </a>
 									</div>
 
 								</div>

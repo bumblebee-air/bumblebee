@@ -192,11 +192,11 @@ form .form-group select.form-control {
 									</div>
 									@if(isset($customer))
 										<h4 class="card-title">
-        									<span class="card-title-grey">Add Product Form /</span>
+        									<span class="card-title-grey">Manage Products Form /</span>
         									{{$customer->name}}
         								</h4>
 									@else
-										<h4 class="card-title" >Add Product Form</h4>
+										<h4 class="card-title" >Manage Products Form</h4>
 									@endif
 								</div>
 

@@ -266,16 +266,16 @@ a.invoiceBtn {
 												@endforeach
 											</tbody>
 											<tfoot>
-												<tr>
-													<th colspan="2"></th>
-													<th>Subtotal</th>
-													<th>€{{$subtotal}}</th>
-												</tr>
-												<tr>
-													<th colspan="2"></th>
-													<th>VAT @ 23%</th>
-													<th>€{{$vat}}</th>
-												</tr>
+<!-- 												<tr> -->
+<!-- 													<th colspan="2"></th> -->
+<!-- 													<th>Subtotal</th> -->
+<!-- 													<th>€{{$subtotal}}</th> -->
+<!-- 												</tr> -->
+<!-- 												<tr> -->
+<!-- 													<th colspan="2"></th> -->
+<!-- 													<th>VAT @ 23%</th> -->
+<!-- 													<th>€{{$vat}}</th> -->
+<!-- 												</tr> -->
 												<tr>
 													<th colspan="2"></th>
 													<th>Total</th>
@@ -339,7 +339,7 @@ a.invoiceBtn {
 						<div class="col-sm-6 text-center">
 							<button type="button"
 								class="btn btn-primary doorder-btn-lg doorder-btn invoiceBtn"
-								onclick="sendNotificationNotCompleted({{$driver->id}})">Notify driver</button>
+								onclick="sendNotificationNotCompleted({{$driver->id}},'{{$stripe_profile_status}}')">Notify driver</button>
 						</div>
 					</div>
 					@endif
@@ -363,7 +363,8 @@ a.invoiceBtn {
 				</button>
 			</div>
 			<div class="modal-body">
-				<div class="modal-dialog-header deleteHeader">This driver profile is incomplete or doesn't have a stripe profile yet</div>
+				<div class="modal-dialog-header deleteHeader"
+				id="notifyDriverMessageDiv">This driver profile is incomplete or doesn't have a stripe profile yet</div>
 
 				<div>
 
@@ -425,18 +426,18 @@ a.invoiceBtn {
 						<div class="row">	
 							<div class="col">
 								<div class="form-group bmd-form-group">
-									<label for="subtotal">Vat @23%: </label>
-										<span v-html="vat"></span>
-									 <input type="hidden"
-										name="vat" id="vat" step="any"
-										v-model="vat">
+									<label for="subtotal">Additional </label>
+										
+									<input type="number"
+										class="form-control" name="additional" id="additional" step="any"
+										placeholder="Additional" v-model="additional" @change="changeAdditional" required>
 								</div>
 							</div></div>
 						<div class="row">	
 							<div class="col">
-								<div class="form-group bmd-form-group">
+								<div class="form-group bmd-form-group" style="font-weight: 700;">
 									<label for="subtotal">Total: </label>
-										<span v-html="total"></span> <input type="hidden"
+										<span  v-html="total"></span> <input type="hidden"
 										 name="total" id="total" step="any"
 										  v-model="total">
 								</div>
@@ -475,11 +476,17 @@ a.invoiceBtn {
 
 @endsection @section('page-scripts')
 <script>
-function sendNotificationNotCompleted(driver_id){
+function sendNotificationNotCompleted(driver_id,status){
 	console.log("send notification",driver_id);
     	
     $('#send-notification-modal').modal('show')
     $('#send-notification-modal #driver_id').val(driver_id);
+    
+    if(status === 'not-completed'){
+    	$("#send-notification-modal #notifyDriverMessageDiv").html("This driver profile is incomplete.")
+    }else if(status === 'no-account'){
+    	$("#send-notification-modal #notifyDriverMessageDiv").html("This driver profile doesn't have a Stripe profile yet.")    	
+    }
 }
 
 function payoutToDriver(driver_id,subtotal){
@@ -506,14 +513,16 @@ $( document ).ready(function() {
             el: '#app',
             data: {      
             	subtotal: {!! $subtotal !!},
-            	vat: {!! $vat !!},
-            	total:{!! $total !!},
+            	additional: 0,
+            	total:({!! $subtotal !!}).toFixed(2),
             	
             },
 			methods: {
 				changeSubtotal(){
-					this.vat = this.subtotal * 0.23;
-					this.total = parseFloat(this.subtotal) + parseFloat(this.vat);
+					this.total = (parseFloat(this.subtotal) + parseFloat(this.additional)).toFixed(2);
+				},
+				changeAdditional(){
+					this.total = (parseFloat(this.subtotal) + parseFloat(this.additional)).toFixed(2);
 				}
 			}
         });

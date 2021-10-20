@@ -875,8 +875,30 @@ class DriversController extends Controller
             alert()->error('Deliverer not found!');
             return redirect()->back();
         }
-        $profile->first_name = $request->get('first_name');
-        $profile->last_name = $request->get('last_name');
+        $user = $profile->user;
+        $first_name = $request->get('first_name');
+        $last_name = $request->get('last_name');
+        $contact_number = $request->get('contact_number');
+        $email = $request->get('email');
+        try {
+            $user->name = $first_name . ' ' . $last_name;
+            $user->email = $email;
+            //dd($contact_number,$user->phone);
+            if ($contact_number !== $user->phone) {
+                $user->phone = $contact_number;
+            }
+            $user->save();
+        } catch(\Exception $exception){
+            $err_msg = $exception->getMessage();
+            if(str_contains($err_msg,'users_phone_unique')){
+                alert()->error('This phone number belongs to another user on the platform');
+            } else {
+                alert()->error($err_msg);
+            }
+            return redirect()->back();
+        }
+        $profile->first_name = $first_name;
+        $profile->last_name = $last_name;
         $profile->contact_channel = $request->get('contact_channel');
         $profile->dob = $request->get('birthdate');
         $profile->address = $request->get('address');

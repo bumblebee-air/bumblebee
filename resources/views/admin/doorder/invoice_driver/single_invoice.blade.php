@@ -260,7 +260,7 @@ a.invoiceBtn {
 
 													</td>
 													<td>{{$item['count']}}</td>
-													<td>€10</td>
+													<td>{{$invoice_price}}</td>
 													<td class="invoiceBoldSpan">€{{$item['charge']}}</td>
 												</tr>
 												@endforeach

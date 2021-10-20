@@ -257,21 +257,34 @@ button:focus {
 }
 
 .fc-center .fc-button, .fc-right .fc-button{
-	padding: 4px !important;
-	margin-left: 1rem !important;
+	padding: 5px !important;
+	/* margin-left: 1rem !important; */
 	font-family: Roboto;
-	font-size: 12px;
+	font-size: 13px;
 	font-weight: 500;
 	font-stretch: normal;
 	font-style: normal;
 	line-height: 1.26;
 	letter-spacing: 1.2px;
 	text-align: center;
-	color: #222222 !important;
+/* 	color: #222222 !important; */
+	color:#d58242 !important;
 	text-transform: capitalize;
-	border-radius: 2px
+	/* border-radius: 2px */
+	border: 1px solid #d58242;
+/* 	border-bottom-width: 2px; */
+/* 	border-top-width: 2px; */
+	border-radius: 0;
 }
-.fc-today-button {
+
+.fc .fc-button-group > :first-child{
+	border-radius: 8px 0 0 8px;
+}
+.fc .fc-button-group > :last-child{
+	border-radius:0 8px 8px 0;
+}
+
+ .fc-right .fc-button.fc-today-button {
 	padding: 4px !important;
 	margin-left: 1rem !important;
 	font-family: Roboto;
@@ -293,11 +306,13 @@ button:focus {
 
 .fc-state-down, .fc-state-active {
 	background-color: #fff !important;
-	border-bottom: 2px solid #d58242 !important;
+	/* border-bottom: 2px solid #d58242 !important; */
 	box-shadow: none !important;
 }
-
-.fc-today-button.fc-state-disabled {
+.fc-state-active{
+	background-color: #d582422b !important;
+}
+.fc-right .fc-today-button.fc-state-disabled {
 	background-color: #d58242 !important;
 	border: 2px solid #d58242 !important;
 	color: #fff !important;

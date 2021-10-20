@@ -20,10 +20,10 @@
 }
 
 #navAddJobUl li a {
-/* 	width: 155px; */
+	/* 	width: 155px; */
 	font-family: 'Roboto', sans-serif !important;
-/* 	padding: 10px 35px; */
-    padding:5px 8px;
+	/* 	padding: 10px 35px; */
+	padding: 5px 8px;
 	font-size: 16px;
 	font-weight: 500;
 	font-stretch: normal;
@@ -36,8 +36,8 @@
 }
 
 #navAddJobUl li a.active, #navAddJobUl li a:hover {
-    background: transparent !important;
-	border-bottom:2px solid #d58242;
+	background: transparent !important;
+	border-bottom: 2px solid #d58242;
 	color: #d58242 !important;
 	box-shadow: none;
 }
@@ -69,16 +69,23 @@
 .card-container-form .card-body .container {
 	padding: 0 !important;
 }
+
+.servicesCalendarTitleH3 {
+	color: #222;
+	font-weight: 500;
+	font-size: 14px;
+}
 </style>
 @endsection @section('title', 'Unified | Edit A Job')
 @section('page-content')
 <div class="content px-0 px-md-3">
-	<div class="container-fluid px-0 px-md-3">
-		<div class="container-fluid">
+	<div class="container-fluid px-0 ">
+		<div class="container-fluid px-0">
 			<div class="row">
 				<div class="col-md-12">
 					<form id="addScheduledJob" method="POST"
-						action="{{route('unified_postEditScheduledJob', ['unified'])}}" onsubmit="checkContractDate(event)">
+						action="{{route('unified_postEditScheduledJob', ['unified'])}}"
+						onsubmit="checkContractDate(event)">
 						{{csrf_field()}} <input type="hidden" name="jobId" id="jobIdEdit"
 							value="{{$job->id}}">
 						<div class="card">
@@ -382,11 +389,17 @@
 
 												<div class="tab-pane active" id="calendarContainerDiv"
 													aria-expanded="false">
-													<h3 class="servicesCalendarTitleH3">Services</h3>
+													<div class="row">
+														<div class="col-sm-3 pr-0 pl-1">
+															<h3 class="servicesCalendarTitleH3 mt-0 mb-4">Services</h3>
 
-													<ul class="servicesCalendarUl" id="serciesUiUl">
-													</ul>
-													<div id='calendar'></div>
+															<ul class="servicesCalendarUl" id="serciesUiUl">
+															</ul>
+														</div>
+														<div class="col-sm-9">
+															<div id='calendar'></div>
+														</div>
+													</div>
 												</div>
 											</div>
 										</div>

@@ -171,7 +171,7 @@ class InvoiceDriversController extends Controller
             'original_subtotal' => count($orders_ids) * 5,
             'charged_amount' => $request->total,
             'additional' => $request->additional,
-            'notes' => $request->total,
+            'notes' => $request->notes,
         ]);
         //Creating payout
         alert()->success('Payout saved successfully');

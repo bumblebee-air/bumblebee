@@ -20,10 +20,10 @@
 }
 
 #navAddJobUl li a {
-/* 	width: 155px; */
+	/* 	width: 155px; */
 	font-family: 'Roboto', sans-serif !important;
-/* 	padding: 10px 35px; */
-    padding:5px 8px;
+	/* 	padding: 10px 35px; */
+	padding: 5px 8px;
 	font-size: 16px;
 	font-weight: 500;
 	font-stretch: normal;
@@ -36,8 +36,8 @@
 }
 
 #navAddJobUl li a.active, #navAddJobUl li a:hover {
-    background: transparent !important;
-	border-bottom:2px solid #d58242;
+	background: transparent !important;
+	border-bottom: 2px solid #d58242;
 	color: #d58242 !important;
 	box-shadow: none;
 	border-radius: 0 !important;
@@ -60,25 +60,32 @@
 	letter-spacing: 0.8px;
 	color: #4D4D4D;
 }
-.card-container-form{
 
-background: #FFFFFF;
-box-shadow: 0px 4px 31px rgba(0, 0, 0, 0.25);
-border-radius: 18px;}
+.card-container-form {
+	background: #FFFFFF;
+	box-shadow: 0px 4px 31px rgba(0, 0, 0, 0.25);
+	border-radius: 18px;
+}
 
-.card-container-form .card-body .container{
-padding: 0 !important;
+.card-container-form .card-body .container {
+	padding: 0 !important;
+}
+.servicesCalendarTitleH3{
+    color: #222;
+    font-weight: 500;
+    font-size: 14px;
 }
 </style>
 @endsection @section('title', 'Unified | Schedule A Job')
 @section('page-content')
 <div class="content px-0 px-md-3">
-	<div class="container-fluid px-0 px-md-3">
-		<div class="container-fluid">
+	<div class="container-fluid px-0">
+		<div class="container-fluid px-0">
 			<div class="row">
 				<div class="col-md-12">
 					<form id="addScheduledJob" method="POST"
-						action="{{route('unified_postAddScheduledJob', ['unified'])}}" onsubmit="checkContractDate(event)">
+						action="{{route('unified_postAddScheduledJob', ['unified'])}}"
+						onsubmit="checkContractDate(event)">
 						{{csrf_field()}}
 						<div class="card">
 							<div class="card-header card-header-icon  row">
@@ -133,7 +140,10 @@ padding: 0 !important;
 																<div class="col-12">
 																	<input type="hidden" name="serviceIdHidden"
 																		id="serviceIdHidden" value="{{$serviceId}}">
-																	<p style="font-size: 14px; color:red; font-weight: 500px;display: none;" id="errorMessageServiceType"> Please select product type </p>	
+																	<p
+																		style="font-size: 14px; color: red; font-weight: 500px; display: none;"
+																		id="errorMessageServiceType">Please select product
+																		type</p>
 																	<div class="form-group bmd-form-group">
 																		<label>Product type</label>
 																		<div id="selectedServiceTypesDiv"></div>
@@ -251,7 +261,7 @@ padding: 0 !important;
 													</div>
 												</div>
 											</div>
-											<div class="card card-container-form" >
+											<div class="card card-container-form">
 												<div class="card-header" data-toggle="collapse"
 													id="customer-details-header"
 													data-target="#customer-details" aria-expanded="true"
@@ -362,11 +372,17 @@ padding: 0 !important;
 
 												<div class="tab-pane active" id="calendarContainerDiv"
 													aria-expanded="false">
-													<h3 class="servicesCalendarTitleH3">Services</h3>
+													<div class="row">
+														<div class="col-sm-3 pr-0 pl-1">
+															<h3 class="servicesCalendarTitleH3 mt-0 mb-4">Services</h3>
 
-													<ul class="servicesCalendarUl" id="serciesUiUl">
-													</ul>
-													<div id='calendar'></div>
+															<ul class="servicesCalendarUl" id="serciesUiUl">
+															</ul>
+														</div>
+														<div class="col-sm-9">
+															<div id='calendar'></div>
+														</div>
+													</div>
 												</div>
 											</div>
 

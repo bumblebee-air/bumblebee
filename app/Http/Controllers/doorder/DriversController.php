@@ -1024,9 +1024,11 @@ class DriversController extends Controller
                 'dropoff' => $order->customer_address_lat.','.$order->customer_address_lon
             ];
         }
+        $deliverers_coordinates = [];
+        $deliverers_coordinates[] = ['deliverer_id'=>(string)$driver_id,'deliverer_coordinates'=>$driver_coordinates];
         $route_opt_url = env('ROUTE_OPTIMIZE_URL','https://afternoon-lake-03061.herokuapp.com') . '/routing_table';
         $route_optimization_req = Http::post($route_opt_url,[
-            'deliverer_coordinates' => $driver_coordinates,
+            'deliverer_coordinates' => $deliverers_coordinates,
             'orders_address' => json_encode($orders_data)
         ]);
         if($route_optimization_req->status()!=200){
@@ -1037,7 +1039,8 @@ class DriversController extends Controller
                 'optimized_route' => []
             ]);
         }
-        $optimized_route_arr = json_decode($route_optimization_req->body());
+        $optimized_route_resp = json_decode($route_optimization_req->body());
+        $optimized_route_arr = $optimized_route_resp[0];
         //Remove the first item (driver's current coordinates)
         array_shift($optimized_route_arr);
         foreach($optimized_route_arr as $route_item){

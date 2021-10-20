@@ -328,7 +328,7 @@ class OrdersController extends Controller
     }
 
     public function optimizeOrdersRoute(){
-        $order_ids = '10,26,36,78,90';
+        $order_ids = '10,26,36';
         //dd(json_decode('[' . $order_ids . ']', true));
         $order_ids = json_decode('[' . $order_ids . ']', true);
         $orders = Order::whereIn('id',$order_ids)->get();
@@ -346,15 +346,22 @@ class OrdersController extends Controller
             $the_order = $orders->firstWhere('id',$an_order['order_id']);
             $orders_data[$key]['status'] = $the_order->status;
         }
-        dd($orders_data);
-        $driver_coordinates = '53.425334,-6.231581';
+        //dd($orders_data);
+        $driver_coordinates = [];
+        $driver_coordinates[] = ['deliverer_id'=>'12','deliverer_coordinates'=>'53.425334,-6.231581'];
         //dd(['driver_coordinates'=>$driver_coordinates, 'orders_data'=>$orders_data]);
-        $route_opt_url = 'https://afternoon-lake-03061.herokuapp.com/routing_table';
-        $route_optimization_req = Http::post($route_opt_url,[
-            'deliverer_coordinates' => $driver_coordinates,
+        $request_body = [
+            'deliverers_coordinates' => json_encode($driver_coordinates),
             'orders_address' => json_encode($orders_data)
-        ]);
-        dd($route_optimization_req->status(), $route_optimization_req->body());
+        ];
+        dd($request_body);
+        $route_opt_url = env('ROUTE_OPTIMIZE_URL','https://afternoon-lake-03061.herokuapp.com').'/routing_table';
+        //dd($route_opt_url);
+        $route_optimization_req = Http::post($route_opt_url, $request_body);
+        $pot_resp = json_decode($route_optimization_req->body());
+        $optimized_route_arr = $pot_resp[0];
+        array_shift($optimized_route_arr);
+        dd($route_optimization_req->status(), $optimized_route_arr);
     }
     
     

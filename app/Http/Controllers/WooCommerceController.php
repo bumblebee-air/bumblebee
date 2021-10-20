@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\CustomNotificationHelper;
 use App\Helpers\GoogleMapsHelper;
 use App\Order;
 use App\Retailer;
@@ -157,6 +158,7 @@ class WooCommerceController extends Controller
                         'created_at' => $order->created_at,
                     ]
                 ]));
+                CustomNotificationHelper::send('new_order', $order->id);
             } catch (\Exception $exception){
                 \Log::error('Publish Redis new order notification from external shop API failed');
             }

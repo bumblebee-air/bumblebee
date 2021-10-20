@@ -5,6 +5,7 @@ use App\DriverPayout;
 use App\Exports\InvoiceOrderExport;
 use App\Helpers\StripePaymentHelper;
 use App\Helpers\TwilioHelper;
+use App\Managers\StripeManager;
 use App\Order;
 use App\Retailer;
 use App\StripePaymentLog;
@@ -118,7 +119,14 @@ class InvoiceDriversController extends Controller
             return redirect()->back();
         }
         $driver_user = $driver->user;
-        TwilioHelper::sendSMS('DoOrder', $driver_user->phone, "Hello $driver_user->name, You have to complete your Stripe profile to be paid.");
+        $driver_stripe_account = $driver->user->stripe_account;
+
+        if ($driver_stripe_account) {
+            TwilioHelper::sendSMS('DoOrder', $driver_user->phone, "Hello $driver_user->name, You have to complete your Stripe profile to be paid. Click on the following link to complete your profile: ". url('stripe-onboard/'.$driver_stripe_account->onboard_code));
+        } else {
+            $stripe_manager = new StripeManager();
+            $stripe_account = $stripe_manager->createCustomAccount($driver_user);
+        }
         alert()->success('Notification has been sent successfully');
         return redirect()->back();
     }

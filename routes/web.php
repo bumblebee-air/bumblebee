@@ -396,6 +396,13 @@ Route::group([
             Route::get('pay_invoice/{retailer_id}/{invoice_number}', 'doorder\InvoiceController@getPayInvoice')->name('doorder_payInvoice');
             Route::post('set-invoice-payment-intent', 'StripeController@setInvoicePaymentIntent');
             Route::post('pay-invoice', 'doorder\InvoiceController@postPayInvoice');
+            
+            Route::get('drivers_invoice', 'doorder\InvoiceDriversController@getInvoiceList')->name('doorder_getDriversInvoiceList');
+            Route::post('update_last_payout_date','doorder\InvoiceDriversController@postUpdateLastPayoutDate')->name('doorder_postUpdateDriverLastPayoutDate');
+            Route::get('invoice_driver_view/{id}','doorder\InvoiceDriversController@getSingleInvoice')->name('doorder_getSingleDriverInvoice');
+            Route::post('send_notification_driver', 'doorder\InvoiceDriversController@postSendNotificationDriver')->name('doorder_sendNotificationDriver');
+            Route::post('payout_driver_invoice','doorder\InvoiceDriversController@postSendDriverPayout')->name('doorder_sendDriverPayout');
+            
 
             // Edit Retailer profile
             Route::get('profile/edit', 'doorder\RetailerController@editRetailerProfile')->name('doorder_retailers_view_retailer');

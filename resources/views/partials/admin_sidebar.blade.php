@@ -430,15 +430,31 @@
                         <p>WhatsApp</p>
                     </a>
                 </li>
-
-                <li class="nav-item">
-                    <a class="nav-link d-flex" href="{{route('doorder_getInvoiceList', 'doorder')}}">
-                        <img class="my-nav-icon" src="{{asset('images/doorder_icons/Invoice-white.png')}}" alt="whatsapp" style="width: 20px; height: 25px">
+                
+                <li class="nav-item "><a class="nav-link collapsed d-flex"
+                    data-toggle="collapse" href="#componentsInvoice"
+                    aria-expanded="false">
+                    	 <img class="my-nav-icon" src="{{asset('images/doorder_icons/Invoice-white.png')}}" alt="whatsapp" style="width: 20px; height: 25px">
                         <img class="my-nav-icon my-nav-icon-top" src="{{asset('images/doorder_icons/Invoice-yellow.png')}}" style="width: 20px; height: 25px"
                              alt="whatsapp">
-                        <p>Invoice</p>
-                    </a>
-                </li>
+                        <p style="padding-right: 30px;">
+                            Invoice <b class="caret"></b>
+                        </p>
+               		 </a>
+                    <div class="collapse" id="componentsInvoice">
+                        <ul class="nav">
+                            <li class="nav-item "><a class="nav-link" href="{{route('doorder_getInvoiceList', 'doorder')}}"> <span
+                                    class="sidebar-mini">RI</span> <span class="sidebar-normal">
+                                        Retailers </span>
+                            </a></li>
+                            <li class="nav-item "><a class="nav-link" href="{{route('doorder_getDriversInvoiceList', 'doorder')}}"> <span
+                                    class="sidebar-mini">DI</span> <span class="sidebar-normal">
+                                        Drivers  </span>
+                            </a></li>
+                        </ul>
+                    </div>
+                 </li>
+                
                 <li class="nav-item">
                     <a class="nav-link d-flex" href="{{route('doorder_ordersHistoryTable', 'doorder')}}">
                         <img class="my-nav-icon"

@@ -159,7 +159,7 @@ tr.order-row:hover, tr.order-row:focus {
 				</div>
 			
 			<div class="modal-footer d-flex justify-content-around">
-				<button type="button" class="btn  btn-unified-primary modal-btn"
+				<button type="submit" class="btn  btn-unified-primary modal-btn"
 					>Add </button>
 			</div>
 			</form>
@@ -201,7 +201,7 @@ tr.order-row:hover, tr.order-row:focus {
 				</div>
 			
 			<div class="modal-footer d-flex justify-content-around">
-				<button type="button" class="btn  btn-unified-primary modal-btn"
+				<button type="submit" class="btn  btn-unified-primary modal-btn"
 					>Edit </button>
 			</div>
 			</form>

@@ -1050,7 +1050,7 @@ class DriversController extends Controller
         $deliverers_coordinates[] = ['deliverer_id'=>(string)$driver_id,'deliverer_coordinates'=>$driver_coordinates];
         $route_opt_url = env('ROUTE_OPTIMIZE_URL','https://afternoon-lake-03061.herokuapp.com') . '/routing_table';
         $route_optimization_req = Http::post($route_opt_url,[
-            'deliverer_coordinates' => $deliverers_coordinates,
+            'deliverers_coordinates' => json_encode($deliverers_coordinates),
             'orders_address' => json_encode($orders_data)
         ]);
         if($route_optimization_req->status()!=200){

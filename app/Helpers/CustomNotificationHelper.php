@@ -40,6 +40,10 @@ class CustomNotificationHelper
                 $title = 'There is an new payment';
                 $url = '';
                 break;
+            case 'external_store_fulfillment':
+                $title = 'There is an external order has been fulfilled';
+                $url = route('doorder_singleOrder', ['doorder', $id]);
+                break;
             default:
                 $title = 'There is a new custom notification.';
         }

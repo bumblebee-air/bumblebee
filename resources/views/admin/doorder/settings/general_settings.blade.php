@@ -123,6 +123,38 @@
 			</div>
 		</div>
 	</div>
+	<div class="card">
+		<div class="card-body">
+			<div class="container " style="width: 100%; max-width: 100%;">
+				<div class="row">
+					<div class="col-12 col-lg-7 col-md-6 d-flex form-head pl-3">
+						<h5 class="singleViewSubTitleH5" style="font-weight: 500">Retailers
+							Settings</h5>
+
+					</div>
+				</div>
+				<div class="row">
+
+					<div class="col-sm-6">
+						<div class="form-group bmd-form-group ">
+							<label style="font-weight: 700">Retailers automatic rating SMS </label>
+						</div>
+
+					</div>
+					<div class="col-sm-6 text-right">
+						<div class="toggleButtonGeneralSettings"
+							style="display: inline-block;">
+							<input type="checkbox" data-toggle="toggle" data-size="small"
+								data-width="80" data-height="30"
+								id="retailersAutomaticRatingSMS" value="1"
+								name="retailersAutomaticRatingSMS">
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
 	<div class="row ">
 		<div class="col text-center">
 

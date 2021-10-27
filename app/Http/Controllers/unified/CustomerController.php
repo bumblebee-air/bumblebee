@@ -11,6 +11,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
 
 class CustomerController extends Controller
@@ -143,8 +144,8 @@ class CustomerController extends Controller
         $services_types_json = json_decode($request->serviceTypeSelectValues, true);
         $request->request->add(['email' => $contact_details_json[0]['contactEmail'], 'phone' => $contact_details_json[0]['contactNumber']]);
         $this->validate($request, [
-            'email' => 'unique:users',
-            'phone' => 'unique:users',
+            'email' => Rule::unique('users', 'email')->whereNot('id', $customer->user_id),
+            'phone' => Rule::unique('users', 'phone')->whereNot('id', $customer->user_id),
         ], [
             'email.unique' => "The email '$request->email' has already been taken.",
             'phone.unique' => "The phone '$request->phone' has already been taken.",

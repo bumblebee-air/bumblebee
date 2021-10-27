@@ -4,6 +4,7 @@ namespace App\Http\Controllers\doorder;
 
 use App\Contractor;
 use App\DriverProfile;
+use App\GeneralSetting;
 use App\Helpers\CustomNotificationHelper;
 use App\Helpers\SecurityHelper;
 use App\Helpers\TwilioHelper;
@@ -363,10 +364,17 @@ class DriversController extends Controller
             $main_contact = $contact_details[0];
             $retailer_number = $main_contact->contact_phone;
         }
+        $general_setting = GeneralSetting::first();
         if($retailer_number!='N/A') {
             $msg_content = "Hi $retailer->name , the order no. $order->order_id has been delivered, you can" .
                 " rate your deliverer through the link: " . url('doorder/order/rating/1/' . $order_id);
-            TwilioHelper::sendSMS('DoOrder', $retailer_number, $msg_content);
+            if ($general_setting) {
+                if ($general_setting->retailers_automatic_rating_sms) {
+                    TwilioHelper::sendSMS('DoOrder', $retailer_number, $msg_content);
+                }
+            } else {
+                TwilioHelper::sendSMS('DoOrder', $retailer_number, $msg_content);
+            }
         }
         $response = [
             'message' => 'Delivery confirmation skipped successfully',

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\doorder;
 use App\Client;
 use App\ClientSetting;
 use App\CustomNotification;
+use App\GeneralSetting;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\UserClient;
@@ -72,12 +73,18 @@ class SettingsController extends Controller
                 $user->user_type = 'Investor';
             }
         }
+
+        $general_setting = GeneralSetting::first();
+        if (!$general_setting) {
+            $general_setting = GeneralSetting::create([]);
+        }
         
         return view('admin.doorder.settings.index', [
             'adminOptions' => json_encode($adminsData),
             'callCenterOptions' => json_encode($callCenterOptions),
             'savedNotifications' => ($savedNotificationsData),
             'client_setting' => $client_setting,
+            'general_setting' => $general_setting,
             'users'=>json_encode($users)
         ]);
     }
@@ -281,7 +288,18 @@ class SettingsController extends Controller
     }
     
     public function postSaveGeneralSettings(Request $request){
-        //dd($request);
+        $general_setting = GeneralSetting::first();
+        $data = [
+            'business_name' => $request->business_name,
+            'business_email'  => $request->business_email,
+            'business_phone_number' => $request->business_phone_number,
+            'retailers_automatic_rating_sms' => $request->retailersAutomaticRatingSMS ? true : false,
+        ];
+        if ($general_setting) {
+            $general_setting->update($data);
+        } else {
+            GeneralSetting::create($data);
+        }
         alert()->success('General settings data updated successfully');
         return redirect()->back();
     }

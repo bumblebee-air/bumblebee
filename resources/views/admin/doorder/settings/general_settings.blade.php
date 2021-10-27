@@ -147,7 +147,7 @@
 							<input type="checkbox" data-toggle="toggle" data-size="small"
 								data-width="80" data-height="30"
 								id="retailersAutomaticRatingSMS" value="1"
-								name="retailersAutomaticRatingSMS">
+								name="retailersAutomaticRatingSMS" @if($general_setting->retailers_automatic_rating_sms)checked="true"@endif>
 						</div>
 					</div>
 				</div>

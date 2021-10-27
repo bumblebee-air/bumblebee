@@ -1,4 +1,4 @@
-@extends('templates.dashboard') @section('title', 'DoOrder | Dashboard')
+@extends('templates.doorder_dashboard') @section('title', 'DoOrder | Dashboard')
 
 @section('page-styles')
 <style>

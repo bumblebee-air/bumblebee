@@ -16,38 +16,6 @@ body {
 }
 
 
-li .nav-link {
-	font-family: Quicksand;
-}
-
-.sidebar .nav i {
-	margin-right: 0 !important;
-}
-
-li .nav-link:hover {
-	border-radius: 12px !important;
-	/* background-color: #fafafa !important; */
-	color: #f7dc69 !important;
-	font-family: Quicksand;
-	font-size: 14px;
-	font-weight: 500;
-	line-height: 1.5;
-}
-li .nav-link:hover .profileNameNavbar,.profileNameNavbar:hover{
-	color: #f7dc69 !important;
-}
-
-li .nav-link:hover .my-nav-icon-top {
-	display: inline;
-}
-
-li .nav-link:hover  i {
-	color: #f7dc69 !important;
-}
-
-.sidebar[data-background-color=doorder-color] {
-	background-color: rgba(68, 68, 68, 0.6)
-}
 
 .card-icon {
 	background: #f7dc69 !important;
@@ -55,16 +23,7 @@ li .nav-link:hover  i {
 		!important;
 }
 
-li .nav-link, .sidebar .nav li .dropdown-menu a, .sidebar .nav li a {
-	font-family: Quicksand;
-	font-size: 14px;
-	font-weight: 500;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: 1.5;
-	letter-spacing: normal;
-	color: #ffffff;
-}
+
 
 .page_icon {
 	width: 39px;
@@ -93,19 +52,6 @@ li .nav-link, .sidebar .nav li .dropdown-menu a, .sidebar .nav li a {
 	color: #656565;
 }
 
-.my-nav-icon {
-	width: 24px;
-	height: 24px;
-	margin-top: 3px;
-	position: relative;
-	display: inline-block;
-}
-
-.my-nav-icon-top {
-	display: none;
-	position: absolute;
-	z-index: 99;
-}
 
 .status {
 	/*float: right;*/

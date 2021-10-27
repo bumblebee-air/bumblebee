@@ -1,0 +1,76 @@
+.sidebar {
+	background-color: #fff;
+}
+#adminNavLogoImg{
+	width: 130px !important;
+	height: auto !important;
+}
+.sidebar-mini #adminNavLogoImg{
+	width: 100% !important;
+	height: auto !important;
+}
+
+li .nav-link, .sidebar .nav li .dropdown-menu a, .sidebar .nav li a , .sidebar .nav li a p{
+	font-family: 'Poppins', sans-serif;
+	letter-spacing: normal;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 15px !important;
+	line-height: 27px;
+	color: #717579;
+}
+
+
+li .nav-link {
+	font-family: Quicksand;
+}
+
+.sidebar .nav i {
+	margin-right: 0 !important;
+	font-size: 15px !important;
+	color: #717579 !important;
+	font-style: normal;
+	float: right !important;
+	margin-left: 15px;
+	
+}
+
+li .nav-link:hover,li .nav-link:hover p {
+	color: #E8CA49 !important;
+	
+}
+li .nav-link:hover .profileNameNavbar,.profileNameNavbar:hover{
+	color: #E8CA49 !important;
+}
+
+
+.my-nav-icon {
+	width: 24px;
+	height: 24px;
+	margin-top: 3px;
+	position: relative;
+	display: inline-block;
+}
+
+.my-nav-icon-top {
+	display: none;
+}
+
+li .nav-link:hover .my-nav-icon-top {
+	display: inline-block;
+}
+li .nav-link:hover .my-nav-icon-grey {
+	display: none;
+}
+
+li .nav-link:hover  i {
+	color: #E8CA49 !important;
+}
+
+.sidebar[data-background-color=doorder-color] {
+	background-color: rgba(68, 68, 68, 0.6)
+}
+
+.sidebar .nav li.active>[data-toggle=collapse], .sidebar .nav li .dropdown-menu a:focus, .sidebar .nav li .dropdown-menu a:hover, .sidebar .nav li:hover>a{
+	background: none !important;
+}

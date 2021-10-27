@@ -854,14 +854,25 @@ class DriversController extends Controller
         $order_ids = [];
         foreach ($driver_orders as $order){
             $order_ids[] = $order->id;
+            $order->rating_retailer = 0;
+            $order->rating_customer = 0;
             if(count($order->rating)>0){
-                $order_rating = 0;
+//                 $order_rating = 0;
+//                 foreach($order->rating as $a_rating){
+//                     $order_rating += $a_rating->rating;
+//                 }
+//                 $driver_rating = $order_rating / count($order->rating);
+//                 //Round to nearest half decimal
+//                 $order->driver_rating = round($driver_rating * 2)/2;
                 foreach($order->rating as $a_rating){
-                    $order_rating += $a_rating->rating;
+                    if($a_rating->user_type=='retailer'){
+                        $order->rating_retailer = $a_rating->rating;
+                    }
+                    if($a_rating->user_type=='customer'){
+                        $order->rating_customer = $a_rating->rating;
+                    }
                 }
-                $driver_rating = $order_rating / count($order->rating);
-                //Round to nearest half decimal
-                $order->driver_rating = round($driver_rating * 2)/2;
+                    
             } else {
                 $order->driver_rating = 0;
             }

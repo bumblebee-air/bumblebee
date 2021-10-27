@@ -112,7 +112,7 @@
 												<label>Address</label>
 												<textarea class="form-control" name="address" id="address" rows="5"
 													placeholder="Address" required>{{$engineer->address}}</textarea>
-												<input type="hidden" name="address_coordinates" id="address_coordinates" value="{{$engineer->address_coordinates}}">
+												<input type="hidden" name="address_coordinates" id="address_coordinates" value="{{json_encode($engineer->address_coordinates)}}">
 											</div>
 										</div>
 

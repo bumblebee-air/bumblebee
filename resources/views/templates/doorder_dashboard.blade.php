@@ -32,18 +32,21 @@
 @if(Auth::guard('doorder')->check())
 <link href="{{asset('css/doorder-styles.css')}}" rel="stylesheet">
 <link href="{{asset('css/doorder_dashboard.css')}}" rel="stylesheet">
-<link href="{{asset('css/doorder-new-layout-styles.css')}}" rel="stylesheet">
+<link href="{{asset('css/doorder-new-layout-styles.css')}}"
+	rel="stylesheet">
 
 <link
-	href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap"
+	href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
 	rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+	rel="stylesheet">
 
 <link rel="icon" type="image/jpeg"
 	href="{{asset('images/doorder-favicon.svg')}}">
-	<!--<link href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" rel="stylesheet"> -->
-	<!-- Hotjar Tracking Code for https://admin.doorder.eu -->
-	<script>
+<!--<link href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" rel="stylesheet"> -->
+<!-- Hotjar Tracking Code for https://admin.doorder.eu -->
+<script>
 		(function(h,o,t,j,a,r){
 			h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
 			h._hjSettings={hjid:2648038,hjsv:6};
@@ -53,8 +56,7 @@
 			a.appendChild(r);
 		})(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
 	</script>
-@endif
-@yield('page-styles')
+@endif @yield('page-styles')
 
 <link
 	href="https://cdn.datatables.net/fixedcolumns/3.3.3/css/fixedColumns.dataTables.min.css"
@@ -74,8 +76,7 @@
 		@include('partials.flash') @include('partials.admin_sidebar_doorder')
 		<div class="main-panel">
 			{{--navbar--}}
-			<nav
-				class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top">
+			<nav class="navbar navbar-expand-lg navbar-absolute fixed-top">
 				<div class="container-fluid">
 					<div class="navbar-wrapper col-md-1">
 						<div class="navbar-minimize">
@@ -97,60 +98,91 @@
 							class="navbar-toggler-icon icon-bar"></span>
 					</button>
 					<div class="collapse navbar-collapse justify-content-end col-md-11">
-						<div class="searchFormContainerDiv"
-							style="">
-						<form
-							class="navbar-form"
-							style="">
-							<div class="input-group">
-								<div class="">
-									<button type="button"
-										class="btn btn-default btnSearchDropdownNavbar dropdown-toggle"
-										data-toggle="dropdown">
-										<span id="search_concept">All</span> <span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu" role="menu">
-										<!-- <li><a></a></li> -->
-									</ul>
+						<div class="searchFormContainerDiv mr-auto" style="">
+							<form class="form-inline navbar-form" style="">
+								<div class="input-group input-group-search mx-auto">
+									<div class="input-group-prepend">
+										<button type="button"
+											class="btn btn-default btnSearchDropdownNavbar dropdown-toggle"
+											data-toggle="dropdown">
+											<span id="search_concept">All</span> <span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<!-- <li><a></a></li> -->
+										</ul>
+									</div>
+									<div class="form-outline">
+										<input type="search" id="form1" class="form-control "
+											placeholder="Search" aria-label="Search"
+											aria-describedby="search-button-addon" />
+									</div>
+									<div class="input-group-append">
+										<button type="button" class="btn btn-default btnSearchNavbar">
+											<i class="fas fa-search"></i>
+										</button>
+									</div>
 								</div>
-								<div class="form-outline">
-									<input type="search" id="form1"
-										class="form-control inputSearchNavbar" placeholder="Search" />
-								</div>
-								<button type="button" class="btn btn-default btnSearchNavbar">
-									<i class="fas fa-search"></i>
-								</button>
-							</div>
 							</form>
 						</div>
 						<ul class="nav navbar-nav navbar-right">
 
-							<li class="nav-item dropdown"><a class="nav-link" href=""
-								id="navbarDropdownMenuLink" data-toggle="dropdown"
-								aria-haspopup="true" aria-expanded="false"> <i
-									class="material-icons">notifications</i> <!-- <span class="notification"></span> -->
-									<!-- <p class="d-lg-none d-md-block">Some Actions</p> -->
-							</a> <!-- <div class="dropdown-menu dropdown-menu-right"
+							<li class="nav-item dropdown"><a class="nav-link navbarDropdownMenuLink" href=""
+								id="navbarDropdownMenuLinkNotification" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false"> <img
+									src="{{asset('images/doorder-new-layout/notification-grey.png')}}" />
+									<span class="badge badge-light">4</span>
+							</a>
+								<div class="dropdown-menu dropdown-menu-right"
 									aria-labelledby="navbarDropdownMenuLink">
-									<a class="dropdown-item" href="#">Mike John responded to your
-										email</a> <a class="dropdown-item" href="#">You have 5 new
-										tasks</a> <a class="dropdown-item" href="#">You're now friend
-										with Andrew</a> <a class="dropdown-item" href="#">Another
-										Notification</a> <a class="dropdown-item" href="#">Another One</a>
-								</div> --></li>
-							<li class="nav-item dropdown">
-								<a href="#" class="nav-link" data-toggle="dropdown" id="navbarDropdownProfile">
-									<i class="material-icons">person</i>
+									<a class="dropdown-item" href="#">Notification 1</a> <a
+										class="dropdown-item" href="#">Notification 2</a> <a
+										class="dropdown-item" href="#">Notification 3</a>
+								</div></li>
+
+							<li class="nav-item dropdown"><a class="nav-link navbarDropdownMenuLink" href=""
+								id="navbarDropdownMenuLinkInbox" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false"> <img
+									src="{{asset('images/doorder-new-layout/inbox-grey.png')}}" />
+									<span class="badge badge-light">2</span>
+							</a>
+								<div class="dropdown-menu dropdown-menu-right"
+									aria-labelledby="navbarDropdownMenuLink">
+									<a class="dropdown-item" href="#">Inbox 1</a>
+								</div></li>
+
+							<li class="nav-item dropdown"><a class="nav-link navbarDropdownMenuLink" href=""
+								id="navbarDropdownMenuLinkCalendar" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false"> <img
+									src="{{asset('images/doorder-new-layout/calendar-grey.png')}}" />
+									<span class="badge badge-light">60</span>
+							</a>
+								<div class="dropdown-menu dropdown-menu-right"
+									aria-labelledby="navbarDropdownMenuLink">
+									<a class="dropdown-item" href="#">order 1</a> <a
+										class="dropdown-item" href="#">order 2</a> <a
+										class="dropdown-item" href="#">order 3</a>
+								</div></li>
+							<li class="nav-item dropdown"><a href="#" class="nav-link"
+								data-toggle="dropdown" id="navbarDropdownProfile"> 
+									@if($user->logo)
+									<div class="userLogoNavbarImg"><img class="rounded-circle article-img"
+									src="{{asset('images/doorder-new-layout/calendar-grey.png')}}" /></div>
+									@else
+									<div class="userLogoNavbar">
+									<span>{{explode(' ', $user->name)[0][0]}}</span></div>
+									@endif
+									<!-- <div class="userLogoNavbar">{{explode(' ', $user->name)[0][0]}}</div> -->
 									<p class="profileNameNavbar">{{$user->name}}</p>
-								</a>
+									<p class="profileUserTypeNavbar">{{$user->user_role}}</p>
+							</a>
 								<div class="dropdown-menu dropdown-menu-right"
 									aria-labelledby="navbarDropdownProfile">
-									<a class="dropdown-item" href="{{url($guard_name.'/profile')}}">Edit Password</a>
-									@if(auth()->user()->user_role == 'retailer')
-										<a class="dropdown-item" href="{{url($guard_name.'/profile/edit')}}">Edit Profile</a>
+									<a class="dropdown-item" href="{{url($guard_name.'/profile')}}">Edit
+										Password</a> @if(auth()->user()->user_role == 'retailer') <a
+										class="dropdown-item"
+										href="{{url($guard_name.'/profile/edit')}}">Edit Profile</a>
 									@endif
-								</div>
-							</li>
+								</div></li>
 						</ul>
 					</div>
 				</div>
@@ -340,7 +372,6 @@
             });
         }
     </script>
-	@endif 
-	@yield('page-scripts')
+	@endif @yield('page-scripts')
 </body>
 </html>

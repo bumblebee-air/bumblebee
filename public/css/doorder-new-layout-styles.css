@@ -1,16 +1,25 @@
+html, body {
+	font-family: 'Montserrat', sans-serif;
+}
+
 .sidebar {
 	background-color: #fff;
+	box-shadow: none !important;
+	border-right: 1px solid #e0e0e0;
 }
-#adminNavLogoImg{
+
+#adminNavLogoImg {
 	width: 130px !important;
 	height: auto !important;
 }
-.sidebar-mini #adminNavLogoImg{
+
+.sidebar-mini #adminNavLogoImg {
 	width: 100% !important;
 	height: auto !important;
 }
 
-li .nav-link, .sidebar .nav li .dropdown-menu a, .sidebar .nav li a , .sidebar .nav li a p{
+li .nav-link, .sidebar .nav li .dropdown-menu a, .sidebar .nav li a,
+	.sidebar .nav li a p {
 	font-family: 'Poppins', sans-serif;
 	letter-spacing: normal;
 	font-style: normal;
@@ -20,9 +29,8 @@ li .nav-link, .sidebar .nav li .dropdown-menu a, .sidebar .nav li a , .sidebar .
 	color: #717579;
 }
 
-
 li .nav-link {
-	font-family: Quicksand;
+	font-family: 'Montserrat', sans-serif;
 }
 
 .sidebar .nav i {
@@ -32,17 +40,15 @@ li .nav-link {
 	font-style: normal;
 	float: right !important;
 	margin-left: 15px;
-	
 }
 
-li .nav-link:hover,li .nav-link:hover p {
-	color: #E8CA49 !important;
-	
-}
-li .nav-link:hover .profileNameNavbar,.profileNameNavbar:hover{
+li .nav-link:hover, li .nav-link:hover p {
 	color: #E8CA49 !important;
 }
 
+li .nav-link:hover .profileNameNavbar, .profileNameNavbar:hover {
+	color: #E8CA49 !important;
+}
 
 .my-nav-icon {
 	width: 24px;
@@ -59,6 +65,7 @@ li .nav-link:hover .profileNameNavbar,.profileNameNavbar:hover{
 li .nav-link:hover .my-nav-icon-top {
 	display: inline-block;
 }
+
 li .nav-link:hover .my-nav-icon-grey {
 	display: none;
 }
@@ -71,6 +78,132 @@ li .nav-link:hover  i {
 	background-color: rgba(68, 68, 68, 0.6)
 }
 
-.sidebar .nav li.active>[data-toggle=collapse], .sidebar .nav li .dropdown-menu a:focus, .sidebar .nav li .dropdown-menu a:hover, .sidebar .nav li:hover>a{
+.sidebar .nav li.active>[data-toggle=collapse], .sidebar .nav li .dropdown-menu a:focus,
+	.sidebar .nav li .dropdown-menu a:hover, .sidebar .nav li:hover>a {
 	background: none !important;
+}
+
+/************ top navbar **************/
+#minimizeSidebar {
+	height: 40px;
+	border: 1px solid #eeeeee;
+}
+
+.form-inline.navbar-form .input-group {
+	box-shadow: 0 2px 2px 0 hsl(0deg 0% 60%/ 14%), 0 3px 1px -2px
+		hsl(0deg 0% 60%/ 20%), 0 1px 5px 0 hsl(0deg 0% 60%/ 12%);
+	border-radius: 20px;
+}
+
+.btnSearchDropdownNavbar {
+	font-family: 'Montserrat', sans-serif;
+	border-radius: 20px 0 0 20px !important;
+	height: 40px;
+}
+
+.btnSearchNavbar {
+	font-family: 'Montserrat', sans-serif;
+	border-radius: 0 20px 20px 0 !important;
+	height: 40px;
+}
+
+.searchFormContainerDiv input {
+	font-family: 'Montserrat', sans-serif;
+	border-radius: 0 !important;
+	height: 40px;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 17px;
+	color: #717579;
+}
+
+.main-panel .navbar .collapse .navbar-nav .nav-item .nav-link {
+	padding: 10px 8px !important;
+}
+
+.navbarDropdownMenuLink .badge {
+	display: inline-block;
+	min-height: 25px;
+	min-width: 25px;
+	border-radius: 50px;
+	padding: 5px;
+	position: absolute;
+	right: -2px;
+	top: -5px;
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 17px;
+	text-align: center;
+	color: #FFFFFF;
+	border-radius: 50px;
+}
+
+#navbarDropdownMenuLinkNotification .badge {
+	background-color: #E9C218;
+}
+
+#navbarDropdownMenuLinkInbox .badge {
+	background-color: #CC4B4C;
+}
+
+#navbarDropdownMenuLinkCalendar .badge {
+	background-color: #60A244;
+}
+
+.userLogoNavbar, .userLogoNavbarImg {
+	width: 45px;
+	height: 45px;
+	border-radius: 14px;
+	display: inline-block;
+	position: absolute;
+}
+
+.userLogoNavbar {
+	background-color: rgba(232, 202, 73, 0.6);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.userLogoNavbar span {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 21px;
+	color: #000000;
+}
+
+.userLogoNavbar img {
+	width: 100%;
+}
+
+.profileNameNavbar {
+	display: block !important;
+	margin-bottom: 0;
+	font-family: Montserrat;
+	font-style: normal !important;
+	font-weight: bold !important;
+	font-size: 18px !important;
+	line-height: 22px !important;
+	color: #171B1E !important;
+	margin-left: 50px;
+	text-transform: capitalize;
+}
+
+.profileUserTypeNavbar {
+	display: inline-block !important;
+	margin-bottom: 0;
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 17px;
+	text-align: right;
+	color: #717579;
+	margin-left: 50px;
+	text-transform: capitalize;
 }

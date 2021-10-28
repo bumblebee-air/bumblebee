@@ -61,6 +61,10 @@ class OrdersController extends Controller
         $retailer_profile = $current_user->retailer_profile;
         $fulfill_start = Carbon::now();
         $fulfill_end = Carbon::now()->setTimeFromTimeString($request->fulfilment);
+        $is_not_next_day = $fulfill_end->diff($fulfill_start)->invert;
+        if(!$is_not_next_day){
+            $fulfill_end->addDay();
+        }
         $fulfill_time = $fulfill_end->diffInMinutes($fulfill_start);
         $order = Order::create([
             'customer_name' => "$request->first_name $request->last_name",

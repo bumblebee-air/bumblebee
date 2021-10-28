@@ -577,3 +577,5 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('optimize-orders-route','doorder\OrdersController@optimizeOrdersRoute');
+Route::get('customer/job/{customer_confirmation_code}', 'unified\CustomerController@getJobConfirmation');
+Route::post('customer/job/{customer_confirmation_code}', 'unified\CustomerController@postJobConfirmation');

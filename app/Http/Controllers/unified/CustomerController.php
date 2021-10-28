@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Imports\UnifiedCustomersImport;
 use App\UnifiedCustomer;
 use App\UnifiedCustomerService;
+use App\UnifiedEngineerJob;
 use App\UnifiedService;
 use App\User;
 use Carbon\Carbon;
@@ -1178,6 +1179,31 @@ class CustomerController extends Controller
         $accountTypes = array();
 
         return $accountTypes;
+    }
+
+    public function getJobConfirmation(Request $request, $confirmation_code) {
+        $job = UnifiedEngineerJob::where('customer_confirmation_code', $confirmation_code)->first();
+        if (!$job) {
+            abort(404);
+        }
+        return view('unified.confirm_job', [
+            'job' => $job
+        ]);
+    }
+
+    public function postJobConfirmation(Request $request, $confirmation_code) {
+        $job = UnifiedEngineerJob::where('customer_confirmation_code', $confirmation_code)->where('engineer_confirmation_code')->first();
+        if (!$job) {
+            alert()->error('There is no job with this confirmation code.');
+            return redirect()->back();
+        }
+        $job->update([
+            'confirmation_status' => 'confirmed'
+        ]);
+        alert()->error('The job has confirmed successfully.');
+        return view('unified.confirm_job', [
+            'job' => $job
+        ]);
     }
 }
 

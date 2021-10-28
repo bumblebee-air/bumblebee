@@ -137,4 +137,42 @@ class StripePaymentHelper
     public static function getPercentageOfTotalPrice($total_price, $percentage) {
         return ($percentage / 100 ) * $total_price;
     }
+
+    public static function getAvailableBalance() {
+        try {
+            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+            $balance = $stripe->balance->retrieve();
+            return $balance;
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return '';
+        }
+    }
+
+    public static function getAvailableAmount($availableAmount, $currency = 'eur') {
+        foreach ($availableAmount as $amount) {
+            if ($amount->currency == $currency) {
+                return $amount->amount;
+            }
+        }
+    }
+
+    public static function chargePaymentThenTransfer($amount, $source, $transfer_destination, $currency = 'eur') {
+        try {
+            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+            $charge = $stripe->charges->create([
+                'amount' => $amount * 100,
+                'currency' => $currency,
+                'description' => 'Charge then transfer',
+                'source' => $source,
+                'transfer_data' => [
+                    'destination' => $transfer_destination
+                ]
+            ]);
+            return $charge;
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return null;
+        }
+    }
 }

@@ -167,17 +167,17 @@ p.card-category {
 	flex-wrap: wrap;
 }
 
-h4.card-title {
-	margin-top: 20px !important;
-	font-family: Quicksand !important;
-	font-size: 21px !important;
-	font-weight: 500 !important;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: 2.14;
-	letter-spacing: 0.2px;
-	color: #7b7b7b !important;
-}
+/* h4.card-title { */
+/* 	margin-top: 20px !important; */
+/* 	font-family: Quicksand !important; */
+/* 	font-size: 21px !important; */
+/* 	font-weight: 500 !important; */
+/* 	font-stretch: normal; */
+/* 	font-style: normal; */
+/* 	line-height: 2.14; */
+/* 	letter-spacing: 0.2px; */
+/* 	color: #7b7b7b !important; */
+/* } */
 
 .card-icon {
 	background-color: #f7dc69 !important;

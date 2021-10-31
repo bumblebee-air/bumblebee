@@ -1,4 +1,10 @@
 @extends('templates.doorder_dashboard') @section('page-styles')
+
+<link href="{{asset('css/fullcalendar.css')}}" rel="stylesheet">
+
+<link rel="stylesheet"
+	href="{{asset('css/doorder-calendar-styles.css')}}">
+
 <style>
 </style>
 @endsection @section('title', 'DoOrder | Orders')
@@ -19,11 +25,11 @@
 
 									<ul class="nav nav-pills ordersListPills my-3" id="pills-tab"
 										role="tablist">
+										<li class="nav-item"><a class="nav-link " id="pills-list-tab"
+											data-toggle="pill" href="#ordersListView" role="tab"
+											aria-controls="ordersListView" aria-selected="false">Switch
+												to list view</a></li>
 										<li class="nav-item"><a class="nav-link active"
-											id="pills-list-tab" data-toggle="pill" href="#ordersListView"
-											role="tab" aria-controls="ordersListView"
-											aria-selected="false">Switch to list view</a></li>
-										<li class="nav-item"><a class="nav-link "
 											id="pills-calendar-tab" data-toggle="pill"
 											href="#ordersCalendarView" role="tab"
 											aria-controls="ordersCalendarView" aria-selected="true">Switch
@@ -35,10 +41,176 @@
 						</div>
 					</div>
 					<div class="tab-content" id="pills-tabContent">
-						<div class="tab-pane fade " id="ordersCalendarView"
-							role="tabpanel" aria-labelledby="pills-calendar-tab">calendar</div>
-						<div class="tab-pane fade show active" id="ordersListView"
-							role="tabpanel" aria-labelledby="pills-list-tab">
+						<div class="tab-pane fade show active" id="ordersCalendarView"
+							role="tabpanel" aria-labelledby="pills-calendar-tab">
+							<div class="card">
+
+								<div class="card-body pr-0 py-0">
+									<div class="">
+										<div class="row">
+											<div class="col-lg-2 col-md-3 px-1">
+												<div id="filterByStatusDiv" class="calendarFilterDiv">
+													<h3 class="calendarFilterH3">Filter by status</h3>
+
+													<div class="form-check">
+														<label
+															class="form-check-label calendarFilterLabel viewAllLabel"
+															for="view-all-status"> <input type="checkbox" value="all"
+															checked="checked" class="form-check-input"
+															id="view-all-status" name="filterByStatus" /> View all <span
+															class="form-check-sign"> <span class="check"></span>
+														</span>
+														</label>
+													</div>
+													<div class="form-check">
+														<label
+															class="form-check-label calendarFilterLabel pendingStatusLabel"
+															for="pending-status"> <input type="checkbox"
+															value="pending" class="form-check-input"
+															id="pending-status" name="filterByStatus" /> Pending
+															fullfilment <span class="form-check-sign"> <span
+																class="check"></span>
+														</span>
+														</label>
+													</div>
+													<div class="form-check">
+														<label
+															class="form-check-label calendarFilterLabel readyStatusLabel"
+															for="ready-status"> <input type="checkbox" value="ready"
+															class="form-check-input" id="ready-status"
+															name="filterByStatus" /> Ready to Collect <span
+															class="form-check-sign"> <span class="check"></span>
+														</span>
+														</label>
+													</div>
+													<div class="form-check">
+														<label
+															class="form-check-label calendarFilterLabel matchedStatusLabel"
+															for="matched-status"> <input type="checkbox"
+															value="matched" class="form-check-input"
+															id="matched-status" name="filterByStatus" /> Matched <span
+															class="form-check-sign"> <span class="check"></span>
+														</span>
+														</label>
+													</div>
+													<div class="form-check">
+														<label
+															class="form-check-label calendarFilterLabel on_route_pickupStatusLabel"
+															for="on_route_pickup-status"> <input type="checkbox"
+															value="on_route_pickup" class="form-check-input"
+															id="on_route_pickup-status" name="filterByStatus" />
+															On-route to pickup <span class="form-check-sign"> <span
+																class="check"></span>
+														</span>
+														</label>
+													</div>
+
+													<div class="form-check">
+														<label
+															class="form-check-label calendarFilterLabel picked_upStatusLabel"
+															for="picked_up-status"> <input type="checkbox"
+															value="picked_up" class="form-check-input"
+															id="picked_up-status" name="filterByStatus" /> Picked up
+															<span class="form-check-sign"> <span class="check"></span>
+														</span>
+														</label>
+													</div>
+													<div class="form-check">
+														<label
+															class="form-check-label calendarFilterLabel on_routeStatusLabel"
+															for="on_route-status"> <input type="checkbox"
+															value="on_route" class="form-check-input"
+															id="on_route-status" name="filterByStatus" /> On-route <span
+															class="form-check-sign"> <span class="check"></span>
+														</span>
+														</label>
+													</div>
+
+
+													<div class="form-check">
+														<label
+															class="form-check-label calendarFilterLabel delivery_arrivedStatusLabel"
+															for="delivery_arrived-status"> <input type="checkbox"
+															value="delivery_arrived" class="form-check-input"
+															id="delivery_arrived-status" name="filterByStatus" />
+															Arrived to location <span class="form-check-sign"> <span
+																class="check"></span>
+														</span>
+														</label>
+													</div>
+													<div class="form-check">
+														<label
+															class="form-check-label calendarFilterLabel deliveredStatusLabel"
+															for="delivered-status"> <input type="checkbox"
+															value="delivered" class="form-check-input"
+															id="delivered-status" name="filterByStatus" /> Delivered
+															<span class="form-check-sign"> <span class="check"></span>
+														</span>
+														</label>
+													</div>
+													<div class="form-check">
+														<label
+															class="form-check-label calendarFilterLabel not_deliveredStatusLabel"
+															for="not_delivered-status"> <input type="checkbox"
+															value="not_delivered" class="form-check-input"
+															id="not_delivered-status" name="filterByStatus" /> Not
+															delivered <span class="form-check-sign"> <span
+																class="check"></span>
+														</span>
+														</label>
+													</div>
+												</div>
+												<!-- 													 v-if="order.status == 'delivery_arrived'" -->
+												<!-- 														class="orderStatusSpan deliveredArrivedStatus">Arrived to -->
+												<!-- 															location</span> <span v-if="order.status == 'delivered'" -->
+												<!-- 														class="orderStatusSpan deliveredStatus">Delivered</span> <span -->
+												<!-- 														v-if="order.status == ''" -->
+												<!-- 														class="orderStatusSpan notDeliveredStatus">Not delivered</span> -->
+												<div id="filterByRetailerDiv" class="calendarFilterDiv"
+													data-spy="scroll" data-target=".filter-retailers-container"
+													>
+
+													<h3 class="calendarFilterH3">Filter by retailer</h3>
+													<div class="filter-retailers-container  overflow-auto"
+														style="max-height: 400px;height: 400px">
+														<div class="form-check">
+															<label
+																class="form-check-label calendarFilterLabel viewAllLabel"
+																for="view-all-retailer"> <input type="checkbox"
+																value="all" checked="checked" class="form-check-input"
+																id="view-all-retailer" name="filterByRetailer" /> View
+																all <span class="form-check-sign"> <span class="check"></span>
+															</span>
+															</label>
+														</div>
+														@foreach($retailers as $retailer)
+														<div class="form-check">
+															<label
+																class="form-check-label calendarFilterLabel retailerStatusLabel"
+																for="retailer_{{$retailer->id}}"> <input type="checkbox"
+																value="{{$retailer->id}}" class="form-check-input"
+																id="retailer_{{$retailer->id}}" name="filterByRetailer" />
+																{{$retailer->name}} <span class="form-check-sign"> <span
+																	class="check"></span>
+															</span>
+															</label>
+														</div>
+														@endforeach
+
+													</div>
+												</div>
+											</div>
+											<div class="col-lg-10 col-md-9 pl-0 containerCalendarDiv">
+
+												<div id='calendar'></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane fade " id="ordersListView" role="tabpanel"
+							aria-labelledby="pills-list-tab">
 							<div class="card">
 								<div class="card-body">
 									<div class="float-right"></div>
@@ -117,10 +289,10 @@
 												</tr>
 											</tbody>
 										</table>
-										
+
 									</div>
 									<div class="d-flex justify-content-end mt-3">
-											{{$orders->links()}}</div>
+										{{$orders->links()}}</div>
 								</div>
 							</div>
 							<!-- end card - table -->
@@ -138,12 +310,134 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
 	integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
 	crossorigin="anonymous"></script>
+
+<script src="{{asset('js/fullcalendar.js')}}"></script>
+
 <script>
     
-    
+    var token = '{{csrf_token()}}';
+	
 $(document).ready(function() {
+////////////////////////////////////////// calendar
+	    var date = new Date();
+		var d = date.getDate();
+		var m = date.getMonth();
+		var y = date.getFullYear();
 
+	
+		/* initialize the calendar
+		-----------------------------------------------------------------*/
+		
+		var calendar =  $('#calendar').fullCalendar({
+			header: {
+				//left: 'title',
+				left:'prev,next title',
+				center: '',
+				right:'month,agendaWeek,agendaDay today'
+				//center: 'agendaDay,agendaWeek,month',
+				//right: 'prev,next today'
+			},
+   	 		eventorder: "-title",
+			editable: true,
+			firstDay: 1, //  1(Monday) this can be changed to 0(Sunday) for the USA system
+			contentHeight:'auto',
+			defaultView: 'month',
+			displayEventTime: false,
+			
+			droppable: false, // this allows things to be dropped onto the calendar !!!
+			disableDragging: true,
+			
+     		eventLimit: 3,
+     		
+			eventRender: function(event, element) {
+				console.log("---------------------------")
+				console.log(filter(event))
+                return filter(event);
+              }    ,
+        	
+       		events: function(start_date, end_date,timezone, callback) {
+       			
+    				$.ajax({
+    					type:'GET',
+    					url: '{{url("doorder/calendar-orders-events")}}',
+    					 data: {
+                            // our hypothetical feed requires UNIX timestamps
+                            start_date: Math.round(start_date/ 1000),
+                            end_date: Math.round(end_date / 1000),
+                         },
+    					success:function(data) {
+//         					console.log(data);
+//         					console.log(JSON.parse(data.events))	
+//         					console.log((data.orders))	
+    						//console.log(view.title);
+    						
+    						//contractors = data.contractors;
+    						callback(JSON.parse(data.events));
+    						
+    					}
+    				});
+    				
+			},
+        	
+			eventAfterAllRender: function(){
+				
+            }, 
+			 
+			 eventClick: function(calEvent, jsEvent, view) {
+			 	console.log("click event "+calEvent+" "+calEvent.className);
+			 	console.log(calEvent)
+			 	console.log(calEvent.start)
+			 	 window.location.href = "{{url('doorder/single-order')}}/"+calEvent.id;
+// 			 	if(calEvent.className=='expireContract'){    
+// 			 		getContractsExpiredData(calEvent.start,token,'{{url("unified/")}}');
+// 			 	}else{
+// 			 		getDetialsOfDate(calEvent.start,calEvent.serviceId,token,'{{url("unified/")}}');
+// 			 	} 
+ 			 }	,
+ 			 dayClick: function(date, allDay, jsEvent, view) {
+              // getDetialsOfDate(date,0,token,'{{url("unified/")}}');
+               
+			                   
+        	}
+		});
+		
+		$('input[name="filterByStatus"]').on('change', function() {
+      	  $('#calendar').fullCalendar('rerenderEvents');
+      	});
+      	
+		$('input[name="filterByRetailer"]').on('change', function() {
+      	  $('#calendar').fullCalendar('rerenderEvents');
+      	});
+      	
+      	function filter(calEvent) {
+          var vals = [];
+          $('input[name="filterByStatus"]:checked').each(function() {
+            vals.push($(this).val());
+          });
+          
+          if(calEvent.status==='assigned'){
+          		calEvent.status = 'matched';
+          }
+          
+          var valsR = [];
+          $('input[name="filterByRetailer"]:checked').each(function() {
+            valsR.push($(this).val());
+          });
+          
+          console.log(vals)
+          console.log(valsR)
+          if(vals.indexOf('all') !== -1 && valsR.indexOf('all') !== -1){
+          	return true
+          }else if(vals.indexOf('all') !== -1 && valsR.indexOf(''+calEvent.retailer_id) !== -1){
+          	return true;
+          }
+          else if(valsR.indexOf('all') !== -1 && vals.indexOf(''+calEvent.status) !== -1){
+          	return true
+          }
+          return vals.indexOf(''+calEvent.status) !== -1 && valsR.indexOf(''+calEvent.retailer_id) !== -1;
+    	}
 
+//////////////////////////////////////////
  var table= $('#ordersTable').DataTable({
     	
           fixedColumns: true,

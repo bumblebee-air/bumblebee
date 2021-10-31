@@ -28,12 +28,52 @@ class OrdersController extends Controller
         } else {
             $orders = Order::where('is_archived', false)->where('status', '!=', 'delivered')->orderBy('id', 'desc')->paginate(20);
         }
-
+        
+//         $events=[];
+//         foreach ($orders as $order){
+//             $events[] = [
+//                 'id' => $order->id,
+//                 'start' => $order->created_at,
+//                 'className' => 'orderStatusCalendar '. $order->status .'Status',
+//                 'title' => $order->retailer_name,
+//                 'status'=> $order->status,
+//                 'retailer_id'=>$order->retailer_id
+//             ];
+//         }
+        
+        $retailers = Retailer::where('status','completed')->get();
+        
         foreach ($orders as $order) {
             $order->time = $order->created_at->format('d M H:i');
             $order->driver = $order->orderDriver ? $order->orderDriver->name : null;
         }
-        return view('admin.doorder.orders', ['orders' => $orders]);
+        return view('admin.doorder.orders', ['orders' => $orders,'retailers'=>$retailers]);
+    }
+    
+    public function getCalendarOrdersEvents(Request $request){
+        
+        $start_date = Carbon::createFromTimestamp($request->start_date);
+        $end_date = Carbon::createFromTimestamp($request->end_date);
+        
+        $orders = Order::whereDate('created_at', '>=', $start_date->toDateString())->whereDate('created_at', '<=', $end_date->toDateString())->get();
+        
+        $events=[];
+        foreach ($orders as $order){
+            $events[] = [
+                'id' => $order->id,
+                'start' => $order->created_at,
+                'className' => 'orderStatusCalendar '. $order->status .'Status',
+                'title' => $order->retailer_name,
+                'status'=> $order->status,
+                'retailer_id'=>$order->retailer_id
+            ];
+        }
+        
+        return response()->json([
+            'events' => json_encode($events),
+            'startDate'=>$start_date,
+            'endDate'=>$end_date  
+        ]);
     }
 
     public function addNewOrder() {

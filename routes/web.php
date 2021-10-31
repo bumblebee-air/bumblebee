@@ -335,6 +335,9 @@ Route::group([
             Route::post('orders/import', 'doorder\OrdersController@postImportOrders')->name('doorder_addNewOrder');
             Route::post('order/delete', 'doorder\OrdersController@deleteOrder')->name('doorder_deleteOrderOrder');
             
+            
+            Route::get('calendar-orders-events', 'doorder\OrdersController@getCalendarOrdersEvents')->name('doorder_getCalendarOrdersEvents');
+            
             Route::get('map_routes', 'doorder\MapRoutesConroller@index')->name('doorder_mapRoutes');
             Route::get('get_route_driver','doorder\MapRoutesConroller@getRouteOfDriver')->name('doorder_getRouteDriver');
             

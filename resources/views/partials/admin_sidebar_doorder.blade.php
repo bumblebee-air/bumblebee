@@ -94,25 +94,16 @@
                         </ul>
                     </div></li>
 
-                <li class="nav-item">
-                    <a class="nav-link d-flex" href="#"> <img
-                        class="my-nav-icon my-nav-icon-grey"
-                        src="{{asset('images/doorder-new-layout/whatsapp-grey.png')}}" alt="">
-                        <img class="my-nav-icon my-nav-icon-top"
-                        src="{{asset('images/doorder-new-layout/whatsapp-yellow.png')}}"
-                        alt="">
-                        <p>WhatsApp</p>
-                    </a>
-                </li>
+              
                 
                 <li class="nav-item "><a class="nav-link collapsed d-flex"
                     data-toggle="collapse" href="#componentsInvoice"
                     aria-expanded="false">
-                    	 <img class="my-nav-icon my-nav-icon-grey" src="{{asset('images/doorder-new-layout/dashboard-grey.png')}}" alt="" >
-                        <img class="my-nav-icon my-nav-icon-top" src="{{asset('images/doorder-new-layout/dashboard-yellow.png')}}" 
+                    	 <img class="my-nav-icon my-nav-icon-grey" src="{{asset('images/doorder-new-layout/invoice-grey.png')}}" alt="" >
+                        <img class="my-nav-icon my-nav-icon-top" src="{{asset('images/doorder-new-layout/invoice-yellow.png')}}" 
                              alt="">
                         <p >
-                            Invoice <b class="caret"></b>
+                            Invoice  <i class="fas fa-angle-down"></i>
                         </p>
                		 </a>
                     <div class="collapse" id="componentsInvoice">
@@ -128,6 +119,17 @@
                         </ul>
                     </div>
                  </li>
+                 
+                   <li class="nav-item">
+                    <a class="nav-link d-flex" href="#"> <img
+                        class="my-nav-icon my-nav-icon-grey"
+                        src="{{asset('images/doorder-new-layout/whatsapp-grey.png')}}" alt="">
+                        <img class="my-nav-icon my-nav-icon-top"
+                        src="{{asset('images/doorder-new-layout/whatsapp-yellow.png')}}"
+                        alt="">
+                        <p>WhatsApp</p>
+                    </a>
+                </li>
                 
                 <li class="nav-item">
                     <a class="nav-link d-flex" href="{{route('doorder_ordersHistoryTable', 'doorder')}}">

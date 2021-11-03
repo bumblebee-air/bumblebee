@@ -25,11 +25,11 @@
 
 									<ul class="nav nav-pills ordersListPills my-3" id="pills-tab"
 										role="tablist">
-										<li class="nav-item"><a class="nav-link " id="pills-list-tab"
+										<li class="nav-item"><a class="nav-link active" id="pills-list-tab"
 											data-toggle="pill" href="#ordersListView" role="tab"
 											aria-controls="ordersListView" aria-selected="false">Switch
 												to list view</a></li>
-										<li class="nav-item"><a class="nav-link active"
+										<li class="nav-item"><a class="nav-link "
 											id="pills-calendar-tab" data-toggle="pill"
 											href="#ordersCalendarView" role="tab"
 											aria-controls="ordersCalendarView" aria-selected="true">Switch
@@ -41,7 +41,7 @@
 						</div>
 					</div>
 					<div class="tab-content" id="pills-tabContent">
-						<div class="tab-pane fade show active" id="ordersCalendarView"
+						<div class="tab-pane fade" id="ordersCalendarView"
 							role="tabpanel" aria-labelledby="pills-calendar-tab">
 							<div class="card">
 
@@ -209,7 +209,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="tab-pane fade " id="ordersListView" role="tabpanel"
+						<div class="tab-pane fade  show active" id="ordersListView" role="tabpanel"
 							aria-labelledby="pills-list-tab">
 							<div class="card">
 								<div class="card-body">

@@ -125,7 +125,7 @@ color: #E8CA49;
                                         </label>
                                     </div>
                                 </div>
-                                <div class="col-md-6 mt-1 mb-4"><a id="forgetPasswordA" href="" class="float-right">Forget password?</a></div>
+                                <div class="col-md-6 mt-1 mb-4"><a id="forgetPasswordA" href="password/reset" class="float-right">Forget password?</a></div>
                                 </div>
                                 
                                 <input type="hidden" name="guard" value="doorder">

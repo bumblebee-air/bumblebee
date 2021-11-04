@@ -47,10 +47,11 @@ class ForgotPasswordController extends Controller
 
         $this->validateEmail($request);
 
-        
-        \Config::set('mail.from.address', 'no-reply@doorder.eu');
-        \Config::set('mail.from.name', 'DoOrder');
-        \Config::set('app.name', 'DoOrder');
+        if (strpos(request()->getHost(), 'doorder.eu') !== false || str_contains(request()->url(), 'doorder/password/reset')) {
+            \Config::set('mail.from.address', 'no-reply@doorder.eu');
+            \Config::set('mail.from.name', 'DoOrder');
+            \Config::set('app.name', 'DoOrder');
+        }
         $response = $this->broker()->sendResetLink(
             $this->credentials($request)
         );

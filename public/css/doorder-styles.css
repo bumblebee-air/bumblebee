@@ -68,42 +68,42 @@
 	padding-bottom: 20px;
 }
 
-p.card-category {
-	font-family: Quicksand;
-	font-size: 14px;
-	font-weight: 600;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: 0.5px;
-	color: #7b7b7b !important;
-}
+/* p.card-category { */
+/* 	font-family: Quicksand; */
+/* 	font-size: 14px; */
+/* 	font-weight: 600; */
+/* 	font-stretch: normal; */
+/* 	font-style: normal; */
+/* 	line-height: normal; */
+/* 	letter-spacing: 0.5px; */
+/* 	color: #7b7b7b !important; */
+/* } */
 
-.cardDashboardValueH3 {
-	font-family: Quicksand;
-	font-size: 24.5px;
-	font-weight: bold;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: 0.87px;
-	color: #e5c43f !important;
-}
+/* .cardDashboardValueH3 { */
+/* 	font-family: Quicksand; */
+/* 	font-size: 24.5px; */
+/* 	font-weight: bold; */
+/* 	font-stretch: normal; */
+/* 	font-style: normal; */
+/* 	line-height: normal; */
+/* 	letter-spacing: 0.87px; */
+/* 	color: #e5c43f !important; */
+/* } */
 
-.card-dashboard-content .card-footer {
-	margin: 0 !important;
-}
+/* .card-dashboard-content .card-footer { */
+/* 	margin: 0 !important; */
+/* } */
 
-.card-dashboard-content .card-footer .stats {
-	font-family: Quicksand;
-	font-size: 13px !important;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: 0.46px;
-	color: #c2c8d5 !important;
-}
+/* .card-dashboard-content .card-footer .stats { */
+/* 	font-family: Quicksand; */
+/* 	font-size: 13px !important; */
+/* 	font-weight: normal; */
+/* 	font-stretch: normal; */
+/* 	font-style: normal; */
+/* 	line-height: normal; */
+/* 	letter-spacing: 0.46px; */
+/* 	color: #c2c8d5 !important; */
+/* } */
 
 .filterLabelDashboard {
 	font-size: 14px;
@@ -129,18 +129,18 @@ p.card-category {
 	text-transform: inherit !important;
 }
 
-.tableDashboardH3 {
-	font-family: Quicksand;
-	font-size: 18px;
-	font-weight: bold;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: 1.17;
-	letter-spacing: normal;
-	text-align: left;
-	color: #4d4d4d;
-	padding: 10px
-}
+/* .tableDashboardH3 { */
+/* 	font-family: Quicksand; */
+/* 	font-size: 18px; */
+/* 	font-weight: bold; */
+/* 	font-stretch: normal; */
+/* 	font-style: normal; */
+/* 	line-height: 1.17; */
+/* 	letter-spacing: normal; */
+/* 	text-align: left; */
+/* 	color: #4d4d4d; */
+/* 	padding: 10px */
+/* } */
 
 .cardContentTableDiv {
 	padding: 1rem 0.25rem 0 0.25rem;

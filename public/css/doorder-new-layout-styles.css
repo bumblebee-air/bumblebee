@@ -13,8 +13,10 @@ html {
 	width: 250px;
 }
 
-.main-panel {
-	width: calc(100% - 250px)
+@media ( min-width : 991px) {
+	.main-panel {
+		width: calc(100% - 250px)
+	}
 }
 
 #adminNavLogoImg {
@@ -224,7 +226,7 @@ li .nav-link:hover  i {
 	font-weight: bold !important;
 	font-size: 20px;
 	line-height: 24px;
-	color: #171B1E;
+	color: #171B1E !important;
 }
 
 /*********** orders tabs *******/
@@ -426,6 +428,8 @@ div.dataTables_wrapper div.dataTables_filter input {
 ul.pagination {
 	background: #F3F2F7;
 	border-radius: 16px;
+	width: max-content;
+	float: right;
 }
 
 .pagination>.page-item>.page-link, .pagination>.page-item>span {
@@ -453,9 +457,318 @@ ul.pagination {
 }
 
 .pagination .page-item:first-child a, .pagination .page-item:first-child span,
-.pagination .page-item:last-child a, .pagination .page-item:last-child span{
-	color:  #E9C218;
+	.pagination .page-item:last-child a, .pagination .page-item:last-child span
+	{
+	color: #E9C218;
 	font-size: 16px;
 }
 
+.doorderDashboardTable thead tr th {
+	font-family: Poppins;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 21px;
+	color: #8E8E8E;
+	background-color: white;
+	text-transform: capitalize;
+	text-align: center;
+}
+
+.doorderDashboardTable thead tr th:first-child {
+	text-align: left !important;
+}
+
+.doorderDashboardTable tbody tr td.nameTd {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 500 !important;
+	font-size: 16px !important;
+	line-height: 20px;
+	color: #23314B;
+}
+
+.doorderDashboardTable tbody tr td.countTd {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 600 !important;
+	font-size: 16px !important;
+	line-height: 20px;
+	color: #E9C218;
+	text-align: center !important;
+}
+
+.doorderDashboardTable tbody tr td.chargeTd {
+	font-family: Poppins;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 21px;
+	color: #000000;
+	text-align: center !important;
+}
+
+.ui-datepicker-calendar td, .ui-datepicker-calendar th {
+	font-family: Montserrat;
+}
+.ui-datepicker-calendar td a{
+	text-align: center;
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active,
+	a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover
+	{
+	border-color: #60A244;
+	background-color: #60A244;
+}
+
 /*********** buttons ************/
+.btn-doorder-filter {
+	background: #E8CA49;
+	border: 1px solid #E8CA49;
+	border-radius: 6px;
+	min-width: 120px;
+	height: 40px;
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 21px;
+	color: #FFFFFF;
+	position: relative;
+	margin: 0.45rem 5px 0;
+	display: inline-block;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	user-select: none;
+	padding: 6px 14px;
+}
+
+.btn-doorder-filter:focus {
+	outline: none !important;
+}
+
+/****************************/
+#dashboardFilterRowDiv .inputFilter, .mapContainerDiv .inputFilter {
+	font-family: Montserrat;
+	font-size: 14px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.66px;
+	color: #4d4d4d;
+	width: 100%;
+	height: 40px;
+	padding: 6px 18px 6px 14px;
+	border-radius: 7px;
+	border: 1px solid #eee;
+	box-shadow: 0 1px 34px 0 rgba(0, 0, 0, 0.08);
+	background-color: white;
+}
+
+#dashboardCardDiv .card.card-stats {
+	margin-top: 0;
+	margin-bottom: 15px;
+}
+
+#dashboardCardDiv .card.card-stats .cardDashboardValueH3 {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 40px;
+	line-height: 49px;
+	color: #171B1E;
+}
+
+#dashboardCardDiv .card.card-stats p.card-category {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 20px;
+	color: #717579;
+	margin: 0;
+}
+
+#dashboardCardDiv .card-dashboard-content .card-footer {
+	margin: 0 !important;
+	padding-top: 5px;
+}
+
+#dashboardCardDiv .card-dashboard-content .card-footer .stats {
+	font-family: Montserrat;
+	font-size: 13px !important;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.46px;
+	color: #c2c8d5 !important;
+}
+
+#dashboardCardDiv .cardContentTableDiv .card-title.tableDashboardH3 {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 20px;
+	line-height: 24px;
+	/* Black */
+	color: #252525 !important;
+}
+
+#dashboardCardDiv .cardContentTableDiv .card-title.tableDashboardH3  span
+	{
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 20px;
+	color: #656565;
+}
+
+.ct-chart .ct-series-a .ct-area, .ct-chart .ct-series-a .ct-bar,
+	.ct-chart .ct-series-a .ct-line, .ct-chart .ct-series-a .ct-point,
+	.ct-chart .ct-series-a .ct-slice-donut, .ct-chart .ct-series-a .ct-slice-donut-solid,
+	.ct-chart .ct-series-a .ct-slice-pie {
+	stroke: #F8C140 !important;
+	stroke-width: 2px;
+}
+
+.ct-chart .ct-series-b .ct-area, .ct-chart .ct-series-b .ct-bar,
+	.ct-chart .ct-series-b .ct-line, .ct-chart .ct-series-b .ct-point,
+	.ct-chart .ct-series-b .ct-slice-donut, .ct-chart .ct-series-b .ct-slice-donut-solid,
+	.ct-chart .ct-series-b .ct-slice-pie {
+	stroke: #60A244 !important;
+	stroke-width: 2px;
+}
+
+.ct-series-a .ct-line .ct-point {
+	opacity: 1;
+	stroke-linecap: round;
+}
+
+.ct-label {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 17px;
+	color: #A098AE;
+}
+
+.chartDataH3 {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 20px;
+	line-height: 24px;
+	color: #252525;
+}
+
+.weekMonthData .chartDataLabel {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 18px;
+	line-height: 22px;
+	/* identical to box height */
+	color: #7B7B7B;
+	margin-bottom: 0;
+}
+
+.weekMonthData .chartDataValue {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 24px;
+	line-height: 29px;
+}
+
+.weekMonthData .chartDataValue.chartDataValueLast {
+	color: #E9C218;
+}
+
+.weekMonthData .chartDataValue.chartDataValuePlus {
+	color: #60A244;
+}
+
+.weekMonthData .chartDataValue.chartDataValueMinus {
+	color: #CC4B4C;
+}
+
+.mapPickupOrderNumber {
+	color: #747474;
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 20px;
+	line-height: 22px;
+	margin: 0;
+}
+
+.mapPickupName, .mapCustomerName {
+	color: #747474;
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 18px;
+	line-height: 22px;
+	margin: 0;
+}
+
+.mapPickupAddress, .mapCustomerAddress, .mapDriverLastUpdate {
+	color: #747474;
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 15px;
+	margin: 0;
+}
+
+.mapCustomerOrderNumber {
+	color: #60A244;
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 20px;
+	line-height: 22px;
+	margin: 0;
+}
+
+.mapDriverName {
+	color: #F7DC69;
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 20px;
+	line-height: 22px;
+	margin: 0;
+}
+
+div.dropdown.bootstrap-select.form-control {
+	height: 40px;
+	border-radius: 7px;
+}
+
+button.dropdown-toggle.select-with-transition {
+	padding: 0 10px !important;
+	border-radius: 7px !important;
+	border: 1px solid #eee !important;
+	font-family: Montserrat !important;
+	font-style: normal !important;
+	font-weight: normal !important;
+	font-size: 12px !important;
+	line-height: 24px !important;
+	color: #4D4D4D !important;
+	height: 40px !important;
+}
+
+.selectShowPinsContainer .dropdown-toggle:after {
+	color: #E9C218;
+	border-top: 0.5em solid;
+	border-right: 0.5em solid transparent;
+	border-bottom: 0;
+	border-left: 0.5em solid transparent;
+}

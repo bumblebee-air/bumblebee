@@ -46,13 +46,29 @@ class DashboardController extends Controller
             $deliverers_count = $admin_data['deliverers_count'];
             $deliverers_order_charges = $admin_data['deliverers_order_charges'];
             $retailers_order_charges = $admin_data['retailers_order_charges'];
-            $annual_chart_labels = $admin_data['annual_chart_labels'];
-            $annual_chart_data = $admin_data['annual_chart_data'];
+//             $annual_chart_labels = $admin_data['annual_chart_labels'];
+//             $annual_chart_data = $admin_data['annual_chart_data'];
             $drivers_arr = $admin_data['drivers_arr'];
+            
+            $thisWeekPercentage = $admin_data['thisWeekPercentage'];
+            $lastWeekPercentage = $admin_data['lastWeekPercentage'];
+            $thisMonthPercentage = $admin_data['thisMonthPercentage'];
+            $lastMonthPercentage = $admin_data['lastMonthPercentage'];
+            
+            $week_chart_labels = $admin_data['week_chart_labels'];
+            $last_week_chart_values = $admin_data['last_week_chart_values'];
+            $this_week_chart_values = $admin_data['this_week_chart_values'];
+            
+            $pickup_arr = $admin_data['pickup_arr'];
+            $dropoff_arr = $admin_data['dropoff_arr'];
+            
             if ($ajax_flag == true) {
                 return response()->json($admin_data);
             }
-            return view('admin.doorder.dashboard', compact('drivers_arr', 'all_orders_count', 'delivered_orders_count', 'retailers_count', 'deliverers_count', 'deliverers_order_charges', 'retailers_order_charges', 'annual_chart_labels', 'annual_chart_data'));
+            return view('admin.doorder.dashboard', compact('drivers_arr', 'all_orders_count', 'delivered_orders_count', 'retailers_count', 'deliverers_count', 'deliverers_order_charges', 
+                'retailers_order_charges', 'thisWeekPercentage','lastWeekPercentage','thisMonthPercentage','lastMonthPercentage',
+                'week_chart_labels','last_week_chart_values','this_week_chart_values',
+                'pickup_arr','dropoff_arr'));
         }
     }
 
@@ -80,6 +96,40 @@ class DashboardController extends Controller
         return view('admin.doorder.drivers_map', compact('drivers_arr'));
     }
 
+    public function searchOrderMap(Request $request){
+        $search_val = $request->search_val;
+        
+        $driver_pin = [
+            'driver' => [
+                'name' => 'sara reda',
+                'id' => 2
+            ],
+            'lat' => 53.34981,
+            'lon' => -6.26031,
+        ];
+        $pickup_pin = [
+            'pickup_address' => 'St James\'s Hospital, James Street, Saint James\' (part of Phoenix Park), Dublin 8, Ireland',
+            'pickup_lat' => 53.3393,
+            'pickup_lon' => -6.29651,
+            'retailer_name'=>"sara yassen",
+            'order_id'=>28884
+        ];
+        $dropoff_pin=[
+            'customer_address' => "Phoenix Park, Dublin 8, Ireland",
+            'customer_address_lat'=>53.35588,
+            'customer_address_lon'=>-6.32981,
+            'customer_name'=>'mohamed fayez',
+            'order_id'=>28884
+        ];
+        
+        
+        return response()->json([
+            'driver_pin'=>$driver_pin,
+            'dropoff_pin'=>$dropoff_pin,
+            'pickup_pin'=>$pickup_pin
+        ]);
+    }
+    
     private function retailerDashboardData()
     {
         $orders = Order::where('retailer_id', auth()->user()->retailer_profile->id)->whereIn('status', [
@@ -248,26 +298,27 @@ class DashboardController extends Controller
 
         // Annual orders data
         // $current_date = Carbon::now()->subYear();
-        $current_date = Carbon::now();
-        $startOfYear = $current_date->startOfYear()->toDateTimeString();
-        $endOfYear = $current_date->endOfYear()->toDateTimeString();
-        $annual_orders = Order::whereBetween('created_at', [
-            $startOfYear,
-            $endOfYear
-        ])->get();
-        $annual_chart_labels = [];
-        $annual_chart_data = [];
-        for ($i = 0; $i < 12; $i ++) {
-            $current_month = Carbon::parse($startOfYear)->addMonths($i);
-            $start_of_month = $current_month->startOfMonth()->toDateTimeString();
-            $end_of_month = $current_month->endOfMonth()->toDateTimeString();
-            $month_orders = $annual_orders->whereBetween('created_at', [
-                $start_of_month,
-                $end_of_month
-            ]);
-            $annual_chart_labels[] = $current_month->format('M');
-            $annual_chart_data[] = (string) count($month_orders);
-        }
+//         $current_date = Carbon::now();
+//         $startOfYear = $current_date->startOfYear()->toDateTimeString();
+//         $endOfYear = $current_date->endOfYear()->toDateTimeString();
+//         $annual_orders = Order::whereBetween('created_at', [
+//             $startOfYear,
+//             $endOfYear
+//         ])->get();
+//         $annual_chart_labels = [];
+//         $annual_chart_data = [];
+//         for ($i = 0; $i < 12; $i ++) {
+//             $current_month = Carbon::parse($startOfYear)->addMonths($i);
+//             $start_of_month = $current_month->startOfMonth()->toDateTimeString();
+//             $end_of_month = $current_month->endOfMonth()->toDateTimeString();
+//             $month_orders = $annual_orders->whereBetween('created_at', [
+//                 $start_of_month,
+//                 $end_of_month
+//             ]);
+//             $annual_chart_labels[] = $current_month->format('M');
+//             $annual_chart_data[] = (string) count($month_orders);
+//         }
+
         $drivers = User::with('driver_profile')->where('user_role', '=', 'driver')->get();
         $drivers_arr = [];
         foreach ($drivers as $driver) {
@@ -288,6 +339,40 @@ class DashboardController extends Controller
             }
         }
         $drivers_arr = json_encode($drivers_arr);
+        
+        // 
+        $thisWeekPercentage = -20;
+        $lastWeekPercentage = 18;
+        $thisMonthPercentage = 25;
+        $lastMonthPercentage = 15;
+        
+        $week_chart_labels = array('Mon','Tue','Wed','Thu','Fri','Sat','Sun');
+        $last_week_chart_values = array(10,12,8,11,20,5,6);
+        $this_week_chart_values = array(12,15,10,10,14,6,7);
+        
+        $pickup_arr =[];
+        $dropoff_arr = [];
+        $orders = Order::get();
+        foreach($orders as $order){
+            $pickup_arr[] = [
+                'pickup_address' => $order->pickup_address,  
+                'pickup_lat' => $order->pickup_lat,
+                'pickup_lon' => $order->pickup_lon,
+                'retailer_name'=>$order->retailer_name,
+                'order_id'=>$order->order_id
+            ];
+            $dropoff_arr[]=[
+                'customer_address' => $order->customer_address,
+                'customer_address_lat'=>$order->customer_address_lat,
+                'customer_address_lon'=>$order->customer_address_lon,
+                'customer_name'=>$order->customer_name,
+                'customer_phone'=>$order->customer_phone,
+                'order_id'=>$order->order_id
+            ];
+        }
+        $pickup_arr = json_encode($pickup_arr,JSON_HEX_APOS);
+        $dropoff_arr = json_encode($dropoff_arr,JSON_HEX_APOS);
+        
         return [
             'drivers_arr' => $drivers_arr,
             'all_orders_count' => $all_orders_count,
@@ -296,8 +381,17 @@ class DashboardController extends Controller
             'deliverers_count' => $deliverers_count,
             'retailers_order_charges' => $retailers_order_charges,
             'deliverers_order_charges' => $deliverers_order_charges,
-            'annual_chart_labels' => $annual_chart_labels,
-            'annual_chart_data' => $annual_chart_data
+//             'annual_chart_labels' => $annual_chart_labels,
+//             'annual_chart_data' => $annual_chart_data,
+            'thisWeekPercentage' =>  $thisWeekPercentage,
+            'lastWeekPercentage' =>  $lastWeekPercentage,
+            'thisMonthPercentage' =>  $thisMonthPercentage,
+            'lastMonthPercentage' =>  $lastMonthPercentage,
+            'week_chart_labels'=>$week_chart_labels,
+            'last_week_chart_values'=>$last_week_chart_values,
+            'this_week_chart_values'=>$this_week_chart_values,
+            'pickup_arr'=>$pickup_arr,
+            'dropoff_arr'=>$dropoff_arr
         ];
     }
 

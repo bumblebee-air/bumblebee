@@ -327,6 +327,7 @@ Route::group([
             'middleware' => "auth:doorder"
         ], function () {
             Route::get('dashboard', 'doorder\DashboardController@index')->name('doorder_dashboard');
+            Route::get('search_map', 'doorder\DashboardController@searchOrderMap')->name('doorder_searchMapOrder');
             Route::get('metrics_dashboard', 'doorder\DashboardController@metricsDashboard')->name('doorder_metrics_dashboard');
             Route::get('get_metrics_chart_label_data','doorder\DashboardController@getMetricsChartLabelData')->name('doorder_metrics_chart_label_data');
             Route::get('orders', 'doorder\OrdersController@getOrdersTable')->name('doorder_ordersTable');

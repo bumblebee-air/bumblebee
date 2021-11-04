@@ -167,7 +167,7 @@ input {
 
 							<input type="hidden" name="guard" value="doorder">
 							<div class="d-flex justify-content-center align-content-center">
-								<button class="btn btn-login" type="submit">Sign in</button>
+								<button class="btn btn-login" type="submit">Reset</button>
 							</div>
 						</form>
 					</div>

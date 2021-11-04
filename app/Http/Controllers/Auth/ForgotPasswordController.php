@@ -1,8 +1,11 @@
 <?php
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
 
 class ForgotPasswordController extends Controller
 {
@@ -32,11 +35,28 @@ class ForgotPasswordController extends Controller
     public function showLinkRequestForm()
     {
         if (strpos(request()->getHost(), 'doorder.eu') !== false || str_contains(request()->url(), 'doorder/password/reset')) {
+
             return view("auth.doorder.passwords.email");
         } else {
             return view('auth.passwords.email');
         }
     }
 
-   
+    public function sendResetLinkEmail(Request $request)
+    {
+
+        $this->validateEmail($request);
+
+        
+        \Config::set('mail.from.address', 'no-reply@doorder.eu');
+        \Config::set('mail.from.name', 'DoOrder');
+        \Config::set('app.name', 'DoOrder');
+        $response = $this->broker()->sendResetLink(
+            $this->credentials($request)
+        );
+
+        return $response == Password::RESET_LINK_SENT
+            ? $this->sendResetLinkResponse($request, $response)
+            : $this->sendResetLinkFailedResponse($request, $response);
+    }
 }

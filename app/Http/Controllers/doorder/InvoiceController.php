@@ -37,7 +37,8 @@ class InvoiceController extends Controller
                     'name' => $retailer->name,
                     'orders_count' => count($orders_group),
                     'month' => Carbon::parse($key)->format('M Y'),
-                    'date' => Carbon::parse($key)->format('M Y')
+                    'date' => Carbon::parse($key)->format('M Y'),
+                    'invoiced'=>true
                 ]);
             }
         }
@@ -208,5 +209,40 @@ class InvoiceController extends Controller
             'fail_message' => $charge_failure_message
         ]);
         return response()->json(['error'=>0, 'message'=>'Orders invoiced successfully']);
+    }
+    
+    public function getEditSingleInvoice(Request $request, $client_name, $id)
+    {
+        $retailer = Retailer::find($id);
+        if (!$retailer || !$request->has('month')) {
+            abort(404);
+        }
+        $start_of_month = Carbon::parse($request->month)->startOfMonth();
+        //        $start_of_month = Carbon::now()->startOfMonth();
+        //        $end_of_month = Carbon::now()->endOfMonth();
+        $month_days = Carbon::now()->startOfYear()->addMonths($request->month)->daysInMonth;
+        $invoice=[];
+        $subtotal = 0;
+        for($i = 0; $i < $month_days; $i++) {
+            $date = Carbon::parse($request->month)->startOfMonth()->addDays($i);
+            $count = Order::where('retailer_id', $id)->with(['orderDriver', 'retailer'])->whereDate('created_at', $date)->where('is_archived', false)->where('status', 'delivered')->count();
+            if ($count > 0) {
+                $data = Carbon::parse($request->month)->startOfMonth()->addDays($i)->format('d/m/Y');
+                //$invoice[] = ['name' => "$data $count package for ". $count * 10 . "€",'count'=>$count , 'charge' => $count * 10];
+                $invoice[] = ['name' => "Same Day Delivery",'date'=>$data,'data'=>"$count package for $retailer->name",'count'=>$count , 'charge' => $count * 10];
+                $subtotal += $count * 10;
+            }
+        }
+        $vat = $subtotal * 0.23;
+        $total = $subtotal + $vat;
+        $user = User::find($retailer->user_id);
+        //dd($user);
+        //$retailer->invoice_number = '1234569';
+        $carbon_invoice_date = Carbon::parse($request->month);
+        $invoice_number = $retailer->id.'-'.$carbon_invoice_date->format('mY');
+        
+        return view('admin.doorder.invoice.single_invoice_edit', ["invoice"=>$invoice,'retailer' => $retailer,'user'=>$user,
+            'subtotal' => $subtotal,'vat'=> $vat, 'total'=>$total,'month'=>$request->month,
+            'invoice_number'=>$invoice_number]);
     }
 }

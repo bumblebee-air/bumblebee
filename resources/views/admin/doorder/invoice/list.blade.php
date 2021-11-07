@@ -1,11 +1,12 @@
-@extends('templates.dashboard') @section('page-styles')
+@extends('templates.doorder_dashboard') @section('page-styles')
 
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/datetime/1.0.3/css/dataTables.dateTime.min.css">
 <style>
-.page_icon{
-width: 40px !important;
+.page_icon {
+	width: 40px !important;
 }
+
 .invoiceIconSpan i {
 	font-size: 18px;
 	color: #60a244;
@@ -49,58 +50,43 @@ div.dt-datetime table td.selectable.selected button {
 	background-image: none !important;
 }
 
-select.form-control:not([size]):not([multiple]) {
-	height: 36px !important;
-	padding: 8px 14px 8px 14px;
-	border-radius: 5px;
-	box-shadow: 0 2px 48px 0 rgb(0 0 0/ 8%);
-	background-color: #ffffff;
-	font-family: Quicksand;
-	font-size: 14px;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	letter-spacing: 0.77px;
-	color: #4d4d4d;
-	width: 100%;
-	height: auto;
-}
+
 
 .card-body {
 	padding-top: 10px !important;
 }
-#dashboardCardDiv .btn, #exportButton
-{
-height: auto ;
-padding: 8px;
+
+#dashboardCardDiv .btn, #exportButton {
+	height: auto;
+	padding: 8px;
 }
 
-#retailerNameP{
-    height: 50px;
+#retailerNameP {
+	height: 50px;
 }
 
 table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before,
-		table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_desc:before,
-		table.dataTable thead .sorting_desc_disabled:before {
-		
-		top:30% !important;
-	}
-	table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after,
-		table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc:after,
-		table.dataTable thead .sorting_desc_disabled:after {
-		top:30% !important;
-	}
+	table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_desc:before,
+	table.dataTable thead .sorting_desc_disabled:before {
+	top: 30% !important;
+}
+
+table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after,
+	table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc:after,
+	table.dataTable thead .sorting_desc_disabled:after {
+	top: 30% !important;
+}
 
 /* td:hover{
   overflow: visible;
   white-space: normal;
   height: auto;} */
-  
-.bootstrap-datetimepicker-widget table td span.active{
-background-color: #e8ca49;
-}  
-.bootstrap-datetimepicker-widget table td span{
-    color: #a5a5a5
+.bootstrap-datetimepicker-widget table td span.active {
+	background-color: #e8ca49;
+}
+
+.bootstrap-datetimepicker-widget table td span {
+	color: #a5a5a5
 }
 </style>
 @endsection @section('title', 'DoOrder | Invoice')
@@ -112,80 +98,74 @@ background-color: #e8ca49;
 				<div class="col-md-12">
 					<div class="card">
 						<div class="card-header card-header-icon card-header-rose row">
-							<div class="col-12">
-								<div class="card-icon">
-									<img class="page_icon"
-											src="{{asset('images/doorder_icons/Invoice-white.png')}}">
-								</div>
-								<h4 class="card-title ">Invoice</h4>
+							<div class="col-12 col-xl-5 col-lg-4 col-md-3 col-sm-12">
+
+								<h4 class="card-title my-4 mb-sm-1">Invoice</h4>
 							</div>
-
-						</div>
-						<div class="card-body">
-
-							<div class="table-responsive">
+							<div class="col-12 col-xl-7 col-lg-8 col-md-9 col-sm-12">
 								<form method="post" class="mb-1"
 									action="{{route('doorder_exportInvoiceList', 'doorder')}}">
 									{{csrf_field()}}
-									<div class="row" style="margin-left: 0px;margin-right: 0px">
-										<div class="col-md-1">
-											<label class=" col-form-label filterLabelDashboard">Filter:</label>
-										</div>
-										<div class="col-md-3">
-											<div class="form-group bmd-form-group">
-												<input class="form-control inputDate" id="date"
-													type="text" placeholder="Month" required="true"
+									<div class="row justify-content-end mt-2 mt-xs-0 filterContrainerDiv">
+										<div class="col-lg-4 col-md-4 col-sm-4 px-md-1">
+											<div class="form-group bmd-form-group inputWithIconDiv">
+												<img
+													src="{{asset('images/doorder-new-layout/calendar-filter-yellow.png')}}"
+													alt=""> <input class="form-control inputDate inputFilter"
+													id="date" type="text" placeholder="Month"
 													aria-required="true" name="date">
 											</div>
 										</div>
-										<!-- <div class="col-md-3">
-											<div class="form-group bmd-form-group">
-												<input class="form-control inputDate" id="startDate"
-													type="text" placeholder="From" required="true"
-													aria-required="true" name="from">
-											</div>
-										</div>
-										<div class="col-md-3">
-											<div class="form-group bmd-form-group">
-												<input class="form-control inputDate" id="endDate"
-													type="text" placeholder="To" required="true"
-													aria-required="true" name="to">
-											</div>
-										</div> -->
-										<div class="col-md-3 mt-1">
+										<div class="col-lg-4 col-md-4 col-sm-4 px-md-1">
 											<div id="retailerNameP" class="form-group bmd-form-group"></div>
 										</div>
-
-										<div class="col-md-2">
+										<div class="col-lg-3 col-md-3  col-sm-4 px-md-1">
 											<button id="exportButton" type="submit"
-												class="btn btn-primary doorder-btn-lg doorder-btn" style="float: right">Export</button>
+												class="btn-doorder-filter w-100">Export</button>
 										</div>
+
 									</div>
 								</form>
-
+							</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-body">
+							<div class="table-responsive">
 								<table id="invoiceListTable"
 									class="table table-no-bordered table-hover doorderTable"
 									cellspacing="0" width="100%">
 									<thead>
 										<tr>
 											<th width="10%">Date</th>
-											<th width="10%">Retailer Name</th>
+											<th width="10%">Retailer </th>
 											<th width="10%">Status</th>
-											<th width="10%">Charges (€)</th>
+											<th  width="10%" class="text-center">No. Of Deliveries </th>
+											<th  width="10%" class="text-center">Charges (€)</th>
+											<th  width="10%" class="disabled-sorting text-center">Actions</th>
 										</tr>
 									</thead>
 
 									<tbody>
 										<tr v-for="invoice in invoiceList" class="order-row"
 											@click="clickInvoice(invoice.id, invoice.month)">
-											<td>@{{invoice.date}}</td>
-											<td>@{{invoice.name}}</td>
-											<td>
-												<span class="invoiceIconSpan">
-													<i class="fas fa-file-invoice"></i>
-												</span>
+											<td class="text-left">@{{invoice.date}}</td>
+											<td class="text-left">@{{invoice.name}}</td>
+											<td class="text-left">
+												<span v-if="invoice.invoiced"
+														class="orderStatusSpan invoicedStatus">Invoiced</span>
+														<span v-else
+														class="orderStatusSpan awaitingInvoiceStatus">Awaiting invoice</span>
 											</td>
+											<td>@{{ invoice.orders_count }}</td>
 											<td>€@{{ 10 * invoice.orders_count }}</td>
+											<td><a
+												class=""
+												@click="clickInvoice(invoice.id, invoice.month)">
+													<img class="viewIcon"
+													src="{{asset('images/doorder-new-layout/view-icon.png')}}"
+													alt="">
+												</a> </td>
 										</tr>
 									</tbody>
 								</table>
@@ -202,6 +182,7 @@ background-color: #e8ca49;
 
 @endsection @section('page-scripts')
 
+<script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script
@@ -213,33 +194,11 @@ var minDate, maxDate;
 $.fn.dataTable.ext.search.push(
     function( settings, data, dataIndex ) {
     	console.log("search")
-//     	var start =$('#startDate').val(), end = $('#endDate').val();
-//         var min = new Date(start);//moment( $('#startDate').val()).toDate();
-//         var max = new Date(end);//moment( $('#endDate').val()).toDate();
-//         console.log(start +" -- "+ min)
-//         console.log(end +" -- "+ max)
-//         var date = moment(data[0]).toDate();
-//  		console.log(data[0])
-//  		console.log(date)
-//  		console.log("sasasasa")
- 
-//         if (
-//             (start==='' && end==='' ) ||
-//             ( start==='' && date <= max ) ||
-//             ( min <= date   && end==='' ) ||
-//             ( min <= date   && date <= max )
-//         ) {
-//             return true;
-//         }
 			
 		var dateInput =$('#date').val();
         var min =  moment(dateInput,'MMM YYYY').toDate();
        
- //       console.log(dateInput +" -- "+ min)
         var date = moment(data[0],'MMM YYYY').toDate();
-  //		console.log(data[0])
-  //		console.log(date)
-  //		console.log("sasasasa")
  
         if (
             (dateInput==='') ||
@@ -254,26 +213,19 @@ $.fn.dataTable.ext.search.push(
 
 $(document).ready(function() {
 
- // Create date inputs
-//     minDate = new DateTime($('#startDate'), {
-//          format: 'MMM YYYY'
-//     });
-//     maxDate = new DateTime($('#endDate'), {
-//          format: 'MMM YYYY'
-//     });
-
-// $("#startDate,#endDate").datetimepicker({
-// 		 viewMode: 'years',
-//          format: 'MMM YYYY',
-// });
-// $('#startDate,#endDate').on('dp.change', function(e){table.draw(); });
-// $('#startDate,#endDate').on("dp.show", function(e) {
-//    $(e.target).data("DateTimePicker").viewMode("months"); 
-// });
-
 $("#date").datetimepicker({
 		 viewMode: 'years',
          format: 'MMM YYYY',
+         icons: { time: "fa fa-clock",
+                                    date: "fa fa-calendar",
+                                    up: "fa fa-chevron-up",
+                                    down: "fa fa-chevron-down",
+                                    previous: 'fa fa-chevron-left',
+                                    next: 'fa fa-chevron-right',
+                                    today: 'fa fa-screenshot',
+                                    clear: 'fa fa-trash',
+                                    close: 'fa fa-remove'
+            				},
          
 });
 $('#date').on('dp.change', function(e){table.draw(); });
@@ -285,25 +237,34 @@ $('#date').on("dp.show", function(e) {
     var table= $('#invoiceListTable').DataTable({
     "pagingType": "full_numbers",
         "lengthMenu": [
-          [10, 25, 50,100, -1],
-          [10, 25, 50,100, "All"]
+          [-1,10, 25, 50,100],
+          ["All",10, 25, 50,100]
         ],
         responsive:true,
     	"language": {  
     		search: '',
 			"searchPlaceholder": "Search ",
+			"paginate": {
+                      "previous": "<i class='fas fa-angle-left'></i>",
+                      "next": "<i class='fas fa-angle-right'></i>",
+                      "first":"<i class='fas fa-angle-double-left'></i>",
+                      "last":"<i class='fas fa-angle-double-right'></i>"
+                    }
     	},
-    	 
-             
+    	 "columnDefs": [ {
+    		"targets": -1,
+    		"orderable": false
+    	} ],             
         scrollX:        true,
         scrollCollapse: true,
         fixedColumns:   {
             leftColumns: 0,
         },
-    	
+									
          initComplete: function () {
          	var column = this.api().column(1);
-			var select = $('<select id="selectFilter" class="form-control" name="retailer"><option value="">Select retailer </option></select>')
+			var select = $('<select id="selectFilter" data-style="select-with-transition" class="form-control selectpicker" name="retailer">'
+							+'<option value="">Select retailer </option></select>')
 			.appendTo( $('#retailerNameP').empty().text('') )
 			.on( 'change', function () {
 				var val = $.fn.dataTable.util.escapeRegex(
@@ -349,8 +310,8 @@ $('#date').on("dp.show", function(e) {
                 },
                 
                 clickInvoice(id, month) {
-    window.location = "{{url('doorder/invoice_view/')}}/"+id + "?month=" + month
-}
+                    window.location = "{{url('doorder/invoice_view/')}}/"+id + "?month=" + month
+                }
             }
         });
     </script>

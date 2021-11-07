@@ -229,6 +229,98 @@ li .nav-link:hover  i {
 	color: #171B1E !important;
 }
 
+.invoiceCard .invoiceTitleH4 {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: normal !important;
+	font-size: 25px;
+	line-height: 21px;
+	color: #6E6B7B !important;
+}
+
+.invoiceCard .invoiceTitleH5 {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 600 !important;
+	font-size: 16px;
+	line-height: 27px;
+	color: #171B1E !important;
+}
+
+.invoiceCard .invoiceTitleH6 {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 500 !important;
+	font-size: 18px;
+	line-height: 22px;
+	color: #5E5873 !important;
+	text-transform: capitalize;
+}
+
+.invoiceCard .invoiceTitleP {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 400 !important;
+	font-size: 16px;
+	line-height: 27px;
+	color: #6E6B7B !important;
+	margin-bottom: 0;
+}
+
+.invoiceCard .invoiceTitleLabel, .invoiceDateSpan, .tfootLabelTh {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 21px;
+	color: #6E6B7B;
+}
+
+.invoiceCard .invoiceTitleValue, .invoiceServiceP {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 23px;
+	color: #5E5873;
+	margin-bottom: 4px
+}
+
+.invoiceCard .invoicePaymentDetails, .tfootValueTh {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 21px;
+	color: #6E6B7B;
+}
+
+.invoicePaymentLabel {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 21px;
+	color: #6E6B7B;
+}
+
+.invoicePaymentSpan {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 21px;
+	color: #6E6B7B;
+}
+
+.invoicePaymentLabel i {
+	color: #E8CA49;
+	font-weight: 500
+}
+
+.invoiceCard .card-header, .card-body.cardBodyPaymentDetails {
+	border-bottom: 1px solid #eee;
+}
 /*********** orders tabs *******/
 .nav-pills.ordersListPills .nav-item .nav-link {
 	font-family: Montserrat;
@@ -296,7 +388,7 @@ div.dataTables_wrapper div.dataTables_filter input {
 	font-size: 14px !important;
 	line-height: 21px;
 	color: #6E6B7B;
-	text-align: left !important;
+	/* text-align: left !important; */
 }
 
 .ordersListTable tbody tr td:first-child {
@@ -367,6 +459,16 @@ div.dataTables_wrapper div.dataTables_filter input {
 .doorderTable td .orderStatusSpan.notDeliveredStatus {
 	color: #d85656;
 	background-color: #d856561f
+}
+
+.doorderTable td .orderStatusSpan.invoicedStatus {
+	color: #28C76F;
+	background: #28C76F1F;
+}
+
+.doorderTable td .orderStatusSpan.awaitingInvoiceStatus {
+	color: #FF9F43;
+	background: #FF9F431F;
 }
 
 .tooltipC {
@@ -447,7 +549,6 @@ ul.pagination {
 	{
 	background: #F7DC69;
 	border-radius: 29px !important;
-	font-family: Montserrat;
 	font-style: normal;
 	font-weight: 600;
 	font-size: 14px;
@@ -457,10 +558,31 @@ ul.pagination {
 }
 
 .pagination .page-item:first-child a, .pagination .page-item:first-child span,
-	.pagination .page-item:last-child a, .pagination .page-item:last-child span
+	.pagination .page-item:last-child a, .pagination .page-item:last-child span,
+	.pagination .paginate_button.first a, .pagination .paginate_button.previous a,
+	.pagination .paginate_button.next a, .pagination .paginate_button.last a
 	{
 	color: #E9C218;
 	font-size: 16px;
+}
+
+.dataTables_length select.form-control:not([size]):not([multiple]) {
+	height: 36px !important;
+	padding: 8px 14px 8px 14px;
+	border-radius: 5px;
+	box-shadow: 0 2px 48px 0 rgb(0 0 0/ 8%);
+	border: 1px solid #eee !important;
+	background-color: #ffffff;
+	font-family: Montserrat;
+	font-size: 14px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	letter-spacing: 0.77px;
+	color: #4d4d4d;
+	width: auto;
+	height: auto;
+	background-color: #ffffff;
 }
 
 .doorderDashboardTable thead tr th {
@@ -511,7 +633,8 @@ ul.pagination {
 .ui-datepicker-calendar td, .ui-datepicker-calendar th {
 	font-family: Montserrat;
 }
-.ui-datepicker-calendar td a{
+
+.ui-datepicker-calendar td a {
 	text-align: center;
 }
 
@@ -522,10 +645,56 @@ ul.pagination {
 	background-color: #60A244;
 }
 
+.bootstrap-datetimepicker-widget  .datepicker th,
+	.bootstrap-datetimepicker-widget  .datepicker td {
+	font-family: Montserrat;
+}
+
+.viewIcon {
+	height: 30px;
+}
+
+table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before,
+	table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_desc:before,
+	table.dataTable thead .sorting_desc_disabled:before {
+	top: auto !important;
+	left: 84%;
+	right: 8px;
+	font-size: 18px
+}
+
+table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after,
+	table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc:after,
+	table.dataTable thead .sorting_desc_disabled:after {
+	top: auto !important;
+	left: 90%;
+	right: 0;
+	font-size: 18px
+}
+
+div.dataTables_wrapper div.dataTables_info {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 21px;
+	/* identical to box height, or 150% */
+	color: #B9B9C3;
+	margin-top: 20px;
+}
+
+div.dataTables_wrapper div.dataTables_paginate {
+	margin-top: 20px;
+}
+
+#invoiceListTable tfoot tr:first-child th, #invoiceListTable tfoot tr th.tfootBorderTh
+	{
+	border-top: 1px solid #EBE9F1 !important;
+}
 /*********** buttons ************/
 .btn-doorder-filter {
-	background: #E8CA49;
-	border: 1px solid #E8CA49;
+	background: #E9C218;
+	border: 1px solid #E9C218;
 	border-radius: 6px;
 	min-width: 120px;
 	height: 40px;
@@ -549,10 +718,50 @@ ul.pagination {
 	outline: none !important;
 }
 
-/****************************/
-#dashboardFilterRowDiv .inputFilter, .mapContainerDiv .inputFilter {
+.btnDoorder {
+	border-radius: 6px;
+	min-width: 180px;
+	height: 40px;
 	font-family: Montserrat;
-	font-size: 14px;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 21px;
+	color: #FFFFFF;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	user-select: none;
+	padding: 6px 14px;
+}
+
+.btn-doorder-primary {
+	background: #E9C218;
+	border: 1px solid #E9C218;
+}
+
+.btn-doorder-green {
+	background: #60A244;
+	border: 1px solid #60A244;
+}
+
+.btn-doorder-grey {
+	background: #4d4d4d;
+	border: 1px solid #4d4d4d;
+}
+
+.btn-doorder-danger-outline {
+	color: #DB3C3C;
+	background: #fff;
+	border: 2px solid #DB3C3C;
+	font-size: 17px
+}
+
+/****************************/
+#dashboardFilterRowDiv .inputFilter, .mapContainerDiv .inputFilter,
+	.filterContrainerDiv .inputFilter {
+	font-family: Montserrat;
+	font-size: 12px;
 	font-weight: normal;
 	font-stretch: normal;
 	font-style: normal;
@@ -750,6 +959,7 @@ ul.pagination {
 div.dropdown.bootstrap-select.form-control {
 	height: 40px;
 	border-radius: 7px;
+	border: 1px solid #eee;
 }
 
 button.dropdown-toggle.select-with-transition {
@@ -765,10 +975,60 @@ button.dropdown-toggle.select-with-transition {
 	height: 40px !important;
 }
 
-.selectShowPinsContainer .dropdown-toggle:after {
+.filter-option {
+	padding-top: 3px !important;
+	padding-left: 14px !important;
+}
+
+.selectShowPinsContainer .dropdown-toggle:after, .filterContrainerDiv .dropdown-toggle:after
+	{
 	color: #E9C218;
 	border-top: 0.5em solid;
 	border-right: 0.5em solid transparent;
 	border-bottom: 0;
 	border-left: 0.5em solid transparent;
+}
+
+.inputWithIconDiv img {
+	position: absolute;
+	top: 8px;
+	left: 6px;
+	z-index: 9999;
+}
+
+.inputWithIconDiv .form-control {
+	position: relative;
+	padding-left: 35px !important;
+}
+
+.bootstrap-select .dropdown-item.active {
+	box-shadow: none;
+	font-weight: 600;
+}
+
+.dropdown-menu .dropdown-item:focus, .dropdown-menu .dropdown-item:hover,
+	.dropdown-menu a:active, .dropdown-menu a:focus, .dropdown-menu a:hover
+	{
+	box-shadow: none !important;
+	font-weight: 500;
+}
+
+.modalHeaderMessage {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 20px;
+	line-height: 25px;
+	text-align: center;
+	color: #252525;
+	margin-top: 10px;
+	margin-bottom: 25px;
+}
+
+@media ( min-width :768px) {
+	.invoiceDoorderBottomRow {
+		position: absolute;
+		right: 0;
+		bottom: 0
+	}
 }

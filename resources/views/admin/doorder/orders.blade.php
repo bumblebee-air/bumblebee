@@ -235,12 +235,12 @@
 												<tr v-for="order in orders.data"
 													v-if="orders.data.length > 0" @click="openOrder(order.id)"
 													class="order-row">
-													<td>@{{ order.time }}</td>
-													<td>@{{order.order_id.includes('#')? order.order_id :
+													<td class="text-left">@{{ order.time }}</td>
+													<td class="text-left">@{{order.order_id.includes('#')? order.order_id :
 														'#'+order.order_id}}</td>
-													<td>@{{order.fulfilment_at}}</td>
-													<td>@{{order.retailer_name}}</td>
-													<td><span v-if="order.status == 'pending'"
+													<td class="text-left">@{{order.fulfilment_at}}</td>
+													<td class="text-left">@{{order.retailer_name}}</td>
+													<td class="text-left"><span v-if="order.status == 'pending'"
 														class="orderStatusSpan pendingStatus">Pending fullfilment</span>
 														<span v-if="order.status == 'ready'"
 														class="orderStatusSpan readyStatus">Ready to Collect</span>
@@ -265,8 +265,8 @@
 
 													</td>
 
-													<td>@{{ order.driver != null ? order.driver : 'N/A' }}</td>
-													<td>
+													<td class="text-left">@{{ order.driver != null ? order.driver : 'N/A' }}</td>
+													<td class="text-left">
 														<p style="" class="tablePinSpan tooltipC mb-0">
 															<span> <i class="fas fa-map-marker-alt"
 																style="color: #747474"></i> <span

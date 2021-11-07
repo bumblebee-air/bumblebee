@@ -394,6 +394,7 @@ Route::group([
             Route::get('invoice', 'doorder\InvoiceController@getInvoiceList')->name('doorder_getInvoiceList');
             Route::post('invoice/export', 'doorder\InvoiceController@exportInvoiceList')->name('doorder_exportInvoiceList');
             Route::get('invoice_view/{id}', 'doorder\InvoiceController@getSingleInvoice')->name('doorder_getSingleInvoice');
+            Route::get('invoice_edit/{id}', 'doorder\InvoiceController@getEditSingleInvoice')->name('doorder_getEditSingleInvoice');
             Route::post('send_invoice/{id}', 'doorder\InvoiceController@postSendInvoice')->name('doorder_sendInvoice');
             
             Route::post('send_invoice_email', 'doorder\InvoiceController@postSendInvoiceEmail')->name('doorder_sendInvoiceEmail');

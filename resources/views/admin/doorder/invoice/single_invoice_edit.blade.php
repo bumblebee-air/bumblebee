@@ -74,7 +74,7 @@ table.doorderTable {
 	margin-top: 0
 }
 </style>
-@endsection @section('title','DoOrder | Invoice ' . $retailer->id)
+@endsection @section('title','DoOrder |Edit Invoice ' . $retailer->id)
 @section('page-content')
 <div class="content" id="app">
 	<div class="container-fluid">
@@ -104,7 +104,8 @@ table.doorderTable {
 										<p class="invoiceTitleP">{{$user->phone}}</p>
 									</div>
 
-									<div class="col-12 col-sm-6 text-md-right text-left mt-md-1 mt-2">
+									<div
+										class="col-12 col-sm-6 text-md-right text-left mt-md-1 mt-2">
 										<div class="row ">
 											<div class="col-xl-4 col-md-2"></div>
 											<div class="col-xl-4 col-md-5 col-6">
@@ -156,9 +157,7 @@ table.doorderTable {
 										</div>
 									</div>
 									<div class="col-md-6">
-										<div class="row invoiceDoorderBottomRow"
-											style="">
-
+										<div class="row invoiceDoorderBottomRow">
 											<div class="col-12">
 												<label class="invoicePaymentLabel float-right"><i
 													class="fab fa-chrome"></i> www.doorder.eu</label>
@@ -197,7 +196,7 @@ table.doorderTable {
 												<tr>
 													<th width="70%" colspan="4">Service</th>
 													<th width="10%" class="text-center">QTY</th>
-													<th width="10%" >Price</th>
+													<th width="10%">Price</th>
 													<th width="10%" class="text-center">Total</th>
 												</tr>
 
@@ -229,7 +228,7 @@ table.doorderTable {
 												<tr>
 													<th colspan="5"></th>
 													<th class="tfootLabelTh tfootBorderTh">Total</th>
-													<th class="tfootValueTh tfootBorderTh text-center">€{{$total}}</th>
+													<th class="tfootValueTh  tfootBorderTh text-center">€{{$total}}</th>
 												</tr>
 											</tfoot>
 										</table>
@@ -247,30 +246,29 @@ table.doorderTable {
 							<div class="container w-100" style="max-width: 100%">
 
 								@if(auth()->user()->user_role != 'retailer')
-								<div class="row justify-content-center ">
+								<div class="row  justify-content-center">
 									<div class="col-xl-2 offset-xl-6 col-md-3  col-sm-4 text-center">
-										<button class="btnDoorder btn-doorder-grey  mb-1"
-										onclick="editInvoice({{$retailer->id}},'{{$month}}')"
-										>Edit</button>
+										<button class="btnDoorder btn-doorder-grey mb-1"
+											onclick="editInvoice({{$retailer->id}},'{{$month}}')">Save</button>
 
 									</div>
-									<div class=" col-xl-2 col-lg-3 col-md-3 col-sm-4 text-center">
+									<div class=" col-xl-2 col-md-3  col-sm-4 text-center text-center">
 										<form method="POST"
 											action="{{route('doorder_sendInvoice',['doorder',$retailer->id, 'month' => $_GET['month']])}}"
 											id="invoice_orders_form" style="margin: 0 !important;">{{csrf_field()}}</form>
-										<button class="btnDoorder btn-doorder-primary  mb-1"
+										<button class="btnDoorder btn-doorder-primary mb-1"
 											@click="submitForm">Invoice</button>
 									</div>
-									<div class=" col-xl-2 col-lg-3 col-md-3 col-sm-4 text-center">
+									<div class=" col-xl-2 col-md-3  col-sm-4 text-center">
 										<button type="button"
-											class="btnDoorder btn-doorder-green  mb-1"
+											class="btnDoorder btn-doorder-green mb-1"
 											onclick="clickSendEmail({{$retailer->id}},'{{$month}}')">Send
 											invoice email</button>
 									</div>
 
 								</div>
 								@else
-								<div class="row ">
+								<div class="row  justify-content-center">
 
 									<div class="col text-center">
 										<a class="btnDoorder btn-doorder-primary"
@@ -300,8 +298,8 @@ table.doorderTable {
 				</button>
 			</div>
 			<div class="modal-body">
-				<div class="modal-dialog-header modalHeaderMessage">Are you sure you want
-					to send the invoice email to the retailer</div>
+				<div class="modal-dialog-header modalHeaderMessage">Are you sure you
+					want to send the invoice email to the retailer</div>
 
 				<div>
 
@@ -314,14 +312,13 @@ table.doorderTable {
 				</div>
 			</div>
 			<div class="row  justify-content-center">
-				<div class="col-lg-4 col-md-6 text-center">
-					<button type="button"
-						class="btnDoorder btn-doorder-primary mb-1"
+				<div class="col-lg-4 col-md-6  text-center">
+					<button type="button" class="btnDoorder btn-doorder-primary mb-1"
 						onclick="$('form#sendEmailForm').submit()">Yes</button>
 				</div>
-				<div class="col-lg-4 col-md-6 text-center">
+				<div class="col-lg-4 col-md-6  text-center">
 					<button type="button"
-						class="btnDoorder btn-doorder-danger-outline mb-1 "
+						class="btnDoorder btn-doorder-danger-outline mb-1"
 						data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
@@ -332,7 +329,8 @@ table.doorderTable {
 
 <!-- cinfirm invoice modal -->
 <div class="modal fade" id="confirm-invoice-modal" tabindex="-1"
-	role="dialog" aria-labelledby="confirm-invoice-label" aria-hidden="true">
+	role="dialog" aria-labelledby="confirm-invoice-label"
+	aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -342,16 +340,16 @@ table.doorderTable {
 				</button>
 			</div>
 			<div class="modal-body">
-				<div class="modal-dialog-header modalHeaderMessage">Are you sure you want to invoice these orders?</div>
+				<div class="modal-dialog-header modalHeaderMessage">Are you sure you
+					want to invoice these orders?</div>
 
 			</div>
 			<div class="row  justify-content-center">
-				<div class="col-lg-4 col-md-6 text-center">
-					<button type="button"
-						class="btnDoorder btn-doorder-primary mb-1"
+				<div class="col-lg-4 col-md-6  text-center">
+					<button type="button" class="btnDoorder btn-doorder-primary mb-1"
 						onclick="$('#invoice_orders_form').submit()">Yes</button>
 				</div>
-				<div class="col-lg-4 col-md-6 text-center">
+				<div class="col-lg-4 col-md-6  text-center">
 					<button type="button"
 						class="btnDoorder btn-doorder-danger-outline mb-1"
 						data-dismiss="modal">No</button>
@@ -373,9 +371,6 @@ function clickSendEmail(retailer_id,month){
     $('#send-email-modal #month').val(month);
 }
 
-function editInvoice(id,month){
- window.location = "{{url('doorder/invoice_edit/')}}/"+id + "?month=" + month
-}
 
 
 $( document ).ready(function() {
@@ -400,27 +395,6 @@ $( document ).ready(function() {
 			
 				submitForm(e) {
 					$('#confirm-invoice-modal').modal('show');
-// 					swal({
-// 						// title: "Good job!",
-// 						text: "",
-// 						icon: "info",
-// 						buttons: {
-// 							accept: {
-// 								text: "Yes",
-// 								value: "yes",
-// 								className: 'btn-doorder-primary w-100'
-// 							},
-// 							reject: {
-// 								text: "No",
-// 								value: "no",
-// 								className: 'btn-doorder-danger-outline w-100'
-// 							}
-// 						}
-// 					}).then((input) => {
-// 						if (input === 'yes') {
-							
-// 						}
-// 					});
 				}
 			}
         });

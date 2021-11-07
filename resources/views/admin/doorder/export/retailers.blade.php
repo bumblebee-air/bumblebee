@@ -11,8 +11,8 @@
                         <th style="vertical-align: middle;width: 15%;text-align: center;width:160px">Company Name</th>
                         <th style="vertical-align: middle;width: 15%;text-align: center;width:160px">Company Website</th>
                         <th style="vertical-align: middle;width: 15%;text-align: center;width:160px">Business Type</th>
-                        <th colspan="4" style="vertical-align: middle;width: 15%;text-align: center;width:160px; height:250px">Location</th>
-                        <th colspan="4" style="vertical-align: middle;width: 15%;text-align: center;width:160px; height:250px">Contact Information</th>
+                        <th colspan="4" style="vertical-align: middle;width: 15%;text-align: center;width:160px; ">Location</th>
+                        <th colspan="4" style="vertical-align: middle;width: 15%;text-align: center;width:160px; ">Contact Information</th>
                     </tr>
                     </thead>
                     <tbody>

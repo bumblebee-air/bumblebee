@@ -491,6 +491,10 @@ Vue.use('vue-cascader-select');
                     id: 'collection_delay',
                     label: 'Collection delay',
                     customLabel: 'Service Delivery, Collection delay'
+                  }, {
+                    id: 'external_store_fulfillment',
+                    label: 'External store fulfillment',
+                    customLabel: 'Service Delivery, External store fulfillment'
                   } ],
                 }, {
                   id: 'payments',

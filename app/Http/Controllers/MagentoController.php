@@ -184,6 +184,7 @@ class MagentoController extends Controller
         if($order){
             $order->status = 'ready';
             $order->save();
+            CustomNotificationHelper::send('external_store_fulfillment', $order->id);
         }
         return response()->json(['error'=>0,'message'=>'Order fulfillment received successfully']);
     }

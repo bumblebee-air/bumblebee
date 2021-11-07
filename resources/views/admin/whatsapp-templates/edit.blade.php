@@ -1,16 +1,18 @@
 @extends('templates.dashboard')
 @section('page-styles')
-<style>
-    .main-panel>.content {
-        margin-top: 0;
-    }
+    <link rel="stylesheet" href="{{asset('css/select2.min.css')}}"/>
+    <link rel="stylesheet" href="{{asset('css/select2-bootstrap4.min.css')}}"/>
+    <style>
+        .main-panel>.content {
+            margin-top: 0;
+        }
 
-    h3 {
-        margin-top: 0;
-        margin-bottom: 25px;
-        font-weight: bold;
-    }
-</style>
+        h3 {
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+    </style>
 @endsection
 @section('page-content')
 <div class="content">
@@ -32,7 +34,16 @@
                             <input id="name" name="name" type="text" class="form-control" value="{{ $template->name }}" placeholder="Enter template name" required>
                         </div>
 
-                        <br />
+                        <div class="form-group bmd-form-group">
+                            <label for="service-type">Service type</label>
+                            <select id="service-type" name="service_type" class="form-control" required>
+                                <option value="">Select service type</option>
+                                @foreach($service_types as $service_type)
+                                    <option value="{{$service_type->id}}"
+                                        @if($template->service_type_id == $service_type->id) selected @endif>{{$service_type->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
                         <div class="form-group bmd-form-group">
                             <a href="javascript:void(0)" type="button" title="Instructions" class="float-right" id="instruction-btn" onclick="openInstructionModel()"><i style="color:#333333;" class="material-icons">info</i></a>
@@ -72,7 +83,14 @@
 
 @section('page-scripts')
 <script src="{{ asset('js/bootstrap-selectpicker.js') }}"></script>
+<script src="{{asset('js/select2.min.js')}}"></script>
 <script type="text/javascript">
+    $(document).ready(function(){
+        $('#service-type').select2({
+            theme: 'bootstrap4',
+        });
+    });
+
     function openInstructionModel() {
         $("#instructionModal").modal('show');
     }

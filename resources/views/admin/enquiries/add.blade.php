@@ -91,6 +91,16 @@
                                     @endforeach
                                 </select>
                             </div>
+
+                            <div class="form-group bmd-form-group">
+                                <label for="whatsapp-template">Whatsapp Template</label>
+                                <select id="whatsapp-template" name="whatsapp_template" class="form-control">
+                                    <option value="">Select template</option>
+                                    @foreach($whatsapp_templates as $template)
+                                        <option value="{{$template->id}}">{{$template->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                         <div class="card-btns">
                             <button type="submit" class="btn btn-fill btn-rose">Add</button>
@@ -136,6 +146,9 @@
         $('#contractor').select2({
             theme: 'bootstrap4',
         });
+        $('#whatsapp-template').select2({
+            theme: 'bootstrap4',
+        });
     });
 
     let suppliers = {!! $suppliers !!};
@@ -165,6 +178,15 @@
         });
 
         let customer_location = document.getElementById('location');
+        //Mutation observer hack for chrome address autofill issue
+        let observerHackAddress = new MutationObserver(function() {
+            observerHackAddress.disconnect();
+            customer_location.setAttribute("autocomplete", "new-password");
+        });
+        observerHackAddress.observe(customer_location, {
+            attributes: true,
+            attributeFilter: ['autocomplete']
+        });
         let autocomplete = new google.maps.places.Autocomplete(customer_location);
         autocomplete.setComponentRestrictions({'country': ['ie','gb']});
         

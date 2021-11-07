@@ -4,6 +4,7 @@ namespace App\Http\Controllers\doorder;
 
 use App\Contractor;
 use App\DriverProfile;
+use App\GeneralSetting;
 use App\Helpers\CustomNotificationHelper;
 use App\Helpers\SecurityHelper;
 use App\Helpers\TwilioHelper;
@@ -363,10 +364,17 @@ class DriversController extends Controller
             $main_contact = $contact_details[0];
             $retailer_number = $main_contact->contact_phone;
         }
+        $general_setting = GeneralSetting::first();
         if($retailer_number!='N/A') {
             $msg_content = "Hi $retailer->name , the order no. $order->order_id has been delivered, you can" .
                 " rate your deliverer through the link: " . url('doorder/order/rating/1/' . $order_id);
-            TwilioHelper::sendSMS('DoOrder', $retailer_number, $msg_content);
+            if ($general_setting) {
+                if ($general_setting->retailers_automatic_rating_sms) {
+                    TwilioHelper::sendSMS('DoOrder', $retailer_number, $msg_content);
+                }
+            } else {
+                TwilioHelper::sendSMS('DoOrder', $retailer_number, $msg_content);
+            }
         }
         $response = [
             'message' => 'Delivery confirmation skipped successfully',
@@ -846,14 +854,25 @@ class DriversController extends Controller
         $order_ids = [];
         foreach ($driver_orders as $order){
             $order_ids[] = $order->id;
+            $order->rating_retailer = 0;
+            $order->rating_customer = 0;
             if(count($order->rating)>0){
-                $order_rating = 0;
+//                 $order_rating = 0;
+//                 foreach($order->rating as $a_rating){
+//                     $order_rating += $a_rating->rating;
+//                 }
+//                 $driver_rating = $order_rating / count($order->rating);
+//                 //Round to nearest half decimal
+//                 $order->driver_rating = round($driver_rating * 2)/2;
                 foreach($order->rating as $a_rating){
-                    $order_rating += $a_rating->rating;
+                    if($a_rating->user_type=='retailer'){
+                        $order->rating_retailer = $a_rating->rating;
+                    }
+                    if($a_rating->user_type=='customer'){
+                        $order->rating_customer = $a_rating->rating;
+                    }
                 }
-                $driver_rating = $order_rating / count($order->rating);
-                //Round to nearest half decimal
-                $order->driver_rating = round($driver_rating * 2)/2;
+                    
             } else {
                 $order->driver_rating = 0;
             }
@@ -1050,7 +1069,7 @@ class DriversController extends Controller
         $deliverers_coordinates[] = ['deliverer_id'=>(string)$driver_id,'deliverer_coordinates'=>$driver_coordinates];
         $route_opt_url = env('ROUTE_OPTIMIZE_URL','https://afternoon-lake-03061.herokuapp.com') . '/routing_table';
         $route_optimization_req = Http::post($route_opt_url,[
-            'deliverer_coordinates' => $deliverers_coordinates,
+            'deliverers_coordinates' => json_encode($deliverers_coordinates),
             'orders_address' => json_encode($orders_data)
         ]);
         if($route_optimization_req->status()!=200){

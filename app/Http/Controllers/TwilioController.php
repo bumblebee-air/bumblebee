@@ -243,17 +243,26 @@ class TwilioController extends Controller
 
     public function crashDetectionTwiml(Request $request){
         $response = new VoiceResponse();
-        $response->say(
+        /*$response->say(
             "Hi, This is the Bumblebee system checking on you since we received a possible crash report.".
                 "Do you require help now? please reply with yes or no.",
             array("voice" => "woman", "language"=>"en-gb")
+        );*/
+        $response->say(
+            "Hi, This is the Bumblebee system checking on you since we received a possible crash report",
+            array("voice" => "woman", "language"=>"en-GB")
+        );
+        $response->say(
+            "Are you OK? please reply with yes or no",
+            array("voice" => "alice", "language"=>"en-GB")
         );
         $response->record([
             'maxLength' => '5',
             'method' => 'POST',
-            'action' => url('api/twilio-record-hangup'),
-            'transcribeCallback' => url('api/process-crash-detection-recording')
+            //'action' => url('api/twilio-record-hangup'),
+            //'transcribeCallback' => url('api/process-crash-detection-recording')
         ]);
+        \Log::debug('CrashDetectionRecording:  '.$response);
         $response->say(
             "Sorry, no recording received. Goodbye",
             array("voice" => "woman", "language"=>"en-gb")

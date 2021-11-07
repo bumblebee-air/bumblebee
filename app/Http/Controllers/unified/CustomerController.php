@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Imports\UnifiedCustomersImport;
 use App\UnifiedCustomer;
 use App\UnifiedCustomerService;
+use App\UnifiedEngineerJob;
 use App\UnifiedService;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
 
 class CustomerController extends Controller
@@ -143,8 +145,8 @@ class CustomerController extends Controller
         $services_types_json = json_decode($request->serviceTypeSelectValues, true);
         $request->request->add(['email' => $contact_details_json[0]['contactEmail'], 'phone' => $contact_details_json[0]['contactNumber']]);
         $this->validate($request, [
-            'email' => 'unique:users',
-            'phone' => 'unique:users',
+            'email' => Rule::unique('users', 'email')->whereNot('id', $customer->user_id),
+            'phone' => Rule::unique('users', 'phone')->whereNot('id', $customer->user_id),
         ], [
             'email.unique' => "The email '$request->email' has already been taken.",
             'phone.unique' => "The phone '$request->phone' has already been taken.",
@@ -1177,6 +1179,31 @@ class CustomerController extends Controller
         $accountTypes = array();
 
         return $accountTypes;
+    }
+
+    public function getJobConfirmation(Request $request, $confirmation_code) {
+        $job = UnifiedEngineerJob::where('customer_confirmation_code', $confirmation_code)->first();
+        if (!$job) {
+            abort(404);
+        }
+        return view('unified.confirm_job', [
+            'job' => $job
+        ]);
+    }
+
+    public function postJobConfirmation(Request $request, $confirmation_code) {
+        $job = UnifiedEngineerJob::where('customer_confirmation_code', $confirmation_code)->where('engineer_confirmation_code')->first();
+        if (!$job) {
+            alert()->error('There is no job with this confirmation code.');
+            return redirect()->back();
+        }
+        $job->update([
+            'confirmation_status' => 'confirmed'
+        ]);
+        alert()->error('The job has confirmed successfully.');
+        return view('unified.confirm_job', [
+            'job' => $job
+        ]);
     }
 }
 

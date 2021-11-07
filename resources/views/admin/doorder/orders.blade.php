@@ -16,19 +16,19 @@
 				<div class="col-md-12">
 					<div class="card">
 						<div class="card-header card-header-icon card-header-rose row">
-							<div class="col-12 col-lg-5 col-md-6">
+							<div class="col-12 col-lg-5 col-md-6 col-sm-6">
 
 								<h4 class="card-title my-4">Orders List</h4>
 							</div>
-							<div class="col-12 col-lg-7 col-md-6">
+							<div class="col-12 col-lg-7 col-md-6 col-sm-6">
 								<div class="row justify-content-end float-sm-right">
 
-									<ul class="nav nav-pills ordersListPills my-3" id="pills-tab"
-										role="tablist">
-										<li class="nav-item"><a class="nav-link active" id="pills-list-tab"
-											data-toggle="pill" href="#ordersListView" role="tab"
-											aria-controls="ordersListView" aria-selected="false">Switch
-												to list view</a></li>
+									<ul class="nav nav-pills ordersListPills my-sm-3 mt-0 mb-1"
+										id="pills-tab" role="tablist">
+										<li class="nav-item"><a class="nav-link active"
+											id="pills-list-tab" data-toggle="pill" href="#ordersListView"
+											role="tab" aria-controls="ordersListView"
+											aria-selected="false">Switch to list view</a></li>
 										<li class="nav-item"><a class="nav-link "
 											id="pills-calendar-tab" data-toggle="pill"
 											href="#ordersCalendarView" role="tab"
@@ -41,8 +41,8 @@
 						</div>
 					</div>
 					<div class="tab-content" id="pills-tabContent">
-						<div class="tab-pane fade" id="ordersCalendarView"
-							role="tabpanel" aria-labelledby="pills-calendar-tab">
+						<div class="tab-pane fade" id="ordersCalendarView" role="tabpanel"
+							aria-labelledby="pills-calendar-tab">
 							<div class="card">
 
 								<div class="card-body pr-0 py-0">
@@ -52,128 +52,124 @@
 												<div id="filterByStatusDiv" class="calendarFilterDiv">
 													<h3 class="calendarFilterH3">Filter by status</h3>
 
-													<div class="form-check">
-														<label
-															class="form-check-label calendarFilterLabel viewAllLabel"
-															for="view-all-status"> <input type="checkbox" value="all"
-															checked="checked" class="form-check-input"
-															id="view-all-status" name="filterByStatus" /> View all <span
-															class="form-check-sign"> <span class="check"></span>
-														</span>
-														</label>
-													</div>
-													<div class="form-check">
-														<label
-															class="form-check-label calendarFilterLabel pendingStatusLabel"
-															for="pending-status"> <input type="checkbox"
-															value="pending" class="form-check-input"
-															id="pending-status" name="filterByStatus" /> Pending
-															fullfilment <span class="form-check-sign"> <span
-																class="check"></span>
-														</span>
-														</label>
-													</div>
-													<div class="form-check">
-														<label
-															class="form-check-label calendarFilterLabel readyStatusLabel"
-															for="ready-status"> <input type="checkbox" value="ready"
-															class="form-check-input" id="ready-status"
-															name="filterByStatus" /> Ready to Collect <span
-															class="form-check-sign"> <span class="check"></span>
-														</span>
-														</label>
-													</div>
-													<div class="form-check">
-														<label
-															class="form-check-label calendarFilterLabel matchedStatusLabel"
-															for="matched-status"> <input type="checkbox"
-															value="matched" class="form-check-input"
-															id="matched-status" name="filterByStatus" /> Matched <span
-															class="form-check-sign"> <span class="check"></span>
-														</span>
-														</label>
-													</div>
-													<div class="form-check">
-														<label
-															class="form-check-label calendarFilterLabel on_route_pickupStatusLabel"
-															for="on_route_pickup-status"> <input type="checkbox"
-															value="on_route_pickup" class="form-check-input"
-															id="on_route_pickup-status" name="filterByStatus" />
-															On-route to pickup <span class="form-check-sign"> <span
-																class="check"></span>
-														</span>
-														</label>
-													</div>
+													<div class="row " style="margin-left: -3px; margin-right: -10px;">
+														
+														<div class="form-check col-6 col-md-12">
+															<label
+																class="form-check-label calendarFilterLabel viewAllLabel"
+																for="view-all-status"> <input type="checkbox"
+																value="all" checked="checked" class="form-check-input"
+																id="view-all-status" name="filterByStatus" /> View all <span
+																class="form-check-sign"> <span class="check"></span>
+															</span>
+															</label>
+														</div>
+														<div class="form-check col-6 col-md-12">
+															<label
+																class="form-check-label calendarFilterLabel pendingStatusLabel"
+																for="pending-status"> <input type="checkbox"
+																value="pending" class="form-check-input"
+																id="pending-status" name="filterByStatus" /> Pending
+																fullfilment <span class="form-check-sign"> <span
+																	class="check"></span>
+															</span>
+															</label>
+														</div>
+														<div class="form-check col-6 col-md-12">
+															<label
+																class="form-check-label calendarFilterLabel readyStatusLabel"
+																for="ready-status"> <input type="checkbox" value="ready"
+																class="form-check-input" id="ready-status"
+																name="filterByStatus" /> Ready to Collect <span
+																class="form-check-sign"> <span class="check"></span>
+															</span>
+															</label>
+														</div>
+														<div class="form-check col-6 col-md-12">
+															<label
+																class="form-check-label calendarFilterLabel matchedStatusLabel"
+																for="matched-status"> <input type="checkbox"
+																value="matched" class="form-check-input"
+																id="matched-status" name="filterByStatus" /> Matched <span
+																class="form-check-sign"> <span class="check"></span>
+															</span>
+															</label>
+														</div>
+														<div class="form-check col-6 col-md-12">
+															<label
+																class="form-check-label calendarFilterLabel on_route_pickupStatusLabel"
+																for="on_route_pickup-status"> <input type="checkbox"
+																value="on_route_pickup" class="form-check-input"
+																id="on_route_pickup-status" name="filterByStatus" />
+																On-route to pickup <span class="form-check-sign"> <span
+																	class="check"></span>
+															</span>
+															</label>
+														</div>
 
-													<div class="form-check">
-														<label
-															class="form-check-label calendarFilterLabel picked_upStatusLabel"
-															for="picked_up-status"> <input type="checkbox"
-															value="picked_up" class="form-check-input"
-															id="picked_up-status" name="filterByStatus" /> Picked up
-															<span class="form-check-sign"> <span class="check"></span>
-														</span>
-														</label>
-													</div>
-													<div class="form-check">
-														<label
-															class="form-check-label calendarFilterLabel on_routeStatusLabel"
-															for="on_route-status"> <input type="checkbox"
-															value="on_route" class="form-check-input"
-															id="on_route-status" name="filterByStatus" /> On-route <span
-															class="form-check-sign"> <span class="check"></span>
-														</span>
-														</label>
-													</div>
+														<div class="form-check col-6 col-md-12">
+															<label
+																class="form-check-label calendarFilterLabel picked_upStatusLabel"
+																for="picked_up-status"> <input type="checkbox"
+																value="picked_up" class="form-check-input"
+																id="picked_up-status" name="filterByStatus" /> Picked up
+																<span class="form-check-sign"> <span class="check"></span>
+															</span>
+															</label>
+														</div>
+														<div class="form-check col-6 col-md-12">
+															<label
+																class="form-check-label calendarFilterLabel on_routeStatusLabel"
+																for="on_route-status"> <input type="checkbox"
+																value="on_route" class="form-check-input"
+																id="on_route-status" name="filterByStatus" /> On-route <span
+																class="form-check-sign"> <span class="check"></span>
+															</span>
+															</label>
+														</div>
 
 
-													<div class="form-check">
-														<label
-															class="form-check-label calendarFilterLabel delivery_arrivedStatusLabel"
-															for="delivery_arrived-status"> <input type="checkbox"
-															value="delivery_arrived" class="form-check-input"
-															id="delivery_arrived-status" name="filterByStatus" />
-															Arrived to location <span class="form-check-sign"> <span
-																class="check"></span>
-														</span>
-														</label>
-													</div>
-													<div class="form-check">
-														<label
-															class="form-check-label calendarFilterLabel deliveredStatusLabel"
-															for="delivered-status"> <input type="checkbox"
-															value="delivered" class="form-check-input"
-															id="delivered-status" name="filterByStatus" /> Delivered
-															<span class="form-check-sign"> <span class="check"></span>
-														</span>
-														</label>
-													</div>
-													<div class="form-check">
-														<label
-															class="form-check-label calendarFilterLabel not_deliveredStatusLabel"
-															for="not_delivered-status"> <input type="checkbox"
-															value="not_delivered" class="form-check-input"
-															id="not_delivered-status" name="filterByStatus" /> Not
-															delivered <span class="form-check-sign"> <span
-																class="check"></span>
-														</span>
-														</label>
+														<div class="form-check col-6 col-md-12">
+															<label
+																class="form-check-label calendarFilterLabel delivery_arrivedStatusLabel"
+																for="delivery_arrived-status"> <input type="checkbox"
+																value="delivery_arrived" class="form-check-input"
+																id="delivery_arrived-status" name="filterByStatus" />
+																Arrived to location <span class="form-check-sign"> <span
+																	class="check"></span>
+															</span>
+															</label>
+														</div>
+														<div class="form-check col-6 col-md-12">
+															<label
+																class="form-check-label calendarFilterLabel deliveredStatusLabel"
+																for="delivered-status"> <input type="checkbox"
+																value="delivered" class="form-check-input"
+																id="delivered-status" name="filterByStatus" /> Delivered
+																<span class="form-check-sign"> <span class="check"></span>
+															</span>
+															</label>
+														</div>
+														<div class="form-check col-6 col-md-12">
+															<label
+																class="form-check-label calendarFilterLabel not_deliveredStatusLabel"
+																for="not_delivered-status"> <input type="checkbox"
+																value="not_delivered" class="form-check-input"
+																id="not_delivered-status" name="filterByStatus" /> Not
+																delivered <span class="form-check-sign"> <span
+																	class="check"></span>
+															</span>
+															</label>
+														</div>
 													</div>
 												</div>
-												<!-- 													 v-if="order.status == 'delivery_arrived'" -->
-												<!-- 														class="orderStatusSpan deliveredArrivedStatus">Arrived to -->
-												<!-- 															location</span> <span v-if="order.status == 'delivered'" -->
-												<!-- 														class="orderStatusSpan deliveredStatus">Delivered</span> <span -->
-												<!-- 														v-if="order.status == ''" -->
-												<!-- 														class="orderStatusSpan notDeliveredStatus">Not delivered</span> -->
 												<div id="filterByRetailerDiv" class="calendarFilterDiv"
-													data-spy="scroll" data-target=".filter-retailers-container"
-													>
+													data-spy="scroll" data-target=".filter-retailers-container">
 
 													<h3 class="calendarFilterH3">Filter by retailer</h3>
-													<div class="filter-retailers-container  overflow-auto"
-														style="max-height: 400px;height: 400px">
-														<div class="form-check">
+													<div class="row filter-retailers-container  overflow-auto"
+														style="max-height: 250px; height: 100%; margin-left: -5px; margin-right: -10px;">
+														<div class="form-check col-6 col-md-12">
 															<label
 																class="form-check-label calendarFilterLabel viewAllLabel"
 																for="view-all-retailer"> <input type="checkbox"
@@ -184,7 +180,7 @@
 															</label>
 														</div>
 														@foreach($retailers as $retailer)
-														<div class="form-check">
+														<div class="form-check col-6 col-md-12">
 															<label
 																class="form-check-label calendarFilterLabel retailerStatusLabel"
 																for="retailer_{{$retailer->id}}"> <input type="checkbox"
@@ -209,8 +205,8 @@
 								</div>
 							</div>
 						</div>
-						<div class="tab-pane fade  show active" id="ordersListView" role="tabpanel"
-							aria-labelledby="pills-list-tab">
+						<div class="tab-pane fade  show active" id="ordersListView"
+							role="tabpanel" aria-labelledby="pills-list-tab">
 							<div class="card">
 								<div class="card-body">
 									<div class="float-right"></div>
@@ -236,11 +232,12 @@
 													v-if="orders.data.length > 0" @click="openOrder(order.id)"
 													class="order-row">
 													<td class="text-left">@{{ order.time }}</td>
-													<td class="text-left">@{{order.order_id.includes('#')? order.order_id :
-														'#'+order.order_id}}</td>
+													<td class="text-left">@{{order.order_id.includes('#')?
+														order.order_id : '#'+order.order_id}}</td>
 													<td class="text-left">@{{order.fulfilment_at}}</td>
 													<td class="text-left">@{{order.retailer_name}}</td>
-													<td class="text-left"><span v-if="order.status == 'pending'"
+													<td class="text-left"><span
+														v-if="order.status == 'pending'"
 														class="orderStatusSpan pendingStatus">Pending fullfilment</span>
 														<span v-if="order.status == 'ready'"
 														class="orderStatusSpan readyStatus">Ready to Collect</span>
@@ -265,7 +262,8 @@
 
 													</td>
 
-													<td class="text-left">@{{ order.driver != null ? order.driver : 'N/A' }}</td>
+													<td class="text-left">@{{ order.driver != null ?
+														order.driver : 'N/A' }}</td>
 													<td class="text-left">
 														<p style="" class="tablePinSpan tooltipC mb-0">
 															<span> <i class="fas fa-map-marker-alt"

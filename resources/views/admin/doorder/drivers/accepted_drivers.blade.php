@@ -26,7 +26,7 @@
 						</div>
 						<div class="card-body">
 							<div style="float: right;">
-								<a href="{{ url()->current()."?export_type=exel" }}" class="btn bt-submit">Export</a>
+								<a href="{{ url()->current()."?export_type=exel" }}" class="btn btn-primary filterButton">Export</a>
 							</div>
 							<div class="table-responsive">
 								<table id="driversTable"

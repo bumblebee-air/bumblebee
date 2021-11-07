@@ -184,6 +184,8 @@ return [
         UxWeb\SweetAlert\SweetAlertServiceProvider::class,
         //Log viewer
         Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
+
+        Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 
     /*
@@ -236,6 +238,8 @@ return [
         //'Es' => Elasticquent\ElasticquentElasticsearchFacade::class,
         //Sweet Alert
         'Alert' => UxWeb\SweetAlert\SweetAlert::class,
+
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 

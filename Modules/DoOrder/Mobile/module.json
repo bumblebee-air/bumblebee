@@ -1,0 +1,13 @@
+{
+    "name": "Doorder Mobile",
+    "alias": "doorder Mobile",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\DoOrder\\Mobile\\Providers\\DoOrderMobileModuleServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

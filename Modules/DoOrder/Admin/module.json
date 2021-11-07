@@ -1,0 +1,13 @@
+{
+    "name": "Doorder Super Admin",
+    "alias": "Doorder Super Admin",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\DoOrder\\Admin\\Providers\\DoOrderAdminModuleServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

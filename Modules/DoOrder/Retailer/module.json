@@ -1,0 +1,13 @@
+{
+    "name": "Doorder Retailer",
+    "alias": "doorder Retailer",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\DoOrder\\Retailer\\Providers\\DoOrderRetailerModuleServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

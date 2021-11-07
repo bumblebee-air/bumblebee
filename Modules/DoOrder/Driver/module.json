@@ -1,0 +1,13 @@
+{
+    "name": "Doorder Driver",
+    "alias": "doorder Driver",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\DoOrder\\Driver\\Providers\\DoOrderDriverModuleServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

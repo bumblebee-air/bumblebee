@@ -200,7 +200,7 @@ background-image: url("../images/doorder-new-layout/doorder-login-background.png
 									</div>
 								</div>
 								<div class="col-md-6 mt-2 mb-4">
-									<a id="forgetPasswordA" href="{{url('password/reset')}}" class="float-right">Forget
+									<a id="forgetPasswordA" href="{{url('doorder/password/reset')}}" class="float-right">Forget
 										password?</a>
 								</div>
 							</div>

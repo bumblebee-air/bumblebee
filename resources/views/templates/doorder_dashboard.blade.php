@@ -126,7 +126,8 @@
 						</div>
 						<ul class="nav navbar-nav navbar-right">
 
-							<li class="nav-item dropdown"><a class="nav-link navbarDropdownMenuLink" href=""
+							<li class="nav-item dropdown"><a
+								class="nav-link navbarDropdownMenuLink" href=""
 								id="navbarDropdownMenuLinkNotification" data-toggle="dropdown"
 								aria-haspopup="true" aria-expanded="false"> <img
 									src="{{asset('images/doorder-new-layout/notification-grey.png')}}" />
@@ -139,7 +140,8 @@
 										class="dropdown-item" href="#">Notification 3</a>
 								</div></li>
 
-							<li class="nav-item dropdown"><a class="nav-link navbarDropdownMenuLink" href=""
+							<li class="nav-item dropdown"><a
+								class="nav-link navbarDropdownMenuLink" href=""
 								id="navbarDropdownMenuLinkInbox" data-toggle="dropdown"
 								aria-haspopup="true" aria-expanded="false"> <img
 									src="{{asset('images/doorder-new-layout/inbox-grey.png')}}" />
@@ -150,7 +152,8 @@
 									<a class="dropdown-item" href="#">Inbox 1</a>
 								</div></li>
 
-							<li class="nav-item dropdown"><a class="nav-link navbarDropdownMenuLink" href=""
+							<li class="nav-item dropdown"><a
+								class="nav-link navbarDropdownMenuLink" href=""
 								id="navbarDropdownMenuLinkCalendar" data-toggle="dropdown"
 								aria-haspopup="true" aria-expanded="false"> <img
 									src="{{asset('images/doorder-new-layout/calendar-grey.png')}}" />
@@ -163,15 +166,15 @@
 										class="dropdown-item" href="#">order 3</a>
 								</div></li>
 							<li class="nav-item dropdown"><a href="#" class="nav-link"
-								data-toggle="dropdown" id="navbarDropdownProfile"> 
+								data-toggle="dropdown" id="navbarDropdownProfile">
 									@if($user->logo)
-									<div class="userLogoNavbarImg"><img class="rounded-circle article-img"
-									src="{{asset('images/doorder-new-layout/calendar-grey.png')}}" /></div>
-									@else
+									<div class="userLogoNavbarImg">
+										<img class="rounded-circle article-img"
+											src="{{asset('images/doorder-new-layout/calendar-grey.png')}}" />
+									</div> @else
 									<div class="userLogoNavbar">
-									<span>{{explode(' ', $user->name)[0][0]}}</span></div>
-									@endif
-									<!-- <div class="userLogoNavbar">{{explode(' ', $user->name)[0][0]}}</div> -->
+										<span>{{explode(' ', $user->name)[0][0]}}</span>
+									</div> @endif <!-- <div class="userLogoNavbar">{{explode(' ', $user->name)[0][0]}}</div> -->
 									<p class="profileNameNavbar">{{$user->name}}</p>
 									<p class="profileUserTypeNavbar">{{$user->user_role}}</p>
 							</a>
@@ -209,6 +212,8 @@
 	<script src="{{asset('js/dataTables.bootstrap4.min.js')}}"></script>
 	<script
 		src="https://cdn.datatables.net/fixedcolumns/3.3.3/js/dataTables.fixedColumns.min.js"></script>
+
+	<script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
 	<!-- 	<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
  -->
 	{{--Socket & Vue server --}}

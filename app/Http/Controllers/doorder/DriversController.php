@@ -906,7 +906,8 @@ class DriversController extends Controller
             ->whereIn('model_id', $order_ids)->selectRaw('avg(rating) as average_rating')->first();
         $driver_overall_rating = ($driver_ratings->average_rating != null) ? $driver_ratings->average_rating : 0;
         $driver->overall_rating = round($driver_overall_rating * 2) / 2;
-
+        $driver->email = $driver->user->email;
+        
         return view('admin.doorder.drivers.single_driver_orders', ['driver' => $driver, 'driver_orders' => $driver_orders]);
     }
 

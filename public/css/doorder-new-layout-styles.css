@@ -601,6 +601,12 @@ ul.pagination {
 	text-align: left !important;
 }
 
+.ordersListTableWithYellowTime tbody td span.orderTime{
+	color: #e9c218 !important;
+	display: block;
+	height: auto
+}
+
 .doorderDashboardTable tbody tr td.nameTd {
 	font-family: Montserrat;
 	font-style: normal;
@@ -630,16 +636,20 @@ ul.pagination {
 	text-align: center !important;
 }
 
-.ui-datepicker-calendar td, .ui-datepicker-calendar th {
+.ui-datepicker-calendar td, .ui-datepicker-calendar th,.dt-datetime-table, .dt-datetime-table td, .dt-datetime-table th {
 	font-family: Montserrat;
 }
 
 .ui-datepicker-calendar td a {
 	text-align: center;
 }
-
+.dt-datetime-table td.now button.dt-datetime-button.dt-datetime-day{
+	font-family: Montserrat;
+	font-weight: 600;
+}
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active,
-	a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover
+	a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover,
+	.dt-datetime-table td.selected button.dt-datetime-button.dt-datetime-day
 	{
 	border-color: #60A244;
 	background-color: #60A244;
@@ -657,7 +667,7 @@ ul.pagination {
 table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before,
 	table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_desc:before,
 	table.dataTable thead .sorting_desc_disabled:before {
-	top: auto !important;
+	top: 20% !important;
 	left: 84%;
 	right: 8px;
 	font-size: 18px
@@ -666,7 +676,7 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
 table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after,
 	table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc:after,
 	table.dataTable thead .sorting_desc_disabled:after {
-	top: auto !important;
+	top: 20% !important;
 	left: 90%;
 	right: 0;
 	font-size: 18px
@@ -691,6 +701,38 @@ div.dataTables_wrapper div.dataTables_paginate {
 	{
 	border-top: 1px solid #EBE9F1 !important;
 }
+
+.actionsTd button {
+	padding: 0;
+	margin: 0;
+	border: none;
+	background: transparent;
+}
+
+.actionsTd button:focus {
+	outline: none !important;
+}
+
+.actionsTd a img, .actionsTd img {
+	width: 24px;
+	height: 24px
+}
+
+.tableTextLeft thead th, .tableTextLeft tbody td{
+	text-align: left !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button{
+	padding: 0 !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover{
+	border: none !important;
+	background: none !important;
+}
+.dataTables_length label{
+	margin: 0
+	
+}
 /*********** buttons ************/
 .btn-doorder-filter {
 	background: #E9C218;
@@ -714,8 +756,51 @@ div.dataTables_wrapper div.dataTables_paginate {
 	padding: 6px 14px;
 }
 
+.btn-doorder-filter:hover {
+	background: #d2af14;
+	border: 1px solid #d2af14;
+}
+
 .btn-doorder-filter:focus {
 	outline: none !important;
+}
+
+.btn-doorder-filter-danger-outline {
+	color: #DB3C3C;
+	background: #fff;
+	border: 2px solid #DB3C3C;
+	border-radius: 6px;
+	min-width: 120px;
+	height: 40px;
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 21px;
+	position: relative;
+	margin: 0.45rem 5px 0;
+	display: inline-block;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	user-select: none;
+	padding: 6px 14px;
+}
+
+.btn-doorder-filter-danger-outline:hover {
+	background: #DB3C3C;
+	color: #fff;
+}
+
+.btn-doorder-filter-danger-outline:focus {
+	outline: none !important;
+}
+
+@media ( max-width : 1200px) {
+	.btnDoorder, .btn-doorder-filter, .btn-doorder-filter-danger-outline {
+		min-width: 100%;
+		width: 100%;
+	}
 }
 
 .btnDoorder {
@@ -740,14 +825,29 @@ div.dataTables_wrapper div.dataTables_paginate {
 	border: 1px solid #E9C218;
 }
 
+.btn-doorder-primary:hover {
+	background: #d2af14;
+	border: 1px solid #d2af14;
+}
+
 .btn-doorder-green {
 	background: #60A244;
 	border: 1px solid #60A244;
 }
 
+.btn-doorder-green:hover {
+	background: #55903c;
+	border: 1px solid #55903c;
+}
+
 .btn-doorder-grey {
 	background: #4d4d4d;
 	border: 1px solid #4d4d4d;
+}
+
+.btn-doorder-grey:hover {
+	background: #404040;
+	border: 1px solid #404040;
 }
 
 .btn-doorder-danger-outline {
@@ -757,9 +857,21 @@ div.dataTables_wrapper div.dataTables_paginate {
 	font-size: 17px
 }
 
+.btn-doorder-danger-outline:hover {
+	color: #fff;
+	background-color: #db3c3c;
+}
+
+a.btn-doorder-filter {
+	line-height: 24px
+}
+
+a.btn-doorder-filter:hover {
+	color: #fff;
+}
 /****************************/
 #dashboardFilterRowDiv .inputFilter, .mapContainerDiv .inputFilter,
-	.filterContrainerDiv .inputFilter {
+	.filterContrainerDiv .inputFilter, .filterContrainerDiv select {
 	font-family: Montserrat;
 	font-size: 12px;
 	font-weight: normal;
@@ -775,6 +887,10 @@ div.dataTables_wrapper div.dataTables_paginate {
 	border: 1px solid #eee;
 	box-shadow: 0 1px 34px 0 rgba(0, 0, 0, 0.08);
 	background-color: white;
+}
+
+.filterContrainerDiv .filter-option-inner {
+	font-size: 12px;
 }
 
 #dashboardCardDiv .card.card-stats {
@@ -1031,4 +1147,42 @@ button.dropdown-toggle.select-with-transition {
 		right: 0;
 		bottom: 0
 	}
+}
+
+.card-icon-driver-profile {
+	background: rgba(232, 202, 73, 0.6) !important;
+	border-radius: 10px;
+	width: 58px;
+	height: 58px;
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 21px;
+	/* identical to box height, or 131% */
+	color: #000000;
+	padding: 20px 16px !important;
+}
+
+.viewTitleLabel {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 21px;
+	color: #979797;
+}
+
+.viewValueLabel {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 21px;
+	color: #000000;
+	width: inherit;
+}
+
+.label-display-block {
+	display: block;
 }

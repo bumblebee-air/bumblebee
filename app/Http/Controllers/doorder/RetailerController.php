@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\doorder;
 
+use App\Exports\RetailersExport;
 use App\Helpers\CustomNotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Retailer;
@@ -12,14 +13,17 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Stripe;
 use Twilio\Rest\Client;
+use Maatwebsite\Excel\Facades\Excel;
 
 class RetailerController extends Controller
 {
-    public function getRetailerRegistrationForm() {
+    public function getRetailerRegistrationForm()
+    {
         return view('doorder.retailers.registration');
     }
 
-    public function postRetailerRegistrationForm(Request $request) {
+    public function postRetailerRegistrationForm(Request $request)
+    {
         $this->validate($request, [
             'company_name' => 'required',
             'company_website' => 'required',
@@ -44,9 +48,9 @@ class RetailerController extends Controller
         $user->password = bcrypt(Str::random(6));
         $user->user_role = 'retailer';
         $user->save();
-        $customer_id= null;
+        $customer_id = null;
         $stripe_token = $request->stripeToken;
-        if($stripe_token!=null && $stripe_token!='') {
+        if ($stripe_token != null && $stripe_token != '') {
             if (env('APP_ENV') == 'local' || env('APP_ENV') == 'development') {
                 $stripe_token = 'tok_visa';
             }
@@ -66,42 +70,48 @@ class RetailerController extends Controller
         $retailer->nom_business_locations = $request->number_business_locations;
         $retailer->locations_details = $request->locations_details;
         $retailer->contacts_details = $request->contacts_details;
-//        $retailer->stripe_token = $stripeToken;
-//        $retailer->customer_id = $customer;
+        //        $retailer->stripe_token = $stripeToken;
+        //        $retailer->customer_id = $customer;
         $retailer->stripe_customer_id = $customer_id;
         $retailer->save();
 
         //Getting Doorder Client and linking the user to the client
         $client = \App\Client::where('name', 'DoOrder')->first();
-        if($client) {
+        if ($client) {
             //Making Client Relation
             UserClient::create([
                 'user_id' => $user->id,
                 'client_id' => $client->id
             ]);
         }
-        if(env('APP_ENV')=='production'){
-            try{
-                Mail::send('email.doorder_new_request', [
-                    'request_type' => 'retailer',
-                    'request_name' => $retailer->name,
-                    'request_url_view' => url('doorder/retailers/requests/'.$retailer->id)
-                ],
+        if (env('APP_ENV') == 'production') {
+            try {
+                Mail::send(
+                    'email.doorder_new_request',
+                    [
+                        'request_type' => 'retailer',
+                        'request_name' => $retailer->name,
+                        'request_url_view' => url('doorder/retailers/requests/' . $retailer->id)
+                    ],
                     function ($message) {
                         $message->from('no-reply@doorder.eu', 'DoOrder platform');
-                        $message->to(env('DOORDER_NOTIF_EMAIL','doorderdelivery@gmail.com'),
-                            'DoOrder')->subject('New retailer registration request');
-                    });
+                        $message->to(
+                            env('DOORDER_NOTIF_EMAIL', 'doorderdelivery@gmail.com'),
+                            'DoOrder'
+                        )->subject('New retailer registration request');
+                    }
+                );
                 CustomNotificationHelper::send('new_retailer', $retailer->id);
-            }catch (\Exception $exception){
-                \Log::error($exception->getMessage(),$exception->getTrace());
+            } catch (\Exception $exception) {
+                \Log::error($exception->getMessage(), $exception->getTrace());
             }
         }
         alert()->success('You are registered successfully');
         return redirect()->back();
     }
 
-    public function getRetailerRequests() {
+    public function getRetailerRequests()
+    {
         $retailers_requests = Retailer::orderBy('created_at', 'desc')->paginate(20);
         return view('admin.doorder.retailers.requests', ['retailers_requests' => $retailers_requests]);
     }
@@ -109,21 +119,21 @@ class RetailerController extends Controller
     public function chargeRetailer($amount, $currency, $stripeTokenforCharge, $description)
     {
         Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-        $stripe_charge = Stripe\Charge::create ([
-                "amount" => $amount,
-                "currency" => $currency,
-                "source" => $stripeTokenforCharge,
-                "description" => $description 
+        $stripe_charge = Stripe\Charge::create([
+            "amount" => $amount,
+            "currency" => $currency,
+            "source" => $stripeTokenforCharge,
+            "description" => $description
         ]);
-        if($stripe_charge)
-        {
+        if ($stripe_charge) {
             return true;
-        } else{
+        } else {
             return false;
         }
     }
 
-    public function getSingleRequest($client_name, $id) {
+    public function getSingleRequest($client_name, $id)
+    {
         $singleRequest = Retailer::find($id);
         if (!$singleRequest) {
             abort(404);
@@ -131,7 +141,8 @@ class RetailerController extends Controller
         return view('admin.doorder.retailers.single_request', ['singleRequest' => $singleRequest]);
     }
 
-    public function postSingleRequest(Request $request, $client_name, $id) {
+    public function postSingleRequest(Request $request, $client_name, $id)
+    {
         $singleRequest = Retailer::find($id);
         if (!$singleRequest) {
             abort(404);
@@ -156,35 +167,42 @@ class RetailerController extends Controller
                 $sid = env('TWILIO_SID', '');
                 $token = env('TWILIO_AUTH', '');
                 $twilio = new Client($sid, $token);
-                $twilio->messages->create($user->phone,
+                $twilio->messages->create(
+                    $user->phone,
                     [
                         "from" => "DoOrder",
-                        "body" => "Hi $user->name, your retailer profile has been accepted.".
-                        " Login details are the email: $user->email and the password: $new_pass .".
-                        " Login page: ".url('doorder/login')
+                        "body" => "Hi $user->name, your retailer profile has been accepted." .
+                            " Login details are the email: $user->email and the password: $new_pass ." .
+                            " Login page: " . url('doorder/login')
                     ]
                 );
-            } catch (\Exception $exception){
+            } catch (\Exception $exception) {
             }
             alert()->success('Retailer accepted successfully');
         }
         return redirect()->route('doorder_retailers_requests', 'doorder');
     }
-    
-    public function getRetailers($param) {
-        $retailers = Retailer::where('status','completed')->get();
+
+    public function getRetailers(Request $request, $param)
+    {
+        $retailers = Retailer::with('user')->where('status', 'completed')->get();
+        if ($request->export_type == 'exel') {
+            return Excel::download(new RetailersExport(['items' => $retailers]), 'retailers-report.xlsx');
+        }
+
         //paginate(20);
         return view('admin.doorder.retailers.accepted_retailers', ['retailers' => $retailers]);
     }
-    public function deleteRetailer(Request $request){
+    public function deleteRetailer(Request $request)
+    {
         $retailer_id = $request->get('retailerId');
         $retailer_profile = Retailer::find($retailer_id);
-        if(!$retailer_profile){
+        if (!$retailer_profile) {
             alert()->error('Retailer not found!');
             return redirect()->back();
         }
         $user_account = User::find($retailer_profile->user_id);
-        if(!$user_account){
+        if (!$user_account) {
             alert()->error('Retailer not found!');
             return redirect()->back();
         }
@@ -192,46 +210,49 @@ class RetailerController extends Controller
         $retailer_profile->delete();
         $user_account->delete();
         alert()->success('Retailer deleted successfully');
-        
+
         return redirect()->route('doorder_retailers', 'doorder');
     }
-    
-    public function getSingleRetailer($client_name, $id) {
+
+    public function getSingleRetailer($client_name, $id)
+    {
         $retailer = Retailer::find($id);
-//        dd(json_decode($retailer->locations_details, true));
+        //        dd(json_decode($retailer->locations_details, true));
         $retailer->invoice_reference_number = 'BR0128';
-            
+
         if (!$retailer) {
             //abort(404);
             alert()->error('Retailer not found!');
             return redirect()->back();
         }
-        return view('admin.doorder.retailers.single_retailer', ['retailer' => $retailer,'readOnly'=>0]);
+        return view('admin.doorder.retailers.single_retailer', ['retailer' => $retailer, 'readOnly' => 0]);
     }
-    public function getViewRetailer($client_name,$id) {
+    public function getViewRetailer($client_name, $id)
+    {
         $retailer = Retailer::find($id);
         if (!$retailer) {
             //abort(404);
             alert()->error('Retailer not found!');
             return redirect()->back();
         }
-        
-        
+
+
         $retailer->invoice_reference_number = 'BR0128';
-        return view('admin.doorder.retailers.single_retailer', ['retailer' => $retailer,'readOnly'=>true]);
+        return view('admin.doorder.retailers.single_retailer', ['retailer' => $retailer, 'readOnly' => true]);
     }
-    
-    public function saveUpdateRetailer($client_name,$id, Request $request) {
+
+    public function saveUpdateRetailer($client_name, $id, Request $request)
+    {
         $retailer_id = $request->get('retailer_id');
         $retailer = Retailer::find($retailer_id);
-        if(!$retailer){
+        if (!$retailer) {
             alert()->error('Retailer not found!');
             return redirect()->back();
         }
         $stripe_token = $request->get('stripeToken');
-        if($stripe_token!=null && $stripe_token!='') {
+        if ($stripe_token != null && $stripe_token != '') {
             $user = User::find($retailer->user_id);
-            if(!$user){
+            if (!$user) {
                 alert()->error('The associated user of this retailer was not found!');
                 return redirect()->back();
             }
@@ -267,15 +288,16 @@ class RetailerController extends Controller
         }
     }
 
-    public function editRetailerProfile($client_name) {
+    public function editRetailerProfile($client_name)
+    {
         $retailer = auth()->user()->retailer_profile;
         if (!$retailer) {
             //abort(404);
             alert()->error('Retailer not found!');
             return redirect()->back();
         }
-        return view('admin.doorder.retailers.single_retailer', ['retailer' => $retailer,'readOnly'=>0]);
+        return view('admin.doorder.retailers.single_retailer', ['retailer' => $retailer, 'readOnly' => 0]);
     }
-
-
 }
+
+

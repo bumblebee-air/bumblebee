@@ -253,10 +253,10 @@ class DriversController extends Controller
         try {
             $current_driver = \Auth::user();
             if(!$request->in_duty){
-                DriverProfile::where('user_id',12)->update(['in_duty'=>$request->in_duty,'last_active'=>now()]);
+                DriverProfile::where('user_id',$current_driver->id)->update(['in_duty'=>$request->in_duty,'last_active'=>now()]);
             }
             else{
-                DriverProfile::where('user_id',12)->update(['in_duty'=>$request->in_duty,'last_active'=>now()]);   
+                DriverProfile::where('user_id',$current_driver->id)->update(['in_duty'=>$request->in_duty,'last_active'=>now()]);   
             }
             
         } catch (\Throwable $th) {

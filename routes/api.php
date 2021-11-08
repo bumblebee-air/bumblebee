@@ -56,10 +56,11 @@ Route::post('driver-forgot-password','doorder\DriversController@sendForgotPasswo
 Route::post('contractor-forgot-password','doorder\DriversController@sendGHForgotPasswordCode');
 Route::post('driver-check-code','doorder\DriversController@checkForgotPasswordCode');
 Route::post('driver-change-password','doorder\DriversController@changeUserPassword');
-Route::group(['middleware' => "auth:api"],function () {
+Route::group([],function () {
     //DoOrder
     Route::get('orders-list','doorder\DriversController@ordersList');
     Route::post('driver-status-update','doorder\DriversController@updateOrderDriverStatus');
+    Route::post('driver-duty-update','doorder\DriversController@updateDriverDutyStatus');
     Route::post('order-details','doorder\DriversController@orderDetails');
     Route::post('driver-location-update','doorder\DriversController@updateDriverLocation');
     Route::post('skip-delivery-confirmation','doorder\DriversController@skipDeliveryConfirmation');

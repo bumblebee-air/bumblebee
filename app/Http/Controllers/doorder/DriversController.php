@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use PhpParser\Node\Stmt\TryCatch;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Twilio\Rest\Client;
 
@@ -238,6 +239,29 @@ class DriversController extends Controller
             ];
             return response()->json($response)->setStatusCode(200);
         }
+    }
+    public function updateDriverDutyStatus(Request $request){
+        $message = "Done";
+        $code = 200 ;
+        $data = [];
+        try {
+            $current_driver = \Auth::user();
+            if(!$request->in_duty){
+                DriverProfile::where('user_id',12)->update(['in_duty'=>$request->in_duty,'last_active'=>now()]);
+            }
+            else{
+                DriverProfile::where('user_id',12)->update(['in_duty'=>$request->in_duty,'last_active'=>now()]);   
+            }
+            
+        } catch (\Throwable $th) {
+            $message = $th->getMessage();
+            $code = 400;
+        }
+        $response = [
+            'message' => $message,
+            'data' => $data,
+        ];
+        return response()->json($response)->setStatusCode($code);
     }
 
     public function orderDetails(Request $request){

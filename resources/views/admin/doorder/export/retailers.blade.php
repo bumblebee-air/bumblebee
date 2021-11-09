@@ -1,7 +1,7 @@
 
                 <table class="table table-bordered text-center">
                         <tr>
-                            <th colspan="7" style="font-size: 16px;text-align: center;font-weight: bold;padding: 10px;">retailers Report</th>
+                            <th colspan="7" style="font-size: 16px;text-align: center;font-weight: bold;padding: 10px;">Retailers Report</th>
                         </tr>
                     <thead>
                     <tr style="background-color:#c4c4c4;color:#000">
@@ -32,7 +32,7 @@
                                                 <li>Address : {{$location->address}}</li>
                                                 <li>Eircode : {{$location->eircode}}</li>
                                                 <li>Country : {{$location->country}}</li>
-                                                <li>County : {{json_decode($location->county)->name}}</li>
+                                                <li>County : {{optional(json_decode($location->county))->name}}</li>
                                             </ul>
                                             
                                         @endforeach

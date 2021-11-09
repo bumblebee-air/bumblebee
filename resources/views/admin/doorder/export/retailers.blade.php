@@ -32,7 +32,7 @@
                                                 <li>Address : {{$location->address}}</li>
                                                 <li>Eircode : {{$location->eircode}}</li>
                                                 <li>Country : {{optional($location)->country}}</li>
-                                                <li>County : {{optional(json_decode($location->county))->name}}</li>
+                                                <li>County : {{optional(json_decode(optional($location)->county))->name}}</li>
                                             </ul>
                                             
                                         @endforeach

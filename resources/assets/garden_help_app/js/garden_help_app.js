@@ -13,6 +13,8 @@ import {gmapApi} from 'vue2-google-maps';
 import firebase from "firebase";
 import 'firebase/messaging';
 import VueTelInput from 'vue-tel-input'
+import ToggleButton from 'vue-js-toggle-button'
+
 
 
 /**
@@ -74,6 +76,10 @@ Vue.component('qrcode-vue', QrcodeVue);
 
 //Vue Tel Input
 Vue.use(VueTelInput);
+
+//Toggle
+Vue.use(ToggleButton)
+
 
 
 Vue.mixin({

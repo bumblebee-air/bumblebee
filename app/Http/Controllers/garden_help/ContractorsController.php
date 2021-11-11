@@ -685,4 +685,23 @@ class ContractorsController extends Controller
         return redirect()->back();
     }
 
+    public function editSetting(Request $request) {
+        $user = $request->user();
+        return response()->json([
+            'data' => [
+                'is_notifiable' => $user->contractor_profile->is_notifiable
+            ]
+        ]);
+    }
+
+    public function updateSetting(Request $request) {
+        $user = $request->user();
+        $user->contractor_profile->update([
+            'is_notifiable' => $request->is_notifiable
+        ]);
+        return response()->json([
+            'message' => 'Success'
+        ]);
+    }
+
 }

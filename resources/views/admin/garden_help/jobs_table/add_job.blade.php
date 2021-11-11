@@ -475,7 +475,7 @@ Job') @section('page-styles')
 															<label class="requestSpanGreen">Total</label>
 														</div>
 														<div class="col-md-3 col-6">
-															<span class="requestSpanGreen">€@{{ getTotalPrice() + getVat(13.5, getTotalPrice()) }}</span>
+															<span class="requestSpanGreen">€@{{ (getTotalPrice() - this.percentage + getVat(13.5, getTotalPrice())).toFixed(2) }} - €@{{ (getTotalPrice() + this.percentage + getVat(13.5, getTotalPrice())).toFixed(2) }}</span>
 														</div>
 													</div>
 													<input type="hidden" name="services_types_json" v-model="JSON.stringify(services_types_json)">
@@ -900,6 +900,7 @@ Job') @section('page-styles')
 							}
 						}
 					}
+					this.percentage = (total_price / 100) * 20;
 					return parseFloat(total_price);
 				},
                 changeLocation(e) {

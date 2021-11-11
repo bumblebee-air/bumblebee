@@ -132,11 +132,27 @@
 								placeholder="Select user type" :multiple="false"
 								:options="optionsusers" :clearable="true" :searchable="true"
 								:openOnClick="true" :disable-branch-nodes="true"
-								:closeOnSelect="true" :flat="false" :open-on-focus="true"
-								:always-open="false" search-nested :normalizer="normalizer">
+								:closeOnSelect="false" :flat="false" :open-on-focus="true"
+								:always-open="false" search-nested :normalizer="normalizer"/>
 							<div slot="value-label" slot-scope="{ node }">@{{node.raw.customLabel}}</div>
 
-							</treeselect>
+							{{-- </treeselectuser> --}}
+							{{-- <treeselect
+								:name="user_type"
+								:multiple="false"
+								:clearable="true"
+								:searchable="true"
+								:disabled="false"
+								:open-on-click="true"
+								:open-on-focus="false"
+								:clear-on-select="false"
+								:close-on-select="true"
+								:always-open="false"
+								:options="optionsusers"
+								:limit="3"
+								:max-height="200"
+								v-model="notification.user_type"
+								/> --}}
 						
 						</div>
 						<div class="form-group bmd-form-group"

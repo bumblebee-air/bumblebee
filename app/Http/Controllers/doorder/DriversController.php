@@ -81,6 +81,7 @@ class DriversController extends Controller
             'access_token' => $access_token->accessToken,
             'token_type' => 'Bearer ',
             'user_name' => $the_user->name,
+            'in_duty' => $the_user->driver_profile->in_duty,
             'is_profile_completed' => $the_user->is_profile_completed,
             'message' => 'Login successful',
             'error' => 0
@@ -252,12 +253,7 @@ class DriversController extends Controller
         $data = [];
         try {
             $current_driver = \Auth::user();
-            if(!$request->in_duty){
-                DriverProfile::where('user_id',$current_driver->id)->update(['in_duty'=>$request->in_duty,'last_active'=>now()]);
-            }
-            else{
-                DriverProfile::where('user_id',$current_driver->id)->update(['in_duty'=>$request->in_duty,'last_active'=>now()]);   
-            }
+            DriverProfile::where('user_id',$current_driver->id)->update(['in_duty'=>$request->in_duty,'last_active'=>now()]);
             
         } catch (\Throwable $th) {
             $message = $th->getMessage();

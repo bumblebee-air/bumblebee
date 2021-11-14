@@ -231,7 +231,7 @@ Request') @section('page-styles')
 												<label class="requestSpanGreen">Total</label>
 											</div>
 											<div class="col-md-3 col-6">
-												<span class="requestSpanGreen">€@{{ getTotalPrice() }}</span>
+												<span class="requestSpanGreen">@{{ getTotalPrice() }}</span>
 											</div>
 										</div>
 									</div>
@@ -399,7 +399,9 @@ Request') @section('page-styles')
 							}
 						}
 					}
-					return total_price;
+					//getting 20% of total price
+					let percentage_price = (total_price / 100) * 20;
+					return '€'+(parseFloat(total_price) - parseFloat(percentage_price)).toFixed(2) + ' - €' + (parseFloat(percentage_price) + parseFloat(total_price)).toFixed(2);
 				}
 			}
 		});

@@ -75,8 +75,11 @@ Route::group(['middleware' => "auth:api"],function () {
     Route::post('job-details','garden_help\ContractorsController@getJobDetails');
     Route::post('contractor-status-update','garden_help\ContractorsController@updateJobDriverStatus');
     Route::post('change-password','garden_help\ContractorsController@changePassword');
-    Route::post('update-profile','garden_help\ContractorsController@updateProfile');
     Route::get('get-profile','garden_help\ContractorsController@getProfile');
+    Route::post('update-profile','garden_help\ContractorsController@updateProfile');
+    Route::get('get-setting','garden_help\ContractorsController@editSetting');
+    Route::post('update-setting','garden_help\ContractorsController@updateSetting');
+
 
 
     //Unified

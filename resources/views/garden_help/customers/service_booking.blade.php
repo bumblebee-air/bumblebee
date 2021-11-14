@@ -92,7 +92,7 @@
                                         <label class="requestSpanGreen">Total</label>
                                     </div>
                                     <div class="col-md-3 col-6">
-                                        <span class="requestSpanGreen">€@{{ (getTotalPrice() + getVat(13.5, getTotalPrice())).toFixed(2) }}</span>
+                                        <span class="requestSpanGreen">€@{{ (getTotalPrice()- this.percentage + getVat(13.5, getTotalPrice())).toFixed(2) }} - €@{{ (getTotalPrice() + this.percentage + getVat(13.5, getTotalPrice())).toFixed(2) }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -261,7 +261,8 @@
                 cardNumber: null,
                 cardExpiry: null,
                 cardCvc: null,
-                stripe: null
+                stripe: null,
+                percentage: 0
             },
             mounted() {
 
@@ -390,6 +391,7 @@
                             }
                         }
                     }
+                    this.percentage = (total_price / 100) * 20;
                     return parseFloat(total_price);
                 },
                 getVat(percentage, total_price) {

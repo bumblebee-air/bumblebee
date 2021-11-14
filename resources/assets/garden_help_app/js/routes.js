@@ -9,6 +9,7 @@ import ProfileComponent from "./components/ProfileComponent";
 import JobFinalizingComponent from './components/JobFinalizingComponent';
 import UpdateWorkingHours from "./components/UpdateWorkingHoursComponent";
 import PageNotFound from './components/PageNotFoundComponent'
+import SettingsComponent from './components/SettingComponent'
 
 const router = new VueRouter({
     routes: [
@@ -74,7 +75,13 @@ const router = new VueRouter({
                     name: 'orders-list',
                     component: OrdersListComponent,
                     beforeEnter: (to, from, next) => redirectIfNotAuthed(to, from, next),
-                }
+                },
+                {
+                    path: 'settigns',
+                    name: 'settigns',
+                    component: SettingsComponent,
+                    beforeEnter: (to, from, next) => redirectIfNotAuthed(to, from, next),
+                },
             ]
         },
         {

@@ -263,13 +263,14 @@ class DriversController extends Controller
                     'user_id' => $current_driver->id
                 ],
                 [
-                'model' => 'doorder',
-                'model_id' => 1,
-                'user_type' => 'driver',
-                'user_id' => $current_driver->id,
-                'rating' => $request->rating,
-                'message' => $request->message,
-            ]);
+                    'model' => 'doorder',
+                    'model_id' => 1,
+                    'user_type' => 'driver',
+                    'user_id' => $current_driver->id,
+                    'rating' => $request->rating,
+                    'message' => $request->message,
+                ]
+            );
         } catch (\Throwable $th) {
             $message = $th->getMessage();
             $code = 400;
@@ -288,6 +289,24 @@ class DriversController extends Controller
         try {
             $current_driver = \Auth::user();
             DriverProfile::where('user_id', $current_driver->id)->update(['in_duty' => $request->in_duty, 'last_active' => now()]);
+        } catch (\Throwable $th) {
+            $message = $th->getMessage();
+            $code = 400;
+        }
+        $response = [
+            'message' => $message,
+            'data' => $data,
+        ];
+        return response()->json($response)->setStatusCode($code);
+    }
+    public function timeEndShift(Request $request)
+    {
+        $message = "Done";
+        $code = 200;
+        $data = [];
+        try {
+            $settings = GeneralSetting::firstOrCreate([]);
+            $data = ['time' => $settings->driversTimeEndShift];
         } catch (\Throwable $th) {
             $message = $th->getMessage();
             $code = 400;

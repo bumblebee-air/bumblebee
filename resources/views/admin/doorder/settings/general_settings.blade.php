@@ -119,6 +119,18 @@
 						</div>
 					</div>
 				</div>
+				<div class="row">
+
+					<div class="col-sm-3">
+						<div class="form-group bmd-form-group ">
+							<label style="font-weight: 700">Set Time to finish shift </label>
+							<input class="form-control" type="number" min="1" value="{{ $general_setting->driversTimeEndShift }}" name="driversTimeEndShift">
+
+						</div>
+
+					</div>
+					
+				</div>
 
 			</div>
 		</div>

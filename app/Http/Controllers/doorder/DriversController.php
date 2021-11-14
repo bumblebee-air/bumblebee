@@ -20,6 +20,7 @@ use App\UserPasswordReset;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Rating;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
@@ -247,14 +248,46 @@ class DriversController extends Controller
             return response()->json($response)->setStatusCode(200);
         }
     }
-    public function updateDriverDutyStatus(Request $request){
+    public function AddDriverRating(Request $request)
+    {
         $message = "Done";
-        $code = 200 ;
+        $code = 200;
         $data = [];
         try {
             $current_driver = \Auth::user();
-            DriverProfile::where('user_id',$current_driver->id)->update(['in_duty'=>$request->in_duty,'last_active'=>now()]);
-            
+            Rating::updateOrCreate(
+                [
+                    'model' => 'doorder',
+                    'model_id' => 1,
+                    'user_type' => 'driver',
+                    'user_id' => $current_driver->id
+                ],
+                [
+                'model' => 'doorder',
+                'model_id' => 1,
+                'user_type' => 'driver',
+                'user_id' => $current_driver->id,
+                'rating' => $request->rating,
+                'message' => $request->message,
+            ]);
+        } catch (\Throwable $th) {
+            $message = $th->getMessage();
+            $code = 400;
+        }
+        $response = [
+            'message' => $message,
+            'data' => $data,
+        ];
+        return response()->json($response)->setStatusCode($code);
+    }
+    public function updateDriverDutyStatus(Request $request)
+    {
+        $message = "Done";
+        $code = 200;
+        $data = [];
+        try {
+            $current_driver = \Auth::user();
+            DriverProfile::where('user_id', $current_driver->id)->update(['in_duty' => $request->in_duty, 'last_active' => now()]);
         } catch (\Throwable $th) {
             $message = $th->getMessage();
             $code = 400;

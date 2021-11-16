@@ -384,7 +384,7 @@ $(document).ready(function() {
 // general settings 
 addIntelInput('business_phone_number','business_phone_number');
 
-$(".timeShift").datetimepicker({format:"LT",
+$(".timeShift").datetimepicker({format:"hh:mm",
 					icons: { time: "fa fa-clock",
                                     date: "fa fa-calendar",
                                     up: "fa fa-chevron-up",

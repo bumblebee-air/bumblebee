@@ -20,6 +20,6 @@ class DriverProfile extends Model
 
     public function getLastActiveWebAttribute()
     {
-        return $this->last_active->format('d-m-Y h:i A');
+        return $this->last_active ? $this->last_active->format('d-m-Y h:i A'): '';
     }
 }

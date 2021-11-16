@@ -979,7 +979,7 @@ class DriversController extends Controller
         $driver_overall_rating = ($driver_ratings->average_rating != null) ? $driver_ratings->average_rating : 0;
         $driver->overall_rating = round($driver_overall_rating * 2) / 2;
 
-        $driver_ratings_doorder = \DB::table('ratings')->where(['model' => 'doorder', 'user_type' => 'driver', 'user_id' => $driver->user_id])->first();
+        $driver_ratings_doorder = \DB::table('ratings')->where(['model' => 'order', 'user_type' => 'driver', 'user_id' => $driver->user_id])->first();
         $driver->rating_doorder = ['rating'=> round(optional($driver_ratings_doorder)->rating * 2) / 2, 'comment' => optional($driver_ratings_doorder)->message];
 
         return view('admin.doorder.drivers.single_driver_orders', ['driver' => $driver, 'driver_orders' => $driver_orders]);

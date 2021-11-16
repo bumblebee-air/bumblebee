@@ -116,7 +116,7 @@ div.dataTables_wrapper div.dataTables_filter {
 													<th>Transport Type</th>
 													<th>Work Type</th>
 													<th>Shift Time</th>
-													<th>Overall Rating</th>
+													<th>Driver Rating</th>
 													<th class="disabled-sorting ">Action</th>
 												</tr>
 											</thead>
@@ -131,7 +131,8 @@ div.dataTables_wrapper div.dataTables_filter {
 													<td>@{{ driver.transport }}</td>
 													<td></td>
 													<td></td>
-        											<td><div class="overallRating" :data-score="driver.rating_doorder.rating"></div>
+        											<td><div class="driverRating" :data-score="driver.rating_doorder.rating"
+        											></div>
         											</td>
 													<td><a
 														class="btn  btn-link btn-primary-doorder btn-just-icon edit"
@@ -360,13 +361,22 @@ var table= $('#ordersTable').DataTable({
     $('#min, #max').on('change', function () {
         table.draw();
     });
+    var driver = {!! json_encode($driver) !!};
+    
   $('.overallRating').raty({
   					readOnly: true, 
                     starHalf:     '{{asset("images/doorder_icons/star-half.png")}}',
                 	starOff:      '{{asset("images/doorder_icons/star.png")}}',
                 	starOn:       '{{asset("images/doorder_icons/star-selected.png")}}',
                 	hints: null
-        });  
+        }); 
+   $('.driverRating').raty({
+  					readOnly: true, 
+                    starHalf:     '{{asset("images/doorder_icons/star-half.png")}}',
+                	starOff:      '{{asset("images/doorder_icons/star.png")}}',
+                	starOn:       '{{asset("images/doorder_icons/star-selected.png")}}',
+                	hints: [driver.rating_doorder.comment,driver.rating_doorder.comment,driver.rating_doorder.comment,driver.rating_doorder.comment,driver.rating_doorder.comment]
+        });    
     
 });
 

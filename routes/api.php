@@ -50,37 +50,42 @@ Route::post('bigcommerce/fulfill-order', 'BigCommerceController@fulfillOrder');
 Route::post('bigcommerce/create-webhook', 'BigCommerceController@createBigCommerceWebhook');
 Route::post('bigcommerce/list-or-delete-webhook', 'BigCommerceController@listOrDeleteBigCommerceWebhook');
 
-Route::post('driver-registration','doorder\DriversController@postDriverRegistration');
-Route::post('driver-login','doorder\DriversController@driversLogin');
-Route::post('driver-forgot-password','doorder\DriversController@sendForgotPasswordCode');
-Route::post('contractor-forgot-password','doorder\DriversController@sendGHForgotPasswordCode');
-Route::post('driver-check-code','doorder\DriversController@checkForgotPasswordCode');
-Route::post('driver-change-password','doorder\DriversController@changeUserPassword');
-Route::group(['middleware' => "auth:api"],function () {
+Route::post('driver-registration', 'doorder\DriversController@postDriverRegistration');
+Route::post('driver-login', 'doorder\DriversController@driversLogin');
+Route::post('driver-forgot-password', 'doorder\DriversController@sendForgotPasswordCode');
+Route::post('contractor-forgot-password', 'doorder\DriversController@sendGHForgotPasswordCode');
+Route::post('driver-check-code', 'doorder\DriversController@checkForgotPasswordCode');
+Route::post('driver-change-password', 'doorder\DriversController@changeUserPassword');
+Route::group(['middleware' => "auth:api"], function () {
     //DoOrder
-    Route::get('orders-list','doorder\DriversController@ordersList');
-    Route::post('driver-status-update','doorder\DriversController@updateOrderDriverStatus');
-    Route::post('driver-duty-update','doorder\DriversController@updateDriverDutyStatus');
-    Route::post('order-details','doorder\DriversController@orderDetails');
-    Route::post('driver-location-update','doorder\DriversController@updateDriverLocation');
-    Route::post('skip-delivery-confirmation','doorder\DriversController@skipDeliveryConfirmation');
-    Route::post('update-driver-firebase-token','doorder\DriversController@updateDriverFirebaseToken');
-    Route::post('update-driver-password','doorder\DriversController@changePassword');
-    Route::get('get-driver-profile','doorder\DriversController@getProfile');
-    Route::post('update-driver-profile','doorder\DriversController@updateProfile');
-    Route::post('optimize-orders-route','doorder\DriversController@optimizeOrdersRoute');
+    Route::get('orders-list', 'doorder\DriversController@ordersList');
+    Route::get('time-end-shift', 'doorder\DriversController@timeEndShift');
+    Route::post('driver-status-update', 'doorder\DriversController@updateOrderDriverStatus');
+    Route::post('driver-duty-update', 'doorder\DriversController@updateDriverDutyStatus');
+    Route::post('driver-rating', 'doorder\DriversController@AddDriverRating');
+    Route::post('order-details', 'doorder\DriversController@orderDetails');
+    Route::post('driver-location-update', 'doorder\DriversController@updateDriverLocation');
+    Route::post('skip-delivery-confirmation', 'doorder\DriversController@skipDeliveryConfirmation');
+    Route::post('update-driver-firebase-token', 'doorder\DriversController@updateDriverFirebaseToken');
+    Route::post('update-driver-password', 'doorder\DriversController@changePassword');
+    Route::get('get-driver-profile', 'doorder\DriversController@getProfile');
+    Route::post('update-driver-profile', 'doorder\DriversController@updateProfile');
+    Route::post('optimize-orders-route', 'doorder\DriversController@optimizeOrdersRoute');
 
     //GardenHelp
-    Route::get('jobs-list','garden_help\ContractorsController@getJobsList');
-    Route::post('job-details','garden_help\ContractorsController@getJobDetails');
-    Route::post('contractor-status-update','garden_help\ContractorsController@updateJobDriverStatus');
-    Route::post('change-password','garden_help\ContractorsController@changePassword');
-    Route::post('update-profile','garden_help\ContractorsController@updateProfile');
-    Route::get('get-profile','garden_help\ContractorsController@getProfile');
+    Route::get('jobs-list', 'garden_help\ContractorsController@getJobsList');
+    Route::post('job-details', 'garden_help\ContractorsController@getJobDetails');
+    Route::post('contractor-status-update', 'garden_help\ContractorsController@updateJobDriverStatus');
+    Route::post('change-password', 'garden_help\ContractorsController@changePassword');
+    Route::get('get-profile', 'garden_help\ContractorsController@getProfile');
+    Route::post('update-profile', 'garden_help\ContractorsController@updateProfile');
+    Route::get('get-setting', 'garden_help\ContractorsController@editSetting');
+    Route::post('update-setting', 'garden_help\ContractorsController@updateSetting');
+
 
 
     //Unified
-    Route::group(['prefix' => 'unified'], function() {
+    Route::group(['prefix' => 'unified'], function () {
         Route::get('jobs', 'unified\EngineerController@getJobsList');
         Route::get('jobs/{id}', 'unified\EngineerController@getJobDetails');
         Route::post('jobs/{id}', 'unified\EngineerController@postJob');
@@ -92,7 +97,7 @@ Route::group(['middleware' => "auth:api"],function () {
 });
 
 
-Route::post('stripe-account-update','StripeController@accountUpdateWebhook');
+Route::post('stripe-account-update', 'StripeController@accountUpdateWebhook');
 
 //App Details
 Route::get('app-details', 'AppDetailsController@view');

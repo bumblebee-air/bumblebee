@@ -20,6 +20,7 @@ use App\UserPasswordReset;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Rating;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
@@ -81,6 +82,7 @@ class DriversController extends Controller
             'access_token' => $access_token->accessToken,
             'token_type' => 'Bearer ',
             'user_name' => $the_user->name,
+            'in_duty' => $the_user->driver_profile->in_duty,
             'is_profile_completed' => $the_user->is_profile_completed,
             'message' => 'Login successful',
             'error' => 0
@@ -246,6 +248,39 @@ class DriversController extends Controller
             return response()->json($response)->setStatusCode(200);
         }
     }
+    public function AddDriverRating(Request $request)
+    {
+        $message = "Done";
+        $code = 200;
+        $data = [];
+        try {
+            $current_driver = \Auth::user();
+            Rating::updateOrCreate(
+                [
+                    'model' => 'doorder',
+                    'model_id' => 1,
+                    'user_type' => 'driver',
+                    'user_id' => $current_driver->id
+                ],
+                [
+                    'model' => 'doorder',
+                    'model_id' => 1,
+                    'user_type' => 'driver',
+                    'user_id' => $current_driver->id,
+                    'rating' => $request->rating,
+                    'message' => $request->message,
+                ]
+            );
+        } catch (\Throwable $th) {
+            $message = $th->getMessage();
+            $code = 400;
+        }
+        $response = [
+            'message' => $message,
+            'data' => $data,
+        ];
+        return response()->json($response)->setStatusCode($code);
+    }
     public function updateDriverDutyStatus(Request $request)
     {
         $message = "Done";
@@ -253,11 +288,25 @@ class DriversController extends Controller
         $data = [];
         try {
             $current_driver = \Auth::user();
-            if (!$request->in_duty) {
-                DriverProfile::where('user_id', $current_driver->id)->update(['in_duty' => $request->in_duty, 'last_active' => now()]);
-            } else {
-                DriverProfile::where('user_id', $current_driver->id)->update(['in_duty' => $request->in_duty, 'last_active' => now()]);
-            }
+            DriverProfile::where('user_id', $current_driver->id)->update(['in_duty' => $request->in_duty, 'last_active' => now()]);
+        } catch (\Throwable $th) {
+            $message = $th->getMessage();
+            $code = 400;
+        }
+        $response = [
+            'message' => $message,
+            'data' => $data,
+        ];
+        return response()->json($response)->setStatusCode($code);
+    }
+    public function timeEndShift(Request $request)
+    {
+        $message = "Done";
+        $code = 200;
+        $data = [];
+        try {
+            $settings = GeneralSetting::firstOrCreate([]);
+            $data = ['time' => $settings->driversTimeEndShift];
         } catch (\Throwable $th) {
             $message = $th->getMessage();
             $code = 400;
@@ -930,6 +979,9 @@ class DriversController extends Controller
         $driver_ratings_doorder = \DB::table('ratings')->where(['model' => 'doorder', 'user_type' => 'driver', 'user_id' => $driver->user_id])->first();
         $driver_overall_rating = ($driver_ratings->average_rating != null) ? $driver_ratings->average_rating : 0;
         $driver->overall_rating = round($driver_overall_rating * 2) / 2;
+        $driver->rating_doorder = ['rating'=> round(optional($driver_ratings_doorder)->rating * 2) / 2, 'comment' => optional($driver_ratings_doorder)->message];
+
+        $driver_ratings_doorder = \DB::table('ratings')->where(['model' => 'order', 'user_type' => 'driver', 'user_id' => $driver->user_id])->first();
         $driver->rating_doorder = ['rating'=> round(optional($driver_ratings_doorder)->rating * 2) / 2, 'comment' => optional($driver_ratings_doorder)->message];
 
         return view('admin.doorder.drivers.single_driver_orders', ['driver' => $driver, 'driver_orders' => $driver_orders]);

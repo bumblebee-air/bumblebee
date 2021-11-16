@@ -41,6 +41,7 @@
 											<th class="filterhead">Transport Type</th>
 											<th class="filterhead">Work Type</th>
 											<th class="filterhead">Shift Time</th>
+											<th class="filterhead">Last Seen</th>
 											<th class="filterhead">Action</th>
 										</tr>
 
@@ -53,6 +54,7 @@
 											<th>Transport Type</th>
 											<th>Work Type</th>
 											<th>Shift Time</th>
+											<th>Last Seen</th>
 											<th class="disabled-sorting ">Action</th>
 										</tr>
 									</thead>
@@ -71,6 +73,7 @@
 
 
 											<td></td>
+											<td>@{{ driver.last_active_web }}</td>
 
 											<td><a
 												class="btn  btn-link btn-primary-doorder btn-just-icon edit"

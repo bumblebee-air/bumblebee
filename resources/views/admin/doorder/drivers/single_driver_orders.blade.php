@@ -131,7 +131,7 @@ div.dataTables_wrapper div.dataTables_filter {
 													<td>@{{ driver.transport }}</td>
 													<td></td>
 													<td></td>
-        											<td><div class="overallRating" :data-score="driver.overall_rating"></div>
+        											<td><div class="overallRating" :data-score="driver.rating_doorder.rating"></div>
         											</td>
 													<td><a
 														class="btn  btn-link btn-primary-doorder btn-just-icon edit"

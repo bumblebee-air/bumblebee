@@ -246,19 +246,18 @@ class DriversController extends Controller
             return response()->json($response)->setStatusCode(200);
         }
     }
-    public function updateDriverDutyStatus(Request $request){
+    public function updateDriverDutyStatus(Request $request)
+    {
         $message = "Done";
-        $code = 200 ;
+        $code = 200;
         $data = [];
         try {
             $current_driver = \Auth::user();
-            if(!$request->in_duty){
-                DriverProfile::where('user_id',$current_driver->id)->update(['in_duty'=>$request->in_duty,'last_active'=>now()]);
+            if (!$request->in_duty) {
+                DriverProfile::where('user_id', $current_driver->id)->update(['in_duty' => $request->in_duty, 'last_active' => now()]);
+            } else {
+                DriverProfile::where('user_id', $current_driver->id)->update(['in_duty' => $request->in_duty, 'last_active' => now()]);
             }
-            else{
-                DriverProfile::where('user_id',$current_driver->id)->update(['in_duty'=>$request->in_duty,'last_active'=>now()]);   
-            }
-            
         } catch (\Throwable $th) {
             $message = $th->getMessage();
             $code = 400;
@@ -928,8 +927,10 @@ class DriversController extends Controller
         }
         $driver_ratings = \DB::table('ratings')->where('model', '=', 'order')
             ->whereIn('model_id', $order_ids)->selectRaw('avg(rating) as average_rating')->first();
+        $driver_ratings_doorder = \DB::table('ratings')->where(['model' => 'doorder', 'user_type' => 'driver', 'user_id' => $driver->user_id])->first();
         $driver_overall_rating = ($driver_ratings->average_rating != null) ? $driver_ratings->average_rating : 0;
         $driver->overall_rating = round($driver_overall_rating * 2) / 2;
+        $driver->rating_doorder = ['rating'=> round(optional($driver_ratings_doorder)->rating * 2) / 2, 'comment' => optional($driver_ratings_doorder)->message];
 
         return view('admin.doorder.drivers.single_driver_orders', ['driver' => $driver, 'driver_orders' => $driver_orders]);
     }

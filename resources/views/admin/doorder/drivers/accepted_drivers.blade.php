@@ -61,6 +61,7 @@ table tbody td {
 											<th>Work Type</th>
 											<th>Shift Time</th>
 											<th>Overall Rating</th>
+											<th>Last Seen</th>
 											<th class="disabled-sorting ">Actions</th>
 										</tr>
 									</thead>
@@ -76,6 +77,7 @@ table tbody td {
 											<td></td>
 											<td><div class="overallRating"
 													:data-score="driver.overall_rating"></div></td>
+											<td>@{{ driver.last_active_web }}</td>		
 											<td class="actionsTd"><button type="button"
 													class="edit" @click="openDriver(driver.id)">
 													<img

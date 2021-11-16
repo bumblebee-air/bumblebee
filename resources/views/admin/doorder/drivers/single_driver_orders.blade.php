@@ -131,9 +131,9 @@ div.dt-datetime table td.selectable button:hover {
 											time</label> <label class="viewValueLabel">@{{driver.transport}}</label>
 									</div>
 									<div class="col-md-4 col-6">
-										<label class="viewTitleLabel mb-0 label-display-block">Overall
+										<label class="viewTitleLabel mb-0 label-display-block">Driver
 											rating</label>
-										<div class="overallRating" :data-score="driver.overall_rating"></div>
+										<div class="driverRating" :data-score="driver.rating_doorder.rating"></div>
 									</div>
 								</div>
 							</div>
@@ -364,13 +364,22 @@ var table= $('#ordersTable').DataTable({
     $('#min, #max').on('change', function () {
         table.draw();
     });
+    var driver = {!! json_encode($driver) !!};
+    
   $('.overallRating').raty({
   					readOnly: true, 
                     starHalf:     '{{asset("images/doorder_icons/star-half.png")}}',
                 	starOff:      '{{asset("images/doorder_icons/star.png")}}',
                 	starOn:       '{{asset("images/doorder_icons/star-selected.png")}}',
                 	hints: null
-        });  
+        }); 
+   $('.driverRating').raty({
+  					readOnly: true, 
+                    starHalf:     '{{asset("images/doorder_icons/star-half.png")}}',
+                	starOff:      '{{asset("images/doorder_icons/star.png")}}',
+                	starOn:       '{{asset("images/doorder_icons/star-selected.png")}}',
+                	hints: [driver.rating_doorder.comment,driver.rating_doorder.comment,driver.rating_doorder.comment,driver.rating_doorder.comment,driver.rating_doorder.comment]
+        });    
     
 });
 

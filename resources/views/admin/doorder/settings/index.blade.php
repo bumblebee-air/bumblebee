@@ -384,6 +384,19 @@ $(document).ready(function() {
 // general settings 
 addIntelInput('business_phone_number','business_phone_number');
 
+$(".timeShift").datetimepicker({format:"LT",
+					icons: { time: "fa fa-clock",
+                                    date: "fa fa-calendar",
+                                    up: "fa fa-chevron-up",
+                                    down: "fa fa-chevron-down",
+                                    previous: 'fa fa-chevron-left',
+                                    next: 'fa fa-chevron-right',
+                                    today: 'fa fa-screenshot',
+                                    clear: 'fa fa-trash',
+                                    close: 'fa fa-remove'
+            				},
+            });
+
 
 //////////////////// users tab
     var table= $('#usersTable').DataTable({

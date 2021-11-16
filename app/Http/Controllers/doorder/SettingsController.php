@@ -294,7 +294,9 @@ class SettingsController extends Controller
             'business_email'  => $request->business_email,
             'business_phone_number' => $request->business_phone_number,
             'retailers_automatic_rating_sms' => $request->retailersAutomaticRatingSMS ? true : false,
+            'driversTimeEndShift' => $request->driversTimeEndShift ,
         ];
+        return $request->all();
         if ($general_setting) {
             $general_setting->update($data);
         } else {

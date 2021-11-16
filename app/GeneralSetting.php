@@ -13,5 +13,6 @@ class GeneralSetting extends Model
         'business_email',
         'business_phone_number',
         'retailers_automatic_rating_sms',
+        'driversTimeEndShift'
     ];
 }

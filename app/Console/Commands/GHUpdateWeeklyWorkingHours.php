@@ -42,7 +42,7 @@ class GHUpdateWeeklyWorkingHours extends Command
         $contractors = Contractor::where('status', 'completed')->get(['name','phone_number']);
         foreach ($contractors as $contractor) {
             $message = '';
-            if ($this->argument('type') != null) {
+            if ($this->argument('type') != null && $contractor->is_notifiable) {
                 $message = "Hi $contractor->name, this is a reminder to update your weekly working hours if you haven't already";
             } else {
                 $message = "Hey $contractor->name, Please click on the following link to update your weekly working days and hours with GardenHelp. ". env('APP_URL', 'https://iot.bumblebeeai.io') ."/contractors_app#/update-working-hours";

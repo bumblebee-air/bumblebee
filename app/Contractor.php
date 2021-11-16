@@ -38,7 +38,8 @@ class Contractor extends Model
         'contact_through',
         'type_of_work_selected_value',
         'business_hours',
-        'business_hours_json'
+        'business_hours_json',
+        'is_notifiable'
     ];
 
     public function user() {

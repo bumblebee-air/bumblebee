@@ -102,6 +102,7 @@ class SettingsController extends Controller
 
     public function postSaveNotification(Request $request)
     {
+        dd($request);
         $this->validate($request, [
             'notification_name0' => 'required',
             'notification_type0' => 'required',

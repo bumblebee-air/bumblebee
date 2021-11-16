@@ -127,7 +127,7 @@
 							v-if="notification.notification_channel=='platform'">
 							<label>User type</label>
 							<treeselectuser class="form-control"
-								:name="'user_type[]' + (index)" :id="'user_type' + (index)"
+								:name="'user_type'+(index)+'[]'" :id="'user_type' + (index)"
 								v-model="notification.user_type"
 								placeholder="Select user type" :multiple="true"
 								:options="optionsusers" :clearable="true" :searchable="true"

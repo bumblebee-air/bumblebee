@@ -61,7 +61,7 @@ class SettingsController extends Controller
                 'notification_channel' => $notification->channel,
                 'phone_number' => json_decode($notification->send_to, true),
                 'email' => json_decode($notification->send_to, true),
-                'user_type' => $notification->send_to,
+                'user_type' => explode(',', $notification->send_to),
                 'notification_content' => $notification->content
             ];
         }
@@ -102,7 +102,6 @@ class SettingsController extends Controller
 
     public function postSaveNotification(Request $request)
     {
-        dd($request);
         $this->validate($request, [
             'notification_name0' => 'required',
             'notification_type0' => 'required',
@@ -116,7 +115,7 @@ class SettingsController extends Controller
         CustomNotification::whereHas('client', function ($q) use ($the_client) {
             $q->where('name', $the_client->name);
         })->delete();
-        for ($i = 0; $i < $request->indexes; $i++) {
+        for ($i = 0; $i < (int)$request->indexes; $i++) {
             $send_to = [];
             if ($request["notification_channel$i"] == 'email' || $request["notification_channel$i"] == 'sms') {
                 $contacts = $request["notification_channel$i"] == 'email' ? $request["email$i"] : $request["phone_number$i"];
@@ -129,12 +128,11 @@ class SettingsController extends Controller
             } else {
                 $send_to = $request["user_type$i"];
             }
-
             $customNotification = new CustomNotification();
             $customNotification->name = $request["notification_name$i"];
             $customNotification->type = $request["notification_type$i"];
             $customNotification->channel = $request["notification_channel$i"];
-            $customNotification->send_to = $send_to;
+            $customNotification->send_to = implode(',', $send_to);
             $customNotification->content = $request["notification_content$i"];
             $customNotification->client_id = $client_id;
             $customNotification->is_active = ($request["customNotification$i"] == 'true' || $request["customNotification$i"] == '1');
@@ -310,7 +308,7 @@ class SettingsController extends Controller
             'business_email'  => $request->business_email,
             'business_phone_number' => $request->business_phone_number,
             'retailers_automatic_rating_sms' => $request->retailersAutomaticRatingSMS ? true : false,
-            'driversTimeEndShift' => $request->driversTimeEndShift ,
+            'driversTimeEndShift' => $request->driversTimeEndShift,
         ];
         return $request->all();
         if ($general_setting) {

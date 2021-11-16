@@ -117,17 +117,17 @@ table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
 			<div class="col-md-12" id="">
 				<div class="card">
 					<div class="card-header card-header-icon  row">
-						<div class="col-12 col-lg-6 col-md-6">
-							<h4 class="card-title my-4">Dashboard</h4>
+						<div class="col-12 col-xl-5 col-lg-4 col-md-3 col-sm-12">
+							<h4 class="card-title my-md-4 mt-4 mb-1">Dashboard</h4>
 						</div>
-						<div class="col-12 col-lg-6 col-md-6">
+						<div class="col-12 col-xl-7 col-lg-8 col-md-9 col-sm-12">
 							<div class="row justify-content-end float-sm-right my-0"
 								style="margin-left: 10px">
 								<p id="errorMesssage" class="alert alert-danger m-0"></p>
 							</div>
-							<div class="row justify-content-end float-sm-right mt-2"
+							<div class="row justify-content-end mb-1 mt-2 mt-xs-0"
 								id="dashboardFilterRowDiv">
-								<div class="col-lg-4 col-md-3 col-sm-3">
+								<div class="col-lg-4 col-md-4 col-sm-4 px-md-1">
 									<div class="form-group bmd-form-group">
 										<input class="form-control inputDate inputFilter"
 											id="startDate" type="text" data-toggle="datetimepicker"
@@ -135,15 +135,15 @@ table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
 											aria-required="true">
 									</div>
 								</div>
-								<div class="col-lg-4 col-md-3 col-sm-3">
+								<div class="col-lg-4 col-md-4 col-sm-4 px-md-1">
 									<div class="form-group bmd-form-group">
 										<input class="form-control inputDate inputFilter" id="endDate"
 											type="text" placeholder="To" required="true"
 											aria-required="true">
 									</div>
 								</div>
-								<div class="col-lg-3 col-md-3  col-sm-2">
-									<button class=" btn-doorder-filter" type="button"
+								<div class="col-lg-3 col-md-3  col-sm-4 px-md-1">
+									<button class=" btn-doorder-filter w-100" type="button"
 										onclick="clickFilter()">Filter</button>
 								</div>
 							</div>
@@ -154,12 +154,12 @@ table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
 				<div class="row">
 					<div class="col-lg-7 col-md-7 col-sm-6">
 						<div class="row" style="display: flex; flex-wrap: wrap;">
-							<div class="col-6">
+							<div class="col-6 pr-1">
 								<div class="card card-stats">
 									<a href="{{route('doorder_ordersTable', 'doorder')}}">
 										<div class="card-dashboard-content">
 											<div class="row">
-												<div class="col-md-6  col-sm-6 ">
+												<div class="col-8 ">
 													<h3 id="ordersValueH3"
 														class="card-title cardDashboardValueH3">{{$all_orders_count}}</h3>
 													<p class="card-category">Orders</p>
@@ -168,7 +168,7 @@ table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
 													</div>
 												</div>
 												<div
-													class="col-md-6 col-sm-6  dashboard-card-icon-container">
+													class="col-4 dashboard-card-icon-container">
 													<div class="dashboard-card-icon">
 														<img class="dashboard-card-img"
 															src="{{asset('images/doorder-new-layout/orders-dashboard-yellow.png')}}"
@@ -180,12 +180,12 @@ table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
 									</a>
 								</div>
 							</div>
-							<div class="col-6">
+							<div class="col-6 pl-1">
 								<div class="card card-stats">
 									<a href="{{route('doorder_retailers_requests', 'doorder')}}">
 										<div class="card-dashboard-content">
 											<div class="row">
-												<div class="col-md-6  col-sm-6 ">
+												<div class="col-8 ">
 													<h3 id="newRetailersValueH3"
 														class="card-title cardDashboardValueH3">{{$retailers_count}}</h3>
 													<p class="card-category">New Retailers</p>
@@ -194,7 +194,7 @@ table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
 													</div>
 												</div>
 												<div
-													class="col-md-6  col-sm-6  dashboard-card-icon-container">
+													class="col-4  dashboard-card-icon-container">
 													<div class="dashboard-card-icon">
 														<img class="dashboard-card-img"
 															src="{{asset('images/doorder-new-layout/retailers-dashboard-yellow.png')}}"
@@ -206,12 +206,12 @@ table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
 									</a>
 								</div>
 							</div>
-							<div class="col-6">
+							<div class="col-6 pr-1">
 								<div class="card card-stats">
 									<a href="{{route('doorder_getInvoiceList', 'doorder')}}">
 										<div class="card-dashboard-content">
 											<div class="row">
-												<div class="col-md-6  col-sm-6 ">
+												<div class="col-8 ">
 													<h3 id="deliveryValueH3"
 														class="card-title cardDashboardValueH3">{{$delivered_orders_count}}</h3>
 													<p class="card-category">Delivery</p>
@@ -220,7 +220,7 @@ table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
 													</div>
 												</div>
 												<div
-													class="col-md-6  col-sm-6  dashboard-card-icon-container">
+													class="col-4  dashboard-card-icon-container">
 													<div class="dashboard-card-icon">
 														<img class="dashboard-card-img"
 															src="{{asset('images/doorder-new-layout/delivered-dashboard-yellow.png')}}"
@@ -232,12 +232,12 @@ table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
 									</a>
 								</div>
 							</div>
-							<div class="col-6">
+							<div class="col-6 pl-1">
 								<div class="card card-stats">
 									<a href="{{route('doorder_drivers_requests', 'doorder')}}">
 										<div class="card-dashboard-content">
 											<div class="row">
-												<div class="col-md-6  col-sm-6 ">
+												<div class="col-8 ">
 													<h3 id="newDeliverersValueH3"
 														class="card-title cardDashboardValueH3">{{$deliverers_count}}</h3>
 													<p class="card-category">New Deliverers</p>
@@ -246,7 +246,7 @@ table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
 													</div>
 												</div>
 												<div
-													class="col-md-6  col-sm-6  dashboard-card-icon-container">
+													class="col-4  dashboard-card-icon-container">
 													<div class="dashboard-card-icon">
 														<img class="dashboard-card-img"
 															src="{{asset('images/doorder-new-layout/drivers-dashboard-yellow.png')}}"
@@ -261,7 +261,7 @@ table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
 						</div>
 						<div class="row">
 							<div class="col-md-12">
-								<div class="card ">
+								<div class="card mt-1">
 									<div class="cardContentTableDiv">
 										<div class="card-header">
 											<h3 class="card-title tableDashboardH3">
@@ -410,16 +410,15 @@ table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
 
 					</div>
 				</div>
-
-
+				
 				<div class="mapContainerDiv">
 					<div class="row">
-						<div class="col-12 col-lg-6 col-md-5">
+						<div class="col-12 col-xl-5 col-lg-4 col-md-3 col-sm-12">
 							<h3 class="card-title tableDashboardH3">Live Map</h3>
 						</div>
-						<div class="col-12 col-lg-6 col-md-7">
-							<div class="row justify-content-end  mt-2  mr-md-1 mr-sm-2" id="">
-								<div class="col-lg-4 col-md-3 col-sm-3">
+						<div class="col-12 col-xl-7 col-lg-8 col-md-9 col-sm-12">
+							<div class="row justify-content-end    mb-1 mt-2 mt-xs-0" id="">
+								<div class="col-lg-4 col-md-4 col-sm-4 px-md-1">
 									<div class="form-group selectShowPinsContainer">
 										<select  id="showMapPinsSelect"
 										data-style="select-with-transition"
@@ -431,13 +430,13 @@ table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
 										</select>
 									</div>
 								</div>
-								<div class="col-lg-4 col-md-3 col-sm-3">
+								<div class="col-lg-4 col-md-4 col-sm-4 px-md-1">
 									<div class="form-group bmd-form-group">
 										<input class="form-control inputFilter" id="search_map"
 											type="search" placeholder="Search" required="true">
 									</div>
 								</div>
-								<div class="col-lg-3 col-md-3  col-sm-2">
+								<div class="col-lg-3 col-md-3 col-sm-4 pl-md-1">
 									<button class=" btn-doorder-filter w-100" type="button"
 										onclick="clickSearch()">Search</button>
 								</div>
@@ -605,7 +604,9 @@ function clickSearch(){
 
 	$( document ).ready(function() {
 	
-        	$('#minimizeSidebar').trigger('click')
+			if($(window).width()>768){
+        		$('#minimizeSidebar').trigger('click');
+        	}
 	
             $( ".inputDate" ).datepicker({
             	maxDate: new Date()

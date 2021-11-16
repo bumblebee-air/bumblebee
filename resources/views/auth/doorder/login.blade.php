@@ -112,6 +112,7 @@ input {
 	font-size: 18px;
 	line-height: 22px;
 	color: #5E5873;
+	text-transform: capitalize;
 }
 
 .card-login p {
@@ -143,6 +144,17 @@ background-image: url("../images/doorder-new-layout/doorder-login-background.png
  .h-100{
     height: auto !important;
  }
+}
+
+.alert.alert-danger{
+    position: absolute;
+    padding: 20px 5px;
+    margin-bottom:10px;
+    width: 100%;
+}
+
+.alert.alert-danger ul{
+    list-style: none;
 }
 
 </style>

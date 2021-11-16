@@ -141,6 +141,16 @@
                         <p>History</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{route('doorder_metrics_dashboard', 'doorder')}}">
+                        <img class="my-nav-icon my-nav-icon-grey"
+                        src="{{asset('images/doorder-new-layout/metrics-grey.png')}}"
+                        alt=""> <img class="my-nav-icon my-nav-icon-top"
+                        src="{{asset('images/doorder-new-layout/metrics-yellow.png')}}"
+                        alt="">
+                        <p>Metrics</p>
+                    </a>
+                </li>
                 <li class="nav-item"><a class="nav-link d-flex" href="{{route('doorder_getSettings', 'doorder')}}"> <img
                         class="my-nav-icon my-nav-icon-grey"
                         src="{{asset('images/doorder-new-layout/settings-grey.png')}}" alt="">

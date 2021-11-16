@@ -13,9 +13,20 @@ html {
 	width: 250px;
 }
 
+.off-canvas-sidebar nav .navbar-collapse:before, .sidebar:before {
+	background-color: #fff;
+}
+
 @media ( min-width : 991px) {
 	.main-panel {
 		width: calc(100% - 250px)
+	}
+}
+
+@media ( max-width : 991px) {
+	.nav-open .menu-on-left .main-panel, .nav-open .menu-on-left .navbar-fixed>div,
+		.nav-open .menu-on-left .wrapper-full-page {
+		transform: translate3d(250px, 0, 0);
 	}
 }
 
@@ -601,7 +612,7 @@ ul.pagination {
 	text-align: left !important;
 }
 
-.ordersListTableWithYellowTime tbody td span.orderTime{
+.ordersListTableWithYellowTime tbody td span.orderTime {
 	color: #e9c218 !important;
 	display: block;
 	height: auto
@@ -636,17 +647,20 @@ ul.pagination {
 	text-align: center !important;
 }
 
-.ui-datepicker-calendar td, .ui-datepicker-calendar th,.dt-datetime-table, .dt-datetime-table td, .dt-datetime-table th {
+.ui-datepicker-calendar td, .ui-datepicker-calendar th,
+	.dt-datetime-table, .dt-datetime-table td, .dt-datetime-table th {
 	font-family: Montserrat;
 }
 
 .ui-datepicker-calendar td a {
 	text-align: center;
 }
-.dt-datetime-table td.now button.dt-datetime-button.dt-datetime-day{
+
+.dt-datetime-table td.now button.dt-datetime-button.dt-datetime-day {
 	font-family: Montserrat;
 	font-weight: 600;
 }
+
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active,
 	a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover,
 	.dt-datetime-table td.selected button.dt-datetime-button.dt-datetime-day
@@ -718,20 +732,21 @@ div.dataTables_wrapper div.dataTables_paginate {
 	height: 24px
 }
 
-.tableTextLeft thead th, .tableTextLeft tbody td{
+.tableTextLeft thead th, .tableTextLeft tbody td {
 	text-align: left !important;
 }
 
-.dataTables_wrapper .dataTables_paginate .paginate_button{
+.dataTables_wrapper .dataTables_paginate .paginate_button {
 	padding: 0 !important;
 }
-.dataTables_wrapper .dataTables_paginate .paginate_button:hover{
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
 	border: none !important;
 	background: none !important;
 }
-.dataTables_length label{
+
+.dataTables_length label {
 	margin: 0
-	
 }
 /*********** buttons ************/
 .btn-doorder-filter {
@@ -1185,4 +1200,68 @@ button.dropdown-toggle.select-with-transition {
 
 .label-display-block {
 	display: block;
+}
+
+/*********** responsive *************/
+@media ( max-width :767.5px) {
+	.card-dashboard-content {
+		padding: 10px !important;
+	}
+	#dashboardCardDiv .card.card-stats .cardDashboardValueH3 {
+		font-weight: 600;
+		font-size: 24px;
+		line-height: 29px;
+	}
+	#dashboardCardDiv .card.card-stats p.card-category {
+		font-weight: 500;
+		font-size: 11px;
+		line-height: 13px;
+	}
+	#dashboardCardDiv .card-dashboard-content .card-footer .stats {
+		font-size: 10px !important;
+	}
+	.dashboard-card-img {
+		width: 55px;
+		height: 57px
+	}
+	.chartDataH3 {
+		font-size: 14xp;
+		line-height: 17px;
+	}
+	.weekMonthData .chartDataLabel {
+		font-size: 16px;
+		line-height: 19px;
+	}
+	.weekMonthData .chartDataValue {
+		font-size: 18px;
+		line-height: 22px
+	}
+	#dashboardCardDiv .cardContentTableDiv .card-title.tableDashboardH3 {
+		font-size: 18px;
+		line-height: 22px
+	}
+	#dashboardCardDiv .cardContentTableDiv .card-title.tableDashboardH3 span
+		{
+		font-size: 14px;
+		line-height: 17px;
+	}
+}
+
+@media ( min-width :768px) and ( max-width :991.5px) {
+	#dashboardCardDiv .card.card-stats .cardDashboardValueH3 {
+		font-size: 30px;
+		line-height: 35px;
+	}
+	#dashboardCardDiv .card.card-stats p.card-category {
+		font-size: 13px;
+		line-height: 18px;
+	}
+	#dashboardCardDiv .card-dashboard-content .card-footer .stats {
+		font-size: 12px !important;
+		letter-spacing: 0.46px;
+	}
+	.dashboard-card-img {
+		width: 60px;
+		height: 63px
+	}
 }

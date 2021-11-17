@@ -310,7 +310,8 @@ class SettingsController extends Controller
             'retailers_automatic_rating_sms' => $request->retailersAutomaticRatingSMS ? true : false,
             'driversTimeEndShift' => $request->driversTimeEndShift,
         ];
-        return $request->all();
+        $time = explode(':', $request->driversTimeEndShift);
+        $data['driversTimeEndShift'] = $time[0] * 60 + $time[1];
         if ($general_setting) {
             $general_setting->update($data);
         } else {

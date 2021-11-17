@@ -48,7 +48,7 @@
         </div>
         <div class="col-md-12 mb-2">
           <label class="form-label" for="notes">Notes: (Optional)</label>
-          <textarea class="form-control" type="text" id="expenses_receipt" rows="4"></textarea>
+          <textarea class="form-control" type="text" id="notes" rows="4" v-model="notes"></textarea>
         </div>
       </div>
 
@@ -273,7 +273,8 @@ export default {
       other_expenses_receipt: '',
       isLoading: false,
       confirmation_skip_reason: '',
-      socketInstance: io.connect(window.location.protocol+'//' + window.location.hostname + ':8890')
+      socketInstance: io.connect(window.location.protocol+'//' + window.location.hostname + ':8890'),
+      notes: ''
     }
   },
   mounted() {
@@ -336,7 +337,8 @@ export default {
             job_image: this.job_image,
             skip_reason: this.skip_reason,
             extra_expenses_json: this.job_other_expenses_json,
-            extra_expenses_receipt: this.extra_expenses_receipt
+            extra_expenses_receipt: this.extra_expenses_receipt,
+            notes: this.notes
           },
           {
             headers: {
@@ -353,6 +355,8 @@ export default {
         // this.$router.push({
         //   name: 'orders-list',
         // });
+      $('#job_image_skip_Modal').modal('hide');
+      this.isLoading = false;
       this.steps = 3
       Vue.$toast.success('The job completed successfully', {
         position: "top"

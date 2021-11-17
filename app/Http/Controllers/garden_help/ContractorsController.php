@@ -317,6 +317,7 @@ class ContractorsController extends Controller
                     $job->skip_reason = $request->skip_reason;
                     $job->job_services_types_json = $request->job_services_types_json;
                     $job->job_other_expenses_json = $request->extra_expenses_json;
+                    $job->notes = $request->notes;
                     //Capture the payment intent
                     $extra_expenses = ServicesTypesHelper::getExtraExpensesAmount($request->extra_expenses_json);
                     $services_amount = ServicesTypesHelper::getJobServicesTypesAmount($job);

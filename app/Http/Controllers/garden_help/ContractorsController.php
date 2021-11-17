@@ -282,9 +282,9 @@ class ContractorsController extends Controller
                 }
                 if ($request->status == 'on_route') {
                     $job->status = $request->status;
-                    $body = "The contractor is on his way to you.";
+//                    $body = "The contractor is on his way to you.";
                     $timestamps->on_the_way_first = $current_timestamp;
-                    TwilioHelper::sendSMS('GardenHelp', $job->phone_number, $body);
+//                    TwilioHelper::sendSMS('GardenHelp', $job->phone_number, $body);
                 } elseif ($request->status == 'arrived') {
                     $job->status = $request->status;
                     $timestamps->arrived_first = $current_timestamp;

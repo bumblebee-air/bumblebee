@@ -1,25 +1,6 @@
 @extends('templates.doorder_dashboard') @section('page-styles')
 <link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
 <style>
-.form-control {
-	min-height: 36px;
-	height: auto !important;
-}
-
-.form-control:read-only {
-	background-image: none !important;
-	padding: 10px
-}
-
-.form-control span {
-	font-size: 14px;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: 0.77px;
-	color: #4d4d4d;
-}
 
 #invoiceListTable .invoiceBoldSpan {
 	font-weight: bold !important;
@@ -203,17 +184,20 @@ table.doorderTable {
 
 											</thead>
 											<tbody>
-												@foreach($invoice as $item)
-												<tr>
-													<td colspan="4"><p class="invoiceServiceP">{{$item['name']}}
+																								
+												<tr v-if="invoice.length > 0" v-for="item in invoice" >
+													<td colspan="4"><p class="invoiceServiceP">@{{item.name}}
 														</p>
-
-														<p class="invoiceDateSpan">{{$item['date']}}</p></td>
-													<td class="">{{$item['count']}}</td>
+														<p class="invoiceDateSpan">@{{item.date}}</p> 
+													</td>
+													<td>@{{item.count}}</td>
 													<td class="text-left">€10</td>
-													<td class="">€{{$item['charge']}}</td>
+													<td class="">€@{{item.charge}}</td>
 												</tr>
-												@endforeach
+												<tr v-if="invoice.length == 0">
+        											<td colspan="7" class="text-center">No data found.
+        											</td>
+        										</tr>
 											</tbody>
 											<tfoot>
 												<tr>
@@ -248,20 +232,17 @@ table.doorderTable {
 
 								@if(auth()->user()->user_role != 'retailer')
 								<div class="row justify-content-center ">
-									<div class="col-xl-2 offset-xl-6 col-md-3  col-sm-4 text-center">
-										<button class="btnDoorder btn-doorder-grey  mb-1"
-										onclick="editInvoice({{$retailer->id}},'{{$month}}')"
-										>Edit</button>
-
-									</div>
-									<div class=" col-xl-2 col-lg-3 col-md-3 col-sm-4 text-center">
+<!-- 									<div class="col-xl-2 offset-xl-6 col-md-3  col-sm-4 text-center"> -->
+<!-- 										<button class="btnDoorder btn-doorder-grey  mb-1" onclick="editInvoice({{$retailer->id}},'{{$month}}')">Edit</button>
+<!-- 									</div> -->
+									<div class="col-lg-3  col-md-3 col-sm-4 text-center">
 										<form method="POST"
 											action="{{route('doorder_sendInvoice',['doorder',$retailer->id, 'month' => $_GET['month']])}}"
 											id="invoice_orders_form" style="margin: 0 !important;">{{csrf_field()}}</form>
 										<button class="btnDoorder btn-doorder-primary  mb-1"
 											@click="submitForm">Invoice</button>
 									</div>
-									<div class=" col-xl-2 col-lg-3 col-md-3 col-sm-4 text-center">
+									<div class="col-lg-3  col-md-3 col-sm-4 text-center">
 										<button type="button"
 											class="btnDoorder btn-doorder-green  mb-1"
 											onclick="clickSendEmail({{$retailer->id}},'{{$month}}')">Send
@@ -270,10 +251,10 @@ table.doorderTable {
 
 								</div>
 								@else
-								<div class="row ">
+								<div class="row justify-content-center">
 
-									<div class="col text-center">
-										<a class="btnDoorder btn-doorder-primary"
+									<div class="col-lg-3  col-md-3 col-sm-4 text-center">
+										<a class="btn btnDoorder btn-doorder-primary  mb-1 w-100"
 											href="{{url('doorder/pay_invoice/')}}/{{$retailer->id}}/{{$invoice_number}}">Pay</a>
 									</div>
 								</div>
@@ -394,33 +375,15 @@ $( document ).ready(function() {
 });
         var app = new Vue({
             el: '#app',
-            data() {               
+             data: {                
+            	
+            	invoice: {!! json_encode($invoice) !!},     
+            	
             },
 			methods: {
 			
 				submitForm(e) {
 					$('#confirm-invoice-modal').modal('show');
-// 					swal({
-// 						// title: "Good job!",
-// 						text: "",
-// 						icon: "info",
-// 						buttons: {
-// 							accept: {
-// 								text: "Yes",
-// 								value: "yes",
-// 								className: 'btn-doorder-primary w-100'
-// 							},
-// 							reject: {
-// 								text: "No",
-// 								value: "no",
-// 								className: 'btn-doorder-danger-outline w-100'
-// 							}
-// 						}
-// 					}).then((input) => {
-// 						if (input === 'yes') {
-							
-// 						}
-// 					});
 				}
 			}
         });

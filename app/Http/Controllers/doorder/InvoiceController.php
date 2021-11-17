@@ -107,7 +107,7 @@ class InvoiceController extends Controller
                 ]);
             }
         }
-        alert()->success('Invoiced successfully');
+        alert()->success('Invoice has been sent succesfully');
         return redirect()->route('doorder_getInvoiceList', 'doorder');
     }
     

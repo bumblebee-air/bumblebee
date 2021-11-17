@@ -14,28 +14,31 @@
 <link rel="stylesheet" href="{{asset('css/custom-pay.css')}}">
 <link rel="stylesheet" href="{{asset('css/doorder-styles.css')}}">
 <link rel="stylesheet" href="{{asset('css/doorder_dashboard.css')}}">
+
 <link
-	href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap"
+	href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
 	rel="stylesheet">
-<link
-	href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap"
-	rel="stylesheet">
+
 <link rel="icon" type="image/jpeg"
 	href="{{asset('images/doorder-favicon.svg')}}">
 <style>
+body, html {
+	height: 100vh;
+	font-family: 'Montserrat', sans-serif;
+}
+
 .titles_custom {
-	color: #e8ca49
+	font-family: 'Montserrat', sans-serif;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 22px;
+	color: #e8ca49;
+	text-transform: capitalize;
 }
 /* Blue outline on focus */
 .StripeElement--focus {
 	border-color: #80BDFF;
-}
-
-.btn {
-	font-size: 16px;
-	border-radius: 20px 0;
-	text-transform: capitalize;
-	min-width: 100%
 }
 
 .form-control[disabled], .form-group .form-control[disabled], fieldset[disabled] .form-control,
@@ -43,35 +46,99 @@
 	border-radius: 0;
 	border-color: #e8ca49;
 }
-.containerDiv
-{
-padding: 1rem !important;}
-.container{
-padding: 1rem !important;
+
+.containerDiv {
+	padding: 1rem !important;
 }
+
+.container {
+	padding: 1rem !important;
+}
+
 @media ( min-width : 768px) {
 	.containerDiv {
 		padding: 2rem 3rem !important;
 	}
 }
-.bg-cover{
-background: url("{{asset('images/doorder-login-bg.jpg')}}") no-repeat center center fixed;
-  background-size: cover;
-  height: 100%;
+
+@media ( max-width : 768px) {
+.submit_button_custom{
+	   width: 100% !important;
+	   font-size: 14px !important;
+	   line-height: 17px !important; 
+	}
 }
-.form-group{margin: 0 !important;}
-.form-group label{float: left}
+
+.bg-cover {
+	background-image:
+		url("{{asset('images/doorder-new-layout/doorder-login-background.png')}}");
+	background-position: center; /* Center the image */
+	background-repeat: no-repeat; /* Do not repeat the image */
+	background-size: cover;
+}
+
+.form-group {
+	margin: 0 !important;
+}
+
+.form-group label {
+	float: left;
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 17px;
+	color: #181C32;
+}
+
+input.form-control {
+	font-family: 'Montserrat', sans-serif;
+	font-size: 14px !important;
+	font-weight: 400;
+	letter-spacing: 0.3px;
+	color: #6E6B7B !important;
+    background-color: #F5F8FA !important;
+    box-shadow: none !important;
+}
+.form-control:focus {
+	border-color: #f7dc69 !important;
+}
+
+.form-control:focus, .is-focused .form-control {
+	background-image: linear-gradient(0deg, #f7dc69 2px, rgba(247, 220, 105, 0)
+		0), linear-gradient(0deg, #d2d2d2 1px, hsla(0, 0%, 82%, 0) 0)
+}
+
+.form-control[disabled], .form-group .form-control[disabled], fieldset[disabled] .form-control,
+	fieldset[disabled] .form-group .form-control {
+	border-bottom: 1px solid #dcdcdc;
+	background-color: #f1f1f1 !important;
+}
+
+.submit_button_custom {
+	border-radius: 8px;
+	background-color: #e8ca49;
+	width: 320px;
+	height: 50px;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 16px;
+	line-height: 20px;
+	text-align: center;
+	color: #FFFFFF;
+	text-transform: capitalize;
+}
 </style>
 
 <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body style="height: 100vh">
 	<div class="container text-center bg-cover h-100 m-0 py-1 px-5  "
-		style="width: 100%; max-width: 100% !important; 
-		">
+		style="width: 100%; max-width: 100% !important;">
 
 		<div class="row m-3 h-100 justify-content-center align-items-center">
-			<div class="col-md-6 offset-md-6 containerDiv "
+			<div
+				class="col-xl-4 col-lg-8 col-md-10 col-sm-12 mx-auto my-auto containerDiv "
 				style="background-color: white; border-radius: 30px;">
 				<img src="{{asset('images/doorder-logo.png')}}" class="img-fluid"
 					alt="DoOrder Logo" style="width: 110px; height: 80px;">
@@ -79,34 +146,46 @@ background: url("{{asset('images/doorder-login-bg.jpg')}}") no-repeat center cen
 				@csrf
 				<div id="details-section">
 					<h3 class="titles_custom my-1">Invoice details</h3>
-					<input id="retailer-id" type="hidden" value="{{$id}}"/>
-					<div class="form-group bmd-form-group">
-						<label>Customer name</label>
-						<input name="customer_name" type="text" class="form-control"
-							id="customer-name" placeholder="Your name" disabled="disabled"
-							value="{{$customer_name}}"> @if($errors &&
-						$errors->has('customer_name')) <small id="emailHelp"
-							class="form-text text-danger">{{$errors->first('customer_name')}}</small>
-						@endif
+					<input id="retailer-id" type="hidden" value="{{$id}}" />
+
+					<div class="row">
+						<div class="col">
+							<div class="form-group">
+								<label>Customer name</label> <input name="customer_name"
+									type="text" class="form-control" id="customer-name"
+									placeholder="Your name" disabled="disabled"
+									value="{{$customer_name}}"> @if($errors &&
+								$errors->has('customer_name')) <small id="emailHelp"
+									class="form-text text-danger">{{$errors->first('customer_name')}}</small>
+								@endif
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							<div class="form-group">
+								<label>Invoice number</label> <input name="invoice_number"
+									type="text" class="form-control" id="invoice-number"
+									placeholder="Invoice number" disabled="disabled"
+									value="{{$invoice_number}}"> @if($errors &&
+								$errors->has('invoice_number')) <small id="emailHelp"
+									class="form-text text-danger">{{$errors->first('invoice_number')}}</small>
+								@endif
+							</div>
+						</div>
 					</div>
 
-					<div class="form-group bmd-form-group">
-						<label>Invoice number</label>
-						<input name="invoice_number" type="text" class="form-control"
-							id="invoice-number" placeholder="Invoice number"
-							disabled="disabled" value="{{$invoice_number}}"> @if($errors &&
-						$errors->has('invoice_number')) <small id="emailHelp"
-							class="form-text text-danger">{{$errors->first('invoice_number')}}</small>
-						@endif
-					</div>
-
-					<div class="form-group bmd-form-group">
-						<label>Amount to pay</label>
-						<input name="amount" type="text" class="form-control" id="amount"
-							placeholder="Amount to pay" required value="{{$amount}}"
-							disabled="disabled"> @if($errors && $errors->has('amount')) <small
-							id="emailHelp" class="form-text text-danger">{{$errors->first('amount')}}</small>
-						@endif
+					<div class="row">
+						<div class="col">
+							<div class="form-group">
+								<label>Amount to pay</label> <input name="amount" type="text"
+									class="form-control" id="amount" placeholder="Amount to pay"
+									required value="{{$amount}}" disabled="disabled"> @if($errors
+								&& $errors->has('amount')) <small id="emailHelp"
+									class="form-text text-danger">{{$errors->first('amount')}}</small>
+								@endif
+							</div>
+						</div>
 					</div>
 
 					<div class="row">
@@ -119,17 +198,16 @@ background: url("{{asset('images/doorder-login-bg.jpg')}}") no-repeat center cen
 					</div>
 
 					<button role="button" id="confirm-details"
-						class="btn btn-primary doorder-btn-lg doorder-btn submit_button_custom mt-3">Confirm
-						& proceed to payment</button>
+						class="btn submit_button_custom mt-3">Confirm & proceed to payment</button>
 				</div>
 
 				<div id="payment-section" style="display: none;">
 					<h3 class="titles_custom mt-2 mn-1">Card details</h3>
 
 					<div class="form-group">
-						<!--<input type="text" name="card_number" class="form-control" id="card_number" placeholder="Card Number"
-						 minlength="16" maxlength="16" size="16" required>-->
-						 
+<!-- 						<input type="text" name="card_number" class="form-control" id="card_number" placeholder="Card Number" -->
+<!-- 						 minlength="16" maxlength="16" size="16" required> -->
+
 						<div id="card-number"></div>
 						@if($errors && $errors->has('card_number')) <small id="emailHelp"
 							class="form-text text-danger">{{$errors->first('card_number')}}</small>
@@ -147,13 +225,13 @@ background: url("{{asset('images/doorder-login-bg.jpg')}}") no-repeat center cen
                                 minlength="2" maxlength="2" size="2">
                         </div>-->
 							<div class="col-sm-6">
-								<!--<input type="number" name="cvc" class="form-control" id="cvc" placeholder="CVC" required
-                                minlength="3" maxlength="4" size="4">-->
+<!-- 								<input type="number" name="cvc" class="form-control" id="cvc" placeholder="CVC" required -->
+<!--                                 minlength="3" maxlength="4" size="4"> -->
 								<div id="card-expiry"></div>
 							</div>
 							<div class="col-sm-3">
-								<!--<input type="number" name="cvc" class="form-control" id="cvc" placeholder="CVC" required
-                                minlength="3" maxlength="4" size="4">-->
+<!-- 								<input type="number" name="cvc" class="form-control" id="cvc" placeholder="CVC" required -->
+<!--                                 minlength="3" maxlength="4" size="4"> -->
 								<div id="card-cvc"></div>
 							</div>
 
@@ -177,7 +255,7 @@ background: url("{{asset('images/doorder-login-bg.jpg')}}") no-repeat center cen
 					</div>
 
 					<button role="button" id="confirm-payment"
-						class="btn btn-primary doorder-btn-lg doorder-btn submit_button_custom">Pay</button>
+						class="btn submit_button_custom">Pay</button>
 				</div>
 				<!--</form>-->
 			</div>
@@ -206,7 +284,7 @@ background: url("{{asset('images/doorder-login-bg.jpg')}}") no-repeat center cen
         });
 
         $('#confirm-details').on('click',function() {
-            let payment_amount_field = $('#amount');
+        	let payment_amount_field = $('#amount');
             let amount_value = payment_amount_field.val();
             let invoice_number = $('#invoice-number').val();
             let customer_name = $('#customer-name').val();

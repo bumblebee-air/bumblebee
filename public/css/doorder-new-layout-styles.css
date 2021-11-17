@@ -132,12 +132,13 @@ li .nav-link:hover  i {
 .searchFormContainerDiv input {
 	font-family: 'Montserrat', sans-serif;
 	border-radius: 0 !important;
-	height: 40px;
+	height: 40px !important;
 	font-style: normal;
 	font-weight: normal;
 	font-size: 14px;
 	line-height: 17px;
-	color: #717579;
+	color: #717579 !important;
+	background: #fff !important;
 }
 
 .main-panel .navbar .collapse .navbar-nav .nav-item .nav-link {
@@ -579,20 +580,20 @@ ul.pagination {
 
 .dataTables_length select.form-control:not([size]):not([multiple]) {
 	height: 36px !important;
-	padding: 8px 14px 8px 14px;
+	padding: 8px 14px 8px 14px !important;
 	border-radius: 5px;
 	box-shadow: 0 2px 48px 0 rgb(0 0 0/ 8%);
 	border: 1px solid #eee !important;
-	background-color: #ffffff;
+	background-color: #ffffff !important;
 	font-family: Montserrat;
 	font-size: 14px;
 	font-weight: normal;
 	font-stretch: normal;
 	font-style: normal;
+	line-height: normal;
 	letter-spacing: 0.77px;
 	color: #4d4d4d;
 	width: auto;
-	height: auto;
 	background-color: #ffffff;
 }
 
@@ -673,6 +674,9 @@ ul.pagination {
 	.bootstrap-datetimepicker-widget  .datepicker td {
 	font-family: Montserrat;
 }
+.bootstrap-datetimepicker-widget table th{
+	width: 30px;
+}
 
 .viewIcon {
 	height: 30px;
@@ -749,6 +753,11 @@ div.dataTables_wrapper div.dataTables_paginate {
 	margin: 0
 }
 /*********** buttons ************/
+.modal-header .close {
+	border-radius: 6px;
+	background-color: #CC4B4C;
+}
+
 .btn-doorder-filter {
 	background: #E9C218;
 	border: 1px solid #E9C218;
@@ -876,13 +885,18 @@ div.dataTables_wrapper div.dataTables_paginate {
 	color: #fff;
 	background-color: #db3c3c;
 }
-
+.btnDoorder.disabled{
+	opacity: 0.65;
+}
 a.btn-doorder-filter {
 	line-height: 24px
 }
 
 a.btn-doorder-filter:hover {
 	color: #fff;
+}
+a.btnDoorder.btn-doorder-primary{
+	line-height: 24px;
 }
 /****************************/
 #dashboardFilterRowDiv .inputFilter, .mapContainerDiv .inputFilter,
@@ -1202,6 +1216,46 @@ button.dropdown-toggle.select-with-transition {
 	display: block;
 }
 
+.modal-dialog .modal-content{
+	border: none  !important;
+	border-radius: 6px !important;
+	box-shadow: none  !important
+}
+.form-group label, .locationLabel, .control-label {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 20px;
+	color: #23314B;
+}
+input.form-control, textarea.form-control, select.form-control{
+	padding: 11px 14px 11px 14px;
+	border-radius: 6px;
+	box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08); 
+	background-color: #ededed;
+    border-color: #e5e5e5;
+	font-family: Montserrat;
+	font-size: 16px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 20pc;
+	letter-spacing: 0.77px;
+	color: #6e6b7b !important;
+	width: 100%;
+	height: auto;
+}
+.addUserModalHeader{font-family: Montserrat;
+font-style: normal;
+font-weight: bold;
+font-size: 20px;
+line-height: 19px;
+/* identical to box height, or 95% */
+
+letter-spacing: 0.8px;
+
+color: #000000;}
 /*********** responsive *************/
 @media ( max-width :767.5px) {
 	.card-dashboard-content {

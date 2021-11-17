@@ -124,7 +124,7 @@
 					<div class="col-sm-3">
 						<div class="form-group bmd-form-group ">
 							<label style="font-weight: 700">Set Time to finish shift </label>
-							<input class="form-control timeShift" type="text" value="{{ $general_setting->driversTimeEndShift }}" name="driversTimeEndShift">
+							<input class="form-control timeShift" type="text" value="{{ floor($general_setting->driversTimeEndShift /60) .':'.$general_setting->driversTimeEndShift %60 }}" name="driversTimeEndShift">
 
 						</div>
 

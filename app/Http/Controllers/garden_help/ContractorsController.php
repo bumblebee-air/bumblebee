@@ -351,8 +351,9 @@ class ContractorsController extends Controller
                     $timestamps->completed = $current_timestamp;
 
                     //Sending confirmation URL to the customer
-                    if ($job->phone_number) {
-                        //
+                    if ($job->user && $job->user->phone) {
+                        $body = "Hi $job->name, GardenHelp service has been completed, open the link to scan the QR code and confirm the job. " . url('gh/customer/job/' . $job->customer_confirmation_code);
+                        TwilioHelper::sendSMS('GardenHelp', $job->user->phone, $body);
                     }
                 }
                 $job->save();

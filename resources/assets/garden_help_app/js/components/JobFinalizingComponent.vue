@@ -272,7 +272,8 @@ export default {
       job_other_expenses_json: [],
       other_expenses_receipt: '',
       isLoading: false,
-      confirmation_skip_reason: ''
+      confirmation_skip_reason: '',
+      socketInstance: io.connect(window.location.protocol+'//' + window.location.hostname + ':8890')
     }
   },
   mounted() {
@@ -281,7 +282,11 @@ export default {
     } else {
       this.service_types = JSON.parse(this.$route.params.services_types);
       this.changeSelectedValue();
+      this.subscribeIntoConfirmationChannel();
     }
+  },
+  destroyed() {
+    this.socketInstance.close();
   },
   methods: {
     toggleCheckedValue(type) {
@@ -406,6 +411,17 @@ export default {
           err => this.fetchJobDetailsError(err)
       );
     },
+    subscribeIntoConfirmationChannel() {
+      this.socketInstance.on('garden-help-channel:contractor-confirmation-job-id-' + this.$route.params.id, (data) => {
+        let decodedData = JSON.parse(data);
+        Vue.$toast.success(decodedData.data.message, {
+          position: 'top'
+        })
+        this.$router.push({
+          name: 'orders-list'
+        });
+      });
+    }
   }
 }
 </script>

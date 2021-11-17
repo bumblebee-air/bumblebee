@@ -134,10 +134,10 @@
       <div class="upload-logo text-center" @click="clickOnJobImagePhoto()">
         <i class="fas fa-cloud-upload-alt"></i>
       </div>
-      <input type="file" id="job_image" @change="changeJobImage" accept="image/*" style="display: none">
+      <input type="file" id="job_image" @change="changeJobImage" accept="image/*" style="display: none" multiple>
     </div>
-    <div class="row text-center p-2">
-      <img :src="job_image" alt="Job Image" v-if="job_image" style="width: 100%">
+    <div class="row text-center pt-3 justify-content-center">
+      <img :src="image" alt="Job Image" style="width: 10%" v-for="image in job_image" class="m-2">
     </div>
     <div class="row justify-content-center align-content-center mt-5">
       <div class="col-md-12 text-center">
@@ -238,7 +238,7 @@ export default {
       steps: 1,
       service_types_input: '',
       service_types: [],
-      job_image: '',
+      job_image: [],
       skip_reason: '',
       job_services_types_json: [],
       submittedForm: '',
@@ -375,12 +375,17 @@ export default {
       $('#expenses_receipt_input').trigger('click');
     },
     changeJobImage(e) {
-      const image = e.target.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(image);
-      reader.onload = e =>{
-        this.job_image = e.target.result;
-      };
+      console.log(e.target.files)
+      const images = e.target.files;
+      let job_images = [];
+      for (let image of images) {
+        const reader = new FileReader();
+        reader.readAsDataURL(image);
+        reader.onload = e =>{
+          job_images.push(e.target.result);
+        };
+      }
+      this.job_image = job_images
     },
     changeExpensesReceiptImage(e) {
       const image = e.target.files[0];

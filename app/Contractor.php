@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Contractor extends Model
 {
@@ -41,6 +42,16 @@ class Contractor extends Model
         'business_hours_json',
         'is_notifiable'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        Contractor::creating(function($model) {
+            $model->customer_confirmation_code = Str::random(10);
+            $model->contractor_confirmation_code = Str::random(10);
+        });
+    }
 
     public function user() {
         return $this->belongsTo(User::class, 'user_id');

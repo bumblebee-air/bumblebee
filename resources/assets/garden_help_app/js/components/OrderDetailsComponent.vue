@@ -571,6 +571,7 @@
                               if (ordersStatus == 'completed') {
                                 this.$router.push({name: 'job-finalizing', params: {
                                     id: this.job_data.id,
+                                    contractor_confirmation_code: this.job_data.contractor_confirmation_code,
                                     services_types: this.job_data.services_types_json,
                                   }});
 

@@ -46,6 +46,10 @@
           <input class="form-control" type="text" id="expenses_receipt" @click="clickOnExpensesReceiptPhoto()">
           <input type="file" id="expenses_receipt_input" @change="changeExpensesReceiptImage" accept="image/*" style="display: none">
         </div>
+        <div class="col-md-12 mb-2">
+          <label class="form-label" for="notes">Notes: (Optional)</label>
+          <textarea class="form-control" type="text" id="expenses_receipt" rows="4"></textarea>
+        </div>
       </div>
 
       <div class="row justify-content-center align-content-center mt-5">
@@ -118,7 +122,7 @@
     </div>
   </div>
 
-  <div class="container" v-else>
+  <div class="container" v-else-if="steps == 2">
     <div class="row justify-content-center pt-4">
       <p class="upload-title">
         Please Upload some of the
@@ -177,6 +181,54 @@
       </div>
     </div>
   </div>
+
+  <div class="container" v-else>
+    <div class="row justify-content-center pt-4">
+      <p class="text-center">
+        Please Scan the QR
+        <br>
+        Code to Confirm Delivery
+      </p>
+    </div>
+    <div class="row justify-content-center p-3">
+            <qrcode-vue :value="$route.params.contractor_confirmation_code" size="200" level="H" id="scanner">
+              hello there
+            </qrcode-vue>
+    </div>
+    <div class="row justify-content-center align-content-center mt-5">
+      <div class="col-md-12 text-center">
+        <button class="btn btn-lg doorder-btn danger" style="width: 80%" type="submit" data-toggle="modal" data-target="#confiramtion_skip_Modal">
+          <!--        {{!isLoading ? 'Submit' : ''}}-->
+          <!--        <i class="fas fa-spinner fa-pulse" v-if="isLoading"></i>-->
+          SKIP
+        </button>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="confiramtion_skip_Modal" tabindex="-1" role="dialog" aria-labelledby="confirmation_skip_Modal_Label" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="confirmation_skip_Modal_Label">Confirmation Skip reason</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <textarea class="form-control" v-model="confirmation_skip_reason" rows="10" style="width: 100%"></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn modal-button-close" data-dismiss="modal">Close</button>
+            <button type="button" class="btn modal-button-done" data-dismiss="modal" @click="skipConfirmation" :disabled="isLoading">
+              {{!isLoading ? 'Submit' : ''}}
+              <i class="fas fa-spinner fa-pulse" v-if="isLoading"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -219,11 +271,12 @@ export default {
       other_expenses_input: '',
       job_other_expenses_json: [],
       other_expenses_receipt: '',
-      isLoading: false
+      isLoading: false,
+      confirmation_skip_reason: ''
     }
   },
   mounted() {
-    if (!this.$route.params.id) {
+    if (!this.$route.params.id || !this.$route.params.contractor_confirmation_code) {
       this.$router.go(-1);
     } else {
       this.service_types = JSON.parse(this.$route.params.services_types);
@@ -292,12 +345,13 @@ export default {
       );
     },
     fetchJobDetailsResponse(res) {
-        this.$router.push({
-          name: 'orders-list',
-        });
-        Vue.$toast.success('The job completed successfully', {
-          position: "top"
-        });
+        // this.$router.push({
+        //   name: 'orders-list',
+        // });
+      this.steps = 3
+      Vue.$toast.success('The job completed successfully', {
+        position: "top"
+      });
     },
     fetchJobDetailsError(err) {
       if (err.response.status === 401) {
@@ -327,7 +381,31 @@ export default {
         this.extra_expenses_receipt = e.target.result;
       };
       $('#expenses_receipt').val(image.name)
-    }
+    },
+    skipConfirmation() {
+      let user = JSON.parse(localStorage.getItem('user'));
+      axios.post(process.env.MIX_API_URL + 'skip-confirmation',{
+            job_id: this.$route.params.id,
+            skip_reason: this.confirmation_skip_reason,
+          },
+          {
+            headers: {
+              Accept: "application/json",
+              Authorization: user.access_token
+            }
+          }).then(
+          res => {
+            this.$router.push({
+              name: 'orders-list',
+            });
+            Vue.$toast.success('The job confirmation skipped successfully', {
+              position: "top"
+            });
+          }
+      ).catch(
+          err => this.fetchJobDetailsError(err)
+      );
+    },
   }
 }
 </script>

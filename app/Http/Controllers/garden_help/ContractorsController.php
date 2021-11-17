@@ -349,6 +349,11 @@ class ContractorsController extends Controller
                     }
                     $job->is_paid = true;
                     $timestamps->completed = $current_timestamp;
+
+                    //Sending confirmation URL to the customer
+                    if ($job->phone_number) {
+                        //
+                    }
                 }
                 $job->save();
                 if ($request->status != 'delivery_arrived') {
@@ -702,6 +707,29 @@ class ContractorsController extends Controller
         return response()->json([
             'message' => 'Success'
         ]);
+    }
+
+    public function skipJobConfirmation(Request $request)
+    {
+        $skip_reason = $request->get('skip_reason');
+        $job_id = $request->get('job_id');
+        $job = Customer::find($job_id);
+        if (!$job) {
+            $response = [
+                'order' => [],
+                'message' => 'No job was found with this ID',
+                'error' => 1
+            ];
+            return response()->json($response)->setStatusCode(403);
+        }
+        $job->contractor_confirmation_status = 'skipped'; # skipped || confirmed
+        $job->contractor_confirmation_skip_reason = $skip_reason;
+        $job->save();
+        $response = [
+            'message' => 'Job confirmation skipped successfully',
+            'error' => 0
+        ];
+        return response()->json($response)->setStatusCode(200);
     }
 
 }

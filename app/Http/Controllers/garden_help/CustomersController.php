@@ -308,4 +308,37 @@ class CustomersController extends Controller
         }
         return redirect()->back();
     }
+
+    public function getJobConfirmation($customer_confirmation_code) {
+        if (!$customer_confirmation_code) {
+            abort(404);
+        }
+        $checkIfCodeExists = Customer::where('customer_confirmation_code', $customer_confirmation_code)->first();
+        if (!$checkIfCodeExists) {
+            abort(404);
+        }
+        return view('garden_help.customers.confirm_completing_job', ['job' => $checkIfCodeExists]);
+    }
+
+    public function postJobConfirmation(Request $request) {
+//        dd($request->all());
+        $customer_confirmation_code = $request->customer_confirmation_code;
+        $contractor_confirmation_code = $request->contractor_confirmation_code;
+        $checkIfCodeExists = Customer::where('customer_confirmation_code', $customer_confirmation_code)
+            ->where('contractor_confirmation_code', $contractor_confirmation_code)->first();
+        if (!$checkIfCodeExists) {
+            alert()->error('The Job QR Code is not valid, Please try again.');
+            return redirect()->back();
+        }
+        $checkIfCodeExists->contractor_confirmation_status = 'confirmed';
+        $checkIfCodeExists->save();
+
+        \Redis::publish('garden-help-channel', json_encode([
+            'event' => "contractor-confirmation-job-id-$checkIfCodeExists->id".'-'.env('APP_ENV','dev'),
+            'data' => [
+                'message' => 'Customer has confirmed the delivery successfully',
+            ]
+        ]));
+        return redirect()->back();
+    }
 }

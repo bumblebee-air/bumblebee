@@ -291,15 +291,19 @@ class ContractorsController extends Controller
                 } elseif ($request->status == 'completed') {
                     // Saving Job Image
                     if ($request->job_image) {
-                        $base64_image = $request->job_image;
-                        $base64_image_format = '';
-                        if (preg_match('/^data:image\/(\w+);base64,/', $base64_image, $base64_image_format)) {
-                            $data = substr($base64_image, strpos($base64_image, ',') + 1);
-                            $data = base64_decode($data);
-                            $base64_image_path = 'uploads/jobs_uploads/' . Str::random(10) . ".$base64_image_format[1]";
-                            Storage::disk('local')->put($base64_image_path, $data);
-                            $job->job_image = $base64_image_path;
+                        $base64_images = $request->job_image;
+                        $job_images_json = [];
+                        foreach ($base64_images as $job_image) {
+                            $base64_image_format = '';
+                            if (preg_match('/^data:image\/(\w+);base64,/', $job_image, $base64_image_format)) {
+                                $data = substr($job_image, strpos($job_image, ',') + 1);
+                                $data = base64_decode($data);
+                                $base64_image_path = 'uploads/jobs_uploads/' . Str::random(10) . ".$base64_image_format[1]";
+                                Storage::disk('local')->put($base64_image_path, $data);
+                                $job_images_json[] = $base64_image_path;
+                            }
                         }
+                        $job->job_image = $job_images_json;
                     }
                     // Saving extra receipt Image
                     if ($request->extra_expenses_receipt) {

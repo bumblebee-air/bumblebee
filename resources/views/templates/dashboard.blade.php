@@ -302,6 +302,8 @@
     let updateAudio = new Audio('{{asset("audio/update.mp3")}}');
     let notificationAudio = new Audio('{{asset("audio/notification.mp3")}}');
 </script>
+	@if(Auth::guard('doorder')->check() && auth()->user() &&
+	auth()->user()->user_role != "retailer")
 	<!-- Intercom script -->
 	<script>
 		window.intercomSettings = {
@@ -310,9 +312,6 @@
 		// We pre-filled your app ID in the widget URL: 'https://widget.intercom.io/widget/moo5ec3o'
 		(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/moo5ec3o';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
 	</script>
-
-	@if(Auth::guard('doorder')->check() && auth()->user() &&
-	auth()->user()->user_role != "retailer")
 	<script>
         let socket = io.connect('{{env('SOCKET_URL')}}');
         Vue.use(VueToast);

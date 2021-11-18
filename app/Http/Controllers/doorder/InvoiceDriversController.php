@@ -82,7 +82,8 @@ class InvoiceDriversController extends Controller
             alert()->info('You have to select date first.');
             return redirect()->back();
         }
-        $orders = Order::whereDate('created_at', '>', $latest_payout_date)->get();
+        $orders = Order::where('driver','=',$id)
+            ->whereDate('created_at', '>', $latest_payout_date)->get();
         $orders_grouped = $orders->groupBy(function($item) {
             return $item->created_at->format('Y-m-d');
         });

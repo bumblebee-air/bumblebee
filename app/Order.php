@@ -21,6 +21,7 @@ class Order extends Model
         'pickup_lat',
         'pickup_lon',
         'fulfilment',
+        'fulfilment_date',
         'notes',
         'deliver_by',
         'fragile',
@@ -38,23 +39,30 @@ class Order extends Model
         'is_paidout_driver'
     ];
 
-    public function orderDriver() {
+    // protected $dates = ['fulfilment_date'];
+
+    public function orderDriver()
+    {
         return $this->belongsTo(User::class, 'driver');
     }
 
-    public function retailer() {
+    public function retailer()
+    {
         return $this->belongsTo(Retailer::class, 'retailer_id');
     }
 
-    public function orderTimestamps() {
+    public function orderTimestamps()
+    {
         return $this->hasOne(KPITimestamp::class, 'model_id');
     }
 
-    public function comments() {
+    public function comments()
+    {
         return $this->morphMany(JobComment::class, 'job', 'job_model', 'job_id', 'id');
     }
 
-    public function rating() {
+    public function rating()
+    {
         return $this->hasMany(Rating::class, 'model_id');
     }
 }

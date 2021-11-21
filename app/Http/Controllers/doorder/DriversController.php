@@ -976,10 +976,8 @@ class DriversController extends Controller
         }
         $driver_ratings = \DB::table('ratings')->where('model', '=', 'order')
             ->whereIn('model_id', $order_ids)->selectRaw('avg(rating) as average_rating')->first();
-        $driver_ratings_doorder = \DB::table('ratings')->where(['model' => 'doorder', 'user_type' => 'driver', 'user_id' => $driver->user_id])->first();
         $driver_overall_rating = ($driver_ratings->average_rating != null) ? $driver_ratings->average_rating : 0;
         $driver->overall_rating = round($driver_overall_rating * 2) / 2;
-        $driver->rating_doorder = ['rating'=> round(optional($driver_ratings_doorder)->rating * 2) / 2, 'comment' => optional($driver_ratings_doorder)->message];
 
         $driver_ratings_doorder = \DB::table('ratings')->where(['model' => 'order', 'user_type' => 'driver', 'user_id' => $driver->user_id])->first();
         $driver->rating_doorder = ['rating'=> round(optional($driver_ratings_doorder)->rating * 2) / 2, 'comment' => optional($driver_ratings_doorder)->message];

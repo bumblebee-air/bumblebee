@@ -64,8 +64,7 @@ class CustomNotificationHelper
                     'event' => 'custom-notification'.'-'.env('APP_ENV','dev'),
                     'data' => [
                         'title' => $title,
-                        'url' => $url,
-                        'id' => $notification->send_to
+                        'url' => $url
                     ]
                 ]));
             }

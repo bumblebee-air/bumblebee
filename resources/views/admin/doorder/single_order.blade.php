@@ -402,8 +402,8 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 											<div class="form-group">
 												<label for="fulfilment" class="control-label">Order
 													fulfilment</label> <input id="fulfilment" type="text"
-													name="fulfilment" class="form-control"
-													value="{{$order->fulfilment}}" required>
+													name="fulfilment_date" class="form-control"
+													value="{{ $order->fulfilment_date ? Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $order->fulfilment_date)->format('m/d/Y H:i A'): NULL}}" required>
 											</div>
 										</div>
 										<div class="col-12">
@@ -960,7 +960,18 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 
         $(document).ready(function(){
         
-        	$('#fulfilment').mdtimepicker({readOnly:false});
+        	$("#fulfilment").datetimepicker({
+                     icons: { time: "fa fa-clock",
+								date: "fa fa-calendar",
+								up: "fa fa-chevron-up",
+								down: "fa fa-chevron-down",
+								previous: 'fa fa-chevron-left',
+								next: 'fa fa-chevron-right',
+								today: 'fa fa-screenshot',
+								clear: 'fa fa-trash',
+								close: 'fa fa-remove'
+							},
+            });
         	
         	$('#minimizeSidebar').trigger('click')
         

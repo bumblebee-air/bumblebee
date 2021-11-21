@@ -127,9 +127,9 @@
 							v-if="notification.notification_channel=='platform'">
 							<label>User type</label>
 							<treeselectuser class="form-control"
-								:name="'user_type'+(index)+'[]'" :id="'user_type' + (index)"
+								:name="'user_type'+(index)" :id="'user_type' + (index)"
 								v-model="notification.user_type"
-								placeholder="Select user type" :multiple="true"
+								placeholder="Select user type" :multiple="false"
 								:options="optionsusers" :clearable="true" :searchable="true"
 								:openOnClick="true" :disable-branch-nodes="true"
 								:closeOnSelect="false" :flat="false" :open-on-focus="true"
@@ -157,6 +157,22 @@
 						</div>
 						<div class="form-group bmd-form-group"
 							v-else ></div>
+					</div>
+				</div>
+				<div class="row" v-if="notification.notification_type=='new_order' || notification.notification_type=='external_store_fulfillment'">
+					<div class="col-sm-6">
+						<div class="form-group bmd-form-group">
+							<label for="retailer">Retailer </label>
+							<treeselectretailer class="form-control"
+								:name="'retailer' + (index)+'[]'"
+								:id="'retailer' + (index)"
+								v-model="notification.retailer"
+								placeholder="Select retailer(s)" :multiple="true"
+								:options="optionsretailer" :clearable="true" :searchable="true"
+								:openOnClick="true" :disable-branch-nodes="true"
+								:closeOnSelect="true" :flat="false" :open-on-focus="true"
+								:always-open="false" />
+						</div>
 					</div>
 				</div>
 				<div class="row">

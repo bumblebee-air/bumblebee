@@ -115,16 +115,18 @@ class SettingsController extends Controller
         CustomNotification::whereHas('client', function ($q) use ($the_client) {
             $q->where('name', $the_client->name);
         })->delete();
-        for ($i = 0; $i < (int)$request->indexes; $i++) {
-            $send_to = [];
+        for ($i = 0; $i < $request->indexes; $i++) {
+            $send_to = NULL;
             if ($request["notification_channel$i"] == 'email' || $request["notification_channel$i"] == 'sms') {
                 $contacts = $request["notification_channel$i"] == 'email' ? $request["email$i"] : $request["phone_number$i"];
-                foreach ($contacts as $contact) {
-                    $send_to[] = [
-                        'value' => $contact
-                    ];
+                if ($contacts) {
+                    foreach ($contacts as $contact) {
+                        $send_to[] = [
+                            'value' => $contact
+                        ];
+                    }
+                    $send_to = json_encode($send_to);
                 }
-                $send_to = json_encode($send_to);
             } else {
                 $send_to = $request["user_type$i"];
             }
@@ -132,9 +134,10 @@ class SettingsController extends Controller
             $customNotification->name = $request["notification_name$i"];
             $customNotification->type = $request["notification_type$i"];
             $customNotification->channel = $request["notification_channel$i"];
-            $customNotification->send_to = implode(',', $send_to);
+            $customNotification->send_to = $send_to;
             $customNotification->content = $request["notification_content$i"];
             $customNotification->client_id = $client_id;
+            $customNotification->retailers = (isset($request["retailer$i"]) && count($request["retailer$i"])) ? implode(',', $request["retailer$i"]) : NULL;
             $customNotification->is_active = ($request["customNotification$i"] == 'true' || $request["customNotification$i"] == '1');
             $customNotification->save();
         }

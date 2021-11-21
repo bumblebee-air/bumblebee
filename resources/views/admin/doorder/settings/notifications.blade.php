@@ -127,32 +127,16 @@
 							v-if="notification.notification_channel=='platform'">
 							<label>User type</label>
 							<treeselectuser class="form-control"
-								:name="'user_type'+(index)+'[]'" :id="'user_type' + (index)"
+								:name="'user_type' + (index)" :id="'user_type' + (index)"
 								v-model="notification.user_type"
-								placeholder="Select user type" :multiple="true"
+								placeholder="Select user type" :multiple="false"
 								:options="optionsusers" :clearable="true" :searchable="true"
 								:openOnClick="true" :disable-branch-nodes="true"
-								:closeOnSelect="false" :flat="false" :open-on-focus="true"
-								:always-open="false" search-nested :normalizer="normalizer"/>
+								:closeOnSelect="true" :flat="false" :open-on-focus="true"
+								:always-open="false" search-nested :normalizer="normalizer">
 							<div slot="value-label" slot-scope="{ node }">@{{node.raw.customLabel}}</div>
 
-							{{-- </treeselectuser> --}}
-							{{-- <treeselect
-								:name="user_type"
-								:multiple="false"
-								:clearable="true"
-								:searchable="true"
-								:disabled="false"
-								:open-on-click="true"
-								:open-on-focus="false"
-								:clear-on-select="false"
-								:close-on-select="true"
-								:always-open="false"
-								:options="optionsusers"
-								:limit="3"
-								:max-height="200"
-								v-model="notification.user_type"
-								/> --}}
+							</treeselect>
 						
 						</div>
 						<div class="form-group bmd-form-group"

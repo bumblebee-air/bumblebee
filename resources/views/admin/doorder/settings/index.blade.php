@@ -532,13 +532,7 @@ Vue.use('vue-cascader-select');
                     	id: 'admin',
                       	label: 'Admin',
                       	children: {!! $adminOptions !!}
-                    },
-                	{
-                    	id: 'retailers',
-                      	label: 'Retailers',
-                      	children: {!! $retailersOptions !!}
-                    },
-					{
+                    },{
                     	id: 'call_center',
                       	label: 'Call center',
                       	children: {!! $callCenterOptions !!}

@@ -403,7 +403,8 @@ div.dataTables_wrapper div.dataTables_filter input {
 	/* text-align: left !important; */
 }
 
-.ordersListTable tbody tr td:first-child {
+.ordersListTable tbody tr td:first-child, .ordersListTable tbody tr td.orderDateTimeTd
+	{
 	font-family: Montserrat;
 	font-style: normal;
 	font-weight: 600 !important;
@@ -419,9 +420,13 @@ div.dataTables_wrapper div.dataTables_filter input {
 	font-size: 12px;
 	line-height: 18px;
 	text-align: center;
-	padding: 2px 4px;
+	padding: 3px 6px;
 	border-radius: 16px;
 	height: auto;
+}
+
+.ordersListTable>tbody>tr>td{
+	padding: 10px 5px !important; 
 }
 
 .doorderTable td .tablePinSpan {
@@ -507,7 +512,7 @@ div.dataTables_wrapper div.dataTables_filter input {
 	/*   top: 100%; */
 	/*   left: 50%; */
 	/*   margin-left: -60px; */
-	top: -5px;
+	top: -15px;
 	right: 110%;
 	overflow: inherit;
 	box-shadow: 0 2px 2px 0 hsl(0deg 0% 60%/ 14%), 0 3px 1px -2px
@@ -674,7 +679,8 @@ ul.pagination {
 	.bootstrap-datetimepicker-widget  .datepicker td {
 	font-family: Montserrat;
 }
-.bootstrap-datetimepicker-widget table th{
+
+.bootstrap-datetimepicker-widget table th {
 	width: 30px;
 }
 
@@ -751,6 +757,45 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 .dataTables_length label {
 	margin: 0
+}
+
+table.dataTable tbody td.select-checkbox:before, table.dataTable tbody th.select-checkbox:before
+	{
+	border-radius: 5px !important;
+	border: 1px solid #efefef !important;
+}
+
+table.dataTable tbody td.select-checkbox:before, table.dataTable tbody td.select-checkbox:after,
+	table.dataTable tbody th.select-checkbox:before, table.dataTable tbody th.select-checkbox:after
+	{
+	width: 20px !important;
+	height: 20px !important;
+	background: #efefef;
+}
+table.dataTable tr.selected td.select-checkbox:after, table.dataTable tr.selected th.select-checkbox:after{
+	margin-top: -8px !important;
+	width: 20px !important;
+	height: 21px !important;
+	background: #E9C21866;
+	border-radius: 5px !important;
+	border: 1px solid #E9C21866 !important;
+	text-shadow: none !important;
+	color: #e9c218;
+	font-size: 15px !important;
+}
+table.dataTable tr.selected{
+background: #F3ECCE !important;
+}
+table.dataTable tr.selected td{
+		border-color: #fff !important;
+}
+.inDutyDriverSpan.inDutyTrue{
+	margin-right:10px;
+	color: #60A244 !important;
+}
+.inDutyDriverSpan.inDuty0{
+	color: #DB3C3C !important;
+	margin-right:10px;	
 }
 /*********** buttons ************/
 .modal-header .close {
@@ -885,9 +930,11 @@ div.dataTables_wrapper div.dataTables_paginate {
 	color: #fff;
 	background-color: #db3c3c;
 }
-.btnDoorder.disabled{
+
+.btnDoorder.disabled {
 	opacity: 0.65;
 }
+
 a.btn-doorder-filter {
 	line-height: 24px
 }
@@ -895,7 +942,8 @@ a.btn-doorder-filter {
 a.btn-doorder-filter:hover {
 	color: #fff;
 }
-a.btnDoorder.btn-doorder-primary{
+
+a.btnDoorder.btn-doorder-primary {
 	line-height: 24px;
 }
 /****************************/
@@ -1216,11 +1264,12 @@ button.dropdown-toggle.select-with-transition {
 	display: block;
 }
 
-.modal-dialog .modal-content{
-	border: none  !important;
+.modal-dialog .modal-content {
+	border: none !important;
 	border-radius: 6px !important;
-	box-shadow: none  !important
+	box-shadow: none !important
 }
+
 .form-group label, .locationLabel, .control-label {
 	font-family: Montserrat;
 	font-style: normal;
@@ -1229,12 +1278,13 @@ button.dropdown-toggle.select-with-transition {
 	line-height: 20px;
 	color: #23314B;
 }
-input.form-control, textarea.form-control, select.form-control{
+
+input.form-control, textarea.form-control, select.form-control {
 	padding: 11px 14px 11px 14px;
 	border-radius: 6px;
-	box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08); 
+	box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
 	background-color: #ededed;
-    border-color: #e5e5e5;
+	border-color: #e5e5e5;
 	font-family: Montserrat;
 	font-size: 16px;
 	font-weight: 500;
@@ -1246,16 +1296,17 @@ input.form-control, textarea.form-control, select.form-control{
 	width: 100%;
 	height: auto;
 }
-.addUserModalHeader{font-family: Montserrat;
-font-style: normal;
-font-weight: bold;
-font-size: 20px;
-line-height: 19px;
-/* identical to box height, or 95% */
 
-letter-spacing: 0.8px;
-
-color: #000000;}
+.addUserModalHeader {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 20px;
+	line-height: 19px;
+	/* identical to box height, or 95% */
+	letter-spacing: 0.8px;
+	color: #000000;
+}
 /*********** responsive *************/
 @media ( max-width :767.5px) {
 	.card-dashboard-content {

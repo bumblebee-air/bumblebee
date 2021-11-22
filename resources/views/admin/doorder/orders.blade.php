@@ -5,6 +5,10 @@
 <link rel="stylesheet"
 	href="{{asset('css/doorder-calendar-styles.css')}}">
 
+<link
+	href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css"
+	rel="stylesheet">
+
 <style>
 </style>
 @endsection @section('title', 'DoOrder | Orders')
@@ -52,8 +56,9 @@
 												<div id="filterByStatusDiv" class="calendarFilterDiv">
 													<h3 class="calendarFilterH3">Filter by status</h3>
 
-													<div class="row " style="margin-left: -3px; margin-right: -10px;">
-														
+													<div class="row "
+														style="margin-left: -3px; margin-right: -10px;">
+
 														<div class="form-check col-6 col-md-12">
 															<label
 																class="form-check-label calendarFilterLabel viewAllLabel"
@@ -207,93 +212,126 @@
 						</div>
 						<div class="tab-pane fade  show active" id="ordersListView"
 							role="tabpanel" aria-labelledby="pills-list-tab">
-							<div class="card">
-								<div class="card-body">
-									<div class="float-right"></div>
-									<div class="table-responsive">
-										<table
-											class="table table-no-bordered table-hover doorderTable ordersListTable"
-											id="ordersTable" width="100%">
-											<thead>
-												<tr>
-													<th>Date/Time</th>
-													<th>Order Number</th>
-													<th>Order Time</th>
-													<th>Retailer Name</th>
-													<th>Status</th>
-													<th>Deliverer</th>
-													<th>Location</th>
-												</tr>
-											</thead>
+							<form method="POST" id="delete-driver"
+								action="{{url('doorder/assign_orders')}}"
+								style="margin-bottom: 0 !important;">
+								{{csrf_field()}}
+								<div class="card">
+									<div class="card-body">
+										<div class="float-right"></div>
+										<div class="table-responsive">
+											<table
+												class="table table-no-bordered table-hover doorderTable ordersListTable"
+												id="ordersTable" width="100%">
+												<thead>
+													<tr>
+														@if(auth()->user()->user_role == 'client' )
+														<th width="5%"></th>
+														@endif
+														<th>Date/Time</th>
+														<th>Order Number</th>
+														<th>Order Time</th>
+														<th>Retailer</th>
+														<th>Status</th>
+														<th>Deliverer</th>
+														<th>Location</th>
+													</tr>
+												</thead>
 
-											<tbody>
+												<tbody>
 
-												<tr v-for="order in orders.data"
-													v-if="orders.data.length > 0" @click="openOrder(order.id)"
-													class="order-row">
-													<td class="text-left">@{{ order.time }}</td>
-													<td class="text-left">@{{order.order_id.includes('#')?
-														order.order_id : '#'+order.order_id}}</td>
-													<td class="text-left">@{{order.fulfilment_at}}</td>
-													<td class="text-left">@{{order.retailer_name}}</td>
-													<td class="text-left"><span
-														v-if="order.status == 'pending'"
-														class="orderStatusSpan pendingStatus">Pending fullfilment</span>
-														<span v-if="order.status == 'ready'"
-														class="orderStatusSpan readyStatus">Ready to Collect</span>
-														<span
-														v-if="order.status == 'matched' || order.status == 'assigned'"
-														class="orderStatusSpan matchedStatus">Matched</span> <span
-														v-if="order.status == 'on_route_pickup'"
-														class="orderStatusSpan onRoutePickupStatus">On-route to
-															Pickup</span> <span v-if="order.status == 'picked_up'"
-														class="orderStatusSpan pickedUpStatus">Picked up</span> <span
-														v-if="order.status == 'on_route'"
-														class="orderStatusSpan onRouteStatus">On-route</span> <span
-														v-if="order.status == 'delivery_arrived'"
-														class="orderStatusSpan deliveredArrivedStatus">Arrived to
-															location</span> <span v-if="order.status == 'delivered'"
-														class="orderStatusSpan deliveredStatus">Delivered</span> <span
-														v-if="order.status == 'not_delivered'"
-														class="orderStatusSpan notDeliveredStatus">Not delivered</span>
+													<tr v-for="order in orders.data"
+														v-if="orders.data.length > 0"
+														@click="openOrder(event,order.id)" class="order-row" :data-orderId="order.id">
+														
+														@if(auth()->user()->user_role == 'client' )
+														<td class="p-3">
+															<input type="checkbox" name="selectedOrders[]" v-bind:value="order.id">
+														
+														</td>
+														@endif
+														<td class="text-left orderDateTimeTd">@{{ order.time }}</td>
+														<td class="text-left">@{{order.order_id.includes('#')?
+															order.order_id : '#'+order.order_id}}</td>
+														<td class="text-left">@{{order.fulfilment_at}}</td>
+														<td class="text-left">@{{order.retailer_name}}</td>
+														<td class="text-left"><span
+															v-if="order.status == 'pending'"
+															class="orderStatusSpan pendingStatus">Pending fullfilment</span>
+															<span v-if="order.status == 'ready'"
+															class="orderStatusSpan readyStatus">Ready to Collect</span>
+															<span
+															v-if="order.status == 'matched' || order.status == 'assigned'"
+															class="orderStatusSpan matchedStatus">Matched</span> <span
+															v-if="order.status == 'on_route_pickup'"
+															class="orderStatusSpan onRoutePickupStatus">On-route to
+																Pickup</span> <span v-if="order.status == 'picked_up'"
+															class="orderStatusSpan pickedUpStatus">Picked up</span> <span
+															v-if="order.status == 'on_route'"
+															class="orderStatusSpan onRouteStatus">On-route</span> <span
+															v-if="order.status == 'delivery_arrived'"
+															class="orderStatusSpan deliveredArrivedStatus">Arrived to
+																location</span> <span v-if="order.status == 'delivered'"
+															class="orderStatusSpan deliveredStatus">Delivered</span>
+															<span v-if="order.status == 'not_delivered'"
+															class="orderStatusSpan notDeliveredStatus">Not delivered</span>
 
-														<!--                                                 	<img class="order_status_icon"  -->
-														<!--                                                 	:src="'{{asset('/')}}images/doorder_icons/order_status_' + (order.status === 'assigned' ? 'matched' :  order.status) + '.png'" :alt="order.status"> -->
+															<!--                                                 	<img class="order_status_icon"  -->
+															<!--                                                 	:src="'{{asset('/')}}images/doorder_icons/order_status_' + (order.status === 'assigned' ? 'matched' :  order.status) + '.png'" :alt="order.status"> -->
 
-													</td>
+														</td>
 
-													<td class="text-left">@{{ order.driver != null ?
-														order.driver : 'N/A' }}</td>
-													<td class="text-left">
-														<p style="" class="tablePinSpan tooltipC mb-0">
-															<span> <i class="fas fa-map-marker-alt"
-																style="color: #747474"></i> <span
-																style="width: 20px; height: 0; display: inline-block; border-top: 2px solid #979797"></span>
-																<i class="fas fa-map-marker-alt" style="color: #60A244"></i></span>
-															<span class="tooltiptextC"> <i class="fas fa-circle"
-																style="color: #747474"></i> @{{order.pickup_address}} <br>
-																<i class="fas fa-circle" style="color: #60A244"></i>
-																@{{order.customer_address}}
-															</span>
-														</p>
+														<td class="text-left">@{{ order.driver != null ?
+															order.driver : 'N/A' }}</td>
+														<td class="text-left">
+															<p style="" class="tablePinSpan tooltipC mb-0">
+																<span> <i class="fas fa-map-marker-alt"
+																	style="color: #747474"></i> <span
+																	style="width: 20px; height: 0; display: inline-block; border-top: 2px solid #979797"></span>
+																	<i class="fas fa-map-marker-alt" style="color: #60A244"></i></span>
+																<span class="tooltiptextC"> <i class="fas fa-circle"
+																	style="color: #747474"></i> @{{order.pickup_address}} <br>
+																	<i class="fas fa-circle" style="color: #60A244"></i>
+																	@{{order.customer_address}}
+																</span>
+															</p>
 
-													</td>
+														</td>
 
-												</tr>
+													</tr>
 
-												<tr v-else>
-													<td colspan="8" class="text-center"><strong>No data found.</strong>
-													</td>
-												</tr>
-											</tbody>
-										</table>
+													<tr v-else>
+														<td colspan="8" class="text-center"><strong>No data found.</strong>
+														</td>
+													</tr>
+												</tbody>
+											</table>
 
+										</div>
+										<div class="d-flex justify-content-end mt-3">
+											{{$orders->links()}}</div>
 									</div>
-									<div class="d-flex justify-content-end mt-3">
-										{{$orders->links()}}</div>
 								</div>
-							</div>
-							<!-- end card - table -->
+								<!-- end card - table -->
+								@if(auth()->user()->user_role == 'client' )
+								<div class="card"
+									style="background-color: transparent; box-shadow: none;">
+									<div class="card-body p-0">
+										<div class="container w-100" style="max-width: 100%">
+
+											<div class="row justify-content-end ">
+												<div class="col-lg-3  col-md-3 col-sm-4 px-md-1 text-center">
+
+													<button class="btnDoorder btn-doorder-primary  mb-1"
+														@click="submitForm">Assign orders</button>
+												</div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+								@endif
+							</form>
 						</div>
 					</div>
 
@@ -310,11 +348,17 @@
 	crossorigin="anonymous"></script>
 
 <script src="{{asset('js/fullcalendar.js')}}"></script>
+ <script
+	src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
+
 
 <script>
     
     var token = '{{csrf_token()}}';
-	
+	 var table;
+	 var userRole = '{!! auth()->user()->user_role  !!}';
+	 console.log(userRole)
+	 
 $(document).ready(function() {
 ////////////////////////////////////////// calendar
 	    var date = new Date();
@@ -436,35 +480,74 @@ $(document).ready(function() {
     	}
 
 //////////////////////////////////////////
- var table= $('#ordersTable').DataTable({
-    	
-          fixedColumns: true,
-          "lengthChange": false,
-          "searching": true,
-  		  "info": false,
-  		  "ordering": false,
-  		  "paging": false,
-  		  "responsive":true,
-  		  "language": {  
-    		search: '',
-			"searchPlaceholder": "Search ",
-    	   },
-//     	 columnDefs: [
-//                 {
-//                     render: function (data, type, full, meta) {
-//                     	return '<span data-toggle="tooltip" data-placement="top" title="'+data+'">'+data+'</span>';
-//                     },
-//                     targets: [-1,-2]
-//                 }
-//              ],
-       
-        scrollX:        true,
-        scrollCollapse: true,
-        fixedColumns:   {
-            leftColumns: 0,
-        },
-    	
-    });
+    if(userRole == 'client'){
+        table= $('#ordersTable').DataTable({
+            	
+                  fixedColumns: true,
+                  "lengthChange": false,
+                  "searching": true,
+          		  "info": false,
+          		  "ordering": false,
+          		  "paging": false,
+          		  "responsive":true,
+          		  "language": {  
+            		search: '',
+        			"searchPlaceholder": "Search ",
+            	   },
+            	  'columnDefs': [
+                     {
+                        orderable: false,
+                        className: 'select-checkbox',
+                        targets:   0,
+                     }
+                  ],
+                  'select': {
+                     'style': 'multi'
+                  },
+               
+                scrollX:        true,
+                scrollCollapse: true,
+                fixedColumns:   {
+                    leftColumns: 0,
+                },
+            	
+            });
+            table.on( 'selectItems', function ( e, dt, items ) {
+                console.log( 'Items to be selected are now: ', items );
+            } );
+            table.on( 'user-select', function ( e, dt, type, cell, originalEvent ) {
+               	if($(originalEvent.target).children().is(':checked')){
+                	$(originalEvent.target).children().attr('checked',false)
+                }else{
+                	$(originalEvent.target).children().attr('checked','checked')
+                }	
+            } );
+            
+         }    
+         else{
+        	table= $('#ordersTable').DataTable({
+            	
+                  fixedColumns: true,
+                  "lengthChange": false,
+                  "searching": true,
+          		  "info": false,
+          		  "ordering": false,
+          		  "paging": false,
+          		  "responsive":true,
+          		  "language": {  
+            		search: '',
+        			"searchPlaceholder": "Search ",
+            	   },
+               
+                scrollX:        true,
+                scrollCollapse: true,
+                fixedColumns:   {
+                    leftColumns: 0,
+                },
+            	
+            });
+            
+         }   
 });
         Vue.use(VueToast);
         var app = new Vue({
@@ -508,8 +591,19 @@ $(document).ready(function() {
                 this.orders = orders_data;
             },
             methods: {
-                openOrder(order_id){
-                    window.location.href = "{{url('doorder/single-order')}}/"+order_id;
+                openOrder(e,order_id){
+                	e.preventDefault();
+                	//console.log(e.target.cellIndex )
+                	if (e.target.cellIndex == undefined || e.target.cellIndex == 0) {
+                	    	
+                	}
+                	else{
+                    	window.location.href = "{{url('doorder/single-order')}}/"+order_id;
+                    }
+                }, 
+                submitForm(e){
+                	//e.preventDefault();
+
                 }
             }
         });

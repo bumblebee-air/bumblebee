@@ -1202,4 +1202,22 @@ class DriversController extends Controller
             'optimized_route' => $optimized_route_arr
         ]);
     }
+    
+    public function assignOrders(Request $request){
+        //dd($request);
+        
+        $selectedOrders = $request->selectedOrders;
+       // dd($selectedOrders);
+        
+        $drivers = DriverProfile::with('user')
+        ->where('is_confirmed', true)
+        ->orderBy('created_at', 'desc')->get();
+        //            ->whereNull('rejection_reason')->paginate(20)
+       
+        foreach ($drivers as $driver) {
+            $driver->overall_rating = 4;
+        }
+        
+        return view('admin.doorder.drivers.accepted_drivers', ['drivers' => $drivers,'selectedOrders'=>$selectedOrders]);
+    }
 }

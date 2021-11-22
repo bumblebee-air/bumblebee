@@ -342,6 +342,10 @@ Route::group([
             Route::get('map_routes', 'doorder\MapRoutesConroller@index')->name('doorder_mapRoutes');
             Route::get('get_route_driver','doorder\MapRoutesConroller@getRouteOfDriver')->name('doorder_getRouteDriver');
             
+            Route::post('assign_orders','doorder\DriversController@assignOrders')->name('doorder_assignOrders');
+            Route::get('assign_orders_drivers','doorder\MapRoutesConroller@assignDriver_enableRouteOptimization')->name('doorder_assignOrdersDrivers');
+            Route::post('view_route_optimization_map','doorder\MapRoutesConroller@getMapRoutes')->name('doorder_postMapRoutesView');
+            
             Route::group([
                 'middleware' => "client"
             ], function () {

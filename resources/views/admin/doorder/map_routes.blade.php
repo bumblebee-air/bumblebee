@@ -1,4 +1,4 @@
-@extends('templates.dashboard') @section('page-styles')
+@extends('templates.doorder_dashboard') @section('page-styles')
 <style>
 div[data-toggle='collapse'] {
 	cursor: pointer;
@@ -36,41 +36,45 @@ div[data-toggle='collapse'] {
 	background-color: #fff !important;
 }
 </style>
-@endsection @section('title','DoOrder | View Order')
+@endsection @section('title','DoOrder | Map Routes')
 @section('page-content')
 <div class="content">
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-12" id="map-container">
 				<div class="card">
-					<div class="card-header card-header-icon card-header-rose">
-						<div class="card-icon"><img
-								class="page_icon"
-								src="{{asset('images/map_icon_card_white.png')}}">
-						</div>
-						<h4 class="card-title ">Map Routes</h4>
-					</div>
+						<div class="card-header card-header-icon card-header-rose row">
+							<div class="col-12 col-lg-5 col-md-6 col-sm-6">
 
-					<div class="card-body">
-						<div class="row" id="dashboardFilterRowDiv">
-							<label class="col-lg-2 col-md-2 col-sm-2 col-form-label filterLabelDashboard">Filter:</label>
+								<h4 class="card-title my-4">Route Optimization Map</h4>
+							</div>
 							
-							<div class="col-lg-3 col-md-3 col-sm-3">
-								<div class="form-group bmd-form-group">
-									<select class="form-control" id="driverSelect" 
-										name="driver" required>
-										<option value="">Select driver </option>
-										@foreach($drivers as $driver)
-											<option value="{{$driver->user_id}}">{{$driver->first_name}} {{$driver->last_name}} </option>
-										@endforeach
-									</select>	
-								</div>
-							</div>
-							<div class="col-lg-2 col-md-3  col-sm-2">
-								<button class="btn btn-primary filterButton" type="button"
-									onclick="clickFilter()">Filter</button>
-							</div>
 						</div>
+					</div>
+				<div class="card">
+					
+					<div class="card-body">
+<!-- 						<div class="row" id="dashboardFilterRowDiv"> -->
+<!-- 							<label class="col-lg-2 col-md-2 col-sm-2 col-form-label filterLabelDashboard">Filter:</label> -->
+							
+<!-- 							<div class="col-lg-3 col-md-3 col-sm-3"> -->
+<!-- 								<div class="form-group bmd-form-group"> -->
+<!-- 									<select class="form-control" id="driverSelect"  -->
+<!-- 										name="driver" required> -->
+<!-- 										<option value="">Select driver </option> -->
+<!-- 										@foreach($drivers as $driver) -->
+<!-- 											<option value="{{$driver->user_id}}">{{$driver->first_name}} {{$driver->last_name}} </option> -->
+<!-- 										@endforeach -->
+<!-- 									</select>	 -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 							<div class="col-lg-2 col-md-3  col-sm-2"> -->
+<!-- 								<button class="btn btn-primary filterButton" type="button" -->
+<!-- 									onclick="clickFilter()">Filter</button> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+
+					
 						<div id="map"
 							style="width: 100%; height: 100%; min-height: 550px; margin-top: 0; border-radius: 6px;"></div>
 					</div>
@@ -95,40 +99,41 @@ $(document).ready(function(){
        	let markerAddress ,markerPickup,markerDriver ;
         let directionsService
      
+     	var routesOpt = {!! $map_routes !!}
       
-      var routesOpt = [[   {"deliverer_location": "53.40264481,-6.4309825"},
-                        {"coordinates": "53.4264481,-6.243099098",
-                            "order_id": "14",
-                            "type": "pickup"},
-                        {"coordinates": "53.42604481,-6.12499098",
-                            "order_id": "13",
-                            "type": "pickup"},
-                        {"coordinates": "53.29034,-6.17659",
-                            "order_id": "15",
-                            "type": "pickup"},
-                        {"coordinates": "53.289851,-6.24756",
-                            "order_id": "14",
-                            "type": "dropoff"},
-                        {"coordinates": "53.304581,-6.205543",
-                            "order_id": "13",
-                            "type": "dropoff"},
-                        {"coordinates": "53.34581, -6.25543",
-                            "order_id": "15",
-                            "type": "dropoff"}
-                    ],[   {"deliverer_location": "53.34581,-6.5285543"},
-                        {"coordinates": "53.334981, -6.526025",
-                            "order_id": "14",
-                            "type": "pickup"},
-                        {"coordinates": "53.32604,-6.531861",
-                            "order_id": "13",
-                            "type": "pickup"},
-                        {"coordinates": "53.234868,-6.539165",
-                            "order_id": "13",
-                            "type": "dropoff"},
-                        {"coordinates": "53.2034868,-6.5020463",
-                            "order_id": "14",
-                            "type": "dropoff"}
-                    ]];
+//       var routesOpt = [[   {"deliverer_location": "53.40264481,-6.4309825"},
+//                         {"coordinates": "53.4264481,-6.243099098",
+//                             "order_id": "14",
+//                             "type": "pickup"},
+//                         {"coordinates": "53.42604481,-6.12499098",
+//                             "order_id": "13",
+//                             "type": "pickup"},
+//                         {"coordinates": "53.29034,-6.17659",
+//                             "order_id": "15",
+//                             "type": "pickup"},
+//                         {"coordinates": "53.289851,-6.24756",
+//                             "order_id": "14",
+//                             "type": "dropoff"},
+//                         {"coordinates": "53.304581,-6.205543",
+//                             "order_id": "13",
+//                             "type": "dropoff"},
+//                         {"coordinates": "53.34581, -6.25543",
+//                             "order_id": "15",
+//                             "type": "dropoff"}
+//                     ],[   {"deliverer_location": "53.34581,-6.5285543"},
+//                         {"coordinates": "53.334981, -6.526025",
+//                             "order_id": "14",
+//                             "type": "pickup"},
+//                         {"coordinates": "53.32604,-6.531861",
+//                             "order_id": "13",
+//                             "type": "pickup"},
+//                         {"coordinates": "53.234868,-6.539165",
+//                             "order_id": "13",
+//                             "type": "dropoff"},
+//                         {"coordinates": "53.2034868,-6.5020463",
+//                             "order_id": "14",
+//                             "type": "dropoff"}
+//                     ]];
 		console.log(routesOpt)
       
       var directionsRendererArr = [], markersRoutesArr=[];

@@ -60,6 +60,9 @@ Route::group(['middleware' => "auth:api"], function () {
     //DoOrder
     Route::get('orders-list', 'doorder\DriversController@ordersList');
     Route::get('time-end-shift', 'doorder\DriversController@timeEndShift');
+    Route::get('cancel-reasons', 'doorder\DriversController@cancelReasons');
+    Route::post('cancel-order', 'doorder\DriversController@cancelOrder');
+    
     Route::post('driver-status-update', 'doorder\DriversController@updateOrderDriverStatus');
     Route::post('driver-duty-update', 'doorder\DriversController@updateDriverDutyStatus');
     Route::post('driver-rating', 'doorder\DriversController@AddDriverRating');

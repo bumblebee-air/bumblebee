@@ -36,7 +36,8 @@ class Order extends Model
         'retailer_id',
         'is_archived',
         'is_paidout_retailer',
-        'is_paidout_driver'
+        'is_paidout_driver',
+        'cancel_reason'
     ];
 
     // protected $dates = ['fulfilment_date'];

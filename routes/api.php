@@ -114,3 +114,5 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('code_verification', 'Auth\ApiAuthController@checkVerificationCode');
     Route::post('update_password', 'Auth\ApiAuthController@updatePassword')->middleware('auth:api');
 });
+//GardenHelp
+Route::get('garden-help/available_contractors', 'garden_help\CustomersController@getAvailableContractorsForBooking');

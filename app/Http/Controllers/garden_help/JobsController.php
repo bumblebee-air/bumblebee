@@ -50,9 +50,19 @@ class JobsController extends Controller
                 'reassign'=>0
             ]);
         } else {
+            $available_contractors = [];
+            $currentDayName = Carbon::parse($customer_request->available_date_time)->format('l');
+            foreach ($contractors as $contractor) {
+                if ($contractor->business_hours_json) {
+                    $contractor_business_hours = json_decode($contractor->business_hours_json, true);
+                    if($contractor_business_hours[$currentDayName]['isActive']){
+                        $available_contractors[] = $contractor;
+                    }
+                }
+            }
             return view('admin.garden_help.jobs_table.single_job', [
                 'job' => $customer_request,
-                'contractors' => $contractors,
+                'contractors' => $available_contractors,
                 'reassign'=>0
             ]);
         }

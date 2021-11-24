@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\garden_help;
 
+use App\Contractor;
 use App\Customer;
 use App\CustomerExtraData;
 use App\GardenServiceType;
@@ -203,10 +204,14 @@ class CustomersController extends Controller
 
     public function getServicesBooking($id) {
         $customer_request = Customer::find($id);
+        $available_contractors = [];
+        if ($customer_request->available_date_time) {
+            $available_contractors = $this->availableContractors($customer_request->available_date_time);
+        }
         if (!$customer_request) {
             abort(404);
         }
-        return view('garden_help.customers.service_booking', ['id' => $id, 'customer_request' => $customer_request]);
+        return view('garden_help.customers.service_booking', ['id' => $id, 'customer_request' => $customer_request, 'available_contractors' => $available_contractors]);
     }
 
     public function postServicesBooking(Request $request, $id) {
@@ -259,6 +264,30 @@ class CustomersController extends Controller
         $customer->save();
         alert()->success('Your service has been booked successfully. If you\'d like to cancel service you can visit the following link: ' . route('garde_help_getServicesCancel', $id) , 'Thank You');
         return redirect()->back();
+    }
+
+    public function getAvailableContractorsForBooking(Request $request) {
+        return response()->json([
+            'data' => $this->availableContractors($request->available_date)
+        ]);
+    }
+
+    private function availableContractors($available_date) {
+        $contractors = Contractor::all();
+        $currentDayName = Carbon::parse($available_date)->format('l');
+        $available_contractors = [];
+        foreach ($contractors as $contractor) {
+            if ($contractor->business_hours_json) {
+                $contractor_business_hours = json_decode($contractor->business_hours_json, true);
+                if($contractor_business_hours[$currentDayName]['isActive']){
+                    $available_contractors[] = [
+                        'name' => $contractor->name,
+                        'experience_level' => $contractor->experience_level
+                    ];
+                }
+            }
+        }
+        return $available_contractors;
     }
 
     public function getServicesCancelation($id) {

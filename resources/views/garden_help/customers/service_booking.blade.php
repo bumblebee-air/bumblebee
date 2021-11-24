@@ -48,7 +48,39 @@
                         <div class="form-group">
                             <label>Scheduled at</label>
                             <div class="input-value">
-                                <input name="schedule_at" type="text" class="form-control datetimepicker" id="available_date_time" value="{{$customer_request->available_date_time}}" required>
+                                <input name="schedule_at" type="text" class="form-control datetimepicker" id="available_date_time" v-model="available_date" required @focusout="getAvailableContractors">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main main-radius main-raised content-card">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 d-flex">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class=" row">
+                                    <div class="col-12">
+                                        <h5 class="cardTitleGreen requestSubTitle ">Available contractors on this date</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="row" v-for="contractor in available_contractors" v-if="available_contractors.length > 0">
+                                    <div class="col-md-3 col-6">
+                                        <span class="requestSpanGreen">@{{ contractor.name }} </span>
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <label class="requestLabelGreen">@{{ contractor.experience_level }}</label>
+                                    </div>
+                                </div>
+                                <div class="col text-center" v-else>
+                                    <div>
+                                        There is no contractors available on this date.
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -138,122 +170,6 @@
     <script>
         var stripe = Stripe("{{env('STRIPE_PUBLIC_KEY')}}");
 
-        // var elements = stripe.elements({
-        //     fonts: [
-        //         {
-        //             cssSrc: 'https://fonts.googleapis.com/css?family=Roboto',
-        //         },
-        //     ],
-        //     // Stripe's examples are localized to specific languages, but if
-        //     // you wish to have Elements automatically detect your user's locale,
-        //     // use `locale: 'auto'` instead.
-        //     locale: 'auto'
-        // });
-        //
-        // var elementStyles = {
-        //     iconStyle: "solid",
-        //     style: {
-        //         base: {
-        //             iconColor: "#fff",
-        //             color: "#fff",
-        //             fontWeight: 400,
-        //             fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif",
-        //             fontSize: "16px",
-        //             fontSmoothing: "antialiased",
-        //             borderBottom: "solid 1px #eaecef",
-        //             padding: "10px",
-        //
-        //             "::placeholder": {
-        //                 color: "#BFAEF6"
-        //             },
-        //             ":-webkit-autofill": {
-        //                 color: "#fce883"
-        //             }
-        //         },
-        //         invalid: {
-        //             iconColor: "#FFC7EE",
-        //             color: "#FFC7EE"
-        //         }
-        //     }
-        // };
-        //
-        // var elementClasses = {
-        //     focus: 'focus',
-        //     empty: 'empty',
-        //     invalid: 'invalid',
-        // };
-        //
-        // let cardNumber = elements.create('cardNumber', {
-        //     style: elementStyles,
-        //     classes: elementClasses,
-        // });
-        // // Add an instance of the card Element into the `card-element` <div>
-        // cardNumber.mount('#card-number');
-        //
-        // var cardExpiry = elements.create('cardExpiry', {
-        //     style: elementStyles,
-        //     classes: elementClasses,
-        // });
-        //
-        // cardExpiry.mount('#card-expiry');
-        //
-        // var cardCvc = elements.create('cardCvc', {
-        //     style: elementStyles,
-        //     classes: elementClasses,
-        // });
-        // cardCvc.mount('#card-cvc');
-
-
-        // function stripeTokenHandler(token) {
-        //     // Insert the token ID into the form so it gets submitted to the server
-        //     document.createElement('input');
-        //     var form = document.getElementById('booking-form');
-        //     var hiddenInput = document.createElement('input');
-        //     hiddenInput.setAttribute('type', 'hidden');
-        //     hiddenInput.setAttribute('name', 'stripeToken');
-        //     hiddenInput.setAttribute('value', token.id);
-        //     form.appendChild(hiddenInput);
-        //     // Submit the form
-        //
-        //     setTimeout(form.submit(), 300);
-        // }
-        // function createToken() {
-        //     stripe.createToken(cardNumber).then(result => {
-        //         console.log(result);
-        //         // if (result.error) {
-        //         //     // Inform the user if there was an error
-        //         //     var errorElement = document.getElementById('card-errors');
-        //         //     errorElement.textContent = result.error.message;
-        //         //     console.log(result.error.message);
-        //         // } else {
-        //         //     // Send the token to your server
-        //         //     stripeTokenHandler(result.token);
-        //         // }
-        //     }).catch(err => console.log(err));
-        // }
-        //
-        // function stripeCreateToken(event){
-        //     event.preventDefault();
-        //     setTimeout(() => {
-        //         createToken();
-        //     }, 300);
-        // }
-
-
-        // $(document).ready(function () {
-        //     $('#payment_type').on('change', function () {
-        //         var selectVal = jQuery("#payment_type option:selected").val();
-        //         //var form = document.getElementById('payment-form');
-        //         if( selectVal == "Credit Card" ){
-        //             $('.check').hide();
-        //             $('.cc').show();
-        //         }else{
-        //             $('.cc').hide();
-        //             $('.check').show();
-        //         }
-        //     });
-        // });
-
         new Vue({
             el: '#app',
             data: {
@@ -262,7 +178,9 @@
                 cardExpiry: null,
                 cardCvc: null,
                 stripe: null,
-                percentage: 0
+                percentage: 0,
+                available_date: '{!! $customer_request->available_date_time !!}',
+                available_contractors: {!! json_encode($available_contractors) !!}
             },
             mounted() {
 
@@ -426,9 +344,23 @@
                 },
                 stripeCreateToken(event){
                     event.preventDefault();
+                    if (this.available_contractors.length == 0) {
+                        swal('There is no available contractors in this date. Please select another date.')
+                        return;
+                    }
                     setTimeout(() => {
                         this.createToken();
                     }, 300);
+                },
+                getAvailableContractors(e) {
+                    let date_time = e.target.value;
+                    if (date_time) {
+                        fetch('{{asset('api/garden-help/available_contractors')}}' + '?available_date=' + date_time)
+                            .then(response => response.json())
+                            .then(data => {
+                                this.available_contractors = data.data
+                            });
+                    }
                 }
             }
         });

@@ -266,4 +266,17 @@ class JobsController extends Controller
         alert()->success("The job is added successfully");
         return redirect()->to('garden-help/jobs_table/add_job');
     }
+
+    public function getCommercialJobs(Request $request) {
+        $jobs = Customer::where('status', '!=', 'completed')
+            ->with([
+                'contractor' => function ($q) {
+                    $q->select(['id', 'name']);
+                }
+            ])
+            ->whereNotNull('property_size')
+            ->select(['id', 'work_location', 'type_of_work', 'contractor_id', 'property_photo', 'property_size', 'status', 'services_types_json'])
+            ->paginate(12);
+        return view('garden_help.contractors.commercial_jobs_board', ['jobs' => $jobs]);
+    }
 }

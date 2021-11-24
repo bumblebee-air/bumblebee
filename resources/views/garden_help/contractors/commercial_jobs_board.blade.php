@@ -88,7 +88,8 @@
         <div class="row">
             <div class="col-md-3 col-sm-12 d-flex align-items-stretch" v-for="job in jobs.data">
                 <div class="card">
-                    <img :src="getImagePath(job.property_photo)" class="card-img-top" alt="job image">
+                    <img :src="getImagePath(job.property_photo)" class="card-img-top" alt="job image" v-if="job.property_photo">
+                    <img :src="getImagePath('/images/no-image.png')" class="card-img-top" alt="job image" v-else>
                     <div class="card-body">
                         <div class="row job-details">
                             <div class="col d-flex pt-2">

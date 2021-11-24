@@ -255,7 +255,7 @@ class CustomersController extends Controller
         } catch(\Exception $e) {
             \Log::error('Publish Redis for a new booked service');
         }
-        TwilioHelper::sendSMS('GardenHelp', $customer->phone_number, 'Thank You, your service has been booked successfully');
+//        TwilioHelper::sendSMS('GardenHelp', $customer->phone_number, 'Thank You, your service has been booked successfully');
         $customer->save();
         alert()->success('Your service has been booked successfully. If you\'d like to cancel service you can visit the following link: ' . route('garde_help_getServicesCancel', $id) , 'Thank You');
         return redirect()->back();

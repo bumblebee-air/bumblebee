@@ -4,6 +4,7 @@
 
 @section('styles')
     <link href="https://fonts.googleapis.com/css?family=Roboto Slab" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
     <style>
         body {
             background-color: white;
@@ -17,6 +18,7 @@
             height: 42px;
         }
         .job-details-title {
+            font-family: "Roboto";
             font-style: normal;
             font-weight: 500;
             font-size: 13px;
@@ -41,11 +43,20 @@
 
         }
         .estimated-price-title {
+            font-family: Poppins;
             font-style: normal;
             font-weight: 600;
             font-size: 12px;
             line-height: 18px;
             color: #656565;
+        }
+        .estimated-price {
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 13px;
+            line-height: 15px;
+            color: #54932F;
         }
         .card {
             border: 5px solid #F2F2F2;
@@ -54,6 +65,7 @@
         }
 
         a {
+            font-family: Roboto;
             font-style: normal;
             font-weight: bold;
             font-size: 14px;
@@ -78,6 +90,15 @@
             /*width: 299.06px;*/
             width: 100%;
             height: 221.71px;
+        }
+
+        .list-group-item {
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 13px;
+            line-height: 15px;
+            color: #252525;
         }
     </style>
 @endsection
@@ -126,7 +147,7 @@
                         <div class="row b-0">
                             <div class="col-12 pl-1 pr-1">
                                 <span class="estimated-price-title">Estimated Price</span>
-                                <span class="font-weight-bold main-text-color">@{{ getTotalPrice(job) }}</span>
+                                <span class="font-weight-bold main-text-color estimated-price">@{{ getTotalPrice(job) }}</span>
                             </div>
                         </div>
                         <div class="row align-items-center">
@@ -174,7 +195,6 @@
                     property_size = property_size.replace(' Square Meters', '');
                     let total_price = 0
                     let services_types = job.services_types_json ? JSON.parse(job.services_types_json) : [];
-                    console.log(services_types);
                     for (let type of services_types) {
                         let rate_property_sizes = JSON.parse(type.rate_property_sizes);
                         for (let rate of rate_property_sizes) {

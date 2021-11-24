@@ -172,10 +172,10 @@ box-shadow: none !important;}
 										</div>
 										<div class="col-sm-6">
 											<div class="form-group">
-												<label for="fulfilment" class="control-label">Time order is ready for collection</label>
+												<label for="fulfilment_date" class="control-label">Time order is ready for collection</label>
 												<input
-													id="fulfilment" type="text" name="fulfilment"
-													class="form-control" value="{{old('fulfilment')}}" required>
+													id="fulfilment" type="text" name="fulfilment_date"
+													class="form-control" value="{{old('fulfilment_date')}}" required>
 <!-- 												 <input -->
 <!-- 													id="fulfilment" type="number" name="fulfilment" -->
 <!-- 													class="form-control" value="{{old('fulfilment')}}" required> -->
@@ -435,7 +435,18 @@ box-shadow: none !important;}
         }
 
         $(document).ready(function(){
-        	$('#fulfilment').mdtimepicker({readOnly:false});
+        	$("#fulfilment").datetimepicker({
+                     icons: { time: "fa fa-clock",
+								date: "fa fa-calendar",
+								up: "fa fa-chevron-up",
+								down: "fa fa-chevron-down",
+								previous: 'fa fa-chevron-left',
+								next: 'fa fa-chevron-right',
+								today: 'fa fa-screenshot',
+								clear: 'fa fa-trash',
+								close: 'fa fa-remove'
+							},
+            });
 
 			let pickup_address_field = $('#pick_address')
             pickup_address_field.on('change',function(){

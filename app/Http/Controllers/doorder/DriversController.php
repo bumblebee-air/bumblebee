@@ -317,6 +317,57 @@ class DriversController extends Controller
         ];
         return response()->json($response)->setStatusCode($code);
     }
+    public function cancelReasons(Request $request)
+    {
+        $message = "Done";
+        $code = 200;
+        $data = [];
+        try {
+
+            $data = [
+                'Mechanical issue',
+                'Emergency',
+                'Traffic too bad',
+                'Don’t have time to complete',
+                'Accepted in error',
+                'Delivery too far from current location',
+                'Delivery not worth my while',
+                'Other'
+            ];
+        } catch (\Throwable $th) {
+            $message = $th->getMessage();
+            $code = 400;
+        }
+        $response = [
+            'message' => $message,
+            'data' => $data,
+        ];
+        return response()->json($response)->setStatusCode($code);
+    }
+    public function cancelOrder(Request $request)
+    {
+        $message = "Done";
+        $code = 200;
+        $data = [];
+        try {
+            $order = Order::find($request->order_id);
+            if ($order) {
+                $order->status = 'canceld';
+                $order->cancel_reason = $request->cancel_reason;
+                $order->save();
+            } else {
+                throw new \Exception('Order not found!', 400);
+            }
+        } catch (\Throwable $th) {
+            $message = $th->getMessage();
+            $code = 400;
+        }
+        $response = [
+            'message' => $message,
+            'data' => $data,
+        ];
+        return response()->json($response)->setStatusCode($code);
+    }
 
     public function orderDetails(Request $request)
     {
@@ -979,10 +1030,10 @@ class DriversController extends Controller
         $driver_ratings_doorder = \DB::table('ratings')->where(['model' => 'doorder', 'user_type' => 'driver', 'user_id' => $driver->user_id])->first();
         $driver_overall_rating = ($driver_ratings->average_rating != null) ? $driver_ratings->average_rating : 0;
         $driver->overall_rating = round($driver_overall_rating * 2) / 2;
-        $driver->rating_doorder = ['rating'=> round(optional($driver_ratings_doorder)->rating * 2) / 2, 'comment' => optional($driver_ratings_doorder)->message];
+        $driver->rating_doorder = ['rating' => round(optional($driver_ratings_doorder)->rating * 2) / 2, 'comment' => optional($driver_ratings_doorder)->message];
 
         $driver_ratings_doorder = \DB::table('ratings')->where(['model' => 'order', 'user_type' => 'driver', 'user_id' => $driver->user_id])->first();
-        $driver->rating_doorder = ['rating'=> round(optional($driver_ratings_doorder)->rating * 2) / 2, 'comment' => optional($driver_ratings_doorder)->message];
+        $driver->rating_doorder = ['rating' => round(optional($driver_ratings_doorder)->rating * 2) / 2, 'comment' => optional($driver_ratings_doorder)->message];
 
         return view('admin.doorder.drivers.single_driver_orders', ['driver' => $driver, 'driver_orders' => $driver_orders]);
     }

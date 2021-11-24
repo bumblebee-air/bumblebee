@@ -53,6 +53,12 @@ class CustomNotificationHelper
                 foreach ($contacts as $contact) {
                     TwilioHelper::sendSMS('DoOrder', $contact['value'], $notification->content);
                 }
+                if($notification->retailers){
+                    $retailers = explode(',',$notification->retailers);
+                    foreach ($retailers as $retailer) {
+                        TwilioHelper::sendSMS('DoOrder', $retailer, $notification->content);
+                    }
+                }
             } else if ($notification->channel == 'email') {
                 $contacts = json_decode($notification->send_to, true);
                 foreach ($contacts as $contact) {

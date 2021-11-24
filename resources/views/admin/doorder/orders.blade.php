@@ -84,7 +84,7 @@
                                                 </td>
                                                 <td>@{{order.order_id.includes('#')? order.order_id : '#'+order.order_id}}</td>
                                                 <td>
-                                                    @{{order.fulfilment_at}}
+                                                    @{{order.fulfilment_date}}
                                                 </td>
                                                 <td>@{{order.retailer_name}}</td>
                                                 <td>

@@ -458,10 +458,11 @@ $(".timeShift").datetimepicker({format:"hh:mm",
       		}
       }
      
-Vue.use('vue-cascader-select');
-        Vue.component('treeselect', VueTreeselect.Treeselect);
-        Vue.component('treeselect2', VueTreeselect.Treeselect);
-        Vue.component('treeselectuser', VueTreeselect.Treeselect);        
+	Vue.use('vue-cascader-select');
+	Vue.component('treeselect', VueTreeselect.Treeselect);
+	Vue.component('treeselect2', VueTreeselect.Treeselect);
+	Vue.component('treeselectuser', VueTreeselect.Treeselect);
+	Vue.component('treeselectretailer', VueTreeselect.Treeselect);
         
        var app = new Vue({
             el: '#app',
@@ -533,11 +534,6 @@ Vue.use('vue-cascader-select');
                       	label: 'Admin',
                       	children: {!! $adminOptions !!}
                     },
-                	{
-                    	id: 'retailers',
-                      	label: 'Retailers',
-                      	children: {!! $retailersOptions !!}
-                    },
 					{
                     	id: 'call_center',
                       	label: 'Call center',
@@ -545,6 +541,7 @@ Vue.use('vue-cascader-select');
                     }
                 
                 ],
+				 optionsretailer: {!! $retailersOptions !!}
 
       },
 		   mounted() {

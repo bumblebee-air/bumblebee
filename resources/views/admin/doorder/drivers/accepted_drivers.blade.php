@@ -215,7 +215,6 @@ input[type="checkbox"] {
 	 
 $(document).ready(function() {
 
-	console.log(app.selectedOrders)
 
 	if(app.selectedOrders.length > 0){
             table= $('#driversTable').DataTable({
@@ -396,9 +395,6 @@ $('#delete-driver-modal #driverId').val(driverId);
                 },
                 openViewDriver(e,driver_id){
                   e.preventDefault();
-                	console.log(e)
-                	console.log(e.target)
-                	console.log(e.target.cellIndex)
                 	    if (e.target.cellIndex == undefined || e.target.cellIndex == 0) {
                 	    	
                 	    }
@@ -408,10 +404,8 @@ $('#delete-driver-modal #driverId').val(driverId);
                    		}
                 },
                 toggleCheckbox(e){
-                	console.log(e)
                 },
                 parseDateTime(date) {
-                    console.log(date);
                     let dateTime = '';
                     //let parseDate = new Date(date);
                     let date_moment = new moment(date);
@@ -435,7 +429,7 @@ $('#delete-driver-modal #driverId').val(driverId);
                           $("#enableRouteOptimizationBtn").prop("disabled", true);
                           $("#enableRouteOptimizationBtn").removeClass("btn-doorder-primary");
                           $("#enableRouteOptimizationBtn").addClass("btn-doorder-grey");
-                          // add spinner to button
+                        //   add spinner to button
                           $("#enableRouteOptimizationBtn").html(
                             ' Wait for a few minutes  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'
                           );
@@ -445,15 +439,18 @@ $('#delete-driver-modal #driverId').val(driverId);
                          $("input[name='selectedDrivers[]']:checked").each(function(){
                                 selectedDrivers.push($(this).val());
                             });
-                          console.log(selectedDrivers)
+						  let token = document.getElementsByName("_token")[0].value
+						  console.log('token',token)
                           $.ajax({
-                                type:'GET',
-                                url: '{{url("doorder/assign_orders_drivers")}}'+'?selectedOrders='+selectedOrders+'&selectedDrivers='+selectedDrivers,
+                                type:'POST',
+                                url: '{{url("doorder/assign_orders_drivers")}}',
+								data:{
+									_token: token,
+									selectedOrders : selectedOrders,
+									selectedDrivers : selectedDrivers
+								},
                                 success:function(data) {
                                       console.log(data);
-                                      console.log(data.mapRoutes);
-                                      console.log(data.selectedOrders);
-                                      console.log(data.selectedDrivers);
                                       $("#map_routes").val(data.mapRoutes);
                                       $("#selectedOrdersMap").val(data.selectedOrders)
                                       $("#selectedDriversMap").val(data.selectedDrivers)

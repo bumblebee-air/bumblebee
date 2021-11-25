@@ -102,11 +102,11 @@ div[data-toggle='collapse'] {
 										:aria-controls="'driver-routes-'+(route[0].deliverer_id)">
 										<div class="row">
 											<div class="col-2 p-0 pl-1">
-												<div class="card-icon card-icon-driver-profile text-center">DP</div>
+												<div class="card-icon card-icon-driver-profile text-center">@{{route[0].deliverer_first_letter}}</div>
 											</div>
 											<div class="col-10">
 												<h3 class="my-2">
-													Driver @{{route[0].deliverer_id}}
+													@{{route[0].deliverer_name}} 
 													<button type="button"
 														class="remove btnActions btnActionsMapRoutes float-right"
 														@click="clickDeleteDriver(event,route[0].deliverer_id,index)">
@@ -319,7 +319,7 @@ $(document).ready(function(){
             data: {
                 driversIds: {!! json_encode($selectedDrivers) !!},
                 selectedOrders: {!! json_encode($selectedOrders) !!},
-                map_routes: {!! $map_routes !!},
+                map_routes: {!! $map_routes !!}
             },
             mounted() {
             },

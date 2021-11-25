@@ -980,11 +980,11 @@ class DriversController extends Controller
         $driver_overall_rating = ($driver_ratings->average_rating != null) ? $driver_ratings->average_rating : 0;
         $driver->overall_rating = round($driver_overall_rating * 2) / 2;
         $driver->email = $driver->user->email;
-        
-        $driver->rating_doorder = ['rating'=> round(optional($driver_ratings_doorder)->rating * 2) / 2, 'comment' => optional($driver_ratings_doorder)->message];
+
+        $driver->rating_doorder = ['rating' => round(optional($driver_ratings_doorder)->rating * 2) / 2, 'comment' => optional($driver_ratings_doorder)->message];
 
         $driver_ratings_doorder = \DB::table('ratings')->where(['model' => 'order', 'user_type' => 'driver', 'user_id' => $driver->user_id])->first();
-        $driver->rating_doorder = ['rating'=> round(optional($driver_ratings_doorder)->rating * 2) / 2, 'comment' => optional($driver_ratings_doorder)->message];
+        $driver->rating_doorder = ['rating' => round(optional($driver_ratings_doorder)->rating * 2) / 2, 'comment' => optional($driver_ratings_doorder)->message];
 
         return view('admin.doorder.drivers.single_driver_orders', ['driver' => $driver, 'driver_orders' => $driver_orders]);
     }
@@ -1202,22 +1202,21 @@ class DriversController extends Controller
             'optimized_route' => $optimized_route_arr
         ]);
     }
-    
-    public function assignOrders(Request $request){
-        //dd($request);
-        
+
+    public function assignOrders(Request $request)
+    {
         $selectedOrders = $request->selectedOrders;
-       // dd($selectedOrders);
-        
+        // dd($selectedOrders);
+
         $drivers = DriverProfile::with('user')
-        ->where('is_confirmed', true)
-        ->orderBy('created_at', 'desc')->get();
+            ->where('is_confirmed', true)
+            ->orderBy('created_at', 'desc')->get();
         //            ->whereNull('rejection_reason')->paginate(20)
-       
+
         foreach ($drivers as $driver) {
             $driver->overall_rating = 4;
         }
-        
-        return view('admin.doorder.drivers.accepted_drivers', ['drivers' => $drivers,'selectedOrders'=>$selectedOrders]);
+
+        return view('admin.doorder.drivers.accepted_drivers', ['drivers' => $drivers, 'selectedOrders' => $selectedOrders]);
     }
 }

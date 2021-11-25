@@ -11,13 +11,14 @@ class MapRoutesConroller extends Controller
     public function index()
     {
         $accepted_deliverers = DriverProfile::where('is_confirmed', '=', 1)->get();
-        
+
         $route1 = array(
             array(
-                "deliverer_location" => "53.40264481,-6.4309825"
+                "deliverer_id" => 2,
+                "coordinates" => "53.40264481,-6.4309825"
             ),
             array(
-                "coordinates" =>"53.4264481,-6.243099098",
+                "coordinates" => "53.4264481,-6.243099098",
                 "order_id" => "14",
                 "type" => "pickup"
             ),
@@ -31,7 +32,7 @@ class MapRoutesConroller extends Controller
                 "order_id" => "15",
                 "type" => "pickup"
             ),
-            
+
             array(
                 "coordinates" => "53.289851,-6.24756",
                 "order_id" => "14",
@@ -50,10 +51,11 @@ class MapRoutesConroller extends Controller
         );
         $route2 = array(
             array(
-                "deliverer_location" => "53.34581,-6.5285543"
+                "deliverer_id" => 3,
+                "coordinates" => "53.34581,-6.5285543"
             ),
             array(
-                "coordinates" =>"53.334981, -6.526025",
+                "coordinates" => "53.334981, -6.526025",
                 "order_id" => "24",
                 "type" => "pickup"
             ),
@@ -68,18 +70,20 @@ class MapRoutesConroller extends Controller
                 "type" => "dropoff"
             ),
             array(
-                "coordinates" =>"53.2034868,-6.5020463",
+                "coordinates" => "53.2034868,-6.5020463",
                 "order_id" => "23",
                 "type" => "dropoff"
             )
         );
-        $routes = array($route1, $route2);
-        
+        $routes = array(
+            $route1,
+            $route2
+        );
 
         return view('admin.doorder.map_routes', [
             'drivers' => $accepted_deliverers,
 
-            'map_routes' =>json_encode($routes)
+            'map_routes' => json_encode($routes)
         ]);
     }
 
@@ -88,7 +92,7 @@ class MapRoutesConroller extends Controller
         // dd($request);
         $route = array(
             array(
-                "deliverer_location" => "53.31682848327396,-6.24794205957005"
+                "coordinates" => "53.31682848327396,-6.24794205957005"
             ),
             array(
                 "coordinates" => "53.31966803641148,-6.2487762491371335",
@@ -123,13 +127,13 @@ class MapRoutesConroller extends Controller
     public function assignDriver_enableRouteOptimization(Request $request)
     {
         // dd($request);
-        
         $route1 = array(
             array(
-                "deliverer_location" => "53.40264481,-6.4309825"
+                "deliverer_id" => 2,
+                "coordinates" => "53.40264481,-6.4309825"
             ),
             array(
-                "coordinates" =>"53.4264481,-6.243099098",
+                "coordinates" => "53.4264481,-6.243099098",
                 "order_id" => "14",
                 "type" => "pickup"
             ),
@@ -143,7 +147,7 @@ class MapRoutesConroller extends Controller
                 "order_id" => "15",
                 "type" => "pickup"
             ),
-            
+
             array(
                 "coordinates" => "53.289851,-6.24756",
                 "order_id" => "14",
@@ -162,10 +166,11 @@ class MapRoutesConroller extends Controller
         );
         $route2 = array(
             array(
-                "deliverer_location" => "53.34581,-6.5285543"
+                "deliverer_id" => 3,
+                "coordinates" => "53.34581,-6.5285543"
             ),
             array(
-                "coordinates" =>"53.334981, -6.526025",
+                "coordinates" => "53.334981, -6.526025",
                 "order_id" => "24",
                 "type" => "pickup"
             ),
@@ -180,31 +185,61 @@ class MapRoutesConroller extends Controller
                 "type" => "dropoff"
             ),
             array(
-                "coordinates" =>"53.2034868,-6.5020463",
+                "coordinates" => "53.2034868,-6.5020463",
                 "order_id" => "23",
                 "type" => "dropoff"
             )
         );
-       $routes = array($route1, $route2);
-        
-      
+        $route3 = array(
+            array(
+                "deliverer_id" => 4,
+                "coordinates" => "53.34581,-6.5285543"
+            ),
+            array(
+                "coordinates" => "53.334981, -6.526025",
+                "order_id" => "24",
+                "type" => "pickup"
+            ),
+          
+            array(
+                "coordinates" => "53.234868,-6.539165",
+                "order_id" => "24",
+                "type" => "dropoff"
+            ),
+        );
+        $routes = array(
+            $route1,
+            $route2,
+            $route3
+        );
+
         return response()->json(array(
             "msg" => "test test",
             "selectedOrders" => $request->selectedOrders,
-            "selectesDrivers" => $request->selectesDrivers,
-            "mapRoutes"=> json_encode($routes)
+            "selectedDrivers" => $request->selectedDrivers,
+            "mapRoutes" => json_encode($routes)
         ));
     }
-    
-    public function getMapRoutes(Request $request) {
-        //dd($request->map_routes);
-        
+
+    public function getMapRoutes(Request $request)
+    {
+         //dd($request);
         $accepted_deliverers = DriverProfile::where('is_confirmed', '=', 1)->get();
-        
+
         return view('admin.doorder.map_routes', [
             'drivers' => $accepted_deliverers,
-            'map_routes' => $request->map_routes
+            'map_routes' => $request->map_routes,
+            "selectedOrders" => explode(',',$request->selectedOrders),
+            "selectedDrivers" => explode(',',$request->selectedDrivers),
         ]);
+    }
+
+    public function postSendOrdersToDrivers(Request $request)
+    {
+        // dd($request);
+        alert()->success("The orders has been successfully assigned to the drivers");
+
+        return redirect()->to('doorder/orders');
     }
 }
 

@@ -150,6 +150,8 @@ input[type="checkbox"] {
 						>
 						{{csrf_field()}}
 						<input type="hidden" name="map_routes" id="map_routes">
+						<input type="hidden" name="selectedDrivers" id="selectedDriversMap">
+						<input type="hidden" name="selectedOrders" id="selectedOrdersMap">
 					</form>	
 				</div>
 			</div>
@@ -439,18 +441,23 @@ $('#delete-driver-modal #driverId').val(driverId);
                           );
                           
                           var selectedOrders = $("#selectedOrders").val();
-                          var selectesDrivers = [];
+                          var selectedDrivers = [];
                          $("input[name='selectedDrivers[]']:checked").each(function(){
-                                selectesDrivers.push($(this).val());
+                                selectedDrivers.push($(this).val());
                             });
-                          console.log(selectesDrivers)
+                          console.log(selectedDrivers)
                           $.ajax({
                                 type:'GET',
-                                url: '{{url("doorder/assign_orders_drivers")}}'+'?selectedOrders='+selectedOrders+'&selectesDrivers='+selectesDrivers,
+                                url: '{{url("doorder/assign_orders_drivers")}}'+'?selectedOrders='+selectedOrders+'&selectedDrivers='+selectedDrivers,
                                 success:function(data) {
                                       console.log(data);
                                       console.log(data.mapRoutes);
-                                      $("#map_routes").val(data.mapRoutes)
+                                      console.log(data.selectedOrders);
+                                      console.log(data.selectedDrivers);
+                                      $("#map_routes").val(data.mapRoutes);
+                                      $("#selectedOrdersMap").val(data.selectedOrders)
+                                      $("#selectedDriversMap").val(data.selectedDrivers)
+                                      
                                       
                                     $("#enableRouteOptimizationBtn").prop("disabled", false);
         							$("#enableRouteOptimizationBtn").html('Go to map view');

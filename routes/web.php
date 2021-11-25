@@ -345,6 +345,7 @@ Route::group([
             Route::post('assign_orders','doorder\DriversController@assignOrders')->name('doorder_assignOrders');
             Route::get('assign_orders_drivers','doorder\MapRoutesConroller@assignDriver_enableRouteOptimization')->name('doorder_assignOrdersDrivers');
             Route::post('view_route_optimization_map','doorder\MapRoutesConroller@getMapRoutes')->name('doorder_postMapRoutesView');
+            Route::post('confirm_route_optimization_map','doorder\MapRoutesConroller@postSendOrdersToDrivers')->name('doorder_postConfirmRouteOptimization');
             
             Route::group([
                 'middleware' => "client"

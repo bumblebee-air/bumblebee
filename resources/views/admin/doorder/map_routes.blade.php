@@ -58,7 +58,7 @@ div[data-toggle='collapse'] {
 				</div>
 
 				<div class="row">
-					<div class="col-lg-9 pr-0">
+					<div class="col-xl-9 col-md-8 pr-0">
 						<div class="card mt-1 mb-0"
 							style="background: transparent; box-shadow: none">
 
@@ -89,7 +89,7 @@ div[data-toggle='collapse'] {
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-3  " id="driversListContrainer">
+					<div class="col-xl-3 col-md-4  " id="driversListContrainer">
 						<div class="card mt-1 h-100">
 							<div class="card-body p-0">
 
@@ -104,18 +104,19 @@ div[data-toggle='collapse'] {
 											<div class="col-2 p-0 pl-1">
 												<div class="card-icon card-icon-driver-profile text-center">@{{route[0].deliverer_first_letter}}</div>
 											</div>
-											<div class="col-10">
-												<h3 class="my-2">
-													@{{route[0].deliverer_name}} 
-													<button type="button"
-														class="remove btnActions btnActionsMapRoutes float-right"
-														@click="clickDeleteDriver(event,route[0].deliverer_id,index)">
+											<div class="col-6">
+												<h3 class="my-2">@{{route[0].deliverer_name}}</h3>
+											</div>
 
-														<img
-															src="{{asset('images/doorder-new-layout/delete-icon.png')}}">
-													</button>
-												</h3>
+											<div class="col-2 p-0"><span class="collapse-arrow"></span></div>
+											<div class="col-2 pr-0 pl-1">
+												<button type="button"
+													class="remove btnActions btnActionsMapRoutes "
+													@click="clickDeleteDriver(event,route[0].deliverer_id,index)">
 
+													<img
+														src="{{asset('images/doorder-new-layout/delete-icon.png')}}">
+												</button>
 											</div>
 										</div>
 									</div>
@@ -240,8 +241,8 @@ div[data-toggle='collapse'] {
 				</button>
 			</div>
 			<div class="modal-body">
-				<div class="modal-dialog-header modalHeaderMessage">
-					This will remove the driver and redistribute their orders after you click start.</div>
+				<div class="modal-dialog-header modalHeaderMessage">This will remove
+					the driver and redistribute their orders after you click start.</div>
 
 				<input type="hidden" id="driverId" value="" /> <input type="hidden"
 					id="index" value="" />
@@ -276,10 +277,9 @@ div[data-toggle='collapse'] {
 				</button>
 			</div>
 			<div class="modal-body">
-				<div class="text-center"
-					>
+				<div class="text-center">
 					<img src="{{asset('images/doorder-new-layout/confirm-img.png')}}"
-						style="" alt="confirm"> 
+						style="" alt="confirm">
 				</div>
 				<div class="modal-dialog-header modalHeaderMessage">Starting Route
 					Optimization</div>
@@ -309,7 +309,12 @@ div[data-toggle='collapse'] {
 <script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
 <script>
 
+    var token = '{{csrf_token()}}';
 $(document).ready(function(){
+
+	if($(window).width()>768){
+        		$('#minimizeSidebar').trigger('click');
+        	}
 
  $("#driverSelect").select2({});
 });
@@ -354,11 +359,18 @@ $(document).ready(function(){
                 	$('#confirm-route-optimization-modal').modal('show')
                 },
                 clickConfirmStartRouteOptimization(){
-                	
+                	console.log(this.driversIds)
+                	console.log(this.selectedOrders)
                 	$('#confirm-route-optimization-modal').modal('toggle')
+                	
                 	 $.ajax({
-                                type:'GET',
-                                url: '{{url("doorder/assign_orders_drivers")}}'+'?selectedOrders='+this.selectedOrders+'&selectedDrivers='+this.driversIds,
+                                type:'POST',
+                                url: '{{url("doorder/assign_orders_drivers")}}',
+								data: {
+                                	_token: token,
+                                	selectedOrders: app.selectedOrders.toString(),
+                                	selectedDrivers: app.driversIds
+                                },
                                 success:function(data) {
                                       console.log(data);
                                       console.log(data.mapRoutes);
@@ -510,6 +522,7 @@ function confirmCancelRouteOptimization(){
             
             for(var i=0;i<routesOpt.length; i++){
                 		var routeTemp = routesOpt[i];
+                		console.log(routeTemp)
                 		var waypoints=[];
                 		var destination;
                 		for(var j=1; j<routeTemp.length; j++){
@@ -535,7 +548,7 @@ function confirmCancelRouteOptimization(){
                            strokeColor: colors[i%colors.length]
                          },});
                     	directionsRendererArr[dirRendCount].setMap(map);
-                    	calculateAndDisplayRoute(directionsService, directionsRendererArr[dirRendCount],route);
+                    	calculateAndDisplayRoute(directionsService, directionsRendererArr[dirRendCount],route,routeTemp[0]['deliverer_name']);
                     	dirRendCount++;
                 	}
             
@@ -544,7 +557,7 @@ function confirmCancelRouteOptimization(){
 //     		console.log(dirRendCount);        
     
         }
-        function calculateAndDisplayRoute(directionsService, directionsRenderer,route) {
+        function calculateAndDisplayRoute(directionsService, directionsRenderer,route,driver_name) {
             directionsService.route(route, function(result, status) {
             	console.log(result);
             	console.log(status)

@@ -905,7 +905,7 @@ table.dataTable tr.selected td {
 }
 
 .btnActionsMapRoutes {
-	margin-top: -3px;
+	margin-top: 6px;
 	margin-left: 3px;
 }
 
@@ -1365,7 +1365,7 @@ input.form-control, textarea.form-control, select.form-control {
 	box-shadow: none !important;
 }
 
-.card-driver-map-route .card-header h3:after {
+.card-driver-map-route .card-header .collapse-arrow:after {
 	content: "\f078";
 	display: inline-block;
 	font-size: 14px !important;
@@ -1381,9 +1381,10 @@ input.form-control, textarea.form-control, select.form-control {
 	background: #E9C21866;
 	border-radius: 6px;
 	padding: 3px;
+	margin: 10px 0;
 }
 
-.card-driver-map-route .card-header.collapsed h3:after {
+.card-driver-map-route .card-header.collapsed .collapse-arrow:after {
 	transform: rotate(0deg);
 }
 
@@ -1455,6 +1456,9 @@ input.form-control, textarea.form-control, select.form-control {
 
 .timeline .timeline-item .timeline-panel:before {
 	display: none
+}
+.timeline>li>.timeline-panel:after{
+	border-color: transparent;
 }
 
 .timeline-heading {

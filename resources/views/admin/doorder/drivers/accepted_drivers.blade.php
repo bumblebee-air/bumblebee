@@ -86,9 +86,15 @@ input[type="checkbox"] {
 										<tbody>
 											<tr v-for="driver in drivers" v-if="drivers.length > 0"
 												class="order-row" @click="openViewDriver(event,driver.id)">
-												<td v-if="selectedOrders.length > 0" class="p-3"><input
+												<td v-if="selectedOrders.length > 0 && driver.in_duty" class="p-3"><input
 													type="checkbox" name="selectedDrivers[]"
 													v-bind:value="driver.id"></td>
+												<td v-if="selectedOrders.length > 0 && driver.in_duty == 0" class="p-3"><input
+													type="checkbox" name="selectedDrivers[]" disabled="disabled"
+													v-bind:value="driver.id"></td>	
+													
+													
+													
 												<td class="text-left"><span v-if="driver.in_duty"
 													class="inDutyDriverSpan inDutyTrue"> <i
 														class="fas fa-circle"></i>
@@ -136,7 +142,7 @@ input[type="checkbox"] {
 										<div
 											class="col-xl-3 col-lg-4  col-md-4 col-sm-5 px-md-1 text-center w-100">
 
-											<button class="btnDoorder btn-doorder-primary  mb-1" id="enableRouteOptimizationBtn"
+											<button class="btnDoorder btn-doorder-primary disabled mb-1" id="enableRouteOptimizationBtn"
 												@click="submitForm">Enable route optimization</button>
 										</div>
 									</div>
@@ -274,11 +280,27 @@ $(document).ready(function() {
                 console.log( 'Items to be selected are now: ', items );
             } );
             table.on( 'user-select', function ( e, dt, type, cell, originalEvent ) {
-               if($(originalEvent.target).children().is(':checked')){
-                	$(originalEvent.target).children().attr('checked',false)
+            	//console.log($(originalEvent.target).children()[0].disabled)
+                              
+               if($(originalEvent.target).children()[0].disabled == false){
+                   	if($(originalEvent.target).children().is(':checked')){
+                    	$(originalEvent.target).children().attr('checked',false)
+                    }else{
+                    	$(originalEvent.target).children().attr('checked','checked')
+                    }	
                 }else{
-                	$(originalEvent.target).children().attr('checked','checked')
-                }	
+                	e.preventDefault();
+                }
+                
+                
+                
+            	var selectedDriversIds = $('input[name="selectedDrivers[]"]:checked');
+            	if(selectedDriversIds.length >=1){
+            		$("#enableRouteOptimizationBtn").removeClass('disabled');
+            	}
+            	else{
+            		$("#enableRouteOptimizationBtn").addClass('disabled');
+            	}	
             } );
             
     	}

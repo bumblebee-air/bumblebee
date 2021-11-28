@@ -170,7 +170,7 @@ div[data-toggle='collapse'] {
 										action="{{url('doorder/confirm_route_optimization_map')}}">
 										{{csrf_field()}} <input type="hidden" name="map_routes"
 											id="map_routes" value="{{$map_routes}}">
-										<button type="submit"
+										<button type="submit" id="confirmRoutesButton"
 											class="btnDoorder btn-doorder-primary  mb-1">Confirm</button>
 									</form>
 								</div>
@@ -363,6 +363,19 @@ $(document).ready(function(){
                 	console.log(this.selectedOrders)
                 	$('#confirm-route-optimization-modal').modal('toggle')
                 	
+                	
+                						$("#confirmRouteDiv").css('display','block');
+                						$("#startRouteDiv").css('display','none');
+                						
+                						 $("#confirmRoutesButton").removeAttr('onclick');
+                                         $("#confirmRoutesButton").prop("disabled", true);
+                                         $("#confirmRoutesButton").removeClass("btn-doorder-primary");
+                                         $("#confirmRoutesButton").addClass("btn-doorder-grey");
+                                         //   add spinner to button
+                                         $("#confirmRoutesButton").html(
+                                            ' Wait for a few minutes  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'
+                                         );
+                	
                 	 $.ajax({
                                 type:'POST',
                                 url: '{{url("doorder/assign_orders_drivers")}}',
@@ -378,8 +391,7 @@ $(document).ready(function(){
                                       console.log(data.selectedDrivers);
                                       
                                       
-                						$("#confirmRouteDiv").css('display','block');
-                						$("#startRouteDiv").css('display','none');
+                						
                                       
                                       console.log(this.map_routes)
                                       app.map_routes = JSON.parse(data.mapRoutes);
@@ -401,38 +413,14 @@ $(document).ready(function(){
                                                             markerRoutesCount=0;
                                                             directionsRendererArr=[];
                                                             dirRendCount=0;
-                                        for(var i=0;i<routesOpt.length; i++){
-                                                        		var routeTemp = routesOpt[i];
-                                                        		//console.log(routeTemp)
-                                                        		var waypoints=[];
-                                                        		var destination;
-                                                        		for(var j=1; j<routeTemp.length; j++){
-                                        //                 			console.log(routeOpt[j])
-                                        //                 			console.log("point "+j +" "+routeTemp[j]['coordinates'])
-                                                        			if(j==routeTemp.length-1){
-                                                        				destination = new google.maps.LatLng(routeTemp[j]['coordinates'].split(",")[0],routeTemp[j]['coordinates'].split(",")[1])
-                                                        			}else{
-                                                        				waypoints.push({location: new google.maps.LatLng(routeTemp[j]['coordinates'].split(",")[0],routeTemp[j]['coordinates'].split(",")[1]),
-                                                        							stopover: true});	
-                                                        			}				
-                                                        		}
-                                        //                 		console.log(waypoints)
-                                                        		 route = {
-                                                            		origin:  new google.maps.LatLng(routeTemp[0]['coordinates'].split(",")[0],routeTemp[0]['coordinates'].split(",")[1]),
-                                                            		destination: destination,
-                                                            		waypoints:waypoints,
-                                                            		travelMode: google.maps.TravelMode.DRIVING,
-                                                        		};
-                                                        		console.log(route)
-                                                        		console.log("------=====-----");
-                                                        		directionsRendererArr[dirRendCount] = new google.maps.DirectionsRenderer({ polylineOptions: {
-                                                                   strokeColor: colors[i%colors.length]
-                                                                 },});
-                                                            	directionsRendererArr[dirRendCount].setMap(map);
-                                                            	calculateAndDisplayRoute(directionsService, directionsRendererArr[dirRendCount],route);
-                                                            	dirRendCount++;
-                                                        	}
-                                                                			
+                                                            
+                                                            getAndDrawRoutes();    
+                                                            
+                                                            
+                                    $("#confirmRoutesButton").prop("disabled", false);
+        							$("#confirmRoutesButton").html('Confirm');
+                          			$("#confirmRoutesButton").removeClass("btn-doorder-grey");   
+                          			$("#confirmRoutesButton").addClass("btn-doorder-primary");                     			
                                  } 
                           });
                 }
@@ -519,8 +507,12 @@ function confirmCancelRouteOptimization(){
                     });        
         
 
-            
-            for(var i=0;i<routesOpt.length; i++){
+            getAndDrawRoutes();
+          
+    
+        }
+        function getAndDrawRoutes(){
+        	  for(var i=0;i<routesOpt.length; i++){
                 		var routeTemp = routesOpt[i];
                 		console.log(routeTemp)
                 		var waypoints=[];
@@ -548,16 +540,11 @@ function confirmCancelRouteOptimization(){
                            strokeColor: colors[i%colors.length]
                          },});
                     	directionsRendererArr[dirRendCount].setMap(map);
-                    	calculateAndDisplayRoute(directionsService, directionsRendererArr[dirRendCount],route,routeTemp[0]['deliverer_name']);
+                    	calculateAndDisplayRoute(directionsService, directionsRendererArr[dirRendCount],route,routeTemp[0]['deliverer_name'],routeTemp[0]['deliverer_first_letter'],routeTemp);
                     	dirRendCount++;
                 	}
-            
-                        
-//     		console.log(directionsRendererArr)
-//     		console.log(dirRendCount);        
-    
         }
-        function calculateAndDisplayRoute(directionsService, directionsRenderer,route,driver_name) {
+        function calculateAndDisplayRoute(directionsService, directionsRenderer,route,driver_name,driver_first_letters,routeTemp) {
             directionsService.route(route, function(result, status) {
             	console.log(result);
             	console.log(status)
@@ -565,33 +552,62 @@ function confirmCancelRouteOptimization(){
                 	  directionsRenderer.setDirections(result);
                 	  
                 	  var leg = result.routes[0].legs[0];
-                       makeMarker(leg.start_location, markerDriver, "title", map);
+                       makeMarker(leg.start_location, markerDriver, "title", map,driver_name,driver_first_letters);
                        leg = result.routes[0].legs[result.routes[0].legs.length-1];
-                       makeMarker(leg.end_location, markerAddress, 'title', map);
+                       makeMarker(leg.end_location, markerAddress, 'title', map,null,null);
                        
-//                        for(var i=1; i<result.routes[0].legs.length; i++){
-//                        		console.log(leg.start_location.lat()+","+leg.start_location.lng())
-//                        		leg = result.routes[0].legs[i];
-//                       		makeMarker(leg.start_location, markerPickup, "title", map);
-//                        }
+                       for(var i=0; i<result.routes[0].legs.length; i++){
+                       		//console.log(leg.start_location.lat()+","+leg.start_location.lng())
+                       		console.log(routeTemp[i+1]['type'])
+                       		
+                       		leg = result.routes[0].legs[i];
+                       		                       		
+//                        		if(i==1){
+//                        			makeMarker(leg.start_location, markerPickup, "title", map,null,null);
+//                        		}
+
+                       		if(routeTemp[i+1]['type']==='pickup'){
+                      			makeMarker(leg.end_location, markerPickup, "title", map,null,null);
+                      		}
+                      		else if(routeTemp[i+1]['type']==='dropoff'){
+                      			makeMarker(leg.end_location, markerAddress, "title", map,null,null);
+                      		}	
+                       }
                 }
               });
             
         }
         
-        function makeMarker(position, icon, title, map) {
+        function makeMarker(position, icon, title, map,driver_name,driver_first_letters) {
         	//console.log(position)
             var marker = new google.maps.Marker({
                 position: position,
                  anchorPoint: new google.maps.Point(0, -29),
                 map: map,
                 icon: icon,
-                //title: title
+                title: driver_first_letters
             });
+            
+            if(driver_name != null){
+            	const infowindow = new google.maps.InfoWindow({
+                    content: driver_name,
+                  });
+                  
+               //   marker.setLabel(driver_first_letters);
+                                  
+                  marker.addListener("click", () => {
+                    infowindow.open({
+                      anchor: marker,
+                      map,
+                      shouldFocus: false,
+                    });
+                  });
+            }
+            
             markersRoutesArr[markerRoutesCount] = marker;
             markerRoutesCount++;
-            console.log(markersRoutesArr);
-            console.log(markerRoutesCount)
+//             console.log(markersRoutesArr);
+//             console.log(markerRoutesCount)
         }
         	
         function clickFilter(){

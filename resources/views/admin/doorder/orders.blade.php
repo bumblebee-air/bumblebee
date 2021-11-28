@@ -322,7 +322,7 @@
 											<div class="row justify-content-end ">
 												<div class="col-lg-3  col-md-3 col-sm-4 px-md-1 text-center">
 
-													<button class="btnDoorder btn-doorder-primary  mb-1"
+													<button class="btnDoorder btn-doorder-primary disabled  mb-1" id="submitAssignOrderBtn"
 														@click="submitForm">Assign orders</button>
 												</div>
 											</div>
@@ -516,11 +516,27 @@ $(document).ready(function() {
                 console.log( 'Items to be selected are now: ', items );
             } );
             table.on( 'user-select', function ( e, dt, type, cell, originalEvent ) {
-               	if($(originalEvent.target).children().is(':checked')){
-                	$(originalEvent.target).children().attr('checked',false)
-                }else{
-                	$(originalEvent.target).children().attr('checked','checked')
+            	 var row = dt.row( cell.index().row );
+               console.log(row.data()[6])
+            	 
+            	 if(row.data()[6] === 'N/A'){           	   
+                   	if($(originalEvent.target).children().is(':checked')){
+                    	$(originalEvent.target).children().attr('checked',false)
+                    }else{
+                    	$(originalEvent.target).children().attr('checked','checked')
+                    }
+                 }else{
+                	e.preventDefault();
                 }	
+                
+                
+            	var selectedOrders = $('input[name="selectedOrders[]"]:checked');
+            	if(selectedOrders.length >=2){
+            		$("#submitAssignOrderBtn").removeClass('disabled');
+            	}
+            	else{
+            		$("#submitAssignOrderBtn").addClass('disabled');
+            	}	
             } );
             
          }    

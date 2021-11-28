@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\garden_help;
 
+use App\Contractor;
 use App\Customer;
 use App\CustomerExtraData;
 use App\GardenServiceType;
@@ -203,10 +204,14 @@ class CustomersController extends Controller
 
     public function getServicesBooking($id) {
         $customer_request = Customer::find($id);
+        $available_contractors = [];
+        if ($customer_request->available_date_time) {
+            $available_contractors = $this->availableContractors($customer_request->available_date_time);
+        }
         if (!$customer_request) {
             abort(404);
         }
-        return view('garden_help.customers.service_booking', ['id' => $id, 'customer_request' => $customer_request]);
+        return view('garden_help.customers.service_booking', ['id' => $id, 'customer_request' => $customer_request, 'available_contractors' => $available_contractors]);
     }
 
     public function postServicesBooking(Request $request, $id) {
@@ -255,10 +260,34 @@ class CustomersController extends Controller
         } catch(\Exception $e) {
             \Log::error('Publish Redis for a new booked service');
         }
-        TwilioHelper::sendSMS('GardenHelp', $customer->phone_number, 'Thank You, your service has been booked successfully');
+//        TwilioHelper::sendSMS('GardenHelp', $customer->phone_number, 'Thank You, your service has been booked successfully');
         $customer->save();
         alert()->success('Your service has been booked successfully. If you\'d like to cancel service you can visit the following link: ' . route('garde_help_getServicesCancel', $id) , 'Thank You');
         return redirect()->back();
+    }
+
+    public function getAvailableContractorsForBooking(Request $request) {
+        return response()->json([
+            'data' => $this->availableContractors($request->available_date)
+        ]);
+    }
+
+    private function availableContractors($available_date) {
+        $contractors = Contractor::all();
+        $currentDayName = Carbon::parse($available_date)->format('l');
+        $available_contractors = [];
+        foreach ($contractors as $contractor) {
+            if ($contractor->business_hours_json) {
+                $contractor_business_hours = json_decode($contractor->business_hours_json, true);
+                if($contractor_business_hours[$currentDayName]['isActive']){
+                    $available_contractors[] = [
+                        'name' => $contractor->name,
+                        'experience_level' => $contractor->experience_level
+                    ];
+                }
+            }
+        }
+        return $available_contractors;
     }
 
     public function getServicesCancelation($id) {
@@ -306,6 +335,39 @@ class CustomersController extends Controller
             alert()->success('Customer has deleted successfully');
             $customer->delete();
         }
+        return redirect()->back();
+    }
+
+    public function getJobConfirmation($customer_confirmation_code) {
+        if (!$customer_confirmation_code) {
+            abort(404);
+        }
+        $checkIfCodeExists = Customer::where('customer_confirmation_code', $customer_confirmation_code)->first();
+        if (!$checkIfCodeExists) {
+            abort(404);
+        }
+        return view('garden_help.customers.confirm_completing_job', ['job' => $checkIfCodeExists]);
+    }
+
+    public function postJobConfirmation(Request $request) {
+//        dd($request->all());
+        $customer_confirmation_code = $request->customer_confirmation_code;
+        $contractor_confirmation_code = $request->contractor_confirmation_code;
+        $checkIfCodeExists = Customer::where('customer_confirmation_code', $customer_confirmation_code)
+            ->where('contractor_confirmation_code', $contractor_confirmation_code)->first();
+        if (!$checkIfCodeExists) {
+            alert()->error('The Job QR Code is not valid, Please try again.');
+            return redirect()->back();
+        }
+        $checkIfCodeExists->contractor_confirmation_status = 'confirmed';
+        $checkIfCodeExists->save();
+
+        \Redis::publish('garden-help-channel', json_encode([
+            'event' => "contractor-confirmation-job-id-$checkIfCodeExists->id".'-'.env('APP_ENV','dev'),
+            'data' => [
+                'message' => 'Customer has confirmed the delivery successfully',
+            ]
+        ]));
         return redirect()->back();
     }
 }

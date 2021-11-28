@@ -404,6 +404,77 @@ input[type="radio"]:checked+div i {
 								</div>
 							</div>
 						</div>
+						<div class="col-lg-6">
+							<div class="card">
+								<div class="card-body" style="padding-top: 0 !important;">
+									<div class="container" style="padding-bottom: 10px !important;">
+										<div class="row">
+											<div class="col-12">
+												<div class=" row">
+													<div class="col-12">
+														<h5 class="cardTitleGreen requestSubTitle ">Other Expenses</h5>
+													</div>
+												</div>
+											</div>
+											<div class="col-12">
+												<div class="row" v-for="expense in job_other_expenses_json" v-if="expense.is_checked">
+													<div class="col-8">
+														<label class="requestLabelGreen">@{{ expense.title }}</label>
+													</div>
+													<div class="col-4">
+														<span class="requestSpanGreen">€@{{ expense.value }}</span>
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col-8">
+														<label class="requestLabelGreen">Other Expenses File</label>
+													</div>
+													<div class="col-4">
+														<span class="requestSpanGreen">
+															<a :href="'https://'+location.hostname + '/' + job.job_expenses_receipt_file" target="_blank">
+																<img :src="'https://'+location.hostname + '/' + job.job_expenses_receipt_file" alt="Other Expenses File" style="width: 100%">
+															</a>
+														</span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-lg-6">
+							<div class="card">
+								<div class="card-body" style="padding-top: 0 !important;">
+									<div class="container" style="padding-bottom: 10px !important;">
+										<div class="row">
+											<div class="col-12">
+												<div class=" row">
+													<div class="col-12">
+														<h5 class="cardTitleGreen requestSubTitle ">Job Images</h5>
+													</div>
+												</div>
+											</div>
+											<div class="col-12">
+												<div class="row">
+													<div class="col-6" v-for="image in job_images">
+														<label class="requestLabelGreen"></label>
+														<a :href="'https://'+location.hostname+'/'+image" target="_blank">
+															<img :src="'https://'+location.hostname+'/'+image" alt="job image" style="width: 100%">
+														</a>
+													</div>
+{{--													<div class="col-4">--}}
+{{--														<span class="requestSpanGreen">€@{{ expense.value }}</span>--}}
+{{--													</div>--}}
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 						@else
 						<div class="col-lg-6  ">
 							<div class="card ">
@@ -618,7 +689,9 @@ input[type="radio"]:checked+div i {
                 job: {},
                 reassign:0,
 				services_types: {!! $job->services_types_json ?  $job->services_types_json : '[]'!!},
-				actual_services_types: {!! $job->job_services_types_json ? $job->job_services_types_json : '[]' !!}
+				actual_services_types: {!! $job->job_services_types_json ? $job->job_services_types_json : '[]' !!},
+				job_other_expenses_json: {!! $job->job_other_expenses_json ? $job->job_other_expenses_json : '[]' !!},
+				job_images: {!! json_encode($job->job_image) ?: '[]' !!},
             },
             mounted() {
                 var job = {!! json_encode($job) !!};

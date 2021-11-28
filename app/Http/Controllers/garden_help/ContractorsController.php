@@ -282,24 +282,28 @@ class ContractorsController extends Controller
                 }
                 if ($request->status == 'on_route') {
                     $job->status = $request->status;
-                    $body = "The contractor is on his way to you.";
+//                    $body = "The contractor is on his way to you.";
                     $timestamps->on_the_way_first = $current_timestamp;
-                    TwilioHelper::sendSMS('GardenHelp', $job->phone_number, $body);
+//                    TwilioHelper::sendSMS('GardenHelp', $job->phone_number, $body);
                 } elseif ($request->status == 'arrived') {
                     $job->status = $request->status;
                     $timestamps->arrived_first = $current_timestamp;
                 } elseif ($request->status == 'completed') {
                     // Saving Job Image
                     if ($request->job_image) {
-                        $base64_image = $request->job_image;
-                        $base64_image_format = '';
-                        if (preg_match('/^data:image\/(\w+);base64,/', $base64_image, $base64_image_format)) {
-                            $data = substr($base64_image, strpos($base64_image, ',') + 1);
-                            $data = base64_decode($data);
-                            $base64_image_path = 'uploads/jobs_uploads/' . Str::random(10) . ".$base64_image_format[1]";
-                            Storage::disk('local')->put($base64_image_path, $data);
-                            $job->job_image = $base64_image_path;
+                        $base64_images = $request->job_image;
+                        $job_images_json = [];
+                        foreach ($base64_images as $job_image) {
+                            $base64_image_format = '';
+                            if (preg_match('/^data:image\/(\w+);base64,/', $job_image, $base64_image_format)) {
+                                $data = substr($job_image, strpos($job_image, ',') + 1);
+                                $data = base64_decode($data);
+                                $base64_image_path = 'uploads/jobs_uploads/' . Str::random(10) . ".$base64_image_format[1]";
+                                Storage::disk('local')->put($base64_image_path, $data);
+                                $job_images_json[] = $base64_image_path;
+                            }
                         }
+                        $job->job_image = $job_images_json;
                     }
                     // Saving extra receipt Image
                     if ($request->extra_expenses_receipt) {
@@ -317,6 +321,7 @@ class ContractorsController extends Controller
                     $job->skip_reason = $request->skip_reason;
                     $job->job_services_types_json = $request->job_services_types_json;
                     $job->job_other_expenses_json = $request->extra_expenses_json;
+                    $job->notes = $request->notes;
                     //Capture the payment intent
                     $extra_expenses = ServicesTypesHelper::getExtraExpensesAmount($request->extra_expenses_json);
                     $services_amount = ServicesTypesHelper::getJobServicesTypesAmount($job);
@@ -349,6 +354,12 @@ class ContractorsController extends Controller
                     }
                     $job->is_paid = true;
                     $timestamps->completed = $current_timestamp;
+
+                    //Sending confirmation URL to the customer
+                    if ($job->user && $job->user->phone) {
+                        $body = "Hi $job->name, GardenHelp service has been completed, open the link to scan the QR code and confirm the job. " . url('gh/customer/job/' . $job->customer_confirmation_code);
+                        TwilioHelper::sendSMS('GardenHelp', $job->user->phone, $body);
+                    }
                 }
                 $job->save();
                 if ($request->status != 'delivery_arrived') {
@@ -702,6 +713,29 @@ class ContractorsController extends Controller
         return response()->json([
             'message' => 'Success'
         ]);
+    }
+
+    public function skipJobConfirmation(Request $request)
+    {
+        $skip_reason = $request->get('skip_reason');
+        $job_id = $request->get('job_id');
+        $job = Customer::find($job_id);
+        if (!$job) {
+            $response = [
+                'order' => [],
+                'message' => 'No job was found with this ID',
+                'error' => 1
+            ];
+            return response()->json($response)->setStatusCode(403);
+        }
+        $job->contractor_confirmation_status = 'skipped'; # skipped || confirmed
+        $job->contractor_confirmation_skip_reason = $skip_reason;
+        $job->save();
+        $response = [
+            'message' => 'Job confirmation skipped successfully',
+            'error' => 0
+        ];
+        return response()->json($response)->setStatusCode(200);
     }
 
 }

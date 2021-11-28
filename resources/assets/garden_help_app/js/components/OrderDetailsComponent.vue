@@ -142,6 +142,20 @@
 
                       <div class="row">
                         <div class="col-2">
+                          <img src="images/garden_help_driver_assets/site_details.png" class="service-icon" alt="service-type-icon">
+                        </div>
+                        <div class="col-10 order-address-row">
+                          <p class="order-address-title">
+                            Job Types
+                          </p>
+                          <p class="order-address-value">
+                            <span v-for="service in job_service_types">{{service.name}}</span>
+                          </p>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-2">
                           <img src="images/garden_help_driver_assets/parking_site.png" class="service-icon" alt="service-type-icon">
                         </div>
                         <div class="col-10 order-address-row">
@@ -324,7 +338,8 @@
                 minHeight: '16',
                 distance: '0',
                 duration: '0',
-                durationTime: '0'
+                durationTime: '0',
+                job_service_types: []
             }
         },
         mounted() {
@@ -352,7 +367,8 @@
                 if (this.job_data.status == 'completed') {
                     this.navigateToOrderDelivered(res.data.order.delivery_confirmation_code);
                 } else {
-                    // this.markers.pickup_location.position = {
+                  this.job_service_types = JSON.parse(this.job_data.services_types_json);
+                  // this.markers.pickup_location.position = {
                     //     lat: parseFloat(this.job_data.pickup_lat),
                     //     lng: parseFloat(this.job_data.pickup_lon)
                     // };
@@ -571,6 +587,7 @@
                               if (ordersStatus == 'completed') {
                                 this.$router.push({name: 'job-finalizing', params: {
                                     id: this.job_data.id,
+                                    contractor_confirmation_code: this.job_data.contractor_confirmation_code,
                                     services_types: this.job_data.services_types_json,
                                   }});
 

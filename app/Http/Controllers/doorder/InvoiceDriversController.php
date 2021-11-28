@@ -44,7 +44,8 @@ class InvoiceDriversController extends Controller
                 'status' => $driver->user->stripe_account ? ($driver->user->stripe_account->onboard_status == 'complete' ? 'completed' : 'not-completed' ) : 'no-account',
             ];
             if ($invoice['last_payout_date'] != 'N/A') {
-                $orders_count = Order::whereDate('created_at', '>', $invoice['last_payout_date'])->count();
+                $orders_count = Order::where('driver','=',$driver->user_id)
+                    ->whereDate('created_at', '>', $invoice['last_payout_date'])->count();
                 $invoice['charges'] = $orders_count * 5 . '€';
 
             } else {
@@ -82,7 +83,8 @@ class InvoiceDriversController extends Controller
             alert()->info('You have to select date first.');
             return redirect()->back();
         }
-        $orders = Order::whereDate('created_at', '>', $latest_payout_date)->get();
+        $orders = Order::where('driver','=',$driver->user_id)
+            ->whereDate('created_at', '>', $latest_payout_date)->get();
         $orders_grouped = $orders->groupBy(function($item) {
             return $item->created_at->format('Y-m-d');
         });

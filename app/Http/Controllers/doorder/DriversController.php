@@ -317,6 +317,57 @@ class DriversController extends Controller
         ];
         return response()->json($response)->setStatusCode($code);
     }
+    public function cancelReasons(Request $request)
+    {
+        $message = "Done";
+        $code = 200;
+        $data = [];
+        try {
+
+            $data = [
+                'Mechanical issue',
+                'Emergency',
+                'Traffic too bad',
+                'Don’t have time to complete',
+                'Accepted in error',
+                'Delivery too far from current location',
+                'Delivery not worth my while',
+                'Other'
+            ];
+        } catch (\Throwable $th) {
+            $message = $th->getMessage();
+            $code = 400;
+        }
+        $response = [
+            'message' => $message,
+            'data' => $data,
+        ];
+        return response()->json($response)->setStatusCode($code);
+    }
+    public function cancelOrder(Request $request)
+    {
+        $message = "Done";
+        $code = 200;
+        $data = [];
+        try {
+            $order = Order::find($request->order_id);
+            if ($order) {
+                $order->status = 'canceld';
+                $order->cancel_reason = $request->cancel_reason;
+                $order->save();
+            } else {
+                throw new \Exception('Order not found!', 400);
+            }
+        } catch (\Throwable $th) {
+            $message = $th->getMessage();
+            $code = 400;
+        }
+        $response = [
+            'message' => $message,
+            'data' => $data,
+        ];
+        return response()->json($response)->setStatusCode($code);
+    }
 
     public function orderDetails(Request $request)
     {

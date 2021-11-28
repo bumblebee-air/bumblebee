@@ -60,6 +60,9 @@ Route::group(['middleware' => "auth:api"], function () {
     //DoOrder
     Route::get('orders-list', 'doorder\DriversController@ordersList');
     Route::get('time-end-shift', 'doorder\DriversController@timeEndShift');
+    Route::get('cancel-reasons', 'doorder\DriversController@cancelReasons');
+    Route::post('cancel-order', 'doorder\DriversController@cancelOrder');
+    
     Route::post('driver-status-update', 'doorder\DriversController@updateOrderDriverStatus');
     Route::post('driver-duty-update', 'doorder\DriversController@updateDriverDutyStatus');
     Route::post('driver-rating', 'doorder\DriversController@AddDriverRating');
@@ -81,6 +84,7 @@ Route::group(['middleware' => "auth:api"], function () {
     Route::post('update-profile', 'garden_help\ContractorsController@updateProfile');
     Route::get('get-setting', 'garden_help\ContractorsController@editSetting');
     Route::post('update-setting', 'garden_help\ContractorsController@updateSetting');
+    Route::post('skip-confirmation', 'garden_help\ContractorsController@skipJobConfirmation');
 
 
 
@@ -110,3 +114,5 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('code_verification', 'Auth\ApiAuthController@checkVerificationCode');
     Route::post('update_password', 'Auth\ApiAuthController@updatePassword')->middleware('auth:api');
 });
+//GardenHelp
+Route::get('garden-help/available_contractors', 'garden_help\CustomersController@getAvailableContractorsForBooking');

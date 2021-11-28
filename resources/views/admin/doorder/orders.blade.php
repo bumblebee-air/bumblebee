@@ -21,7 +21,6 @@
 					<div class="card">
 						<div class="card-header card-header-icon card-header-rose row">
 							<div class="col-12 col-lg-5 col-md-6 col-sm-6">
-
 								<h4 class="card-title my-4">Orders List</h4>
 							</div>
 							<div class="col-12 col-lg-7 col-md-6 col-sm-6">
@@ -253,7 +252,7 @@
 														<td class="text-left orderDateTimeTd">@{{ order.time }}</td>
 														<td class="text-left">@{{order.order_id.includes('#')?
 															order.order_id : '#'+order.order_id}}</td>
-														<td class="text-left">@{{order.fulfilment_at}}</td>
+														<td class="text-left">@{{order.fulfilment_date}}</td>
 														<td class="text-left">@{{order.retailer_name}}</td>
 														<td class="text-left"><span
 															v-if="order.status == 'pending'"

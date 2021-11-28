@@ -8,6 +8,10 @@ class Customer extends Model
 {
     protected $table = 'customers_registrations';
 
+    protected $casts = [
+        'job_image' => 'array'
+    ];
+
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');

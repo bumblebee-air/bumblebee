@@ -12,6 +12,9 @@ html {
 	border-right: 1px solid #e0e0e0;
 	width: 250px;
 }
+.sidebar .sidebar-wrapper {
+	width: 250px;
+}
 
 .off-canvas-sidebar nav .navbar-collapse:before, .sidebar:before {
 	background-color: #fff;
@@ -396,14 +399,14 @@ div.dataTables_wrapper div.dataTables_filter input {
 	letter-spacing: normal;
 	font-family: Montserrat;
 	font-style: normal;
-	font-weight: normal !important;
+	font-weight: 500 !important;
 	font-size: 14px !important;
 	line-height: 21px;
 	color: #6E6B7B;
 	/* text-align: left !important; */
 }
 
-.ordersListTable tbody tr td:first-child, .ordersListTable tbody tr td.orderDateTimeTd
+.table tbody tr td.orderDateTimeTd, .ordersListTable tbody tr td.orderDateTimeTd
 	{
 	font-family: Montserrat;
 	font-style: normal;
@@ -431,6 +434,16 @@ div.dataTables_wrapper div.dataTables_filter input {
 
 .doorderTable td .tablePinSpan {
 	font-size: 25px !important;
+}
+
+.table td span.tableTextSpan {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	line-height: 1rem;
+	height: 2rem;
 }
 
 .doorderTable td .orderStatusSpan.pendingStatus {
@@ -486,6 +499,22 @@ div.dataTables_wrapper div.dataTables_filter input {
 .doorderTable td .orderStatusSpan.awaitingInvoiceStatus {
 	color: #FF9F43;
 	background: #FF9F431F;
+}
+.doorderTable td .orderStatusSpan.receivedStatus{
+	color: #E9C218;
+	background: #E9C2181F;
+}
+.doorderTable td .orderStatusSpan.stripeFormSentStatus{
+	color: #4A95D3;
+	background: #4A95D31F;
+}
+.doorderTable td .orderStatusSpan.missingStatus{
+	color: #DB3C3C;
+	background: #DB3C3C1F;
+}
+.doorderTable td .orderStatusSpan.completedStatus{
+	color: #28C76F;
+	background: #28C76F1F;
 }
 
 .tooltipC {
@@ -807,6 +836,17 @@ table.dataTable tr.selected td {
 .inDutyDriverSpan.inDuty0 {
 	color: #DB3C3C !important;
 	margin-right: 10px;
+}
+table .progress{
+	width:100px;
+	height: 8px;
+    border-radius: 10px;
+    background-color: #eaeaea;
+    margin-bottom: 0;
+    text-align: left;
+}
+table .progress-bar{
+	background: linear-gradient(239.57deg, #E9C218 20.53%, #E9C218 79.85%);
 }
 /*********** buttons ************/
 .modal-header .close {

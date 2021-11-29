@@ -59,6 +59,7 @@ Route::post('driver-change-password', 'doorder\DriversController@changeUserPassw
 Route::group(['middleware' => "auth:api"], function () {
     //DoOrder
     Route::get('orders-list', 'doorder\DriversController@ordersList');
+    Route::get('new-orders-list', 'doorder\DriversController@newOrdersList');
     Route::get('time-end-shift', 'doorder\DriversController@timeEndShift');
     Route::get('cancel-reasons', 'doorder\DriversController@cancelReasons');
     Route::post('cancel-order', 'doorder\DriversController@cancelOrder');

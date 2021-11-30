@@ -4,8 +4,11 @@ namespace App\Http\Controllers\doorder;
 
 use Illuminate\Http\Request;
 use App\DriverProfile;
+use App\Helpers\TwilioHelper;
 use App\Http\Controllers\Controller;
 use App\Order;
+use App\UserFirebaseToken;
+use Illuminate\Support\Facades\Session;
 
 class MapRoutesConroller extends Controller
 {
@@ -126,7 +129,7 @@ class MapRoutesConroller extends Controller
         ));
     }
 
-    public function assignDriver_enableRouteOptimization(Request $request)
+    public function assignDriverEnableRouteOptimization(Request $request)
     {
         try {
             $deliverers = DriverProfile::whereIn('id', $request->selectedDrivers)->get();
@@ -160,6 +163,8 @@ class MapRoutesConroller extends Controller
                 $item[0]->deliverer_first_letter = $letters;
                 return $item;
             });
+            Session::put('selectedDrivers', $request->selectedDrivers);
+            Session::put('mapRoutes', $response);
 
             return response()->json(array(
                 "msg" => "Done",
@@ -168,143 +173,64 @@ class MapRoutesConroller extends Controller
                 "mapRoutes" => json_encode($response)
             ));
         } catch (\Throwable $th) {
-            //throw $th;
             return $th->getMessage();
         }
-        // return
-        //     $route1 = array(
-        //         array(
-        //             "deliverer_id" => 2,
-        //             "coordinates" => "53.40264481,-6.4309825"
-        //         ),
-        //         array(
-        //             "coordinates" => "53.4264481,-6.243099098",
-        //             "order_id" => "14",
-        //             "type" => "pickup"
-        //         ),
-        //         array(
-        //             "coordinates" => "53.42604481,-6.12499098",
-        //             "order_id" => "13",
-        //             "type" => "pickup"
-        //         ),
-        //         array(
-        //             "coordinates" => "53.29034,-6.17659",
-        //             "order_id" => "15",
-        //             "type" => "pickup"
-        //         ),
-
-        //         array(
-        //             "coordinates" => "53.289851,-6.24756",
-        //             "order_id" => "14",
-        //             "type" => "dropoff"
-        //         ),
-        //         array(
-        //             "coordinates" => "53.304581,-6.205543",
-        //             "order_id" => "13",
-        //             "type" => "dropoff"
-        //         ),
-        //         array(
-        //             "coordinates" => "53.34581, -6.25543",
-        //             "order_id" => "15",
-        //             "type" => "dropoff"
-        //         )
-        //     );
-        // $route2 = array(
-        //     array(
-        //         "deliverer_id" => 3,
-        //         "coordinates" => "53.34581,-6.5285543"
-        //     ),
-        //     array(
-        //         "coordinates" => "53.334981, -6.526025",
-        //         "order_id" => "24",
-        //         "type" => "pickup"
-        //     ),
-        //     array(
-        //         "coordinates" => "53.32604,-6.531861",
-        //         "order_id" => "23",
-        //         "type" => "pickup"
-        //     ),
-        //     array(
-        //         "coordinates" => "53.234868,-6.539165",
-        //         "order_id" => "24",
-        //         "type" => "dropoff"
-        //     ),
-        //     array(
-        //         "coordinates" => "53.2034868,-6.5020463",
-        //         "order_id" => "23",
-        //         "type" => "dropoff"
-        //     )
-        // );
-        // $route3 = array(
-        //     array(
-        //         "deliverer_id" => 4,
-        //         "coordinates" => "53.34581,-6.5285543"
-        //     ),
-        //     array(
-        //         "coordinates" => "53.334981, -6.526025",
-        //         "order_id" => "24",
-        //         "type" => "pickup"
-        //     ),
-
-        //     array(
-        //         "coordinates" => "53.234868,-6.539165",
-        //         "order_id" => "24",
-        //         "type" => "dropoff"
-        //     ),
-        // );
-        // $routes = array(
-        //     $route1,
-        //     $route2,
-        //     $route3
-        // );
-
-        // return response()->json(array(
-        //     "msg" => "test test",
-        //     "selectedOrders" => $request->selectedOrders,
-        //     "selectedDrivers" => $request->selectedDrivers,
-        //     "mapRoutes" => json_encode($routes)
-        // ));
     }
 
     public function getMapRoutes(Request $request)
     {
-        //dd($request);
         $accepted_deliverers = DriverProfile::where('is_confirmed', '=', 1)->get();
         return view('admin.doorder.map_routes', [
             'drivers' => $accepted_deliverers,
-            'map_routes' => $request->map_routes,
-            "selectedOrders" => explode(',', $request->selectedOrders),
-            "selectedDrivers" => explode(',', $request->selectedDrivers),
+            'map_routes' => Session::get('mapRoutes'),
+            "selectedOrders" => Session::get('selectedOrders'),
+            "selectedDrivers" => Session::get('selectedDrivers'),
         ]);
     }
 
-    public function postSendOrdersToDrivers(Request $request)
+    public function SendOrdersToDrivers(Request $request)
     {
-        // dd($request);
-        alert()->success("The orders has been successfully assigned to the drivers");
+        try {
+            $map_routes = Session::get('mapRoutes');
+            foreach ($map_routes as $route) {
+                $driver = DriverProfile::find($route[0]->deliverer_id);
+                if(empty($driver)){
+                    throw new \Exception("Driver Not Found !", 400);
+                }
+                $orders = array_filter($route, function ($item) {
+                    return isset($item->type) &&  $item->type == 'pickup'; 
+                });
+                foreach ($orders as $key => $order) {
+                    $order = Order::find($order->order_id);
+                    $order->driver = $driver->user_id;
+                    $order->status = 'assigned';
+                    $order->driver_status = 'assigned';
+                    $order->save();
+                    $this->SendNotification($order->order_id, $driver->user);
+                }
+            }
+            alert()->success("The orders has been successfully assigned to the drivers");
+            return redirect()->to('doorder/orders');
+        } catch (\Throwable $th) {
+            alert()->error($th->getMessage());
+            return back();
+        }
+    }
 
-        return redirect()->to('doorder/orders');
+    private function SendNotification($order_id, $user){
+        $notification_message = "Order #$order_id) has been assigned to you";
+        $sms_message = "Hi $user->name, there is an order assigned to you, please open your app. " .
+            url('driver_app#/order-details/' . $order_id);
+        //Send Assignment Notification
+        $user_tokens = UserFirebaseToken::where('user_id', $user->id)->get()->pluck('token')->toArray();
+        if (!empty($user_tokens) ) {
+            self::sendFCM($user_tokens, [
+                'title' => 'Order assigned',
+                'message' => $notification_message,
+                'order_id' => $order_id
+            ]);
+        }
+        //SMS Assignment Notificatio
+        TwilioHelper::sendSMS('DoOrder', $user->phone, $sms_message);
     }
 }
-
-/**** [   {"deliverer_location": "53.425334,-6.231581"},
-    {"coordinates": "53.34581,-6.25543",
-        "order_id": "14",
-        "type": "pickup"},
-    {"coordinates": "51.89851,-8.4756",
-        "order_id": "13",
-        "type": "pickup"},
-    {"coordinates": "51.89851,-8.4756",
-        "order_id": "15",
-        "type": "pickup"},
-    {"coordinates": "53.18262,-6.80733",
-        "order_id": "14",
-        "type": "dropoff"},
-    {"coordinates": "53.2744695,-6.1297354",
-        "order_id": "13",
-        "type": "dropoff"},
-    {"coordinates": "53.35958,-6.24831",
-        "order_id": "15",
-        "type": "dropoff"}
-]   
- ****/

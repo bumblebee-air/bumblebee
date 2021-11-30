@@ -23,6 +23,7 @@ use App\Http\Controllers\Controller;
 use App\Rating;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use PhpParser\Node\Stmt\TryCatch;
@@ -1256,9 +1257,14 @@ class DriversController extends Controller
 
     public function assignOrders(Request $request)
     {
-        $selectedOrders = $request->selectedOrders;
-        // dd($selectedOrders);
+        Session::put('selectedOrders', $request->selectedOrders);
+        return redirect('doorder/driver-page');
+    }
 
+    public function driverPage(Request $request)
+    {
+
+        $selectedOrders = Session::get('selectedOrders');
         $drivers = DriverProfile::with('user')
             ->where('is_confirmed', true)
             ->orderBy('created_at', 'desc')->get();
@@ -1267,7 +1273,6 @@ class DriversController extends Controller
         foreach ($drivers as $driver) {
             $driver->overall_rating = 4;
         }
-
         return view('admin.doorder.drivers.accepted_drivers', ['drivers' => $drivers, 'selectedOrders' => $selectedOrders]);
     }
 }

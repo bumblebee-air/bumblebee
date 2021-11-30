@@ -151,13 +151,9 @@ input[type="checkbox"] {
 							</div>
 						</div>
 					</form>
-					<form method="POST" id="goToMapViewForm"
+					<form method="GET" id="goToMapViewForm"
 						action="{{url('doorder/view_route_optimization_map')}}"
 						>
-						{{csrf_field()}}
-						<input type="hidden" name="map_routes" id="map_routes">
-						<input type="hidden" name="selectedDrivers" id="selectedDriversMap">
-						<input type="hidden" name="selectedOrders" id="selectedOrdersMap">
 					</form>	
 				</div>
 			</div>

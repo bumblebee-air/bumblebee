@@ -166,13 +166,8 @@ div[data-toggle='collapse'] {
 							<div class="row justify-content-end ">
 								<div id="confirmRouteDiv"
 									class="col-lg-3  col-md-3 col-sm-4 px-md-1 text-center">
-									<form method="POST" id="confirmRoutesForm"
-										action="{{url('doorder/confirm_route_optimization_map')}}">
-										{{csrf_field()}} <input type="hidden" name="map_routes"
-											id="map_routes" value="{{$map_routes}}">
-										<button type="submit" id="confirmRoutesButton"
-											class="btnDoorder btn-doorder-primary  mb-1">Confirm</button>
-									</form>
+										<a href="{{url('doorder/confirm_route_optimization_map')}}" type="submit" id="confirmRoutesButton"
+											class="btnDoorder btn-doorder-primary  mb-1">Confirm</a>
 								</div>
 								<div id="startRouteDiv"
 									class="col-lg-3  col-md-3 col-sm-4 px-md-1 text-center"

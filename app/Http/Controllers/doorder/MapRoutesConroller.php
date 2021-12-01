@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Order;
 use App\UserFirebaseToken;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Http;
 
 class MapRoutesConroller extends Controller
 {
@@ -148,9 +149,13 @@ class MapRoutesConroller extends Controller
                 ];
             });
 
-            $guzzle_client = new \GuzzleHttp\Client();
-            $token_request = $guzzle_client->request('POST', 'https://peaceful-ridge-07017.herokuapp.com/routing_table?deliverers_coordinates=' . $deliverers_coordinates . '&orders_address=' . $orders_address);
-            $response = $token_request->getBody()->getContents();
+            $route_request = Http::post('https://peaceful-ridge-07017.herokuapp.com/routing_table', [
+                'deliverers_coordinates' => json_encode($deliverers_coordinates),
+                'orders_address' => json_encode($orders_address)
+            ]);
+
+
+            $response = $route_request->getBody();
             $response = json_decode($response);
             $response = collect($response)->map(function ($item) {
                 $driver = DriverProfile::find($item[0]->deliverer_id);
@@ -194,11 +199,11 @@ class MapRoutesConroller extends Controller
             $map_routes = Session::get('mapRoutes');
             foreach ($map_routes as $route) {
                 $driver = DriverProfile::find($route[0]->deliverer_id);
-                if(empty($driver)){
+                if (empty($driver)) {
                     throw new \Exception("Driver Not Found !", 400);
                 }
                 $orders = array_filter($route, function ($item) {
-                    return isset($item->type) &&  $item->type == 'pickup'; 
+                    return isset($item->type) &&  $item->type == 'pickup';
                 });
                 foreach ($orders as $key => $order) {
                     $order = Order::find($order->order_id);
@@ -217,13 +222,14 @@ class MapRoutesConroller extends Controller
         }
     }
 
-    private function SendNotification($order_id, $user){
+    private function SendNotification($order_id, $user)
+    {
         $notification_message = "Order #$order_id) has been assigned to you";
         $sms_message = "Hi $user->name, there is an order assigned to you, please open your app. " .
             url('driver_app#/order-details/' . $order_id);
         //Send Assignment Notification
         $user_tokens = UserFirebaseToken::where('user_id', $user->id)->get()->pluck('token')->toArray();
-        if (!empty($user_tokens) ) {
+        if (!empty($user_tokens)) {
             self::sendFCM($user_tokens, [
                 'title' => 'Order assigned',
                 'message' => $notification_message,

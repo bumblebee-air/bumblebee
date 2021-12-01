@@ -7,7 +7,7 @@
 	|| $user_type == 'investor') && $admin_nav_logo!=null)
 	<div class="user" style="z-index: 3">
 		<div class="photo photo-full text-center mb-3">
-			<img src="{{asset('images/doorder-new-layout/logo.png')}}" title="{{$admin_client_name}}"
+			<img src="{{asset('images/doorder-new-layout/Logo.png')}}" title="{{$admin_client_name}}"
 				alt="{{$admin_client_name}}" id="adminNavLogoImg" />
 		</div>
 	</div>

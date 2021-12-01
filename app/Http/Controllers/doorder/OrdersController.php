@@ -45,7 +45,7 @@ class OrdersController extends Controller
         $retailers = Retailer::where('status','completed')->get();
         
         foreach ($orders as $order) {
-            $order->time = $order->created_at->format('d M H:i');
+            $order->time = $order->created_at->format('d M y H:i A');
             $order->driver = $order->orderDriver ? $order->orderDriver->name : null;
             $order->fulfilment_date = $order->fulfilment_date ? Carbon::createFromFormat('Y-m-d H:i:s', $order->fulfilment_date)->format('d-m-Y H:i A') : Null;
         }
@@ -324,7 +324,7 @@ class OrdersController extends Controller
         }
         $orders = $orders->with('comments')->paginate(50);
         foreach ($orders as $order) {
-            $order->time = $order->created_at->format('d M H:i');
+            $order->time = $order->created_at->format('d M y');
             $order->driver = $order->orderDriver ? $order->orderDriver->name : null;
         }
 

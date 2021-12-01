@@ -34,13 +34,13 @@
 									cellspacing="0" width="100%" >
                                         <thead>
                                             <tr>
-                                                <th>Number</th>
-                                                <th>Date/Time</th>
-                                                <th>Location</th>
-                                                <th>Deliverer Name</th>
-                                                <th>Status</th>
-                                                <th>Stage</th>
-                                                <th>Address</th>
+                                                <th width="10%">Number</th>
+                                                <th width="10%">Date/Time</th>
+                                                <th width="10%">Location</th>
+                                                <th width="10%">Deliverer Name</th>
+                                                <th width="10%">Status</th>
+                                                <th width="10%">Stage</th>
+                                                <th width="20%">Address</th>
                                             </tr>
                                         </thead>
 
@@ -91,14 +91,12 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <nav aria-label="pagination" class="float-right">
-                                        {{--                                        {{$clients->links('vendor.pagination.bootstrap-4')}}--}}
-                                    </nav>
+                                </div>
+                                
+										<div class="d-flex justify-content-end mt-3">
+                                    {{$drivers_requests->links()}}
                                 </div>
                             </div>
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            {{$drivers_requests->links()}}
                         </div>
                     </div>
                 </div>

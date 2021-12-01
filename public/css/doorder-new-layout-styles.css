@@ -12,6 +12,7 @@ html {
 	border-right: 1px solid #e0e0e0;
 	width: 250px;
 }
+
 .sidebar .sidebar-wrapper {
 	width: 250px;
 }
@@ -500,19 +501,23 @@ div.dataTables_wrapper div.dataTables_filter input {
 	color: #FF9F43;
 	background: #FF9F431F;
 }
-.doorderTable td .orderStatusSpan.receivedStatus{
+
+.doorderTable td .orderStatusSpan.receivedStatus {
 	color: #E9C218;
 	background: #E9C2181F;
 }
-.doorderTable td .orderStatusSpan.stripeFormSentStatus{
+
+.doorderTable td .orderStatusSpan.stripeFormSentStatus {
 	color: #4A95D3;
 	background: #4A95D31F;
 }
-.doorderTable td .orderStatusSpan.missingStatus{
+
+.doorderTable td .orderStatusSpan.missingStatus {
 	color: #DB3C3C;
 	background: #DB3C3C1F;
 }
-.doorderTable td .orderStatusSpan.completedStatus{
+
+.doorderTable td .orderStatusSpan.completedStatus {
 	color: #28C76F;
 	background: #28C76F1F;
 }
@@ -837,16 +842,49 @@ table.dataTable tr.selected td {
 	color: #DB3C3C !important;
 	margin-right: 10px;
 }
-table .progress{
-	width:100px;
+
+table .progress {
+	width: 100px;
 	height: 8px;
-    border-radius: 10px;
-    background-color: #eaeaea;
-    margin-bottom: 0;
-    text-align: left;
+	border-radius: 10px;
+	background-color: #eaeaea;
+	margin-bottom: 0;
+	text-align: left;
 }
-table .progress-bar{
+
+table .progress-bar {
 	background: linear-gradient(239.57deg, #E9C218 20.53%, #E9C218 79.85%);
+}
+
+.dt-datetime-table thead tr th, .dt-datetime-table tbody tr td {
+	min-width: 30px !important;
+	max-width: 30px !important;
+	width: 30px !important;
+}
+
+div.dt-datetime {
+	padding: 1px !important;
+}
+
+div.dt-datetime table th {
+	padding: 4px 0 !important;
+}
+
+div.dt-datetime table td.selectable.now {
+	background-color: #f7dc69;
+	color: white;
+}
+
+div.dt-datetime table td.selectable button:hover {
+	background-color: #d6b93d !important;
+}
+
+.ui-datepicker-calendar td {
+	min-width: auto;
+}
+
+.ui-draggable, .ui-droppable {
+	background-position: top;
 }
 /*********** buttons ************/
 .modal-header .close {
@@ -1349,7 +1387,8 @@ button.dropdown-toggle.select-with-transition {
 	color: #23314B;
 }
 
-input.form-control, textarea.form-control, select.form-control {
+input.form-control, textarea.form-control, select.form-control, span.form-control, .form-control-select
+	{
 	padding: 11px 14px 11px 14px;
 	border-radius: 6px;
 	box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
@@ -1360,11 +1399,24 @@ input.form-control, textarea.form-control, select.form-control {
 	font-weight: 500;
 	font-stretch: normal;
 	font-style: normal;
-	line-height: 20pc;
+	line-height: 20px;
 	letter-spacing: 0.77px;
 	color: #6e6b7b !important;
 	width: 100%;
 	height: auto;
+}
+.filter-option-inner{
+	font-family: Montserrat;
+	font-size: 16px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 20px;
+	color: #6e6b7b !important;
+}
+
+span.form-control {
+	min-height: 40px;
 }
 
 .addUserModalHeader {
@@ -1385,6 +1437,13 @@ input.form-control, textarea.form-control, select.form-control {
 	margin-bottom: 10px;
 }
 
+.card-profile-page-title {
+	background: transparent;
+	box-shadow: none;
+	margin-top: 40px !important;
+	margin-bottom: 0;
+}
+
 .card-driver-map-route .card-header h3 {
 	font-family: Montserrat;
 	font-style: normal;
@@ -1392,6 +1451,16 @@ input.form-control, textarea.form-control, select.form-control {
 	font-size: 18px;
 	line-height: 22px;
 	color: #171B1E;
+}
+
+.card-profile-page-title .card-header .card-title {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 20px;
+	line-height: 24px;
+	color: #000000;
+	margin: 0 !important;
 }
 
 .card-driver-map-route .card-header .card-icon-driver-profile {
@@ -1426,6 +1495,75 @@ input.form-control, textarea.form-control, select.form-control {
 
 .card-driver-map-route .card-header.collapsed .collapse-arrow:after {
 	transform: rotate(0deg);
+}
+
+.card-header-profile-border {
+	border-radius: 0 !important;
+	border-bottom: 1px solid #D8D8D8 !important;
+	margin: 10px 0 !important;
+}
+
+.card-header-profile-border h4 {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 20px;
+	line-height: 24px;
+	color: #E9C218;
+}
+
+.downloadFilesH5 {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 15px;
+	line-height: 20px;
+	letter-spacing: 0.77px;
+	color: #4D4D4D;
+}
+
+.file-url-container {
+	background: #FFFFFF;
+	border: 1px solid #E3E3E3;
+	box-sizing: border-box;
+	border-radius: 6px;
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 16px;
+	color: #252525;
+	padding: 8px 16px;
+}
+
+.file-url-container i {
+	font-size: 45px
+}
+
+/* business hours */
+.dayContainer {
+	margin-right: 0 !important;
+}
+.input-group-prepend .input-group-text{
+	border: 1px solid #e5e5e5;
+	border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+.workingBusinssDay {
+	background-color: #e8ca49;
+	border-radius: 2px !important;
+	border: none !important;
+	max-height: 21px !important;
+}
+
+.dayOff {
+	background-color: #eeeeee;
+	border-radius: 2px;
+	border: none !important;
+	max-height: 21px !important;
+}
+.operationTime input.mini-time{
+	height: 40px;
 }
 
 /* Timeline */
@@ -1497,7 +1635,8 @@ input.form-control, textarea.form-control, select.form-control {
 .timeline .timeline-item .timeline-panel:before {
 	display: none
 }
-.timeline>li>.timeline-panel:after{
+
+.timeline>li>.timeline-panel:after {
 	border-color: transparent;
 }
 

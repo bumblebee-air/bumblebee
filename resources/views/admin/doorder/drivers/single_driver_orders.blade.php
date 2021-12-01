@@ -11,13 +11,6 @@
 }
 
 
-.ui-datepicker-calendar td {
-	min-width: auto;
-}
-
-.ui-draggable, .ui-droppable {
-	background-position: top;
-}
 
 .dataTables_wrapper.no-footer .dataTables_scrollBody {
 	border: none !important;
@@ -26,41 +19,6 @@
 table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
 	{
 	border-right: none !important;
-}
-
-.ui-icon-circle-triangle-w {
-	background: url('{{asset('images/doorder_icons/angle-arrow-left.png')}}')
-		no-repeat center !important;
-	background-size: cover;
-}
-
-.ui-icon-circle-triangle-e {
-	background: url('{{asset('images/doorder_icons/angle-arrow-right.png')}}')
-		no-repeat center !important;
-	background-size: cover;
-}
-
-.dt-datetime-table thead tr th, .dt-datetime-table tbody tr td {
-	min-width: 30px !important;
-	max-width: 30px !important;
-	width: 30px !important;
-}
-
-div.dt-datetime {
-	padding: 1px;
-}
-
-div.dt-datetime table th {
-	padding: 4px 0;
-}
-
-div.dt-datetime table td.selectable.now {
-	background-color: #f7dc69;
-	color: white;
-}
-
-div.dt-datetime table td.selectable button:hover {
-	background-color: #d6b93d;
 }
 
 .doorderTable tbody tr td, .doorderTable thead tr th{

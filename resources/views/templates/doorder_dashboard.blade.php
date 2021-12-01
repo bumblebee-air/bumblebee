@@ -35,6 +35,8 @@
 <link href="{{asset('css/doorder-new-layout-styles.css')}}"
 	rel="stylesheet">
 
+    <link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">	
+
 <link
 	href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
 	rel="stylesheet">
@@ -214,6 +216,9 @@
 		src="https://cdn.datatables.net/fixedcolumns/3.3.3/js/dataTables.fixedColumns.min.js"></script>
 
 	<script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
+	
+    <script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>
+    
 	<!-- 	<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
  -->
 	{{--Socket & Vue server --}}

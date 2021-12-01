@@ -79,14 +79,11 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <nav aria-label="pagination" class="float-right">
-                                        {{--                                        {{$clients->links('vendor.pagination.bootstrap-4')}}--}}
-                                    </nav>
+                                </div>
+                                <div class="d-flex justify-content-end mt-3">
+                                    {{$retailers_requests->links()}}
                                 </div>
                             </div>
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            {{$retailers_requests->links()}}
                         </div>
                     </div>
                 </div>

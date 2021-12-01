@@ -1088,6 +1088,7 @@ class DriversController extends Controller
         $profile->work_radius = $request->get('work_radius');
         if ($request->get('working_days_hours') != null) {
             $profile->business_hours = $request->get('working_days_hours');
+            $profile->business_hours_json = $request->get('working_days_hours_json');
         }
         //$profile->work_location = $request->get('work_location')!=null ? $request->get('work_location') : '{"name":"N/A","coordinates":{"lat":"0","lng":"0"}}';
         /*$profile->legal_word_evidence = $request->proof_id ? $request->file('proof_id')->store('uploads/doorder_drivers_registration') : null;

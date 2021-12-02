@@ -356,6 +356,10 @@ class ContractorsController extends Controller
                     $job->is_paid = true;
                     $timestamps->completed = $current_timestamp;
 
+                    $job->job_timestamps()->orderBy('id', 'desc')->first()->update([
+                        'stopped_at' => Carbon::now()
+                    ]);
+
                     //Sending confirmation URL to the customer
                     if ($job->user && $job->user->phone) {
                         $body = "Hi $job->name, GardenHelp service has been completed, open the link to scan the QR code and confirm the job. " . url('gh/customer/job/' . $job->customer_confirmation_code);

@@ -56,4 +56,8 @@ class Contractor extends Model
     public function user() {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function payouts() {
+        return $this->hasMany(ContractorPayout::class, 'contractor_id');
+    }
 }

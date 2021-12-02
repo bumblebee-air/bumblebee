@@ -297,6 +297,15 @@ Route::group([
                 Route::post('edit_service_type/{id}', 'garden_help\ServiceTypesController@postEditServiceType')->name('garden_help_postEditServiceType');
                 Route::post('delete_service_type', 'garden_help\ServiceTypesController@postDeleteServiceType')->name('garden_help_postDeleteServiceType');
             });
+            Route::group([
+                'prefix' => 'invoice'
+            ], function () {
+                Route::get('/list', 'garden_help\InvoiceController@getInvoiceJobs')->name('garden_help_getInvoiceList');
+                Route::get('/view/{id}', 'garden_help\InvoiceController@viewInvoiceJob')->name('garden_help_viewInvoice');
+            });
+            Route::post('send_notification_contractor', 'garden_help\InvoiceController@postSendNotification')->name('garden_help_sendNotificationDriver');
+            Route::post('payout_contractor_invoice', 'garden_help\InvoiceController@postPayout')->name('garden_help_sendNotificationContractor');
+            Route::post('update_contractor_last_payout_date', 'garden_help\InvoiceController@postUpdateLastPayoutDate')->name('garden_help_updateContractorLastPayout');
 
             Route::post('job/assign', 'garden_help\JobsController@assignContractorToJob')->name('garden_help_assignJob');
 

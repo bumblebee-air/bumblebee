@@ -61,4 +61,8 @@ class User extends Authenticatable
     public function engineer_profile() {
         return $this->hasOne(UnifiedEngineer::class, 'user_id');
     }
+
+    public function contractor_jobs() {
+        return $this->hasMany(Customer::class, 'contractor_id');
+    }
 }

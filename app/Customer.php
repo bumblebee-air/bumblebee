@@ -28,4 +28,8 @@ class Customer extends Model
     public function kpi_timestamps() {
         return $this->morphOne(KPITimestamp::class, 'model', 'model_id');
     }
+
+    public function job_timestamps() {
+        return $this->morphMany(JobTimestamp::class, 'model');
+    }
 }

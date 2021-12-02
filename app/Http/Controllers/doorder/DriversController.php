@@ -116,6 +116,47 @@ class DriversController extends Controller
         ];
         return response()->json($response)->setStatusCode(200);
     }
+    public function newOrdersList(Request $request)
+    {
+        $message = "Done";
+        $code = 200;
+        $data = [];
+        try {
+            $current_driver = \Auth::user();
+            $driver_id = $current_driver->id;
+            $driver_orders = [];
+            switch ($request->order_type) {
+                case 'my-order':
+                    $driver_orders = Order::whereNotIn('status', ['delivered', 'not_delivered', 'assigned'])->where('driver', '=', (string)$driver_id)->get();
+                case 'new-order':
+                    $driver_orders = Order::where('status', 'assigned')->where('driver', '=', (string)$driver_id)->get();
+                    break;
+
+                default:
+                    $driver_orders = Order::where('driver', '=', (string)$driver_id)->get();
+                    break;
+            }
+            foreach ($driver_orders as $driver_order) {
+                $retailer = Retailer::find($driver_order->retailer_id);
+                $retailer_number = 'N/A';
+                if ($retailer != null) {
+                    $contact_details = json_decode($retailer->contacts_details);
+                    $main_contact = $contact_details[0];
+                    $retailer_number = $main_contact->contact_phone;
+                }
+                $driver_order->retailer_phone = $retailer_number;
+            }
+            $data = $driver_orders->toArray();
+        } catch (\Throwable $th) {
+            $message = $th->getMessage();
+            $code = 400;
+        }
+        $response = [
+            'message' => $message,
+            'data' => $data,
+        ];
+        return response()->json($response)->setStatusCode($code);
+    }
 
     public function updateOrderDriverStatus(Request $request)
     {

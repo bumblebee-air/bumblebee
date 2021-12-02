@@ -589,7 +589,7 @@
 						<li class="nav-item"><a class="nav-link d-flex"
 												href="{{route('garden_help_getContractorsFee', 'garden-help')}}">
 								<p class="sidebar-mini">CF</p>
-								<p class="sidebar-normal">Customers Fee</p>
+								<p class="sidebar-normal">GardenHelp Fee</p>
 							</a>
 						</li>
 					</ul>
@@ -618,6 +618,13 @@
 					alt="">
 					<p style="padding-right: 30px;">Service Types</p>
 			</a></li>
+			<li class="nav-item"><a class="nav-link d-flex"
+									href="{{route('garden_help_getInvoiceList', 'garden-help')}}"> <img
+							class="my-nav-icon"
+							src="{{asset('images/doorder_icons/Invoice-white.png')}}"
+							alt="">
+					<p style="padding-right: 30px;">Invoice</p>
+				</a></li>
 
 			<!-- <li class="nav-item "><a class="nav-link collapsed d-flex"
 				data-toggle="collapse" href="#componentsServiceTypesExamples"
@@ -820,4 +827,3 @@
 	@endif
 </div>
 
-    

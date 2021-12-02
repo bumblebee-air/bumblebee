@@ -126,11 +126,11 @@ class DriversController extends Controller
             $driver_orders = [];
             switch ($request->order_type) {
                 case 'my-order':
-                    $driver_orders = Order::whereNotIn('status', ['delivered', 'not_delivered', 'assigned'])->where('driver', '=', (string)$driver_id)->get();
+                    return $driver_orders = Order::where('status', '!=', 'delivered')->where('status', '!=', 'not_delivered')->where('status', '!=', 'assigned')->where('driver', '=', (string)$driver_id)->get();
+                    break;
                 case 'new-order':
                     $driver_orders = Order::where('status', 'assigned')->where('driver', '=', (string)$driver_id)->get();
                     break;
-
                 default:
                     $driver_orders = Order::where('driver', '=', (string)$driver_id)->get();
                     break;

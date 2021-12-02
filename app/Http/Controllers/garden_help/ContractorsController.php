@@ -7,6 +7,7 @@ use App\Customer;
 use App\Helpers\ServicesTypesHelper;
 use App\Helpers\StripePaymentHelper;
 use App\Helpers\TwilioHelper;
+use App\JobTimestamp;
 use App\KPITimestamp;
 use App\Mail\ContractorRegistrationMail;
 use App\Mail\ContractorRegistrationSuccessMail;
@@ -738,4 +739,35 @@ class ContractorsController extends Controller
         return response()->json($response)->setStatusCode(200);
     }
 
+    public function jobTimeTracker(Request $request) {
+        $job_id = $request->get('job_id');
+        $status = $request->get('status');
+        $job = Customer::find($job_id);
+        if (!$job) {
+            $response = [
+                'order' => [],
+                'message' => 'No job was found with this ID',
+                'error' => 1
+            ];
+            return response()->json($response)->setStatusCode(403);
+        }
+        if ($status == 'start_working' || $status == 'keep_working') {
+            $timeTracker = new JobTimestamp([
+                'started_at' => Carbon::now(),
+            ]);
+            $job->job_timestamps()->save($timeTracker);
+            $job->contractor_status = 'keep_working';
+        } else if($status == 'break') {
+            $job->job_timestamps()->orderBy('id', 'desc')->first()->update([
+                'stopped_at' => Carbon::now()
+            ]);
+            $job->contractor_status = 'break';
+        }
+        $job->save();
+        $response = [
+            'message' => 'Operation done successfully',
+            'error' => 0
+        ];
+        return response()->json($response)->setStatusCode(200);
+    }
 }

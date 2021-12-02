@@ -86,6 +86,7 @@ Route::group(['middleware' => "auth:api"], function () {
     Route::get('get-setting', 'garden_help\ContractorsController@editSetting');
     Route::post('update-setting', 'garden_help\ContractorsController@updateSetting');
     Route::post('skip-confirmation', 'garden_help\ContractorsController@skipJobConfirmation');
+    Route::post('job-time-tracker', 'garden_help\ContractorsController@jobTimeTracker');
 
 
 

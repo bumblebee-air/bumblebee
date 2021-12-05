@@ -510,33 +510,35 @@ function confirmCancelRouteOptimization(){
         	  for(var i=0;i<routesOpt.length; i++){
                 		var routeTemp = routesOpt[i];
                 		console.log(routeTemp)
-                		var waypoints=[];
-                		var destination;
-                		for(var j=1; j<routeTemp.length; j++){
-//                 			console.log(routeOpt[j])
-//                 			console.log("point "+j +" "+routeTemp[j]['coordinates'])
-                			if(j==routeTemp.length-1){
-                				destination = new google.maps.LatLng(routeTemp[j]['coordinates'].split(",")[0],routeTemp[j]['coordinates'].split(",")[1])
-                			}else{
-                				waypoints.push({location: new google.maps.LatLng(routeTemp[j]['coordinates'].split(",")[0],routeTemp[j]['coordinates'].split(",")[1]),
-                							stopover: true});	
-                			}				
-                		}
-//                 		console.log(waypoints)
-                		 route = {
-                    		origin:  new google.maps.LatLng(routeTemp[0]['coordinates'].split(",")[0],routeTemp[0]['coordinates'].split(",")[1]),
-                    		destination: destination,
-                    		waypoints:waypoints,
-                    		travelMode: google.maps.TravelMode.DRIVING,
-                		};
-                		console.log(route)
-                		console.log("------=====-----");
-                		directionsRendererArr[dirRendCount] = new google.maps.DirectionsRenderer({ polylineOptions: {
-                           strokeColor: colors[i%colors.length]
-                         },});
-                    	directionsRendererArr[dirRendCount].setMap(map);
-                    	calculateAndDisplayRoute(directionsService, directionsRendererArr[dirRendCount],route,routeTemp[0]['deliverer_name'],routeTemp[0]['deliverer_first_letter'],routeTemp);
-                    	dirRendCount++;
+                		if(routeTemp.length>1){
+                    		var waypoints=[];
+                    		var destination;
+                    		for(var j=1; j<routeTemp.length; j++){
+    //                 			console.log(routeOpt[j])
+    //                 			console.log("point "+j +" "+routeTemp[j]['coordinates'])
+                    			if(j==routeTemp.length-1){
+                    				destination = new google.maps.LatLng(routeTemp[j]['coordinates'].split(",")[0],routeTemp[j]['coordinates'].split(",")[1])
+                    			}else{
+                    				waypoints.push({location: new google.maps.LatLng(routeTemp[j]['coordinates'].split(",")[0],routeTemp[j]['coordinates'].split(",")[1]),
+                    							stopover: true});	
+                    			}				
+                    		}
+    //                 		console.log(waypoints)
+                    		 route = {
+                        		origin:  new google.maps.LatLng(routeTemp[0]['coordinates'].split(",")[0],routeTemp[0]['coordinates'].split(",")[1]),
+                        		destination: destination,
+                        		waypoints:waypoints,
+                        		travelMode: google.maps.TravelMode.DRIVING,
+                    		};
+                    		console.log(route)
+                    		console.log("------=====-----");
+                    		directionsRendererArr[dirRendCount] = new google.maps.DirectionsRenderer({ polylineOptions: {
+                               strokeColor: colors[i%colors.length]
+                             },});
+                        	directionsRendererArr[dirRendCount].setMap(map);
+                        	calculateAndDisplayRoute(directionsService, directionsRendererArr[dirRendCount],route,routeTemp[0]['deliverer_name'],routeTemp[0]['deliverer_first_letter'],routeTemp);
+                        	dirRendCount++;
+                    	}
                 	}
         }
         function calculateAndDisplayRoute(directionsService, directionsRenderer,route,driver_name,driver_first_letters,routeTemp) {
@@ -547,9 +549,9 @@ function confirmCancelRouteOptimization(){
                 	  directionsRenderer.setDirections(result);
                 	  
                 	  var leg = result.routes[0].legs[0];
-                       makeMarker(leg.start_location, markerDriver, "title", map,driver_name,driver_first_letters);
+                       makeMarker(leg.start_location, markerDriver, "title", map,driver_name,driver_first_letters,null);
                        leg = result.routes[0].legs[result.routes[0].legs.length-1];
-                       makeMarker(leg.end_location, markerAddress, 'title', map,null,null);
+                       makeMarker(leg.end_location, markerAddress, 'title', map,null,null,routeTemp[result.routes[0].legs.length]['order_id']);
                        
                        for(var i=0; i<result.routes[0].legs.length; i++){
                        		//console.log(leg.start_location.lat()+","+leg.start_location.lng())
@@ -560,12 +562,12 @@ function confirmCancelRouteOptimization(){
 //                        		if(i==1){
 //                        			makeMarker(leg.start_location, markerPickup, "title", map,null,null);
 //                        		}
-
+							console.log(routeTemp[i+1]['order_id'])
                        		if(routeTemp[i+1]['type']==='pickup'){
-                      			makeMarker(leg.end_location, markerPickup, "title", map,null,null);
+                      			makeMarker(leg.end_location, markerPickup, "title", map,driver_name,null,routeTemp[i+1]['order_id']);
                       		}
                       		else if(routeTemp[i+1]['type']==='dropoff'){
-                      			makeMarker(leg.end_location, markerAddress, "title", map,null,null);
+                      			makeMarker(leg.end_location, markerAddress, "title", map,driver_name,null,routeTemp[i+1]['order_id']);
                       		}	
                        }
                 }
@@ -573,8 +575,8 @@ function confirmCancelRouteOptimization(){
             
         }
         
-        function makeMarker(position, icon, title, map,driver_name,driver_first_letters) {
-        	//console.log(position)
+        function makeMarker(position, icon, title, map,driver_name,driver_first_letters,order_number) {
+        	console.log(order_number)
             var marker = new google.maps.Marker({
                 position: position,
                  anchorPoint: new google.maps.Point(0, -29),
@@ -584,8 +586,13 @@ function confirmCancelRouteOptimization(){
             });
             
             if(driver_name != null){
+            	var content = driver_name;
+            	console.log(order_number)
+            	if(order_number!=null){
+            		content += '<br> Order #'+order_number;
+            	}
             	const infowindow = new google.maps.InfoWindow({
-                    content: driver_name,
+                    content: content,
                   });
                   
                //   marker.setLabel(driver_first_letters);

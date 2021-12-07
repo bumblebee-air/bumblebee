@@ -59,7 +59,7 @@
                     <div class="col-12 d-flex justify-content-center">
                         <div class="card-drag"></div>
                     </div>
-                    <div class="col-12 order-details-container">
+                    <div class="col-12 order-details-container" style="overflow-x: auto; height: 635px;">
                         <div class="row">
                             <div class="col-10">
                                 <p class="delivery-info">
@@ -242,9 +242,22 @@
                         </div>
                     </div>
                     <div class="order-details-button-container" v-else>
-                        <button v-for="(status, index) in job_status" v-if="job_data.status == status.status" :class="'btn order-details-button ' + job_status[index + 1].status " @click="openConfirmationDialog(job_status[index + 1].status)">
+                        <div class="row mb-1" v-if="job_data.status == 'arrived'">
+                          <button class="btn order-details-button" v-if="current_working_status == 'start_working'" @click="workingTracker('start_working')">
+                            Start Working
+                          </button>
+                          <button class="btn order-details-button keep_working" v-else-if="current_working_status == 'break' || current_working_status == ''" @click="workingTracker('keep_working')">
+                            Keep Working
+                          </button>
+                          <button class="btn order-details-button danger" v-else @click="workingTracker('break')">
+                            Break
+                          </button>
+                        </div>
+                        <div class="row">
+                          <button v-for="(status, index) in job_status" v-if="job_data.status == status.status" :class="'btn order-details-button ' + job_status[index + 1].status " @click="openConfirmationDialog(job_status[index + 1].status)">
                             {{ job_status[index + 1].text}}
-                        </button>
+                          </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -339,7 +352,8 @@
                 distance: '0',
                 duration: '0',
                 durationTime: '0',
-                job_service_types: []
+                job_service_types: [],
+                current_working_status: 'start_working'
             }
         },
         mounted() {
@@ -385,6 +399,7 @@
                     this.setCardMaxHeight();
                     this.getCurrentLocation();
                     $('#loading').fadeOut();
+                    this.current_working_status = this.job_data.contractor_status
                 }
             },
             fetchJobDataError(err) {
@@ -630,7 +645,31 @@
             redirectToGoogleMaps(location_coordinates) {
               let coordinates = JSON.parse(location_coordinates);
                 window.open('http://maps.google.com?q='+coordinates.lat+','+coordinates.lon);
-            }
+            },
+          workingTracker(status) {
+            let user = JSON.parse(localStorage.getItem('user'));
+            axios.post(process.env.MIX_API_URL + 'job-time-tracker',{
+                  job_id: this.$route.params.id,
+                  status: status
+                },
+                {
+                  headers: {
+                    Accept: "application/json",
+                    Authorization: user.access_token
+                  }
+                }).then(
+                res => {
+                  console.log(status);
+                  if (status == 'start_working' || status == 'keep_working') {
+                    this.current_working_status = 'keep_working';
+                  } else {
+                    this.current_working_status = 'break'
+                  }
+                }
+            ).catch(
+                err => console.log(err)
+            );
+          }
         }
     }
 </script>
@@ -811,5 +850,8 @@
     }
     .block {
       width: 100%!important;
+    }
+    .keep_working {
+      background-color: rgb(85, 144, 245);
     }
 </style>

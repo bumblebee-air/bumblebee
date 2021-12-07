@@ -1,0 +1,149 @@
+.wizard ul {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.wizard ul a {
+	text-decoration: none;
+}
+
+.wizard img {
+	/* 	max-width: 100%; */
+	vertical-align: middle;
+	width: 35px;
+}
+
+.wizard {
+	position: relative;
+}
+
+.steps .current-info, .steps .number {
+	display: none;
+}
+
+.steps ul {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 15px;
+}
+
+.steps ul li {
+	margin-right: 7%;
+	position: relative;
+}
+
+.steps ul li:last-child {
+	margin-right: 0;
+}
+
+.steps ul li .step-arrow {
+	position: absolute;
+	top: 20%;
+	left: 113%;
+	width: 24px;
+	height: 24px;
+}
+
+.steps ul li .step-order {
+	display: block;
+	/* 	text-align: center; */
+	/* 	text-transform: uppercase; */
+	/* 	font-size: 12px; */
+	/* 	color: #666; */
+	/* 	margin-top: 14px; */
+}
+
+.steps ul li .step-order-title {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 21px;
+	color: #82868B;
+	margin-top: 4px;
+	margin-bottom: 2px;
+}
+
+.steps ul li.current .step-order-title {
+	color: #4D4D4D;
+}
+
+.steps ul li .step-order-subtitle {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 12px;
+	line-height: 18px;
+	color: #B9B9C3;
+}
+
+.wizard .title {
+	min-height: auto;
+	margin: 0;
+}
+
+@media ( max-width : 991px) {
+	.steps ul li .step-arrow {
+		top: 45%;
+		left: 102%;
+	}
+	.cart_totals {
+		width: 74%;
+	}
+}
+
+@media ( max-width : 767px) {
+	body {
+		background: none;
+		height: auto;
+		display: block;
+	}
+	.steps ul li .step-arrow {
+		top: 25%;
+		left:90%;
+		width: 12px;
+		height: 12px
+	}
+	.wrapper {
+		width: auto;
+		padding: 0;
+		height: auto;
+	}
+	.wizard {
+		height: auto;
+		/* 		padding: 40px 20px 20px; */
+	}
+	.steps ul li .step-order-title {
+		font-size: 9px;
+		line-height: 13px;
+	}
+	.steps ul li .step-order-subtitle {
+		font-size: 7px;
+		line-height: 12px;
+	}
+	.steps ul li {
+		margin-right: 0;
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+}
+@media ( min-width :768px) and ( max-width :991.5px) {
+	.steps ul li {
+		margin-right: 0;
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+}
+@media ( min-width :992px) and ( max-width :1199.5px) {
+	.steps ul li {
+		margin-right: 0;
+/* 		padding-left: 5px; */
+/* 		padding-right: 5px; */
+	}
+	.steps ul li .step-arrow{
+		left: 75%;
+		top:15%;
+	}
+}
+/*# sourceMappingURL=style.css.map */

@@ -417,7 +417,7 @@ div.dataTables_wrapper div.dataTables_filter input {
 	color: #7367F0;
 }
 
-.doorderTable td .orderStatusSpan {
+.doorderTable td .orderStatusSpan, .orderStatusSpan {
 	font-family: Montserrat;
 	font-style: normal;
 	font-weight: 600;
@@ -447,47 +447,56 @@ div.dataTables_wrapper div.dataTables_filter input {
 	height: 2rem;
 }
 
-.doorderTable td .orderStatusSpan.pendingStatus {
+.doorderTable td .orderStatusSpan.pendingStatus, .orderStatusSpan.pendingStatus
+	{
 	color: #82868B;
 	background-color: #82868B1F;
 }
 
-.doorderTable td .orderStatusSpan.readyStatus {
+.doorderTable td .orderStatusSpan.readyStatus, .orderStatusSpan.readyStatus
+	{
 	color: #F3D54F;
 	background-color: #F3D54F1F;
 }
 
-.doorderTable td .orderStatusSpan.matchedStatus {
+.doorderTable td .orderStatusSpan.matchedStatus, .orderStatusSpan.matchedStatus
+	{
 	color: #38B018;
 	background-color: #38B0181F;
 }
 
-.doorderTable td .orderStatusSpan.onRoutePickupStatus {
+.doorderTable td .orderStatusSpan.onRoutePickupStatus, .orderStatusSpan.onRoutePickupStatus
+	{
 	color: #FF9F43;
 	background-color: #FF9F431F;
 }
 
-.doorderTable td .orderStatusSpan.pickedUpStatus {
+.doorderTable td .orderStatusSpan.pickedUpStatus, .orderStatusSpan.pickedUpStatus
+	{
 	color: #4A95D3;
 	background-color: #4A95D31F;
 }
 
-.doorderTable td .orderStatusSpan.onRouteStatus {
+.doorderTable td .orderStatusSpan.onRouteStatus, .orderStatusSpan.onRouteStatus
+	{
 	color: #FF9F43;
 	background-color: #FF9F431F;
 }
 
-.doorderTable td .orderStatusSpan.deliveredArrivedStatus {
+.doorderTable td .orderStatusSpan.deliveredArrivedStatus,
+	.orderStatusSpan.deliveredArrivedStatus {
 	color: #F56D6D;
 	background-color: #F56D6D1F;
 }
 
-.doorderTable td .orderStatusSpan.deliveredStatus {
+.doorderTable td .orderStatusSpan.deliveredStatus, .orderStatusSpan.deliveredStatus
+	{
 	color: #28C76F;
 	background-color: #28C76F1F;
 }
 
-.doorderTable td .orderStatusSpan.notDeliveredStatus {
+.doorderTable td .orderStatusSpan.notDeliveredStatus, .orderStatusSpan.notDeliveredStatus
+	{
 	color: #d85656;
 	background-color: #d856561f
 }
@@ -1387,8 +1396,8 @@ button.dropdown-toggle.select-with-transition {
 	color: #23314B;
 }
 
-input.form-control, textarea.form-control, select.form-control, span.form-control, .form-control-select
-	{
+input.form-control, textarea.form-control, select.form-control, span.form-control,
+	.form-control-select {
 	padding: 11px 14px 11px 14px;
 	border-radius: 6px;
 	box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
@@ -1405,7 +1414,14 @@ input.form-control, textarea.form-control, select.form-control, span.form-contro
 	width: 100%;
 	height: auto;
 }
-.filter-option-inner{
+
+.form-control[disabled], .form-group .form-control[disabled], fieldset[disabled] .form-control,
+	fieldset[disabled] .form-group .form-control {
+	border: none !important;
+	background-color: #ededed;
+}
+
+.filter-option-inner {
 	font-family: Montserrat;
 	font-size: 16px;
 	font-weight: 500;
@@ -1512,6 +1528,10 @@ span.form-control {
 	color: #E9C218;
 }
 
+.card-header-profile-border h4.orderNumber {
+	color: #4d4d4d;
+}
+
 .downloadFilesH5 {
 	font-family: Montserrat;
 	font-style: normal;
@@ -1544,11 +1564,13 @@ span.form-control {
 .dayContainer {
 	margin-right: 0 !important;
 }
-.input-group-prepend .input-group-text{
+
+.input-group-prepend .input-group-text {
 	border: 1px solid #e5e5e5;
 	border-top-left-radius: 6px;
-    border-bottom-left-radius: 6px;
+	border-bottom-left-radius: 6px;
 }
+
 .workingBusinssDay {
 	background-color: #e8ca49;
 	border-radius: 2px !important;
@@ -1562,7 +1584,8 @@ span.form-control {
 	border: none !important;
 	max-height: 21px !important;
 }
-.operationTime input.mini-time{
+
+.operationTime input.mini-time {
 	height: 40px;
 }
 
@@ -1675,6 +1698,9 @@ span.form-control {
 }
 /*********** responsive *************/
 @media ( max-width :767.5px) {
+	.card-profile-page-title {
+		margin-top: 0 !important;
+	}
 	.card-dashboard-content {
 		padding: 10px !important;
 	}
@@ -1719,6 +1745,9 @@ span.form-control {
 }
 
 @media ( min-width :768px) and ( max-width :991.5px) {
+	.card-profile-page-title {
+		margin-top: 0 !important;
+	}
 	#dashboardCardDiv .card.card-stats .cardDashboardValueH3 {
 		font-size: 30px;
 		line-height: 35px;

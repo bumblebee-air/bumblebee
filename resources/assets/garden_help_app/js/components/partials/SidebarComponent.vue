@@ -6,7 +6,8 @@
 <!--            <a href="#" class="list-group-item list-group-item-action bg-light">Shortcuts</a>-->
 <!--            <a href="#" class="list-group-item list-group-item-action bg-light">Overview</a>-->
 <!--            <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>-->
-<!--            <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>-->
+<!--            <router-link :to="{name: 'profile'}" href="#" class="list-group-item list-group-item-action bg-light">Profile</router-link>-->
+            <router-link :to="{name: 'settings'}" href="#" class="list-group-item list-group-item-action bg-light">Settings</router-link>
             <a @click="logout" class="list-group-item list-group-item-action bg-light">Logout</a>
         </div>
     </div>

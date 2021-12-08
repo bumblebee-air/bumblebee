@@ -399,7 +399,7 @@
                     this.setCardMaxHeight();
                     this.getCurrentLocation();
                     $('#loading').fadeOut();
-                    this.current_working_status = this.job_data.contractor_status
+                    this.current_working_status = this.job_data.contractor_status ? this.job_data.contractor_status : 'start_working'
                 }
             },
             fetchJobDataError(err) {

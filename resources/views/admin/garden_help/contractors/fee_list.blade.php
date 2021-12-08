@@ -27,37 +27,37 @@
                                     </div>
                                     <h4 class="card-title ">Contractors Fee</h4>
                                 </div>
-                                <div class="col-12 col-lg-9 mt-4">
-                                    <div class="row justify-content-end">
-                                        <div class="status">
-                                            <div class="status_item">
-                                                <img class="status_icon" src="{{asset('images/doorder_icons/order_status_pending.png')}}" alt="Not Assigned">
-                                                Not Assigned
-                                            </div>
-                                            <div class="status_item">
-                                                <img class="status_icon" src="{{asset('images/doorder_icons/order_status_on_route.png')}}" alt="Assigned">
-                                                Assigned
-                                            </div>
-                                            <div class="status_item">
-                                                <img class="status_icon" src="{{asset('images/doorder_icons/order_status_matched.png')}}" alt="Accepted">
-                                                Accepted
-                                            </div>
-                                            <div class="status_item">
-                                                <img class="status_icon" src="{{asset('images/doorder_icons/order_status_on_route_pickup.png')}}" alt="on way">
-                                                On the way to Job Location
-                                            </div>
-                                            <div class="status_item">
-                                                <img class="status_icon" src="{{asset('images/doorder_icons/order_status_picked_up.png')}}" alt="arrived">
-                                                Arrived to Job Location
-                                            </div>
-                                            <div class="status_item">
-                                                <img class="status_icon" src="{{asset('images/doorder_icons/order_status_delivered.png')}}" alt="Completed">
-                                                Job Completed
-                                            </div>
-                                        </div>
+{{--                                <div class="col-12 col-lg-9 mt-4">--}}
+{{--                                    <div class="row justify-content-end">--}}
+{{--                                        <div class="status">--}}
+{{--                                            <div class="status_item">--}}
+{{--                                                <img class="status_icon" src="{{asset('images/doorder_icons/order_status_pending.png')}}" alt="Not Assigned">--}}
+{{--                                                Not Assigned--}}
+{{--                                            </div>--}}
+{{--                                            <div class="status_item">--}}
+{{--                                                <img class="status_icon" src="{{asset('images/doorder_icons/order_status_on_route.png')}}" alt="Assigned">--}}
+{{--                                                Assigned--}}
+{{--                                            </div>--}}
+{{--                                            <div class="status_item">--}}
+{{--                                                <img class="status_icon" src="{{asset('images/doorder_icons/order_status_matched.png')}}" alt="Accepted">--}}
+{{--                                                Accepted--}}
+{{--                                            </div>--}}
+{{--                                            <div class="status_item">--}}
+{{--                                                <img class="status_icon" src="{{asset('images/doorder_icons/order_status_on_route_pickup.png')}}" alt="on way">--}}
+{{--                                                On the way to Job Location--}}
+{{--                                            </div>--}}
+{{--                                            <div class="status_item">--}}
+{{--                                                <img class="status_icon" src="{{asset('images/doorder_icons/order_status_picked_up.png')}}" alt="arrived">--}}
+{{--                                                Arrived to Job Location--}}
+{{--                                            </div>--}}
+{{--                                            <div class="status_item">--}}
+{{--                                                <img class="status_icon" src="{{asset('images/doorder_icons/order_status_delivered.png')}}" alt="Completed">--}}
+{{--                                                Job Completed--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
 
-                                    </div>
-                                </div>
+{{--                                    </div>--}}
+{{--                                </div>--}}
                             </div>
                             <div class="card-body">
                                 <div class="container">

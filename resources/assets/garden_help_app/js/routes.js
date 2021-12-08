@@ -77,8 +77,8 @@ const router = new VueRouter({
                     beforeEnter: (to, from, next) => redirectIfNotAuthed(to, from, next),
                 },
                 {
-                    path: 'settigns',
-                    name: 'settigns',
+                    path: 'settings',
+                    name: 'settings',
                     component: SettingsComponent,
                     beforeEnter: (to, from, next) => redirectIfNotAuthed(to, from, next),
                 },

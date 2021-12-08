@@ -362,7 +362,7 @@ class ContractorsController extends Controller
                     $job->is_paid = true;
                     $timestamps->completed = $current_timestamp;
 
-                    if ($job->job_timestamps) {
+                    if (count($job->job_timestamps) > 0) {
                         $job->job_timestamps()->orderBy('id', 'desc')->first()->update([
                             'stopped_at' => Carbon::now()
                         ]);

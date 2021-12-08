@@ -236,8 +236,14 @@ class ContractorsController extends Controller
             ];
             return response()->json($response)->setStatusCode(403);
         }
+        if(!$job->customer_confirmation_code) {
+            $job->customer_confirmation_code = Str::random(10);
+        }
+        if (!$job->contractor_confirmation_code) {
+            $job->contractor_confirmation_code = Str::random(10);
+        }
+        $job->save();
         $job->kpi_timestamps = KPITimestamp::where('model', 'gardenhelp_job')->where('model_id', $job_id)->first();
-
         $response = [
             'job' => $job,
             'message' => 'Job retrieved successfully',
@@ -356,9 +362,11 @@ class ContractorsController extends Controller
                     $job->is_paid = true;
                     $timestamps->completed = $current_timestamp;
 
-                    $job->job_timestamps()->orderBy('id', 'desc')->first()->update([
-                        'stopped_at' => Carbon::now()
-                    ]);
+                    if (count($job->job_timestamps) > 0) {
+                        $job->job_timestamps()->orderBy('id', 'desc')->first()->update([
+                            'stopped_at' => Carbon::now()
+                        ]);
+                    }
 
                     //Sending confirmation URL to the customer
                     if ($job->user && $job->user->phone) {

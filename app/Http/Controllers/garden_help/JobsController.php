@@ -122,13 +122,7 @@ class JobsController extends Controller
                 'order_id' => $job_id
             ]);
         }
-        $sid = env('TWILIO_SID', '');
-        $token = env('TWILIO_AUTH', '');
-        $twilio = new Client($sid, $token);
-        $twilio->messages->create($contractor->user->phone, [
-            "from" => "GardenHelp",
-            "body" => "Hi $contractor->name, there is an job assigned to you, please open your app. " . url('contractors_app#/order-details/' . $job_id)
-        ]);
+        TwilioHelper::sendSMS('GardenHelp', $contractor->user->phone, "Hi $contractor->name, there is an job assigned to you, please open your app. " . url('contractors_app#/order-details/' . $job_id));
 
         alert()->success("The job has been successfully assigned to $contractor->name");
         return redirect()->to('garden-help/jobs_table/jobs');

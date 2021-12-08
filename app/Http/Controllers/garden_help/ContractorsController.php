@@ -362,9 +362,11 @@ class ContractorsController extends Controller
                     $job->is_paid = true;
                     $timestamps->completed = $current_timestamp;
 
-                    $job->job_timestamps()->orderBy('id', 'desc')->first()->update([
-                        'stopped_at' => Carbon::now()
-                    ]);
+                    if ($job->job_timestamps) {
+                        $job->job_timestamps()->orderBy('id', 'desc')->first()->update([
+                            'stopped_at' => Carbon::now()
+                        ]);
+                    }
 
                     //Sending confirmation URL to the customer
                     if ($job->user && $job->user->phone) {

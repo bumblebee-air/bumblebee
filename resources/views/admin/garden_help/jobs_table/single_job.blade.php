@@ -475,6 +475,30 @@ input[type="radio"]:checked+div i {
 								</div>
 							</div>
 						</div>
+						@if($job->notes)
+							<div class="col-lg-6">
+								<div class="card">
+									<div class="card-body" style="padding-top: 0 !important;">
+										<div class="container" style="padding-bottom: 10px !important;">
+											<div class="row">
+												<div class="col-12">
+													<div class=" row">
+														<div class="col-12">
+															<h5 class="cardTitleGreen requestSubTitle ">Contractor Notes</h5>
+														</div>
+													</div>
+												</div>
+												<div class="col-12">
+													<div class="row">
+														{{$job->notes}}
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						@endif
 						@else
 						<div class="col-lg-6  ">
 							<div class="card ">

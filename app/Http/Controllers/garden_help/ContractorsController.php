@@ -237,7 +237,13 @@ class ContractorsController extends Controller
             return response()->json($response)->setStatusCode(403);
         }
         $job->kpi_timestamps = KPITimestamp::where('model', 'gardenhelp_job')->where('model_id', $job_id)->first();
-
+        if(!$job->customer_confirmation_code) {
+            $job->customer_confirmation_code = Str::random(10);
+        }
+        if (!$job->contractor_confirmation_code) {
+            $job->contractor_confirmation_code = Str::random(10);
+        }
+        $job->save();
         $response = [
             'job' => $job,
             'message' => 'Job retrieved successfully',

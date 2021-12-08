@@ -1,6 +1,5 @@
-@extends('templates.dashboard') @section('title', 'DoOrder | Settings')
-
-@section('page-styles')
+@extends('templates.doorder_dashboard') @section('title', 'DoOrder |
+Settings') @section('page-styles')
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/@riophae/vue-treeselect@^0.4.0/dist/vue-treeselect.min.css">
 <link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
@@ -22,20 +21,25 @@
 }
 
 #navSettingsUl li a {
-	font-family: Quicksand;
-	font-size: 16px;
+	font-family: Montserrat;
+	font-size: 15px !important;
 	font-weight: 600;
 	font-stretch: normal;
 	font-style: normal;
 	line-height: 1.19;
 	letter-spacing: 0.8px;
-	color: #b6b6b6;
 	background: transparent;
+	text-transform: uppercase;
+	color: #5E5873;
 }
 
 #navSettingsUl li a.active, #navSettingsUl li a:hover {
-	color: #d2b431 !important;
+	/* 	color: #d2b431 !important; */
+	color: #5E5873 !important; 
+	background : #F7DC69;
+	border-radius: 20px;
 	box-shadow: none !important;
+	background: #F7DC69;
 }
 
 .tab-space {
@@ -60,6 +64,8 @@
 
 .togglebutton label input[type=checkbox]:checked+.toggle {
 	background-color: #f7dc69;
+	background-color: #E8CA49;
+	
 }
 
 .togglebutton label .toggle:after {
@@ -84,7 +90,6 @@
 }
 
 .dropdown-menu .dropdown-item, .dropdown-menu li>a {
-	font-family: Quicksand;
 	font-size: 14px;
 	font-weight: normal;
 	font-stretch: normal;
@@ -94,12 +99,14 @@
 	color: #494949;
 	text-transform: inherit;
 }
-.filter-option-inner{
-text-transform: none;
+
+.filter-option-inner {
+	text-transform: none;
 }
+
 .bootstrap-select .dropdown-item.active, .bootstrap-select .dropdown-item:hover
 	{
-	font-size:14px;
+	font-size: 14px;
 	font-weight: 600;
 	color: white;
 	box-shadow: none !important;
@@ -260,18 +267,26 @@ text-transform: none;
 }
 
 label.toggle-on, label.toggle-off {
-	font-family: Quicksand;
+	font-family: Montserrat;
 	font-style: normal;
-	font-weight: bold;
+	font-weight: 600;
 	font-size: 15px !important;
-	line-height: 22px;
+	line-height: 20px;
 	color: #FFFFFF;
 }
-#uploadButton{
-height: 38px !important;
-    margin-top: 0;
-    box-shadow: 0px 2px 4px rgb(182 182 182 / 50%), 2px 2px 5px #ffffff;
-    background-color: white !important;
+
+#uploadButton {
+    width:40px;
+	height: 40px !important;
+	margin-top: 0;
+	box-shadow: none;
+	border-radius: 6px;
+	padding: 0;
+}
+#uploadButton img{
+    width: 100%;
+	border-radius: 6px;
+    
 }
 </style>
 
@@ -281,27 +296,12 @@ height: 38px !important;
 		<div class="row">
 			<div class="col-md-12" id="settingsCardDiv">
 				<div class="card">
-					<div class="card-header card-header-icon card-header-rose row">
-						<div class="col-12 col-lg-5 col-md-6">
-							<div class="card-icon">
-								<img class="page_icon"
-									src="{{asset('images/doorder_icons/Settings.png')}}"
-									alt="settings icon">
-							</div>
-							<h4 class="card-title ">Settings</h4>
-						</div>
-						<div class="col-12 col-lg-7 col-md-6 mt-md-4 ">
-							<!-- 							<div class="row justify-content-end float-sm-right"> -->
-							<!-- 								<a class=" btn btn-primary doorder-btn-lg doorder-btn addBtn" -->
-							<!-- 									href=""> Add new user </a> -->
-							<!-- 							</div> -->
-
+					<div class="card-header card-header-icon  row">
+						<div class="col-12 col-xl-5 col-lg-4 col-md-3 col-sm-12">
+							<h4 class="card-title my-md-4 mt-4 mb-1">Settings</h4>
 						</div>
 					</div>
-
-					<div class="card-body"></div>
 				</div>
-
 				<div>
 					<ul
 						class="nav nav-pills nav-pills-primary justify-content-start justify-content-md-center"
@@ -381,6 +381,29 @@ function addIntelInput(input_id, input_name) {
 
 
 $(document).ready(function() {
+
+$("#retailerAutomaticCharging").change(function() {
+	 console.log($("#retailerAutomaticCharging:checked").val());
+	 if($("#retailerAutomaticCharging:checked").val()==1){
+      			$("#dayOfMonthDiv").css("display","block");
+     }else{
+      			$("#dayOfMonthDiv").css("display","none");
+      			$("#dayOfMonth").val("")
+     }
+
+});
+$("#delivererPayout").change(function() {
+	 console.log($("#delivererPayout:checked").val());
+	 if($("#delivererPayout:checked").val()==1){
+      			$("#dayOfWeekDiv").css("display","block");
+     }else{
+      			$("#dayOfWeekDiv").css("display","none");
+      			$("#weekday").val("")
+     }
+
+});
+
+
 // general settings 
 addIntelInput('business_phone_number','business_phone_number');
 

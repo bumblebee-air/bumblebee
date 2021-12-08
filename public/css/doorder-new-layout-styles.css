@@ -674,6 +674,7 @@ ul.pagination {
 	font-size: 16px !important;
 	line-height: 20px;
 	color: #23314B;
+	text-align: left;
 }
 
 .doorderDashboardTable tbody tr td.countTd {
@@ -1217,6 +1218,11 @@ a.btnDoorder.btn-doorder-primary {
 	margin: 0;
 }
 
+#thisMonthAverageLabel, #lastMonthAverageLabel {
+	font-size: 21px;
+	line-height: 25px;
+}
+
 .mapPickupName, .mapCustomerName {
 	color: #747474;
 	font-family: Montserrat;
@@ -1280,8 +1286,8 @@ button.dropdown-toggle.select-with-transition {
 	padding-left: 14px !important;
 }
 
-.selectShowPinsContainer .dropdown-toggle:after, .filterContrainerDiv .dropdown-toggle:after
-	{
+.selectShowPinsContainer .dropdown-toggle:after, .filterContrainerDiv .dropdown-toggle:after,
+	.selectAverageChartContainer  .dropdown-toggle:after {
 	color: #E9C218;
 	border-top: 0.5em solid;
 	border-right: 0.5em solid transparent;
@@ -1741,6 +1747,10 @@ span.form-control {
 		{
 		font-size: 14px;
 		line-height: 17px;
+	}
+	#thisMonthAverageLabel, #lastMonthAverageLabel {
+		font-size: 18px;
+		line-height: 22px;
 	}
 }
 

@@ -265,7 +265,7 @@ table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
 									<div class="cardContentTableDiv">
 										<div class="card-header">
 											<h3 class="card-title tableDashboardH3">
-												Statistics <span>Orders Per Week</span>
+												Statistics <span>Orders Per Month</span>
 											</h3>
 										</div>
 										<div class="card-body">
@@ -739,10 +739,10 @@ function clickSearch(){
                         drawCustomerMarkers(JSON.parse(''+data.dropoff_arr));
                       
                       var data = {
-                          labels:JSON.parse('{!! json_encode($week_chart_labels) !!}'),
+                          labels:JSON.parse('{!! json_encode($annual_chart_labels) !!}'),
                           series: [
-                           	 {"name": "Last week", "data": JSON.parse('{!! json_encode($last_week_chart_values) !!}') },
-                            {"name": "This week", "data": JSON.parse('{!! json_encode($this_week_chart_values) !!}') }
+                           	{"name": "Last year", "data": JSON.parse('{!! json_encode($annual_chart_data_last) !!}') },
+                            {"name": "This year", "data": JSON.parse('{!! json_encode($annual_chart_data) !!}') }
                           ]
                         };
 					  new Chartist.Line('.ct-chart', data, options, responsiveOptions);
@@ -755,10 +755,10 @@ function clickSearch(){
       
       
       var data = {
-  labels:JSON.parse('{!! json_encode($week_chart_labels) !!}'),
+  labels:JSON.parse('{!! json_encode($annual_chart_labels) !!}'),
   series: [
-   	 {"name": "Last week", "data": JSON.parse('{!! json_encode($last_week_chart_values) !!}') },
-    {"name": "This week", "data": JSON.parse('{!! json_encode($this_week_chart_values) !!}') }
+    {"name": "Last year", "data": JSON.parse('{!! json_encode($annual_chart_data_last) !!}') }, 
+   	 {"name": "This year", "data": JSON.parse('{!! json_encode($annual_chart_data) !!}') },
   ]
 };
 

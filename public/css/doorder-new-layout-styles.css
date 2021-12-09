@@ -1361,6 +1361,7 @@ button.dropdown-toggle.select-with-transition {
 	/* identical to box height, or 131% */
 	color: #000000;
 	padding: 20px 16px !important;
+	text-transform: uppercase;
 }
 
 .viewTitleLabel {

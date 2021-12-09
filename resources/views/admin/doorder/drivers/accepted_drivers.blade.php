@@ -76,7 +76,7 @@ input[type="checkbox"] {
 												<th>Location</th>
 												<th>Vehicle</th>
 												<th>Work Type</th>
-												<th>Shift Time</th>
+<!-- 												<th>Shift Time</th> -->
 												<th>Overall Rating</th>
 												<th>Last Seen</th>
 												<th class="disabled-sorting ">Actions</th>
@@ -104,7 +104,7 @@ input[type="checkbox"] {
 												<td>@{{ JSON.parse(driver.work_location).name}}</td>
 												<td>@{{ driver.transport }}</td>
 												<td></td>
-												<td></td>
+<!-- 												<td>@{{driver.business_hours}}</td> -->
 												<td><div class="overallRating"
 														:data-score="driver.overall_rating"></div></td>
 												<td>@{{ driver.last_active_web }}</td>

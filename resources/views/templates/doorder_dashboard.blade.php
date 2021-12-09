@@ -128,45 +128,45 @@
 						</div>
 						<ul class="nav navbar-nav navbar-right">
 
-							<li class="nav-item dropdown"><a
-								class="nav-link navbarDropdownMenuLink" href=""
-								id="navbarDropdownMenuLinkNotification" data-toggle="dropdown"
-								aria-haspopup="true" aria-expanded="false"> <img
-									src="{{asset('images/doorder-new-layout/notification-grey.png')}}" />
-									<span class="badge badge-light">4</span>
-							</a>
-								<div class="dropdown-menu dropdown-menu-right"
-									aria-labelledby="navbarDropdownMenuLink">
-									<a class="dropdown-item" href="#">Notification 1</a> <a
-										class="dropdown-item" href="#">Notification 2</a> <a
-										class="dropdown-item" href="#">Notification 3</a>
-								</div></li>
+<!-- 							<li class="nav-item dropdown"><a -->
+<!-- 								class="nav-link navbarDropdownMenuLink" href="" -->
+<!-- 								id="navbarDropdownMenuLinkNotification" data-toggle="dropdown" -->
+<!-- 								aria-haspopup="true" aria-expanded="false"> <img -->
+<!-- 									src="{{asset('images/doorder-new-layout/notification-grey.png')}}" /> -->
+<!-- 									<span class="badge badge-light">4</span> -->
+<!-- 							</a> -->
+<!-- 								<div class="dropdown-menu dropdown-menu-right" -->
+<!-- 									aria-labelledby="navbarDropdownMenuLink"> -->
+<!-- 									<a class="dropdown-item" href="#">Notification 1</a> <a -->
+<!-- 										class="dropdown-item" href="#">Notification 2</a> <a -->
+<!-- 										class="dropdown-item" href="#">Notification 3</a> -->
+<!-- 								</div></li> -->
 
-							<li class="nav-item dropdown"><a
-								class="nav-link navbarDropdownMenuLink" href=""
-								id="navbarDropdownMenuLinkInbox" data-toggle="dropdown"
-								aria-haspopup="true" aria-expanded="false"> <img
-									src="{{asset('images/doorder-new-layout/inbox-grey.png')}}" />
-									<span class="badge badge-light">2</span>
-							</a>
-								<div class="dropdown-menu dropdown-menu-right"
-									aria-labelledby="navbarDropdownMenuLink">
-									<a class="dropdown-item" href="#">Inbox 1</a>
-								</div></li>
+<!-- 							<li class="nav-item dropdown"><a -->
+<!-- 								class="nav-link navbarDropdownMenuLink" href="" -->
+<!-- 								id="navbarDropdownMenuLinkInbox" data-toggle="dropdown" -->
+<!-- 								aria-haspopup="true" aria-expanded="false"> <img -->
+<!-- 									src="{{asset('images/doorder-new-layout/inbox-grey.png')}}" /> -->
+<!-- 									<span class="badge badge-light">2</span> -->
+<!-- 							</a> -->
+<!-- 								<div class="dropdown-menu dropdown-menu-right" -->
+<!-- 									aria-labelledby="navbarDropdownMenuLink"> -->
+<!-- 									<a class="dropdown-item" href="#">Inbox 1</a> -->
+<!-- 								</div></li> -->
 
-							<li class="nav-item dropdown"><a
-								class="nav-link navbarDropdownMenuLink" href=""
-								id="navbarDropdownMenuLinkCalendar" data-toggle="dropdown"
-								aria-haspopup="true" aria-expanded="false"> <img
-									src="{{asset('images/doorder-new-layout/calendar-grey.png')}}" />
-									<span class="badge badge-light">60</span>
-							</a>
-								<div class="dropdown-menu dropdown-menu-right"
-									aria-labelledby="navbarDropdownMenuLink">
-									<a class="dropdown-item" href="#">order 1</a> <a
-										class="dropdown-item" href="#">order 2</a> <a
-										class="dropdown-item" href="#">order 3</a>
-								</div></li>
+<!-- 							<li class="nav-item dropdown"><a -->
+<!-- 								class="nav-link navbarDropdownMenuLink" href="" -->
+<!-- 								id="navbarDropdownMenuLinkCalendar" data-toggle="dropdown" -->
+<!-- 								aria-haspopup="true" aria-expanded="false"> <img -->
+<!-- 									src="{{asset('images/doorder-new-layout/calendar-grey.png')}}" /> -->
+<!-- 									<span class="badge badge-light">60</span> -->
+<!-- 							</a> -->
+<!-- 								<div class="dropdown-menu dropdown-menu-right" -->
+<!-- 									aria-labelledby="navbarDropdownMenuLink"> -->
+<!-- 									<a class="dropdown-item" href="#">order 1</a> <a -->
+<!-- 										class="dropdown-item" href="#">order 2</a> <a -->
+<!-- 										class="dropdown-item" href="#">order 3</a> -->
+<!-- 								</div></li> -->
 							<li class="nav-item dropdown"><a href="#" class="nav-link"
 								data-toggle="dropdown" id="navbarDropdownProfile">
 									@if($user->logo)

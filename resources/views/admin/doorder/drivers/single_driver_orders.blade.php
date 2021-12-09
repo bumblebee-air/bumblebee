@@ -44,7 +44,7 @@ table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
 							<div class="col-12 col-lg-4 col-md-5">
 								<div class="row">
 									<div class="col-3">
-										<div class="card-icon card-icon-driver-profile">DP</div>
+										<div class="card-icon card-icon-driver-profile">@{{driver.first_letters}}</div>
 									</div>
 									<div class="col-9">
 										<h4 class="card-title mt-1">@{{ driver.first_name}} @{{

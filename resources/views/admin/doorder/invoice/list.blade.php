@@ -124,7 +124,6 @@ div.dt-datetime table td.selectable.selected button {
 											<th width="10%">Retailer </th>
 											<th width="10%">Status</th>
 											<th  width="15%" class="text-center">No. Of Orders </th>
-											<th  width="15%" class="text-center">No. Of Deliveries </th>
 											<th  width="10%" class="text-center">Charges (€)</th>
 											<th  width="10%" class="disabled-sorting text-center">Actions</th>
 										</tr>
@@ -141,7 +140,6 @@ div.dt-datetime table td.selectable.selected button {
 														<span v-else
 														class="orderStatusSpan awaitingInvoiceStatus">Awaiting invoice</span>
 											</td>
-											<td>@{{ invoice.orders_count }}</td>
 											<td>@{{ invoice.orders_count }}</td>
 											<td>€@{{ 10 * invoice.orders_count }}</td>
 											<td><a

@@ -32,7 +32,7 @@ class InvoiceDriversController extends Controller
 //
 //        $invoiceList = [];
 
-        $drivers = DriverProfile::with(['payouts' => function($q) {
+        $drivers = DriverProfile::where('is_confirmed', true)->with(['payouts' => function($q) {
             $q->orderBy('created_at', 'desc')->first();
         }])->whereHas('user')->get();
 

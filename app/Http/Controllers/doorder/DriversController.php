@@ -1079,6 +1079,8 @@ class DriversController extends Controller
         $driver_ratings_doorder = \DB::table('ratings')->where(['model' => 'order', 'user_type' => 'driver', 'user_id' => $driver->user_id])->first();
         $driver->rating_doorder = ['rating' => round(optional($driver_ratings_doorder)->rating * 2) / 2, 'comment' => optional($driver_ratings_doorder)->message];
 
+        $driver->first_letters = $driver->first_name[0].$driver->last_name[0];
+        
         return view('admin.doorder.drivers.single_driver_orders', ['driver' => $driver, 'driver_orders' => $driver_orders]);
     }
 

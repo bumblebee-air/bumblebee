@@ -963,6 +963,13 @@ div.dt-datetime table td.selectable button:hover {
 	outline: none !important;
 }
 
+.btn-doorder-add-item {
+	font-size: 11px;
+	line-height: 13px;
+	color: #FFFFFF;
+	height: 30px;
+}
+
 @media ( max-width : 1200px) {
 	.btnDoorder, .btn-doorder-filter, .btn-doorder-filter-danger-outline {
 		min-width: 100%;
@@ -1305,6 +1312,21 @@ button.dropdown-toggle.select-with-transition {
 	position: relative;
 	padding-left: 35px !important;
 }
+.inputWithIconRightDiv img {
+	position: absolute;
+	top: 8px;
+	right: 6px;
+	z-index: 9999;
+	cursor: pointer;
+	width: 22px;
+	height: 22px;
+}
+
+.inputWithIconRightDiv .form-control {
+	position: relative;
+	box-shadow: none;
+	/* padding-left: 35px !important; */
+}
 
 .bootstrap-select .dropdown-item.active {
 	box-shadow: none;
@@ -1427,6 +1449,18 @@ input.form-control, textarea.form-control, select.form-control, span.form-contro
 	background-color: #ededed;
 }
 
+.vue-treeselect__control{
+	box-shadow: none !important;
+	background: #ededed !important;
+	background-color: #ededed !important;
+	border-color: #e5e5e5 !important;
+	min-height: 40px;
+}
+.vue-treeselect.form-control{
+	box-shadow: none;
+	background-color: transparent;
+}
+
 .filter-option-inner {
 	font-family: Montserrat;
 	font-size: 16px;
@@ -1525,7 +1559,7 @@ span.form-control {
 	margin: 10px 0 !important;
 }
 
-.card-header-profile-border h4 {
+.card-header-profile-border h4, .settingsTitle {
 	font-family: Montserrat;
 	font-style: normal;
 	font-weight: 600;

@@ -368,6 +368,60 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                <label for="vat-number">Is recurring?</label>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-check form-check-radio">
+                                            <label class="form-check-label"> <input
+                                                        class="form-check-input" type="radio"
+                                                        id="exampleRadios2" name="is_recurring"
+                                                        v-model="is_recurring" value="1"
+                                                        {{old('is_recurring') ===
+                                                        '1' ? 'checked' : ''}} required> Yes <span
+                                                        class="circle"> <span class="check"></span>
+																	</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-check form-check-radio">
+                                            <label class="form-check-label"> <input
+                                                        class="form-check-input" type="radio"
+                                                        id="exampleRadios1" name="is_recurring"
+                                                        v-model="is_recurring" value="0"
+                                                        {{old('is_recurring') ===
+                                                        '0' ? 'checked' : ''}} required> No <span
+                                                        class="circle"> <span class="check"></span>
+																	</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12"
+                             v-if="is_recurring != '' && is_recurring == 1">
+                            <div class="form-group bmd-form-group">
+                                <label for="type_of_experience">What is the frequency of the recurring in months?</label>
+                                <input name="recurring_frequency" type="number" class="form-control" id="recurring_frequency" value="{{old('recurring_frequency')}}" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                <label for="available_date_time">Schedual at</label>
+                                {{--                                <div class="d-flex justify-content-between">--}}
+                                <input name="available_date_time" type="text" class="form-control datetimepicker" id="available_date_time" value="{{old('available_date_time')}}" required>
+                                {{--                                    <a class="select-icon">--}}
+                                {{--                                        <i class="fas fa-caret-down"></i>--}}
+                                {{--                                    </a>--}}
+                                {{--                                </div>--}}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -735,7 +789,8 @@
                 service_types_input: '',
                 site_details_input: '',
                 property_photo_input: '',
-                service_types_json: []
+                service_types_json: [],
+                is_recurring: ''
             },
             mounted() {
                 if (this.type_of_work == 'Commercial') {

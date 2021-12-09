@@ -177,7 +177,7 @@ class InvoiceController extends Controller
     }
 
     protected function getServiceTotalHours($job_services, $property_size) {
-        $job_services = json_decode($job_services);
+        $job_services = $job_services ? json_decode($job_services) : [];
         $property_size = str_replace(' Square Meters', '', $property_size);
         $price = 0;
 

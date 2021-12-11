@@ -157,7 +157,7 @@
 				</div>
 				<div class="row justify-content-center">
 					<div class="col-lg-4 col-md-6 text-center">
-						<button type="button" class="btnDoorder btn-doorder-primary mb-1"
+						<button class="btnDoorder btn-doorder-primary mb-1"
 							type="submit" id="addUserBtn">Add User</button>
 					</div>
 
@@ -229,7 +229,7 @@
 				</div>
 				<div class="row justify-content-center">
 					<div class="col-lg-4 col-md-6 text-center">
-						<button type="button" class="btnDoorder btn-doorder-primary mb-1"
+						<button class="btnDoorder btn-doorder-primary mb-1"
 							type="submit" id="editUserBtn">Edit User</button>
 					</div>
 

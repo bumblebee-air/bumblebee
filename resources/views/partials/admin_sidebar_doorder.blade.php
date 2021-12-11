@@ -4,7 +4,7 @@
       Tip 2: you can also add an image using data-image tag
     -->
 	@if(($user_type == 'client' || $user_type == 'retailer' || $user_type == 'driver_manager'
-	|| $user_type == 'investor') && $admin_nav_logo!=null)
+	|| $user_type == 'investor' || $user_type == 'admin') && $admin_nav_logo!=null)
 	<div class="user" style="z-index: 3">
 		<div class="photo photo-full text-center mb-3">
 			<img src="{{asset('images/doorder-new-layout/Logo.png')}}" title="{{$admin_client_name}}"
@@ -15,11 +15,11 @@
 	<div class="logo">
 		<a href="{{url('/')}}" class="simple-text logo-mini"> @if($user_type == 'client'
 			|| $user_type == 'retailer' || $user_type == 'driver_manager'
-			|| $user_type == 'investor') {{$admin_client_name[0]}}
+			|| $user_type == 'investor' || $user_type == 'admin') {{$admin_client_name[0]}}
 			@else BB @endif </a> <a href="{{url('/')}}"
 			class="simple-text logo-normal"> @if($user_type == 'client'
 			|| $user_type == 'retailer' || $user_type == 'driver_manager'
-			|| $user_type == 'investor') {{$admin_client_name}} @else Bumblebee
+			|| $user_type == 'investor' || $user_type == 'admin') {{$admin_client_name}} @else Bumblebee
 			@endif </a>
 	</div>
 	@endif
@@ -27,7 +27,7 @@
 		
 		@if(Auth::guard('doorder')->check())
 		<ul class="nav">
-            @if(auth()->user()->user_role == 'client')
+            @if(auth()->user()->user_role == 'client' || auth()->user()->user_role == 'admin')
 <!--                 <li class="nav-item"><a class="nav-link d-flex" -->
 <!--                     href="{{route('doorder_adminMap', 'doorder')}}"> <img -->
 <!--                         class="my-nav-icon my-nav-icon-grey" src="{{asset('images/doorder_icons/Map.png')}}" -->
@@ -194,11 +194,11 @@
                     <p>Deliverers</p>
                 </a></li>
                 <li class="nav-item"><a class="nav-link d-flex"
-                    href="{{route('doorder_drivers_requests', 'doorder')}}"> <img
-                    class="my-nav-icon my-nav-icon-grey"
-                    src="{{asset('images/doorder-new-layout/requests-grey.png')}}" alt=""
-                    style=""> <img class="my-nav-icon my-nav-icon-top"
-                        src="{{asset('images/doorder-new-layout/requests-yrllow.png')}}" alt="">
+                    href="{{route('doorder_drivers_requests', 'doorder')}}">  <img class="my-nav-icon my-nav-icon-grey"
+                        src="{{asset('images/doorder-new-layout/requests-grey.png')}}" alt=""
+                        > <img class="my-nav-icon my-nav-icon-top"
+                        src="{{asset('images/doorder-new-layout/requests-yellow.png')}}" alt=""
+                       >
                         <p>Deliverer Requests</p>
                 </a></li>
                 <li class="nav-item"><a class="nav-link d-flex"
@@ -206,14 +206,16 @@
                         class="my-nav-icon my-nav-icon-grey"
                         src="{{asset('images/doorder-new-layout/orders-grey.png')}}"
                         alt=""> <img class="my-nav-icon my-nav-icon-top"
-                            src="{{asset('images/doorder-new-layout/dashboard-yellow.png')}}" alt="">
+                            src="{{asset('images/doorder-new-layout/orders-yellow.png')}}" alt="">
                         <p>Order Table</p>
                 </a></li>
             @elseif(auth()->user()->user_role == 'investor')
                 <li class="nav-item"><a class="nav-link d-flex" href="{{url('doorder/metrics_dashboard')}}">
-                    <img class="my-nav-icon my-nav-icon-grey" src="{{asset('images/doorder-new-layout/dashboard-grey.png')}}"
+                   <img class="my-nav-icon my-nav-icon-grey"
+                        src="{{asset('images/doorder-new-layout/metrics-grey.png')}}"
                         alt=""> <img class="my-nav-icon my-nav-icon-top"
-                        src="{{asset('images/doorder-new-layout/dashboard-yellow.png')}}" alt="">
+                        src="{{asset('images/doorder-new-layout/metrics-yellow.png')}}"
+                        alt="">
                     <p>Metrics</p>
                 </a></li>
             @endif

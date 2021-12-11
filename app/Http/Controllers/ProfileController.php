@@ -18,6 +18,11 @@ class ProfileController extends Controller
         foreach(array_keys(config('auth.guards')) as $guard){
             if(auth()->guard($guard)->check()) $client_url_prefix = $guard;
         }
+        
+        if($client_url_prefix == 'doorder'){
+            return view('admin.doorder.profile',compact('client_url_prefix'));   
+        }
+        
         return view('admin.profile',compact('client_url_prefix'));
     }
 

@@ -235,6 +235,34 @@ li .nav-link:hover  i {
 }
 
 /*************** ****************/
+
+#navSettingsUl li a {
+	font-family: Montserrat;
+	font-size: 15px !important;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.19;
+	letter-spacing: 0.8px;
+	background: transparent;
+	text-transform: uppercase;
+	color: #5E5873;
+}
+
+#navSettingsUl li a.active, #navSettingsUl li a:hover {
+	/* 	color: #d2b431 !important; */
+	color: #5E5873 !important;
+	background: #F7DC69;
+	border-radius: 20px;
+	box-shadow: none !important;
+	background: #F7DC69;
+}
+
+.tab-space {
+	padding: 0 !important;
+}
+
+
 .card-title {
 	font-family: Montserrat;
 	font-style: normal;
@@ -730,6 +758,9 @@ ul.pagination {
 .viewIcon {
 	height: 30px;
 }
+.remove-icon{
+	width: 20px;
+}
 
 table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before,
 	table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_desc:before,
@@ -962,7 +993,29 @@ div.dt-datetime table td.selectable button:hover {
 .btn-doorder-filter-danger-outline:focus {
 	outline: none !important;
 }
-
+.btn-doorder-link{
+	background: transparent;
+	border: none;
+	min-width: 120px;
+	height: 40px;
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 20px;
+	line-height: 24px;
+	color: #E9C218;
+	position: relative;
+	margin: 0 5px;
+	display: inline-block;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	user-select: none;
+	padding: 6px 14px;
+}
+.btn-doorder-link:hover{
+	color:#6E6B7B;
+}
 .btn-doorder-add-item {
 	font-size: 11px;
 	line-height: 13px;

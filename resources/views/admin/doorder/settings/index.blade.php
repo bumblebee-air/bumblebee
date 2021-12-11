@@ -4,47 +4,6 @@ Settings') @section('page-styles')
 	href="https://cdn.jsdelivr.net/npm/@riophae/vue-treeselect@^0.4.0/dist/vue-treeselect.min.css">
 <link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
 <style>
-#settingsCardDiv .addBtn {
-	font-family: Quicksand;
-	font-size: 13px;
-	font-weight: 500;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: 0.72px;
-	color: #ffffff;
-	padding: 6px 1.2rem;
-	border-radius: 11.2px 0;
-	height: auto;
-	max-width: 170px;
-	text-transform: capitalize;
-}
-
-#navSettingsUl li a {
-	font-family: Montserrat;
-	font-size: 15px !important;
-	font-weight: 600;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: 1.19;
-	letter-spacing: 0.8px;
-	background: transparent;
-	text-transform: uppercase;
-	color: #5E5873;
-}
-
-#navSettingsUl li a.active, #navSettingsUl li a:hover {
-	/* 	color: #d2b431 !important; */
-	color: #5E5873 !important;
-	background: #F7DC69;
-	border-radius: 20px;
-	box-shadow: none !important;
-	background: #F7DC69;
-}
-
-.tab-space {
-	padding: 0 !important;
-}
 
 .togglebutton {
 	margin-top: -3px;
@@ -349,15 +308,15 @@ label.toggle-on, label.toggle-off {
 				</div>
 				<div>
 					<ul
-						class="nav nav-pills nav-pills-primary justify-content-start justify-content-md-center"
+						class="nav nav-pills nav-pills-primary justify-content-start justify-content-md-center row"
 						role="tablist" id="navSettingsUl">
-						<li class="nav-item"><a class="nav-link" data-toggle="tab"
+						<li class="nav-item"><a class="nav-link active" data-toggle="tab"
 							href="#generalSettings" role="tablist" aria-expanded="true">
 								General Settings </a></li>
 						<li class="nav-item"><a class="nav-link" data-toggle="tab"
 							href="#profile" role="tablist" aria-expanded="false"> Profile </a>
 						</li>
-						<li class="nav-item"><a class="nav-link active" data-toggle="tab"
+						<li class="nav-item"><a class="nav-link " data-toggle="tab"
 							href="#notificationsDiv" role="tablist" aria-expanded="false">
 								Notifications </a></li>
 						<li class="nav-item"><a class="nav-link " data-toggle="tab"
@@ -372,10 +331,10 @@ label.toggle-on, label.toggle-off {
 				</div>
 
 				<div class="tab-content tab-space">
-					<div class="tab-pane " id="generalSettings" aria-expanded="false">
+					<div class="tab-pane active" id="generalSettings" aria-expanded="false">
 						@include('admin.doorder.settings.general_settings')</div>
 					<div class="tab-pane" id="profile" aria-expanded="false"></div>
-					<div class="tab-pane active" id="notificationsDiv"
+					<div class="tab-pane" id="notificationsDiv"
 						aria-expanded="false">
 						@include('admin.doorder.settings.notifications')</div>
 

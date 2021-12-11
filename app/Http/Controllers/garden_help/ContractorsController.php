@@ -423,7 +423,8 @@ class ContractorsController extends Controller
                         'status' => $job->status,
                         'contactor' => $job->contractor ? $job->contractor->name : null,
                         'toast_text' => "A contractor has updated a job status",
-                        'alert_text' => $request->status == "matched" ? "A contractor has accepted a job #$job->id" : "A contractor has rejected a job #$job->id",
+                        'alert_text' => $request->status == "accepted" ? "A contractor has accepted a job #$job->id" : "A contractor has rejected a job #$job->id",
+                        'click_link' => route('garden_help_getSingleJob', ['client_name' => 'garden-help', 'id' => $job->id]),
                     ]
                 ]));
                 return response()->json([

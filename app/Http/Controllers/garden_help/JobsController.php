@@ -235,6 +235,8 @@ class JobsController extends Controller
             $customer->area_coordinates = $request->area_coordinates;
             $customer->address = $request->address;
             $customer->services_types_json = $request->services_types_json;
+            $customer->is_recurring = $request->is_recurring;
+            $customer->recurring_frequency = $request->recurring_frequency;
             $customer->save();
 
             try {

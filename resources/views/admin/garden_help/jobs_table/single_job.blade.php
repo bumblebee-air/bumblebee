@@ -499,6 +499,45 @@ input[type="radio"]:checked+div i {
 								</div>
 							</div>
 						@endif
+						@if(count($job->job_timestamps) > 0)
+							<div class="col-lg-6">
+								<div class="card">
+									<div class="card-body" style="padding-top: 0 !important;">
+										<div class="container" style="padding-bottom: 10px !important;">
+											<div class="row">
+												<div class="col-12">
+													<div class=" row">
+														<div class="col-12">
+															<h5 class="cardTitleGreen requestSubTitle ">Contractor Breaks</h5>
+														</div>
+													</div>
+												</div>
+												<div class="col-12">
+													<div class="row">
+														@foreach($job->job_timestamps as $key => $value)
+														<div class="col-12">
+															<div class=" row">
+																<div class="col-12">
+																	<h5 class="cardTitleGreen requestSubTitle ">Break {{$key+1}}</h5>
+																</div>
+															</div>
+														</div>
+														<div class="col-12">
+															<div class="row">
+																<div class="col-6">
+																	<label class="requestLabelGreen">From:{{\Carbon\Carbon::parse($value->started_at)->format('H:i A')}}, To: {{\Carbon\Carbon::parse($value->stopped_at)->format('H:i A')}}</label>
+																</div>
+															</div>
+														</div>
+														@endforeach
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						@endif
 						@else
 						<div class="col-lg-6  ">
 							<div class="card ">

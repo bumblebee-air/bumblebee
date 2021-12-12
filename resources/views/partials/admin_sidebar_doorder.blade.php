@@ -162,10 +162,10 @@
 		    @elseif(auth()->user()->user_role == 'retailer')
                 <li class="nav-item"><a class="nav-link d-flex"
                     href="{{route('doorder_addNewOrder', 'doorder')}}"> <img class="my-nav-icon my-nav-icon-grey"
-                        src="{{asset('images/doorder_icons/add-plus-outline.png')}}" alt="">
+                        src="{{asset('images/doorder-new-layout/add-order-grey.png')}}" alt="">
                          <img
                         class="my-nav-icon my-nav-icon-top"
-                        src="{{asset('images/doorder_icons/add-plus-outline-yellow.png')}}" alt="">
+                        src="{{asset('images/doorder-new-layout/add-order-yellow.png')}}" alt="">
                         <p>Add New Order</p>
                 </a></li>
                 <li class="nav-item"><a class="nav-link d-flex" href="{{url('/')}}">
@@ -184,6 +184,24 @@
                         src="{{asset('images/doorder-new-layout/orders-yellow.png')}}" alt="">
                         <p>Order Table</p>
                 </a></li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{route('doorder_ordersHistoryTable', 'doorder')}}">
+                        <img class="my-nav-icon my-nav-icon-grey"
+                        src="{{asset('images/doorder-new-layout/history-grey.png')}}"
+                        alt=""> <img class="my-nav-icon my-nav-icon-top"
+                        src="{{asset('images/doorder-new-layout/history-yellow.png')}}"
+                        alt="">
+                        <p>History</p>
+                    </a>
+                </li>
+                 <li class="nav-item ">
+                 	<a class="nav-link d-flex" href="{{route('doorder_getInvoiceList', 'doorder')}}">
+                    	 <img class="my-nav-icon my-nav-icon-grey" src="{{asset('images/doorder-new-layout/invoice-grey.png')}}" alt="" >
+                        <img class="my-nav-icon my-nav-icon-top" src="{{asset('images/doorder-new-layout/invoice-yellow.png')}}" 
+                             alt="">
+                        <p > Invoice  </p>
+               		 </a>
+                 </li>
 		    @elseif(auth()->user()->user_role == 'driver_manager')
                 <li class="nav-item"><a class="nav-link d-flex"
                     href="{{route('doorder_drivers', 'doorder')}}"> <img

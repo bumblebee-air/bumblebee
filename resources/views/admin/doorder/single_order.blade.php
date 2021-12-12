@@ -280,19 +280,19 @@ button.disabled, button:disabled {
 	letter-spacing: 0.88px !important;
 }
 
-#printButton {
-	font-size: 14px;
-	font-weight: 600;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: 0.72px;
-	color: #ffffff;
-	border-radius: 12px 0;
-	text-transform: inherit !important;
-	height: auto;
-	padding: 10px;
-}
+/* #printButton { */
+/* 	font-size: 14px; */
+/* 	font-weight: 600; */
+/* 	font-stretch: normal; */
+/* 	font-style: normal; */
+/* 	line-height: normal; */
+/* 	letter-spacing: 0.72px; */
+/* 	color: #ffffff; */
+/* 	border-radius: 12px 0; */
+/* 	text-transform: inherit !important; */
+/* 	height: auto; */
+/* 	padding: 10px; */
+/* } */
 
 #printDiv {
 	background-color: #f6f7fa;
@@ -582,12 +582,12 @@ button.disabled, button:disabled {
 										</div>
 									</section>
 								</form>
-
+@if(auth()->user()->user_role != 'retailer')
+										
 								<div>
 									<!-- SECTION 3 -->
 									<h4 class="wizardH4"></h4>
 									<section class="wizardSection">
-										@if(auth()->user()->user_role != 'retailer')
 										@if($order->status == 'delivered' || $order->is_archived)
 										<div class="card my-0">
 											<div class="card-header card-header-profile-border ">
@@ -772,14 +772,16 @@ button.disabled, button:disabled {
 
 										</div>
 
-										@endif @endif
+										@endif
 									</section>
 								</div>
+								 @endif
+								 
+								@if(auth()->user()->user_role != 'retailer')
 								<div>
 									<!-- SECTION 4 -->
 									<h4 class="wizardH4"></h4>
 									<section class="wizardSection">
-										@if(auth()->user()->user_role != 'retailer')
 										<div class="card my-0">
 											@if(!$order->is_archived)
 											<form method="POST" id="update-order-status"
@@ -863,9 +865,9 @@ button.disabled, button:disabled {
 											</form>
 											@endif
 										</div>
-										@endif
+										
 									</section>
-								</div>
+								</div>@endif
 							</div>
 							<div class="col-12 col-sm-6" id="map-container">
 								<div id="map"
@@ -894,6 +896,13 @@ button.disabled, button:disabled {
 								data-target="#delete-order-modal">Delete Order</button>
 						</div>
 						@endif
+                        						
+                        @if(auth()->user()->user_role == 'retailer')
+                        	@if($order->status != 'delivered' && !$order->is_archived)
+                       		<div class="col-xl-2 col-lg-3  col-md-3 col-sm-4 px-md-1 text-center"> <button id="printButton" onclick="printDiv()"
+                        	 class="btnDoorder btn-doorder-primary  mb-1" style="float: right">Print label</button>
+                        	</div>
+                        @endif @endif
 
 					</div>
 				</div>
@@ -906,10 +915,6 @@ button.disabled, button:disabled {
 
 	</div>
 </div>
-@if(auth()->user()->user_role == 'retailer')
-<button id="printButton" onclick="printDiv()"
-	class="btn btn-primary doorder-btn" style="float: right">Print label</button>
-@endif
 
 <!-- Assign deliverer modal -->
 <div class="modal fade" id="assign-deliverer-modal" tabindex="-1"
@@ -1019,19 +1024,28 @@ button.disabled, button:disabled {
 				</button>
 			</div>
 			<div class="modal-body">
-				<div class="col-md-12">
+				<div class="row justify-content-center">
+					<div class="col-md-12">
 
-					<div class="text-center">
-						<img src="{{asset('images/doorder_icons/warning_icon.png')}}"
-							style="width: 120px" alt="warning">
+						<div class="text-center">
+							<img
+								src="{{asset('images/doorder-new-layout/warning-icon.png')}}"
+								style="" alt="warning">
+						</div>
+						<div class="text-center mt-3">
+							<label class="warning-label">Please enter Eircode to continue
+								(select drop down suggestion)</label>
+
+						</div>
 					</div>
-					<div class="text-center mt-3">
-						<!-- <label class="warning-label">Please ensure to select drop down
-							address suggestion to move forward</label> -->
+				</div>
 
-						<label class="warning-label modalHeaderMessage">Please enter Eircode to continue
-							(select drop down suggestion)</label>
-
+				<div class="row justify-content-center mt-3">
+					
+					<div class="col-lg-4 col-md-6 text-center">
+						<button type="button"
+							class="btnDoorder btn-doorder-primary mb-1"
+							data-dismiss="modal">Ok</button>
 					</div>
 				</div>
 			</div>
@@ -1174,12 +1188,18 @@ button.disabled, button:disabled {
             			if ( newIndex === 1 ) {
                             $('.steps ul li:nth-child(2) a img').attr('src',"{{asset('images/doorder-new-layout/order-package-active.png')}}");
                             
-            		 		$('.forward').removeClass("disabled");
-            			 	$('.backward').removeClass("disabled");
+                            if(user_role!='retailer'){
+                		 		$('.forward').removeClass("disabled");
+                			 	$('.backward').removeClass("disabled");
+                			 }else{
+                		 		$('.forward').addClass("disabled");
+                			 	$('.backward').removeClass("disabled");
+                			 }	
                         } else {
                             $('.steps ul li:nth-child(2) a img').attr('src',"{{asset('images/doorder-new-layout/order-package.png')}}");
                         }
             
+            if(user_role!='retailer'){
                         if ( newIndex === 2 ) {
                             $('.steps ul li:nth-child(3) a img').attr('src',"{{asset('images/doorder-new-layout/order-driver-active.png')}}");
                             
@@ -1199,17 +1219,18 @@ button.disabled, button:disabled {
                             $('.steps ul li:nth-child(4) a img').attr('src',"{{asset('images/doorder-new-layout/order-delivery.png')}}");
                             $('.actions ul').removeClass('step-4');
                         }
-            			
+            }			
                         if ( newIndex >= 1 ) {
                             $('.steps ul li:first-child a img').attr('src',"{{asset('images/doorder-new-layout/order-customer-done.png')}}");
                         }
+             if(user_role!='retailer'){           
             			if ( newIndex >= 2 ) {
                             $('.steps ul li:nth-child(2) a img').attr('src',"{{asset('images/doorder-new-layout/order-package-done.png')}}");
                         }
             			if ( newIndex >= 3 ) {
                             $('.steps ul li:nth-child(3) a img').attr('src',"{{asset('images/doorder-new-layout/order-driver-done.png')}}");
                         }
-            
+            }
                         
                         return true; 
                     }
@@ -1219,10 +1240,19 @@ button.disabled, button:disabled {
             $('.forward').click(function(){
             	
             	$("#wizard").steps('next');
-            	if($("#wizard").steps("getCurrentIndex") == 3){
-            		 $('.forward').addClass("disabled");
-            	}else{
-            		 $('.forward').removeClass("disabled");
+            	if(user_role!='retailer'){
+                	if($("#wizard").steps("getCurrentIndex") == 3){
+                		 $('.forward').addClass("disabled");
+                	}else{
+                		 $('.forward').removeClass("disabled");
+                	}
+            	}
+            	else{
+                	if($("#wizard").steps("getCurrentIndex") == 1){
+                		 $('.forward').addClass("disabled");
+                	}else{
+                		 $('.forward').removeClass("disabled");
+                	}
             	}
             	if($("#wizard").steps("getCurrentIndex") >0){
             		 $('.backward').removeClass("disabled");
@@ -1230,12 +1260,13 @@ button.disabled, button:disabled {
             })
             $('.backward').click(function(){
                 $("#wizard").steps('previous');
-                
-            	if($("#wizard").steps("getCurrentIndex") == 0){
-            		 $('.backward').addClass("disabled");
-            	}else{
-            		 $('.backward').removeClass("disabled");
-            	}
+                //if(user_role!='retailer'){
+                	if($("#wizard").steps("getCurrentIndex") == 0){
+                		 $('.backward').addClass("disabled");
+                	}else{
+                		 $('.backward').removeClass("disabled");
+                	}
+                //}	
             	
             	if($("#wizard").steps("getCurrentIndex") < 3){
             		 $('.forward').removeClass("disabled");
@@ -1245,23 +1276,33 @@ button.disabled, button:disabled {
             $('.steps ul').addClass('row justify-content-center');
             $('.steps li').addClass('col-xl-2 col-3 text-lg-left text-center');
             
-            $('.steps ul li:first-child').append('<img src="{{asset('images/doorder-new-layout/arrow-next.png')}}" alt="" class="step-arrow">')
-            		.find('a').append('<div class="row"> <div class="col-lg-2  p-0"> <img src="{{asset('images/doorder-new-layout/order-customer-active.png')}}" alt=""> </div> <div class="col-lg-10 "> <p class="step-order step-order-title">Customer</p><span class="step-order step-order-subtitle">Customer Info </span> </div></div>');
-            $('.steps ul li:nth-child(2').append('<img src="{{asset('images/doorder-new-layout/arrow-next.png')}}" alt="" class="step-arrow">')
-            		.find('a').append('<div class="row"> <div class="col-lg-2  p-0"> <img src="{{asset('images/doorder-new-layout/order-package.png')}}" alt=""> </div> <div class="col-lg-10 "> <p class="step-order step-order-title">Package</p><span class="step-order step-order-subtitle">Package Details </span> </div></div>');
-            $('.steps ul li:nth-child(3)').append('<img src="{{asset('images/doorder-new-layout/arrow-next.png')}}" alt="" class="step-arrow">')
-            		.find('a').append('<div class="row"> <div class="col-lg-2  p-0"> <img src="{{asset('images/doorder-new-layout/order-driver.png')}}" alt=""> </div> <div class="col-lg-10 "> <p class="step-order step-order-title">Deliverers</p><span class="step-order step-order-subtitle">Select Your Deliverer </span> </div></div>');
-            $('.steps ul li:last-child a').append('<div class="row"> <div class="col-lg-2  p-0"> <img src="{{asset('images/doorder-new-layout/order-delivery.png')}}" alt=""> </div> <div class="col-lg-10 "> <p class="step-order step-order-title">Delivery Details</p><span class="step-order step-order-subtitle">Review Delivery Status</span> </div></div>');
+            if(user_role!='retailer'){
+                $('.steps ul li:first-child').append('<img src="{{asset('images/doorder-new-layout/arrow-next.png')}}" alt="" class="step-arrow">')
+                		.find('a').append('<div class="row"> <div class="col-lg-2  p-0"> <img src="{{asset('images/doorder-new-layout/order-customer-active.png')}}" alt=""> </div> <div class="col-lg-10 "> <p class="step-order step-order-title">Customer</p><span class="step-order step-order-subtitle">Customer Info </span> </div></div>');
+                $('.steps ul li:nth-child(2').append('<img src="{{asset('images/doorder-new-layout/arrow-next.png')}}" alt="" class="step-arrow">')
+                		.find('a').append('<div class="row"> <div class="col-lg-2  p-0"> <img src="{{asset('images/doorder-new-layout/order-package.png')}}" alt=""> </div> <div class="col-lg-10 "> <p class="step-order step-order-title">Package</p><span class="step-order step-order-subtitle">Package Details </span> </div></div>');
+                $('.steps ul li:nth-child(3)').append('<img src="{{asset('images/doorder-new-layout/arrow-next.png')}}" alt="" class="step-arrow">')
+                		.find('a').append('<div class="row"> <div class="col-lg-2  p-0"> <img src="{{asset('images/doorder-new-layout/order-driver.png')}}" alt=""> </div> <div class="col-lg-10 "> <p class="step-order step-order-title">Deliverers</p><span class="step-order step-order-subtitle">Select Your Deliverer </span> </div></div>');
+                $('.steps ul li:last-child a').append('<div class="row"> <div class="col-lg-2  p-0"> <img src="{{asset('images/doorder-new-layout/order-delivery.png')}}" alt=""> </div> <div class="col-lg-10 "> <p class="step-order step-order-title">Delivery Details</p><span class="step-order step-order-subtitle">Review Delivery Status</span> </div></div>');
+            }
+            else{
+            	$('.steps ul li:first-child').append('<img src="{{asset('images/doorder-new-layout/arrow-next.png')}}" alt="" class="step-arrow">')
+                		.find('a').append('<div class="row"> <div class="col-lg-2  p-0"> <img src="{{asset('images/doorder-new-layout/order-customer-active.png')}}" alt=""> </div> <div class="col-lg-10 "> <p class="step-order step-order-title">Customer</p><span class="step-order step-order-subtitle">Customer Info </span> </div></div>');
+                $('.steps ul li:last-child a').append('<div class="row"> <div class="col-lg-2  p-0"> <img src="{{asset('images/doorder-new-layout/order-package.png')}}" alt=""> </div> <div class="col-lg-10 "> <p class="step-order step-order-title">Package</p><span class="step-order step-order-subtitle">Package Details </span> </div></div>');
+               
+            }
             
             $('#wizard .actions').html("")
             
-            if(order_is_archived == 1){
-            	$("#wizard").steps('next');
-            	$("#wizard").steps('next');
-            	$("#wizard").steps('next');  
-            	 $('.forward').addClass("disabled");
-            	  $('.backward').removeClass("disabled");          	
-            }
+            if(user_role!='retailer'){
+            	if(order_is_archived == 1){
+                	$("#wizard").steps('next');
+                	$("#wizard").steps('next');
+                	$("#wizard").steps('next');  
+                	 $('.forward').addClass("disabled");
+                	  $('.backward').removeClass("disabled");          	
+                }
+            }    
         	
         	////////// end steps 
         

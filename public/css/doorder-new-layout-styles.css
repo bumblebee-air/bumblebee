@@ -235,7 +235,6 @@ li .nav-link:hover  i {
 }
 
 /*************** ****************/
-
 #navSettingsUl li a {
 	font-family: Montserrat;
 	font-size: 15px !important;
@@ -261,7 +260,6 @@ li .nav-link:hover  i {
 .tab-space {
 	padding: 0 !important;
 }
-
 
 .card-title {
 	font-family: Montserrat;
@@ -758,7 +756,8 @@ ul.pagination {
 .viewIcon {
 	height: 30px;
 }
-.remove-icon{
+
+.remove-icon {
 	width: 20px;
 }
 
@@ -963,6 +962,16 @@ div.dt-datetime table td.selectable button:hover {
 	outline: none !important;
 }
 
+.btn-doorder-filter-grey {
+	background: #4d4d4d;
+	border-color: #4d4d4d;
+}
+
+.btn-doorder-filter-grey:hover {
+	background: #404040;
+	border-color: #404040;
+}
+
 .btn-doorder-filter-danger-outline {
 	color: #DB3C3C;
 	background: #fff;
@@ -993,7 +1002,8 @@ div.dt-datetime table td.selectable button:hover {
 .btn-doorder-filter-danger-outline:focus {
 	outline: none !important;
 }
-.btn-doorder-link{
+
+.btn-doorder-link {
 	background: transparent;
 	border: none;
 	min-width: 120px;
@@ -1013,9 +1023,11 @@ div.dt-datetime table td.selectable button:hover {
 	user-select: none;
 	padding: 6px 14px;
 }
-.btn-doorder-link:hover{
-	color:#6E6B7B;
+
+.btn-doorder-link:hover {
+	color: #6E6B7B;
 }
+
 .btn-doorder-add-item {
 	font-size: 11px;
 	line-height: 13px;
@@ -1045,6 +1057,10 @@ div.dt-datetime table td.selectable button:hover {
 	vertical-align: middle;
 	user-select: none;
 	padding: 6px 14px;
+}
+a.btnDoorder{
+	position: relative;
+	display: inline-block;
 }
 
 .btnDoorder:focus, .btnActions:focus {
@@ -1102,11 +1118,11 @@ div.dt-datetime table td.selectable button:hover {
 	opacity: 0.65;
 }
 
-a.btn-doorder-filter {
+a.btn-doorder-filter,a.btnDoorder  {
 	line-height: 24px
 }
 
-a.btn-doorder-filter:hover {
+a.btn-doorder-filter:hover, a.btnDoorder {
 	color: #fff;
 }
 
@@ -1365,6 +1381,7 @@ button.dropdown-toggle.select-with-transition {
 	position: relative;
 	padding-left: 35px !important;
 }
+
 .inputWithIconRightDiv img {
 	position: absolute;
 	top: 8px;
@@ -1458,6 +1475,16 @@ button.dropdown-toggle.select-with-transition {
 	width: inherit;
 }
 
+.warning-label {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 25px;
+	text-align: center;
+	color: #252525;
+}
+
 .label-display-block {
 	display: block;
 }
@@ -1502,14 +1529,15 @@ input.form-control, textarea.form-control, select.form-control, span.form-contro
 	background-color: #ededed;
 }
 
-.vue-treeselect__control{
+.vue-treeselect__control {
 	box-shadow: none !important;
 	background: #ededed !important;
 	background-color: #ededed !important;
 	border-color: #e5e5e5 !important;
 	min-height: 40px;
 }
-.vue-treeselect.form-control{
+
+.vue-treeselect.form-control {
 	box-shadow: none;
 	background-color: transparent;
 }

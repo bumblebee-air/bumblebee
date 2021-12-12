@@ -1,34 +1,28 @@
-@extends('templates.dashboard')
-
-@section('title', 'DoOrder | Dashboard')
-
-@section('page-styles')
-@endsection
-@section('page-content')
-    <div class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12" id="map-container">
-                    <div class="card">
-                        <div class="card-header card-header-icon card-header-rose">
-                            <div class="card-icon">
-                                <img class="page_icon" src="{{asset('images/map_icon_card_white.png')}}" alt="Map icon">
-                            </div>
-                            <h4 class="card-title ">Map</h4>
-                        </div>
-
-                        <div class="card-body">
-                            <div id="map" style="width:100%; height: 100%; min-height: 400px; margin-top:0;border-radius:6px;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-@endsection
-
-@section('page-scripts')
-    <script>
+@extends('templates.doorder_dashboard') @section('title', 'DoOrder |
+Dashboard') @section('page-styles') @endsection @section('page-content')
+<div class="content">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12" id="map-container">
+				<div class="card">
+					<div class="card-header card-header-icon  row">
+						<div class="col-12 col-xl-5 col-lg-4 col-md-3 col-sm-12">
+							<h4 class="card-title my-md-4 mt-4 mb-1">Map</h4>
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-body">
+						<div id="map"
+							style="width: 100%; height: 100%; min-height: 400px; margin-top: 0; border-radius: 6px;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+@endsection @section('page-scripts')
+<script>
         let google_initialized = false;
         let map;
         let deliverers_array = JSON.parse('{!! $drivers_arr !!}');
@@ -177,5 +171,6 @@
             }, 30000)
         });
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=geometry,places&callback=initMap"></script>
+<script async defer
+	src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=geometry,places&callback=initMap"></script>
 @endsection

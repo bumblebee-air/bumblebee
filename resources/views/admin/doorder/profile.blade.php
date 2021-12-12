@@ -23,7 +23,8 @@
 									<div class="form-group bmd-form-group">
 										<label for="current-password">Current password</label> <input
 											name="current_password" type="password" class="form-control"
-											id="current-password" placeholder="Enter current password" required />
+											id="current-password" placeholder="Enter current password"
+											required />
 									</div>
 								</div>
 							</div>
@@ -41,13 +42,17 @@
 									<div class="form-group bmd-form-group">
 										<label for="confirm-password">Confirm password</label> <input
 											name="confirm_password" type="password" class="form-control"
-											id="confirm-password" placeholder="Enter confirm password" required />
+											id="confirm-password" placeholder="Enter confirm password"
+											required />
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="card-btns" style="text-align: center">
-							<button type="submit" class="btnDoorder btn-doorder-primary  mb-1">Submit</button>
+						<div class="row justify-content-center">
+							<div class="col-lg-3  col-md-3 col-sm-4 px-md-1 text-center">
+								<button type="submit"
+									class="btnDoorder btn-doorder-primary  mb-1">Submit</button>
+							</div>
 						</div>
 					</form>
 				</div>

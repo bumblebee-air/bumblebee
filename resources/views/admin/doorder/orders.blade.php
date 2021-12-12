@@ -25,7 +25,7 @@
 							</div>
 							<div class="col-12 col-lg-7 col-md-6 col-sm-6">
 								<div class="row justify-content-end float-sm-right">
-
+								@if(auth()->user()->user_role != 'retailer' )
 									<ul class="nav nav-pills ordersListPills my-sm-3 mt-0 mb-1"
 										id="pills-tab" role="tablist">
 										<li class="nav-item"><a class="nav-link active"
@@ -38,6 +38,7 @@
 											aria-controls="ordersCalendarView" aria-selected="true">Switch
 												to calendar view</a></li>
 									</ul>
+								@endif	
 
 								</div>
 							</div>

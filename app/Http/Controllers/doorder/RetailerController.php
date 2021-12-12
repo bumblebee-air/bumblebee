@@ -236,7 +236,7 @@ class RetailerController extends Controller
             return redirect()->back();
         }
         $retailer->invoice_reference_number = 'BR0128';
-        
+
         return view('admin.doorder.retailers.single_retailer_view', ['retailer' => $retailer, 'readOnly' => true]);
     }
 
@@ -300,5 +300,3 @@ class RetailerController extends Controller
         return view('admin.doorder.retailers.single_retailer', ['retailer' => $retailer, 'readOnly' => 0]);
     }
 }
-
-

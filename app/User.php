@@ -30,39 +30,58 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function profile(){
+    public function profile()
+    {
         return $this->hasOne(Profile::class, 'user_id', 'id');
     }
 
-    public function client(){
+    public function client()
+    {
         return $this->hasOne(UserClient::class, 'user_id', 'id');
     }
 
-    public function firebase_tokens() {
+    public function firebase_tokens()
+    {
         return $this->hasMany(UserFirebaseToken::class, 'user_id');
     }
 
-    public function driver_profile(){
+    public function driver_profile()
+    {
         return $this->hasOne(DriverProfile::class, 'user_id', 'id');
     }
 
-    public function retailer_profile() {
+    public function retailer_profile()
+    {
         return $this->hasOne(Retailer::class, 'user_id');
     }
 
-    public function contractor_profile() {
+    public function contractor_profile()
+    {
         return $this->hasOne(Contractor::class, 'user_id');
     }
 
-    public function stripe_account() {
+    public function stripe_account()
+    {
         return $this->hasOne(StripeAccount::class, 'user_id');
     }
 
-    public function engineer_profile() {
+    public function engineer_profile()
+    {
         return $this->hasOne(UnifiedEngineer::class, 'user_id');
     }
 
-    public function contractor_jobs() {
+    public function contractor_jobs()
+    {
         return $this->hasMany(Customer::class, 'contractor_id');
+    }
+
+    /**
+     * Get all of the orders for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'driver', 'id');
     }
 }

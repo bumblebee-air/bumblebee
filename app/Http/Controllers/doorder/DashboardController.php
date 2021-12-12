@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\doorder;
 
 use App\DriverProfile;
@@ -27,19 +28,10 @@ class DashboardController extends Controller
             }
             return view('admin.doorder.retailers.dashboard', compact('drivers_arr'));
         } else {
-            $from_date = null;
-            $to_date = null;
-            $filter_from_date = $request->get('from_date');
-            $filter_to_date = $request->get('to_date');
-            $ajax_flag = false;
-            if ($filter_from_date != null && $filter_to_date != null) {
-                $ajax_flag = true;
-                $filter_from_date = new Carbon($filter_from_date);
-                $filter_to_date = new Carbon($filter_to_date);
-                $from_date = $filter_from_date->startOfDay()->toDateTimeString();
-                $to_date = $filter_to_date->endOfDay()->toDateTimeString();
-            }
-            $admin_data = $this->adminDashboardData($from_date, $to_date);
+            $default = $ajax_flag = $request->get('from_date') ? true : false;
+            $from_date = $request->get('from_date') ? new Carbon($request->get('from_date')) : Carbon::now()->startOfDay()->toDateTimeString();
+            $to_date = $request->get('to_date') ? new Carbon($request->get('to_date')) : Carbon::now()->endOfDay()->toDateTimeString();
+            $admin_data = $this->adminDashboardData($from_date, $to_date, $default);
             $all_orders_count = $admin_data['all_orders_count'];
             $delivered_orders_count = $admin_data['delivered_orders_count'];
             $retailers_count = $admin_data['retailers_count'];
@@ -104,19 +96,19 @@ class DashboardController extends Controller
                 'id' => 2
             ],
             'lat' => 53.34981,
-            'lon' => - 6.26031
+            'lon' => -6.26031
         ];
         $pickup_pin = [
             'pickup_address' => 'St James\'s Hospital, James Street, Saint James\' (part of Phoenix Park), Dublin 8, Ireland',
             'pickup_lat' => 53.3393,
-            'pickup_lon' => - 6.29651,
+            'pickup_lon' => -6.29651,
             'retailer_name' => "sara yassen",
             'order_id' => 28884
         ];
         $dropoff_pin = [
             'customer_address' => "Phoenix Park, Dublin 8, Ireland",
             'customer_address_lat' => 53.35588,
-            'customer_address_lon' => - 6.32981,
+            'customer_address_lon' => -6.32981,
             'customer_name' => 'mohamed fayez',
             'order_id' => 28884
         ];
@@ -161,52 +153,19 @@ class DashboardController extends Controller
         ];
     }
 
-    private function adminDashboardData($from_date, $to_date)
+    private function adminDashboardData($from_date, $to_date, $default = false)
     {
-        $custom_date = true;
-        $current_date = Carbon::now();
-        if ($from_date == null && $to_date == null) {
-            $custom_date = false;
-            $from_date = $current_date->startOfDay()->toDateTimeString();
-            $to_date = $current_date->endOfDay()->toDateTimeString();
-        }
         $all_orders = Order::query();
-        $all_orders = $all_orders->whereBetween('created_at', [
-            $from_date,
-            $to_date
-        ]);
-        if (! $custom_date) {
-            $all_orders = $all_orders->orWhere(function ($q) use ($from_date, $to_date) {
-                $q->whereNotBetween('created_at', [
-                    $from_date,
-                    $to_date
-                ])
-                    ->whereNotIn('status', [
-                    'delivered',
-                    'cancelled'
-                ]);
-            });
-        }
+        $all_orders = $all_orders->whereBetween('created_at', [$from_date, $to_date]);
         $all_orders = $all_orders->get();
 
         $all_orders_count = count($all_orders);
         $delivered_orders_count = 0;
 
         $delivered_orders_count = Order::where('status', 'delivered')->whereHas('orderTimestamps', function ($q) use ($from_date, $to_date) {
-            $q->where('model', 'order')
-                ->whereBetween('completed', [
-                $from_date,
-                $to_date
-            ]);
-        })
-            ->count();
-        // foreach($all_orders as $order){
-        // $order->orderTimestamps()->whereDate('')->where('model', 'order')->first();
-        // if($order->status == 'delivered'){
-        // $delivered_orders_count++;
-        // }
-        // }
-        if ($custom_date == false) {
+            $q->where('model', 'order')->whereBetween('completed', [$from_date, $to_date]);
+        })->count();
+        if ($default) {
             $current_date = Carbon::now();
             $from_date = $current_date->startOfMonth()
                 ->startOfDay()
@@ -239,7 +198,7 @@ class DashboardController extends Controller
                     $retailers_orders[$order->retailer_id] = 1;
                 }
             }
-            if ($custom_date == true && $order->status == 'delivered' && $order->driver != null) {
+            if ($default == true && $order->status == 'delivered' && $order->driver != null) {
                 if (isset($deliverers_orders[$order->driver])) {
                     $deliverers_orders[$order->driver] = $deliverers_orders[$order->driver] + 1;
                 } else {
@@ -259,7 +218,7 @@ class DashboardController extends Controller
                 'order_charge' => '€' . (string) $order_charge
             ];
         }
-        if ($custom_date == false) {
+        if ($default) {
             $current_date = Carbon::now();
             $from_date = $current_date->startOfWeek()
                 ->startOfDay()
@@ -306,7 +265,7 @@ class DashboardController extends Controller
         $annual_chart_labels = [];
         $annual_chart_data = [];
         $annual_chart_data_last = [];
-        for ($i = 0; $i < 12; $i ++) {
+        for ($i = 0; $i < 12; $i++) {
             $current_month = Carbon::parse($startOfYear)->addMonths($i);
             $start_of_month = $current_month->startOfMonth()->toDateTimeString();
             $end_of_month = $current_month->endOfMonth()->toDateTimeString();
@@ -340,7 +299,7 @@ class DashboardController extends Controller
         $drivers_arr = json_encode($drivers_arr);
 
         //
-        $thisWeekPercentage = - 20;
+        $thisWeekPercentage = -20;
         $lastWeekPercentage = 18;
         $thisMonthPercentage = 25;
         $lastMonthPercentage = 15;
@@ -394,19 +353,10 @@ class DashboardController extends Controller
 
     public function metricsDashboard(Request $request)
     {
-        $from_date = null;
-        $to_date = null;
-        $filter_from_date = $request->get('from_date');
-        $filter_to_date = $request->get('to_date');
-        $ajax_flag = false;
-        if ($filter_from_date != null && $filter_to_date != null) {
-            $ajax_flag = true;
-            $filter_from_date = new Carbon($filter_from_date);
-            $filter_to_date = new Carbon($filter_to_date);
-            $from_date = $filter_from_date->startOfDay()->toDateTimeString();
-            $to_date = $filter_to_date->endOfDay()->toDateTimeString();
-        }
-        $admin_data = $this->adminMetricsDashboardData($from_date, $to_date);
+        $default = $ajax_flag = $request->get('from_date') ? true : false;
+        $from_date = $request->get('from_date') ? new Carbon($request->get('from_date')) : Carbon::now()->startOfDay()->toDateTimeString();
+        $to_date = $request->get('to_date') ? new Carbon($request->get('to_date')) : Carbon::now()->endOfDay()->toDateTimeString();
+        $admin_data = $this->adminMetricsDashboardData($from_date, $to_date, $default);
         $all_orders_count = $admin_data['all_orders_count'];
         $delivered_orders_count = $admin_data['delivered_orders_count'];
         $retailers_count = $admin_data['retailers_count'];
@@ -524,7 +474,7 @@ class DashboardController extends Controller
             $retailerCharge = 0;
             $deliverers_revenue = [];
             $retailers_revenue = [];
-            for ($i = 2; $i > 0; $i --) {
+            for ($i = 2; $i > 0; $i--) {
                 $the_month = Carbon::now()->subMonths($i);
                 $profit_loss_chart_labels[] = $the_month->shortMonthName;
                 $start_of_month = $the_month->startOfMonth()->toDateTimeString();
@@ -587,62 +537,44 @@ class DashboardController extends Controller
         $last_month_average_chart_values = [];
 
         if ($type == 'driver') {
-            $average_chart_labels = array('driver 1','driver 2','driver 3','driver 4','driver 5','driver 6','driver 7','driver 8');
-            $this_month_average_chart_values = array(1000,2000,5000,3000,4000,7000,10000,6000);
-            $last_month_average_chart_values = array(2000,3000,4000,3000,7000,9000,11000,3000);            
+            $average_chart_labels = array('driver 1', 'driver 2', 'driver 3', 'driver 4', 'driver 5', 'driver 6', 'driver 7', 'driver 8');
+            $this_month_average_chart_values = array(1000, 2000, 5000, 3000, 4000, 7000, 10000, 6000);
+            $last_month_average_chart_values = array(2000, 3000, 4000, 3000, 7000, 9000, 11000, 3000);
             $thisMonthAverage = '€100,000';
             $lastMonthAverage = '€80,000';
         } else if ($type == 'retailer') {
-            $average_chart_labels = array('retailer 1','retailer 2','retailer 3','retailer 4','retailer 5','retailer 6','retailer 7','retailer 8');
-            $this_month_average_chart_values = array(2000,4000,10000,6000,8000,14000,20000,12000);
-            $last_month_average_chart_values = array(4000,6000,8000,6000,14000,18000,22000,6000);
+            $average_chart_labels = array('retailer 1', 'retailer 2', 'retailer 3', 'retailer 4', 'retailer 5', 'retailer 6', 'retailer 7', 'retailer 8');
+            $this_month_average_chart_values = array(2000, 4000, 10000, 6000, 8000, 14000, 20000, 12000);
+            $last_month_average_chart_values = array(4000, 6000, 8000, 6000, 14000, 18000, 22000, 6000);
             $thisMonthAverage = '€600,00';
             $lastMonthAverage = '€180,000';
         } else if ($type == 'region') {
-            $average_chart_labels = array('region 1','region 2','region 3','region 4','region 5','region 6','region 7','region 8');
-            $this_month_average_chart_values = array(4000,7000,10000,6000,1000,2000,5000,3000);
-            $last_month_average_chart_values = array(3000,7000,9000,2000,3000,4000,11000,3000);
+            $average_chart_labels = array('region 1', 'region 2', 'region 3', 'region 4', 'region 5', 'region 6', 'region 7', 'region 8');
+            $this_month_average_chart_values = array(4000, 7000, 10000, 6000, 1000, 2000, 5000, 3000);
+            $last_month_average_chart_values = array(3000, 7000, 9000, 2000, 3000, 4000, 11000, 3000);
             $thisMonthAverage = '€700,000';
             $lastMonthAverage = '€800,000';
         }
 
-        
+
         return response()->json([
             'type' => $request->get('type'),
             'average_chart_labels' => $average_chart_labels,
             'last_month_average_chart_values' => $last_month_average_chart_values,
             'this_month_average_chart_values' => $this_month_average_chart_values,
-            'thisMonthAverage'=>$thisMonthAverage,
-            'lastMonthAverage'=>$lastMonthAverage
+            'thisMonthAverage' => $thisMonthAverage,
+            'lastMonthAverage' => $lastMonthAverage
         ]);
     }
 
-    private function adminMetricsDashboardData($from_date, $to_date)
+    private function adminMetricsDashboardData($from_date, $to_date, $default = false)
     {
-        $custom_date = true;
-        $current_date = Carbon::now();
-        if ($from_date == null && $to_date == null) {
-            $custom_date = false;
-            $from_date = $current_date->startOfDay()->toDateTimeString();
-            $to_date = $current_date->endOfDay()->toDateTimeString();
-        }
+        
         $all_orders = Order::query();
         $all_orders = $all_orders->whereBetween('created_at', [
             $from_date,
             $to_date
         ]);
-        if (! $custom_date) {
-            $all_orders = $all_orders->orWhere(function ($q) use ($from_date, $to_date) {
-                $q->whereNotBetween('created_at', [
-                    $from_date,
-                    $to_date
-                ])
-                    ->whereNotIn('status', [
-                    'delivered',
-                    'cancelled'
-                ]);
-            });
-        }
         $all_orders = $all_orders->get();
 
         $all_orders_count = count($all_orders);
@@ -651,18 +583,13 @@ class DashboardController extends Controller
         $delivered_orders_count = Order::where('status', 'delivered')->whereHas('orderTimestamps', function ($q) use ($from_date, $to_date) {
             $q->where('model', 'order')
                 ->whereBetween('completed', [
-                $from_date,
-                $to_date
-            ]);
+                    $from_date,
+                    $to_date
+                ]);
         })
             ->count();
-        // foreach($all_orders as $order){
-        // $order->orderTimestamps()->whereDate('')->where('model', 'order')->first();
-        // if($order->status == 'delivered'){
-        // $delivered_orders_count++;
-        // }
-        // }
-        if ($custom_date == false) {
+      
+        if ($default == false) {
             $current_date = Carbon::now();
             $from_date = $current_date->startOfMonth()
                 ->startOfDay()
@@ -695,7 +622,7 @@ class DashboardController extends Controller
                     $retailers_orders[$order->retailer_id] = 1;
                 }
             }
-            if ($custom_date == true && $order->status == 'delivered' && $order->driver != null) {
+            if ($default && $order->status == 'delivered' && $order->driver != null) {
                 if (isset($deliverers_orders[$order->driver])) {
                     $deliverers_orders[$order->driver] = $deliverers_orders[$order->driver] + 1;
                 } else {
@@ -715,7 +642,7 @@ class DashboardController extends Controller
                 'order_charge' => '€' . (string) $order_charge
             ];
         }
-        if ($custom_date == false) {
+        if ($default) {
             $current_date = Carbon::now();
             $from_date = $current_date->startOfWeek()
                 ->startOfDay()
@@ -763,7 +690,7 @@ class DashboardController extends Controller
         $annual_chart_data_orders = [];
         $annual_chart_data_orders_last = [];
         // $annual_chart_data_revenue = [];
-        for ($i = 0; $i < 12; $i ++) {
+        for ($i = 0; $i < 12; $i++) {
             $current_month = Carbon::parse($startOfYear)->addMonths($i);
             $start_of_month = $current_month->startOfMonth()->toDateTimeString();
             $end_of_month = $current_month->endOfMonth()->toDateTimeString();
@@ -793,7 +720,7 @@ class DashboardController extends Controller
         $retailerCharge = 0;
         $deliverers_revenue = [];
         $retailers_revenue = [];
-        for ($i = 2; $i > 0; $i --) {
+        for ($i = 2; $i > 0; $i--) {
             $the_month = Carbon::now()->subMonths($i);
             $profit_loss_chart_labels[] = $the_month->shortMonthName;
             $start_of_month = $the_month->startOfMonth()->toDateTimeString();
@@ -842,7 +769,7 @@ class DashboardController extends Controller
          */
 
         //
-        $thisWeekPercentage = - 20;
+        $thisWeekPercentage = -20;
         $lastWeekPercentage = 18;
         $thisMonthPercentage = 25;
         $lastMonthPercentage = 15;

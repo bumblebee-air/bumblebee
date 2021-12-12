@@ -1,16 +1,13 @@
 <div class="card">
 	<div class="card-body">
 		<div class="container " style="width: 100%; max-width: 100%;">
-			<div class="row">
-				<div class="col-12 col-lg-7 col-md-6 d-flex form-head pl-3">
-					<h5 class="singleViewSubTitleH5">Users</h5>
-
-				</div>
-				<div class="col-12 col-lg-5 col-md-6 mt-md-2 ">
+			<div class="row ">
+				<div class="col-12 col-lg-7 col-md-6 d-flex form-head pl-3"></div>
+				<div class="col-12 col-lg-5 col-md-6 mt-md-2 mb-2">
 					<div class="row justify-content-end float-sm-right">
 
 						<button type="button"
-							class=" btn btn-primary doorder-btn-lg doorder-btn addBtn"
+							class="btn-doorder-filter btn-doorder-add-item mt-0"
 							@click="clickAddUser()">Add New User</button>
 
 					</div>
@@ -20,38 +17,38 @@
 			<div class="table-responsive">
 				<table id="usersTable"
 					class="table table-no-bordered table-hover doorderTable "
-					cellspacing="0" width="100%" style="width: 100%">
+					width="100%" style="width: 100%">
 					<thead>
-						<!-- <tr>
-							<th class="filterhead"></th>
-							<th class="filterhead"></th>
-							<th class="filterhead"></th>
-							<th class="filterhead"></th>
-						</tr> -->
-						<tr class="theadColumnsNameTr">
-							<th>User</th>
-							<th>Last Activity</th>
-							<th>User Type</th>
-							<th class="disabled-sorting ">Actions</th>
+						<tr class="">
+							<th >User</th>
+							<th >Last Activity</th>
+							<th >User Type</th>
+							<th class="disabled-sorting text-center">Actions</th>
 						</tr>
 					</thead>
 
 					<tbody>
 						<tr v-for="user in users" v-if="users.length > 0"
 							class="order-row">
-							<td><span class="nameSpan"> @{{ user.name}} </span>@{{user.email}}
+							<td>
+								<p class="invoiceServiceP">@{{ user.name}}</p>
+								<p class="invoiceDateSpan">@{{user.email}}</p>
 							</td>
-							<td>@{{ user.last_activity}}</td>
+							<td> @{{ user.last_activity}}</td>
 							<td>@{{ user.user_type }}</td>
-							<td><button type="button"
-								class="btn  btn-link btn-primary-doorder btn-just-icon edit"
-								@click="clickEditUser(user.id,user.name,user.email,user.user_role)"><i class="fas fa-pen-fancy"></i></button>
-								<button type="button"
-									class="btn btn-link btn-danger btn-just-icon remove"
+
+							<td class="actionsTd"><button type="button" class="edit"
+									@click="clickEditUser(user.id,user.name,user.email,user.user_role)">
+									<img src="{{asset('images/doorder-new-layout/edit-icon.png')}}">
+								</button>
+								<button type="button" class="remove"
 									@click="clickDeleteUser(user.id)">
-									<i class="fas fa-trash-alt"></i>
+
+									<img
+										src="{{asset('images/doorder-new-layout/delete-icon.png')}}">
 								</button></td>
 						</tr>
+
 
 						<tr v-else>
 							<td colspan="4" class="text-center"><strong>No data found.</strong>
@@ -78,11 +75,9 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<div class="modal-dialog-header deleteHeader">Are you sure you want
-					to delete this account?</div>
-
+				<div class="modal-dialog-header modalHeaderMessage">Are you sure you
+					want to delete this account?</div>
 				<div>
-
 					<form method="POST" id="delete-user"
 						action="{{url('doorder/user/delete')}}"
 						style="margin-bottom: 0 !important;">
@@ -90,16 +85,14 @@
 					</form>
 				</div>
 			</div>
-			<div class=" row">
-				<div class="col-sm-6">
-					<button type="button"
-						class="btn btn-primary doorder-btn-lg doorder-btn"
+			<div class="row justify-content-center">
+				<div class="col-lg-4 col-md-6 text-center">
+					<button type="button" class="btnDoorder btn-doorder-primary mb-1"
 						onclick="$('form#delete-user').submit()">Yes</button>
 				</div>
-
-				<div class="col-sm-6">
+				<div class="col-lg-4 col-md-6 text-center">
 					<button type="button"
-						class="btn btn-danger doorder-btn-lg doorder-btn"
+						class="btnDoorder btn-doorder-danger-outline mb-1"
 						data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
@@ -148,7 +141,8 @@
 					<div class="row">
 						<div class="col">
 							<div class="form-group bmd-form-group">
-								<label>Role</label> <select class="form-control selectpicker"
+								<label>Role</label> <select
+									class="form-control form-control-select selectpicker"
 									data-style="select-with-transition" id="userTypeSelect"
 									name="user_type" required="required">
 									<option value="" selected disabled>Select role</option>
@@ -161,10 +155,10 @@
 					</div>
 
 				</div>
-				<div class=" row text-center">
-					<div class="col">
-						<button type="submit" id="addUserBtn"
-							class="btn btn-primary doorder-btn-lg doorder-btn">Add User</button>
+				<div class="row justify-content-center">
+					<div class="col-lg-4 col-md-6 text-center">
+						<button class="btnDoorder btn-doorder-primary mb-1"
+							type="submit" id="addUserBtn">Add User</button>
 					</div>
 
 					<!-- 				<div class="col-sm-6"> -->
@@ -185,7 +179,7 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<div class="modal-dialog-header editUserModalHeader">Edit User</div>
+				<div class="modal-dialog-header addUserModalHeader">Edit User</div>
 				<button type="button" class="close d-flex justify-content-center"
 					data-dismiss="modal" aria-label="Close">
 					<i class="fas fa-times"></i>
@@ -194,8 +188,7 @@
 			<form method="POST" id="add-user"
 				action="{{url('doorder/user/edit')}}"
 				style="margin-bottom: 0 !important;">
-				@csrf
-				<input type="hidden" name="userId" id="userId"/>
+				@csrf <input type="hidden" name="userId" id="userId" />
 				<div class="modal-body">
 					<div class="row">
 						<div class="col">
@@ -220,10 +213,11 @@
 					<div class="row">
 						<div class="col">
 							<div class="form-group bmd-form-group">
-								<label>Role</label> <select class="form-control selectpicker"
+								<label>Role</label> <select
+									class="form-control form-control-select selectpicker"
 									data-style="select-with-transition" id="userTypeSelectEdit"
 									name="user_type" required="required">
-									<option value=""  disabled>Select role</option>
+									<option value="" disabled>Select role</option>
 									<option value="admin">Admin</option>
 									<option value="driver_manager">Driver manager</option>
 									<option value="investor">Investor</option>
@@ -233,10 +227,10 @@
 					</div>
 
 				</div>
-				<div class=" row text-center">
-					<div class="col">
-						<button type="submit" id="editUserBtn"
-							class="btn btn-primary doorder-btn-lg doorder-btn">Edit User</button>
+				<div class="row justify-content-center">
+					<div class="col-lg-4 col-md-6 text-center">
+						<button class="btnDoorder btn-doorder-primary mb-1"
+							type="submit" id="editUserBtn">Edit User</button>
 					</div>
 
 					<!-- 				<div class="col-sm-6"> -->

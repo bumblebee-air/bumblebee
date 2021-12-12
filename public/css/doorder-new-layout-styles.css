@@ -235,6 +235,32 @@ li .nav-link:hover  i {
 }
 
 /*************** ****************/
+#navSettingsUl li a {
+	font-family: Montserrat;
+	font-size: 15px !important;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.19;
+	letter-spacing: 0.8px;
+	background: transparent;
+	text-transform: uppercase;
+	color: #5E5873;
+}
+
+#navSettingsUl li a.active, #navSettingsUl li a:hover {
+	/* 	color: #d2b431 !important; */
+	color: #5E5873 !important;
+	background: #F7DC69;
+	border-radius: 20px;
+	box-shadow: none !important;
+	background: #F7DC69;
+}
+
+.tab-space {
+	padding: 0 !important;
+}
+
 .card-title {
 	font-family: Montserrat;
 	font-style: normal;
@@ -731,6 +757,10 @@ ul.pagination {
 	height: 30px;
 }
 
+.remove-icon {
+	width: 20px;
+}
+
 table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before,
 	table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_desc:before,
 	table.dataTable thead .sorting_desc_disabled:before {
@@ -932,6 +962,16 @@ div.dt-datetime table td.selectable button:hover {
 	outline: none !important;
 }
 
+.btn-doorder-filter-grey {
+	background: #4d4d4d;
+	border-color: #4d4d4d;
+}
+
+.btn-doorder-filter-grey:hover {
+	background: #404040;
+	border-color: #404040;
+}
+
 .btn-doorder-filter-danger-outline {
 	color: #DB3C3C;
 	background: #fff;
@@ -963,6 +1003,38 @@ div.dt-datetime table td.selectable button:hover {
 	outline: none !important;
 }
 
+.btn-doorder-link {
+	background: transparent;
+	border: none;
+	min-width: 120px;
+	height: 40px;
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 20px;
+	line-height: 24px;
+	color: #E9C218;
+	position: relative;
+	margin: 0 5px;
+	display: inline-block;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	user-select: none;
+	padding: 6px 14px;
+}
+
+.btn-doorder-link:hover {
+	color: #6E6B7B;
+}
+
+.btn-doorder-add-item {
+	font-size: 11px;
+	line-height: 13px;
+	color: #FFFFFF;
+	height: 30px;
+}
+
 @media ( max-width : 1200px) {
 	.btnDoorder, .btn-doorder-filter, .btn-doorder-filter-danger-outline {
 		min-width: 100%;
@@ -985,6 +1057,11 @@ div.dt-datetime table td.selectable button:hover {
 	vertical-align: middle;
 	user-select: none;
 	padding: 6px 14px;
+}
+
+a.btnDoorder {
+	position: relative;
+	display: inline-block;
 }
 
 .btnDoorder:focus, .btnActions:focus {
@@ -1042,11 +1119,11 @@ div.dt-datetime table td.selectable button:hover {
 	opacity: 0.65;
 }
 
-a.btn-doorder-filter {
+a.btn-doorder-filter, a.btnDoorder {
 	line-height: 24px
 }
 
-a.btn-doorder-filter:hover {
+a.btn-doorder-filter:hover, a.btnDoorder {
 	color: #fff;
 }
 
@@ -1306,6 +1383,22 @@ button.dropdown-toggle.select-with-transition {
 	padding-left: 35px !important;
 }
 
+.inputWithIconRightDiv img {
+	position: absolute;
+	top: 8px;
+	right: 6px;
+	z-index: 9999;
+	cursor: pointer;
+	width: 22px;
+	height: 22px;
+}
+
+.inputWithIconRightDiv .form-control {
+	position: relative;
+	box-shadow: none;
+	/* padding-left: 35px !important; */
+}
+
 .bootstrap-select .dropdown-item.active {
 	box-shadow: none;
 	font-weight: 600;
@@ -1383,6 +1476,16 @@ button.dropdown-toggle.select-with-transition {
 	width: inherit;
 }
 
+.warning-label {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 25px;
+	text-align: center;
+	color: #252525;
+}
+
 .label-display-block {
 	display: block;
 }
@@ -1425,6 +1528,19 @@ input.form-control, textarea.form-control, select.form-control, span.form-contro
 	fieldset[disabled] .form-group .form-control {
 	border: none !important;
 	background-color: #ededed;
+}
+
+.vue-treeselect__control {
+	box-shadow: none !important;
+	background: #ededed !important;
+	background-color: #ededed !important;
+	border-color: #e5e5e5 !important;
+	min-height: 40px;
+}
+
+.vue-treeselect.form-control {
+	box-shadow: none;
+	background-color: transparent;
 }
 
 .filter-option-inner {
@@ -1525,7 +1641,7 @@ span.form-control {
 	margin: 10px 0 !important;
 }
 
-.card-header-profile-border h4 {
+.card-header-profile-border h4, .settingsTitle {
 	font-family: Montserrat;
 	font-style: normal;
 	font-weight: 600;
@@ -1710,6 +1826,12 @@ span.form-control {
 }
 /*********** responsive *************/
 @media ( max-width :767.5px) {
+	.card {
+		margin-top: 0;
+	}
+	#pills-tab-orders {
+		display: none;
+	}
 	.card-profile-page-title {
 		margin-top: 0 !important;
 	}
@@ -1758,6 +1880,10 @@ span.form-control {
 		font-size: 18px;
 		line-height: 22px;
 	}
+	.card-header-profile-border h4, .settingsTitle {
+		font-size: 18px;
+		line-height: 22px;
+	}
 }
 
 @media ( min-width :768px) and ( max-width :991.5px) {
@@ -1780,4 +1906,10 @@ span.form-control {
 		width: 60px;
 		height: 63px
 	}
+	.card-header-profile-border h4, .settingsTitle {
+		font-size: 19px;
+		line-height: 23px;
+	}
+}
+}
 }

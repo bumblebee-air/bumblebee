@@ -103,13 +103,13 @@
 					</div>
 				</div>
 				<div class="row mt-3">
-					<div class="col-sm-8">
+					<div class="col-8">
 						<div class="form-group bmd-form-group ">
 							<label style="font-weight: 500">Deliverers accept orders
 								automatically </label>
 						</div>
 					</div>
-					<div class="col-sm-4 text-right">
+					<div class="col-4 text-right">
 						<div class="toggleButtonGeneralSettings"
 							style="display: inline-block;">
 							<input type="checkbox" data-toggle="toggle" data-size="small"
@@ -142,13 +142,13 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-sm-8">
+					<div class="col-8">
 						<div class="form-group bmd-form-group ">
 							<label style="font-weight: 500">Retailers automatic rating SMS </label>
 						</div>
 
 					</div>
-					<div class="col-sm-4 text-right">
+					<div class="col-4 text-right">
 						<div class="toggleButtonGeneralSettings"
 							style="display: inline-block;">
 							<input type="checkbox" data-toggle="toggle" data-size="small"

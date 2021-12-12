@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\doorder;
 
 use App\DriverProfile;
@@ -22,59 +21,69 @@ use function GuzzleHttp\json_decode;
 
 class OrdersController extends Controller
 {
+
     public function getOrdersTable()
     {
         if (auth()->user()->user_role == 'retailer') {
-            $orders = Order::where('retailer_id', auth()->user()->retailer_profile->id)->orderBy('id', 'desc')->paginate(20);
+            $orders = Order::where('retailer_id', auth()->user()->retailer_profile->id)->where('is_archived', false)
+                ->where('status', '!=', 'delivered')
+                ->orderBy('id', 'desc')
+                ->paginate(20);
         } else {
-            $orders = Order::where('is_archived', false)->where('status', '!=', 'delivered')->orderBy('id', 'desc')->paginate(20);
+            $orders = Order::where('is_archived', false)->where('status', '!=', 'delivered')
+                ->orderBy('id', 'desc')
+                ->paginate(20);
         }
-        
-//         $events=[];
-//         foreach ($orders as $order){
-//             $events[] = [
-//                 'id' => $order->id,
-//                 'start' => $order->created_at,
-//                 'className' => 'orderStatusCalendar '. $order->status .'Status',
-//                 'title' => $order->retailer_name,
-//                 'status'=> $order->status,
-//                 'retailer_id'=>$order->retailer_id
-//             ];
-//         }
-        
-        $retailers = Retailer::where('status','completed')->get();
-        
+
+        // $events=[];
+        // foreach ($orders as $order){
+        // $events[] = [
+        // 'id' => $order->id,
+        // 'start' => $order->created_at,
+        // 'className' => 'orderStatusCalendar '. $order->status .'Status',
+        // 'title' => $order->retailer_name,
+        // 'status'=> $order->status,
+        // 'retailer_id'=>$order->retailer_id
+        // ];
+        // }
+
+        $retailers = Retailer::where('status', 'completed')->get();
+
         foreach ($orders as $order) {
             $order->time = $order->created_at->format('d M y H:i A');
             $order->driver = $order->orderDriver ? $order->orderDriver->name : null;
             $order->fulfilment_date = $order->fulfilment_date ? Carbon::createFromFormat('Y-m-d H:i:s', $order->fulfilment_date)->format('d-m-Y H:i A') : Null;
         }
-        return view('admin.doorder.orders', ['orders' => $orders,'retailers'=>$retailers]);
+        return view('admin.doorder.orders', [
+            'orders' => $orders,
+            'retailers' => $retailers
+        ]);
     }
-    
-    public function getCalendarOrdersEvents(Request $request){
-        
+
+    public function getCalendarOrdersEvents(Request $request)
+    {
         $start_date = Carbon::createFromTimestamp($request->start_date);
         $end_date = Carbon::createFromTimestamp($request->end_date);
-        
-        $orders = Order::whereDate('created_at', '>=', $start_date->toDateString())->whereDate('created_at', '<=', $end_date->toDateString())->get();
-        
-        $events=[];
-        foreach ($orders as $order){
+
+        $orders = Order::whereDate('created_at', '>=', $start_date->toDateString())->whereDate('created_at', '<=', $end_date->toDateString())
+            ->get();
+
+        $events = [];
+        foreach ($orders as $order) {
             $events[] = [
                 'id' => $order->id,
                 'start' => $order->created_at,
-                'className' => 'orderStatusCalendar '. $order->status .'Status',
+                'className' => 'orderStatusCalendar ' . $order->status . 'Status',
                 'title' => $order->retailer_name,
-                'status'=> $order->status,
-                'retailer_id'=>$order->retailer_id
+                'status' => $order->status,
+                'retailer_id' => $order->retailer_id
             ];
         }
-        
+
         return response()->json([
             'events' => json_encode($events),
-            'startDate'=>$start_date,
-            'endDate'=>$end_date  
+            'startDate' => $start_date,
+            'endDate' => $end_date
         ]);
     }
 
@@ -85,8 +94,11 @@ class OrdersController extends Controller
         if ($user_profile) {
             $pickup_addresses = json_decode($user_profile->locations_details, true);
         }
-        return view('admin.doorder.add_order', with(['pickup_addresses' => $pickup_addresses]));
+        return view('admin.doorder.add_order', with([
+            'pickup_addresses' => $pickup_addresses
+        ]));
     }
+
     public function saveNewOrder(Request $request)
     {
         $this->validate($request, [
@@ -98,8 +110,8 @@ class OrdersController extends Controller
             'customer_lon' => 'required',
             'pickup_address' => 'required',
             'fulfilment_date' => 'required',
-            //'deliver_by' => 'required',
-            'fragile' => 'required',
+            // 'deliver_by' => 'required',
+            'fragile' => 'required'
         ]);
         $current_user = auth()->user();
         $retailer_profile = $current_user->retailer_profile;
@@ -107,7 +119,7 @@ class OrdersController extends Controller
         // $fulfill_end = Carbon::now()->setTimeFromTimeString($request->fulfilment);
         // $is_not_next_day = $fulfill_end->diff($fulfill_start)->invert;
         // if(!$is_not_next_day){
-        //     $fulfill_end->addDay();
+        // $fulfill_end->addDay();
         // }
         // $fulfill_time = $fulfill_end->diffInMinutes($fulfill_start);
         $order = Order::create([
@@ -131,7 +143,7 @@ class OrdersController extends Controller
             'retailer_id' => ($retailer_profile != null) ? $retailer_profile->id : '0',
             'status' => 'ready',
             'weight' => $request->weight,
-            'dimensions' => $request->dimensions,
+            'dimensions' => $request->dimensions
         ]);
 
         Redis::publish('doorder-channel', json_encode([
@@ -145,7 +157,7 @@ class OrdersController extends Controller
                 'driver' => $order->orderDriver ? $order->orderDriver->name : 'N/A',
                 'pickup_address' => $order->pickup_address,
                 'customer_address' => $order->customer_address,
-                'created_at' => $order->created_at,
+                'created_at' => $order->created_at
             ]
         ]));
         CustomNotificationHelper::send('new_order', $order->id);
@@ -156,24 +168,25 @@ class OrdersController extends Controller
     public function getSingleOrder($client_name, $id)
     {
         if (auth()->user()->user_role == 'retailer') {
-            $order = Order::where('retailer_id', auth()->user()->retailer_profile->id)
-                ->where('id', $id)->first();
+            $order = Order::where('retailer_id', auth()->user()->retailer_profile->id)->where('id', $id)->first();
         } else {
             $order = Order::find($id);
         }
 
-        if (!$order) {
+        if (! $order) {
             alert()->error('No order was found!');
             return redirect()->back();
         }
-        //dd($order);
+        // dd($order);
         $accepted_deliverers = DriverProfile::where('is_confirmed', '=', 1)->get();
-        /*  $user_ids = [];
-        foreach($accepted_deliverers as $deliverer){
-            $user_ids[] = $deliverer->user_id;
-        }
-        //$available_drivers = User::where('user_role','=','driver')->get();
-        $available_drivers = User::whereIn('id',$user_ids)->get(); */
+        /*
+         * $user_ids = [];
+         * foreach($accepted_deliverers as $deliverer){
+         * $user_ids[] = $deliverer->user_id;
+         * }
+         * //$available_drivers = User::where('user_role','=','driver')->get();
+         * $available_drivers = User::whereIn('id',$user_ids)->get();
+         */
         $customer_name = explode(' ', $order->customer_name);
         $first_name = $customer_name[0];
         $last_name = isset($customer_name[1]) ? $customer_name[1] : '';
@@ -187,15 +200,15 @@ class OrdersController extends Controller
 
     public function assignDriverToOrder(Request $request)
     {
-        //dd($request->all());
+        // dd($request->all());
         $order_id = $request->get('order_id');
         $selected_drivers = $request->get('selected-driver');
         $order = Order::find($order_id);
-        //$send_to_all = $driver_id=='all';
+        // $send_to_all = $driver_id=='all';
         $driver = null;
         $driver_ids = [];
         $old_driver = null;
-        if (!$order) {
+        if (! $order) {
             alert()->error('No order was found!');
             return redirect()->back();
         }
@@ -204,36 +217,38 @@ class OrdersController extends Controller
             alert()->error('No drivers were selected!');
             return redirect()->back();
         }
-        /*if(!$send_to_all) {
-            $driver = User::where('id', '=', $driver_id)->where('user_role', '=', 'driver')->first();
-            $old_driver = $order->orderDriver;
-            if(!$driver) {
-                alert()->error('This driver is invalid!');
-                return redirect()->back();
-            }
-            $order->driver = $driver_id;
-            $order->status = 'assigned';
-            $order->driver_status = 'assigned';
-            $order->save();
-            $driver_ids[] = $driver_id;
-        }
-        if($send_to_all){
-            //Get all accepted drivers
-            $driver_ids = DriverProfile::where('is_confirmed','=',1)->get()->pluck('user_id')->toArray();
-            $notification_message = "Order #$order->order_id has been added to the available orders list";
-            $sms_message = "Hi, a new order #$order->order_id has been added to the available orders list";
-        } else {
-            $notification_message = "Order #$order->order_id has been assigned to you";
-            $sms_message = "Hi $driver->name, there is an order assigned to you, please open your app. ".
-                url('driver_app#/order-details/'.$order->id);
-        }*/
+        /*
+         * if(!$send_to_all) {
+         * $driver = User::where('id', '=', $driver_id)->where('user_role', '=', 'driver')->first();
+         * $old_driver = $order->orderDriver;
+         * if(!$driver) {
+         * alert()->error('This driver is invalid!');
+         * return redirect()->back();
+         * }
+         * $order->driver = $driver_id;
+         * $order->status = 'assigned';
+         * $order->driver_status = 'assigned';
+         * $order->save();
+         * $driver_ids[] = $driver_id;
+         * }
+         * if($send_to_all){
+         * //Get all accepted drivers
+         * $driver_ids = DriverProfile::where('is_confirmed','=',1)->get()->pluck('user_id')->toArray();
+         * $notification_message = "Order #$order->order_id has been added to the available orders list";
+         * $sms_message = "Hi, a new order #$order->order_id has been added to the available orders list";
+         * } else {
+         * $notification_message = "Order #$order->order_id has been assigned to you";
+         * $sms_message = "Hi $driver->name, there is an order assigned to you, please open your app. ".
+         * url('driver_app#/order-details/'.$order->id);
+         * }
+         */
         $notification_message = '';
         $sms_message = '';
         foreach ($selected_drivers as $selected_driver) {
             $driver = User::where('id', '=', $selected_driver)->where('user_role', '=', 'driver')->first();
             $old_driver = $order->orderDriver;
             if ($drivers_count == 1) {
-                if (!$driver) {
+                if (! $driver) {
                     alert()->error('This driver is invalid!');
                     return redirect()->back();
                 }
@@ -242,8 +257,7 @@ class OrdersController extends Controller
                 $order->driver_status = 'assigned';
                 $order->save();
                 $notification_message = "Order #$order->order_id has been assigned to you";
-                $sms_message = "Hi $driver->name, there is an order assigned to you, please open your app. " .
-                    url('driver_app#/order-details/' . $order->id);
+                $sms_message = "Hi $driver->name, there is an order assigned to you, please open your app. " . url('driver_app#/order-details/' . $order->id);
             } else {
                 $notification_message = "Order #$order->order_id has been added to the available orders list";
                 $sms_message = "Hi, a new order #$order->order_id has been added to the available orders list";
@@ -254,8 +268,10 @@ class OrdersController extends Controller
             }
             $driver_ids[] = $selected_driver;
         }
-        //Send Assignment Notification
-        $user_tokens = UserFirebaseToken::whereIn('user_id', $driver_ids)->get()->pluck('token')->toArray();
+        // Send Assignment Notification
+        $user_tokens = UserFirebaseToken::whereIn('user_id', $driver_ids)->get()
+            ->pluck('token')
+            ->toArray();
         if (count($user_tokens) > 0) {
             self::sendFCM($user_tokens, [
                 'title' => 'Order assigned',
@@ -263,7 +279,7 @@ class OrdersController extends Controller
                 'order_id' => $order->id
             ]);
         }
-        //SMS Assignment Notification
+        // SMS Assignment Notification
         if ($drivers_count > 1) {
             foreach ($driver_ids as $an_id) {
                 $user_profile = User::find($an_id);
@@ -274,7 +290,7 @@ class OrdersController extends Controller
             alert()->success("The accepted drivers have been notified about the order successfully");
         } else {
             TwilioHelper::sendSMS('DoOrder', $driver->phone, $sms_message);
-            //Sending message to the old driver
+            // Sending message to the old driver
             if ($old_driver) {
                 TwilioHelper::sendSMS('DoOrder', $old_driver->phone, "Hi $old_driver->name, We need to inform you that the order #$order->order_id is no longer available.");
             }
@@ -289,7 +305,7 @@ class OrdersController extends Controller
         $order_status = $request->get('order_status');
         $comment = $request->get('comment');
         $order = Order::find($order_id);
-        if (!$order) {
+        if (! $order) {
             alert()->error('There is no order with this id.');
             return redirect()->back();
         }
@@ -313,8 +329,20 @@ class OrdersController extends Controller
 
     public function getOrdersHistoryTable(Request $request)
     {
+//         if (auth()->user()->user_role == 'retailer') {
+//             $orders = Order::where('retailer_id', auth()->user()->retailer_profile->id)->orderBy('id', 'desc')->paginate(20);
+//         } else {
+//             $orders = Order::where('is_archived', false)->where('status', '!=', 'delivered')
+//                 ->orderBy('id', 'desc')
+//                 ->paginate(20);
+//         }
+
         $orders = Order::query();
         $orders = $orders->where('is_archived', true);
+        if (auth()->user()->user_role == 'retailer') {
+            $orders = $orders->where('retailer_id', auth()->user()->retailer_profile->id);
+        } else {}
+
         if ($request->has('from')) {
             $orders = $orders->whereDate('created_at', '>=', $request->from);
         }
@@ -328,11 +356,12 @@ class OrdersController extends Controller
             $order->driver = $order->orderDriver ? $order->orderDriver->name : null;
         }
 
-
         if ($request->has('export')) {
-            //export
+            // export
         } else {
-            return view('admin.doorder.orders_history', ['orders' => $orders]);
+            return view('admin.doorder.orders_history', [
+                'orders' => $orders
+            ]);
         }
     }
 
@@ -343,14 +372,16 @@ class OrdersController extends Controller
         if ($user_profile) {
             $pickup_addresses = json_decode($user_profile->locations_details, true);
         }
-        return view('admin.doorder.upload_orders', ['pickup_addresses' => $pickup_addresses]);
+        return view('admin.doorder.upload_orders', [
+            'pickup_addresses' => $pickup_addresses
+        ]);
     }
 
     public function postImportOrders(Request $request)
     {
         $current_user = \Auth::user();
         $retailer_profile = Retailer::where('user_id', '=', $current_user->id)->first();
-        if (!$retailer_profile) {
+        if (! $retailer_profile) {
             alert()->error('No retailer profile found!');
             return redirect()->back();
         }
@@ -378,22 +409,24 @@ class OrdersController extends Controller
 
     public function printLabel($client_name, $id)
     {
-        //dd("print label ". $id);
+        // dd("print label ". $id);
         $order = Order::find($id);
 
-        return view('admin.doorder.print_label_order', ['order' => $order]);
+        return view('admin.doorder.print_label_order', [
+            'order' => $order
+        ]);
     }
 
     public function optimizeOrdersRoute()
     {
         $order_ids = '10,26,36';
-        //dd(json_decode('[' . $order_ids . ']', true));
+        // dd(json_decode('[' . $order_ids . ']', true));
         $order_ids = json_decode('[' . $order_ids . ']', true);
         $orders = Order::whereIn('id', $order_ids)->get();
         $orders_data = [];
         foreach ($orders as $order) {
             $orders_data[] = [
-                'order_id' => (string)$order->id,
+                'order_id' => (string) $order->id,
                 'pickup_address' => $order->pickup_address,
                 'pickup' => $order->pickup_lat . ',' . $order->pickup_lon,
                 'dropdoff_address' => $order->customer_address,
@@ -404,17 +437,20 @@ class OrdersController extends Controller
             $the_order = $orders->firstWhere('id', $an_order['order_id']);
             $orders_data[$key]['status'] = $the_order->status;
         }
-        //dd($orders_data);
+        // dd($orders_data);
         $driver_coordinates = [];
-        $driver_coordinates[] = ['deliverer_id' => '12', 'deliverer_coordinates' => '53.425334,-6.231581'];
-        //dd(['driver_coordinates'=>$driver_coordinates, 'orders_data'=>$orders_data]);
+        $driver_coordinates[] = [
+            'deliverer_id' => '12',
+            'deliverer_coordinates' => '53.425334,-6.231581'
+        ];
+        // dd(['driver_coordinates'=>$driver_coordinates, 'orders_data'=>$orders_data]);
         $request_body = [
             'deliverers_coordinates' => json_encode($driver_coordinates),
             'orders_address' => json_encode($orders_data)
         ];
         dd($request_body);
         $route_opt_url = env('ROUTE_OPTIMIZE_URL', 'https://afternoon-lake-03061.herokuapp.com') . '/routing_table';
-        //dd($route_opt_url);
+        // dd($route_opt_url);
         $route_optimization_req = Http::post($route_opt_url, $request_body);
         $pot_resp = json_decode($route_optimization_req->body());
         $optimized_route_arr = $pot_resp[0];
@@ -422,22 +458,24 @@ class OrdersController extends Controller
         dd($route_optimization_req->status(), $optimized_route_arr);
     }
 
-
     public function getUpdateAddress($client_name, $order_id)
     {
-        //dd($order_id);
+        // dd($order_id);
         $order = Order::find($order_id);
 
         $retailer_addresses = json_decode($order->retailer->locations_details);
-        //dd($retailer_addresses);
+        // dd($retailer_addresses);
 
-        return view('doorder.retailers.orders.update_address', ['order_id' => $order_id, 'order' => $order, 'retailer_addresses' => $retailer_addresses]);
+        return view('doorder.retailers.orders.update_address', [
+            'order_id' => $order_id,
+            'order' => $order,
+            'retailer_addresses' => $retailer_addresses
+        ]);
     }
 
     public function saveUpdateAddress(Request $request)
     {
-        //dd($request->all());
-
+        // dd($request->all());
         return redirect('doorder/order/save_address_success');
     }
 

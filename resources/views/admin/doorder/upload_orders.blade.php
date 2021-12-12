@@ -1,4 +1,4 @@
-@extends('templates.dashboard') @section('page-styles')
+@extends('templates.doorder_dashboard') @section('page-styles')
 <link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
 <style>
 #importButton {
@@ -15,26 +15,7 @@
 	padding: 10px;
 }
 
-.uploadHeader {
-	font-family: Quicksand;
-	font-size: 21px !important;
-	font-weight: 500;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: 2.14;
-	letter-spacing: 0.2px !important;
-	color: #7b7b7b !important;
-}
-.addressLabel{
-font-family: Quicksand;
-  font-size: 21px !important;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: 1.16px !important;
-  color: #4d4d4d !important;
-}
+
 .uploadDiv {
 	padding: 10px;
 	border-radius: 8px;
@@ -48,27 +29,15 @@ font-family: Quicksand;
 }
 
 .uploadFileP {
-	font-family: Quicksand;
-	font-size: 17px;
-	font-weight: 500;
-	font-stretch: normal;
+	font-family: Montserrat;
 	font-style: normal;
-	line-height: 2.65;
+	font-weight: normal;
+	font-size: 17px;
+	line-height: 25px;
 	letter-spacing: 0.16px;
-	color: #bfbfbf;
+	color: #BFBFBF;
 }
 
-.uploadedFilesDiv .uploadFileP {
-	font-family: Quicksand;
-	font-size: 21px;
-	font-weight: 500;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: 2.14;
-	letter-spacing: 0.2px;
-	color: #7b7b7b;
-	opacity: 0.5;
-}
 
 .inputFileHidden {
 	display: none;
@@ -84,19 +53,21 @@ font-family: Quicksand;
 }
 
 #orders_file_input {
-	font-family: Quicksand;
+	font-family: Montserrat;
 	font-size: 21px;
 	font-weight: 500;
 	font-stretch: normal;
 	font-style: normal;
-	line-height: 2.14;
+	line-height: 25px;
 	letter-spacing: 0.2px;
 	color: #000000;
 }
 
+.form-control-select{
+    min-height: 50px;
+}
 .dropdown-menu.inner.show li a {
-	font-family: Quicksand;
-	font-size: 14px;
+	
 	font-weight: 400;
 	display: inline-block;
 	overflow: hidden;
@@ -112,21 +83,10 @@ font-family: Quicksand;
 
 .bootstrap-select .btn.dropdown-toggle.select-with-transition {
 	height: 50px;
-/* 	background-color: #f4f4f4 !important; */
-  box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08) !important;
-
-}
-.bootstrap-select .btn.dropdown-toggle.select-with-transition:focus{
-  box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08) !important;
 }
 
-.bootstrap-select .dropdown-toggle .filter-option {
-	font-family: Quicksand;
-	font-size: 17px;
-	font-weight: 500;
-	font-stretch: normal;
-	font-style: normal;
-	letter-spacing: 0.16px;
+.bootstrap-select .btn.dropdown-toggle.select-with-transition:focus {
+	box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08) !important;
 }
 
 .btn.dropdown-toggle.select-with-transition {
@@ -153,27 +113,30 @@ font-family: Quicksand;
 
 			<div class="row">
 				<div class="col-md-12">
+					<div class="card">
+						<div class="card-header card-header-icon  row">
+							<div class="col-12 col-xl-7 col-lg-8 col-md-9 col-sm-12">
+								<h4 class="card-title my-md-4 mt-4 mb-md-1 mb-4">Upload Mass
+									Order</h4>
+							</div>
+						</div>
+					</div>
 					<form id="order-form" method="POST"
 						action="{{url('doorder/orders/import')}}"
 						enctype="multipart/form-data">
 						{{csrf_field()}}
 						<div class="card">
-							<div class="card-header card-header-icon card-header-rose row">
-								<div class="col-12 ">
-									<div class="card-icon">
-										<img class="page_icon"
-											src="{{asset('images/doorder_icons/icon_export_header.png')}}">
-									</div>
-									<h4 class="card-title ">Upload Mass Order</h4>
-								</div>
-							</div>
+
 							<div class="card-body">
 								<div class="container">
-									<div class="row">
-										<div class="col-md-10 offset-md-1">
-											<div class=" uploadHeader  ">Upload Excel Sheet</div>
+									<div class="row mt-2">
 
-											<div class="mt-2 uploadDiv text-center">
+										<div class="col-md-6 ">
+											<div class="form-group pb-0">
+												<label for="address" class=" "> Upload Excel
+													Sheet </label>
+											</div>
+											<div class="uploadDiv text-center">
 
 												<input class="file-upload inputFileHidden" id="orders-file"
 													name="orders-file" type="file"
@@ -181,38 +144,27 @@ font-family: Quicksand;
 													required
 													onchange="onChangeFile(event, 'orders_file_input')" />
 												<div class="" onclick="addFile('orders-file')">
-
-
-
-													<p class="mt-2 uploadFileP" id="">Click here to upload your
+													<p class="m-0 uploadFileP" id="">Click here to upload your
 														file</p>
 
 												</div>
 
 											</div>
 										</div>
-									</div>
-									<div class="row mt-4">
-										<div class="col-md-10 offset-md-1">
+										<div class="col-md-6 ">
 											<div class="form-group">
-												<label for="address" class=" addressLabel"> Address </label>
+												<label for="address" class=" "> Address </label>
 												<select id="address" name="address"
 													data-style="select-with-transition" data-width="100%"
-													class=" selectpicker" required>
+													class="form-control form-control-select selectpicker" required>
 													<option value="">Select address</option>
 													@foreach($pickup_addresses as $address)
-													<option value="{{json_encode($address)}}">{{$address['address']}}</option>
+													<option value="{{json_encode($address)}}">{{$address['address']}} {{$address['address']}}</option>
 													@endforeach
 												</select>
 											</div>
 										</div>
 									</div>
-									<div class="row mt-3">
-										<div class="col-md-10 offset-md-1 text-right">
-											<button class="btn bt-submit">Submit</button>
-										</div>
-									</div>
-
 								</div>
 							</div>
 						</div>
@@ -221,17 +173,16 @@ font-family: Quicksand;
 						<div class="card-body">
 							<div class="container">
 								<div class="row">
-									<div class="col-md-10 offset-md-1 d-flex form-head">
-										<span> 2 </span>
-										<h4 class="card-title mt-0"
-											style="line-height: 1.14; margin-top: 0 !important;">
-											Uploaded Files</h4>
+									<div class="col-md-10  ">
+										<div class="form-group pb-0">
+												<label  class=""> Uploaded Files </label>
+											</div>
 									</div>
 
 
 								</div>
 								<div class="row">
-									<div class="col-md-10 offset-md-1">
+									<div class="col-md-10 ">
 										<div class="mt-2 uploadedFilesDiv text-center">
 											<p class="mt-2 uploadFileP" id="">Upload your mass order file
 												to appear here</p>
@@ -247,6 +198,15 @@ font-family: Quicksand;
 							</div>
 						</div>
 					</div>
+					
+					
+						<div class="row justify-content-center">
+							<div class="col-lg-3  col-md-3 col-sm-4 px-md-1 text-center">
+								<button type="submit"
+									class="btnDoorder btn-doorder-primary  mb-1">Submit</button>
+							</div>
+
+						</div>
 
 				</div>
 			</div>

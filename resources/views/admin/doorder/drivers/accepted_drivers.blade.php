@@ -138,7 +138,7 @@ input[type="checkbox"] {
 							<div class="card-body p-0">
 								<div class="container w-100" style="max-width: 100%">
 
-									<div class="row justify-content-end ">
+									<div class="row justify-content-center ">
 										<div
 											class="col-xl-3 col-lg-4  col-md-4 col-sm-5 px-md-1 text-center w-100">
 

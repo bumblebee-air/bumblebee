@@ -4,38 +4,41 @@
 	action="{{route('doorder_postSaveNotification', 'doorder')}}"
 	method="POST" id="save_notification_settings_form">
 	{{csrf_field()}}
+	
 	<div class="card" v-for="(notification, index) in customNotifications"
 		:id="'notificationCardDiv'+(index)">
-		<div class="card-body">
-			<div class="container " style="width: 100%; max-width: 100%;">
-				<div class="row">
-					<div class="col-12 col-lg-7 col-md-6 d-flex form-head pl-3">
-						<span> @{{index+1}} </span>
-						<input type="hidden" :name="'id'+index" v-model="notification.id">
-						<h5 class="singleViewSubTitleH5">Custom Notification @{{index+1}}</h5>
-						<div class="togglebutton">
-							<label>
+		<div class="card-header  mt-3">
+			<div class="row">
+				<div class="col-12 col-lg-7 col-md-6 pl-3">
+					<h5 class="settingsTitle display-inline-block" >Custom Notification @{{index+1}}</h5> 
+					<div class="togglebutton display-inline-block">
+							<label >
 								<input type="checkbox"
 								:id="'customNotification' + (index)"
 								v-model="notification.customNotification" value="1">
 								<span class="toggle"></span>
 								<input type="hidden" :name="'customNotification' + (index)" :value="notification.customNotification">
 							</label>
-						</div>
-					</div>
-					<div class="col-12 col-lg-5 col-md-6 mt-md-2 ">
-						<div class="row justify-content-end float-sm-right">
+						</div><input type="hidden" :name="'id'+index" v-model="notification.id">
+						
+				</div>
+				<div class="col-12 col-lg-5 col-md-6 ">
+						<div class=" justify-content-right float-right">
 							<span v-if="index==0">
 								<button type="button"
-									class=" btn btn-primary doorder-btn-lg doorder-btn addBtn"
+									class=" btn-doorder-filter btn-doorder-add-item mt-0"
 									@click="clickAddNotification()">Add Notification</button>
-							</span> <span v-else> <i
-								class="fas fa-minus-circle removeRatePropertySizeCircle"
-								@click="removeNotification(index)"></i>
+							</span> <span v-else> 
+							<img src="{{asset('images/doorder-new-layout/remove-icon.png')}}" @click="removeNotification(index)"/>
+							
 							</span>
 						</div>
 					</div>
-				</div>
+			</div>	
+		</div>
+		<div class="card-body">
+			<div class="container " style="width: 100%; max-width: 100%;">
+				
 				<div class="row">
 					<div class="col-sm-6">
 						<div class="form-group bmd-form-group">
@@ -98,28 +101,33 @@
 						<div class="form-group bmd-form-group"
 							v-if="notification.notification_channel=='sms'">
 							<label>
-								Phone number <li class="fa fa-plus-circle addCircle" @click="addPhone(index)"></li>
+								Phone number <span class="fa fa-plus-circle addCircle" @click="addPhone(index)"></span>
 							</label>
-							<div v-for="(phone_number, phone_index) in notification.phone_number">
-								<input type="tel" :name="'phone_number' + (index) + '[]'" :class="phone_number == 0 ? 'form-control' : 'form-control mt-2'" :id="'phone_number' + (index) + '_' + phone_index" v-model="phone_number.value" required />
-{{--								<input type="hidden" :name="'phone_number' + (index) + '[]'">--}}
-								<span style="float: right; margin-top: -32px; margin-left: -20px;cursor: pointer" v-if="phone_index !== 0" @click="removePhone(index,phone_index)">
+							<div v-for="(phone_number, phone_index) in notification.phone_number" class="form-group bmd-form-group mt-0 pb-0 inputWithIconRightDiv">
+								<img v-if="phone_index !== 0" src="{{asset('images/doorder-new-layout/remove-icon.png')}}" 
+								@click="removePhone(index,phone_index)" />
+								
+								<input type="tel" :name="'phone_number' + (index) + '[]'" :class="phone_index == 0 ? 'form-control' : 'form-control mt-2'" 
+									:id="'phone_number' + (index) + '_' + phone_index" v-model="phone_number.value" required 
+									/>
+																
+								<!-- span style="float: right; margin-top: -32px; margin-left: -20px;cursor: pointer" v-if="phone_index !== 0" >
 									<i class="fas fa-times-circle" style="color: #df5353"></i>
-								</span>
+<!-- 								</span> -->
 							</div>
 						</div>
 						<div class="form-group bmd-form-group"
 							v-if="notification.notification_channel=='email'">
 							<label>
-								Email <li class="fa fa-plus-circle addCircle" @click="addEmail(index)"></li>
+								Email <span class="fa fa-plus-circle addCircle" @click="addEmail(index)"></span>
 							</label>
-							<div v-for="(email, email_index) in notification.email">
+							<div v-for="(email, email_index) in notification.email" class="form-group bmd-form-group mt-0 pb-0 inputWithIconRightDiv">
+								<img v-if="email_index !== 0" src="{{asset('images/doorder-new-layout/remove-icon.png')}}" 
+									@click="removeEmail(index,email_index)" />
 								<input type="email" :class="email_index == 0 ? 'form-control' : 'form-control mt-2'"
 									   :name="'email' + (index) + '[]'" :id="'email' + (index)"
 									   v-model="email.value" required/>
-								<span style="float: right; margin-top: -30px; margin-right: 10px;cursor: pointer" v-if="email_index !== 0" @click="removeEmail(index,email_index)">
-									<i class="fas fa-times-circle" style="color: #df5353"></i>
-								</span>
+								
 							</div>
 
 						</div>
@@ -155,15 +163,13 @@
 								/> --}}
 						
 						</div>
-						<div class="form-group bmd-form-group"
-							v-else ></div>
 					</div>
 				</div>
 				<div class="row" v-if="notification.notification_type=='new_order' || notification.notification_type=='external_store_fulfillment'">
 					<div class="col-sm-6">
 						<div class="form-group bmd-form-group">
 							<label for="retailer">Retailer </label>
-							<treeselectretailer class="form-control"
+							<treeselectretailer class="form-control h-auto"
 								:name="'retailer' + (index)+'[]'"
 								:id="'retailer' + (index)"
 								v-model="notification.retailer"
@@ -172,6 +178,7 @@
 								:openOnClick="true" :disable-branch-nodes="true"
 								:closeOnSelect="true" :flat="false" :open-on-focus="true"
 								:always-open="false" />
+								
 						</div>
 					</div>
 				</div>
@@ -192,12 +199,10 @@
 		<input type="hidden" name="indexes" :value="customNotifications.length">
 	</div>
 
-	<div class="row ">
-		<div class="col text-center">
-
-
-			<button class="btn bt-submit">Save</button>
-
+	<div class="row justify-content-center">
+		<div class="col-lg-3  col-md-3 col-sm-4 px-md-1 text-center">
+			<button class="btnDoorder btn-doorder-primary  mb-1">Save</button>
 		</div>
 	</div>
+	
 </form>

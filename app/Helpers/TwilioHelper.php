@@ -25,6 +25,7 @@ class TwilioHelper
                     "body" => $body
                 ]
             );
+            Log::info("SMS sent from $from to $to with message body: $body");
         } catch (\Exception $e) {
             Log::warning("Error while sending message to: $to" );
             Log::error($e->getMessage());

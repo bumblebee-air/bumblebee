@@ -252,9 +252,12 @@ table.doorderTable {
 								</div>
 								@else
 								<div class="row justify-content-center">
-
-									<div class="col-lg-3  col-md-3 col-sm-4 text-center">
-										<a class="btn btnDoorder btn-doorder-primary  mb-1 w-100"
+									<div class="col-lg-3  col-md-3 col-sm-4 ">
+										<a class="btnDoorder btn-doorder-primary  mb-1 w-100 "
+											href="">Download invoice</a>
+									</div>
+									<div class="col-lg-3  col-md-3 col-sm-4 ">
+										<a class="btnDoorder btn-doorder-green  mb-1 w-100 "
 											href="{{url('doorder/pay_invoice/')}}/{{$retailer->id}}/{{$invoice_number}}">Pay</a>
 									</div>
 								</div>

@@ -15,27 +15,6 @@
 	padding: 10px;
 }
 
-.uploadHeader {
-	font-family: Quicksand;
-	font-size: 21px !important;
-	font-weight: 500;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: 2.14;
-	letter-spacing: 0.2px !important;
-	color: #7b7b7b !important;
-}
-
-.addressLabel {
-	font-family: Quicksand;
-	font-size: 21px !important;
-	font-weight: 500;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: 1.16px !important;
-	color: #4d4d4d !important;
-}
 
 .uploadDiv {
 	padding: 10px;

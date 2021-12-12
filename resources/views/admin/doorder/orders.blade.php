@@ -10,6 +10,11 @@
 	rel="stylesheet">
 
 <style>
+.fc-unthemed .fc-popover{
+height: auto;
+max-height: 330px;
+overflow-y: auto; 
+}
 </style>
 @endsection @section('title', 'DoOrder | Orders')
 @section('page-content')
@@ -27,7 +32,7 @@
 								<div class="row justify-content-end float-sm-right">
 								@if(auth()->user()->user_role != 'retailer' )
 									<ul class="nav nav-pills ordersListPills my-sm-3 mt-0 mb-1"
-										id="pills-tab" role="tablist">
+										id="pills-tab-orders" role="tablist">
 										<li class="nav-item"><a class="nav-link active"
 											id="pills-list-tab" data-toggle="pill" href="#ordersListView"
 											role="tab" aria-controls="ordersListView"
@@ -44,7 +49,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="tab-content" id="pills-tabContent">
+					<div class="tab-content" id="pills-tab-ordersContent">
 						<div class="tab-pane fade" id="ordersCalendarView" role="tabpanel"
 							aria-labelledby="pills-calendar-tab">
 							<div class="card">
@@ -173,7 +178,7 @@
 
 													<h3 class="calendarFilterH3">Filter by retailer</h3>
 													<div class="row filter-retailers-container  overflow-auto"
-														style="max-height: 250px; height: 100%; margin-left: -5px; margin-right: -10px;">
+														style="max-height: 400px; height: 100%; margin-left: -5px; margin-right: -6px;">
 														<div class="form-check col-6 col-md-12">
 															<label
 																class="form-check-label calendarFilterLabel viewAllLabel"
@@ -197,6 +202,7 @@
 															</label>
 														</div>
 														@endforeach
+														
 
 													</div>
 												</div>
@@ -225,7 +231,7 @@
 												id="ordersTable" width="100%">
 												<thead>
 													<tr>
-														@if(auth()->user()->user_role == 'client' )
+														@if(auth()->user()->user_role != 'retailer' )
 														<th width="5%"></th>
 														@endif
 														<th>Date/Time</th>
@@ -319,7 +325,7 @@
 									<div class="card-body p-0">
 										<div class="container w-100" style="max-width: 100%">
 
-											<div class="row justify-content-end ">
+											<div class="row justify-content-center ">
 												<div class="col-lg-3  col-md-3 col-sm-4 px-md-1 text-center">
 
 													<button class="btnDoorder btn-doorder-primary disabled  mb-1" id="submitAssignOrderBtn"

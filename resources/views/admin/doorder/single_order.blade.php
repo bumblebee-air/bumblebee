@@ -143,6 +143,13 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 	color: #23314B;
 }
 
+@media ( min-width :768px) and ( max-width :991.5px) {
+.form-check-label-select-all {
+    font-weight: 500;
+    font-size: 15px;
+}
+}
+
 .form-check .form-check-label .form-check-sign {
 	top: 25% !important;
 	left: 1px;
@@ -395,10 +402,10 @@ button.disabled, button:disabled {
 										<div class="card my-0">
 											<div class="card-header card-header-profile-border ">
 												<div class="row">
-													<div class="col-md-6 pl-3">
+													<div class="col-6 pl-3">
 														<h4>Order Number</h4>
 													</div>
-													<div class="col-md-6 text-right">
+													<div class="col-6 text-right">
 														<h4 class="orderNumber">#{{$order->order_id}}</h4>
 														<span class="orderStatusSpan {{$statusClass}}">{{$status}}</span>
 													</div>
@@ -472,10 +479,10 @@ button.disabled, button:disabled {
 										<div class="card my-0">
 											<div class="card-header card-header-profile-border ">
 												<div class="row">
-													<div class="col-md-6 pl-3">
+													<div class="col-6 pl-3">
 														<h4>Order Number</h4>
 													</div>
-													<div class="col-md-6 text-right">
+													<div class="col-6 text-right">
 														<h4 class="orderNumber">#{{$order->order_id}}</h4>
 														<span class="orderStatusSpan {{$statusClass}}">{{$status}}</span>
 													</div>
@@ -592,10 +599,10 @@ button.disabled, button:disabled {
 										<div class="card my-0">
 											<div class="card-header card-header-profile-border ">
 												<div class="row">
-													<div class="col-md-6 pl-3">
+													<div class="col-6 pl-3">
 														<h4>Order Number</h4>
 													</div>
-													<div class="col-md-6 text-right">
+													<div class="col-6 text-right">
 														<h4 class="orderNumber">#{{$order->order_id}}</h4>
 														<span class="orderStatusSpan {{$statusClass}}">{{$status}}</span>
 													</div>
@@ -648,10 +655,10 @@ button.disabled, button:disabled {
 										<div class="card mt-0">
 											<div class="card-header card-header-profile-border ">
 												<div class="row">
-													<div class="col-md-6 pl-3">
+													<div class="col-6 pl-3">
 														<h4>Order Number</h4>
 													</div>
-													<div class="col-md-6 text-right">
+													<div class="col-6 text-right">
 														<h4 class="orderNumber">#{{$order->order_id}}</h4>
 														<span class="orderStatusSpan {{$statusClass}}">{{$status}}</span>
 													</div>
@@ -689,11 +696,11 @@ button.disabled, button:disabled {
 										<div class="card m-0">
 											<div class="card-header  ">
 												<div class="row mt-2">
-													<div class="col-md-6 pl-4">
+													<div class="col-lg-6 pl-4">
 														<label class="control-label" style="color: #E9C218">Select
 															driver</label>
 													</div>
-													<div class="col-md-6 text-right">
+													<div class="col-lg-6 text-right justify-content-end">
 														<div class="form-check">
 															<label
 																class="form-check-label form-check-label-select-all notifyAllLabel"
@@ -732,12 +739,12 @@ button.disabled, button:disabled {
 																			class="check"></span>
 																	</span>
 																		<div class="card-header deliverer-details row ml-1">
-																			<div class="col-6">
-																				<h6 class="recommendDriverNameH6 deliverer-name">{{$driver->first_name}}
+																			<div class="col-6 justify-content-center align-self-center">
+																				<h6 class="recommendDriverNameH6 deliverer-name my-auto">{{$driver->first_name}}
 																					{{$driver->last_name}}</h6>
 
 																			</div>
-																			<div class="col-6 text-right">
+																			<div class="col-6 pl-0 text-right">
 																				<p class="recommendDriverDataP">{{$driver->transport}}</p>
 																				<p class="recommendDriverDotP">
 																					<i class="fas fa-circle"></i>
@@ -760,7 +767,7 @@ button.disabled, button:disabled {
 
 													<div class="row justify-content-center mt-3">
 														<div
-															class="col-lg-4  col-md-4 col-sm-6 px-md-1 text-center">
+															class="col-xl-4 col-lg-6  col-md-8 col-sm-12 px-md-1 text-center">
 															<button type="button" id="assignDriverButton"
 																class="btnDoorder btn-doorder-primary  mb-1"
 																onclick="showAssignDriverModal()" disabled="disabled">Assign
@@ -790,10 +797,10 @@ button.disabled, button:disabled {
 													name="order_id" value="{{$order->id}}" />
 												<div class="card-header card-header-profile-border ">
 													<div class="row">
-														<div class="col-md-6 pl-3">
+														<div class="col-6 pl-3">
 															<h4>Order Number</h4>
 														</div>
-														<div class="col-md-6 text-right">
+														<div class="col-6 text-right">
 															<h4 class="orderNumber">#{{$order->order_id}}</h4>
 															<span class="orderStatusSpan {{$statusClass}}">{{$status}}</span>
 														</div>
@@ -851,7 +858,7 @@ button.disabled, button:disabled {
 															@if(!$order->is_archived)
 															<div class="row justify-content-center mt-3">
 																<div
-																	class="col-lg-4  col-md-4 col-sm-6 px-md-1 text-center">
+																	class="col-xl-4 col-lg-6  col-md-8 col-sm-12 px-md-1 text-center">
 																	<button type="submit" id="submitChangeSatus"
 																		class="btnDoorder btn-doorder-primary  mb-1">Submit</button>
 																</div>

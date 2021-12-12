@@ -166,7 +166,7 @@
                          <img
                         class="my-nav-icon my-nav-icon-top"
                         src="{{asset('images/doorder-new-layout/add-order-yellow.png')}}" alt="">
-                        <p>Add New Order</p>
+                        <p>New Order</p>
                 </a></li>
                 <li class="nav-item"><a class="nav-link d-flex" href="{{url('/')}}">
                         <img class="my-nav-icon my-nav-icon-grey"

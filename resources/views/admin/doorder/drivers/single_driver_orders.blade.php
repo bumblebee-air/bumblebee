@@ -28,6 +28,16 @@ table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
 	width: 18px;
 	height: 18px;
 }
+.driverRating img{
+    width: 22px;
+}
+
+@media ( min-width :768px) and ( max-width :991.5px) {
+
+.driverRating img{
+    width: 19px;
+}
+}
 </style>
 @endsection @section('title','DoOrder | Driver ' . $driver->first_name .
 ' ' . $driver->last_name) @section('page-content')

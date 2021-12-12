@@ -7,7 +7,7 @@ Dashboard') @section('page-styles') @endsection @section('page-content')
 				<div class="card">
 					<div class="card-header card-header-icon  row">
 						<div class="col-12 col-xl-5 col-lg-4 col-md-3 col-sm-12">
-							<h4 class="card-title my-md-4 mt-4 mb-1">Map</h4>
+							<h4 class="card-title my-md-4 mt-4 mb-3">Map</h4>
 						</div>
 					</div>
 				</div>

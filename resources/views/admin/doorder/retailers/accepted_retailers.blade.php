@@ -21,7 +21,7 @@
 								
 									<div class="row justify-content-end mt-2 mt-xs-0 filterContrainerDiv mb-2 mt-1">
 										
-										<div class="col-lg-4 col-md-4 col-sm-4 px-md-1">
+										<div class="col-xl-4 col-lg-5 col-md-6 col-sm-6 px-md-1">
 											<div id="businessTypeP" class="form-group bmd-form-group"></div>
 										</div>
 										<div class="col-lg-3 col-md-3  col-sm-4 px-md-1">

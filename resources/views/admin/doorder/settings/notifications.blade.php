@@ -23,7 +23,7 @@
 						
 				</div>
 				<div class="col-12 col-lg-5 col-md-6 ">
-						<div class=" justify-content-right float-sm-right">
+						<div class=" justify-content-right float-right">
 							<span v-if="index==0">
 								<button type="button"
 									class=" btn-doorder-filter btn-doorder-add-item mt-0"

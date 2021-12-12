@@ -163,7 +163,7 @@ div[data-toggle='collapse'] {
 					<div class="card-body p-0">
 						<div class="container w-100" style="max-width: 100%">
 
-							<div class="row justify-content-end ">
+							<div class="row justify-content-center ">
 								<div id="confirmRouteDiv"
 									class="col-lg-3  col-md-3 col-sm-4 px-md-1 text-center">
 										<a href="{{url('doorder/confirm_route_optimization_map')}}" type="submit" id="confirmRoutesButton"

@@ -297,10 +297,10 @@ textarea {
 									<div class="card-header card-header-profile-border ">
 										<div class="col-md-12 pl-3">
 											<div class="row">
-												<div class="col-12 col-lg-7 col-md-6 ">
+												<div class="col-7 col-lg-7 col-md-6 ">
 													<h4>Locations Details</h4>
 												</div>
-												<div class="col-12 col-lg-5 col-md-6 ">
+												<div class="col-5 col-lg-5 col-md-6 ">
 													<div class=" justify-content-right float-sm-right">
 														<button type="button"
 															class=" btn-doorder-filter btn-doorder-add-item mt-0"
@@ -317,11 +317,11 @@ textarea {
 												<div class="col-md-12 my-2 profile-border-div mb-4"
 													v-for="(location, index) in locations">
 													<div class="row mb-2">
-														<div class="col-12 col-lg-7 col-md-6 ">
+														<div class="col-10 col-lg-7 col-md-6 ">
 															<h5 class="locationLabel card-title">Location @{{ index +
 																1 }}</h5>
 														</div>
-														<div class="col-12 col-lg-5 col-md-6">
+														<div class="col-2 col-lg-5 col-md-6">
 															<div class=" justify-content-right float-sm-right">
 																<span v-if="index!=0"> <img class="remove-icon"
 																	src="{{asset('images/doorder-new-layout/remove-icon.png')}}"

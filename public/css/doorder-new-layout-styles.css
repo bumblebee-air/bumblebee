@@ -1058,7 +1058,8 @@ div.dt-datetime table td.selectable button:hover {
 	user-select: none;
 	padding: 6px 14px;
 }
-a.btnDoorder{
+
+a.btnDoorder {
 	position: relative;
 	display: inline-block;
 }
@@ -1118,7 +1119,7 @@ a.btnDoorder{
 	opacity: 0.65;
 }
 
-a.btn-doorder-filter,a.btnDoorder  {
+a.btn-doorder-filter, a.btnDoorder {
 	line-height: 24px
 }
 
@@ -1825,6 +1826,12 @@ span.form-control {
 }
 /*********** responsive *************/
 @media ( max-width :767.5px) {
+	.card {
+		margin-top: 0;
+	}
+	#pills-tab-orders {
+		display: none;
+	}
 	.card-profile-page-title {
 		margin-top: 0 !important;
 	}
@@ -1873,6 +1880,10 @@ span.form-control {
 		font-size: 18px;
 		line-height: 22px;
 	}
+	.card-header-profile-border h4, .settingsTitle {
+		font-size: 18px;
+		line-height: 22px;
+	}
 }
 
 @media ( min-width :768px) and ( max-width :991.5px) {
@@ -1895,4 +1906,10 @@ span.form-control {
 		width: 60px;
 		height: 63px
 	}
+	.card-header-profile-border h4, .settingsTitle {
+		font-size: 19px;
+		line-height: 23px;
+	}
+}
+}
 }

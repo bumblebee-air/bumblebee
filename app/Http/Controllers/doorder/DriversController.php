@@ -13,6 +13,7 @@ use App\KPITimestamp;
 use App\Managers\StripeManager;
 use App\Order;
 use App\Retailer;
+use App\StripeAccount;
 use App\User;
 use App\UserClient;
 use App\UserFirebaseToken;
@@ -701,6 +702,21 @@ class DriversController extends Controller
         $drivers_requests = DriverProfile::with('user')
             ->orderBy('created_at', 'desc')->paginate(20);
         //->where('is_confirmed', false)->whereNull('rejection_reason')
+        $driver_request_edited = $drivers_requests
+            ->getCollection()
+            ->map(function($driver_request) {
+                $stripe_account = StripeAccount::where('user_id','=',$driver_request->user_id)->first();
+                if($stripe_account != null && $stripe_account->onboard_status != 'complete'){
+                    $driver_request->status = 'stripe_form_sent';
+                }
+                return $driver_request;
+            });
+        $drivers_requests = new \Illuminate\Pagination\LengthAwarePaginator(
+            $driver_request_edited,
+            $drivers_requests->total(),
+            $drivers_requests->perPage(),
+            $drivers_requests->currentPage()
+        );
         return view('admin.doorder.drivers.requests', ['drivers_requests' => $drivers_requests]);
     }
 

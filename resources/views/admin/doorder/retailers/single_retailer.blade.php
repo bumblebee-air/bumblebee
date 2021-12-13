@@ -396,7 +396,7 @@ textarea {
 																<div class="modal-header">
 																	<button type="button" class="close d-flex justify-content-center"
 																		data-dismiss="modal" aria-label="Close">
-																		<span aria-hidden="true">&times;</span>
+																		<i class="fas fa-times"></i>
 																	</button>
 																</div>
 																<div class="modal-body">

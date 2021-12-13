@@ -28,7 +28,8 @@ class DashboardController extends Controller
             }
             return view('admin.doorder.retailers.dashboard', compact('drivers_arr'));
         } else {
-            $default = $ajax_flag = $request->get('from_date') ? true : false;
+            $ajax_flag = $request->get('from_date') ? true : false;
+            $default  = $request->get('from_date') ? false : true;
             $from_date = $request->get('from_date') ? new Carbon($request->get('from_date')) : Carbon::now()->startOfDay()->toDateTimeString();
             $to_date = $request->get('to_date') ? new Carbon($request->get('to_date')) : Carbon::now()->endOfDay()->toDateTimeString();
             $admin_data = $this->adminDashboardData($from_date, $to_date, $default);
@@ -353,7 +354,8 @@ class DashboardController extends Controller
 
     public function metricsDashboard(Request $request)
     {
-        $default = $ajax_flag = $request->get('from_date') ? true : false;
+        $ajax_flag = $request->get('from_date') ? true : false;
+        $default  = $request->get('from_date') ? false : true;
         $from_date = $request->get('from_date') ? new Carbon($request->get('from_date')) : Carbon::now()->startOfDay()->toDateTimeString();
         $to_date = $request->get('to_date') ? new Carbon($request->get('to_date')) : Carbon::now()->endOfDay()->toDateTimeString();
         $admin_data = $this->adminMetricsDashboardData($from_date, $to_date, $default);
@@ -569,7 +571,7 @@ class DashboardController extends Controller
 
     private function adminMetricsDashboardData($from_date, $to_date, $default = false)
     {
-        
+
         $all_orders = Order::query();
         $all_orders = $all_orders->whereBetween('created_at', [
             $from_date,
@@ -588,7 +590,7 @@ class DashboardController extends Controller
                 ]);
         })
             ->count();
-      
+
         if ($default == false) {
             $current_date = Carbon::now();
             $from_date = $current_date->startOfMonth()
@@ -774,43 +776,28 @@ class DashboardController extends Controller
         $thisMonthPercentage = 25;
         $lastMonthPercentage = 15;
 
-        // $week_chart_labels = array('Mon','Tue','Wed','Thu','Fri','Sat','Sun');
-        // $last_week_chart_values = array(10,12,8,11,20,5,6);
-        // $this_week_chart_values = array(12,15,10,10,14,6,7);
 
-        $thisMonthAverage = '€80,000';
-        $lastMonthAverage = '€77,000';
-
-        $average_chart_labels = array(
-            'sara',
-            'mohamed',
-            'kim',
-            'sawy',
-            'nadine',
-            'bothaina',
-            'rawan',
-            'nesma'
-        );
-        $this_month_average_chart_values = array(
-            10000,
-            4000,
-            15000,
-            2000,
-            4000,
-            20000,
-            3000,
-            8000
-        );
-        $last_month_average_chart_values = array(
-            9000,
-            6000,
-            20000,
-            3000,
-            5000,
-            10000,
-            4000,
-            9000
-        );
+        $this_month = [Carbon::now()->startOfMonth()->toDateTimeString(), Carbon::now()->endOfMonth()->toDateTimeString()];
+        $last_month = [Carbon::now()->subMonth()->startOfMonth()->toDateTimeString(), Carbon::now()->subMonth()->endOfMonth()->toDateTimeString()];
+        $drivers_count = User::where('user_role','driver')->whereHas('driver_profile', function($driver){
+            return $driver->where('status','completed');
+        })->count() ?:1;
+        $the_month_orders = Order::whereBetween('created_at', $this_month)->where('status','delivered')->count();
+        $last_month_orders = Order::whereBetween('created_at', $last_month)->where('status','delivered')->count();
+        $thisMonthAverage = '€' . ($the_month_orders * 10) / $drivers_count;
+        $lastMonthAverage = '€' . ($last_month_orders * 10) / $drivers_count;
+        $drivers = User::where('user_role', 'driver')->withCount('orders')->whereHas('orders', function ($order) use ($this_month) {
+            return $order->whereBetween('created_at', $this_month)->where('status','delivered');
+        })->orderBy('orders_count')->take(8);
+        $average_chart_labels = $drivers->pluck('name')->toArray();
+        $this_month_average_chart_values = $drivers->get()->map(function ($item) {
+            return '' . $item->orders_count * 10;
+        });
+        $last_month_average_chart_values = User::whereIn('id', $drivers->pluck('id')->toArray())->withCount('orders')->whereHas('orders', function ($order) use ($last_month) {
+            return $order->whereBetween('created_at', $last_month)->where('status','delivered');
+        })->orderBy('orders_count')->take(8)->get()->map(function ($item) {
+            return '' . $item->orders_count * 10;
+        });
 
         return [
             'all_orders_count' => $all_orders_count,

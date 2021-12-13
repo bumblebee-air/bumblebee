@@ -771,30 +771,37 @@ class DashboardController extends Controller
          */
 
         //
-        $thisWeekPercentage = -20;
-        $lastWeekPercentage = 18;
-        $thisMonthPercentage = 25;
-        $lastMonthPercentage = 15;
+        $thisWeekPercentage = Order::whereBetween('created_at', [Carbon::now()->startOfWeek()->toDateTimeString(), Carbon::now()->endOfWeek()->toDateTimeString()])->where('status', 'delivered')->count();
+        $lastWeekPercentage = Order::whereBetween('created_at', [Carbon::now()->subWeek()->startOfWeek()->toDateTimeString(), Carbon::now()->subWeek()->endOfWeek()->toDateTimeString()])->where('status', 'delivered')->count() ?: 1;
+        $lastlastWeekPercentage = Order::whereBetween('created_at', [Carbon::now()->subWeeks(2)->startOfWeek()->toDateTimeString(), Carbon::now()->subWeeks(2)->endOfWeek()->toDateTimeString()])->where('status', 'delivered')->count() ?: 1;
+        $thisWeekPercentage = (($thisWeekPercentage - $lastWeekPercentage) / $lastWeekPercentage) * 100;
+        $lastWeekPercentage = (($lastWeekPercentage - $lastlastWeekPercentage) / $lastlastWeekPercentage) * 100;
 
+
+        $thisMonthPercentage = Order::whereBetween('created_at', [Carbon::now()->startOfMonth()->toDateTimeString(), Carbon::now()->endOfMonth()->toDateTimeString()])->where('status', 'delivered')->count();
+        $lastMonthPercentage = Order::whereBetween('created_at', [Carbon::now()->subMonth()->startOfMonth()->toDateTimeString(), Carbon::now()->subMonth()->endOfMonth()->toDateTimeString()])->where('status', 'delivered')->count() ?: 1;
+        $lastlastMonthPercentage = Order::whereBetween('created_at', [Carbon::now()->subMonths(2)->startOfMonth()->toDateTimeString(), Carbon::now()->subMonths(2)->endOfMonth()->toDateTimeString()])->where('status', 'delivered')->count() ?: 1;
+        $thisMonthPercentage = (($thisMonthPercentage - $lastMonthPercentage) / $lastMonthPercentage) * 100;
+        $lastMonthPercentage = (($lastMonthPercentage - $lastlastMonthPercentage) / $lastlastMonthPercentage) * 100;
 
         $this_month = [Carbon::now()->startOfMonth()->toDateTimeString(), Carbon::now()->endOfMonth()->toDateTimeString()];
         $last_month = [Carbon::now()->subMonth()->startOfMonth()->toDateTimeString(), Carbon::now()->subMonth()->endOfMonth()->toDateTimeString()];
-        $drivers_count = User::where('user_role','driver')->whereHas('driver_profile', function($driver){
-            return $driver->where('status','completed');
-        })->count() ?:1;
-        $the_month_orders = Order::whereBetween('created_at', $this_month)->where('status','delivered')->count();
-        $last_month_orders = Order::whereBetween('created_at', $last_month)->where('status','delivered')->count();
+        $drivers_count = User::where('user_role', 'driver')->whereHas('driver_profile', function ($driver) {
+            return $driver->where('status', 'completed');
+        })->count() ?: 1;
+        $the_month_orders = Order::whereBetween('created_at', $this_month)->where('status', 'delivered')->count();
+        $last_month_orders = Order::whereBetween('created_at', $last_month)->where('status', 'delivered')->count();
         $thisMonthAverage = '€' . ($the_month_orders * 10) / $drivers_count;
         $lastMonthAverage = '€' . ($last_month_orders * 10) / $drivers_count;
         $drivers = User::where('user_role', 'driver')->withCount('orders')->whereHas('orders', function ($order) use ($this_month) {
-            return $order->whereBetween('created_at', $this_month)->where('status','delivered');
+            return $order->whereBetween('created_at', $this_month)->where('status', 'delivered');
         })->orderBy('orders_count')->take(8);
         $average_chart_labels = $drivers->pluck('name')->toArray();
         $this_month_average_chart_values = $drivers->get()->map(function ($item) {
             return '' . $item->orders_count * 10;
         });
         $last_month_average_chart_values = User::whereIn('id', $drivers->pluck('id')->toArray())->withCount('orders')->whereHas('orders', function ($order) use ($last_month) {
-            return $order->whereBetween('created_at', $last_month)->where('status','delivered');
+            return $order->whereBetween('created_at', $last_month)->where('status', 'delivered');
         })->orderBy('orders_count')->take(8)->get()->map(function ($item) {
             return '' . $item->orders_count * 10;
         });

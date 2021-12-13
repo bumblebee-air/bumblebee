@@ -1145,6 +1145,7 @@ class DriversController extends Controller
         $profile->transport = $request->get('transport');
         $profile->max_package_size = $request->get('max_package_size');
         $profile->work_radius = $request->get('work_radius');
+        $profile->work_type = $request->get('work_type');
         if ($request->get('working_days_hours') != null) {
             $profile->business_hours = $request->get('working_days_hours');
             $profile->business_hours_json = $request->get('working_days_hours_json');

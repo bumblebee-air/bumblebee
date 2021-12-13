@@ -39,7 +39,7 @@
                         <img class="my-nav-icon my-nav-icon-grey"
                         src="{{asset('images/doorder-new-layout/dashboard-grey.png')}}" alt=""> <img
                         class="my-nav-icon my-nav-icon-top"
-                        src="{{asset('images/doorder-new-layout/Dashboard-yellow.png')}}" alt="">
+                        src="{{asset('images/doorder-new-layout/dashboard-yellow.png')}}" alt="">
                         <p>Dashboard</p>
                 </a></li>
                 <li class="nav-item"><a class="nav-link d-flex"

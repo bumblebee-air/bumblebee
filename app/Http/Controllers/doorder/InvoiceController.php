@@ -21,8 +21,13 @@ class InvoiceController extends Controller
 
     public function getInvoiceList(Request $request)
     {
+        $current_user = auth()->user();
         $invoiceList = [];
-        $retailers = Retailer::where('status', 'completed')->whereHas('orders', function ($q) {
+        $retailers = Retailer::where('status', 'completed');
+        if ($current_user->user_role == 'retailer') {
+            $retailers = $retailers->where('user_id','=',$current_user->id);
+        }
+        $retailers = $retailers->whereHas('orders', function ($q) {
             $q->where('is_archived', false)->where('status', 'delivered');
         })->with(['orders' => function ($q) {
             $q->where('is_archived', false)->where('status', 'delivered');

@@ -571,7 +571,7 @@ table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
 															onchange="changeAverageChartSelect()">
 															<option value="driver">Driver</option>
 															<option value="retailer">Retailer</option>
-															<option value="region">Region</option>
+															{{-- <option value="region">Region</option> --}}
 														</select>
 													</div>
 												</div>

@@ -84,4 +84,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class, 'driver', 'id');
     }
+    /**
+     * Get all of the orders for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function retailerorders()
+    {
+        return $this->hasMany(Order::class, 'retailer_id', 'id');
+    }
 }

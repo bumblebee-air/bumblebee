@@ -539,17 +539,53 @@ class DashboardController extends Controller
         $last_month_average_chart_values = [];
 
         if ($type == 'driver') {
-            $average_chart_labels = array('driver 1', 'driver 2', 'driver 3', 'driver 4', 'driver 5', 'driver 6', 'driver 7', 'driver 8');
-            $this_month_average_chart_values = array(1000, 2000, 5000, 3000, 4000, 7000, 10000, 6000);
-            $last_month_average_chart_values = array(2000, 3000, 4000, 3000, 7000, 9000, 11000, 3000);
-            $thisMonthAverage = '€100,000';
-            $lastMonthAverage = '€80,000';
+            $this_month = [Carbon::now()->startOfMonth()->toDateTimeString(), Carbon::now()->endOfMonth()->toDateTimeString()];
+            $last_month = [Carbon::now()->subMonth()->startOfMonth()->toDateTimeString(), Carbon::now()->subMonth()->endOfMonth()->toDateTimeString()];
+            $drivers_count = User::where('user_role', 'driver')->whereHas('driver_profile', function ($driver) {
+                return $driver->where('status', 'completed');
+            })->count() ?: 1;
+            $the_month_orders = Order::whereBetween('created_at', $this_month)->where('status', 'delivered')->count();
+            $last_month_orders = Order::whereBetween('created_at', $last_month)->where('status', 'delivered')->count();
+            $thisMonthAverage = '€' . ($the_month_orders * 10) / $drivers_count;
+            $lastMonthAverage = '€' . ($last_month_orders * 10) / $drivers_count;
+            $drivers = User::where('user_role', 'driver')->whereHas('driver_profile', function ($driver) {
+                return $driver->where('status', 'completed');
+            })->withCount('orders')->whereHas('orders', function ($order) use ($this_month) {
+                return $order->whereBetween('created_at', $this_month)->where('status', 'delivered');
+            })->orderBy('orders_count')->take(8);
+            $average_chart_labels = $drivers->pluck('name')->toArray();
+            $this_month_average_chart_values = $drivers->get()->map(function ($item) {
+                return '' . $item->orders_count * 10;
+            });
+            $last_month_average_chart_values = User::whereIn('id', $drivers->pluck('id')->toArray())->withCount('orders')->whereHas('orders', function ($order) use ($last_month) {
+                return $order->whereBetween('created_at', $last_month)->where('status', 'delivered');
+            })->orderBy('orders_count')->take(8)->get()->map(function ($item) {
+                return '' . $item->orders_count * 10;
+            });
         } else if ($type == 'retailer') {
-            $average_chart_labels = array('retailer 1', 'retailer 2', 'retailer 3', 'retailer 4', 'retailer 5', 'retailer 6', 'retailer 7', 'retailer 8');
-            $this_month_average_chart_values = array(2000, 4000, 10000, 6000, 8000, 14000, 20000, 12000);
-            $last_month_average_chart_values = array(4000, 6000, 8000, 6000, 14000, 18000, 22000, 6000);
-            $thisMonthAverage = '€600,00';
-            $lastMonthAverage = '€180,000';
+            $this_month = [Carbon::now()->startOfMonth()->toDateTimeString(), Carbon::now()->endOfMonth()->toDateTimeString()];
+            $last_month = [Carbon::now()->subMonth()->startOfMonth()->toDateTimeString(), Carbon::now()->subMonth()->endOfMonth()->toDateTimeString()];
+            $retailers_count = User::where('user_role', 'retailer')->whereHas('retailer_profile', function ($retailer) {
+                return $retailer->where('status', 'completed');
+            })->count() ?: 1;
+            $the_month_orders = Order::whereBetween('created_at', $this_month)->where('status', 'delivered')->count();
+            $last_month_orders = Order::whereBetween('created_at', $last_month)->where('status', 'delivered')->count();
+            $thisMonthAverage = '€' . ($the_month_orders * 10) / $retailers_count;
+            $lastMonthAverage = '€' . ($last_month_orders * 10) / $retailers_count;
+            $retailers = User::where('user_role', 'retailer')->whereHas('retailer_profile', function ($retailer) {
+                return $retailer->where('status', 'completed');
+            })->withCount('retailerorders')->whereHas('retailerorders', function ($order) use ($this_month) {
+                return $order->whereBetween('created_at', $this_month)->where('status', 'delivered');
+            })->orderBy('retailerorders_count')->take(8);
+            $average_chart_labels = $retailers->pluck('name')->toArray();
+            $this_month_average_chart_values = $retailers->get()->map(function ($item) {
+                return '' . $item->retailerorders_count * 10;
+            });
+            $last_month_average_chart_values = User::whereIn('id', $retailers->pluck('id')->toArray())->withCount('retailerorders')->whereHas('retailerorders', function ($order) use ($last_month) {
+                return $order->whereBetween('created_at', $last_month)->where('status', 'delivered');
+            })->orderBy('retailerorders_count')->take(8)->get()->map(function ($item) {
+                return '' . $item->retailerorders_count * 10;
+            });
         } else if ($type == 'region') {
             $average_chart_labels = array('region 1', 'region 2', 'region 3', 'region 4', 'region 5', 'region 6', 'region 7', 'region 8');
             $this_month_average_chart_values = array(4000, 7000, 10000, 6000, 1000, 2000, 5000, 3000);

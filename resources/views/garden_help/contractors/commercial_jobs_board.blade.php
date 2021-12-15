@@ -158,13 +158,13 @@
                                 </p>
                             </div>
                             <div class="col pr-1">
-                                <a href="{{route('getCustomerRegistration', ['garden-help'])}}" class="float-right" v-if="job.contractor_id && job.contractor">
+                                <a href="{{route('getContractorRegistration', ['garden-help'])}}" class="float-right" v-if="job.contractor_id && job.contractor">
                                     ASSIGNED
                                     <span class="text-gray">
                                         @{{ job.contractor.name }}
                                     </span>
                                 </a>
-                                <a href="{{route('getCustomerRegistration', ['garden-help'])}}" class="float-right" v-else>APPLY FOR JOB <i class="fas fa-chevron-right"></i></a>
+                                <a href="{{route('getContractorRegistration', ['garden-help'])}}" class="float-right" v-else>APPLY FOR JOB <i class="fas fa-chevron-right"></i></a>
                             </div>
                         </div>
                     </div>

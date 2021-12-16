@@ -153,6 +153,19 @@
                           </p>
                         </div>
                       </div>
+                      <div class="row">
+                        <div class="col-2">
+                          <img src="images/garden_help_driver_assets/site_details.png" class="service-icon" alt="service-type-icon">
+                        </div>
+                        <div class="col-10 order-address-row">
+                          <p class="order-address-title">
+                            Min Working Hours
+                          </p>
+                          <p class="order-address-value">
+                            <span>{{calcMinHours()}}</span>
+                          </p>
+                        </div>
+                      </div>
 
                       <div class="row">
                         <div class="col-2">
@@ -669,6 +682,13 @@
             ).catch(
                 err => console.log(err)
             );
+          },
+          calcMinHours() {
+              let min_hours = 0;
+              for (let service of this.job_service_types) {
+                min_hours += service.min_hours
+              }
+              return min_hours;
           }
         }
     }

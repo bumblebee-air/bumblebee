@@ -33,6 +33,8 @@
                                 </div>
                                 <div class="col-md-9 my-4 text-center">
                                   <router-link :to="{name: 'forgot-password'}" class="forgot-password">Forgot password?</router-link>
+                                  <br>
+                                  <a href="garden-help/contractors/registration" class="forgot-password">Sign Up</a>
                                 </div>
                                 <div class="d-flex justify-content-center align-content-center">
                                     <button class="btn btn-lg doorder-btn" type="submit" :disabled="isLoading">

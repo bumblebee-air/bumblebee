@@ -1,4 +1,4 @@
-@extends('templates.dashboard') @section('page-styles') 
+@extends('templates.doorder_dashboard') @section('page-styles') 
 <style>
 
 .form-head {
@@ -14,14 +14,18 @@ $singleRequest->id) @section('page-content')
 			<div class="row">
 				<div class="col-md-12">
 					{{csrf_field()}}
+					<div class="card card-profile-page-title">
+    						<div class="card-header row">
+    							<div class="col-12 p-0">
+									<h4 class="card-title my-md-4 mt-4 mb-1">Driver Application NO. {{$singleRequest->id}}</h4>
+    							</div>    							
+    						</div>
+					</div>
 					<div class="card">
-						<div class="card-header card-header-icon card-header-rose">
-							<div class="card-icon"><img
-									class="page_icon"
-									src="{{asset('images/doorder_icons/drivers_requests.png')}}">
+						<div class="card-header card-header-profile-border ">
+							<div class="col-md-12 pl-3">
+								<h4 >Deliverer Details </h4>
 							</div>
-							<h4 class="card-title ">Driver Application NO.
-								{{$singleRequest->id}}</h4>
 						</div>
 						<div class="card-body">
 							<div class="container">
@@ -37,94 +41,72 @@ $singleRequest->id) @section('page-content')
 										@endif
 									</div>
 
-									<div class="col-md-12 d-flex form-head pl-3">
-										<span> 1 </span> Deliverer Details
-									</div>
+									
 
 									<div class="col-sm-6">
 										<div class="form-group bmd-form-group">
-											<label>First Name</label> <input type="text"
-												class="form-control" name="first_name"
-												value="{{$singleRequest->first_name}}"
-												placeholder="First Name" required>
+											<label>First Name</label>
+											<span class="form-control">{{$singleRequest->first_name}}</span>
 										</div>
 									</div>
 
 									<div class="col-sm-6">
 										<div class="form-group bmd-form-group">
-											<label>Last Name</label> <input type="text"
-												class="form-control" name="last_name"
-												value="{{$singleRequest->last_name}}"
-												placeholder="Last Name" required>
+											<label>Last Name</label>
+											<span class="form-control">{{$singleRequest->last_name}}</span>
 										</div>
 									</div>
 
 									<div class="col-sm-6">
 										<div class="form-group bmd-form-group">
-											<label>Email Address</label> <input type="email"
-												class="form-control" name="email"
-												value="{{$singleRequest->user->email}}"
-												placeholder="Email Address" required>
+											<label>Email Address</label>
+											<span class="form-control">{{$singleRequest->user->email}}</span> 
 										</div>
 									</div>
 
 									<div class="col-sm-6">
 										<div class="form-group bmd-form-group">
-											<label>Contact Number</label> <input type="text"
-												class="form-control" name="contact_number"
-												value="{{$singleRequest->user->phone}}"
-												placeholder="Contact Number" required>
+											<label>Contact Number</label>
+											<span class="form-control">{{$singleRequest->user->phone}}</span>
 										</div>
 									</div>
 
 									<div class="col-sm-6">
 										<div class="form-group bmd-form-group">
-											<label>Contact Through</label> <input type="text"
-												class="form-control" name="contact_channel"
-												value="{{$singleRequest->contact_channel}}"
-												placeholder="Contact Through" required>
+											<label>Contact Through</label>
+											<span class="form-control">{{$singleRequest->contact_channel}}</span>
 										</div>
 									</div>
 
 									<div class="col-sm-6">
 										<div class="form-group bmd-form-group">
-											<label>Date of Birth</label> <input type="text"
-												class="form-control" name="birthdate"
-												value="{{$singleRequest->dob}}" placeholder="Date of Birth"
-												required>
+											<label>Date of Birth</label>
+											<span class="form-control">{{$singleRequest->dob}}</span> 
 										</div>
 									</div>
 
 									<div class="col-sm-6">
 										<div class="form-group bmd-form-group">
 											<label>Address</label>
-											<textarea class="form-control" name="address"
-												placeholder="Address" rows="5" required>{{$singleRequest->address}}</textarea>
+											<span class="form-control" style="height: 135px">{{$singleRequest->address}}</span>
 										</div>
 									</div>
 
 									<div class="col-sm-6">
 										<div class="form-group bmd-form-group">
-											<label>PPS Number</label> <input type="text"
-												class="form-control" name="pps_number"
-												value="{{$singleRequest->pps_number}}"
-												placeholder="PPS Number" required>
+											<label>PPS Number</label> 
+											<span class="form-control">{{$singleRequest->pps_number}}</span>
 										</div>
 										<div class="form-group bmd-form-group">
-											<label>Emergency Contact Name</label> <input type="text"
-												class="form-control" name="emergency_contact_name"
-												value="{{$singleRequest->emergency_contact_name}}"
-												placeholder="Emergency Contact Name" required>
+											<label>Emergency Contact Name</label>
+											<span class="form-control">{{$singleRequest->emergency_contact_name}}</span>
 										</div>
 									</div>
 
 									<div class="col-sm-6">
 										<div class="form-group bmd-form-group">
-											<label>Emergency Contact Phone Number</label> <input
-												type="text" class="form-control"
-												name="emergency_contact_number"
-												value="{{$singleRequest->emergency_contact_number}}"
-												placeholder="Emergency Contact Phone Number" required>
+											<label>Emergency Contact Phone Number</label>
+											<span class="form-control">{{$singleRequest->emergency_contact_number}}</span> 
 										</div>
 									</div>
 								</div>
@@ -133,38 +115,30 @@ $singleRequest->id) @section('page-content')
 					</div>
 
 					<div class="card">
-						
 						<div class="card-body">
 							<div class="container">
 								<div class="row">
-									
-
 									<div class="col-md-12">
-										
 										<div class="row">
 											<div class="col-sm-6">
 												<div class="form-group bmd-form-group">
-													<label>Transport Type</label> <input class="form-control"
-														value="{{$singleRequest->transport}}"
-														placeholder="Transport Type" required>
+													<label>Transport Type</label> 
+													<span class="form-control">{{$singleRequest->transport}}</span>
 												</div>
 
 												<div class="form-group bmd-form-group">
-													<label>Max package size</label> <input class="form-control"
-														value="{{$singleRequest->max_package_size}}"
-														placeholder="Max package size" required>
+													<label>Max package size</label>
+													<span class="form-control">{{$singleRequest->max_package_size}}</span>
 												</div>
 
 												<div class="form-group bmd-form-group">
-													<label>Work Location</label> <input class="form-control"
-														value="{{json_decode($singleRequest->work_location)->name}}"
-														placeholder="Work Location" required>
+													<label>Work Location</label>
+													<span class="form-control">{{json_decode($singleRequest->work_location)->name}}</span>
 												</div>
 
 												<div class="form-group bmd-form-group">
-													<label>Radius</label> <input class="form-control"
-														value="{{$singleRequest->work_radius}}"
-														placeholder="Radius" required>
+													<label>Radius</label>
+													<span class="form-control">{{$singleRequest->work_radius}}</span> 
 												</div>
 
 											</div>
@@ -186,78 +160,95 @@ $singleRequest->id) @section('page-content')
 					</div>
 
 					<div class="card">
+						<div class="card-header card-header-profile-border ">
+							<div class="col-md-12 pl-3">
+								<h4 >Verification Documents </h4>
+							</div>
+						</div>
 						<div class="card-body">
 							<div class="container">
 								<div class="row">
-									<div class="col-md-12 d-flex form-head pl-3">
-										<span> 3 </span> Verification Documents
-									</div>
-
-									<div class="col-sm-6">
-										<div class="form-group bmd-form-group">
-											<a target="_blank"
-												href="{{asset($singleRequest->legal_word_evidence)}}"
-												style="color: #333">
-												<div class="file-url-container d-flex">
-													<i class="fas fa-file"></i>
-													<p class="mt-xl-3 pl-xl-3 pl-2 my-auto">Evidence you can legally work in
-														Ireland</p>
+									<div class="col-md-6 p-0">
+											<div class="form-group bmd-form-group row">
+												<div class="col-md-12">
+													<h5 class="downloadFilesH5">Evidence You Can Legally Work
+														In Ireland</h5>
 												</div>
-											</a>
-										</div>
-									</div>
-
-									<div class="col-sm-6">
-										<div class="form-group bmd-form-group">
-											<a target="_blank"
-												href="{{asset($singleRequest->address_proof)}}"
-												style="color: #333">
-												<div class="file-url-container d-flex">
-													<i class="fas fa-file"></i>
-													<p class="mt-xl-3 pl-xl-3 pl-2 my-auto">Proof of Address</p>
+												<div class="col-md-6">
+													<a target="_blank"
+														href="{{asset($singleRequest->legal_word_evidence)}}">
+														<div class="file-url-container d-flex ">
+															<i class="fas fa-file"></i>
+															<p class="mt-xl-3 pl-xl-3 my-md-2 pl-2 my-3">Download file</p>
+														</div>
+													</a>
 												</div>
-											</a>
-										</div>
+											</div>
 									</div>
-
-									@if($singleRequest->driver_license)
-									<div class="col-sm-6">
-										<div class="form-group bmd-form-group">
-											<a target="_blank"
-												href="{{asset($singleRequest->driver_license)}}"
-												style="color: #333">
-												<div class="file-url-container d-flex">
-													<i class="fas fa-file"></i>
-													<p class="mt-xl-3 pl-xl-3 pl-2 my-auto">Driving License front</p>
+									<div class="col-md-6 p-0">
+											<div class="form-group bmd-form-group row">
+												<div class="col-md-12">
+													<h5 class="downloadFilesH5">Proof of Address</h5>
 												</div>
-											</a>
-										</div>
+												<div class="col-md-6">
+													<a target="_blank"
+														href="{{asset($singleRequest->address_proof)}}">
+														<div class="file-url-container d-flex ">
+															<i class="fas fa-file"></i>
+															<p class="mt-xl-3 pl-xl-3 my-md-2 pl-2 my-3">Download file</p>
+														</div>
+													</a>
+												</div>
+											</div>
 									</div>
-									@endif @if($singleRequest->driver_license_back)
-									<div class="col-sm-6">
-										<div class="form-group bmd-form-group">
-											<a target="_blank"
-												href="{{asset($singleRequest->driver_license_back)}}"
-												style="color: #333">
-												<div class="file-url-container d-flex">
-													<i class="fas fa-file"></i>
-													<p class="mt-xl-3 pl-xl-3 pl-2 my-auto">Driving License back</p>
+									
+									@if($singleRequest->driver_license || $singleRequest->driver_license_back)
+									<div class="col-md-6 p-0">
+											<div class="form-group bmd-form-group row">
+												<div class="col-md-12">
+													<h5 class="downloadFilesH5">Driving License front</h5>
 												</div>
-											</a>
-										</div>
+												@if($singleRequest->driver_license)
+												<div class="col-md-6">
+													<a target="_blank"
+														href="{{asset($singleRequest->driver_license)}}">
+														<div class="file-url-container d-flex ">
+															<i class="fas fa-file"></i>
+															<p class="mt-xl-3 pl-xl-3 my-md-2 pl-2 my-3">Download file</p>
+														</div>
+													</a>
+												</div>
+												@endif
+												@if($singleRequest->driver_license_back)
+												<div class="col-md-6">
+													<a target="_blank"
+														href="{{asset($singleRequest->driver_license_back)}}">
+														<div class="file-url-container d-flex ">
+															<i class="fas fa-file"></i>
+															<p class="mt-xl-3 pl-xl-3 my-md-2 pl-2 my-3">Download file</p>
+														</div>
+													</a>
+												</div>
+												@endif
+											</div>
 									</div>
-									@endif @if($singleRequest->insurance_proof)
-									<div class="col-sm-6">
-										<div class="form-group bmd-form-group">
-											<a target="_blank"
-												href="{{asset($singleRequest->insurance_proof)}}"
-												style="color: #333">
-												<div class="file-url-container d-flex">
-													<i class="fas fa-file"></i>
-													<p class="mt-xl-3 pl-xl-3 pl-2 my-auto">Proof of Insurance</p>
+									@endif
+									@if($singleRequest->insurance_proof)
+									<div class="col-md-6 p-0">
+											<div class="form-group bmd-form-group row">
+												<div class="col-md-12">
+													<h5 class="downloadFilesH5">Proof of Insurance</h5>
 												</div>
-											</a>
-										</div>
+												<div class="col-md-6">
+													<a target="_blank"
+														href="{{asset($singleRequest->insurance_proof)}}">
+														<div class="file-url-container d-flex ">
+															<i class="fas fa-file"></i>
+															<p class="mt-xl-3 pl-xl-3 my-md-2 pl-2 my-3">Download file</p>
+														</div>
+													</a>
+												</div>
+											</div>
 									</div>
 									@endif
 								</div>
@@ -267,17 +258,34 @@ $singleRequest->id) @section('page-content')
 
 					<div class="row">
 						<div class="col-sm-6 text-center">
-							<form id="order-form" method="POST"
-								action="{{route('post_doorder_drivers_single_request', ['doorder', $singleRequest->id])}}">
-								{{csrf_field()}}
-								<button class="btn bt-submit">Accept</button>
-							</form>
+							
 						</div>
 						<div class="col-sm-6 text-center">
-							<button class="btn bt-submit btn-danger" data-toggle="modal"
-								data-target="#rejection-reason-modal">Reject</button>
+							
 						</div>
 					</div>
+					
+				<div class="card"
+					style="background-color: transparent; box-shadow: none;">
+					<div class="card-body p-0">
+						<div class="container w-100" style="max-width: 100%">
+
+							<div class="row justify-content-center">
+								<div class="col-lg-3  col-md-3 col-sm-4 px-md-1 text-center">
+									<form id="order-form" method="POST"
+        								action="{{route('post_doorder_drivers_single_request', ['doorder', $singleRequest->id])}}">
+        								{{csrf_field()}}
+        								<button class="btnDoorder btn-doorder-primary  mb-1">Accept</button>
+        							</form>
+								</div>
+								<div class="col-lg-3  col-md-3 col-sm-4 px-md-1 text-center">
+									<button class="btnDoorder btn-doorder-danger-outline  mb-1" data-toggle="modal"
+											data-target="#rejection-reason-modal">Reject</button>
+								</div>	
+							</div>
+						</div>
+					</div>
+				</div>			
 
 					<!-- Rejection Reason modal -->
 					<div class="modal fade" id="rejection-reason-modal" tabindex="-1"
@@ -294,32 +302,29 @@ $singleRequest->id) @section('page-content')
 									</button>
 								</div>
 								<div class="modal-body">
-									<div class="col-md-12">
+									<div class="text-center">
 										<form id="request-rejection" method="POST"
 											action="{{route('post_doorder_drivers_single_request', ['doorder', $singleRequest->id])}}">
-											{{csrf_field()}}
-											<div class="text-center"
-												style="font-size: 30px; font-weight: bold; font-stretch: normal; font-style: normal; line-height: normal; letter-spacing: normal; color: #414141;">
-												<img src="{{asset('images/doorder_icons/red-tick.png')}}"
-													style="width: 160px" alt="Reqject"> <br> Rejected
-											</div>
+											<img src="{{asset('images/doorder-new-layout/reject-img.png')}}"
+													alt="Reqject"> 
+											<div class="modal-dialog-header modalHeaderMessage">Rejected</div>
 											<div class="form-group bmd-form-group">
-												<label>Please add reason for rejection</label>
+												<label class="modal-dialog-header modalSubHeaderMessage">Please add reason for rejection</label>
 												<textarea class="form-control" name="rejection_reason"
 													rows="4" required></textarea>
 											</div>
 										</form>
 									</div>
 								</div>
-								<div class="row">
-									<div class="col-sm-6">
+								<div class="row justify-content-center">
+									<div class="col-lg-4 col-md-6 text-center">
 										<button type="button"
-											class="btn btn-primary doorder-btn-lg doorder-btn"
+											class="btnDoorder btn-doorder-primary mb-1"
 											onclick="$('form#request-rejection').submit()">Send</button>
 									</div>
-									<div class="col-sm-6">
+									<div class="col-lg-4 col-md-6 text-center">
 										<button type="button"
-											class="btn btn-danger doorder-btn-lg doorder-btn"
+											class="btnDoorder btn-doorder-danger-outline mb-1"
 											data-dismiss="modal">Close</button>
 									</div>
 								</div>

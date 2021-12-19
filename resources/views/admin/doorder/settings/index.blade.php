@@ -1,46 +1,9 @@
-@extends('templates.dashboard') @section('title', 'DoOrder | Settings')
-
-@section('page-styles')
+@extends('templates.doorder_dashboard') @section('title', 'DoOrder |
+Settings') @section('page-styles')
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/@riophae/vue-treeselect@^0.4.0/dist/vue-treeselect.min.css">
 <link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
 <style>
-#settingsCardDiv .addBtn {
-	font-family: Quicksand;
-	font-size: 13px;
-	font-weight: 500;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: 0.72px;
-	color: #ffffff;
-	padding: 6px 1.2rem;
-	border-radius: 11.2px 0;
-	height: auto;
-	max-width: 170px;
-	text-transform: capitalize;
-}
-
-#navSettingsUl li a {
-	font-family: Quicksand;
-	font-size: 16px;
-	font-weight: 600;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: 1.19;
-	letter-spacing: 0.8px;
-	color: #b6b6b6;
-	background: transparent;
-}
-
-#navSettingsUl li a.active, #navSettingsUl li a:hover {
-	color: #d2b431 !important;
-	box-shadow: none !important;
-}
-
-.tab-space {
-	padding: 0 !important;
-}
 
 .togglebutton {
 	margin-top: -3px;
@@ -60,12 +23,13 @@
 
 .togglebutton label input[type=checkbox]:checked+.toggle {
 	background-color: #f7dc69;
+	background-color: #E8CA49;
 }
 
 .togglebutton label .toggle:after {
 	box-shadow: none;
 	left: 0;
-	top: -5px;
+	top: 0px;
 }
 
 .toggleButtonConnectedApi label .toggle:after {
@@ -84,7 +48,6 @@
 }
 
 .dropdown-menu .dropdown-item, .dropdown-menu li>a {
-	font-family: Quicksand;
 	font-size: 14px;
 	font-weight: normal;
 	font-stretch: normal;
@@ -94,12 +57,14 @@
 	color: #494949;
 	text-transform: inherit;
 }
-.filter-option-inner{
-text-transform: none;
+
+.filter-option-inner {
+	text-transform: none;
 }
+
 .bootstrap-select .dropdown-item.active, .bootstrap-select .dropdown-item:hover
 	{
-	font-size:14px;
+	font-size: 14px;
 	font-weight: 600;
 	color: white;
 	box-shadow: none !important;
@@ -117,20 +82,21 @@ text-transform: none;
 }
 
 .vue-treeselect__menu {
-	font-family: Quicksand;
-	font-size: 13px;
+	font-family: Montserrat;
+	font-size: 13px !important;
 	font-weight: normal;
 	font-stretch: normal;
 	font-style: normal;
-	line-height: normal;
+	line-height: 16px;
 	letter-spacing: normal;
 	color: #494949;
+	color: #717579
 }
 
 .vue-treeselect__menu li:hover {
-	background: #e8ca49;
+	background: #faf4db;
 	font-weight: bold;
-	color: white;
+	color: #4d4d4d;
 	box-shadow: none !important;
 }
 
@@ -138,21 +104,67 @@ text-transform: none;
 	.vue-treeselect__option--highlight .vue-treeselect__label,
 	.vue-treeselect--single .vue-treeselect__option--selected .vue-treeselect__label
 	{
+	background: #faf4db !important;
 	font-weight: bold !important;
-	color: white !important;
+	color: #4d4d4d !important;
 	box-shadow: none !important;
 }
 
 .vue-treeselect__option--highlight, .vue-treeselect--single .vue-treeselect__option--selected
 	{
-	background: #e8ca49 !important;
+	background: #faf4db !important;
 	font-weight: bold !important;
-	color: white !important;
+	color: #4d4d4d !important;
 	box-shadow: none !important;
+	font-weight: bold !important;
+	color: #4d4d4d !important;
 }
 
 .vue-treeselect__indent-level-0 .vue-treeselect__option {
 	padding: 5px
+}
+
+.vue-treeselect__placeholder, .vue-treeselect__single-value {
+	font-family: Montserrat;
+	font-size: 16px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 20px !important;
+	letter-spacing: 0.77px;
+	color: #6e6b7b !important;
+	padding: 11px 14px 11px 14px;
+}
+
+.vue-treeselect:not(.vue-treeselect--disabled) .vue-treeselect__multi-value-item:not(.vue-treeselect__multi-value-item-disabled):hover .vue-treeselect__multi-value-item:not(.vue-treeselect__multi-value-item-new) .vue-treeselect__multi-value-item:not(.vue-treeselect__multi-value-item-new):hover,
+	.vue-treeselect__multi-value-item {
+	background: #E9C21866 !important;
+	font-weight: 600 !important;
+	color: #4d4d4d !important;
+}
+
+.vue-treeselect__value-remove {
+	color: #4d4d4d !important;
+}
+
+.vue-treeselect__checkbox--checked,
+	.vue-treeselect__checkbox--indeterminate,
+	.vue-treeselect__label-container:hover .vue-treeselect__checkbox--checked,
+	.vue-treeselect__label-container:hover .vue-treeselect__checkbox--indeterminate
+	{
+	border-color: #E9C218;
+	background: #E9C218;
+}
+
+.vue-treeselect__multi-value-item {
+	font-family: Montserrat;
+	font-size: 16px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 20px !important;
+	letter-spacing: 0.77px;
+	color: #6e6b7b !important;
 }
 
 .removeRatePropertySizeCircle {
@@ -184,17 +196,6 @@ text-transform: none;
 	color: #4D4D4D !important;
 	height: 1.5rem;
 }
-
-.addUserModalHeader, .editUserModalHeader {
-	font-family: Quicksand;
-	font-style: normal;
-	font-weight: bold;
-	font-size: 20px;
-	line-height: 19px;
-	letter-spacing: 0.8px;
-	color: #000000;
-}
-
 #add-user-modal #addUserBtn, #edit-user-modal #editUserBtn {
 	height: 40px;
 	text-transform: capitalize;
@@ -260,18 +261,36 @@ text-transform: none;
 }
 
 label.toggle-on, label.toggle-off {
-	font-family: Quicksand;
+	font-family: Montserrat;
 	font-style: normal;
-	font-weight: bold;
-	font-size: 15px !important;
-	line-height: 22px;
+	font-weight: 600;
+	font-size: 14px !important;
+	line-height: 18px;
 	color: #FFFFFF;
 }
-#uploadButton{
-height: 38px !important;
-    margin-top: 0;
-    box-shadow: 0px 2px 4px rgb(182 182 182 / 50%), 2px 2px 5px #ffffff;
-    background-color: white !important;
+
+#uploadButton {
+	width: 40px;
+	height: 40px !important;
+	margin-top: 0;
+	box-shadow: none;
+	border-radius: 6px;
+	padding: 0;
+}
+
+#uploadButton img {
+	width: 100%;
+	border-radius: 6px;
+}
+
+.display-inline-block {
+	display: inline-block;
+}
+#usersTable tbody td{
+    text-align: left;
+}
+#usersTable .actionsTd{
+    text-align: center;
 }
 </style>
 
@@ -281,30 +300,15 @@ height: 38px !important;
 		<div class="row">
 			<div class="col-md-12" id="settingsCardDiv">
 				<div class="card">
-					<div class="card-header card-header-icon card-header-rose row">
-						<div class="col-12 col-lg-5 col-md-6">
-							<div class="card-icon">
-								<img class="page_icon"
-									src="{{asset('images/doorder_icons/Settings.png')}}"
-									alt="settings icon">
-							</div>
-							<h4 class="card-title ">Settings</h4>
-						</div>
-						<div class="col-12 col-lg-7 col-md-6 mt-md-4 ">
-							<!-- 							<div class="row justify-content-end float-sm-right"> -->
-							<!-- 								<a class=" btn btn-primary doorder-btn-lg doorder-btn addBtn" -->
-							<!-- 									href=""> Add new user </a> -->
-							<!-- 							</div> -->
-
+					<div class="card-header card-header-icon  row">
+						<div class="col-12 col-xl-5 col-lg-4 col-md-3 col-sm-12">
+							<h4 class="card-title my-md-4 mt-4 mb-md-1 mb-4">Settings</h4>
 						</div>
 					</div>
-
-					<div class="card-body"></div>
 				</div>
-
 				<div>
 					<ul
-						class="nav nav-pills nav-pills-primary justify-content-start justify-content-md-center"
+						class="nav nav-pills nav-pills-primary justify-content-start justify-content-md-center row"
 						role="tablist" id="navSettingsUl">
 						<li class="nav-item"><a class="nav-link active" data-toggle="tab"
 							href="#generalSettings" role="tablist" aria-expanded="true">
@@ -312,7 +316,7 @@ height: 38px !important;
 						<li class="nav-item"><a class="nav-link" data-toggle="tab"
 							href="#profile" role="tablist" aria-expanded="false"> Profile </a>
 						</li>
-						<li class="nav-item"><a class="nav-link" data-toggle="tab"
+						<li class="nav-item"><a class="nav-link " data-toggle="tab"
 							href="#notificationsDiv" role="tablist" aria-expanded="false">
 								Notifications </a></li>
 						<li class="nav-item"><a class="nav-link " data-toggle="tab"
@@ -327,11 +331,11 @@ height: 38px !important;
 				</div>
 
 				<div class="tab-content tab-space">
-					<div class="tab-pane active" id="generalSettings"
-						aria-expanded="false">
+					<div class="tab-pane active" id="generalSettings" aria-expanded="false">
 						@include('admin.doorder.settings.general_settings')</div>
 					<div class="tab-pane" id="profile" aria-expanded="false"></div>
-					<div class="tab-pane" id="notificationsDiv" aria-expanded="false">
+					<div class="tab-pane" id="notificationsDiv"
+						aria-expanded="false">
 						@include('admin.doorder.settings.notifications')</div>
 
 					<div class="tab-pane " id="securityLogin" aria-expanded="false"></div>
@@ -381,6 +385,29 @@ function addIntelInput(input_id, input_name) {
 
 
 $(document).ready(function() {
+
+$("#retailerAutomaticCharging").change(function() {
+	 console.log($("#retailerAutomaticCharging:checked").val());
+	 if($("#retailerAutomaticCharging:checked").val()==1){
+      			$("#dayOfMonthDiv").css("display","block");
+     }else{
+      			$("#dayOfMonthDiv").css("display","none");
+      			$("#dayOfMonth").val("")
+     }
+
+});
+$("#delivererPayout").change(function() {
+	 console.log($("#delivererPayout:checked").val());
+	 if($("#delivererPayout:checked").val()==1){
+      			$("#dayOfWeekDiv").css("display","block");
+     }else{
+      			$("#dayOfWeekDiv").css("display","none");
+      			$("#weekday").val("")
+     }
+
+});
+
+
 // general settings 
 addIntelInput('business_phone_number','business_phone_number');
 
@@ -400,40 +427,54 @@ $(".timeShift").datetimepicker({format:"hh:mm",
 
 //////////////////// users tab
     var table= $('#usersTable').DataTable({
-    "pagingType": "full_numbers",
-        "lengthMenu": [
-          [10, 25, 50,100, -1],
-          [10, 25, 50,100, "All"]
-        ],
-        responsive: true,
-    	"language": {  
-    		search: '',
-			"searchPlaceholder": "Search ",
-    	},
-    	"columnDefs": [ {
-    		"targets": -1,
-    		"orderable": false
-    	} ],
-        "initComplete": function() {
-            
-        }
+           		"pagingType": "full_numbers",
+         		 fixedColumns: true,
+                "lengthMenu": [
+                  [-1,10, 25, 50,100],
+                  ["All",10, 25, 50,100]
+                ],
+                "ordering": false,
+                "language": {  
+            		search: '',
+        			"searchPlaceholder": "Search ",
+        			
+        			"paginate": {
+                              "previous": "<i class='fas fa-angle-left'></i>",
+                              "next": "<i class='fas fa-angle-right'></i>",
+                              "first":"<i class='fas fa-angle-double-left'></i>",
+                              "last":"<i class='fas fa-angle-double-right'></i>"
+                            }
+            	},
+            	"columnDefs": [ {
+                		"targets": [-1],
+                		"orderable": false
+            		},                        
+                 ],
+                scrollX:        true,
+                scrollCollapse: true,
+                fixedColumns:   {
+                    leftColumns: 0,
+                },
     });
+    $('a[data-toggle="tab"]').on( 'shown.bs.tab', function (e) {
+        $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();
+    } );
     
-      $(".filterhead").each(function (i) {
-                 if (i == 2 ) {
-                     var select = $('<select ><option value="">Select user type</option></select>')
-                         .appendTo($(this).empty())
-                         .on('change', function () {
-                             var term = $(this).val();
-                             table.column(i).search(term, false, false).draw();
-                         });
-                     table.column(i).data().unique().sort().each(function (d, j) {
-                         select.append('<option value="' + d + '">' + d + '</option>')
-                     });
-                 } else {
-                    $(this).empty();
-                 }
-             });
+//       $(".filterhead").each(function (i) {
+//                  if (i == 2 ) {
+//                      var select = $('<select ><option value="">Select user type</option></select>')
+//                          .appendTo($(this).empty())
+//                          .on('change', function () {
+//                              var term = $(this).val();
+//                              table.column(i).search(term, false, false).draw();
+//                          });
+//                      table.column(i).data().unique().sort().each(function (d, j) {
+//                          select.append('<option value="' + d + '">' + d + '</option>')
+//                      });
+//                  } else {
+//                     $(this).empty();
+//                  }
+//              });
     
 ////////////////////// end users tab
 } );
@@ -471,11 +512,12 @@ $(".timeShift").datetimepicker({format:"hh:mm",
              	users: {!! $users !!},
              
              	//customNotifications:[{"customNotification":"","notification_type":null,"notification_name":"","notification_channel":null,"phone_number":"","email":"","user_type":null,"notification_content":""}],
-             	customNotifications: {!! count($savedNotifications) ? json_encode($savedNotifications) : '[{"id":null,"customNotification":"1","notification_type":null,"notification_name":"","notification_channel":null,"phone_number":[{value: ""}],"email":[{value: ""}],"user_type":null,"notification_content":""}]' !!},
+             	customNotifications: {!! count($savedNotifications) ? json_encode($savedNotifications) : '[{"id":null,"customNotification":"1","notification_type":null,"notification_name":"","notification_channel":null,"phone_number":[{value: ""}],"email":[{value: ""}],"user_type":null,"retailer":null,"notification_content":""}]' !!},
                 // define the default value
                  notification_type: null,
                  notification_channel:null,
                  user_type:null,
+                 retailer:null,
         
                 // define options
                 options: [ {
@@ -580,6 +622,7 @@ $(".timeShift").datetimepicker({format:"hh:mm",
 					phone_number: [{value:''}],
 					email: [{value:''}],
 					user_type: null,
+					retailer: null,
 					notification_content: ''
 				})
 			},

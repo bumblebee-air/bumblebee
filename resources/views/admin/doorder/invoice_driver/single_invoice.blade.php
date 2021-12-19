@@ -1,10 +1,6 @@
-@extends('templates.dashboard') @section('page-styles')
+@extends('templates.doorder_dashboard') @section('page-styles')
 <link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
 <style>
-.page_icon {
-	width: 40px !important;
-}
-
 .card-category, .card-category-invoice {
 	margin-top: -10px !important;
 	font-family: Quicksand;
@@ -82,28 +78,6 @@
 	color: #4d4d4d;
 }
 
-thead tr th {
-	font-family: Quicksand;
-	font-size: 16px !important;
-	font-weight: bold !important;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: 1.19;
-	letter-spacing: 0.8px;
-	color: #4d4d4d;
-}
-
-#invoiceListTable tbody tr td {
-	font-family: Quicksand !important;
-	font-size: 16px !important;
-	font-weight: 500 !important;
-	font-stretch: normal !important;
-	font-style: normal !important;
-	line-height: 1.19 !important;
-	letter-spacing: 0.8px !important;
-	color: #4d4d4d !important;
-}
-
 #invoiceListTable .invoiceBoldSpan {
 	font-weight: bold !important;
 	margin-bottom: 0
@@ -115,14 +89,7 @@ thead tr th {
 
 tbody tr td:first-child, thead tr th:first-child {
 	text-align: left;
-	padding-left: 35px !important;
-}
-
-.dataTable>tbody>tr>td, .dataTable>tbody>tr>th, .dataTable>thead>tr>td,
-	.dataTable>thead>tr>th, .dataTables_scrollFoot tfoot>tr:first-child>th
-	{
-	border: none !important;
-	padding-top: 20px !important;
+	padding-left: 15px !important;
 }
 
 .dataTable>tfoot>tr>th {
@@ -139,36 +106,6 @@ tbody tr td:first-child, thead tr th:first-child {
 	background-color: rgba(216, 216, 216, 0.2) !important;
 }
 
-.invoiceH4 {
-	font-family: Quicksand;
-	font-size: 20px;
-	font-weight: bold;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: 1.25;
-	letter-spacing: 0.19px;
-	color: #494949;
-}
-
-.doorderLimitedLabel {
-	font-family: Quicksand;
-	font-size: 16px;
-	font-weight: 600;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: 1;
-	letter-spacing: 0.15px;
-	color: #7b7b7b;
-}
-
-.doorderLimitedSpan {
-	font-weight: normal !important;
-}
-
-.doorderLimitedLabel i {
-	color: #f7dc69;
-}
-
 .dataTables_scrollBody table tfoot tr th {
 	border: none !important;
 	padding-top: 0 !important;
@@ -176,7 +113,6 @@ tbody tr td:first-child, thead tr th:first-child {
 }
 
 .swal-text {
-	font-family: Quicksand;
 	font-size: 18px;
 }
 
@@ -199,29 +135,30 @@ a.invoiceBtn {
 			<div class="row">
 				<div class="col-md-12">
 
-					<div class="card">
-						<div class="card-header card-header-icon card-header-rose row">
-							<div class="col-12 col-lg-8 col-md-6">
-								<div class="card-icon">
-									<img class="page_icon"
-										src="{{asset('images/doorder_icons/Invoice-white.png')}}">
-								</div>
-								<h4 class="card-title ">Payout To</h4>
-								<h5 class="card-category ">
-									<a class=""
-										href="{{url('doorder/drivers/view/')}}/{{$driver->id}}">{{$user->name}}</a>
-									<span>{{$user->email}}</span> <span>{{$user->phone}}</span>
-								</h5>
-							</div>
+					<div class="card invoiceCard">
+						<div class="card-header">
+							<div class="container">
+								<div class="row mt-3">
+									<div class="col-12 col-sm-6">
 
-							<div class="col-12 col-lg-4 col-md-6">
-								<h5 class="card-category-invoice ">
-									<span>Invoice Number {{$driver->id}}</span> <span class="mt-2">
-										VAT Reg .No. IE3719422OH </span>
-								</h5>
+										<h4 class="card-title invoiceTitleH4">Payout To</h4>
+										<h5 class="card-title invoiceTitleH5 mt-3">
+											<a class=""
+												href="{{url('doorder/drivers/view/')}}/{{$driver->id}}">{{$user->name}}</a>
+										</h5>
+									</div>
+
+									<div class="col-12  col-sm-6"></div>
+								</div>
+								<div class="row">
+									<div class="col-12 col-sm-6">
+										<p class="invoiceTitleP">{{$user->email}}</p>
+										<p class="invoiceTitleP">{{$user->phone}}</p>
+									</div>
+								</div>
 							</div>
 						</div>
-						<div class="card-body">
+						<div class="card-body pt-0">
 							<div class="container">
 								<div class="row">
 									<div class="col-md-12">
@@ -237,49 +174,38 @@ a.invoiceBtn {
 
 									<div class="col-md-12">
 										<table id="invoiceListTable"
-											class="table table-striped table-no-bordered  "
+											class="table table-no-bordered table-hover doorderTable mt-0"
 											cellspacing="0" width="100%">
 											<thead>
 												<tr>
-													<th>SERVICE</th>
-													<th>QTY</th>
-													<th>PRICE</th>
-													<th>TOTAL</th>
+													<th width="70%" colspan="4">Service</th>
+													<th width="10%" class="text-center">QTY</th>
+													<th width="10%">Price</th>
+													<th width="10%" class="text-center">Total</th>
 												</tr>
 
 											</thead>
 											<tbody>
-												@foreach($invoice as $item)
-												<tr>
-													<td>{{$item['name']}}
+												
+												<tr v-if="invoice.length > 0" v-for="item in invoice" >
+													<td colspan="4"><p class="invoiceServiceP">@{{item.name}}
 														</p>
-
-														<p class="invoiceDateSpan">{{$item['date']}}</p>
-														<p>{{$item['data']}}</p>
-
-
+														<p class="invoiceDateSpan">@{{item.date}}</p> 
 													</td>
-													<td>{{$item['count']}}</td>
-													<td>{{$invoice_price}}</td>
-													<td class="invoiceBoldSpan">€{{$item['charge']}}</td>
+													<td>@{{item.count}}</td>
+													<td class="text-left">{{$invoice_price}}</td>
+													<td class="invoiceBoldSpan">€@{{item.charge}}</td>
 												</tr>
-												@endforeach
+												<tr v-if="invoice.length == 0">
+        											<td colspan="7" class="text-center">No data found.
+        											</td>
+        										</tr>
 											</tbody>
-											<tfoot>
-<!-- 												<tr> -->
-<!-- 													<th colspan="2"></th> -->
-<!-- 													<th>Subtotal</th> -->
-<!-- 													<th>€{{$subtotal}}</th> -->
-<!-- 												</tr> -->
-<!-- 												<tr> -->
-<!-- 													<th colspan="2"></th> -->
-<!-- 													<th>VAT @ 23%</th> -->
-<!-- 													<th>€{{$vat}}</th> -->
-<!-- 												</tr> -->
+											<tfoot v-if="invoice.length > 0">
 												<tr>
-													<th colspan="2"></th>
-													<th>Total</th>
-													<th>€{{$total}}</th>
+													<th colspan="5"></th>
+													<th class="tfootLabelTh tfootBorderTh">Total</th>
+													<th class="tfootValueTh tfootBorderTh text-center">€{{$total}}</th>
 												</tr>
 											</tfoot>
 										</table>
@@ -288,58 +214,28 @@ a.invoiceBtn {
 							</div>
 						</div>
 
-						<div class="card-body" style="background-color: #f8f8f8;">
-							<div class="container">
-								<div class="row">
-									<div class="col-md-12">
-										<h4 class="invoiceH4">DOORDER LIMITED</h4>
-									</div>
-									<div class="col-md-12">
-										<label class="doorderLimitedLabel">IBAN: <span
-											class="doorderLimitedSpan"> IE67 BOFI 9007 5425 3970 40 </span></label>
-									</div>
-									<div class="col-md-12">
-										<label class="doorderLimitedLabel">BIC/SWIFT: <span
-											class="doorderLimitedSpan"> BOFIIE2DXXX </span></label>
-									</div>
 
-									<div class="col-md-6">
-										<label class="doorderLimitedLabel">ADDRESS: <span
-											class="doorderLimitedSpan"> Rathines, Dublin 6 </span></label>
-									</div>
-									<div class="col-md-6">
-										<label class="doorderLimitedLabel float-right"><i
-											class="fas fa-at"></i> www.doorder.eu</label>
-									</div>
-									<div class="col-md-6">
-										<label class="doorderLimitedLabel">COMPANY REG NO. <span
-											class="doorderLimitedSpan"> 673153 </span></label>
-									</div>
-									<div class="col-md-6">
-										<label class="doorderLimitedLabel float-right"><i
-											class="far fa-envelope"></i> info@doorder.eu</label>
-									</div>
-								</div>
-							</div>
-						</div>
 					</div>
 
 					@if($completed_stripe_account==true)
-					<div class="row ">
-						<div class="col text-center">
-							<button class="btn bt-submit invoiceBtn" onclick="payoutToDriver({{$driver->id}},{{$subtotal}})" >Payout</button>
+					<div class="row justify-content-center">
+						<div class="col-lg-3  col-md-3 col-sm-4  text-center">
+							<button class="btnDoorder btn-doorder-primary  mb-1"
+								onclick="payoutToDriver({{$driver->id}},{{$subtotal}})">Payout</button>
 						</div>
 					</div>
 					@else
-					<div class="row ">
-						<div class="col-sm-6 text-center">
-							
-							<button class="btn bt-submit invoiceBtn" disabled="disabled">Payout</button>
+					<div class="row justify-content-center">
+						<div class="col-lg-3  col-md-3 col-sm-4  text-center">
+
+							<button class="btnDoorder btn-doorder-primary  mb-1 disabled"
+								disabled="disabled">Payout</button>
 						</div>
-						<div class="col-sm-6 text-center">
+						<div class="col-lg-3  col-md-3 col-sm-4  text-center">
 							<button type="button"
-								class="btn btn-primary doorder-btn-lg doorder-btn invoiceBtn"
-								onclick="sendNotificationNotCompleted({{$driver->id}},'{{$stripe_profile_status}}')">Notify driver</button>
+								class="btnDoorder btn-doorder-primary  mb-1"
+								onclick="sendNotificationNotCompleted({{$driver->id}},'{{$stripe_profile_status}}')">Notify
+								driver</button>
 						</div>
 					</div>
 					@endif
@@ -349,129 +245,134 @@ a.invoiceBtn {
 		</div>
 
 	</div>
-	
-	
-<!-- send notification modal -->
-<div class="modal fade" id="send-notification-modal" tabindex="-1"
-	role="dialog" aria-labelledby="send-notification-label" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close d-flex justify-content-center"
-					data-dismiss="modal" aria-label="Close">
-					<i class="fas fa-times"></i>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="modal-dialog-header deleteHeader"
-				id="notifyDriverMessageDiv">This driver profile is incomplete or doesn't have a stripe profile yet</div>
 
-				<div>
+	<!-- send notification modal -->
+	<div class="modal fade" id="send-notification-modal" tabindex="-1"
+		role="dialog" aria-labelledby="send-notification-label"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close d-flex justify-content-center"
+						data-dismiss="modal" aria-label="Close">
+						<i class="fas fa-times"></i>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="modal-dialog-header modalHeaderMessage"
+						id="notifyDriverMessageDiv">This driver profile is incomplete or
+						doesn't have a stripe profile yet</div>
 
-					<form method="POST" id="sendNotificationForm"
-						action="{{url('doorder/send_notification_driver')}}"
-						style="margin-bottom: 0 !important;">
-						@csrf <input type="hidden" id="driver_id" name="driver_id"
-							value="" />
-					</form>
+					<div>
+
+						<form method="POST" id="sendNotificationForm"
+							action="{{url('doorder/send_notification_driver')}}"
+							style="margin-bottom: 0 !important;">
+							@csrf <input type="hidden" id="driver_id" name="driver_id"
+								value="" />
+						</form>
+					</div>
 				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-6">
-					<button type="button"
-						class="btn btn-primary doorder-btn-lg doorder-btn"
-						onclick="$('form#sendNotificationForm').submit()">Send notification</button>
-				</div>
-				<div class="col-sm-6">
-					<button type="button"
-						class="btn btn-danger doorder-btn-lg doorder-btn"
-						data-dismiss="modal">Cancel</button>
+				<div class="row justify-content-center">
+					<div class="col-lg-4 col-md-6 text-center">
+						<button type="button"
+							class="btnDoorder btn-doorder-primary mb-1"
+							onclick="$('form#sendNotificationForm').submit()">Send
+							notification</button>
+					</div>
+					<div class="col-lg-4 col-md-6 text-center">
+						<button type="button"
+							class="btnDoorder btn-doorder-danger-outline mb-1"
+							data-dismiss="modal">Cancel</button>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<!-- end send notification modal -->
+	<!-- end send notification modal -->
 
-<!-- no payout modal -->
-<div class="modal fade" id="payout-driver-modal" tabindex="-1"
-	role="dialog" aria-labelledby="payout-driver-label" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<div class="modal-dialog-header addUserModalHeader">Payout To Driver</div>
-				<button type="button" class="close d-flex justify-content-center"
-					data-dismiss="modal" aria-label="Close">
-					<i class="fas fa-times"></i>
-				</button>
-			</div>
-			<div class="modal-body">
-				
-				<div>
+	<!-- no payout modal -->
+	<div class="modal fade" id="payout-driver-modal" tabindex="-1"
+		role="dialog" aria-labelledby="payout-driver-label" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div class="modal-dialog-header addUserModalHeader">Payout To
+						Driver</div>
+					<button type="button" class="close d-flex justify-content-center"
+						data-dismiss="modal" aria-label="Close">
+						<i class="fas fa-times"></i>
+					</button>
+				</div>
+				<div class="modal-body">
 
-					<form method="POST" id="payoutForm"
-						action="{{url('doorder/payout_driver_invoice')}}"
-						style="margin-bottom: 0 !important;">
-						@csrf <input type="hidden" id="driver_id" name="driver_id"
-							value="" />
+					<div>
 
-						<div class="row">
-							<div class="col">
-								<div class="form-group bmd-form-group">
-									<label for="subtotal">Subtotal </label> <input type="number"
-										class="form-control" name="subtotal" id="subtotal" step="any"
-										placeholder="Subtotal" v-model="subtotal" @change="changeSubtotal" required>
-								</div>
-							</div></div>
-						<div class="row">	
-							<div class="col">
-								<div class="form-group bmd-form-group">
-									<label for="subtotal">Additional </label>
-										
-									<input type="number"
-										class="form-control" name="additional" id="additional" step="any"
-										placeholder="Additional" v-model="additional" @change="changeAdditional" required>
-								</div>
-							</div></div>
-						<div class="row">	
-							<div class="col">
-								<div class="form-group bmd-form-group" style="font-weight: 700;">
-									<label for="subtotal">Total: </label>
-										<span  v-html="total"></span> <input type="hidden"
-										 name="total" id="total" step="any"
-										  v-model="total">
+						<form method="POST" id="payoutForm"
+							action="{{url('doorder/payout_driver_invoice')}}"
+							style="margin-bottom: 0 !important;">
+							@csrf <input type="hidden" id="driver_id" name="driver_id"
+								value="" />
+
+							<div class="row">
+								<div class="col">
+									<div class="form-group bmd-form-group">
+										<label for="subtotal">Subtotal </label> <input type="number"
+											class="form-control" name="subtotal" id="subtotal" step="any"
+											placeholder="Subtotal" v-model="subtotal"
+											@change="changeSubtotal" required>
+									</div>
 								</div>
 							</div>
-						</div>
-						<div class="row">
-							<div class="col">
-								<div class="form-group bmd-form-group">
-									<label for="subtotal">Notes </label>
-									<textarea rows="5" class="form-control" name="notes"></textarea>	
-								</div>	
+							<div class="row">
+								<div class="col">
+									<div class="form-group bmd-form-group">
+										<label for="subtotal">Additional </label> <input type="number"
+											class="form-control" name="additional" id="additional"
+											step="any" placeholder="Additional" v-model="additional"
+											@change="changeAdditional" required>
+									</div>
+								</div>
 							</div>
-						</div>
-					</form>
+							<div class="row">
+								<div class="col">
+									<div class="form-group bmd-form-group"
+										style="font-weight: 800;">
+										<label for="">Total: </label> <span v-html="total"></span>
+										<input type="hidden" name="total" id="total" step="any"
+											v-model="total">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group bmd-form-group">
+										<label for="subtotal">Notes </label>
+										<textarea rows="5" class="form-control" name="notes"></textarea>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
 				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-6">
-					<button type="button"
-						class="btn btn-primary doorder-btn-lg doorder-btn"
-						onclick="$('form#payoutForm').submit()">Submit</button>
-				</div>
-				<div class="col-sm-6">
-					<button type="button"
-						class="btn btn-danger doorder-btn-lg doorder-btn"
+				<div class="row justify-content-center">
+					<div class="col-lg-4 col-md-6 text-center">
+						<button type="button"
+							class="btnDoorder btn-doorder-primary mb-1"
+							onclick="$('form#payoutForm').submit()">Submit</button>
+					</div>
+					<div class="col-lg-4 col-md-6 text-center">
+						<button type="button"
+							class="btnDoorder btn-doorder-danger-outline mb-1"
 						data-dismiss="modal">Cancel</button>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<!-- end payout modal -->
-	
-	
+	<!-- end payout modal -->
+
+
 </div>
 
 @endsection @section('page-scripts')
@@ -511,7 +412,8 @@ $( document ).ready(function() {
 });
         var app = new Vue({
             el: '#app',
-            data: {      
+            data: {  
+            	invoice: {!! json_encode($invoice) !!},    
             	subtotal: {!! $subtotal !!},
             	additional: 0,
             	total:({!! $subtotal !!}).toFixed(2),

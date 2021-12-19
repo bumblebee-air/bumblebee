@@ -33,7 +33,3 @@
 .chartist-tooltip.tooltip-show {
 	opacity: 1;
 }
-
-.ct-area, .ct-line {
-	pointer-events: none;
-}

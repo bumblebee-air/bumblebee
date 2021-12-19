@@ -1,4 +1,4 @@
-@extends('templates.dashboard') @section('page-styles')
+@extends('templates.doorder_dashboard') @section('page-styles')
 
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" />
@@ -10,22 +10,7 @@
 	margin: 8px -15px 8px -15px !important;
 }
 
-#driverTable thead tr th {
-	border: none !important;
-}
 
-#driverTable th, #driverTable td {
-	padding-top: 3px !important;
-	padding-bottom: 3px !important;
-}
-
-.ui-datepicker-calendar td {
-	min-width: auto;
-}
-
-.ui-draggable, .ui-droppable {
-	background-position: top;
-}
 
 .dataTables_wrapper.no-footer .dataTables_scrollBody {
 	border: none !important;
@@ -36,47 +21,22 @@ table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
 	border-right: none !important;
 }
 
-.ui-icon-circle-triangle-w {
-	background: url('{{asset(' images/ doorder_icons/ angle-arrow-left.png ')}}')
-		no-repeat center !important;
-	background-size: cover;
+.doorderTable tbody tr td, .doorderTable thead tr th{
+    min-width: 120px;
+}
+.overallRating img {
+	width: 18px;
+	height: 18px;
+}
+.driverRating img{
+    width: 22px;
 }
 
-.ui-icon-circle-triangle-e {
-	background: url('{{asset(' images/ doorder_icons/ angle-arrow-right.png ')}}')
-		no-repeat center !important;
-	background-size: cover;
-}
+@media ( min-width :768px) and ( max-width :991.5px) {
 
-.dt-datetime-table thead tr th, .dt-datetime-table tbody tr td {
-	min-width: 30px !important;
-	max-width: 30px !important;
-	width: 30px !important;
+.driverRating img{
+    width: 19px;
 }
-
-div.dt-datetime {
-	padding: 1px;
-}
-
-div.dt-datetime table th {
-	padding: 4px 0;
-}
-
-div.dt-datetime table td.selectable.now {
-	background-color: #f7dc69;
-	color: white;
-}
-
-div.dt-datetime table td.selectable button:hover {
-	background-color: #d6b93d;
-}
-
-div.dataTables_wrapper div.dataTables_filter {
-	display: none;
-}
-.overallRating img{
-    width: 18px;
-    height: 18px;
 }
 </style>
 @endsection @section('title','DoOrder | Driver ' . $driver->first_name .
@@ -88,117 +48,116 @@ div.dataTables_wrapper div.dataTables_filter {
 				<div class="col-md-12">
 
 					<input type="hidden" name="driver_id" value="{{$driver->id}}" />
+
 					<div class="card">
-						<div class="card-header card-header-icon card-header-rose row">
-							<div class="col-12 col-md-8">
-								<div class="card-icon">
-									<img class="page_icon"
-										src="{{asset('images/doorder_icons/Deliverers-white.png')}}">
-								</div>
-								<h4 class="card-title ">Deliverer Profile</h4>
-							</div>
-						</div>
-
-						<div class="card-body">
-							<div class="container">
+						<div class="card-header   row">
+							<div class="col-12 col-lg-4 col-md-5">
 								<div class="row">
-									<div class="table-responsive">
-
-										<table id="driverTable"
-											class="table table-no-bordered table-hover doorderTable "
-											cellspacing="0" width="100%" style="width: 100%">
-											<thead>
-
-												<tr class="theadColumnsNameTr">
-													<th>Location</th>
-													<th>Name</th>
-													<th>Address</th>
-													<th>Transport Type</th>
-													<th>Work Type</th>
-													<th>Shift Time</th>
-													<th>Driver Rating</th>
-													<th class="disabled-sorting ">Action</th>
-												</tr>
-											</thead>
-
-											<tbody>
-												<tr class="order-row"
-													@click="openViewDriver(event,driver.id)">
-													<td>@{{ JSON.parse(driver.work_location).name}}</td>
-													<td>@{{ driver.first_name}} @{{ driver.last_name }}</td>
-													<td>@{{ driver.address}}</td>
-
-													<td>@{{ driver.transport }}</td>
-													<td></td>
-													<td></td>
-        											<td><div class="driverRating" :data-score="driver.rating_doorder.rating"
-        											></div>
-        											</td>
-													<td><a
-														class="btn  btn-link btn-primary-doorder btn-just-icon edit"
-														@click="openDriver(driver.id)"><i class="fas fa-pen-fancy"></i></a>
-														<button type="button"
-															class="btn btn-link btn-danger btn-just-icon remove"
-															@click="clickDeleteDriver(driver.id)">
-															<i class="fas fa-trash-alt"></i>
-														</button></td>
-
-												</tr>
-											</tbody>
-										</table>
+									<div class="col-3">
+										<div class="card-icon card-icon-driver-profile">@{{driver.first_letters}}</div>
 									</div>
+									<div class="col-9">
+										<h4 class="card-title mt-1">@{{ driver.first_name}} @{{
+											driver.last_name }}</h4>
+										<p class="invoiceTitleP mb-0">@{{driver.email}}</p>
 
+										<div class="row mt-2">
+											<div class=" col-md-6 text-center p-sm-1">
+												<button class="btn-doorder-filter mb-1 ml-0"
+													@click="openDriver(driver.id)">Edit</button>
+											</div>
+											<div class="col-md-6 text-center p-sm-1">
+												<button class="btn-doorder-filter-danger-outline mb-1 ml-0"
+													@click="clickDeleteDriver(driver.id)">Delete</button>
+
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-12 col-xl-7 offset-xl-1 col-lg-8 col-md-7">
+								<div class="row mt-1">
+									<div class="col-md-4 col-6">
+										<label class="viewTitleLabel mb-0 label-display-block">Location</label>
+										<label class="viewValueLabel">@{{
+											JSON.parse(driver.work_location).name}}</label>
+									</div>
+									<div class="col-md-4 col-6">
+										<label class="viewTitleLabel mb-0 label-display-block">Address</label>
+										<label class="viewValueLabel">@{{driver.address}}</label>
+									</div>
+									<div class="col-md-4 col-6">
+										<label class="viewTitleLabel mb-0 label-display-block">Transport</label>
+										<label class="viewValueLabel">@{{driver.transport}}</label>
+									</div>
+									<div class="col-md-4 col-6">
+										<label class="viewTitleLabel mb-0 label-display-block">Work
+											type</label> <label class="viewValueLabel">@{{driver.email}}</label>
+									</div>
+									<div class="col-md-4 col-6">
+										<label class="viewTitleLabel mb-0 label-display-block">Shift
+											time</label> <label class="viewValueLabel">@{{driver.transport}}</label>
+									</div>
+									<div class="col-md-4 col-6">
+										<label class="viewTitleLabel mb-0 label-display-block">Driver
+											rating</label>
+										<div class="driverRating" :data-score="driver.rating_doorder.rating"></div>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 
 					<div class="card">
-						
+
+						<div class="card-header card-header-icon card-header-rose row">
+							<div class="col-12 col-xl-5 col-lg-4 col-md-4 col-sm-12">
+
+								<h4 class="card-title my-4 mb-sm-1">Delivery History</h4>
+							</div>
+							<div class="col-12 col-xl-7 col-lg-8 col-md-8 col-sm-12">
+
+								<div
+									class="row justify-content-end mt-2 mt-xs-0 filterContrainerDiv">
+									<div class="col-lg-4 col-md-4 col-sm-4 px-md-1">
+										<div class="form-group bmd-form-group inputWithIconDiv">
+											<img
+												src="{{asset('images/doorder-new-layout/calendar-filter-yellow.png')}}"
+												alt=""> <input class="form-control inputDate inputFilter"
+												id="min" name="min" type="text" placeholder="From"
+												aria-required="true">
+										</div>
+									</div>
+									<div class="col-lg-4 col-md-4 col-sm-4 px-md-1">
+										<div class="form-group bmd-form-group inputWithIconDiv">
+											<img
+												src="{{asset('images/doorder-new-layout/calendar-filter-yellow.png')}}"
+												alt=""> <input class="form-control inputDate inputFilter"
+												id="max" name="max" type="text" placeholder="To"
+												aria-required="true">
+										</div>
+									</div>
+
+
+								</div>
+							</div>
+						</div>
+
 						<div class="card-body">
 							<div class="container">
 								<div class="row">
 									<div class="table-responsive">
-
-
-										<div class="row" style="margin-left: 0px; margin-right: 0px">
-											<div class="col-md-1">
-												<label class=" col-form-label filterLabelDashboard">Filter:</label>
-											</div>
-
-											<div class="col-md-3">
-												<div class="form-group bmd-form-group">
-													<!-- <input class="form-control inputDate" id="startDate"
-														type="text" placeholder="From" required="true"
-														aria-required="true" name="from"> -->
-													<input type="text" class="form-control " placeholder="From"
-														id="min" name="min">
-												</div>
-											</div>
-											<div class="col-md-3">
-												<div class="form-group bmd-form-group">
-													<!-- <input class="form-control inputDate" id="endDate"
-														type="text" placeholder="To" required="true"
-														aria-required="true" name="to"> -->
-													<input type="text" class="form-control " placeholder="To"
-														id="max" name="max">
-												</div>
-											</div>
-										</div>
-
-
-										<table class="table" id="ordersTable" width="100%">
+										<table
+											class="table table-no-bordered table-hover doorderTable tableTextLeft ordersListTableWithYellowTime"
+											id="ordersTable" cellspacing="0" width="100%">
 											<thead>
 												<tr>
-													<th>Date</th>
-													<th>Time</th>
-													<th>Order Number</th>
-													<th>Retailer Name</th>
-													<th>Pickup Location</th>
-													<th>Delivery Location</th>
-													<th>Status</th>
-													<th>Retailer Rating</th>
-													<th>Customer Rating</th>
+													<th width="10%">Date & Time</th>
+													<th width="10%">Order Number</th>
+													<th width="10%">Retailer Name</th>
+													<th width="10%">Trip Route</th>
+													<th width="10%">Retailer Rating</th>
+													<th width="10%">Customer Rating</th>
 												</tr>
 											</thead>
 
@@ -206,22 +165,32 @@ div.dataTables_wrapper div.dataTables_filter {
 
 												<tr v-for="order in orders" v-if="orders.length > 0"
 													@click="openOrder(order.id)" class="order-row">
-													<td>@{{ parseDate(order.created_at) }}</td>
-													<td>@{{ parseTime(order.created_at) }}</td>
+													<td>@{{ parseDate(order.created_at) }} <span
+														class="orderTime"> @{{ parseTime(order.created_at) }} </span>
+													</td>
 													<td>@{{order.order_id.includes('#')? order.order_id :
 														'#'+order.order_id}}</td>
 
 													<td>@{{order.retailer_name}}</td>
+													<td class="text-left">
+														<p style="" class="tablePinSpan tooltipC mb-0">
+															<span> <i class="fas fa-map-marker-alt"
+																style="color: #747474"></i> <span
+																style="width: 20px; height: 0; display: inline-block; border-top: 2px solid #979797"></span>
+																<i class="fas fa-map-marker-alt" style="color: #60A244"></i></span>
+															<span class="tooltiptextC"> <i class="fas fa-circle"
+																style="color: #747474"></i> @{{order.pickup_address}} <br>
+																<i class="fas fa-circle" style="color: #60A244"></i>
+																@{{order.customer_address}}
+															</span>
+														</p>
 
-													<td>@{{ order.pickup_address }}</td>
-													<td>@{{order.customer_address}}</td>
-													<td><img class="order_status_icon"
-														:src="'{{asset('/')}}images/doorder_icons/order_status_' + (order.status === 'assigned' ? 'matched' :  order.status) + '.png'"
-														:alt="order.status"></td>
-														<td><div class="overallRating" :data-score="order.rating_retailer"></div>
-														</td>
-														<td><div class="overallRating" :data-score="order.rating_customer"></div>
-														</td>
+													</td>
+
+													<td><div class="overallRating"
+															:data-score="order.rating_retailer"></div></td>
+													<td><div class="overallRating"
+															:data-score="order.rating_customer"></div></td>
 												</tr>
 
 												<tr v-else>
@@ -250,8 +219,8 @@ div.dataTables_wrapper div.dataTables_filter {
 									</button>
 								</div>
 								<div class="modal-body">
-									<div class="modal-dialog-header deleteHeader">Are you sure you
-										want to delete this account?</div>
+									<div class="modal-dialog-header modalHeaderMessage">Are you
+										sure you want to delete this account?</div>
 									<div>
 										<form method="POST" id="delete-driver"
 											action="{{url('doorder/driver/delete')}}"
@@ -261,15 +230,15 @@ div.dataTables_wrapper div.dataTables_filter {
 										</form>
 									</div>
 								</div>
-								<div class="row">
-									<div class="col-sm-6">
+								<div class="row justify-content-center">
+									<div class="col-lg-4 col-md-6 text-center">
 										<button type="button"
-											class="btn btn-primary doorder-btn-lg doorder-btn"
+											class="btnDoorder btn-doorder-primary mb-1"
 											onclick="$('form#delete-driver').submit()">Yes</button>
 									</div>
-									<div class="col-sm-6">
+									<div class="col-lg-4 col-md-6 text-center">
 										<button type="button"
-											class="btn btn-danger doorder-btn-lg doorder-btn"
+											class="btnDoorder btn-doorder-danger-outline mb-1"
 											data-dismiss="modal">Cancel</button>
 									</div>
 								</div>
@@ -333,21 +302,23 @@ $( document ).ready(function() {
 
 var table= $('#ordersTable').DataTable({
     	
-          fixedColumns: true,
-          "lengthChange": false,
-          "searching": true,
-  		  "info": false,
-  		  "ordering": false,
-  		  "paging": false,
+          fixedColumns: true,    	
+    "pagingType": "full_numbers",
+          "ordering": false,
   		  "responsive":true,
-    	 columnDefs: [
-                {
-                    render: function (data, type, full, meta) {
-                    	return '<span data-toggle="tooltip" data-placement="top" title="'+data+'">'+data+'</span>';
-                    },
-                    targets: [4,5]
-                }
+    	 	columnDefs: [
+                
              ],
+            "language": {  
+        		search: '',
+    			"searchPlaceholder": "Search ",
+    			"paginate": {
+                      "previous": "<i class='fas fa-angle-left'></i>",
+                      "next": "<i class='fas fa-angle-right'></i>",
+                      "first":"<i class='fas fa-angle-double-left'></i>",
+                      "last":"<i class='fas fa-angle-double-right'></i>"
+                    }
+    	   },
        
         scrollX:        true,
         scrollCollapse: true,

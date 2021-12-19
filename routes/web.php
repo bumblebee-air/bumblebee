@@ -223,14 +223,15 @@ Route::get('stripe-onboard/stripe/success', 'StripeController@getOnboardSuccess'
 
 Route::post('validate-email-phone', 'HelperController@postValidateEmailAndPhone');
 // Clients Login
-Route::group([
-    'prefix' => '{client_name}'
-],
+Route::group(
+    [
+        'prefix' => '{client_name}'
+    ],
     function () {
         Route::get('login', 'Auth\LoginController@showLoginForm')->name('clientLogin');
         Route::post('login', 'Auth\LoginController@login')->name('clientLogin');
         Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('clientForgetPassword');
-        
+
         Route::middleware("auth:garden-help,doorder,doom-yoga,unified")->group(function () {
             Route::get('profile', 'ProfileController@getProfile');
             Route::post('profile/password-reset', 'ProfileController@postPasswordReset');
@@ -328,30 +329,41 @@ Route::group([
         Route::get('retailer/registration', 'doorder\RetailerController@getRetailerRegistrationForm')->name('getRetailerRegistration');
         Route::post('retailer/registration', 'doorder\RetailerController@postRetailerRegistrationForm')->name('postRetailerRegistration');
         // Order rating
-        Route::get('order/rating/{user_type}/{order_id}','doorder\RatingController@getRating')->name('doorder_getRating');
-        Route::post('order/save_rating','doorder\RatingController@saveRating')->name('doorder_saveRating');
-        Route::get('order/rating_success','doorder\RatingController@getSuccess')->name('doorder_ratingSuccess');
+        Route::get('order/rating/{user_type}/{order_id}', 'doorder\RatingController@getRating')->name('doorder_getRating');
+        Route::post('order/save_rating', 'doorder\RatingController@saveRating')->name('doorder_saveRating');
+        Route::get('order/rating_success', 'doorder\RatingController@getSuccess')->name('doorder_ratingSuccess');
         // order update address
-        Route::get('order/update_address/{order_id}','doorder\OrdersController@getUpdateAddress')->name('doorder_getUpdateAddress');
-        Route::post('order/save_update_address','doorder\OrdersController@saveUpdateAddress')->name('doorder_saveUpdateAddress');
-        Route::get('order/save_address_success','doorder\OrdersController@getUpdateAddressSuccess')->name('doorder_saveAddressSuccess');
-        
+        Route::get('order/update_address/{order_id}', 'doorder\OrdersController@getUpdateAddress')->name('doorder_getUpdateAddress');
+        Route::post('order/save_update_address', 'doorder\OrdersController@saveUpdateAddress')->name('doorder_saveUpdateAddress');
+        Route::get('order/save_address_success', 'doorder\OrdersController@getUpdateAddressSuccess')->name('doorder_saveAddressSuccess');
+
 
         Route::group([
             'middleware' => "auth:doorder"
         ], function () {
             Route::get('dashboard', 'doorder\DashboardController@index')->name('doorder_dashboard');
+            Route::get('search_map', 'doorder\DashboardController@searchOrderMap')->name('doorder_searchMapOrder');
             Route::get('metrics_dashboard', 'doorder\DashboardController@metricsDashboard')->name('doorder_metrics_dashboard');
-            Route::get('get_metrics_chart_label_data','doorder\DashboardController@getMetricsChartLabelData')->name('doorder_metrics_chart_label_data');
+            Route::get('get_metrics_chart_label_data', 'doorder\DashboardController@getMetricsChartLabelData')->name('doorder_metrics_chart_label_data');
+            Route::get('get_metrics_average_chart_data','doorder\DashboardController@getMetricsAverageChartData')->name('doorder_metrics_average_chart_data');
             Route::get('orders', 'doorder\OrdersController@getOrdersTable')->name('doorder_ordersTable');
             Route::get('orders/history', 'doorder\OrdersController@getOrdersHistoryTable')->name('doorder_ordersHistoryTable');
             Route::get('single-order/{id}', 'doorder\OrdersController@getSingleOrder')->name('doorder_singleOrder');
             Route::post('orders/import', 'doorder\OrdersController@postImportOrders')->name('doorder_addNewOrder');
             Route::post('order/delete', 'doorder\OrdersController@deleteOrder')->name('doorder_deleteOrderOrder');
-            
+
+
+            Route::get('calendar-orders-events', 'doorder\OrdersController@getCalendarOrdersEvents')->name('doorder_getCalendarOrdersEvents');
+
             Route::get('map_routes', 'doorder\MapRoutesConroller@index')->name('doorder_mapRoutes');
-            Route::get('get_route_driver','doorder\MapRoutesConroller@getRouteOfDriver')->name('doorder_getRouteDriver');
-            
+            Route::get('get_route_driver', 'doorder\MapRoutesConroller@getRouteOfDriver')->name('doorder_getRouteDriver');
+
+            Route::post('assign_orders', 'doorder\DriversController@assignOrders')->name('doorder_assignOrders');
+            Route::get('driver-page', 'doorder\DriversController@driverPage')->name('doorder_driverPage');
+            Route::post('assign_orders_drivers', 'doorder\MapRoutesConroller@assignDriverEnableRouteOptimization')->name('doorder_assignOrdersDrivers');
+            Route::get('view_route_optimization_map', 'doorder\MapRoutesConroller@getMapRoutes')->name('doorder_postMapRoutesView');
+            Route::get('confirm_route_optimization_map', 'doorder\MapRoutesConroller@SendOrdersToDrivers')->name('doorder_ConfirmRouteOptimization');
+
             Route::group([
                 'middleware' => "client"
             ], function () {
@@ -366,7 +378,7 @@ Route::group([
                 // Setting
                 Route::get('settings', 'doorder\SettingsController@getSettings')->name('doorder_getSettings');
                 Route::post('save_notification', 'doorder\SettingsController@postSaveNotification')->name('doorder_postSaveNotification');
-                Route::post('save_stripe_api', 'doorder\SettingsController@postSaveStripeApi')->name('doorder_postSaveStripeApi'); 
+                Route::post('save_stripe_api', 'doorder\SettingsController@postSaveStripeApi')->name('doorder_postSaveStripeApi');
                 Route::post('user/delete', 'doorder\SettingsController@deleteUser')->name('doorder_deleteUser');
                 Route::post('user/save', 'doorder\SettingsController@saveUser')->name('doorder_saveUser');
                 Route::post('user/edit', 'doorder\SettingsController@editUser')->name('doorder_editUser');
@@ -404,19 +416,20 @@ Route::group([
             Route::get('invoice', 'doorder\InvoiceController@getInvoiceList')->name('doorder_getInvoiceList');
             Route::post('invoice/export', 'doorder\InvoiceController@exportInvoiceList')->name('doorder_exportInvoiceList');
             Route::get('invoice_view/{id}', 'doorder\InvoiceController@getSingleInvoice')->name('doorder_getSingleInvoice');
+            Route::get('invoice_edit/{id}', 'doorder\InvoiceController@getEditSingleInvoice')->name('doorder_getEditSingleInvoice');
             Route::post('send_invoice/{id}', 'doorder\InvoiceController@postSendInvoice')->name('doorder_sendInvoice');
-            
+
             Route::post('send_invoice_email', 'doorder\InvoiceController@postSendInvoiceEmail')->name('doorder_sendInvoiceEmail');
             Route::get('pay_invoice/{retailer_id}/{invoice_number}', 'doorder\InvoiceController@getPayInvoice')->name('doorder_payInvoice');
             Route::post('set-invoice-payment-intent', 'StripeController@setInvoicePaymentIntent');
             Route::post('pay-invoice', 'doorder\InvoiceController@postPayInvoice');
-            
+
             Route::get('drivers_invoice', 'doorder\InvoiceDriversController@getInvoiceList')->name('doorder_getDriversInvoiceList');
-            Route::post('update_last_payout_date','doorder\InvoiceDriversController@postUpdateLastPayoutDate')->name('doorder_postUpdateDriverLastPayoutDate');
-            Route::get('invoice_driver_view/{id}','doorder\InvoiceDriversController@getSingleInvoice')->name('doorder_getSingleDriverInvoice');
+            Route::post('update_last_payout_date', 'doorder\InvoiceDriversController@postUpdateLastPayoutDate')->name('doorder_postUpdateDriverLastPayoutDate');
+            Route::get('invoice_driver_view/{id}', 'doorder\InvoiceDriversController@getSingleInvoice')->name('doorder_getSingleDriverInvoice');
             Route::post('send_notification_driver', 'doorder\InvoiceDriversController@postSendNotificationDriver')->name('doorder_sendNotificationDriver');
-            Route::post('payout_driver_invoice','doorder\InvoiceDriversController@postSendDriverPayout')->name('doorder_sendDriverPayout');
-            
+            Route::post('payout_driver_invoice', 'doorder\InvoiceDriversController@postSendDriverPayout')->name('doorder_sendDriverPayout');
+
 
             // Edit Retailer profile
             Route::get('profile/edit', 'doorder\RetailerController@editRetailerProfile')->name('doorder_retailers_view_retailer');
@@ -489,37 +502,36 @@ Route::group([
                 Route::post('get_company_data', 'unified\CalendarController@getCompanyData')->name('unified_getCompanyData');
                 Route::get('add_customer', 'unified\CustomerController@getAddCustomer')->name('unified_getAddCustomer');
                 Route::post('add_customer', 'unified\CustomerController@postAddCustomer')->name('unified_postAddCustomer');
-                Route::get('add_product_to_customer/{id}','unified\CustomerController@getAddProductToCustomer')->name('unified_getAddProductToCustomer');
-                Route::post('save_productCustomer_hostedCpbx','unified\CustomerController@postSaveProductHostedCpbx')->name('unified_saveProductCustomer_hostedCpbx');
-                Route::post('save_productCustomer_accessControl','unified\CustomerController@postSaveProductAccessControl')->name('unified_saveProductCustomer_accessControl');
-                Route::post('save_productCustomer_cctv','unified\CustomerController@postSaveProductCCTV')->name('unified_saveProductCustomer_cctv');
-                Route::post('save_productCustomer_fireAlarm','unified\CustomerController@postSaveProductFireAlarm')->name('unified_saveProductCustomer_fireAlarm');
-                Route::post('save_productCustomer_intruderAlarm','unified\CustomerController@postSaveProductIntruderAlarm')->name('unified_saveProductCustomer_intruderAlarm');
-                Route::post('save_productCustomer_wifiData','unified\CustomerController@postSaveProductWifiData')->name('unified_saveProductCustomer_wifiData');
-                Route::post('save_productCustomer_structuredCablingSystems','unified\CustomerController@postStructuredCablingSystems')->name('unified_saveProductCustomer_structuredCablingSystems');
-                
-                Route::get('product_form','unified\ProductFormController@getProductForm')->name('unified_getProductForm');
-                Route::post('save_product_form','unified\ProductFormController@postSaveProductForm')->name('unified_postAddProductForm');
-                Route::post('get_customer_product_types','unified\ProductFormController@getProductTypesOfCustomer');
-                Route::post('get_product_type_fields','unified\ProductFormController@getFormFieldsOfProductType');
-               
+                Route::get('add_product_to_customer/{id}', 'unified\CustomerController@getAddProductToCustomer')->name('unified_getAddProductToCustomer');
+                Route::post('save_productCustomer_hostedCpbx', 'unified\CustomerController@postSaveProductHostedCpbx')->name('unified_saveProductCustomer_hostedCpbx');
+                Route::post('save_productCustomer_accessControl', 'unified\CustomerController@postSaveProductAccessControl')->name('unified_saveProductCustomer_accessControl');
+                Route::post('save_productCustomer_cctv', 'unified\CustomerController@postSaveProductCCTV')->name('unified_saveProductCustomer_cctv');
+                Route::post('save_productCustomer_fireAlarm', 'unified\CustomerController@postSaveProductFireAlarm')->name('unified_saveProductCustomer_fireAlarm');
+                Route::post('save_productCustomer_intruderAlarm', 'unified\CustomerController@postSaveProductIntruderAlarm')->name('unified_saveProductCustomer_intruderAlarm');
+                Route::post('save_productCustomer_wifiData', 'unified\CustomerController@postSaveProductWifiData')->name('unified_saveProductCustomer_wifiData');
+                Route::post('save_productCustomer_structuredCablingSystems', 'unified\CustomerController@postStructuredCablingSystems')->name('unified_saveProductCustomer_structuredCablingSystems');
+
+                Route::get('product_form', 'unified\ProductFormController@getProductForm')->name('unified_getProductForm');
+                Route::post('save_product_form', 'unified\ProductFormController@postSaveProductForm')->name('unified_postAddProductForm');
+                Route::post('get_customer_product_types', 'unified\ProductFormController@getProductTypesOfCustomer');
+                Route::post('get_product_type_fields', 'unified\ProductFormController@getFormFieldsOfProductType');
             });
             Route::group([
                 'prefix' => 'product_types'
             ], function () {
-                Route::get('list','unified\ProductFormController@getProductTypesList')->name('unified_getProductTypesList');
+                Route::get('list', 'unified\ProductFormController@getProductTypesList')->name('unified_getProductTypesList');
                 Route::post('delete', 'unified\ProductFormController@deleteProductType')->name('unifiedDeleteProductType');
                 Route::get('view/{id}', 'unified\ProductFormController@getSingleProductType')->name('unified_getProductTypeSingleView');
                 Route::get('edit/{id}', 'unified\ProductFormController@getSingleProductTypeEdit')->name('unified_getProductTypeSingleEdit');
                 Route::post('edit/{id}', 'unified\ProductFormController@postEditProductType')->name('unified_postProductTypeSingleEdit');
                 Route::get('add', 'unified\ProductFormController@getAddProductType')->name('unified_getAddProductType');
-                Route::post('add', 'unified\ProductFormController@postAddProductType')->name('unified_postAddProductType');                
+                Route::post('add', 'unified\ProductFormController@postAddProductType')->name('unified_postAddProductType');
             });
-            
+
             Route::group([
                 'prefix' => 'job_types'
             ], function () {
-                Route::get('list','unified\JobTypeController@getJobTypesList')->name('unified_getJobTypesList');
+                Route::get('list', 'unified\JobTypeController@getJobTypesList')->name('unified_getJobTypesList');
                 Route::post('delete', 'unified\JobTypeController@deleteJobType')->name('unifiedDeleteJobType');
                 Route::get('view/{id}', 'unified\JobTypeController@getSingleJobType')->name('unified_getJobTypeSingleView');
                 Route::get('edit/{id}', 'unified\JobTypeController@getSingleJobTypeEdit')->name('unified_getJobTypeSingleEdit');
@@ -527,7 +539,7 @@ Route::group([
                 Route::get('add', 'unified\JobTypeController@getAddJobType')->name('unified_getAddJobType');
                 Route::post('add', 'unified\JobTypeController@postAddJobType')->name('unified_postAddJobType');
             });
-            
+
             Route::group([
                 'prefix' => 'engineers'
             ], function () {
@@ -539,7 +551,7 @@ Route::group([
                 Route::get('add_engineer', 'unified\EngineerController@getAddEngineer')->name('unified_getAddEngineer');
                 Route::post('add_engineer', 'unified\EngineerController@postAddEngineer')->name('unified_postAddEngineer');
             });
-            
+
             Route::get('unified_dashboard', 'unified\DashboardController@index')->name('unified_dashboard');
             Route::get('calendar', 'unified\CalendarController@getCalendar')->name('unified_getCalendar');
             Route::get('calendar-events', 'unified\CalendarController@getCalendarEvents')->name('unified_getCalendarEvents');
@@ -554,13 +566,14 @@ Route::group([
             Route::get('get_contract_expire', 'unified\CalendarController@getContractExpireList')->name('unified_getContractExpire');
             Route::post('get_engineer_location', 'unified\CalendarController@getEngineerLocation')->name('unified_getEngineerLocation');
         });
-        Route::get('authenticate-zoom','ZoomController@getAuthenticateZoom');
-    });
-Route::group(['middleware' => 'auth:garden-help,doorder,doom-yoga,unified'], function() {
+        Route::get('authenticate-zoom', 'ZoomController@getAuthenticateZoom');
+    }
+);
+Route::group(['middleware' => 'auth:garden-help,doorder,doom-yoga,unified'], function () {
     // Zoom redirect
-    Route::get('zoom-oauth-redirect','ZoomController@authenticateZoomRedirect');
+    Route::get('zoom-oauth-redirect', 'ZoomController@authenticateZoomRedirect');
     // Zoom API test for token validation
-    Route::get('test-zoom','ZoomController@testZoomApi');
+    Route::get('test-zoom', 'ZoomController@testZoomApi');
 });
 // DoOrder Routes
 Route::get('driver_app', function () {
@@ -590,7 +603,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('optimize-orders-route','doorder\OrdersController@optimizeOrdersRoute');
+Route::get('optimize-orders-route', 'doorder\OrdersController@optimizeOrdersRoute');
 Route::get('customer/job/{customer_confirmation_code}', 'unified\CustomerController@getJobConfirmation');
 Route::post('customer/job/{customer_confirmation_code}', 'unified\CustomerController@postJobConfirmation');
 Route::get('gh/customer/job/{customer_confirmation_code}', 'garden_help\CustomersController@getJobConfirmation');

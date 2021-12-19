@@ -1,4 +1,4 @@
-@extends('templates.dashboard') @section('page-styles')
+@extends('templates.doorder_dashboard') @section('page-styles')
 
 <style>
 
@@ -13,18 +13,31 @@
 				<div class="col-md-12">
 					<div class="card">
 						<div class="card-header card-header-icon card-header-rose row">
-							<div class="col-12">
-								<div class="card-icon">
-									<img class="page_icon"
-										src="{{asset('images/doorder_icons/Retailer.png')}}">
-								</div>
-								<h4 class="card-title ">Retailers</h4>
-							</div>
+							<div class="col-12 col-xl-5 col-lg-4 col-md-3 col-sm-12">
 
+								<h4 class="card-title my-4 mb-sm-1">Retailers</h4>
+							</div>
+							<div class="col-12 col-xl-7 col-lg-8 col-md-9 col-sm-12">
+								
+									<div class="row justify-content-end mt-2 mt-xs-0 filterContrainerDiv mb-2 mt-1">
+										
+										<div class="col-xl-4 col-lg-5 col-md-6 col-sm-6 px-md-1">
+											<div id="businessTypeP" class="form-group bmd-form-group"></div>
+										</div>
+										<div class="col-lg-3 col-md-3  col-sm-4 px-md-1">
+											<a href="{{ url()->current()."?export_type=exel" }}" class="btn-doorder-filter w-100">Export</a>
+										</div>
+
+									</div>
+							</div>
 						</div>
+					</div>
+				
+					<div class="card">
+						
 						<div class="card-body">
 							<div style="float: right;">
-								<a href="{{ url()->current()."?export_type=exel" }}" class="btn btn-primary filterButton">Export</a>
+								
 							</div>
 
 							<div class="table-responsive">
@@ -32,17 +45,12 @@
 									class="table table-no-bordered table-hover doorderTable "
 									cellspacing="0" width="100%" style="width:100%">
 									<thead>
-										<tr>
-											<th class="filterhead">Business Type</th>
-											<th class="filterhead">Retailer Name</th>
-											<th class="filterhead">Locations No.</th>
-											<th class="filterhead">Actions</th>
-										</tr>
 										<tr class="theadColumnsNameTr">
 											<th>Business Type</th>
 											<th>Retailer Name</th>
-											<th>Locations No.</th>
-											<th class="disabled-sorting ">Actions</th>
+											<th class="text-center">Locations Number</th>
+<!-- 											<th class="text-center">Sub-Accounts</th> -->
+											<th class="disabled-sorting text-center">Actions</th>
 										</tr>
 									</thead>
 
@@ -50,18 +58,21 @@
 										<tr v-for="retailer in retailers"
 											v-if="retailers.length > 0" class="order-row"
 											@click="openViewRetailer(event,retailer.id)">
-											<td>@{{ retailer.business_type}}</td>
-											<td>@{{ retailer.name}}</td>
+											<td class="text-left">@{{ retailer.business_type}}</td>
+											<td class="text-left">@{{ retailer.name}}</td>
 											<td>@{{ retailer.nom_business_locations }}</td>
-											<td><a
-												class="btn  btn-link btn-primary-doorder btn-just-icon edit"
-												@click="openRetailer(retailer.id)"><i
-													class="fas fa-pen-fancy"></i></a>
+<!-- 											<td></td> -->
+											<td class="actionsTd"><a
+												class="edit"
+												@click="openRetailer(retailer.id)"><img
+															src="{{asset('images/doorder-new-layout/edit-icon.png')}}"></a>
 												<button type="button"
-													class="btn btn-link btn-danger btn-just-icon remove"
+													class="remove"
 													@click="clickDeleteRetailer(retailer.id)">
-													<i class="fas fa-trash-alt"></i>
+														<img
+															src="{{asset('images/doorder-new-layout/delete-icon.png')}}">
 												</button></td>
+												
 										</tr>
 
 										<tr v-else>
@@ -70,11 +81,9 @@
 										</tr>
 									</tbody>
 								</table>
-								<nav aria-label="pagination" class="float-right"></nav>
 							</div>
 						</div>
 					</div>
-					{{--<div class="d-flex justify-content-center">{$retailers->links()}</div>--}}
 				</div>
 			</div>
 		</div>
@@ -96,7 +105,7 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<div class="modal-dialog-header deleteHeader">Are you sure you want
+				<div class="modal-dialog-header modalHeaderMessage">Are you sure you want
 					to delete this account?</div>
 
 				<div>
@@ -109,16 +118,15 @@
 					</form>
 				</div>
 			</div>
-			<div class=" row">
-				<div class="col-sm-6">
-					<button type="button"
-						class="btn btn-primary doorder-btn-lg doorder-btn"
+			<div class="row justify-content-center">
+				<div class="col-lg-4 col-md-6 text-center">
+					<button type="button" class="btnDoorder btn-doorder-primary mb-1"
 						onclick="$('form#delete-retailer').submit()">Yes</button>
 				</div>
 
-				<div class="col-sm-6">
+				<div class="col-lg-4 col-md-6 text-center">
 					<button type="button"
-						class="btn btn-danger doorder-btn-lg doorder-btn"
+						class="btnDoorder btn-doorder-danger-outline mb-1"
 						data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
@@ -132,40 +140,52 @@
 <script type="text/javascript">
 $(document).ready(function() {
     var table= $('#retailersTable').DataTable({
-    "pagingType": "full_numbers",
-        "lengthMenu": [
-          [10, 25, 50,100, -1],
-          [10, 25, 50,100, "All"]
-        ],
-        responsive: true,
-    	"language": {  
-    		search: '',
-			"searchPlaceholder": "Search ",
-    	},
+         "pagingType": "full_numbers",
+                "lengthMenu": [
+                  [-1,10, 25, 50,100],
+                  ["All",10, 25, 50,100]
+                ],
+          responsive: true,
+          "language": {  
+            		search: '',
+        			"searchPlaceholder": "Search ",
+        			
+        			"paginate": {
+                              "previous": "<i class='fas fa-angle-left'></i>",
+                              "next": "<i class='fas fa-angle-right'></i>",
+                              "first":"<i class='fas fa-angle-double-left'></i>",
+                              "last":"<i class='fas fa-angle-double-right'></i>"
+                            }
+            	},
     	"columnDefs": [ {
     		"targets": -1,
     		"orderable": false
     	} ],
         "initComplete": function() {
+        	
+         	var column = this.api().column(0);
+			var select = $('<select id="selectFilter" data-style="select-with-transition" class="form-control selectpicker" name="business_type">'
+							+'<option value="">Select business type </option></select>')
+			.appendTo( $('#businessTypeP').empty().text('') )
+			.on( 'change', function () {
+				var val = $.fn.dataTable.util.escapeRegex(
+					$(this).val()
+				);
+			column
+			.search( val ? '^'+val+'$' : '', true, false )
+			.draw();
+
+			} );
+			column.data().unique().sort().each( function ( d, j ) {
+			select.append( '<option value="'+d+'">'+d+'</option>' );
+			} );
+        
+        
             
         }
     });
     
-      $(".filterhead").each(function (i) {
-                 if (i == 0  ) {
-                     var select = $('<select ><option value="">Select '+$(this).text()+'</option></select>')
-                         .appendTo($(this).empty())
-                         .on('change', function () {
-                             var term = $(this).val();
-                             table.column(i).search(term, false, false).draw();
-                         });
-                     table.column(i).data().unique().sort().each(function (d, j) {
-                         select.append('<option value="' + d + '">' + d + '</option>')
-                     });
-                 } else {
-                    $(this).empty();
-                 }
-             });
+                    
     
 } );
 

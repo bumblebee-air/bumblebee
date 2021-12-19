@@ -1,41 +1,47 @@
-@extends('templates.dashboard') @section('page-styles')
+@extends('templates.doorder_dashboard') @section('page-styles')
+
+<link rel="stylesheet" href="{{asset('css/jquery.businessHours.css')}}">
 <style>
-.verificationDocs .form-group{
-margin: 8px -15px 8px -15px !important;
+.verificationDocs .form-group {
+	margin: 8px -15px 8px -15px !important;
 }
 </style>
- @endsection
-@section('title','DoOrder | Driver ' . $driver->first_name . ' ' .
-$driver->last_name) @section('page-content')
+@endsection @section('title','DoOrder | Driver ' . $driver->first_name .
+' ' . $driver->last_name) @section('page-content')
 <div class="content" id="app">
 	<div class="container-fluid">
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-12">
-					@if($readOnly==0)<form id="save-driver" method="POST"
+					@if($readOnly==0)
+					<form id="save-driver" method="POST"
 						action="{{route('post_doorder_drivers_edit_driver', ['doorder', $driver->id])}}">
-					@endif	
-						{{csrf_field()}}
-						<input type="hidden" name="driver_id" value="{{$driver->id}}"/>
-						<div class="card">
-							<div class="card-header card-header-icon card-header-rose row">
-								<div class="col-12 col-md-8">
-									<div class="card-icon">
-										<img class="page_icon"
-											src="{{asset('images/doorder_icons/Deliverers-white.png')}}">
-									</div>
-									<h4 class="card-title ">{{$driver->first_name}}
+						@endif {{csrf_field()}} <input type="hidden" name="driver_id"
+							value="{{$driver->id}}" />
+						<div class="card card-profile-page-title">
+							<div class="card-header row">
+								<div class="col-12 col-md-8 p-0">
+									<h4 class="card-title my-md-4 mt-4 mb-1">{{$driver->first_name}}
 										{{$driver->last_name}}</h4>
 								</div>
- 								@if($readOnly==1)
-								<div class="col-12 col-md-4 mt-md-5">
+								@if($readOnly==1)
+								<div class="col-12 col-md-4 ">
 									<div class="row justify-content-end float-sm-right">
-										<a class="editLinkA btn  btn-link btn-primary-doorder  edit" href="{{url('doorder/drivers/')}}/{{$driver->id}}">
+										<a class="editLinkA btn  btn-link btn-primary-doorder  edit"
+											href="{{url('doorder/drivers/')}}/{{$driver->id}}">
 											<p>Edit deliverer</p>
 										</a>
 									</div>
 								</div>
 								@endif
+							</div>
+						</div>
+
+						<div class="card">
+							<div class="card-header card-header-profile-border ">
+								<div class="col-md-12 pl-3">
+									<h4>Deliverer Details</h4>
+								</div>
 							</div>
 
 							<div class="card-body">
@@ -52,10 +58,6 @@ $driver->last_name) @section('page-content')
 											@endif
 										</div>
 
-										<div class="col-md-12 d-flex form-head pl-3">
-											<span> 1 </span>
-											<h5 class="singleViewSubTitleH5">Deliverer Details</h5>
-										</div>
 
 										<div class="col-sm-6">
 											<div class="form-group bmd-form-group">
@@ -87,25 +89,25 @@ $driver->last_name) @section('page-content')
 										<div class="col-sm-6">
 											<div class="form-group bmd-form-group">
 												<label>Contact number</label> <input type="text"
-													class="form-control" name="contact_number"
+													class="form-control phoneInputType" name="contact_number"
 													value="{{$driver->user->phone}}"
 													placeholder="Contact number" required>
 											</div>
 										</div>
 
-										<div class="col-sm-6">
-											<div class="form-group bmd-form-group">
-												<label>Contact through</label> <input type="text"
-													class="form-control" name="contact_channel"
-													value="{{$driver->contact_channel}}"
-													placeholder="Contact through" required>
-											</div>
-										</div>
+<!-- 										<div class="col-sm-6"> -->
+<!-- 											<div class="form-group bmd-form-group"> -->
+<!-- 												<label>Contact through</label> <input type="text" -->
+<!-- 													class="form-control" name="contact_channel" -->
+<!-- 													value="{{$driver->contact_channel}}" -->
+<!-- 													placeholder="Contact through" required> -->
+<!-- 											</div> -->
+<!-- 										</div> -->
 
 										<div class="col-sm-6">
 											<div class="form-group bmd-form-group">
 												<label>Date of birth</label> <input type="text"
-													class="form-control" name="birthdate"
+													class="form-control dateInput" name="birthdate"
 													value="{{$driver->dob}}" placeholder="Date of birth"
 													required>
 											</div>
@@ -113,27 +115,31 @@ $driver->last_name) @section('page-content')
 
 										<div class="col-sm-6">
 											<div class="form-group bmd-form-group">
+												<label>Country</label> <input type="text"
+													class="form-control" name="country"
+													value="{{$driver->country}}" placeholder="Country">
+											</div>
+										</div>
+										
+										<div class="col-sm-6">
+											<div class="form-group bmd-form-group">
 												<label>Address</label>
-												<textarea class="form-control" name="address"
+												<textarea class="form-control" name="address" id="driver_address"
+													rows="5"
 													placeholder="Address" required>{{$driver->address}}</textarea>
+												    <input type="hidden" class="form-control" name="address_coordinates"
+												     id="driver_address_coordinates" value="{{$driver->address_coordinates}}">
+													
 											</div>
 										</div>
 										<div class="col-sm-6">
 											<div class="form-group bmd-form-group">
 												<label>Postcode/Eircode</label> <input type="text"
 													class="form-control" name="postcode"
+													id="driver_postcode"
 													value="{{$driver->postcode}}"
 													placeholder="Postcode/Eircode" required>
 											</div>
-										</div>
-										<div class="col-sm-6">
-											<div class="form-group bmd-form-group">
-												<label>Country</label> <input type="text"
-													class="form-control" name="country"
-													value="{{$driver->country}}" placeholder="Country">
-											</div>
-										</div>
-										<div class="col-sm-6">
 											<div class="form-group bmd-form-group">
 												<label>PPS number</label> <input type="text"
 													class="form-control" name="pps_number"
@@ -141,6 +147,7 @@ $driver->last_name) @section('page-content')
 													required>
 											</div>
 										</div>
+										
 										<div class="col-sm-6">
 											<div class="form-group bmd-form-group">
 												<label>Emergency contact name</label> <input type="text"
@@ -153,7 +160,7 @@ $driver->last_name) @section('page-content')
 										<div class="col-sm-6">
 											<div class="form-group bmd-form-group">
 												<label>Emergency contact phone number</label> <input
-													type="text" class="form-control"
+													type="text" class="form-control phoneInputType"
 													name="emergency_contact_number"
 													value="{{$driver->emergency_contact_number}}"
 													placeholder="Emergency contact phone number">
@@ -165,26 +172,37 @@ $driver->last_name) @section('page-content')
 						</div>
 
 						<div class="card">
-							 
+
 							<div class="card-body">
 								<div class="container">
 									<div class="row">
-										
+
 										<div class="col-md-12">
-											
+
 											<div class="row">
 												<div class="col-sm-6">
 													<div class="form-group bmd-form-group">
-														<label>Transport type</label> <input class="form-control"
-															value="{{$driver->transport}}" name="transport"
-															placeholder="Transport type" required>
+														<label>Transport type</label> 
+															 <select name="transport" class="form-control form-control-select selectpicker"
+															 data-style="select-with-transition" required>
+                                                                <option selected disabled>Select transport type</option>
+                                                                <option value="car" @if($driver->transport == 'car' ) selected @endif>Car</option>
+                                                                <option value="scooter" @if($driver->transport == 'scooter' ) selected @endif>Scooter</option>
+                                                                <option value="bicycle" @if($driver->transport == 'bicycle' ) selected @endif>Bicycle</option>
+                                                            </select>
+                                                            
 													</div>
 
 													<div class="form-group bmd-form-group">
-														<label>Max package size</label> <input
-															class="form-control" name="max_package_size"
-															value="{{$driver->max_package_size}}"
-															placeholder="Max package size" required>
+														<label>Max package size</label> 
+															<select name="max_package_size"  class="form-control form-control-select selectpicker"
+															 data-style="select-with-transition" required>
+                                                                <option selected disabled>Select max package size</option>
+                                                                <option value="Very Light" @if($driver->max_package_size == 'Very Light' ) selected @endif>Very light</option>
+                                                                <option value="Light" @if($driver->max_package_size == 'Light' ) selected @endif>light</option>
+                                                                <option value="Medium Weight" @if($driver->max_package_size == 'Medium Weight' ) selected @endif>Medium weight</option>
+                                                                <option value="Very Heavy" @if($driver->max_package_size == 'Very Heavy' ) selected @endif>Very heavy</option>
+                                                            </select>
 													</div>
 
 													<div class="form-group bmd-form-group">
@@ -196,48 +214,22 @@ $driver->last_name) @section('page-content')
 
 													<div class="form-group bmd-form-group">
 														<label>Radius</label> <input class="form-control"
+															id="work_radius" type="number"
 															name="work_radius" value="{{$driver->work_radius}}"
-															placeholder="Radius">
+															placeholder="Radius" onchange="changeRadiusValue()">
 													</div>
 
 												</div>
 
 												<div class="col-sm-6">
 													<div class="form-group bmd-form-group">
-														
+
 														<div id="driver_map" style="height: 320px;"></div>
 													</div>
 												</div>
 
 											</div>
 
-											<!-- Workig Hours Modal -->
-											<div class="modal fade" :id="'exampleModal' + index"
-												tabindex="-1" role="dialog"
-												aria-labelledby="exampleModalLabel" aria-hidden="true">
-												<div class="modal-dialog modal-lg" role="document">
-													<div class="modal-content">
-														<div class="modal-header">
-															<h5 class="modal-title" id="exampleModalLabel">Select
-																Working Days and Hours</h5>
-															<button type="button" class="close" data-dismiss="modal"
-																aria-label="Close">
-																<span aria-hidden="true">&times;</span>
-															</button>
-														</div>
-														<div class="modal-body">
-															<div class="row justify-content-center">
-																<div :id="'business_hours_container' + (index + 1)"></div>
-															</div>
-														</div>
-														<div class="modal-footer d-flex justify-content-center">
-															<button type="button" class="btn btn-submit"
-																@click="serializeBusinessHours(index + 1)"
-																data-dismiss="modal" aria-label="Close">Save changes</button>
-														</div>
-													</div>
-												</div>
-											</div>
 										</div>
 									</div>
 
@@ -246,15 +238,14 @@ $driver->last_name) @section('page-content')
 						</div>
 
 						<div class="card verificationDocs">
+							<div class="card-header card-header-profile-border ">
+								<div class="col-md-12 pl-3">
+									<h4>Verification Documents</h4>
+								</div>
+							</div>
 							<div class="card-body">
 								<div class="container">
 									<div class="row">
-										<div class="col-md-12 d-flex form-head pl-3">
-											<span> 2 </span>
-
-											<h5 class="singleViewSubTitleH5">Verification Documents</h5>
-										</div>
-
 										<div class="col-md-6">
 											<div class="form-group bmd-form-group row">
 												<div class="col-md-12">
@@ -267,7 +258,8 @@ $driver->last_name) @section('page-content')
 														style="color: #333">
 														<div class="file-url-container d-flex ">
 															<i class="fas fa-file"></i>
-															<p class="mt-xl-3 pl-xl-3 my-md-2 pl-2 my-3">Download file</p>
+															<p class="mt-xl-3 pl-xl-3 my-md-2 pl-2 my-3">Download
+																file</p>
 														</div>
 													</a>
 												</div>
@@ -284,7 +276,8 @@ $driver->last_name) @section('page-content')
 														style="color: #333">
 														<div class="file-url-container d-flex">
 															<i class="fas fa-file"></i>
-															<p class="mt-xl-3 pl-xl-3 my-md-2 pl-2 my-3">Download file</p>
+															<p class="mt-xl-3 pl-xl-3 my-md-2 pl-2 my-3">Download
+																file</p>
 														</div>
 													</a>
 												</div>
@@ -306,7 +299,8 @@ $driver->last_name) @section('page-content')
 														style="color: #333">
 														<div class="file-url-container d-flex">
 															<i class="fas fa-file"></i>
-															<p class="mt-xl-3 pl-xl-3 my-md-2 pl-2 my-3">License front</p>
+															<p class="mt-xl-3 pl-xl-3 my-md-2 pl-2 my-3">License
+																front</p>
 														</div>
 													</a>
 												</div>
@@ -336,7 +330,8 @@ $driver->last_name) @section('page-content')
 														style="color: #333">
 														<div class="file-url-container d-flex">
 															<i class="fas fa-file"></i>
-															<p class="mt-xl-3 pl-xl-3 my-md-2 pl-2 my-3">Download file</p>
+															<p class="mt-xl-3 pl-xl-3 my-md-2 pl-2 my-3">Download
+																file</p>
 														</div>
 													</a>
 												</div>
@@ -349,19 +344,23 @@ $driver->last_name) @section('page-content')
 						</div>
 
 						<div class="card">
+							<div class="card-header card-header-profile-border ">
+								<div class="col-md-12 pl-3">
+									<h4>Work Type</h4>
+								</div>
+							</div>
 							<div class="card-body">
 								<div class="container">
 									<div class="row">
-										<div class="col-md-12 d-flex form-head pl-3">
-											<span> 3 </span>
-
-											<h5 class="singleViewSubTitleH5">Work Type</h5>
-										</div>
 										<div class="col-sm-6">
 											<div class="form-group bmd-form-group">
-												<label>Work type</label> <input type="text"
-													class="form-control" name="work_type" value=""
-													placeholder="Work type">
+												<label>Work type</label>
+												<select name="work_type" class="form-control form-control-select selectpicker"
+															 data-style="select-with-transition" required>
+                                                                <option selected disabled>Select work type</option>
+                                                                <option value="full_time" @if($driver->work_type == 'full_time' ) selected @endif>Full time</option>
+                                                                <option value="freelance" @if($driver->work_type == 'freelance' ) selected @endif>Freelance</option>
+                                                            </select>	
 											</div>
 										</div>
 
@@ -369,7 +368,13 @@ $driver->last_name) @section('page-content')
 											<div class="form-group bmd-form-group">
 												<label>Working days/hours</label>
 												<textarea class="form-control" name="working_days_hours"
-													placeholder="Working days/hours"></textarea>
+													id="working_days_hours" placeholder="Working days/hours"
+													rows="6" data-toggle="modal"
+													data-target="#businessHoursModal">{{$driver->business_hours}}</textarea>
+
+												<input type="hidden" id="working_days_hours_json"
+													name="working_days_hours_json" value="{{$driver->business_hours}}">
+
 											</div>
 										</div>
 									</div>
@@ -377,17 +382,25 @@ $driver->last_name) @section('page-content')
 							</div>
 						</div>
 						@if($readOnly==0)
-						<div class="row">
-							<div class="col-sm-6 text-center">
+						<div class="card"
+							style="background-color: transparent; box-shadow: none;">
+							<div class="card-body p-0">
+								<div class="container w-100" style="max-width: 100%">
 
-								<button class="btn bt-submit">Save</button>
-							</div>
-							<div class="col-sm-6 text-center">
-								<button class="btn bt-submit btn-danger" type="button"
-									data-toggle="modal" data-target="#delete-driver-modal">Delete</button>
+									<div class="row justify-content-center">
+										<div class="col-lg-3  col-md-3 col-sm-4 px-md-1 text-center">
+											<button class="btnDoorder btn-doorder-primary  mb-1">Save</button>
+										</div>
+										<div class="col-lg-3  col-md-3 col-sm-4 px-md-1 text-center">
+											<button class="btnDoorder btn-doorder-danger-outline  mb-1"
+												type="button" data-toggle="modal"
+												data-target="#delete-driver-modal">Delete</button>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
-						
+
 
 					</form>
 					@endif
@@ -406,8 +419,8 @@ $driver->last_name) @section('page-content')
 									</button>
 								</div>
 								<div class="modal-body">
-									<div class="modal-dialog-header deleteHeader">Are you sure you
-										want to delete this account?</div>
+									<div class="modal-dialog-header modalHeaderMessage">Are you
+										sure you want to delete this account?</div>
 									<div>
 										<form method="POST" id="delete-driver"
 											action="{{url('doorder/driver/delete')}}"
@@ -417,20 +430,59 @@ $driver->last_name) @section('page-content')
 										</form>
 									</div>
 								</div>
-								<div class="row">
-									<div class="col-sm-6">
-					<button type="button"
-										class="btn btn-primary doorder-btn-lg doorder-btn"
-										onclick="$('form#delete-driver').submit()">Yes</button></div>
-									<div class="col-sm-6">
-					<button type="button"
-										class="btn btn-danger doorder-btn-lg doorder-btn"
-										data-dismiss="modal">Cancel</button></div>
+								<div class="row justify-content-center">
+									<div class="col-lg-4 col-md-6 text-center">
+										<button type="button"
+											class="btnDoorder btn-doorder-primary mb-1"
+											onclick="$('form#delete-driver').submit()">Yes</button>
+									</div>
+
+									<div class="col-lg-4 col-md-6 text-center">
+										<button type="button"
+											class="btnDoorder btn-doorder-danger-outline mb-1"
+											data-dismiss="modal">Cancel</button>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 					<!-- end delete driver modal -->
+
+					<!-- Workig Hours Modal -->
+					<div class="modal fade" id="businessHoursModal" tabindex="-1"
+						role="dialog" aria-labelledby="#businessHoursLabel"
+						aria-hidden="true">
+						<div class="modal-dialog modal-lg" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button"
+										class="close d-flex justify-content-center"
+										data-dismiss="modal" aria-label="Close">
+										<i class="fas fa-times"></i>
+									</button>
+								</div>
+
+								<div class="modal-body">
+									<div class="modal-dialog-header modalHeaderMessage mb-4">Select
+										Working Days and Hours </div>
+										
+									<div class="row justify-content-center">
+										<div id="business_hours_container" class="row"></div>
+									</div>
+
+									<div class="row justify-content-center mt-4">
+										<div class="col-lg-4 col-md-6 text-center">
+											<button type="button"
+												class="btnDoorder btn-doorder-primary mb-1"
+												onclick="serializeBusinessHours()" data-dismiss="modal"
+												aria-label="Close">Save changes</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--  end working hours modal -->
 				</div>
 			</div>
 		</div>
@@ -438,20 +490,122 @@ $driver->last_name) @section('page-content')
 	</div>
 </div>
 @endsection @section('page-scripts')
+
+<script src="{{asset('js/jquery.businessHours.min.js')}}"></script>
 <script>
+ let business_hours_initial_array = [
+            {"isActive":true,"timeFrom":null,"timeTill":null},
+            {"isActive":true,"timeFrom":null,"timeTill":null},
+            {"isActive":true,"timeFrom":null,"timeTill":null},
+            {"isActive":true,"timeFrom":null,"timeTill":null},
+            {"isActive":true,"timeFrom":null,"timeTill":null},
+            {"isActive":true,"timeFrom":null,"timeTill":null},
+            {"isActive":true,"timeFrom":null,"timeTill":null}
+        ];
+ 
+let map;
+let home_address_circle;
+let bounds;
+       
 $( document ).ready(function() {
 
-var readonly = {!! $readOnly !!};
-if(readonly==1){
-$("input").prop('disabled', true);
-$("textarea").prop('disabled', true);
-}
+    var readonly = {!! $readOnly !!};
+    if(readonly==1){
+        $("input").prop('disabled', true);
+        $("textarea").prop('disabled', true);
+        $("select").prop('disabled', true);
+    }
+    
+    addIntlPhoneInput();
+    
+    var driverBusinessHoursJson = '{!! $driver->business_hours_json !!}';
+    console.log(business_hours_initial_array)
+    console.log(driverBusinessHoursJson)
+    if(driverBusinessHoursJson != ''){
+    	business_hours_initial_array = JSON.parse(driverBusinessHoursJson);
+    }
+    console.log(business_hours_initial_array)
+    console.log(driverBusinessHoursJson)
+    
+    $(".dateInput").datetimepicker({
+    				format:'YYYY-MM-DD',
+                     icons: { time: "fa fa-clock",
+								date: "fa fa-calendar",
+								up: "fa fa-chevron-up",
+								down: "fa fa-chevron-down",
+								previous: 'fa fa-chevron-left',
+								next: 'fa fa-chevron-right',
+								today: 'fa fa-screenshot',
+								clear: 'fa fa-trash',
+								close: 'fa fa-remove'
+							},
+            });
+    
+    window['business_hours_container'] = $('#business_hours_container').businessHours({
+                    operationTime: business_hours_initial_array,
+                    checkedColorClass: "workingBusinssDay", // optional
+                    uncheckedColorClass: "dayOff",          // optional
+                    
+                    dayTmpl:'<div class="dayContainer col-md-3 col-4 mt-1" style="">' +
+                        '<div data-original-title="" class="colorBox"><input type="checkbox" class="invisible operationState"></div>' +
+                        '<div class="weekday text-center"></div>' +
+                        '<div class="operationDayTimeContainer">' +
+                        '<div class="operationTime input-group" style="flex-wrap: nowrap;"><div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-sun"></i></span></div><input type="text" class="mini-time form-control operationTimeFrom" name="startTime" value=""></div>' +
+                        '<div class="operationTime input-group" style="flex-wrap: nowrap;"><div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-moon"></i></span></div><input type="text" class="mini-time form-control operationTimeTill" name="endTime" value=""></div>' +
+                        '</div></div>',
+                })
 });
+
+function serializeBusinessHours(){
+	console.log(business_hours_initial_array)
+	let businessHoursoutput = window['business_hours_container'].serialize()
+                    let businessHoursText = '';
+                    let businessHours = [];
+                    let weekDays = {
+                        0:'Monday',
+                        1:'Tuesday',
+                        2:'Wednesday',
+                        3:'Thursday',
+                        4:'Friday',
+                        5:'Saturday',
+                        6:'Sunday',
+                    }
+                    for (let item of businessHoursoutput) {
+                        if (item.isActive) {
+                            businessHoursText += weekDays[businessHoursoutput.indexOf(item)] + ': From:' + item.timeFrom + ', To: ' + item.timeTill + '/'
+                        }
+                        let key = weekDays[businessHoursoutput.indexOf(item)]
+                        businessHours.push(item);
+                    }
+                    console.log(businessHoursText)
+                    console.log(businessHours)
+                    $('#working_days_hours').val(businessHoursText)
+                    $('#working_days_hours_json').val(JSON.stringify(businessHours))
+}
+
+function addIntlPhoneInput(){
+	var phoneInputs = document.getElementsByClassName("phoneInputType");
+	for(var i=0; i<phoneInputs.length; i++){
+		//console.log(phoneInputs[i])
+		intlTelInput(phoneInputs[i], {
+				   initialCountry: 'IE',
+				   separateDialCode: true,
+				   preferredCountries: ['IE', 'GB'],
+				   utilsScript: "{{asset('js/intlTelInput/utils.js')}}"
+			   });
+	}
+}
+function  changeRadiusValue() {
+                    if ($("#work_radius").val() != 0) {
+                        home_address_circle.setRadius(parseInt($("#work_radius").val()) * 1000);
+                        map.fitBounds(bounds);
+                    }
+                }
 
         function initMap() {
             let address_coordinates = JSON.parse({!! json_encode($driver->address_coordinates) !!});
             let work_location_coordinates = JSON.parse({!! json_encode($driver->work_location) !!});
-            let map = new google.maps.Map(document.getElementById('driver_map'), {
+            map = new google.maps.Map(document.getElementById('driver_map'), {
                 zoom: 12,
                 center: {lat: 53.346324, lng: -6.258668}
             });
@@ -474,7 +628,7 @@ $("textarea").prop('disabled', true);
                 position: {lat: parseFloat(address_coordinates.lat), lng: parseFloat(address_coordinates.lon)}
             });
 
-            let home_address_circle = new google.maps.Circle({
+            home_address_circle = new google.maps.Circle({
                 center: {lat: parseFloat(address_coordinates.lat), lng: parseFloat(address_coordinates.lon)},
                 map: map,
                 radius: parseInt({!! $driver->work_radius ? $driver->work_radius : 0 !!}) * 1000,
@@ -484,10 +638,59 @@ $("textarea").prop('disabled', true);
                 fillColor: "#f5da68",
                 fillOpacity: 0.4,
             });
-            let bounds = new google.maps.LatLngBounds();
+            bounds = new google.maps.LatLngBounds();
             bounds.extend({lat: parseFloat(work_location_coordinates.coordinates.lat), lng: parseFloat(work_location_coordinates.coordinates.lng)})
             bounds.extend({lat: parseFloat(address_coordinates.lat), lng: parseFloat(address_coordinates.lon)})
             map.fitBounds(bounds);
+            
+            //////////////////////////////////////////////////
+            //Autocomplete Initialization
+            let driver_address_input = document.getElementById('driver_address');
+			let driver_postcode_input = document.getElementById('driver_postcode');
+            //Mutation observer hack for chrome address autofill issue
+            let observerHackDriverAddress = new MutationObserver(function() {
+                observerHackDriverAddress.disconnect();
+                driver_postcode_input.setAttribute("autocomplete", "new-password");
+            });
+            observerHackDriverAddress.observe(driver_postcode_input, {
+                attributes: true,
+                attributeFilter: ['autocomplete']
+            });
+            let autocomplete_driver_address = new google.maps.places.Autocomplete(driver_postcode_input);
+            autocomplete_driver_address.setComponentRestrictions({'country': ['ie']});
+            autocomplete_driver_address.addListener('place_changed', () => {
+                let place = autocomplete_driver_address.getPlace();
+                if (!place.geometry) {
+                    // User entered the name of a Place that was not suggested and
+                    // pressed the Enter key, or the Place Details request failed.
+                    window.alert("No details available for input: '" + place.name + "'");
+                } else {
+                	let eircode_value = place.address_components.find((x) => {
+								if (x.types.includes("postal_code")) {
+									return x;
+								}
+								return undefined;
+							});
+					 console.log(eircode_value)		
+					 //if (eircode_value != undefined) {		
+                        let place_lat = place.geometry.location.lat();
+                        let place_lon = place.geometry.location.lng();
+                        document.getElementById("driver_address_coordinates").value = '{"lat": ' + place_lat.toFixed(5) + ', "lon": ' + place_lon.toFixed(5) +'}';
+                        driver_postcode_input.value = eircode_value.long_name;
+                        driver_address_input.value = place.formatted_address;
+                        
+                        homeAddressMarker.setPosition({lat: place_lat, lng: place_lon});
+                        homeAddressMarker.setVisible(true)
+                        home_address_circle.setCenter({lat: place_lat, lng: place_lon});
+                        if ($('input#work_radius').val() != '' && $('input#work_radius').val() != null) {
+                            home_address_circle.setRadius(parseInt($('input#work_radius').val()) * 1000);
+                        }
+                        bounds = new google.maps.LatLngBounds();
+                        bounds.extend({lat: place_lat, lng: place_lon})
+                        map.fitBounds(bounds);
+                     //}   
+                }
+            });
         }
     </script>
 <script async defer

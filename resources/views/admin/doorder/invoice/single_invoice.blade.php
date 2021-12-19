@@ -1,108 +1,6 @@
-@extends('templates.dashboard') @section('page-styles')
+@extends('templates.doorder_dashboard') @section('page-styles')
 <link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
 <style>
-.page_icon {
-	width: 40px !important;
-}
-
-.card-category, .card-category-invoice {
-	margin-top: -10px !important;
-	font-family: Quicksand;
-	font-size: 16px;
-	font-weight: 500;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: 1.5;
-	letter-spacing: 0.15px;
-	color: #7b7b7b !important;
-	margin-left: 95px !important;
-}
-
-.card-category-invoice {
-	margin-top: 20px !important;
-}
-
-.card-category-invoice span {
-	display: block;
-}
-
-.card-category-invoice .monthSpan {
-	text-transform: uppercase;
-}
-
-.card-category a {
-	color: #494949 !important;
-	font-weight: bold;
-}
-
-.card-category span {
-	display: block;
-}
-
-.form-control {
-	min-height: 36px;
-	height: auto !important;
-}
-
-.form-control:read-only {
-	background-image: none !important;
-	padding: 10px
-}
-
-.form-control span {
-	font-family: Quicksand;
-	font-size: 14px;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: 0.77px;
-	color: #4d4d4d;
-}
-
-.invoiceDetialsLabel {
-	font-family: Quicksand;
-	font-size: 17px;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: 0.32px;
-	color: #4d4d4d;
-}
-
-.invoiceDetialsSpan {
-	font-family: Quicksand;
-	font-size: 17px;
-	font-weight: bold;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: 0.32px;
-	color: #4d4d4d;
-}
-
-thead tr th {
-	font-family: Quicksand;
-	font-size: 16px !important;
-	font-weight: bold !important;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: 1.19;
-	letter-spacing: 0.8px;
-	color: #4d4d4d;
-}
-
-#invoiceListTable tbody tr td {
-	font-family: Quicksand !important;
-	font-size: 16px !important;
-	font-weight: 500 !important;
-	font-stretch: normal !important;
-	font-style: normal !important;
-	line-height: 1.19 !important;
-	letter-spacing: 0.8px !important;
-	color: #4d4d4d !important;
-}
 
 #invoiceListTable .invoiceBoldSpan {
 	font-weight: bold !important;
@@ -115,14 +13,7 @@ thead tr th {
 
 tbody tr td:first-child, thead tr th:first-child {
 	text-align: left;
-	padding-left: 35px !important;
-}
-
-.dataTable>tbody>tr>td, .dataTable>tbody>tr>th, .dataTable>thead>tr>td,
-	.dataTable>thead>tr>th, .dataTables_scrollFoot tfoot>tr:first-child>th
-	{
-	border: none !important;
-	padding-top: 20px !important;
+	padding-left: 15px !important;
 }
 
 .dataTable>tfoot>tr>th {
@@ -139,36 +30,6 @@ tbody tr td:first-child, thead tr th:first-child {
 	background-color: rgba(216, 216, 216, 0.2) !important;
 }
 
-.invoiceH4 {
-	font-family: Quicksand;
-	font-size: 20px;
-	font-weight: bold;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: 1.25;
-	letter-spacing: 0.19px;
-	color: #494949;
-}
-
-.doorderLimitedLabel {
-	font-family: Quicksand;
-	font-size: 16px;
-	font-weight: 600;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: 1;
-	letter-spacing: 0.15px;
-	color: #7b7b7b;
-}
-
-.doorderLimitedSpan {
-	font-weight: normal !important;
-}
-
-.doorderLimitedLabel i {
-	color: #f7dc69;
-}
-
 .dataTables_scrollBody table tfoot tr th {
 	border: none !important;
 	padding-top: 0 !important;
@@ -176,17 +37,22 @@ tbody tr td:first-child, thead tr th:first-child {
 }
 
 .swal-text {
-	font-family: Quicksand;
 	font-size: 18px;
 }
 
-.invoiceBtn,.payBtn{
-color: white !important;
+.invoiceBtn, .payBtn {
+	color: white !important;
 }
-a.invoiceBtn{
-background: #747474 !important;
-border-color: #747474 !important;
-box-shadow: 0 2px 2px 0 rgb(116 116 116 / 14%), 0 3px 1px -2px rgb(116 116 116 / 20%), 0 1px 5px 0 rgb(116 116 116 / 12%) !important
+
+a.invoiceBtn {
+	background: #747474 !important;
+	border-color: #747474 !important;
+	box-shadow: 0 2px 2px 0 rgb(116 116 116/ 14%), 0 3px 1px -2px
+		rgb(116 116 116/ 20%), 0 1px 5px 0 rgb(116 116 116/ 12%) !important
+}
+
+table.doorderTable {
+	margin-top: 0
 }
 </style>
 @endsection @section('title','DoOrder | Invoice ' . $retailer->id)
@@ -197,30 +63,100 @@ box-shadow: 0 2px 2px 0 rgb(116 116 116 / 14%), 0 3px 1px -2px rgb(116 116 116 /
 			<div class="row">
 				<div class="col-md-12">
 
-					<div class="card">
-						<div class="card-header card-header-icon card-header-rose row">
-							<div class="col-12 col-lg-8 col-md-6">
-								<div class="card-icon">
-									<img class="page_icon"
-										src="{{asset('images/doorder_icons/Invoice-white.png')}}">
+					<div class="card invoiceCard">
+						<div class="card-header ">
+							<div class="container">
+								<div class="row mt-3">
+									<div class="col-12 col-sm-6">
+										<h4 class="card-title invoiceTitleH4">Billed To</h4>
+										<h5 class="card-title invoiceTitleH5 mt-3">
+											<a class=""
+												href="{{url('doorder/retailers/view/')}}/{{$retailer->id}}">{{$retailer->name}}</a>
+										</h5>
+									</div>
+									<div class="col-12 col-sm-6 mt-md-3">
+										<h6 class="card-title float-md-right invoiceTitleH6">Invoice
+											Number {{$retailer->id}}</h6>
+									</div>
 								</div>
-								<h4 class="card-title ">Billed To</h4>
-								<h5 class="card-category ">
-									<a class=""
-										href="{{url('doorder/retailers/view/')}}/{{$retailer->id}}">{{$retailer->name}}</a>
-									<span>{{$user->email}}</span> <span>{{$user->phone}}</span>
-								</h5>
-							</div>
+								<div class="row">
+									<div class="col-12 col-sm-6">
+										<p class="invoiceTitleP">{{$user->email}}</p>
+										<p class="invoiceTitleP">{{$user->phone}}</p>
+									</div>
 
-							<div class="col-12 col-lg-4 col-md-6">
-								<h5 class="card-category-invoice ">
-									<span>Invoice Number {{$retailer->id}}</span> <span
-										class="monthSpan">{{$month}}</span>
-										<span class="mt-2"> VAT Reg .No. IE3719422OH </span>
-								</h5>
+									<div class="col-12 col-sm-6 text-md-right text-left mt-md-1 mt-2">
+										<div class="row ">
+											<div class="col-xl-4 col-md-2"></div>
+											<div class="col-xl-4 col-md-5 col-6">
+												<label class="invoiceTitleLabel">Date Issued:</label>
+											</div>
+											<div class="col-xl-4 col-md-5 col-6">
+												<label class="invoiceTitleValue">{{$month}}</label>
+											</div>
+										</div>
+										<div class="row ">
+											<div class="col-xl-4 col-md-2"></div>
+											<div class="col-xl-4 col-md-5 col-6">
+												<label class="invoiceTitleLabel">VAT Reg .No.:</label>
+											</div>
+											<div class="col-xl-4 col-md-5 col-6">
+												<label class="invoiceTitleValue">IE3719422OH</label>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
-						<div class="card-body">
+						<div class="card-body cardBodyPaymentDetails">
+							<div class="container">
+								<div class="row">
+									<div class="col-md-12">
+										<h4 class="invoicePaymentDetails">Payment Details:</h4>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="row">
+											<div class="col-12">
+												<label class="invoicePaymentLabel">IBAN: <span
+													class="invoicePaymentSpan"> IE67 BOFI 9007 5425 3970 40 </span></label>
+											</div>
+											<div class="col-12">
+												<label class="invoicePaymentLabel">BIC/SWIFT: <span
+													class="invoicePaymentSpan"> BOFIIE2DXXX </span></label>
+											</div>
+											<div class="col-12">
+												<label class="invoicePaymentLabel">ADDRESS: <span
+													class="invoicePaymentSpan"> Rathines, Dublin 6 </span></label>
+											</div>
+											<div class="col-12">
+												<label class="invoicePaymentLabel">COMPANY REG NO. <span
+													class="invoicePaymentSpan"> 673153 </span></label>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="row invoiceDoorderBottomRow"
+											style="">
+
+											<div class="col-12">
+												<label class="invoicePaymentLabel float-right"><i
+													class="fab fa-chrome"></i> www.doorder.eu</label>
+											</div>
+
+											<div class="col-12">
+												<label class="invoicePaymentLabel float-right"><i
+													class="fas fa-envelope"></i> info@doorder.eu</label>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+						<div class="card-body pt-0">
 							<div class="container">
 								<div class="row">
 									<div class="col-md-12">
@@ -236,48 +172,48 @@ box-shadow: 0 2px 2px 0 rgb(116 116 116 / 14%), 0 3px 1px -2px rgb(116 116 116 /
 
 									<div class="col-md-12">
 										<table id="invoiceListTable"
-											class="table table-striped table-no-bordered  "
+											class="table table-no-bordered table-hover doorderTable mt-0"
 											cellspacing="0" width="100%">
 											<thead>
 												<tr>
-													<th>SERVICE</th>
-													<th>QTY</th>
-													<th>PRICE</th>
-													<th>TOTAL</th>
+													<th width="70%" colspan="4">Service</th>
+													<th width="10%" class="text-center">QTY</th>
+													<th width="10%" >Price</th>
+													<th width="10%" class="text-center">Total</th>
 												</tr>
 
 											</thead>
 											<tbody>
-												@foreach($invoice as $item)
-												<tr>
-													<td>{{$item['name']}}
+																								
+												<tr v-if="invoice.length > 0" v-for="item in invoice" >
+													<td colspan="4"><p class="invoiceServiceP">@{{item.name}}
 														</p>
-														
-														<p class="invoiceDateSpan">{{$item['date']}}</p> <p>{{$item['data']}}</p>
-														
-														
+														<p class="invoiceDateSpan">@{{item.date}}</p> 
 													</td>
-													<td>{{$item['count']}}</td>
-													<td>€10</td>
-													<td class="invoiceBoldSpan">€{{$item['charge']}}</td>
+													<td>@{{item.count}}</td>
+													<td class="text-left">€10</td>
+													<td class="">€@{{item.charge}}</td>
 												</tr>
-												@endforeach
+												<tr v-if="invoice.length == 0">
+        											<td colspan="7" class="text-center">No data found.
+        											</td>
+        										</tr>
 											</tbody>
 											<tfoot>
 												<tr>
-													<th colspan="2"></th>
-													<th>Subtotal</th>
-													<th>€{{$subtotal}}</th>
+													<th colspan="5"></th>
+													<th class="tfootLabelTh">Subtotal</th>
+													<th class="tfootValueTh text-center">€{{$subtotal}}</th>
 												</tr>
 												<tr>
-													<th colspan="2"></th>
-													<th>VAT @ 23%</th>
-													<th>€{{$vat}}</th>
+													<th colspan="5"></th>
+													<th class="tfootLabelTh">VAT @ 23%</th>
+													<th class="tfootValueTh text-center">€{{$vat}}</th>
 												</tr>
 												<tr>
-													<th colspan="2"></th>
-													<th>Total</th>
-													<th>€{{$total}}</th>
+													<th colspan="5"></th>
+													<th class="tfootLabelTh tfootBorderTh">Total</th>
+													<th class="tfootValueTh tfootBorderTh text-center">€{{$total}}</th>
 												</tr>
 											</tfoot>
 										</table>
@@ -286,66 +222,49 @@ box-shadow: 0 2px 2px 0 rgb(116 116 116 / 14%), 0 3px 1px -2px rgb(116 116 116 /
 							</div>
 						</div>
 
-						<div class="card-body" style="background-color: #f8f8f8;">
-							<div class="container">
-								<div class="row">
-									<div class="col-md-12">
-										<h4 class="invoiceH4">DOORDER LIMITED</h4>
+
+					</div>
+
+					<div class="card"
+						style="background-color: transparent; box-shadow: none;">
+						<div class="card-body p-0">
+							<div class="container w-100" style="max-width: 100%">
+
+								@if(auth()->user()->user_role != 'retailer')
+								<div class="row justify-content-center ">
+<!-- 									<div class="col-xl-2 offset-xl-6 col-md-3  col-sm-4 text-center"> -->
+<!-- 										<button class="btnDoorder btn-doorder-grey  mb-1" onclick="editInvoice({{$retailer->id}},'{{$month}}')">Edit</button>
+<!-- 									</div> -->
+									<div class="col-lg-3  col-md-3 col-sm-4 text-center">
+										<form method="POST"
+											action="{{route('doorder_sendInvoice',['doorder',$retailer->id, 'month' => $_GET['month']])}}"
+											id="invoice_orders_form" style="margin: 0 !important;">{{csrf_field()}}</form>
+										<button class="btnDoorder btn-doorder-primary  mb-1"
+											@click="submitForm">Invoice</button>
 									</div>
-									<div class="col-md-12">
-										<label class="doorderLimitedLabel">IBAN: <span
-											class="doorderLimitedSpan"> IE67 BOFI 9007 5425 3970 40 </span></label>
-									</div>
-									<div class="col-md-12">
-										<label class="doorderLimitedLabel">BIC/SWIFT: <span
-											class="doorderLimitedSpan"> BOFIIE2DXXX </span></label>
+									<div class="col-lg-3  col-md-3 col-sm-4 text-center">
+										<button type="button"
+											class="btnDoorder btn-doorder-green  mb-1"
+											onclick="clickSendEmail({{$retailer->id}},'{{$month}}')">Send
+											invoice email</button>
 									</div>
 
-									<div class="col-md-6">
-										<label class="doorderLimitedLabel">ADDRESS: <span
-											class="doorderLimitedSpan"> Rathines, Dublin 6 </span></label>
+								</div>
+								@else
+								<div class="row justify-content-center">
+									<div class="col-lg-3  col-md-3 col-sm-4 ">
+										<a class="btnDoorder btn-doorder-primary  mb-1 w-100 "
+											href="">Download invoice</a>
 									</div>
-									<div class="col-md-6">
-										<label class="doorderLimitedLabel float-right"><i
-											class="fas fa-at"></i> www.doorder.eu</label>
-									</div>
-									<div class="col-md-6">
-										<label class="doorderLimitedLabel">COMPANY REG NO. <span
-											class="doorderLimitedSpan"> 673153 </span></label>
-									</div>
-									<div class="col-md-6">
-										<label class="doorderLimitedLabel float-right"><i
-											class="far fa-envelope"></i> info@doorder.eu</label>
+									<div class="col-lg-3  col-md-3 col-sm-4 ">
+										<a class="btnDoorder btn-doorder-green  mb-1 w-100 "
+											href="{{url('doorder/pay_invoice/')}}/{{$retailer->id}}/{{$invoice_number}}">Pay</a>
 									</div>
 								</div>
+								@endif
 							</div>
 						</div>
 					</div>
-
-					@if(auth()->user()->user_role != 'retailer')
-					<div class="row ">
-						<div class="col-sm-6 text-center">
-							<form method="POST"
-								action="{{route('doorder_sendInvoice',['doorder',$retailer->id, 'month' => $_GET['month']])}}"
-								id="invoice_orders_form" style="margin: 0 !important;">{{csrf_field()}}</form>
-							<button class="btn bt-submit invoiceBtn" @click="submitForm">Invoice</button>
-						</div>
-						<div class="col-sm-6 text-center">
-							<button type="button" class="btn btn-primary doorder-btn-lg doorder-btn invoiceBtn"
-								onclick="clickSendEmail({{$retailer->id}},'{{$month}}')"
-							>Send invoice email</button>
-						</div>
-					</div>
-					@else
-					<div class="row ">
-						
-						<div class="col text-center">
-							<a class="btn btn-primary doorder-btn-lg doorder-btn payBtn"
-								href="{{url('doorder/pay_invoice/')}}/{{$retailer->id}}/{{$invoice_number}}"
-							>Pay</a>
-						</div>
-					</div>
-					@endif
 				</div>
 			</div>
 		</div>
@@ -355,8 +274,7 @@ box-shadow: 0 2px 2px 0 rgb(116 116 116 / 14%), 0 3px 1px -2px rgb(116 116 116 /
 
 <!-- send email modal -->
 <div class="modal fade" id="send-email-modal" tabindex="-1"
-	role="dialog" aria-labelledby="send-email-label"
-	aria-hidden="true">
+	role="dialog" aria-labelledby="send-email-label" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -366,34 +284,67 @@ box-shadow: 0 2px 2px 0 rgb(116 116 116 / 14%), 0 3px 1px -2px rgb(116 116 116 /
 				</button>
 			</div>
 			<div class="modal-body">
-				<div class="modal-dialog-header deleteHeader">
-Are you sure you want to send the invoice email to the retailer</div>
+				<div class="modal-dialog-header modalHeaderMessage">Are you sure you want
+					to send the invoice email to the retailer</div>
 
 				<div>
 
 					<form method="POST" id="sendEmailForm"
 						action="{{url('doorder/send_invoice_email')}}"
 						style="margin-bottom: 0 !important;">
-						@csrf
-						 <input type="hidden" id="retailer_id" name="retailer_id" value="" />
-						 <input type="hidden" id="month" name="month" value="" />
+						@csrf <input type="hidden" id="retailer_id" name="retailer_id"
+							value="" /> <input type="hidden" id="month" name="month" value="" />
 					</form>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-sm-6">
+			<div class="row  justify-content-center">
+				<div class="col-lg-4 col-md-6 text-center">
 					<button type="button"
-					class="btn btn-primary doorder-btn-lg doorder-btn"
-					onclick="$('form#sendEmailForm').submit()">Yes</button></div>
-				<div class="col-sm-6">
+						class="btnDoorder btn-doorder-primary mb-1"
+						onclick="$('form#sendEmailForm').submit()">Yes</button>
+				</div>
+				<div class="col-lg-4 col-md-6 text-center">
 					<button type="button"
-					class="btn btn-danger doorder-btn-lg doorder-btn"
-					data-dismiss="modal">Cancel</button></div>
+						class="btnDoorder btn-doorder-danger-outline mb-1 "
+						data-dismiss="modal">Cancel</button>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
 <!-- end send email modal -->
+
+<!-- cinfirm invoice modal -->
+<div class="modal fade" id="confirm-invoice-modal" tabindex="-1"
+	role="dialog" aria-labelledby="confirm-invoice-label" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close d-flex justify-content-center"
+					data-dismiss="modal" aria-label="Close">
+					<i class="fas fa-times"></i>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="modal-dialog-header modalHeaderMessage">Are you sure you want to invoice these orders?</div>
+
+			</div>
+			<div class="row  justify-content-center">
+				<div class="col-lg-4 col-md-6 text-center">
+					<button type="button"
+						class="btnDoorder btn-doorder-primary mb-1"
+						onclick="$('#invoice_orders_form').submit()">Yes</button>
+				</div>
+				<div class="col-lg-4 col-md-6 text-center">
+					<button type="button"
+						class="btnDoorder btn-doorder-danger-outline mb-1"
+						data-dismiss="modal">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- end confirm invoice modal -->
 
 
 
@@ -401,12 +352,15 @@ Are you sure you want to send the invoice email to the retailer</div>
 <script>
 function clickSendEmail(retailer_id,month){
 	console.log("send email",retailer_id,month);
-	
-	
-$('#send-email-modal').modal('show')
-$('#send-email-modal #retailer_id').val(retailer_id);
-$('#send-email-modal #month').val(month);
+    $('#send-email-modal').modal('show')
+    $('#send-email-modal #retailer_id').val(retailer_id);
+    $('#send-email-modal #month').val(month);
 }
+
+function editInvoice(id,month){
+ window.location = "{{url('doorder/invoice_edit/')}}/"+id + "?month=" + month
+}
+
 
 $( document ).ready(function() {
     var table= $('#invoiceListTable').DataTable({
@@ -424,31 +378,15 @@ $( document ).ready(function() {
 });
         var app = new Vue({
             el: '#app',
-            data() {               
+             data: {                
+            	
+            	invoice: {!! json_encode($invoice) !!},     
+            	
             },
 			methods: {
+			
 				submitForm(e) {
-					swal({
-						// title: "Good job!",
-						text: "Are you sure you want to invoice these orders?",
-						icon: "info",
-						buttons: {
-							accept: {
-								text: "Yes",
-								value: "yes",
-								className: 'btn bt-submit btn-primary w-100'
-							},
-							reject: {
-								text: "No",
-								value: "no",
-								className: 'btn bt-submit btn-secondary w-100'
-							}
-						}
-					}).then((input) => {
-						if (input === 'yes') {
-							$('#invoice_orders_form').submit();
-						}
-					});
+					$('#confirm-invoice-modal').modal('show');
 				}
 			}
         });

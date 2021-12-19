@@ -1,42 +1,57 @@
-@extends('templates.dashboard') @section('page-styles')
+@extends('templates.doorder_dashboard') @section('page-styles')
 <link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
 <link rel="stylesheet" href="{{asset('css/mdtimepicker.css')}}">
 <style>
-#importButton {
-	font-size: 14px;
-	font-weight: 600;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: 0.72px;
-	color: #ffffff;
-	border-radius: 12px 0;
-	text-transform: inherit !important;
-	height: auto;
-	padding: 10px;
+/* #importButton { */
+/* 	font-size: 14px; */
+/* 	font-weight: 600; */
+/* 	font-stretch: normal; */
+/* 	font-style: normal; */
+/* 	line-height: normal; */
+/* 	letter-spacing: 0.72px; */
+/* 	color: #ffffff; */
+/* 	border-radius: 12px 0; */
+/* 	text-transform: inherit !important; */
+/* 	height: auto; */
+/* 	padding: 10px; */
+/* } */
+.mdtp__wrapper[data-theme='blue'] .mdtp__time_holder {
+	background-color: #F7DC69 !important;
 }
 
-.mdtp__wrapper[data-theme='blue'] .mdtp__time_holder{
-    background-color: #F7DC69 !important;
+.mdtp__wrapper[data-theme='blue'] .mdtp__digit.active span,
+	.mdtp__wrapper[data-theme='blue'] .mdtp__clock .mdtp__digit span:hover
+	{
+	background-color: #F7DC69 !important;
 }
-.mdtp__wrapper[data-theme='blue'] .mdtp__digit.active span, .mdtp__wrapper[data-theme='blue'] .mdtp__clock .mdtp__digit span:hover{
-    background-color: #F7DC69 !important;
+
+.mdtp__wrapper[data-theme='blue'] .mdtp__digit.active:before {
+	background-color: #F7DC69 !important;
 }
-.mdtp__wrapper[data-theme='blue'] .mdtp__digit.active:before{
-    background-color: #F7DC69 !important;
+
+.mdtp__wrapper[data-theme='blue'] .mdtp__clock .mdtp__clock_dot {
+	background-color: #F7DC69 !important;
 }
-.mdtp__wrapper[data-theme='blue'] .mdtp__clock .mdtp__clock_dot{
-    background-color: #F7DC69 !important;
+
+.mdtp__wrapper[data-theme='blue'] .mdtp__clock .mdtp__am.active,
+	.mdtp__wrapper[data-theme='blue'] .mdtp__clock .mdtp__pm.active {
+	background-color: #F7DC69 !important;
+	border-color: #F7DC69 !important;
 }
-.mdtp__wrapper[data-theme='blue'] .mdtp__clock .mdtp__am.active, .mdtp__wrapper[data-theme='blue'] .mdtp__clock .mdtp__pm.active{
-    background-color: #F7DC69 !important;
-    border-color: #F7DC69 !important;
+
+.mdtp__wrapper[data-theme='blue'] .mdtp__button {
+	color: #F7DC69;
 }
-.mdtp__wrapper[data-theme='blue'] .mdtp__button{color: #F7DC69;}
-.mdtp__button:hover{color:white !important;}
-.mdtp__wrapper{bottom: 0 !important;
-top: 10%;
-box-shadow: none !important;}
+
+.mdtp__button:hover {
+	color: white !important;
+}
+
+.mdtp__wrapper {
+	bottom: 0 !important;
+	top: 10%;
+	box-shadow: none !important;
+}
 </style>
 @endsection @section('title','DoOrder | Add New Order')
 @section('page-content')
@@ -46,32 +61,38 @@ box-shadow: none !important;}
 
 			<div class="row">
 				<div class="col-md-12">
+					<div class="card">
+						<div class="card-header card-header-icon  row">
+							<div class="col-12 col-xl-5 col-lg-4 col-md-3 col-sm-12">
+								<h4 class="card-title my-md-4 mt-4 mb-1">New Order</h4>
+							</div>
+							<div class="col-12 col-xl-7 col-lg-8 col-md-9 col-sm-12">
+
+								<div class="row justify-content-end mb-1 mt-2 mt-xs-0"
+									id="dashboardFilterRowDiv">
+
+									<div class="col-xl-5 col-sm-6 px-md-1">
+										<a id="importButton"
+											class=" btn-doorder-filter btn-doorder-filter-grey w-100"
+											href="{{url('doorder/orders/upload_orders')}}">Upload mass
+											order</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 					<form id="order-form" method="POST"
 						action="{{route('doorder_saveNewOrder', 'doorder')}}">
 						{{csrf_field()}}
 						<div class="card">
-							<div class="card-header card-header-icon card-header-rose row">
-								<div class="col-12 col-md-9">
-									<div class="card-icon">
-										<img class="page_icon"
-											src="{{asset('images/doorder_icons/add-plus-outline.png')}}">
-									</div>
-									<h4 class="card-title ">New Order</h4>
-								</div>
-								<div class="col-12 col-md-3 mt-md-2">
-									<a id="importButton"
-										href="{{url('doorder/orders/upload_orders')}}"
-										class="btn btn-primary doorder-btn" style="float: right">Upload
-										mass order</a>
-
+							<div class="card-header card-header-profile-border ">
+								<div class="col-md-12 pl-3">
+									<h4>Customer Details</h4>
 								</div>
 							</div>
 							<div class="card-body">
 								<div class="container">
 									<div class="row">
-										<div class="col-md-12 d-flex form-head">
-											<span> 1 </span> Customer Details
-										</div>
 										<div class="col-sm-6">
 											<div class="form-group">
 												<label for="email" class="control-label"> First name <span
@@ -143,23 +164,26 @@ box-shadow: none !important;}
 						</div>
 
 						<div class="card">
+							<div class="card-header card-header-profile-border ">
+								<div class="col-md-12 pl-3">
+									<h4>Package Details</h4>
+								</div>
+							</div>
 							<div class="card-body">
 								<div class="container">
 									<div class="row">
-										<div class="col-md-12 d-flex form-head">
-											<span> 2 </span> Package Details
-										</div>
 										<div class="col-sm-6">
 											<div class="form-group">
 												<label for="pick_address" class="control-label">Pickup
 													address<span style="color: red">*</span>
 												</label> <select id="pick_address" name="pickup_address"
 													data-style="select-with-transition"
-													class="form-control selectpicker" required>
+													class="form-control form-control-select selectpicker"
+													required>
 													<option value="">Select pickup address</option>
 													@foreach($pickup_addresses as $address)
-														<option value="{{$address['address']}}"
-															@if(count($pickup_addresses)==1) selected @endif>{{$address['address']}}</option>
+													<option value="{{$address['address']}}"
+														@if(count($pickup_addresses)==1) selected @endif>{{$address['address']}}</option>
 													@endforeach {{--
 													<option value="Other">Other</option>--}}
 												</select> <input type="hidden" name="pickup_lat"
@@ -172,13 +196,14 @@ box-shadow: none !important;}
 										</div>
 										<div class="col-sm-6">
 											<div class="form-group">
-												<label for="fulfilment_date" class="control-label">Time order is ready for collection</label>
-												<input
+												<label for="fulfilment_date" class="control-label">Time
+													order is ready for collection</label> <input
 													id="fulfilment" type="text" name="fulfilment_date"
-													class="form-control" value="{{old('fulfilment_date')}}" required>
-<!-- 												 <input -->
-<!-- 													id="fulfilment" type="number" name="fulfilment" -->
-<!-- 													class="form-control" value="{{old('fulfilment')}}" required> -->
+													class="form-control" value="{{old('fulfilment_date')}}"
+													required>
+												<!-- 												 <input -->
+												<!-- 													id="fulfilment" type="number" name="fulfilment" -->
+												<!-- 													class="form-control" value="{{old('fulfilment')}}" required> -->
 											</div>
 										</div>
 									</div>
@@ -188,7 +213,8 @@ box-shadow: none !important;}
 												<label for="weight" class="control-label">Package weight<span
 													style="color: red">*</span></label> <select id="weight"
 													name="weight" data-style="select-with-transition"
-													class="form-control selectpicker" required>
+													class="form-control form-control-select selectpicker"
+													required>
 													<option value="">Select package weight</option>
 													<option value="Very Light">Very Light</option>
 													<option value="Light">Light</option>
@@ -205,7 +231,8 @@ box-shadow: none !important;}
 													dimensions<span style="color: red">*</span>
 												</label> <select id="dimensions" name="dimensions"
 													data-style="select-with-transition"
-													class="form-control selectpicker" required>
+													class="form-control form-control-select selectpicker"
+													required>
 													<option value="">Select package size</option>
 													<option value="Small Bag">Small Bag</option>
 													<option value="Medium Bag">Medium Bag</option>
@@ -229,8 +256,12 @@ box-shadow: none !important;}
 												<label for="deliver_by" class="control-label">Deliver by</label>
 												<select id="deliver_by" name="deliver_by"
 													data-style="select-with-transition"
-													class="form-control selectpicker">
-													<option value="car">Car</option>
+													class="form-control form-control-select selectpicker"> Car
+													</option>
+
+
+
+
 													<option value="scooter">Scooter</option>
 													<option value="bicycle">Bicycle</option>
 												</select>
@@ -240,7 +271,9 @@ box-shadow: none !important;}
 										<div class="col-sm-12">
 											<div class="form-group">
 												<label for="deliver_by" class="control-label">Fragile
-													package?<span style="color: red">*</span>
+													package?<span style="color: red">*</span> <br> <span
+													style="font-size: smaller; font-weight: 500">Package will
+														be delivered with extra care</span>
 												</label>
 												<p id="fragileErrorMessage"
 													style="color: red; font-weight: 500; display: none; margin-bottom: 0">Please
@@ -272,10 +305,12 @@ box-shadow: none !important;}
 								</div>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-md-12 text-center">
-								<button class="btn bt-submit" type="submit">Submit</button>
+						<div class="row justify-content-center">
+							<div class="col-lg-3  col-md-3 col-sm-4 px-md-1 text-center">
+								<button type="submit"
+									class="btnDoorder btn-doorder-primary  mb-1">Submit</button>
 							</div>
+
 						</div>
 					</form>
 				</div>
@@ -300,15 +335,28 @@ box-shadow: none !important;}
 				</button>
 			</div>
 			<div class="modal-body">
-				<div class="col-md-12">
+				<div class="row justify-content-center">
+					<div class="col-md-12">
 
-					<div class="text-center">
-						<img src="{{asset('images/doorder_icons/warning_icon.png')}}"
-							style="width: 120px" alt="warning">
+						<div class="text-center">
+							<img
+								src="{{asset('images/doorder-new-layout/warning-icon.png')}}"
+								style="" alt="warning">
+						</div>
+						<div class="text-center mt-3">
+							<label class="warning-label">Please enter Eircode to continue
+								(select drop down suggestion)</label>
+
+						</div>
 					</div>
-					<div class="text-center mt-3">
-						<label class="warning-label">Please enter Eircode to continue (select drop down suggestion)</label>
+				</div>
 
+				<div class="row justify-content-center mt-3">
+					
+					<div class="col-lg-4 col-md-6 text-center">
+						<button type="button"
+							class="btnDoorder btn-doorder-primary mb-1"
+							data-dismiss="modal">Ok</button>
 					</div>
 				</div>
 			</div>

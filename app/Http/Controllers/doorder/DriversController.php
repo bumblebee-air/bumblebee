@@ -13,6 +13,7 @@ use App\KPITimestamp;
 use App\Managers\StripeManager;
 use App\Order;
 use App\Retailer;
+use App\StripeAccount;
 use App\User;
 use App\UserClient;
 use App\UserFirebaseToken;
@@ -23,6 +24,7 @@ use App\Http\Controllers\Controller;
 use App\Rating;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use PhpParser\Node\Stmt\TryCatch;
@@ -700,6 +702,21 @@ class DriversController extends Controller
         $drivers_requests = DriverProfile::with('user')
             ->orderBy('created_at', 'desc')->paginate(20);
         //->where('is_confirmed', false)->whereNull('rejection_reason')
+        $driver_request_edited = $drivers_requests
+            ->getCollection()
+            ->map(function($driver_request) {
+                $stripe_account = StripeAccount::where('user_id','=',$driver_request->user_id)->first();
+                if($stripe_account != null && $stripe_account->onboard_status != 'complete'){
+                    $driver_request->status = 'stripe_form_sent';
+                }
+                return $driver_request;
+            });
+        $drivers_requests = new \Illuminate\Pagination\LengthAwarePaginator(
+            $driver_request_edited,
+            $drivers_requests->total(),
+            $drivers_requests->perPage(),
+            $drivers_requests->currentPage()
+        );
         return view('admin.doorder.drivers.requests', ['drivers_requests' => $drivers_requests]);
     }
 
@@ -1071,10 +1088,14 @@ class DriversController extends Controller
         $driver_ratings_doorder = \DB::table('ratings')->where(['model' => 'doorder', 'user_type' => 'driver', 'user_id' => $driver->user_id])->first();
         $driver_overall_rating = ($driver_ratings->average_rating != null) ? $driver_ratings->average_rating : 0;
         $driver->overall_rating = round($driver_overall_rating * 2) / 2;
+        $driver->email = $driver->user->email;
+
         $driver->rating_doorder = ['rating' => round(optional($driver_ratings_doorder)->rating * 2) / 2, 'comment' => optional($driver_ratings_doorder)->message];
 
         $driver_ratings_doorder = \DB::table('ratings')->where(['model' => 'order', 'user_type' => 'driver', 'user_id' => $driver->user_id])->first();
         $driver->rating_doorder = ['rating' => round(optional($driver_ratings_doorder)->rating * 2) / 2, 'comment' => optional($driver_ratings_doorder)->message];
+
+        $driver->first_letters = $driver->first_name[0] . $driver->last_name[0];
 
         return view('admin.doorder.drivers.single_driver_orders', ['driver' => $driver, 'driver_orders' => $driver_orders]);
     }
@@ -1124,8 +1145,10 @@ class DriversController extends Controller
         $profile->transport = $request->get('transport');
         $profile->max_package_size = $request->get('max_package_size');
         $profile->work_radius = $request->get('work_radius');
+        $profile->work_type = $request->get('work_type');
         if ($request->get('working_days_hours') != null) {
             $profile->business_hours = $request->get('working_days_hours');
+            $profile->business_hours_json = $request->get('working_days_hours_json');
         }
         //$profile->work_location = $request->get('work_location')!=null ? $request->get('work_location') : '{"name":"N/A","coordinates":{"lat":"0","lng":"0"}}';
         /*$profile->legal_word_evidence = $request->proof_id ? $request->file('proof_id')->store('uploads/doorder_drivers_registration') : null;
@@ -1291,5 +1314,26 @@ class DriversController extends Controller
             'error_msg' => 'The route optimization was successful',
             'optimized_route' => $optimized_route_arr
         ]);
+    }
+
+    public function assignOrders(Request $request)
+    {
+        Session::put('selectedOrders', $request->selectedOrders);
+        return redirect('doorder/driver-page');
+    }
+
+    public function driverPage(Request $request)
+    {
+
+        $selectedOrders = Session::get('selectedOrders');
+        $drivers = DriverProfile::with('user')
+            ->where('is_confirmed', true)
+            ->orderBy('created_at', 'desc')->get();
+        //            ->whereNull('rejection_reason')->paginate(20)
+
+        foreach ($drivers as $driver) {
+            $driver->overall_rating = 4;
+        }
+        return view('admin.doorder.drivers.accepted_drivers', ['drivers' => $drivers, 'selectedOrders' => $selectedOrders]);
     }
 }

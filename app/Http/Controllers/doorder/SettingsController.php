@@ -59,10 +59,11 @@ class SettingsController extends Controller
                 'notification_type' => $notification->type,
                 'notification_name' => $notification->name,
                 'notification_channel' => $notification->channel,
-                'phone_number' => json_decode($notification->send_to, true),
-                'email' => json_decode($notification->send_to, true),
-                'user_type' => explode(',', $notification->send_to),
-                'notification_content' => $notification->content
+                'phone_number' => ($notification->channel == 'sms') ? json_decode($notification->send_to, true) : json_decode('[{"value":""}]') ,//json_decode($notification->send_to, true),
+                'email' => ($notification->channel == 'email') ? json_decode($notification->send_to, true) : json_decode('[{"value":""}]') ,//json_decode($notification->send_to, true),
+                'user_type' => ($notification->channel == 'platform') ? explode(',', $notification->send_to) : null,
+                'notification_content' => $notification->content,
+                'retailer'=> explode(',', $notification->retailers)
             ];
         }
 

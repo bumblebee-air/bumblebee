@@ -35,30 +35,6 @@
 					class="fas fa-chart-bar"></i>
 					<p>Dashboard</p>
 			</a></li>
-			<!--<li class="nav-item ">
-                    <a class="nav-link" data-toggle="collapse" href="#pagesExamples">
-                        <i class="material-icons">image</i>
-                        <p> Pages
-                            <b class="caret"></b>
-                        </p>
-                    </a>
-                    <div class="collapse" id="pagesExamples">
-                        <ul class="nav">
-                            <li class="nav-item ">
-                                <a class="nav-link" href="../examples/pages/pricing.html">
-                                    <span class="sidebar-mini"> P </span>
-                                    <span class="sidebar-normal"> Pricing </span>
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link" href="../examples/pages/rtl.html">
-                                    <span class="sidebar-mini"> RS </span>
-                                    <span class="sidebar-normal"> RTL Support </span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>-->
 			@if(!empty(Auth::user()) && Auth::user()->user_role == 'client')
 			<li class="nav-item "><a class="nav-link"
 				href="{{url('whatsapp-templates')}}"> <i

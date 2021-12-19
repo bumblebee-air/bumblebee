@@ -30,7 +30,7 @@
 <!-- Navigation -->
 
 <!-- Page Content -->
-<div class="container-fluid h-100 p-0">
+<div class="container-fluid h-100 p-0" id="containerPageBackgrundDiv">
     @include('partials.flash')
 
     @yield('page-content')

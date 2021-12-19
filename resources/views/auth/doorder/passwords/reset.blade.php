@@ -3,8 +3,8 @@
 @section('page-styles')
 <style>
 body, html {
-	height: 100%;
-	font-family: Quicksand;
+	height: 100vh;
+	font-family: 'Montserrat', sans-serif;
 }
 
 .bg-cover {
@@ -16,25 +16,46 @@ body, html {
 }
 
 .card-login {
-	/*padding: 20px 200px;*/
-	border-radius: 63px;
-	border: solid 1px #979797;
 	background-color: #ffffff;
+	box-shadow: 0px 0px 40px rgba(239, 240, 241, 0.7);
+	border-radius: 20px;
 }
 
 .btn-login {
-	border-radius: 22px 0px;
+	border-radius: 8px;
 	box-shadow: 0 12px 36px -12px rgba(76, 151, 161, 0.35);
 	background-color: #e8ca49;
-	width: 247px;
+	width: 190px;
 	height: 50px;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 16px;
+	line-height: 20px;
+	text-align: center;
+	color: #FFFFFF;
+	text-transform: capitalize;
+}
+
+.control-label {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 17px;
+	color: #181C32;
 }
 
 input {
-	font-family: Quicksand;
-	font-size: 16px !important;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 14px !important;
+	font-weight: 400;
 	letter-spacing: 0.3px;
-	color: #ccb13e !important;
+	color: #6E6B7B !important;
+	background-color: #F5F8FA !important;
+}
+
+.card-login input.form-control {
+	border-color: transparent !important;
 }
 
 .form-control:focus {
@@ -48,125 +69,141 @@ input {
 
 @media screen and (min-width: 900px) {
 	.card-login {
-		padding: 20px 200px;
+		padding: 20px;
 	}
 }
 
 .form-check .form-check-input:checked ~.form-check-sign .check {
 	background: #e8ca49 !important;
+	border: 1px solid #e8ca49 !important;
+}
+
+.form-check .form-check-sign .check {
+	background: #ebebec !important;
+	border: none;
 }
 
 @media screen and (min-width: 1200px) {
 	.card-login {
-		padding: 20px 180px;
+		padding: 20px;
 	}
 }
 
 @media screen and (min-width: 992px) and (max-width: 1199.5px) {
 	.card-login {
-		padding: 20px 100px;
+		padding: 20px 10px;
 	}
 }
 
 #forgetPasswordA {
-	font-family: Quicksand;
+	font-family: 'Montserrat', sans-serif;
 	font-style: normal;
 	font-weight: normal;
 	font-size: 14px;
-	line-height: 16px;
-	letter-spacing: 0.244706px;
-	color: #E8CA49;
+	line-height: 21px;
+	letter-spacing: -0.02em;
+	color: #E9C218;
 }
 
-.forgetPasswordH6 {
-	font-family: Quicksand;
+.card-login h6 {
+	font-family: 'Montserrat', sans-serif;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 22px;
+	color: #5E5873;
+	text-transform: capitalize;
+}
+
+.card-login p {
+	font-family: 'Montserrat', sans-serif;;
 	font-style: normal;
 	font-weight: normal;
-	font-size: 16px;
-	line-height: 20px;
-	/* identical to box height */
-	letter-spacing: 0.301176px;
-	text-transform: capitalize;
-	margin-bottom: 0;
-	color: #656565
+	font-size: 14px;
+	line-height: 21px;
+	color: #6E6B7B;
+}
+
+.form-check-label {
+	font-family: 'Montserrat', sans-serif;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 21px;
+	color: #3F4254;
+	font-style: normal;
+}
+
+#containerPageBackgrundDiv {
+	background-image: url("{{asset('images/doorder-new-layout/doorder-login-background.png')}}");
+	background-position: center; /* Center the image */
+	background-repeat: no-repeat; /* Do not repeat the image */
+	background-size: cover;
+}
+
+@media only screen and (max-height: 550px) and (orientation: landscape)
+	{
+	.h-100 {
+		height: auto !important;
+	}
 }
 </style>
 
-<link rel="stylesheet" type="text/css"
-	href="https://fonts.googleapis.com/css?family=Quicksand" />
+<link
+	href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
+	rel="stylesheet">
+
 @endsection @section('page-content')
-<div style="background: url({{asset('images/doorder-login-bg.jpg')}})"
-	class="bg-cover h-100">
+<div class="h-100">
 	<div class="row h-100 m-0">
-		<div class="col-lg-8 col-md-10 col-sm-12 mx-auto my-auto">
+		<div class="col-xl-4 col-lg-8 col-md-10 col-sm-12 mx-auto my-auto">
 			<div class="container">
 				<div class="card card-login">
 					<div class="card-header text-center">
 						<a href="{{url('/')}}"><img class="img-fluid"
-							src="{{asset('images/doorder-logo.png')}}" alt="DoOrder Logo"
-							style="width: 180px; height: 110px;"></a>
-						<h6 class="forgetPasswordH6">Reset your password</h6>
+							src="{{asset('images/doorder-new-layout/Logo.png')}}"
+							alt="DoOrder Logo" style="width: 160px;"></a>
 					</div>
 					<div class="card-body">
+
+						<h6>Reset your password</h6>
+						<p>Enter your new password to log in to your account now.</p>
+
 						@if (session('status'))
-						<div class="alert alert-success" role="alert">{{ session('status') }}</div>
+						<div class="alert alert-success" role="alert">{{ session('status')
+							}}</div>
 						@endif
 						<form class="form-signin" method="POST"
 							action="{{ route('password.update') }}">
 							{{ csrf_field() }} <input type="hidden" name="token"
-								value="{{ $token }}">
-							<div class="bmd-form-group mt-2 mb-4">
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<span class="input-group-text" style="color: #E8CA49;"> <i
-											class="material-icons">email</i>
-										</span>
-									</div>
-									<input id="email" name="email"
-										placeholder="Enter your registered E-mail"
-										class="form-control @error('email') is-invalid @enderror"
-										type="email" value="{{ $email ?? old('email') }}" required
-										autocomplete="email" autofocus> @error('email') <span
-										class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
-									</span> @enderror
-								</div>
-							</div>
-							
-							<div class="bmd-form-group mt-2 mb-4">
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<span class="input-group-text" style="color: #E8CA49;"> <i
-											class="material-icons">lock_outline</i>
-										</span>
-									</div>
-									<input id="password" name="password"
-										placeholder="Enter new password"
-										class="form-control @error('password') is-invalid @enderror"
-										type="password"  required
-										autocomplete="new-password" > @error('password') <span
-										class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
-									</span> @enderror
-								</div>
-							</div>
-							
-							<div class="bmd-form-group mt-2 mb-4">
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<span class="input-group-text" style="color: #E8CA49;"> <i
-											class="material-icons">lock_outline</i>
-										</span>
-									</div>
-									<input id="password-confirm" name="password_confirmation"
-										placeholder="Re-enter new password"
-										class="form-control"
-										type="password"  required
-										autocomplete="new-password" > 
-								</div>
-							</div>
+								value="{{ $token }}"> <input type="hidden" name="email"
+								value="{{ $email ?? old('email') }}" />
 
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label for="password" class="control-label"> New password </label>
+										<input type="password" id="password" name="password"
+											class="form-control @error('password') is-invalid @enderror"
+											required autocomplete="new-password">@error('password') <span
+											class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+										</span> @enderror
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label for="password-confirm" class="control-label"> Re-enter
+											new password </label> <input type="password"
+											id="password-confirm" name="password_confirmation"
+											class="form-control" required autocomplete="new-password">
+									</div>
+								</div>
+							</div>
 
 							<input type="hidden" name="guard" value="doorder">
-							<div class="d-flex justify-content-center align-content-center">
+							<div class="d-flex justify-content-center align-content-center mt-3">
 								<button class="btn btn-login" type="submit">Reset</button>
 							</div>
 						</form>

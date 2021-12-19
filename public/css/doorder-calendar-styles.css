@@ -1,0 +1,593 @@
+#calendar {
+	font-family: 'Montserrat', sans-serif;
+	/* 		float: right; */
+	/* margin: 0 auto;
+	width: 92%; */
+	background-color: #FFFFFF;
+	border-radius: 6px;
+	/* 	box-shadow: 0 20px 20px 0 rgba(0, 0, 0, 0.08); */
+	/* 	-webkit-box-shadow: 0px 0px 21px 2px rgba(0, 0, 0, 0.18); */
+	/* 	-moz-box-shadow: 0px 0px 21px 2px rgba(0, 0, 0, 0.18); */
+	/* 	box-shadow: 0px 0px 21px 2px rgba(0, 0, 0, 0.18); */
+	box-shadow: none;
+	padding-top: 15px;
+}
+
+.containerCalendarDiv {
+	border-left: 1px solid #EBE9F1;
+}
+
+.fc-basic-view .fc-body .fc-row {
+	min-height: 5rem;
+}
+
+/* #wrap { */
+/* 	width: 1100px; */
+/* 	margin: 0 auto; */
+/* } */
+
+/* #external-events { */
+/* 	float: left; */
+/* 	width: 150px; */
+/* 	padding: 0 10px; */
+/* 	text-align: left; */
+/* } */
+
+/* #external-events h4 { */
+/* 	font-size: 16px; */
+/* 	margin-top: 0; */
+/* 	padding-top: 1em; */
+/* } */
+
+/* .external-event { try to mimick the look of a real event */
+/* 	margin: 10px 0; */
+/* 	padding: 2px 4px; */
+/* 	background: #3366CC; */
+/* 	color: #fff; */
+/* 	font-size: .85em; */
+/* 	cursor: pointer; */
+/* } */
+
+/* #external-events p { */
+/* 	margin: 1.5em 0; */
+/* 	font-size: 11px; */
+/* 	color: #666; */
+/* } */
+
+/* #external-events p input { */
+/* 	margin: 0; */
+/* 	vertical-align: middle; */
+/* } */
+.fc-header td, .fc th {
+	border-style: none !important;
+}
+
+.modal-dialog {
+	width: 70% !important;
+	margin: auto !important;
+	margin-top: 60px !important;
+}
+
+@media ( max-width : 767.5px) {
+	.modal-dialog {
+		width: 90% !important;
+		margin: auto !important;
+	}
+	.modal-content {
+		padding: 20px !important;
+	}
+}
+
+@media ( min-width :768px ) and ( max-width : 991.5px) {
+	.modal-dialog {
+		width: 85% !important;
+		margin: auto !important;
+		margin-top: 40px !important;
+	}
+	.modal-content {
+		padding: 20px !important;
+	}
+}
+
+.modal-dialog .modal-header {
+	padding: 0 !important;
+}
+
+.list-group-item, .list-group-item a {
+	padding: 15px;
+	margin: 5px;
+	border-radius: 10px !important;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 18px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.35;
+	letter-spacing: -0.33px;
+	color: #000000;
+}
+
+.calendarFilterH3 {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 15px;
+	line-height: 23px;
+	/* identical to box height, or 192% */
+	letter-spacing: 0.6px;
+	text-transform: uppercase;
+	color: #B9B9C3;
+}
+
+.servicesCalendarUl {
+	list-style: none;
+	padding: 0;
+}
+
+.serviceColorLiDiv {
+	width: 100%;
+	min-height: 35px;
+	margin-right: 15px;
+}
+
+.serviceNameCalendarP {
+	font-family: 'Montserrat', sans-serif;
+	font-size: 11px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.37;
+	letter-spacing: 1.3px;
+	color: #222222;
+	margin-bottom: 2px;
+}
+
+.serviceJobsCalendarP {
+	font-family: 'Montserrat', sans-serif;
+	font-size: 8px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.89;
+	letter-spacing: 1.59px;
+	color: #888888;
+	margin-bottom: 0;
+	text-transform: uppercase;
+}
+
+.modal-content {
+	padding: 25px 40px 30px 40px;
+}
+
+.modal-header {
+	display: block !important;
+}
+
+.addJobModalHeader {
+	margin: 25px;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 25px;
+	font-weight: 300;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 0.6;
+	letter-spacing: 0.63px;
+	color: #222222;
+}
+
+.addJobSubTitleModal {
+	margin-top: 0;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 18px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 2.5;
+	letter-spacing: 0.17px;
+	color: #d58242;
+}
+
+.modal-body {
+	padding-top: 0 !important;
+}
+
+.select2-container {
+	width: 100% !important;
+	padding: 0;
+}
+
+.iti--allow-dropdown input, .iti--allow-dropdown input[type=text],
+	.iti--allow-dropdown input[type=tel], .iti--separate-dial-code input,
+	.iti--separate-dial-code input[type=text], .iti--separate-dial-code input[type=tel]
+	{
+	padding-left: 100px !important;
+}
+
+button:focus {
+	outline: none !important;
+}
+
+.fc-toolbar .fc-left h2 {
+	margin-top: 10px;
+	white-space: nowrap;
+	font-weight: 100;
+	margin-bottom: 10px;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 18px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 0.84;
+	letter-spacing: 0.45px;
+	color: #5E5873;
+}
+
+.fc-center, .fc-right {
+	margin-top: 2px;
+}
+
+.fc-button-group {
+	margin-left: -20%;
+}
+
+.fc-state-default {
+	padding: 0.4rem 0 0.4rem 0.4rem !important;
+	color: #6C757D !important;
+	opacity: 1 !important;
+	box-shadow: none !important;
+	background: none !important;
+}
+
+.fc-state-default:hover {
+	background-color: #E9C21826 !important;
+}
+
+.fc-row.fc-widget-header {
+	box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.05);
+}
+
+.fc-day-header {
+	/* 	background-color: #f4f4f4 !important; */
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 600 !important;
+	font-size: 14px !important;
+	text-align: center;
+	color: #6E6B7B;
+	font-stretch: normal;
+	line-height: 1.83;
+	letter-spacing: 1.1px;
+}
+
+.fc-center .fc-button, .fc-right .fc-button {
+	padding: 5px !important;
+	/* margin-left: 1rem !important; */
+	font-family: 'Montserrat', sans-serif;
+	font-size: 14px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.26;
+	letter-spacing: 0.4px;
+	text-align: center;
+	text-transform: capitalize;
+	/* border-radius: 2px */
+	border: 1px solid #E9C218;
+	/* 	border-bottom-width: 2px; */
+	/* 	border-top-width: 2px; */
+	border-radius: 0;
+	color: #E9C218 !important;
+}
+
+.fc .fc-button-group>:first-child {
+	border-radius: 8px 0 0 8px;
+}
+
+.fc .fc-button-group>:last-child {
+	border-radius: 0 8px 8px 0;
+}
+
+.fc-right .fc-button.fc-today-button {
+	padding: 4px !important;
+	margin-left: 1rem !important;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 14px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.26;
+	letter-spacing: 0.4px;
+	text-align: center;
+	color: #6C757D !important;
+	text-transform: capitalize;
+	border: 2px solid #aaa !important;
+	border-radius: 6px;
+}
+
+.fc-right {
+	margin-right: 0.5rem !important;
+}
+
+.fc-state-down, .fc-state-active {
+	background-color: #fff !important;
+	/* border-bottom: 2px solid #d58242 !important; */
+	box-shadow: none !important;
+}
+
+.fc-state-active {
+	background-color: rgba(247, 220, 105, 0.2) !important;
+}
+
+.fc-right .fc-today-button.fc-state-disabled {
+	background-color: #E9C218 !important;
+	border: 2px solid #E9C218 !important;
+	color: #fff !important;
+	box-shadow: none !important;
+}
+
+.fc td.fc-today {
+	border-style: solid !important;
+	border-right-style: none !important;
+}
+
+.fc-day-top .fc-day-number {
+	padding: 5px;
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: normal !important;
+	font-size: 14px !important;
+	font-stretch: normal;
+	line-height: 1;
+	letter-spacing: 0.4px;
+	color: #6E6B7B;
+	float: left !important;
+}
+
+.fc-sat .fc-day-number, .fc-sun .fc-day-number {
+	color: #222 !important;
+}
+
+.fc-today .fc-day-number {
+	font-weight: bold !important;
+	color: #E9C218 !important;
+}
+
+td.fc-day {
+	/* background: #f4f4f4bf !important; */
+	background: #fafafa !important;
+}
+
+.fc-event-time, .fc-event-title {
+	font-family: 'Montserrat', sans-serif;
+}
+
+.fc-event-inner {
+	background: none !important;
+}
+
+.fc-event {
+	font-family: 'Montserrat', sans-serif;
+	height: 26px;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 13px;
+	line-height: 15px;
+	/* identical to box height, or 115% */
+	text-align: center;
+	color: #000000;
+	box-shadow: none !important;
+	border-radius: 4px;
+}
+
+.fc-event.readyStatus {
+	background-color: #F3D54F40 !important;
+	border-color: #F3D54F40 !important;
+}
+
+.fc-event.pendingStatus {
+	background-color: #82868B40 !important;
+	border-color: #82868B40 !important;
+}
+
+.fc-event.matchedStatus, .fc-event.assignedStatus {
+	background-color: #38B01840 !important;
+	border-color: #38B01840 !important;
+}
+
+.fc-event.on_route_pickupStatus {
+	background-color: #FF9F4340 !important;
+	border-color: #FF9F4340 !important;
+}
+
+.fc-event.picked_upStatus {
+	background-color: #4A95D340 !important;
+	border-color: #4A95D340 !important;
+}
+
+.fc-event.on_routeStatus {
+	background-color: #FF9F4340 !important;
+	border-color: #FF9F4340 !important;
+}
+
+.fc-event.delivery_arrivedStatus {
+	background-color: #F56D6D40 !important;
+	border-color: #F56D6D40 !important;
+}
+
+.fc-event.deliveredStatus {
+	background-color: #28C76F40 !important;
+	border-color: #28C76F40 !important;
+}
+
+.fc-event.not_deliveredStatus {
+	background-color: #d8565640 !important;
+	border-color: #d8565640 !important;
+}
+
+.fc-more-cell a.fc-more {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 12px;
+	line-height: 18px;
+	color: #6E6B7B;
+}
+
+.fc th, .fc td {
+	border-right: none;
+}
+
+td {
+	text-align: inherit !important;
+}
+.fc-day-grid-event{
+	margin-bottom: 3px;
+	margin-top: 3px
+}
+tr:first-child>td>.fc-day-grid-event {
+	border: 0 !important;
+	box-shadow: none !important;
+	margin-bottom: 3px;
+	margin-top: 3px
+}
+
+.fc-day-grid-event .fc-content {
+	padding: 2px;
+	text-align: center;
+	font-size: 13px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.73;
+	color: #333;
+}
+
+input[type="checkbox"] {
+	display: none;
+}
+
+input[type="checkbox"]:checked+label i {
+	color: #d58242;
+}
+
+.form-check-label.calendarFilterLabel {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 17px;
+	letter-spacing: 0.4px;
+	color: #5E5873;
+	margin-left: 4px;
+}
+
+
+
+.form-check .form-check-label.calendarFilterLabel span {
+	left: 1px !important;
+	top: 0 !important;
+}
+.form-check .form-check-label.calendarFilterLabel .form-check-sign:before,.form-check .form-check-label.calendarFilterLabel .form-check-sign .check{
+	
+	border-radius: 3px;
+	width: 18px;
+	height: 18px
+}
+.form-check .form-check-label.calendarFilterLabel .form-check-input:checked~.form-check-sign .check{
+	background-color: white;
+	border: none;
+}
+
+.form-check .form-check-label.calendarFilterLabel.retailerStatusLabel .form-check-sign .check{
+	border: 1px solid #E9C218 ;
+}
+.form-check .retailerStatusLabel .form-check-input:checked~.form-check-sign .check:before{
+	color: #E9C218 ;
+	top: 0;
+}
+
+
+.form-check .form-check-label.calendarFilterLabel.viewAllLabel .form-check-sign .check{
+	border: 1px solid #7367F0;
+}
+.form-check .viewAllLabel .form-check-input:checked~.form-check-sign .check:before{
+	color: #7367F0;
+	top: 0;
+}
+
+.form-check .form-check-label.calendarFilterLabel.pendingStatusLabel .form-check-sign .check{
+	border: 1px solid #82868B;
+}
+.form-check .pendingStatusLabel .form-check-input:checked~.form-check-sign .check:before{
+	color: #82868B;
+	top: 0;
+}
+
+.form-check .form-check-label.calendarFilterLabel.readyStatusLabel .form-check-sign .check{
+	border: 1px solid #F3D54F;
+}
+.form-check .readyStatusLabel .form-check-input:checked~.form-check-sign .check:before{
+	color: #F3D54F;
+	top: 0;
+}
+
+
+.form-check .form-check-label.calendarFilterLabel.matchedStatusLabel .form-check-sign .check{
+	border: 1px solid #38B018;
+}
+.form-check .matchedStatusLabel .form-check-input:checked~.form-check-sign .check:before{
+	color: #38B018;
+	top: 0;
+}
+.form-check .form-check-label.calendarFilterLabel.on_route_pickupStatusLabel .form-check-sign .check{
+	border: 1px solid #FF9F43;
+}
+.form-check .on_route_pickupStatusLabel .form-check-input:checked~.form-check-sign .check:before{
+	color: #FF9F43;
+	top: 0;
+}
+
+.form-check .form-check-label.calendarFilterLabel.picked_upStatusLabel .form-check-sign .check{
+	border: 1px solid #4A95D3;
+}
+.form-check .picked_upStatusLabel .form-check-input:checked~.form-check-sign .check:before{
+	color: #4A95D3;
+	top: 0;
+}
+
+.form-check .form-check-label.calendarFilterLabel.on_routeStatusLabel .form-check-sign .check{
+	border: 1px solid #FF9F43;
+}
+.form-check .on_routeStatusLabel .form-check-input:checked~.form-check-sign .check:before{
+	color: #FF9F43;
+	top: 0;
+}
+
+
+
+
+
+.form-check .form-check-label.calendarFilterLabel.delivery_arrivedStatusLabel .form-check-sign .check{
+	border: 1px solid #F56D6D;
+}
+.form-check .delivery_arrivedStatusLabel .form-check-input:checked~.form-check-sign .check:before{
+	color: #F56D6D;
+	top: 0;
+}
+
+.form-check .form-check-label.calendarFilterLabel.deliveredStatusLabel .form-check-sign .check{
+	border: 1px solid #28C76F;
+}
+.form-check .deliveredStatusLabel .form-check-input:checked~.form-check-sign .check:before{
+	color: #28C76F;
+	top: 0;
+}
+
+.form-check .form-check-label.calendarFilterLabel.not_deliveredStatusLabel .form-check-sign .check{
+	border: 1px solid #d85656;
+}
+.form-check .not_deliveredStatusLabel .form-check-input:checked~.form-check-sign .check:before{
+	color: #d85656;
+	top: 0;
+}
+

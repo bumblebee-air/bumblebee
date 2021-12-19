@@ -235,14 +235,14 @@ class RetailerController extends Controller
             alert()->error('Retailer not found!');
             return redirect()->back();
         }
-
-
         $retailer->invoice_reference_number = 'BR0128';
-        return view('admin.doorder.retailers.single_retailer', ['retailer' => $retailer, 'readOnly' => true]);
+
+        return view('admin.doorder.retailers.single_retailer_view', ['retailer' => $retailer, 'readOnly' => true]);
     }
 
     public function saveUpdateRetailer($client_name, $id, Request $request)
     {
+        //dd($request);
         $retailer_id = $request->get('retailer_id');
         $retailer = Retailer::find($retailer_id);
         if (!$retailer) {
@@ -268,6 +268,7 @@ class RetailerController extends Controller
             $customer_id = $customer->id;
             $retailer->stripe_customer_id = $customer_id;
         }
+        //dd($request);
         $retailer->name = $request->get('company_name');
         $retailer->company_website = $request->get('company_website');
         $retailer->business_type = $request->get('business_type');
@@ -299,5 +300,3 @@ class RetailerController extends Controller
         return view('admin.doorder.retailers.single_retailer', ['retailer' => $retailer, 'readOnly' => 0]);
     }
 }
-
-

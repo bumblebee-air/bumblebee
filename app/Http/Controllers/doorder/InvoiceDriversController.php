@@ -32,7 +32,7 @@ class InvoiceDriversController extends Controller
 //
 //        $invoiceList = [];
 
-        $drivers = DriverProfile::with(['payouts' => function($q) {
+        $drivers = DriverProfile::where('is_confirmed', true)->with(['payouts' => function($q) {
             $q->orderBy('created_at', 'desc')->first();
         }])->whereHas('user')->get();
 
@@ -95,7 +95,7 @@ class InvoiceDriversController extends Controller
                 'date'=> $key,
                 'count' => $order_grouped->count(),
                 'charge' => $order_grouped->count() * 5,
-                'data'=>$order_grouped->count()." package for retailer name"
+                'data'=>$order_grouped->count()
             ];
         }
         $vat = 0.00;
@@ -111,7 +111,8 @@ class InvoiceDriversController extends Controller
         
         return view('admin.doorder.invoice_driver.single_invoice', ["invoice"=>$invoice,'driver' => $driver,'user'=>$user,
             'subtotal' => $subtotal,'vat'=> $vat, 'total'=>$total,
-            'invoice_number'=>$invoice_number,'completed_stripe_account'=>$completed_stripe_account, 'stripe_profile_status' => $stripe_profile_status, 'invoice_price' => $invoice_price]);
+            'invoice_number'=>$invoice_number,'completed_stripe_account'=>$completed_stripe_account,
+            'stripe_profile_status' => $stripe_profile_status, 'invoice_price' => $invoice_price]);
     }
     
     public function postSendNotificationDriver(Request $request){

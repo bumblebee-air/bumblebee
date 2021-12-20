@@ -136,9 +136,15 @@ class MapRoutesConroller extends Controller
             $deliverers = DriverProfile::whereIn('id', $request->selectedDrivers)->get();
             $orders = Order::whereIn('id', explode(',', $request->selectedOrders))->get();
             $deliverers_coordinates = $deliverers->map(function ($item) {
+                $driver_latest_coordinates = ($item->latest_coordinates!=null)? json_decode($item->latest_coordinates) : null;
+                if($driver_latest_coordinates==null){
+                    $driver_latest_coordinates = ($item->address_coordinates!=null)? json_decode($item->address_coordinates) : null;
+                }
+                $coordinates_error = ($driver_latest_coordinates!=null)? 0 : 1;
                 return [
                     'deliverer_id' => $item->id,
-                    'deliverer_coordinates' => json_decode($item->address_coordinates)->lat . ',' . json_decode($item->address_coordinates)->lon,
+                    'deliverer_coordinates' => $driver_latest_coordinates->lat . ',' . $driver_latest_coordinates->lon,
+                    'coordinates_error' => $coordinates_error
                 ];
             });
             $orders_address = $orders->map(function ($item) {
@@ -148,12 +154,11 @@ class MapRoutesConroller extends Controller
                     'dropoff' => $item->customer_address_lat . ',' . $item->customer_address_lon,
                 ];
             });
-
-            $route_request = Http::post('https://peaceful-ridge-07017.herokuapp.com/routing_table', [
+            $route_opt_url = env('ROUTE_OPTIMIZE_URL', 'https://afternoon-lake-03061.herokuapp.com') . '/routing_table';
+            $route_request = Http::post($route_opt_url, [
                 'deliverers_coordinates' => json_encode($deliverers_coordinates),
                 'orders_address' => json_encode($orders_address)
             ]);
-
 
             $response = $route_request->getBody();
             $response = json_decode($response);

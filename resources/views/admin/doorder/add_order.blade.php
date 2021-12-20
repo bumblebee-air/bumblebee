@@ -256,12 +256,8 @@
 												<label for="deliver_by" class="control-label">Deliver by</label>
 												<select id="deliver_by" name="deliver_by"
 													data-style="select-with-transition"
-													class="form-control form-control-select selectpicker"> Car
-													</option>
-
-
-
-
+													class="form-control form-control-select selectpicker">
+													<option value="car">Car</option>
 													<option value="scooter">Scooter</option>
 													<option value="bicycle">Bicycle</option>
 												</select>

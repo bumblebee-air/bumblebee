@@ -6,6 +6,7 @@ use App\Contractor;
 use App\Customer;
 use App\CustomerExtraData;
 use App\GardenServiceType;
+use App\Helpers\CustomNotificationHelper;
 use App\Helpers\StripePaymentHelper;
 use App\Helpers\TwilioHelper;
 use App\Http\Controllers\Controller;
@@ -159,6 +160,7 @@ class CustomersController extends Controller
                 \Log::error('Publish Redis new order notification from external shop API failed');
             }
         }
+        CustomNotificationHelper::send('new_customer', $customer->id, 'GardenHelp');
         alert()->success('We will Get back to you shortly.', 'Thank you for filling the Registration Form');
         return redirect()->back();
     }

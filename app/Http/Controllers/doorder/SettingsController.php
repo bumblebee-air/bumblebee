@@ -143,7 +143,7 @@ class SettingsController extends Controller
             $customNotification->save();
         }
         alert()->success('Notifications saved successfully');
-        return redirect()->route('doorder_getSettings', 'doorder');
+        return redirect()->back();
     }
 
     public function postSaveStripeApi(Request $request)

@@ -685,6 +685,13 @@
 					<p>WhatsApp</p>
 			</a></li>
 
+			<li class="nav-item">
+				<a class="nav-link d-flex" href="{{route('garden_help_getSetting', 'garden-help')}}">
+					<img class="my-nav-icon" src="{{asset('images/gardenhelp_icons/notifications_icon.png')}}" alt="Dashboard">
+					<p>Notification</p>
+				</a>
+			</li>
+
 
 			<li class="nav-item "><a class="nav-link d-flex"
 				href="{{url('logout')}}"> <i class="fas fa-sign-out-alt"></i>

@@ -414,6 +414,46 @@
         // let socket = io.connect('http://localhost:8890');
         Vue.use(VueToast);
 
+		socket.on('garden-help-channel:custom-notification'+'-'+'{{env('APP_ENV','dev')}}', (data) => {
+			let decodedData = JSON.parse(data);
+			console.log(decodedData)
+			let toast_title = decodedData.data.title;
+			let url = decodedData.data.url;
+			let user_id = parseInt("{{ auth()->user()->id }}");
+			if(user_id == decodedData.data.id){
+				Vue.$toast.success(toast_title, {
+					// optional options Object
+					position: 'top-right',
+					duration: 3600000,
+
+					onClick: () => {
+						swal({
+							// title: "Good job!",
+							text: toast_title,
+							icon: "info",
+							buttons: {
+								accept: {
+									text: "View",
+									value: "view",
+									className: 'btn btn-primary'
+								},
+								reject: {
+									text: "Close",
+									value: "cancel",
+									className: 'btn btn-default'
+								}
+							}
+						}).then((input) => {
+							if (input === 'view') {
+								window.location.href = url;
+							}
+						});
+					}
+				});
+				notificationAudio.play();
+			}
+		});
+
         socket.on('garden-help-channel:new-customer-request'+'-'+'{{env('APP_ENV','dev')}}', (data) => {
             let decodedData = JSON.parse(data);
             console.log(decodedData);

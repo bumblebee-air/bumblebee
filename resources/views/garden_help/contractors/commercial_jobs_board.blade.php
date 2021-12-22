@@ -158,13 +158,13 @@
                                 </p>
                             </div>
                             <div class="col pr-1">
-                                <a href="{{route('getCustomerRegistration', ['garden-help'])}}" class="float-right" v-if="job.contractor_id && job.contractor">
+                                <a href="{{url('contractors_app')}}" class="float-right" v-if="job.contractor_id && job.contractor">
                                     ASSIGNED
                                     <span class="text-gray">
                                         @{{ job.contractor.name }}
                                     </span>
                                 </a>
-                                <a href="{{route('getCustomerRegistration', ['garden-help'])}}" class="float-right" v-else>APPLY FOR JOB <i class="fas fa-chevron-right"></i></a>
+                                <a :href="getJobURL(job.id)" class="float-right" v-else>APPLY FOR JOB <i class="fas fa-chevron-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -213,6 +213,9 @@
                 getTotalAverage(totalValue) {
                     let percentage = (20 * totalValue) / 100;
                     return '€'+ (totalValue - percentage) + ' - ' + (totalValue + percentage);
+                },
+                getJobURL(id) {
+                    return "{{url('contractors_app/#/order-details')}}" + '/' +  id
                 }
             }
         });

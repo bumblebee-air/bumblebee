@@ -247,7 +247,6 @@ Route::group([
         Route::group([
             'middleware' => "auth:garden-help"
         ], function () {
-
             Route::get('home', 'garden_help\DashboardController@index')->name('garden_help_getDashboard');
             Route::group([
                 'prefix' => 'contractors'
@@ -302,6 +301,12 @@ Route::group([
             ], function () {
                 Route::get('/list', 'garden_help\InvoiceController@getInvoiceJobs')->name('garden_help_getInvoiceList');
                 Route::get('/view/{id}', 'garden_help\InvoiceController@viewInvoiceJob')->name('garden_help_viewInvoice');
+            });
+            Route::group([
+                'prefix' => 'setting'
+            ], function () {
+                Route::get('/', 'doorder\SettingsController@getSettings')->name('garden_help_getSetting');
+                Route::post('save_notification', 'doorder\SettingsController@postSaveNotification')->name('gardenhelp_postSaveNotification');
             });
             Route::post('send_notification_contractor', 'garden_help\InvoiceController@postSendNotification')->name('garden_help_sendNotificationDriver');
             Route::post('payout_contractor_invoice', 'garden_help\InvoiceController@postPayout')->name('garden_help_sendNotificationContractor');

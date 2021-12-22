@@ -4,6 +4,7 @@ namespace App\Http\Controllers\garden_help;
 use App\ClientSetting;
 use App\Contractor;
 use App\Customer;
+use App\Helpers\CustomNotificationHelper;
 use App\Helpers\ServicesTypesHelper;
 use App\Helpers\StripePaymentHelper;
 use App\Helpers\TwilioHelper;
@@ -148,6 +149,9 @@ class ContractorsController extends Controller
                 ])
             ]
         ]));
+
+        //Customer Notification
+        CustomNotificationHelper::send('new_contractor', $contractor->id, 'GardenHelp');
 
         alert()->success('You registration saved successfully');
         return redirect()->back();

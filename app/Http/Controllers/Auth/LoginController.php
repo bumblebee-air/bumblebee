@@ -77,7 +77,9 @@ class LoginController extends Controller
             return view("auth.doom_yoga.login");
         }else if(strpos(request()->getHost(),'unified.')!==false || str_contains(request()->url(),'unified/login')) {
             return view("auth.unified.login");
-        }else {
+        }else if(strpos(request()->getHost(),'ghstaging.')!==false || str_contains(request()->url(),'garden-help/login')) {
+            return view('auth.garden_help.login');
+        } else {
             return view('auth.login');
         }
     }
@@ -93,6 +95,8 @@ class LoginController extends Controller
 
         if (strpos(request()->getHost(),'doorder.eu')!==false) {
             $url = 'doorder/login';
+        } else if (strpos(request()->getHost(),'ghstaging')!==false) {
+            $url = 'garden-help/login';
         }
 
         //$this->guard()->logout();

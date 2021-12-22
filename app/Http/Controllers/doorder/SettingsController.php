@@ -89,8 +89,8 @@ class SettingsController extends Controller
         if (!$general_setting) {
             $general_setting = GeneralSetting::create([]);
         }
-
-        return view('admin.doorder.settings.index', [
+        $view = strpos(strtolower($the_client->name), 'doorder')!==false ? 'admin.doorder.settings.index' : 'admin.garden_help.setting.index' ;
+        return view($view, [
             'adminOptions' => json_encode($adminsData),
             'retailersOptions' => json_encode($retailers),
             'callCenterOptions' => json_encode($callCenterOptions),
@@ -143,7 +143,7 @@ class SettingsController extends Controller
             $customNotification->save();
         }
         alert()->success('Notifications saved successfully');
-        return redirect()->route('doorder_getSettings', 'doorder');
+        return redirect()->back();
     }
 
     public function postSaveStripeApi(Request $request)

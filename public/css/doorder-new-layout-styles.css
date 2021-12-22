@@ -313,8 +313,9 @@ li .nav-link:hover  i {
 	font-style: normal;
 	font-weight: normal;
 	font-size: 14px;
-	line-height: 21px;
+	line-height: 18px;
 	color: #6E6B7B;
+	margin-bottom: 4px;
 }
 
 .invoiceCard .invoiceTitleValue, .invoiceServiceP {
@@ -322,9 +323,9 @@ li .nav-link:hover  i {
 	font-style: normal;
 	font-weight: 500;
 	font-size: 14px;
-	line-height: 23px;
+	line-height: 18px;
 	color: #5E5873;
-	margin-bottom: 4px
+	margin-bottom: 4px;
 }
 
 .invoiceCard .invoicePaymentDetails, .tfootValueTh {
@@ -1641,7 +1642,7 @@ span.form-control {
 	margin: 10px 0 !important;
 }
 
-.card-header-profile-border h4, .settingsTitle {
+.card-header-profile-border h4, .settingsTitle, .titleNameSpan {
 	font-family: Montserrat;
 	font-style: normal;
 	font-weight: 600;
@@ -1715,6 +1716,49 @@ span.form-control {
 
 .operationTime input.mini-time {
 	height: 40px;
+}
+
+.select2-container {
+	width: 100% !important;
+}
+
+.select2-container--default .select2-selection--multiple,
+	.select2-container .select2-selection--single {
+	padding: 13px 14px 11px 14px;
+	border: 1px solid #e5e5e5 !important;
+	border-radius: 6px;
+	box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
+	background-color: #ededed;
+	font-size: 15px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 20px;
+	letter-spacing: 0.77px;
+	color: #6e6b7b;
+	width: 100%;
+	height: auto !important;
+	min-height: 40px;
+}
+
+.select2-container .select2-selection--single {
+	padding: 11px 14px 11px 14px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered
+	{
+	line-height: 1.2 !important;
+}
+
+.select2-container--default.select2-container--disabled .select2-selection--multiple
+	{
+	background-color: #ededed !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice
+	{
+	background-color: #E9C21866;
+	border-color: #E9C218;
 }
 
 /* Timeline */
@@ -1910,6 +1954,4 @@ span.form-control {
 		font-size: 19px;
 		line-height: 23px;
 	}
-}
-}
 }

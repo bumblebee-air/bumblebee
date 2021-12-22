@@ -699,7 +699,7 @@
                 serializeBusinessHours(index) {
                     let businessHoursoutput = window['business_hours_container' + index].serialize()
                     let businessHoursText = '';
-                    let businessHours = {};
+                     let businessHours = [];//{};
                     let weekDays = {
                         0:'Monday',
                         1:'Tuesday',
@@ -714,7 +714,8 @@
                             businessHoursText += weekDays[businessHoursoutput.indexOf(item)] + ': From:' + item.timeFrom + ', To: ' + item.timeTill + '/'
                         }
                         let key = weekDays[businessHoursoutput.indexOf(item)]
-                        businessHours[key] = item;
+                       //businessHours[key] = item;
+                        businessHours.push(item);
                     }
                     $('#business_hours' + index).val(businessHoursText)
                     $('#business_hours_json' + index).val(JSON.stringify(businessHours))

@@ -225,7 +225,21 @@ class RetailerController extends Controller
             alert()->error('Retailer not found!');
             return redirect()->back();
         }
-        return view('admin.doorder.retailers.single_retailer', ['retailer' => $retailer, 'readOnly' => 0]);
+        
+        $subaccounts = Retailer::with('user')->where('status', 'completed')->get();
+        
+        $user1 = new UserData(1, "sara", "sara@mail.com", "August, 24 2021", "Admin", "admin", "All", "all");
+        $user2 = new UserData(2, "mohamed", "mohamed@mail.com", "August, 24 2021", "Retailer", "retailer", "Store 1", 1);
+        $user3 = new UserData(3, "user", "user@mail.com", "August, 24 2021", "Sales", "sales", "Store 2, Store 3", [2,3]);
+        $users = array($user1,$user2,$user3);
+        
+        $businessAccount1 = new UserData(1, "Store 1",null,null,null,null,null,null);
+        $businessAccount2 = new UserData(2, "Store 2",null,null,null,null,null,null);
+        $businessAccount3 = new UserData(3, "Store 3",null,null,null,null,null,null);
+        $businessAccounts = array($businessAccount1,$businessAccount2,$businessAccount3);
+        
+        return view('admin.doorder.retailers.single_retailer', ['retailer' => $retailer, 'readOnly' => 0,
+            'subaccounts'=>$subaccounts,'users'=>$users,'businessAccounts'=>$businessAccounts]);
     }
     public function getViewRetailer($client_name, $id)
     {
@@ -297,6 +311,38 @@ class RetailerController extends Controller
             alert()->error('Retailer not found!');
             return redirect()->back();
         }
-        return view('admin.doorder.retailers.single_retailer', ['retailer' => $retailer, 'readOnly' => 0]);
+        $subaccounts = Retailer::with('user')->where('status', 'completed')->get();
+                
+        $user1 = new UserData(1, "sara", "sara@mail.com", "August, 24 2021", "Admin", "admin", "All", "all");
+        $user2 = new UserData(2, "mohamed", "mohamed@mail.com", "August, 24 2021", "Retailer", "retailer", "Store 1", 1);
+        $user3 = new UserData(3, "user", "user@mail.com", "August, 24 2021", "Sales", "sales", "Store 2, Store 3", "2,3");
+        $users = array($user1,$user2,$user3);
+        
+        $businessAccount1 = new UserData(1, "Store 1",null,null,null,null,null,null);
+        $businessAccount2 = new UserData(2, "Store 2",null,null,null,null,null,null);
+        $businessAccount3 = new UserData(3, "Store 3",null,null,null,null,null,null);
+        $businessAccounts = array($businessAccount1,$businessAccount2,$businessAccount3);
+        
+        return view('admin.doorder.retailers.single_retailer', ['retailer' => $retailer, 'readOnly' => 0,
+            'subaccounts'=>$subaccounts,'users'=>$users,'businessAccounts'=>$businessAccounts]);
+    }
+}
+
+class UserData
+{
+    
+    public $id, $name, $email, $last_activity, $user_type,$userTypeId, $business_account,$businessAccountId;
+    
+   
+    public function __construct($id, $name, $email, $lastActivity, $userType,$userTypeId, $businessAccount,$businessAccountId)
+    {
+        $this->id = $id;
+        $this->name = $name;
+        $this->email = $email;
+        $this->last_activity = $lastActivity;
+        $this->user_type = $userType;
+        $this->userTypeId = $userTypeId;
+        $this->business_account = $businessAccount;
+        $this->businessAccountId = $businessAccountId;
     }
 }

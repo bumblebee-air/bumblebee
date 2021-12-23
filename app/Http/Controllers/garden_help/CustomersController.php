@@ -280,7 +280,7 @@ class CustomersController extends Controller
 
     private function availableContractors($available_date) {
         $contractors = Contractor::all();
-        $currentDayName = Carbon::parse($available_date)->format('l');
+        $currentDayName = Carbon::createFromFormat('d/m/Y H:i A', $available_date)->format('l');
         $available_contractors = [];
         foreach ($contractors as $contractor) {
             if ($contractor->business_hours_json) {

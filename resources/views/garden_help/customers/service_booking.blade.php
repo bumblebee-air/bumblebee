@@ -48,7 +48,7 @@
                         <div class="form-group">
                             <label>Scheduled at</label>
                             <div class="input-value">
-                                <input name="schedule_at" type="text" class="form-control datetimepicker" id="available_date_time" v-model="available_date" required @focusout="getAvailableContractors">
+                                <input name="schedule_at" type="text" class="form-control datetimepicker" data-date-format="DD-MM-YYYY HH:mm A" id="available_date_time" v-model="available_date" required @focusout="getAvailableContractors">
                             </div>
                         </div>
                     </div>
@@ -261,6 +261,9 @@
                         clear: 'fa fa-trash',
                         close: 'fa fa-remove'
                     }
+                }).on('dp.change',(e) => {
+                    var formatedValue = e.date.format('DD/MM/YYYY H:m A');
+                    this.available_date = formatedValue
                 });
                 this.stripe = Stripe("{{env('STRIPE_PUBLIC_KEY')}}");
             },

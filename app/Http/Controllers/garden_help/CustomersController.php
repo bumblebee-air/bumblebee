@@ -212,7 +212,7 @@ class CustomersController extends Controller
         if ($customer_request->available_date_time) {
             $available_contractors = $this->availableContractors($customer_request->available_date_time);
         }
-        if (!$customer_request) {
+        if (!$customer_request || ($customer_request && $customer_request->type == 'job')) {
             abort(404);
         }
         return view('garden_help.customers.service_booking', ['id' => $id, 'customer_request' => $customer_request, 'available_contractors' => $available_contractors]);
@@ -248,7 +248,9 @@ class CustomersController extends Controller
         CustomerExtraData::create([
             'user_id' => $customer->user_id,
             'job_id' => $customer->id,
-            'stripe_customer_id' => $stripe_customer_id
+            'stripe_customer_id' => $stripe_customer_id,
+            'payment_method_type' => $request->payment_type == 'sepa_debit' ? 'sepa_debit' : null,
+            'capture_method' => $request->payment_type == 'sepa_debit' ? 'automatic' : null,
         ]);
 
         try {

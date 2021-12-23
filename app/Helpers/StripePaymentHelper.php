@@ -9,14 +9,14 @@ use Twilio\Rest\Client;
 
 class StripePaymentHelper
 {
-    public static function paymentIntent($amount, $stripe_customer_id, $currency = 'eur') {
+    public static function paymentIntent($amount, $stripe_customer_id, $currency = 'eur', $payment_method_types = ['card'], $capture_method = 'manual') {
         try {
             $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
             $payment_intent = $stripe->paymentIntents->create([
                 'amount' => $amount * 100,
                 'currency' => $currency,
-                'payment_method_types' => ['card'],
-                'capture_method' => 'manual',
+                'payment_method_types' => $payment_method_types,
+                'capture_method' => $capture_method,
                 'customer' => $stripe_customer_id,
                 'description' => 'Customer payment intent',
                 'confirm' => true

@@ -11,6 +11,8 @@ class CustomerExtraData extends Model
     protected $fillable = [
         'user_id',
         'job_id',
-        'stripe_customer_id'
+        'stripe_customer_id',
+        'payment_method_type',
+        'capture_method'
     ];
 }

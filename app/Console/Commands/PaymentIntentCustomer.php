@@ -56,7 +56,11 @@ class PaymentIntentCustomer extends Command
                 if ($customer->services_types_json && $customer->stripe_customer) {
                     $service_types_amount = ServicesTypesHelper::getJobServicesTypesAmount($customer);
                     $amount = $service_types_amount + ServicesTypesHelper::getVat(13.5, $service_types_amount);
-                    $payment_intent = StripePaymentHelper::paymentIntent($amount, $customer->stripe_customer->stripe_customer_id);
+                    if ($customer->stripe_customer->payment_method_type == 'sepa_debit') {
+                        $payment_intent = StripePaymentHelper::paymentIntent($amount, $customer->stripe_customer->stripe_customer_id, 'eur', ['sepa_debit'], 'automatic');
+                    } else {
+                        $payment_intent = StripePaymentHelper::paymentIntent($amount, $customer->stripe_customer->stripe_customer_id);
+                    }
                     if($payment_intent) {
                         $customer->payment_intent_id = $payment_intent->id;
                         $customer->save();

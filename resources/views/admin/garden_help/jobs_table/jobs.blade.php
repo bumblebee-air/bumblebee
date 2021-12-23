@@ -146,7 +146,7 @@
 
                 for(let item of jobs.data) {
                     item.created_at = moment(item.created_at).format('YYYY-MM-DD')
-                    item.available_date_time = moment(item.available_date_time).format('YYYY-MM-DD HH:mm')
+                    item.available_date_time = moment(item.available_date_time, "DD-MM-YYYY").format('YYYY-MM-DD HH:mm')
                 }
 
                 this.jobs = jobs.data;

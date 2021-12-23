@@ -47,17 +47,17 @@
                     <div class="col-md-12 mt-3">
                         <div class="form-group">
                             <label>
-                                @if ($customer_request->status == 'ready') Please select the date and time you'd like the job to be booked on @else Scheduled at @endif
+                                @if ($customer_request->type != 'job') Please select the date and time you'd like the job to be booked on @else Scheduled at @endif
                             </label>
                             <div class="input-value">
-                                <input name="schedule_at" type="text" class="form-control datetimepicker" data-date-format="DD-MM-YYYY HH:mm A" id="available_date_time" v-model="available_date" required @focusout="getAvailableContractors">
+                                <input name="schedule_at" type="text" class="form-control datetimepicker" data-date-format="DD-MM-YYYY HH:mm A" id="available_date_time" v-model="available_date" required @focusout="getAvailableContractors" {{$customer_request->type == 'job' ? 'disabled' : ''}}>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        @if($customer_request->status == 'ready')
+        @if($customer_request->type != 'job')
         <div class="main main-radius main-raised content-card">
             <div class="container">
                 <div class="row">
@@ -137,7 +137,7 @@
                 </div>
             </div>
         </div>
-        @if ($customer_request->status == 'ready')
+        @if ($customer_request->type != 'job')
         <div class="main main-radius main-raised content-card">
             <div class="container">
                 <div class="row">

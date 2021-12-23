@@ -84,7 +84,7 @@ class DriversController extends Controller
             'access_token' => $access_token->accessToken,
             'token_type' => 'Bearer ',
             'user_name' => $the_user->name,
-            'in_duty' => $the_user->driver_profile->in_duty,
+            'in_duty' => $the_user->driver_profile ? $the_user->driver_profile->in_duty : '',
             'is_profile_completed' => $the_user->is_profile_completed,
             'message' => 'Login successful',
             'error' => 0

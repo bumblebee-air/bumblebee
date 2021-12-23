@@ -51,7 +51,7 @@ class JobsController extends Controller
             ]);
         } else {
             $available_contractors = [];
-            $currentDayName = Carbon::parse($customer_request->available_date_time)->format('l');
+            $currentDayName = Carbon::createFromFormat('d/m/Y H:i A', $customer_request->available_date_time)->format('l');
             foreach ($contractors as $contractor) {
                 if ($contractor->business_hours_json) {
                     $contractor_business_hours = json_decode($contractor->business_hours_json, true);

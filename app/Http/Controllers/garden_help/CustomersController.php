@@ -212,7 +212,7 @@ class CustomersController extends Controller
         if ($customer_request->available_date_time) {
             $available_contractors = $this->availableContractors($customer_request->available_date_time);
         }
-        if (!$customer_request || ($customer_request && $customer_request->type == 'job')) {
+        if (!$customer_request) {
             abort(404);
         }
         return view('garden_help.customers.service_booking', ['id' => $id, 'customer_request' => $customer_request, 'available_contractors' => $available_contractors]);
@@ -229,7 +229,7 @@ class CustomersController extends Controller
         ]);
         $customer->type = 'job';
         $customer->status = 'ready';
-        $customer->available_date_time = $request->schedule_at;
+        $customer->available_date_time = Carbon::createFromFormat('d/m/Y H:i A', $request->schedule_at)->format('d/m/Y H:i A');
 
         //Create Stripe Customer
         try {
@@ -280,16 +280,18 @@ class CustomersController extends Controller
 
     private function availableContractors($available_date) {
         $contractors = Contractor::all();
-        $currentDayName = Carbon::createFromFormat('d/m/Y H:i A', $available_date)->format('l');
         $available_contractors = [];
-        foreach ($contractors as $contractor) {
-            if ($contractor->business_hours_json) {
-                $contractor_business_hours = json_decode($contractor->business_hours_json, true);
-                if($contractor_business_hours[$currentDayName]['isActive']){
-                    $available_contractors[] = [
-                        'name' => $contractor->name,
-                        'experience_level' => $contractor->experience_level
-                    ];
+        if ($available_date) {
+            $currentDayName = Carbon::createFromFormat('d/m/Y H:i A', $available_date)->format('l');
+            foreach ($contractors as $contractor) {
+                if ($contractor->business_hours_json) {
+                    $contractor_business_hours = json_decode($contractor->business_hours_json, true);
+                    if($contractor_business_hours[$currentDayName]['isActive']){
+                        $available_contractors[] = [
+                            'name' => $contractor->name,
+                            'experience_level' => $contractor->experience_level
+                        ];
+                    }
                 }
             }
         }

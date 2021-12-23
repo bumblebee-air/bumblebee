@@ -427,7 +427,7 @@ Job') @section('page-styles')
 													<div class="form-group bmd-form-group">
 														<label for="available_date_time">Schedual at</label>
 														{{--                                <div class="d-flex justify-content-between">--}}
-														<input name="available_date_time" type="text" class="form-control datetimepicker" id="available_date_time" value="{{old('available_date_time')}}" required>
+														<input name="available_date_time" type="text" class="form-control datetimepicker" id="available_date_time" value="{{old('available_date_time')}}" required @focusout="getAvailableContractors">
 														{{--                                    <a class="select-icon">--}}
 														{{--                                        <i class="fas fa-caret-down"></i>--}}
 														{{--                                    </a>--}}
@@ -480,7 +480,7 @@ Job') @section('page-styles')
 						</div>
 
 						<div class="row">
-							<div class="col-lg-12  ">
+							<div class="col-lg-6">
 								<div class="card ">
 									<div class="card-body" style="padding-top: 0 !important;">
 										<div class="container" style="padding-bottom: 10px !important;">
@@ -521,6 +521,42 @@ Job') @section('page-styles')
 														</div>
 													</div>
 													<input type="hidden" name="services_types_json" v-model="JSON.stringify(services_types_json)">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-6" v-if="available_contractors.length > 0">
+								<div class="card ">
+									<div class="card-body" style="padding-top: 0 !important;">
+										<div class="container" style="padding-bottom: 10px !important;">
+											<div class="row">
+												<div class="col-lg-12 d-flex">
+													<div class="row">
+														<div class="col-12">
+															<div class=" row">
+																<div class="col-12">
+																	<h5 class="cardTitleGreen requestSubTitle ">Available contractors on this date</h5>
+																</div>
+															</div>
+														</div>
+														<div class="col-12">
+															<div class="row" v-for="contractor in available_contractors" v-if="available_contractors.length > 0">
+																<div class="col-md-3 col-6">
+																	<span class="requestSpanGreen">@{{ contractor.name }} </span>
+																</div>
+																<div class="col-md-3 col-6">
+																	<label class="requestLabelGreen">@{{ contractor.experience_level }}</label>
+																</div>
+															</div>
+															<div class="col text-center" v-else>
+																<div>
+																	There is no contractors available on this date.
+																</div>
+															</div>
+														</div>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -851,7 +887,8 @@ Job') @section('page-styles')
                 property_photo_input: '',
 				property_size: "{{old('property_size') ? old('property_size') : ''}}",
 				services_types_json: [],
-				is_recurring: ''
+				is_recurring: '',
+				available_contractors: []
             },
             mounted() {
                 if (this.type_of_work == 'Commercial') {
@@ -1050,7 +1087,17 @@ Job') @section('page-styles')
                             }
                         });*/
                     }, 500)
-                }
+                },
+				getAvailableContractors(e) {
+					let date_time = e.target.value;
+					if (date_time) {
+						fetch('{{asset('api/garden-help/available_contractors')}}' + '?available_date=' + date_time)
+								.then(response => response.json())
+								.then(data => {
+									this.available_contractors = data.data
+								});
+					}
+				},
             }
         });
 

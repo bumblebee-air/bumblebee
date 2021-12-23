@@ -559,7 +559,7 @@
 																<div class="col-12">
 																	<div class=" row">
 																		<div class="col-12">
-																			<h5 class="cardTitleGreen requestSubTitle ">Accepted At</h5>
+																			<h5 class="cardTitleGreen requestSubTitle ">Started At</h5>
 																		</div>
 																	</div>
 																</div>

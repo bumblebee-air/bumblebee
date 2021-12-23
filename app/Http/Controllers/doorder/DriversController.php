@@ -715,7 +715,8 @@ class DriversController extends Controller
             $driver_request_edited,
             $drivers_requests->total(),
             $drivers_requests->perPage(),
-            $drivers_requests->currentPage()
+            $drivers_requests->currentPage(),
+            ['path' => $drivers_requests->path()]
         );
         return view('admin.doorder.drivers.requests', ['drivers_requests' => $drivers_requests]);
     }

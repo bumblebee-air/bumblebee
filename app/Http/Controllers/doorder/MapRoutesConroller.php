@@ -136,14 +136,25 @@ class MapRoutesConroller extends Controller
             $deliverers = DriverProfile::whereIn('id', $request->selectedDrivers)->get();
             $orders = Order::whereIn('id', explode(',', $request->selectedOrders))->get();
             $deliverers_coordinates = $deliverers->map(function ($item) {
+                $driver_coordinates_lat = null;
+                $driver_coordinates_lon = null;
                 $driver_latest_coordinates = ($item->latest_coordinates!=null)? json_decode($item->latest_coordinates) : null;
                 if($driver_latest_coordinates==null){
-                    $driver_latest_coordinates = ($item->address_coordinates!=null)? json_decode($item->address_coordinates) : null;
+                    if($item->address_coordinates!=null){
+                        $driver_latest_coordinates = json_decode($item->address_coordinates);
+                        $driver_coordinates_lat = $driver_latest_coordinates->lat;
+                        $driver_coordinates_lon = $driver_latest_coordinates->lon;
+                    }
+                } else {
+                    $driver_coordinates_lat = $driver_latest_coordinates->lat;
+                    $driver_coordinates_lon = $driver_latest_coordinates->lng;
                 }
                 $coordinates_error = ($driver_latest_coordinates!=null)? 0 : 1;
+//                 dd($coordinates_error);
+//                 if($coordinates_error) {return $item->id;}
                 return [
                     'deliverer_id' => $item->id,
-                    'deliverer_coordinates' => $driver_latest_coordinates->lat . ',' . $driver_latest_coordinates->lon,
+                    'deliverer_coordinates' => $driver_coordinates_lat . ',' . $driver_coordinates_lon,
                     'coordinates_error' => $coordinates_error
                 ];
             });
@@ -162,14 +173,15 @@ class MapRoutesConroller extends Controller
 
             $response = $route_request->getBody();
             $response = json_decode($response);
+          //  dd($response);
             $response = collect($response)->map(function ($item) {
                 $driver = DriverProfile::find($item[0]->deliverer_id);
                 $item[0]->deliverer_name = $driver->user->name;
-                $words = preg_split("/\s+/", $driver->user->name);
-                $letters = '';
-                foreach ($words as $w) {
-                    $letters .= strtoupper($w[0]);
-                }
+               // $words = preg_split("/\s+/", $driver->user->name);
+                $letters = strtoupper($driver->first_name[0]) . strtoupper($driver->last_name[0]);
+//                 foreach ($words as $w) {
+//                     $letters .= strtoupper($w[0]);
+//                 }
                 $item[0]->deliverer_first_letter = $letters;
                 return $item;
             });

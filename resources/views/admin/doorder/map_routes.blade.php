@@ -108,7 +108,9 @@ div[data-toggle='collapse'] {
 												<h3 class="my-2">@{{route[0].deliverer_name}}</h3>
 											</div>
 
-											<div class="col-2 p-0"><span class="collapse-arrow"></span></div>
+											<div class="col-2 p-0">
+												<span class="collapse-arrow"></span>
+											</div>
 											<div class="col-2 pr-0 pl-1">
 												<button type="button"
 													class="remove btnActions btnActionsMapRoutes "
@@ -158,7 +160,7 @@ div[data-toggle='collapse'] {
 					</div>
 				</div>
 				<!-- end div row -->
-				<div class="card"
+				<div class="card" v-if="map_routes.length != 0"
 					style="background-color: transparent; box-shadow: none;">
 					<div class="card-body p-0">
 						<div class="container w-100" style="max-width: 100%">
@@ -166,8 +168,9 @@ div[data-toggle='collapse'] {
 							<div class="row justify-content-center ">
 								<div id="confirmRouteDiv"
 									class="col-lg-3  col-md-3 col-sm-4 px-md-1 text-center">
-										<a href="{{url('doorder/confirm_route_optimization_map')}}" type="submit" id="confirmRoutesButton"
-											class="btnDoorder btn-doorder-primary  mb-1">Confirm</a>
+									<a href="{{url('doorder/confirm_route_optimization_map')}}"
+										type="submit" id="confirmRoutesButton"
+										class="btnDoorder btn-doorder-primary  mb-1">Confirm</a>
 								</div>
 								<div id="startRouteDiv"
 									class="col-lg-3  col-md-3 col-sm-4 px-md-1 text-center"
@@ -300,6 +303,97 @@ div[data-toggle='collapse'] {
 </div>
 <!-- end confirm route optimization modal  -->
 
+<!-- warning modal -->
+<div class="modal fade" id="warning-route-modal" tabindex="-1"
+	role="dialog" aria-labelledby="warning-route-label" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+
+				<button type="button" class="close d-flex justify-content-center"
+					data-dismiss="modal" aria-label="Close">
+					<i class="fas fa-times"></i>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row justify-content-center">
+					<div class="col-md-12">
+
+						<div class="text-center">
+							<img
+								src="{{asset('images/doorder-new-layout/warning-icon.png')}}"
+								style="" alt="warning">
+						</div>
+						<div class="text-center mt-3">
+							<label class="warning-label" id="routeErrorMessage">The route
+								optimization algorithm was unable to find optimal routes for the
+								selected orders and deliverers </label>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="row justify-content-center mt-3">
+
+					<div class="col-lg-4 col-md-6 text-center">
+						<button type="button" class="btnDoorder btn-doorder-primary mb-1"
+							data-dismiss="modal">Ok</button>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+<!-- end warning modal -->
+
+
+<!-- warning no routes modal -->
+<div class="modal fade" id="warning-no-route-modal" tabindex="-1"
+	role="dialog" aria-labelledby="warning-route-label" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+
+				<button type="button" class="close d-flex justify-content-center"
+					data-dismiss="modal" aria-label="Close">
+					<i class="fas fa-times"></i>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row justify-content-center">
+					<div class="col-md-12">
+
+						<div class="text-center">
+							<img
+								src="{{asset('images/doorder-new-layout/warning-icon.png')}}"
+								style="" alt="warning">
+						</div>
+						<div class="text-center mt-3">
+							<label class="warning-label">No routes found</label>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="row justify-content-center mt-3">
+
+					<div class="col-lg-4 col-md-6 text-center">
+						<a class="btnDoorder btn-doorder-primary mb-1"
+							href="{{route('doorder_ordersTable', 'doorder')}}">Back to orders
+							</a>
+					
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+<!-- end warning no route modal -->
+
+
+
 @endsection @section('page-scripts')
 <script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
 <script>
@@ -319,9 +413,10 @@ $(document).ready(function(){
             data: {
                 driversIds: {!! json_encode($selectedDrivers) !!},
                 selectedOrders: {!! json_encode($selectedOrders) !!},
-                map_routes: {!! $map_routes !!}
+                map_routes: {!! isset($map_routes) ? $map_routes : '[]' !!}
             },
             mounted() {
+            	
             },
             methods: {
                 submitForm(e){
@@ -331,13 +426,13 @@ $(document).ready(function(){
                 clickDeleteDriver(e,driverId,index){
                		e.stopPropagation();
     				e.preventDefault()
-                	console.log("delete driver "+driverId + " "+index)
+                	//console.log("delete driver "+driverId + " "+index)
 					$('#delete-driver-modal').modal('show');
 					$('#delete-driver-modal #driverId').val(driverId);
 					$('#delete-driver-modal #index').val(index);
                 },
                 confirmDeleteDriver(){
-                	console.log("confirm delete driver "+$('#delete-driver-modal #driverId').val() +" "+$('#delete-driver-modal #index').val())
+                	//console.log("confirm delete driver "+$('#delete-driver-modal #driverId').val() +" "+$('#delete-driver-modal #index').val())
                 	var index = $('#delete-driver-modal #index').val();
                 	this.driversIds.splice(index, 1);
                 	this.map_routes.splice(index, 1);
@@ -347,15 +442,15 @@ $(document).ready(function(){
                 	$("#startRouteDiv").css('display','block');
                 },
                 startRouteOptimization(){
-                	console.log("start route modal");
-                	console.log(this.selectedOrders);
-                	console.log(this.driversIds);
+//                 	console.log("start route modal");
+//                 	console.log(this.selectedOrders);
+//                 	console.log(this.driversIds);
                 	
                 	$('#confirm-route-optimization-modal').modal('show')
                 },
                 clickConfirmStartRouteOptimization(){
-                	console.log(this.driversIds)
-                	console.log(this.selectedOrders)
+//                 	console.log(this.driversIds)
+//                 	console.log(this.selectedOrders)
                 	$('#confirm-route-optimization-modal').modal('toggle')
                 	
                 	
@@ -380,17 +475,14 @@ $(document).ready(function(){
                                 	selectedDrivers: app.driversIds
                                 },
                                 success:function(data) {
-                                      console.log(data);
-                                      console.log(data.mapRoutes);
-                                      console.log(data.selectedOrders);
-                                      console.log(data.selectedDrivers);
+//                                       console.log(data);
+//                                       console.log(data.mapRoutes);
+//                                       console.log(data.selectedOrders);
+//                                       console.log(data.selectedDrivers);
                                       
-                                      
-                						
-                                      
-                                      console.log(this.map_routes)
+//                                       console.log(this.map_routes)
                                       app.map_routes = JSON.parse(data.mapRoutes);
-                                      console.log(this.map_routes)
+//                                       console.log(this.map_routes)
                                        $("#map_routes").val(data.mapRoutes);
                                        app.selectedOrders = data.selectedOrders;
                                        app.driversIds = data.selectedDrivers;
@@ -404,18 +496,34 @@ $(document).ready(function(){
                                                             for(var i=0; i<markerRoutesCount; i++){
                                                             	markersRoutesArr[i].setMap(null)
                                                             }
+                                                            for(var i=0; i<markerRoutesColorCount; i++){
+                                                            	markersRoutesColorArr[i].setMap(null)
+                                                            }
                                                             markersRoutesArr=[];
                                                             markerRoutesCount=0;
                                                             directionsRendererArr=[];
                                                             dirRendCount=0;
+                                                            markersRoutesColorArr = [];
+            												markerRoutesColorCount=0;
                                                             
-                                                            getAndDrawRoutes();    
-                                                            
-                                                            
-                                    $("#confirmRoutesButton").prop("disabled", false);
-        							$("#confirmRoutesButton").html('Confirm');
-                          			$("#confirmRoutesButton").removeClass("btn-doorder-grey");   
-                          			$("#confirmRoutesButton").addClass("btn-doorder-primary");                     			
+                                             if(JSON.parse(data.mapRoutes).length>0){                
+                                                 getAndDrawRoutes();    
+                                                                
+                                                $("#confirmRoutesButton").prop("disabled", false);
+                    							$("#confirmRoutesButton").html('Confirm');
+                                      			$("#confirmRoutesButton").removeClass("btn-doorder-grey");   
+                                      			$("#confirmRoutesButton").addClass("btn-doorder-primary");    
+                                  			}else{
+                              		 	
+                                                $("#enableRouteOptimizationBtn").prop("disabled", false);
+                    							$("#enableRouteOptimizationBtn").html('Enable route optimization');
+                                      			$("#enableRouteOptimizationBtn").removeClass("btn-doorder-grey");
+                                      			$("#enableRouteOptimizationBtn").addClass("btn-doorder-primary");
+                                      			
+                                      			
+                        						$('#warning-route-modal').modal('show');
+                        						$('#warning-route-modal #routeErrorMessage').html('The route optimization algorithm was unable to find optimal routes for the selected orders and deliverers');
+                                      		 }	                 			
                                  } 
                           });
                 }
@@ -433,50 +541,22 @@ function confirmCancelRouteOptimization(){
 ////////////////// map
         let map;
         var routes = [];
-        var colors=['#D2691E','#4682b4','#FF8C00','#a9a9a9','#DAA520','#696969','#778899','#5e70e6','#6a5acd','#9acd32'];
+        // var colors=['#D2691E','#4682b4','#FF8C00','#a9a9a9','#DAA520','#696969','#778899','#5e70e6','#6a5acd','#9acd32'];
+        var colors=['#E9C218','#4C97A1','#656565','#4C97A1','#30BB30','#60A244','#56BDA3','#CC4B4C','#F56D6D','#E8CA49','#D2B431','#FF9F43'];
         var icons;
        	let markerAddress ,markerPickup,markerDriver ;
         let directionsService
      
-     	var routesOpt = {!! $map_routes !!}
+     	var routesOpt = {!! isset($map_routes) ? $map_routes : '[]' !!};
+     	if(routesOpt.length == 0 ){
+            		console.log('not found routes');
+                   $('#warning-no-route-modal').modal('show')
+        }
+     	
+		//console.log(routesOpt)
       
-//       var routesOpt = [[   {"coordinates": "53.40264481,-6.4309825"},
-//                         {"coordinates": "53.4264481,-6.243099098",
-//                             "order_id": "14",
-//                             "type": "pickup"},
-//                         {"coordinates": "53.42604481,-6.12499098",
-//                             "order_id": "13",
-//                             "type": "pickup"},
-//                         {"coordinates": "53.29034,-6.17659",
-//                             "order_id": "15",
-//                             "type": "pickup"},
-//                         {"coordinates": "53.289851,-6.24756",
-//                             "order_id": "14",
-//                             "type": "dropoff"},
-//                         {"coordinates": "53.304581,-6.205543",
-//                             "order_id": "13",
-//                             "type": "dropoff"},
-//                         {"coordinates": "53.34581, -6.25543",
-//                             "order_id": "15",
-//                             "type": "dropoff"}
-//                     ],[   {"coordinates": "53.34581,-6.5285543"},
-//                         {"coordinates": "53.334981, -6.526025",
-//                             "order_id": "14",
-//                             "type": "pickup"},
-//                         {"coordinates": "53.32604,-6.531861",
-//                             "order_id": "13",
-//                             "type": "pickup"},
-//                         {"coordinates": "53.234868,-6.539165",
-//                             "order_id": "13",
-//                             "type": "dropoff"},
-//                         {"coordinates": "53.2034868,-6.5020463",
-//                             "order_id": "14",
-//                             "type": "dropoff"}
-//                     ]];
-		console.log(routesOpt)
-      
-      var directionsRendererArr = [], markersRoutesArr=[];
-      var dirRendCount =0, markerRoutesCount=0;     
+      var directionsRendererArr = [], markersRoutesArr=[], markersRoutesColorArr=[];
+      var dirRendCount =0, markerRoutesCount=0, markerRoutesColorCount=0;     
            
         function initMap() {
         	  var infowindow = new google.maps.InfoWindow();
@@ -509,7 +589,7 @@ function confirmCancelRouteOptimization(){
         function getAndDrawRoutes(){
         	  for(var i=0;i<routesOpt.length; i++){
                 		var routeTemp = routesOpt[i];
-                		console.log(routeTemp)
+                		//console.log(routeTemp)
                 		if(routeTemp.length>1){
                     		var waypoints=[];
                     		var destination;
@@ -530,64 +610,131 @@ function confirmCancelRouteOptimization(){
                         		waypoints:waypoints,
                         		travelMode: google.maps.TravelMode.DRIVING,
                     		};
-                    		console.log(route)
-                    		console.log("------=====-----");
+//                     		console.log(route)
+//                     		console.log("------=====-----");
                     		directionsRendererArr[dirRendCount] = new google.maps.DirectionsRenderer({ polylineOptions: {
-                               strokeColor: colors[i%colors.length]
-                             },});
+                               strokeColor: colors[i%colors.length],   
+                             },suppressMarkers: true});
                         	directionsRendererArr[dirRendCount].setMap(map);
-                        	calculateAndDisplayRoute(directionsService, directionsRendererArr[dirRendCount],route,routeTemp[0]['deliverer_name'],routeTemp[0]['deliverer_first_letter'],routeTemp);
+                        	calculateAndDisplayRoute(directionsService, directionsRendererArr[dirRendCount],route,routeTemp[0]['deliverer_name'],
+                        			routeTemp[0]['deliverer_first_letter'],routeTemp, i%colors.length);
                         	dirRendCount++;
                     	}
                 	}
         }
-        function calculateAndDisplayRoute(directionsService, directionsRenderer,route,driver_name,driver_first_letters,routeTemp) {
+        function calculateAndDisplayRoute(directionsService, directionsRenderer,route,driver_name,driver_first_letters,routeTemp,color_index) {
             directionsService.route(route, function(result, status) {
-            	console.log(result);
-            	console.log(status)
+//             	console.log(result);
+//             	console.log(status)
                 if (status == 'OK') {
                 	  directionsRenderer.setDirections(result);
                 	  
                 	  var leg = result.routes[0].legs[0];
-                       makeMarker(leg.start_location, markerDriver, "title", map,driver_name,driver_first_letters,null);
+                      makeMarker(leg.start_location, markerDriver, "title", map,driver_name,driver_first_letters,null);
+                      makeMarkerForRoute(leg.start_location, color_index,driver_name,null,1)
+                      		
                        leg = result.routes[0].legs[result.routes[0].legs.length-1];
                        makeMarker(leg.end_location, markerAddress, 'title', map,null,null,routeTemp[result.routes[0].legs.length]['order_id']);
                        
                        for(var i=0; i<result.routes[0].legs.length; i++){
                        		//console.log(leg.start_location.lat()+","+leg.start_location.lng())
-                       		console.log(routeTemp[i+1]['type'])
+                       		//console.log(routeTemp[i+1]['type'])
                        		
                        		leg = result.routes[0].legs[i];
-                       		                       		
-//                        		if(i==1){
-//                        			makeMarker(leg.start_location, markerPickup, "title", map,null,null);
-//                        		}
-							console.log(routeTemp[i+1]['order_id'])
-                       		if(routeTemp[i+1]['type']==='pickup'){
-                      			makeMarker(leg.end_location, markerPickup, "title", map,driver_name,null,routeTemp[i+1]['order_id']);
-                      		}
-                      		else if(routeTemp[i+1]['type']==='dropoff'){
-                      			makeMarker(leg.end_location, markerAddress, "title", map,driver_name,null,routeTemp[i+1]['order_id']);
-                      		}	
+                       		       
+							//console.log(routeTemp[i+1]['order_id'])
+//                        		if(routeTemp[i+1]['type']==='pickup'){
+//                       			makeMarker(leg.end_location, markerPickup, "title", map,driver_name,null,routeTemp[i+1]['order_id']);
+//                       		}
+//                       		else if(routeTemp[i+1]['type']==='dropoff'){
+//                       			makeMarker(leg.end_location, markerAddress, "title", map,driver_name,null,routeTemp[i+1]['order_id']);
+//                       		}	
+                      		makeMarkerForRoute(leg.end_location, color_index,driver_name,routeTemp[i+1]['order_id'],i+2)
                        }
                 }
               });
             
         }
+        function createPin (color) {
+            return { 	
+                path: 'M 0,0 c -2,-20 -10,-22 -10,-30 a 10,10 0 1 1 20,0 c 0,8 -8,10 -10,30 z', 
+                fillColor: color,
+                fillOpacity: 1,
+                strokeColor: '#fff',
+                strokeWeight: 1,
+                scale: 1.12,
+                labelOrigin: new google.maps.Point(0, -29),
+    			size: new google.maps.Size(40, 50),
+            };
+        }
+        function makeMarkerForRoute(position, color_index, driver_name, order_number,label){
+        	//console.log("make marker for route ",color_index)
+        	var image = {
+                //url: "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld="+"%7C0000FF",
+                url: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&outline_color=fff&chld='+'a|'+colors[color_index].substring(1)+'|fff',
+                // This marker is 27 pixels wide by 40 pixels tall.
+                size: new google.maps.Size(70, 90),
+                // The origin for this image is 0,0.
+                //origin: new google.maps.Point(0, 0),
+                // The anchor for this image is the base of the icon at 14, 39.
+                anchor: new google.maps.Point(10, 35)
+            };
+            var shape = {
+                coords: [1, 1, 1, 20, 18, 20, 18, 1],
+                type: 'poly'
+            };
+             var marker = new google.maps.Marker({
+                position: position,
+                map: map,
+                 icon: createPin(colors[color_index]),
+                //shape: shape,
+                //zIndex: i
+				//scaledSize: new google.maps.Size(50, 70), // scaled size
+				label:  {
+                  text: ''+label,
+                  color: "#fff",
+                  fontSize: "12px",
+                  fontWeight: "500"
+                },
+            });
+            
+            if(driver_name != null){
+            	var content = driver_name;
+            	//console.log(order_number)
+            	if(order_number!=null){
+            		content += '<br> Order #'+order_number;
+            	}
+            	const infowindow = new google.maps.InfoWindow({
+                    content: content,
+                  });
+                               
+                  marker.addListener("click", () => {
+                    infowindow.open({
+                      anchor: marker,
+                      map,
+                      shouldFocus: false,
+                    });
+                  });
+            }
+            
+            markersRoutesColorArr[markerRoutesColorCount] = marker;
+            markerRoutesColorCount++;
+        }
         
         function makeMarker(position, icon, title, map,driver_name,driver_first_letters,order_number) {
-        	console.log(order_number)
+        	//console.log(order_number)
             var marker = new google.maps.Marker({
                 position: position,
                  anchorPoint: new google.maps.Point(0, -29),
                 map: map,
                 icon: icon,
-                title: driver_first_letters
+                title: driver_first_letters,
+                //label:'a'
             });
             
             if(driver_name != null){
             	var content = driver_name;
-            	console.log(order_number)
+            //	console.log(order_number)
             	if(order_number!=null){
             		content += '<br> Order #'+order_number;
             	}

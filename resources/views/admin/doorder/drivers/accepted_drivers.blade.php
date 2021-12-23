@@ -47,8 +47,8 @@ input[type="checkbox"] {
 					<form method="POST" id="assignOrdersDrivers"
 						action="{{url('doorder/assign_orders_drivers')}}"
 						style="margin-bottom: 0 !important;">
-						{{csrf_field()}}
-						<input type="hidden" name="selectedOrders" id="selectedOrders" :value="selectedOrders">
+						{{csrf_field()}} <input type="hidden" name="selectedOrders"
+							id="selectedOrders" :value="selectedOrders">
 						<div class="card">
 
 							<div class="card-body">
@@ -76,7 +76,7 @@ input[type="checkbox"] {
 												<th>Location</th>
 												<th>Vehicle</th>
 												<th>Work Type</th>
-<!-- 												<th>Shift Time</th> -->
+												<!-- 												<th>Shift Time</th> -->
 												<th>Overall Rating</th>
 												<th>Last Seen</th>
 												<th class="disabled-sorting ">Actions</th>
@@ -86,15 +86,15 @@ input[type="checkbox"] {
 										<tbody>
 											<tr v-for="driver in drivers" v-if="drivers.length > 0"
 												class="order-row" @click="openViewDriver(event,driver.id)">
-												<td v-if="selectedOrders.length > 0 && driver.in_duty" class="p-3"><input
-													type="checkbox" name="selectedDrivers[]"
+												<td v-if="selectedOrders.length > 0 && driver.in_duty"
+													class="p-3"><input type="checkbox" name="selectedDrivers[]"
 													v-bind:value="driver.id"></td>
-												<td v-if="selectedOrders.length > 0 && driver.in_duty == 0" class="p-3"><input
-													type="checkbox" name="selectedDrivers[]" disabled="disabled"
-													v-bind:value="driver.id"></td>	
-													
-													
-													
+												<td v-if="selectedOrders.length > 0 && driver.in_duty == 0"
+													class="p-3"><input type="checkbox" name="selectedDrivers[]"
+													disabled="disabled" v-bind:value="driver.id"></td>
+
+
+
 												<td class="text-left"><span v-if="driver.in_duty"
 													class="inDutyDriverSpan inDutyTrue"> <i
 														class="fas fa-circle"></i>
@@ -104,7 +104,7 @@ input[type="checkbox"] {
 												<td>@{{ JSON.parse(driver.work_location).name}}</td>
 												<td>@{{ driver.transport }}</td>
 												<td></td>
-<!-- 												<td>@{{driver.business_hours}}</td> -->
+												<!-- 												<td>@{{driver.business_hours}}</td> -->
 												<td><div class="overallRating"
 														:data-score="driver.overall_rating"></div></td>
 												<td>@{{ driver.last_active_web }}</td>
@@ -142,8 +142,9 @@ input[type="checkbox"] {
 										<div
 											class="col-xl-3 col-lg-4  col-md-4 col-sm-5 px-md-1 text-center w-100">
 
-											<button class="btnDoorder btn-doorder-primary disabled mb-1" id="enableRouteOptimizationBtn"
-												@click="submitForm">Enable route optimization</button>
+											<button class="btnDoorder btn-doorder-primary disabled mb-1"
+												id="enableRouteOptimizationBtn" @click="submitForm">Enable
+												route optimization</button>
 										</div>
 									</div>
 
@@ -152,9 +153,7 @@ input[type="checkbox"] {
 						</div>
 					</form>
 					<form method="GET" id="goToMapViewForm"
-						action="{{url('doorder/view_route_optimization_map')}}"
-						>
-					</form>	
+						action="{{url('doorder/view_route_optimization_map')}}"></form>
 				</div>
 			</div>
 		</div>
@@ -203,6 +202,51 @@ input[type="checkbox"] {
 	</div>
 </div>
 <!-- end delete driver modal -->
+
+
+<!-- warning modal -->
+<div class="modal fade" id="warning-route-modal" tabindex="-1"
+	role="dialog" aria-labelledby="warning-route-label" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+
+				<button type="button" class="close d-flex justify-content-center"
+					data-dismiss="modal" aria-label="Close">
+					<i class="fas fa-times"></i>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row justify-content-center">
+					<div class="col-md-12">
+
+						<div class="text-center">
+							<img
+								src="{{asset('images/doorder-new-layout/warning-icon.png')}}"
+								style="" alt="warning">
+						</div>
+						<div class="text-center mt-3">
+							<label class="warning-label" id="routeErrorMessage">The route
+								optimization algorithm was unable to find optimal routes for the
+								selected orders and deliverers </label>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="row justify-content-center mt-3">
+
+					<div class="col-lg-4 col-md-6 text-center">
+						<button type="button" class="btnDoorder btn-doorder-primary mb-1"
+							data-dismiss="modal">Ok</button>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+<!-- end warning modal -->
 
 @endsection @section('page-scripts')
 <script src="{{asset('js/jquery-raty.js')}}"></script>
@@ -469,19 +513,33 @@ $('#delete-driver-modal #driverId').val(driverId);
 								},
                                 success:function(data) {
                                       console.log(data);
-                                      $("#map_routes").val(data.mapRoutes);
-                                      $("#selectedOrdersMap").val(data.selectedOrders)
-                                      $("#selectedDriversMap").val(data.selectedDrivers)
-                                      
-                                      
-                                    $("#enableRouteOptimizationBtn").prop("disabled", false);
-        							$("#enableRouteOptimizationBtn").html('Go to map view');
-                          			$("#enableRouteOptimizationBtn").removeClass("btn-doorder-grey");
-                          			$("#enableRouteOptimizationBtn").addClass("btn-doorder-green");
+                                      console.log(JSON.parse(data.mapRoutes))
+                                      console.log(JSON.parse(data.mapRoutes).length)
+                                      if(JSON.parse(data.mapRoutes).length>0){
+                                          $("#map_routes").val(data.mapRoutes);
+                                          $("#selectedOrdersMap").val(data.selectedOrders)
+                                          $("#selectedDriversMap").val(data.selectedDrivers)
+                                          
+                                          
+                                        $("#enableRouteOptimizationBtn").prop("disabled", false);
+            							$("#enableRouteOptimizationBtn").html('Go to map view');
+                              			$("#enableRouteOptimizationBtn").removeClass("btn-doorder-grey");
+                              			$("#enableRouteOptimizationBtn").addClass("btn-doorder-green");
+                              			
+                              			mapViewFlag = true;
+                              		 }else{
+                              		 	
+                                        $("#enableRouteOptimizationBtn").prop("disabled", false);
+            							$("#enableRouteOptimizationBtn").html('Enable route optimization');
+                              			$("#enableRouteOptimizationBtn").removeClass("btn-doorder-grey");
+                              			$("#enableRouteOptimizationBtn").addClass("btn-doorder-primary");
+                              			
+                              			
+                						$('#warning-route-modal').modal('show');
+                						$('#warning-route-modal #routeErrorMessage').html('The route optimization algorithm was unable to find optimal routes for the selected orders and deliverers');
+                              		 }	
                           			
-                          			mapViewFlag = true;
-                          			
-                                 } 
+                               } 
                           });
                           
                           //{{url('doorder/assign_orders_drivers')}}

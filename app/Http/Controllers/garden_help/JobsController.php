@@ -31,9 +31,9 @@ class JobsController extends Controller
     public function getSingleJob($client_name, $id)
     {
         $customer_request = Customer::find($id);
-        if ($customer_request->user != null) {
-            $customer_request->email = $customer_request->user->email;
-        }
+//        if ($customer_request->user != null) {
+//            $customer_request->email = $customer_request->user->email;
+//        }
         // dd($customer_request);
         if (! $customer_request) {
             abort(404);
@@ -42,30 +42,43 @@ class JobsController extends Controller
         $contractors = Contractor::where('status', 'completed')->get();
         // dd($customer_request);
         if ($customer_request->status != 'ready' ) {
-            $contractor = Contractor::where('user_id', $customer_request->contractor_id)->first();
-            return view('admin.garden_help.jobs_table.single_job', [
-                'job' => $customer_request,
-                'contractor' => $contractor,
-                'contractors' => [],
-                'reassign'=>0
-            ]);
-        } else {
-            $available_contractors = [];
-            $currentDayName = Carbon::createFromFormat('d/m/Y H:i A', $customer_request->available_date_time)->format('l');
-            foreach ($contractors as $contractor) {
-                if ($contractor->business_hours_json) {
-                    $contractor_business_hours = json_decode($contractor->business_hours_json, true);
-                    if($contractor_business_hours[$currentDayName]['isActive']){
-                        $available_contractors[] = $contractor;
-                    }
+            $contractor = Contractor::withTrashed()->where('user_id', $customer_request->contractor_id)->first();
+            if ($contractor) {
+                if ($customer_request->user != null) {
+                    $customer_request->email = $customer_request->user->email;
+                }
+                return view('admin.garden_help.jobs_table.single_job', [
+                    'job' => $customer_request,
+                    'contractor' => $contractor,
+                    'contractors' => [],
+                    'reassign'=>0
+                ]);
+            } else {
+                $job = $customer_request;
+                $job->update([
+                    'status' => 'ready',
+                    'contractor_id' => null
+                ]);
+            }
+        }
+        if ($customer_request->user != null) {
+            $customer_request->email = $customer_request->user->email;
+        }
+        $available_contractors = [];
+        $currentDayName = Carbon::createFromFormat('d/m/Y H:i A', $customer_request->available_date_time)->format('l');
+        foreach ($contractors as $contractor) {
+            if ($contractor->business_hours_json) {
+                $contractor_business_hours = json_decode($contractor->business_hours_json, true);
+                if($contractor_business_hours[$currentDayName]['isActive']){
+                    $available_contractors[] = $contractor;
                 }
             }
-            return view('admin.garden_help.jobs_table.single_job', [
-                'job' => $customer_request,
-                'contractors' => $available_contractors,
-                'reassign'=>0
-            ]);
         }
+        return view('admin.garden_help.jobs_table.single_job', [
+            'job' => $customer_request,
+            'contractors' => $available_contractors,
+            'reassign'=>0
+        ]);
     }
 
     public function getSingleJobReassign($client_name, $id)

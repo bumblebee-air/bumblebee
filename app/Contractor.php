@@ -3,10 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Contractor extends Model
 {
+    use SoftDeletes;
     protected $table = 'contractors_registrations';
 
     protected $fillable = [
@@ -54,7 +56,7 @@ class Contractor extends Model
     }
 
     public function user() {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id')->withTrashed();
     }
 
     public function payouts() {

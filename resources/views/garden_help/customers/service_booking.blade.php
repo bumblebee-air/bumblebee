@@ -46,7 +46,9 @@
                     </div>
                     <div class="col-md-12 mt-3">
                         <div class="form-group">
-                            <label>Scheduled at</label>
+                            <label>
+                                @if ($customer_request->status == 'ready') Please select the date and time you'd like the job to be booked on @else Scheduled at @endif
+                            </label>
                             <div class="input-value">
                                 <input name="schedule_at" type="text" class="form-control datetimepicker" data-date-format="DD-MM-YYYY HH:mm A" id="available_date_time" v-model="available_date" required @focusout="getAvailableContractors">
                             </div>
@@ -55,6 +57,7 @@
                 </div>
             </div>
         </div>
+        @if($customer_request->status == 'ready')
         <div class="main main-radius main-raised content-card">
             <div class="container">
                 <div class="row">
@@ -87,6 +90,7 @@
                 </div>
             </div>
         </div>
+        @endif
         <div class="main main-radius main-raised content-card">
             <div class="container">
                 <div class="row">
@@ -133,6 +137,7 @@
                 </div>
             </div>
         </div>
+        @if ($customer_request->status == 'ready')
         <div class="main main-radius main-raised content-card">
             <div class="container">
                 <div class="row">
@@ -225,6 +230,7 @@
                 <button class="btn btn-gardenhelp-green btn-register" type="submit">BOOK NOW</button>
             </div>
         </div>
+        @endif
     </form>
 
 @endsection
@@ -498,9 +504,10 @@
                     this.stripe.createSource(this.ibanElement, {
                             type: 'sepa_debit',
                             currency: 'eur',
-                            owner: {
-                                name: 'Jenny Rosen',
-                            },
+                            // owner: {
+                            //     name: this.name,
+                            //     email: this.email
+                            // },
                         })
                         .then(result => {
                             // Handle result.error or result.source

@@ -8,8 +8,13 @@ class Customer extends Model
 {
     protected $table = 'customers_registrations';
 
+    protected $fillable = [
+        'status',
+        'contractor_id'
+    ];
+
     protected $casts = [
-        'job_image' => 'array'
+        'job_image' => 'array',
     ];
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -22,7 +27,7 @@ class Customer extends Model
     }
 
     public function contractor() {
-        return $this->belongsTo(User::class, 'contractor_id');
+        return $this->belongsTo(User::class, 'contractor_id')->withTrashed();
     }
 
     public function kpi_timestamps() {

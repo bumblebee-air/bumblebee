@@ -262,7 +262,7 @@
                         close: 'fa fa-remove'
                     }
                 }).on('dp.change',(e) => {
-                    var formatedValue = e.date.format('DD/MM/YYYY H:m A');
+                    var formatedValue = e.date.format('DD/MM/YYYY H:mm A');
                     this.available_date = formatedValue
                 });
                 this.stripe = Stripe("{{env('STRIPE_PUBLIC_KEY')}}");

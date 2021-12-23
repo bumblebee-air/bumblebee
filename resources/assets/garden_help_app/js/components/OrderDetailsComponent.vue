@@ -260,7 +260,7 @@
                             Start Working
                           </button>
                           <button class="btn order-details-button keep_working" v-else-if="current_working_status == 'break' || current_working_status == ''" @click="workingTracker('keep_working')">
-                            Keep Working
+                            Resume
                           </button>
                           <button class="btn order-details-button danger" v-else @click="workingTracker('break')">
                             Break

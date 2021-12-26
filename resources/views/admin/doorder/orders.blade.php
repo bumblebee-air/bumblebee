@@ -525,15 +525,15 @@ $(document).ready(function() {
             	 var row = dt.row( cell.index().row );
                	 //console.log(row.data()[6])
             	 
-            	 //if(row.data()[6] === 'N/A'){           	   
+            	 if(row.data()[6] === 'N/A'){           	   
                    	if($(originalEvent.target).children().is(':checked')){
                     	$(originalEvent.target).children().attr('checked',false)
                     }else{
                     	$(originalEvent.target).children().attr('checked','checked')
                     }
-//                  }else{
-//                 	e.preventDefault();
-//                  }	
+                 }else{
+                	e.preventDefault();
+                 }	
                 
                 
             	var selectedOrders = $('input[name="selectedOrders[]"]:checked');

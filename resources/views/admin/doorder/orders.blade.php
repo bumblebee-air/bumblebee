@@ -231,7 +231,7 @@ overflow-y: auto;
 												id="ordersTable" width="100%">
 												<thead>
 													<tr>
-														@if(auth()->user()->user_role != 'retailer' )
+														@if(auth()->user()->user_role == 'client' || auth()->user()->user_role =='admin' )
 														<th width="5%"></th>
 														@endif
 														<th>Date/Time</th>
@@ -250,7 +250,7 @@ overflow-y: auto;
 														v-if="orders.data.length > 0"
 														@click="openOrder(event,order.id)" class="order-row" :data-orderId="order.id">
 														
-														@if(auth()->user()->user_role == 'client' )
+														@if(auth()->user()->user_role == 'client' || auth()->user()->user_role =='admin' )
 														<td class="p-3">
 															<input type="checkbox" name="selectedOrders[]" v-bind:value="order.id">
 														
@@ -486,7 +486,7 @@ $(document).ready(function() {
     	}
 
 //////////////////////////////////////////
-    if(userRole == 'client'){
+    if(userRole == 'client' || userRole == 'admin'){
         table= $('#ordersTable').DataTable({
             	
                   fixedColumns: true,

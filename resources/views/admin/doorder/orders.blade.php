@@ -398,8 +398,8 @@ $(document).ready(function() {
      		eventLimit: 3,
      		
 			eventRender: function(event, element) {
-				console.log("---------------------------")
-				console.log(filter(event))
+// 				console.log("---------------------------")
+// 				console.log(filter(event))
                 return filter(event);
               }    ,
         	
@@ -472,8 +472,8 @@ $(document).ready(function() {
             valsR.push($(this).val());
           });
           
-          console.log(vals)
-          console.log(valsR)
+//           console.log(vals)
+//           console.log(valsR)
           if(vals.indexOf('all') !== -1 && valsR.indexOf('all') !== -1){
           	return true
           }else if(vals.indexOf('all') !== -1 && valsR.indexOf(''+calEvent.retailer_id) !== -1){
@@ -525,7 +525,7 @@ $(document).ready(function() {
             	 var row = dt.row( cell.index().row );
                	 //console.log(row.data()[6])
             	 
-            	 if(row.data()[6] === 'N/A'){           	   
+             if(row.data()[6] === 'N/A'){           	   
                    	if($(originalEvent.target).children().is(':checked')){
                     	$(originalEvent.target).children().attr('checked',false)
                     }else{

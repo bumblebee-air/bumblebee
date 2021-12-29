@@ -90,7 +90,7 @@ div[data-toggle='collapse'] {
 						</div>
 					</div>
 					<div class="col-xl-3 col-md-4  " id="driversListContrainer">
-						<div class="card mt-1 h-100">
+						<div class="card mt-1 h-100" style="max-height: 550px; overflow-y: auto;">
 							<div class="card-body p-0">
 
 								<div v-for="(route, index) in map_routes"
@@ -98,7 +98,6 @@ div[data-toggle='collapse'] {
 									<div class="card-header collapsed" data-toggle="collapse"
 										:id="'driver-header-'+(route[0].deliverer_id)"
 										:data-target="'#driver-routes-'+(route[0].deliverer_id)"
-										aria-expanded="true"
 										:aria-controls="'driver-routes-'+(route[0].deliverer_id)">
 										<div class="row">
 											<div class="col-2 p-0 pl-1">
@@ -129,7 +128,8 @@ div[data-toggle='collapse'] {
 										data-parent="#driversListContrainer">
 										<div class="card-body p-0">
 											<div class="container pb-0">
-												<ul class="timeline mb-0 pr-0">
+												<br/>
+												<ul class="timeline mb-0 pr-0" v-if="route.slice(1).length>0">
 													<li class="timeline-item"
 														v-for="driver_route in route.slice(1)">
 														<div class="timeline-badge"></div>
@@ -432,10 +432,13 @@ $(document).ready(function(){
 					$('#delete-driver-modal #index').val(index);
                 },
                 confirmDeleteDriver(){
-                	//console.log("confirm delete driver "+$('#delete-driver-modal #driverId').val() +" "+$('#delete-driver-modal #index').val())
-                	var index = $('#delete-driver-modal #index').val();
+                	//console.log("confirm delete driver "+$('#delete-driver-modal #driverId').val() +" "+$('#delete-driver-modal #index').val() +" "+this.driversIds.indexOf($('#delete-driver-modal #driverId').val()))
+                	var indexRoute = $('#delete-driver-modal #index').val();
+                	this.map_routes.splice(indexRoute, 1);
+                	
+                	var index = this.driversIds.indexOf($('#delete-driver-modal #driverId').val());
                 	this.driversIds.splice(index, 1);
-                	this.map_routes.splice(index, 1);
+                	
                 	$('#delete-driver-modal').modal('toggle');
                 	
                 	$("#confirmRouteDiv").css('display','none');
@@ -505,6 +508,18 @@ $(document).ready(function(){
                                                             dirRendCount=0;
                                                             markersRoutesColorArr = [];
             												markerRoutesColorCount=0;
+            												
+            												for(var i=0; i<stepPolylinesDraw.length; i++){
+            													stepPolylinesDraw[i].setMap(null);
+            												}
+            												for(var i=0; i<polylinesO.length; i++){
+            													polylinesO[i].setMap(null);
+            												}
+            												
+             												polylinePaths = [];
+	   														polylineDrivers = [];
+															stepPolylinesDraw=[];
+															polylinesO=[];
                                                             
                                              if(JSON.parse(data.mapRoutes).length>0){                
                                                  getAndDrawRoutes();    
@@ -542,25 +557,116 @@ function confirmCancelRouteOptimization(){
         let map;
         var routes = [];
         // var colors=['#D2691E','#4682b4','#FF8C00','#a9a9a9','#DAA520','#696969','#778899','#5e70e6','#6a5acd','#9acd32'];
-        var colors=['#E9C218','#4C97A1','#656565','#4C97A1','#30BB30','#60A244','#56BDA3','#CC4B4C','#F56D6D','#E8CA49','#D2B431','#FF9F43'];
+        var colors=['#4C97A1','#f5a505','#656565','#FF8C00','#30BB30','#60A244','#56BDA3','#CC4B4C','#F56D6D','#E8CA49','#D2B431','#FF9F43'];
         var icons;
        	let markerAddress ,markerPickup,markerDriver ;
         let directionsService
      
      	var routesOpt = {!! isset($map_routes) ? $map_routes : '[]' !!};
      	if(routesOpt.length == 0 ){
-            		console.log('not found routes');
+            		//console.log('not found routes');
                    $('#warning-no-route-modal').modal('show')
         }
      	
 		//console.log(routesOpt)
       
       var directionsRendererArr = [], markersRoutesArr=[], markersRoutesColorArr=[];
-      var dirRendCount =0, markerRoutesCount=0, markerRoutesColorCount=0;     
+      var dirRendCount =0, markerRoutesCount=0, markerRoutesColorCount=0;  
+      
+      var greyScaleStyle = [
+    {
+      elementType: "geometry",
+      stylers: [{ color: "#f5f5f5" }],
+    },
+    {
+      elementType: "labels.icon",
+      stylers: [{ visibility: "off" }],
+    },
+    {
+      elementType: "labels.text.fill",
+      stylers: [{ color: "#616161" }],
+    },
+    {
+      elementType: "labels.text.stroke",
+      stylers: [{ color: "#f5f5f5" }],
+    },
+    {
+      featureType: "administrative.land_parcel",
+      elementType: "labels.text.fill",
+      stylers: [{ color: "#bdbdbd" }],
+    },
+    {
+      featureType: "poi",
+      elementType: "geometry",
+      stylers: [{ color: "#eeeeee" }],
+    },
+    {
+      featureType: "poi",
+      elementType: "labels.text.fill",
+      stylers: [{ color: "#757575" }],
+    },
+    {
+      featureType: "poi.park",
+      elementType: "geometry",
+      stylers: [{ color: "#e5e5e5" }],
+    },
+    {
+      featureType: "poi.park",
+      elementType: "labels.text.fill",
+      stylers: [{ color: "#9e9e9e" }],
+    },
+    {
+      featureType: "road",
+      elementType: "geometry",
+      stylers: [{ color: "#ffffff" }],
+    },
+    {
+      featureType: "road.arterial",
+      elementType: "labels.text.fill",
+      stylers: [{ color: "#757575" }],
+    },
+    {
+      featureType: "road.highway",
+      elementType: "geometry",
+      stylers: [{ color: "#dadada" }],
+    },
+    {
+      featureType: "road.highway",
+      elementType: "labels.text.fill",
+      stylers: [{ color: "#616161" }],
+    },
+    {
+      featureType: "road.local",
+      elementType: "labels.text.fill",
+      stylers: [{ color: "#9e9e9e" }],
+    },
+    {
+      featureType: "transit.line",
+      elementType: "geometry",
+      stylers: [{ color: "#e5e5e5" }],
+    },
+    {
+      featureType: "transit.station",
+      elementType: "geometry",
+      stylers: [{ color: "#eeeeee" }],
+    },
+    {
+      featureType: "water",
+      elementType: "geometry",
+      stylers: [{ color: "#c9c9c9" }],
+    },
+    {
+      featureType: "water",
+      elementType: "labels.text.fill",
+      stylers: [{ color: "#9e9e9e" }],
+    },
+  ] ;   
+  
+  var polylinePaths = [];
+  var polylineDrivers = [];
            
         function initMap() {
-        	  var infowindow = new google.maps.InfoWindow();
-        	  directionsService = new google.maps.DirectionsService();
+        	directionsService = new google.maps.DirectionsService();
         	
         	markerAddress ={
                             url:"{{asset('images/doorder_driver_assets/customer-address-pin.png')}}", // url
@@ -580,7 +686,7 @@ function confirmCancelRouteOptimization(){
                         mapTypeControl: false,
               		//	mapTypeId: google.maps.MapTypeId.ROADMAP,
                     });        
-        
+                   map.setOptions({ styles: greyScaleStyle});
 
             getAndDrawRoutes();
           
@@ -612,21 +718,44 @@ function confirmCancelRouteOptimization(){
                     		};
 //                     		console.log(route)
 //                     		console.log("------=====-----");
-                    		directionsRendererArr[dirRendCount] = new google.maps.DirectionsRenderer({ polylineOptions: {
-                               strokeColor: colors[i%colors.length],   
-                             },suppressMarkers: true});
+							
+
+                    		directionsRendererArr[dirRendCount] = new google.maps.DirectionsRenderer({
+  								polylineOptions: {
+                                   strokeColor: colors[i%colors.length],   strokeOpacity: 0.25,clickable: true
+                                 },suppressMarkers: true});
                         	directionsRendererArr[dirRendCount].setMap(map);
                         	calculateAndDisplayRoute(directionsService, directionsRendererArr[dirRendCount],route,routeTemp[0]['deliverer_name'],
                         			routeTemp[0]['deliverer_first_letter'],routeTemp, i%colors.length);
                         	dirRendCount++;
+                    	}else{
+                    		var polylines = new google.maps.Polyline({
+                                path: [],
+                            });
+                                  polylinePaths.push(polylines);
+                                  
+                                  
+                       		polylineDrivers.push(routeTemp[0]['deliverer_name']);
                     	}
                 	}
+                	
         }
+        var stepPolylinesDraw  =[];
         function calculateAndDisplayRoute(directionsService, directionsRenderer,route,driver_name,driver_first_letters,routeTemp,color_index) {
             directionsService.route(route, function(result, status) {
-//             	console.log(result);
+           
+							var polylines = new google.maps.Polyline({
+                                path: [],
+                            });
+                      		
+     //        	console.log(result);
 //             	console.log(status)
                 if (status == 'OK') {
+//                 		directionsRenderer.setOptions({
+//                            polylineOptions: {
+//                            		strokeColor: colors[color_index],  strokeOpacity: 1
+//                            }
+//                         });
                 	  directionsRenderer.setDirections(result);
                 	  
                 	  var leg = result.routes[0].legs[0];
@@ -635,6 +764,15 @@ function confirmCancelRouteOptimization(){
                       		
                        leg = result.routes[0].legs[result.routes[0].legs.length-1];
                        makeMarker(leg.end_location, markerAddress, 'title', map,null,null,routeTemp[result.routes[0].legs.length]['order_id']);
+                       
+                       var opacityChangeStep = (0.8-0.2)/(result.routes[0].legs.length-1);
+                      // console.log(opacityChangeStep)
+                       
+                       /* 
+                          var polylinePaths = [];
+                          var polylineDrivers = []; */
+                       
+                       polylineDrivers.push(driver_name);
                        
                        for(var i=0; i<result.routes[0].legs.length; i++){
                        		//console.log(leg.start_location.lat()+","+leg.start_location.lng())
@@ -649,12 +787,199 @@ function confirmCancelRouteOptimization(){
 //                       		else if(routeTemp[i+1]['type']==='dropoff'){
 //                       			makeMarker(leg.end_location, markerAddress, "title", map,driver_name,null,routeTemp[i+1]['order_id']);
 //                       		}	
-                      		makeMarkerForRoute(leg.end_location, color_index,driver_name,routeTemp[i+1]['order_id'],i+2)
+                      		makeMarkerForRoute(leg.end_location, color_index,driver_name,routeTemp[i+1]['order_id'],i+2);
+                      		
+                      		// change route opacity
+                      		var steps = result.routes[0].legs[i].steps;
+                            for (j = 0; j < steps.length; j++) {
+                                  var nextSegment = steps[j].path;
+                                  var stepPolyline = new google.maps.Polyline({strokeOpacity: 1-(i*opacityChangeStep),});
+                                  //console.log(color_index +" "+colors[color_index] + " "+(0.8-(i*opacityChangeStep)))
+                                  stepPolyline.setOptions({
+                                    strokeColor: colors[color_index],
+                                    strokeWeight: 6,
+                                    zindex:2
+                                  })
+                                  for (k = 0; k < nextSegment.length; k++) {
+                                    stepPolyline.getPath().push(nextSegment[k]);
+                                    polylines.getPath().push(nextSegment[k]);
+                                    //bounds.extend(nextSegment[k]);
+                                  }
+                                 // polylines.push(stepPolyline);
+                                  stepPolyline.setMap(map);
+                                  stepPolylinesDraw.push(stepPolyline);
+                                  // route click listeners, different one on each step
+                                  
+//                                   const infowindow = new google.maps.InfoWindow();
+//                                   google.maps.event.addListener(stepPolyline,'click', function(evt) {
+//                                      infowindow.setContent(driver_name + " you clicked on the route<br>"+evt.latLng.toUrlValue(6));
+//                                      infowindow.setPosition(evt.latLng);
+//                                      infowindow.open(map);
+//                                   })	
+                            } 
                        }
+                       
+                                  polylinePaths.push(polylines);
                 }
+//                 			console.log(polylines)
+//                 			console.log(polylinePaths)
+//                         	console.log(polylineDrivers)
+//                         	console.log(polylinePaths.length +" "+routesOpt.length)
+                        	 if (polylinePaths.length===routesOpt.length) {
+                                   
+                                    this.timer = setTimeout(() => {
+                                		//console.log("hahahaha");
+                                		 getPolylineIntersection();
+                                    }, 1000)
+                           	}
               });
             
         }
+        var polylinesO=[];
+        function getPolylineIntersection() {
+        	//console.log("    " +polylinePaths.length +" "+routesOpt.length)
+              if(polylinePaths.length===routesOpt.length){
+              	for(var p=0; p<polylinePaths.length-1; p++){
+              		 for(var s=p+1; s<polylinePaths.length; s++){
+                  		//console.log("===="+p)         	 
+                    	var polyline1 = polylinePaths[p];
+                    	var polyline2 = polylinePaths[s];
+//                     	console.log(polylineDrivers[p] +" "+polylineDrivers[s])
+                        // console.log(polyline1.getPath().getLength() +" -- "+polyline2.getPath().getLength())
+                    	
+                    	if((polyline2.getPath().getLength() > polyline1.getPath().getLength())){
+                    		polyline1 = polylinePaths[s];
+                    		polyline2 = polylinePaths[p];
+                    	}
+                    	var driver1 = polylineDrivers[p];
+                    	var driver2 = polylineDrivers[s];
+                    	
+                        var commonPts = [];
+                        var commonPtsInd = [];
+                        var commonPtsInd2 = [];
+                       // console.log(polyline1.getPath().getLength() +" -- "+polyline2.getPath().getLength())
+                        for (var i = 0; i < polyline1.getPath().getLength(); i++) {
+//                             for (var j = 0; j < polyline2.getPath().getLength(); j++) {
+//                             	//console.log(polyline1.getPath().getAt(i))
+//                                 if (polyline1.getPath().getAt(i).equals(polyline2.getPath().getAt(j))) {
+//                                     commonPts.push({
+//                                         lat: polyline1.getPath().getAt(i).lat(),
+//                                         lng: polyline1.getPath().getAt(i).lng(),
+//                                         route1idx: i
+//                                     });
+//                                     commonPtsInd.push(i)
+//                                     console.log( google.maps.geometry.poly.isLocationOnEdge(polyline1.getPath().getAt(i), polyline2,1e-3));
+//                                 }
+                                
+//                             }
+                            
+                            if(google.maps.geometry.poly.isLocationOnEdge(polyline1.getPath().getAt(i), polyline2,1e-12)){
+                                //console.log(i+" sssssss ")
+                                //commonPtsInd2.push(i);
+                                commonPts.push({
+                                        lat: polyline1.getPath().getAt(i).lat(),
+                                        lng: polyline1.getPath().getAt(i).lng(),
+                                        route1idx: i
+                                    });
+                            }
+                        }
+                        var path = [];
+//                         console.log(p+"  "+s)
+//                         console.log(commonPts)
+//                         console.log(commonPtsInd)
+//                         console.log(commonPtsInd2)
+                        
+                        if(commonPts.length>0){
+                            var prevIdx = commonPts[0].route1idx;
+                            for (var i = 0; i < commonPts.length; i++) {
+                            	//console.log(">>>>>>>> "+prevIdx+" "+commonPts[i].route1idx)
+                                if (commonPts[i].route1idx <= prevIdx + 1) {
+                                    path.push(commonPts[i]);
+                                    prevIdx = commonPts[i].route1idx;
+                                } else {
+                                	//console.log("draw "+prevIdx+" "+commonPts[i].route1idx)
+                                    var polyline = new google.maps.Polyline({
+                                        map: map,
+                                        path: path,
+                                        strokeWeight: 10,
+                                        strokeColor: "#ff0000",
+                                		zIndex :1000,
+                                        strokeOpacity: 0.6
+                                    });
+                             		  const infowindow = new google.maps.InfoWindow({
+                                         	content:(driver1 +" & "+driver2),
+                             				maxWidth: '350px'
+                                         });
+                                      google.maps.event.addListener(polyline,'click', function(evt) {
+                                             infowindow.setPosition(evt.latLng);
+                                             infowindow.open(map,this);
+                                              var driversNames = getDriversNameOfOverlappedRoute(evt.latLng);
+                                              infowindow.setContent(driversNames);
+                                      })
+                                      
+                                      stepPolylinesDraw.push(polyline);	
+                                    path = [];
+                                    prevIdx = commonPts[i].route1idx;
+                                }
+                            }
+                             const infowindow = new google.maps.InfoWindow({
+                             	content:(driver1 +" & "+driver2),
+                             	maxWidth: '350px'
+                             });
+                                 
+                            var polylineO = new google.maps.Polyline({
+                                map: map,
+                                path: path,
+                                strokeWeight: 10,
+                                strokeColor: "#ff0000",
+                                strokeOpacity: 0.6,
+                                zIndex :1000,
+                                //title:driver1 +" -- "+driver2
+                            });
+                             google.maps.event.addListener(polylineO,'click', function(evt) {
+                                     infowindow.setPosition(evt.latLng);
+                                     infowindow.open(map,this);
+                                                                           
+                                      var driversNames = getDriversNameOfOverlappedRoute(evt.latLng);
+                                      infowindow.setContent(driversNames);
+                              })	
+//                                       google.maps.event.addListenerOnce( polylineO, "visible_changed", function() {
+//                                             infowindow.close();
+//                                         });
+                            polylinesO.push(polylineO)
+                            
+                            //                                   const infowindow = new google.maps.InfoWindow();
+//                                   google.maps.event.addListener(stepPolyline,'click', function(evt) {
+//                                      infowindow.setContent(driver_name + " you clicked on the route<br>"+evt.latLng.toUrlValue(6));
+//                                      infowindow.setPosition(evt.latLng);
+//                                      infowindow.open(map);
+//                                   })	
+                        }
+                    }    
+                }
+             }   
+        
+        }
+        
+        function getDriversNameOfOverlappedRoute(latlng){
+        	//console.log("hello ")
+        	var driversNames = '<h3 class="pickup-name mapPickupName" >';
+        	for(var i=0; i<polylinePaths.length; i++){
+        		var isFound = google.maps.geometry.poly.isLocationOnEdge(latlng, polylinePaths[i],1e-3);
+        		if(isFound){
+        				//console.log(isFound,i)
+        			if(i===polylinePaths.length-1){
+        				driversNames += polylineDrivers[i];
+        			}else{
+        				driversNames += polylineDrivers[i] + ', ';
+        			}	
+        		}
+        	}
+        	driversNames += '</h3';
+        	
+        	return driversNames;
+        }
+        
         function createPin (color) {
             return { 	
                 path: 'M 0,0 c -2,-20 -10,-22 -10,-30 a 10,10 0 1 1 20,0 c 0,8 -8,10 -10,30 z', 

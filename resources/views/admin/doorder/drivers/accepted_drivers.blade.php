@@ -264,6 +264,7 @@ $(document).ready(function() {
 
 	if(app.selectedOrders.length > 0){
             table= $('#driversTable').DataTable({
+          		  "ordering": false,
             "pagingType": "full_numbers",
                 "lengthMenu": [
                   [-1,10, 25, 50,100],
@@ -347,6 +348,7 @@ $(document).ready(function() {
     	else{
     	  table= $('#driversTable').DataTable({
             "pagingType": "full_numbers",
+          		  "ordering": false,
                 "lengthMenu": [
                   [-1,10, 25, 50,100],
                   ["All",10, 25, 50,100]
@@ -363,7 +365,8 @@ $(document).ready(function() {
                               "last":"<i class='fas fa-angle-double-right'></i>"
                             }
             	},
-            	"columnDefs": [ {
+            	"columnDefs": [ 
+            		{
                 		"targets": [-1],
                 		"orderable": false
             		},                        

@@ -410,18 +410,53 @@
                                 <input name="recurring_frequency" type="number" class="form-control" id="recurring_frequency" value="{{old('recurring_frequency')}}" required>
                             </div>
                         </div>
-
 {{--                        <div class="col-md-12">--}}
 {{--                            <div class="form-group bmd-form-group">--}}
-{{--                                <label for="available_date_time">Schedual at</label>--}}
-{{--                                --}}{{--                                <div class="d-flex justify-content-between">--}}
-{{--                                <input name="available_date_time" type="text" class="form-control datetimepicker" id="available_date_time" value="{{old('available_date_time')}}" required>--}}
-{{--                                --}}{{--                                    <a class="select-icon">--}}
-{{--                                --}}{{--                                        <i class="fas fa-caret-down"></i>--}}
-{{--                                --}}{{--                                    </a>--}}
-{{--                                --}}{{--                                </div>--}}
+{{--                                <label for="vat-number">Payment Details</label>--}}
+{{--                                <div class="row">--}}
+{{--                                    <div class="col-6">--}}
+{{--                                        <div class="payment-input form-control" id="card-number"></div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="col-6">--}}
+{{--                                        <div class="payment-input form-control" id="card-expiry"></div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="col">--}}
+{{--                                        <div class="payment-input form-control" id="card-cvc"></div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
 {{--                            </div>--}}
 {{--                        </div>--}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="main main-radius main-raised content-card" v-if="type_of_work == 'Residential'">
+                <div class="container">
+                    <div class="section">
+                        <h5 class="registerSubTitle">Payment Details</h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 d-flex align-content-center p-4">
+                            <img src="{{asset('images/powered-by-stripe.png')}}" style="width: 100%" alt="Powred By Stripe">
+                        </div>
+                        <div class="col-md-9">
+                            <div class="row">
+                                <div class="col-6 pt-2 pb-2">
+                                    <lable>Card Number</lable>
+                                    <div class="payment-input form-control" id="card-number"></div>
+                                </div>
+                                <div class="col-6 pt-2 pb-2">
+                                </div>
+                                <div class="col-6 pt-2 pb-2">
+                                    <lable>Expire Date</lable>
+                                    <div class="payment-input form-control" id="card-expiry"></div>
+                                </div>
+                                <div class="col pt-2 pb-2">
+                                    <lable>CVV</lable>
+                                    <div class="payment-input form-control" id="card-cvc"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -592,6 +627,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>
     <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://js.stripe.com/v3/"></script>
 
     <script>
         var polygons_array = [];
@@ -604,6 +640,74 @@
             placement: 'right',
         });
     });
+
+    function initStripeCardElements() {
+        this.stripe = Stripe("{{env('STRIPE_PUBLIC_KEY')}}");
+        var elements = this.stripe.elements({
+            fonts: [
+                {
+                    cssSrc: 'https://fonts.googleapis.com/css?family=Roboto',
+                },
+            ],
+            // Stripe's examples are localized to specific languages, but if
+            // you wish to have Elements automatically detect your user's locale,
+            // use `locale: 'auto'` instead.
+            locale: 'auto'
+        });
+
+        var elementStyles = {
+            iconStyle: "solid",
+            style: {
+                base: {
+                    iconColor: "#fff",
+                    color: "#fff",
+                    fontWeight: 400,
+                    fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif",
+                    fontSize: "16px",
+                    fontSmoothing: "antialiased",
+                    borderBottom: "solid 1px #eaecef",
+                    padding: "10px",
+
+                    "::placeholder": {
+                        color: "#BFAEF6"
+                    },
+                    ":-webkit-autofill": {
+                        color: "#fce883"
+                    }
+                },
+                invalid: {
+                    iconColor: "#FFC7EE",
+                    color: "#FFC7EE"
+                }
+            }
+        };
+
+        var elementClasses = {
+            focus: 'focus',
+            empty: 'empty',
+            invalid: 'invalid',
+        };
+
+        this.cardNumber = elements.create('cardNumber', {
+            style: elementStyles,
+            classes: elementClasses,
+        });
+        // Add an instance of the card Element into the `card-element` <div>
+        this.cardNumber.mount('#card-number');
+
+        this.cardExpiry = elements.create('cardExpiry', {
+            style: elementStyles,
+            classes: elementClasses,
+        });
+
+        this.cardExpiry.mount('#card-expiry');
+
+        this.cardCvc = elements.create('cardCvc', {
+            style: elementStyles,
+            classes: elementClasses,
+        });
+        this.cardCvc.mount('#card-cvc');
+    }
         function changeWorkType(){
             console.log("Sadasfsafsafsgdg");
             console.log($("#type_of_work").val());
@@ -626,6 +730,7 @@
                         }
                     });*/
                     addIntelInput('phone', 'phone');
+                    initStripeCardElements()
                 }, 500)
             } else {
                 setTimeout(() => {

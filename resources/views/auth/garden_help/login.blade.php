@@ -66,6 +66,9 @@
                                     <button class="btn btn-gardenhelp-green btn-login"
                                             type="submit">Login</button>
                                 </div>
+                                <div class="d-flex justify-content-center align-content-center mt-3">
+                                	<p class="loginP"> Dont have an account? <a href="{{url('garden-help/customers/registration')}}"> Sign up here </a></p>
+                                </div>
                             </form>
                         </div>
                     </div>

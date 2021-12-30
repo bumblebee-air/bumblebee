@@ -39,20 +39,41 @@ input {
 .material-icons {
 	color: #acb1c0 !important;
 }
-/************ end login *****************/
 
-a:focus, a:hover{
+.loginP {
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 20px;
+	color: #000000;
+}
+.loginP a{
+	color: #60A244;
+}
+.btn-contrainer-img{
+	background: transparent;
+	border: none;
+}
+.btn-contrainer-img:focus{
+	outline: none;
+}
+/************ end login *****************/
+a:focus, a:hover {
 	color: #60a244 !important;
 	text-decoration: underline !important;
 }
+
 .main-panel>.content {
 	margin-top: 30px;
 }
-.inputSearchNavbar{
+
+.inputSearchNavbar {
 	background-color: white;
 	height: 42px !important;
 	padding-left: 4px;
 }
+
 input, .select2-container--default .select2-selection--single .select2-selection__rendered
 	{
 	font-family: Roboto;

@@ -27,6 +27,9 @@
             margin-left: 10px!important;
             display: none;
         }
+        .modal .modal-dialog{
+            margin-top: 50px;
+        }
     </style>
 @endsection
 
@@ -129,18 +132,18 @@
                                 <input type="tel" class="form-control" id="phone" name="phone" value="{{old('phone')}}" required>
                             </div>
                         </div>
-                        <!--<div class="col-md-12">
+                        <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                                <label>Password</label>
+                                <label>Platform password</label>
                                 <input type="password" class="form-control" name="password" value="{{old('password')}}" required>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                                <label>Confirm password</label>
+                                <label>Confirm platform password</label>
                                 <input type="password" class="form-control" name="password_confirmation" value="{{old('password_confirmation')}}" required>
                             </div>
-                        </div>-->
+                        </div>
                     </div>
 
                     <div class="row" v-if="type_of_work == 'Commercial'">
@@ -164,6 +167,18 @@
                             <div class="form-group bmd-form-group">
                                 <label>Company email</label>
                                 <input type="email" class="form-control" name="email" value="{{old('email')}}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                <label>Password</label>
+                                <input type="password" class="form-control" name="password" value="{{old('password')}}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                <label>Confirm  password</label>
+                                <input type="password" class="form-control" name="password_confirmation" value="{{old('password_confirmation')}}" required>
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -239,7 +254,14 @@
             <div class="main main-radius main-raised content-card" v-if="type_of_work == 'Residential'">
                 <div class="container">
                     <div class="section">
-                        <h5 class="registerSubTitle">Property Information</h5>
+                    	<div class ="row"><div class="col-md-8">
+                        	<h5 class="registerSubTitle">Property Information</h5></div>
+                        	<div class="col-md-4 mt-2">
+                        		<button type="button" class="btn-contrainer-img float-right" data-toggle="modal" data-target="#map-navigation-modal">
+                        		 <img src="{{asset('images/gardenhelp_icons/info-icon.png')}}"
+								 style="width: 25px" alt="GardenHelp"> </button>
+                        	</div>
+                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
@@ -471,7 +493,7 @@
                 </div>
 
                 <div class="col-md-12 mb-3 submit-container">
-                    <button class="btn btn-gardenhelp-green btn-register" type="submit">Get Quote Now</button>
+                    <button class="btn btn-gardenhelp-green btn-register" type="submit">Sign up</button>
                 </div>
             </div>
         </form>
@@ -620,6 +642,44 @@
             </div>
         </div>
     </div>
+    
+    <!-- Map Navigation Modal -->
+	<div class="modal fade bd-example-modal-lg" id="map-navigation-modal" tabindex="-1" role="dialog" aria-labelledby="map-navigationLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+<!-- 				<div class="modal-header"> -->
+					
+<!-- 					<button type="button" class="close" data-dismiss="modal" -->
+<!-- 							aria-label="Close"> -->
+<!-- 						<span aria-hidden="true">&times;</span> -->
+<!-- 					</button> -->
+<!-- 				</div> -->
+				<div class="modal-body">
+					<div class="container-fluid">
+						<div class="row">
+						<div class="col-md-6 col-sm-12 d-flex justify-content-center align-content-center p-3">
+							<img src="{{asset('images/map-navigation-step-1.png')}}" alt="step-1" style="width:95%; height:95%">
+						</div>
+						<div class="col-md-6 col-sm-12 d-flex justify-content-center align-content-center p-3">
+							<img src="{{asset('images/map-navigation-step-2.png')}}" alt="step-2"  style="width:95%; height:95%">
+						</div>
+						<div class="col-md-6 col-sm-12 d-flex justify-content-center align-content-center p-3">
+							<img src="{{asset('images/map-navigation-step-3.png')}}" alt="step-3" style="width:95%; height:95%">
+						</div>
+						<div class="col-md-6 col-sm-12 d-flex justify-content-center align-content-center p-3">
+							<img src="{{asset('images/map-navigation-step-4.png')}}" alt="step-4"  style="width:95%; height:95%">
+						</div>
+					</div>
+					</div>
+				</div>
+				<div class="modal-footer justify-content-center">
+					<button type="button" class="btn btn-register btn-gardenhelp-green"
+							data-dismiss="modal">Ok</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--End Map Navigation Modal -->
 @endsection
 
 @section('scripts')

@@ -468,6 +468,9 @@ Job') @section('page-styles')
 
 										</div>
 										<div class="col-md-5 col-sm-6 col-12">
+											<div class="row justify-content-center" style="margin-top: -20px; margin-bottom: 5px">
+												<button type="button" class="btn btn-sm btn-outline-success btn-round" data-toggle="modal" data-target="#map-navigation-modal">How to navigate map?</button>
+											</div>
 											<div id="area"></div>
 											<div id="map" style="height: 100%; margin-top: 0"></div>
 											<input type="hidden" id="area_coordinates"
@@ -688,6 +691,45 @@ Job') @section('page-styles')
 		</div>
 	</div>
 	<!-- end modal site details -->
+
+	<!-- Map Navigation Modal -->
+	<div class="modal fade bd-example-modal-lg" id="map-navigation-modal" tabindex="-1" role="dialog" aria-labelledby="map-navigationLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+{{--				<div class="modal-header">--}}
+{{--					<h5 class="modal-title text-left registerModalTitle"--}}
+{{--						id="map-navigationLabel">Site Details</h5>--}}
+{{--					<button type="button" class="close" data-dismiss="modal"--}}
+{{--							aria-label="Close">--}}
+{{--						<span aria-hidden="true">&times;</span>--}}
+{{--					</button>--}}
+{{--				</div>--}}
+				<div class="modal-body">
+					<div class="container-fluid">
+						<div class="row">
+						<div class="col-md-6 col-sm-12 d-flex justify-content-center align-content-center p-3">
+							<img src="{{asset('images/map-navigation-step-1.png')}}" alt="step-1" style="width: 70%">
+						</div>
+						<div class="col-md-6 col-sm-12 d-flex justify-content-center align-content-center p-3">
+							<img src="{{asset('images/map-navigation-step-2.png')}}" alt="step-2" style="width: 70%">
+						</div>
+						<div class="col-md-6 col-sm-12 d-flex justify-content-center align-content-center p-3">
+							<img src="{{asset('images/map-navigation-step-3.png')}}" alt="step-3" style="width: 70%">
+						</div>
+						<div class="col-md-6 col-sm-12 d-flex justify-content-center align-content-center p-3">
+							<img src="{{asset('images/map-navigation-step-4.png')}}" alt="step-4" style="width: 70%">
+						</div>
+					</div>
+					</div>
+				</div>
+				<div class="modal-footer justify-content-center">
+					<button type="button" class="btn btn-register btn-gardenhelp-green"
+							data-dismiss="modal">Ok</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Map Navigation Modal -->
 </div>
 
 @endsection @section('page-scripts')

@@ -63,7 +63,8 @@ class SettingsController extends Controller
                 'email' => ($notification->channel == 'email') ? json_decode($notification->send_to, true) : json_decode('[{"value":""}]') ,//json_decode($notification->send_to, true),
                 'user_type' => ($notification->channel == 'platform') ? explode(',', $notification->send_to) : null,
                 'notification_content' => $notification->content,
-                'retailer'=> explode(',', $notification->retailers)
+                'retailer'=> explode(',', $notification->retailers),
+                'activity_hours' => $notification->activity_hours
             ];
         }
 
@@ -138,6 +139,7 @@ class SettingsController extends Controller
             $customNotification->send_to = $send_to;
             $customNotification->content = $request["notification_content$i"];
             $customNotification->client_id = $client_id;
+            $customNotification->activity_hours = $request["activity_hours$i"];
             $customNotification->retailers = (isset($request["retailer$i"]) && count($request["retailer$i"])) ? implode(',', $request["retailer$i"]) : NULL;
             $customNotification->is_active = ($request["customNotification$i"] == 'true' || $request["customNotification$i"] == '1');
             $customNotification->save();

@@ -519,6 +519,15 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="row"
+                                                     v-if="notification.notification_type=='activity'">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group bmd-form-group">
+                                                            <label for="retailer">Set Time For Notification (Hours) </label>
+                                                            <input type="number" class="form-control" :name="'activity_hours' + (index)" min="1" v-model="notification.activity_hours">
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div class="row">
                                                     <div class="col-sm-12">
                                                         <div class="form-group bmd-form-group">
@@ -601,7 +610,7 @@
 
     <script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script
             src="https://cdn.jsdelivr.net/npm/@riophae/vue-treeselect@^0.4.0/dist/vue-treeselect.umd.min.js"></script>
 
@@ -725,7 +734,7 @@
                 users: {!! $users !!},
 
                 //customNotifications:[{"customNotification":"","notification_type":null,"notification_name":"","notification_channel":null,"phone_number":"","email":"","user_type":null,"notification_content":""}],
-                customNotifications: {!! count($savedNotifications) ? json_encode($savedNotifications) : '[{"id":null,"customNotification":"1","notification_type":null,"notification_name":"","notification_channel":null,"phone_number":[{value: ""}],"email":[{value: ""}],"user_type":null,"notification_content":""}]' !!},
+                customNotifications: {!! count($savedNotifications) ? json_encode($savedNotifications) : '[{"id":null,"customNotification":"1","notification_type":null,"notification_name":"","notification_channel":null,"phone_number":[{value: ""}],"email":[{value: ""}],activity_hours: 1,"user_type":null,"notification_content":""}]' !!},
                 // define the default value
                 notification_type: null,
                 notification_channel: null,
@@ -760,7 +769,13 @@
                     id: 'payments',
                     label: 'Payments',
                     customLabel: 'Payments'
-                }],
+                },
+                {
+                    id: 'activity',
+                    label: 'Activity',
+                    customLabel: 'Activity'
+                }
+                ],
 
                 optionschannel: [{
                     id: 'sms',

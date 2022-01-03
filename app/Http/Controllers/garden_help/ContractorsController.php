@@ -3,6 +3,7 @@ namespace App\Http\Controllers\garden_help;
 
 use App\ClientSetting;
 use App\Contractor;
+use App\ContractorBidding;
 use App\Customer;
 use App\Helpers\CustomNotificationHelper;
 use App\Helpers\ServicesTypesHelper;
@@ -781,6 +782,31 @@ class ContractorsController extends Controller
             $job->contractor_status = 'break';
         }
         $job->save();
+        $response = [
+            'message' => 'Operation done successfully',
+            'error' => 0
+        ];
+        return response()->json($response)->setStatusCode(200);
+    }
+
+    public function postContractorBid(Request $request) {
+        $this->validate($request, [
+            'estimated_quote' => 'required|min:1',
+            'job_id' => 'required|exists:customers_registrations,id'
+        ]);
+        $checkIfBidBefore = ContractorBidding::where('job_id', $request->job_id)->where('contractor_id', $request->user()->contractor_profile->id)->first();
+        if ($checkIfBidBefore) {
+            $response = [
+                'message' => 'You already have a bid.',
+                'error' => 1
+            ];
+            return response()->json($response)->setStatusCode(403);
+        }
+        ContractorBidding::create([
+            'job_id' => $request->job_id,
+            'estimated_quote' => $request->estimated_quote,
+            'contractor_id' => $request->user()->contractor_profile->id
+        ]);
         $response = [
             'message' => 'Operation done successfully',
             'error' => 0

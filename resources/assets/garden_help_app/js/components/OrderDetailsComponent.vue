@@ -60,188 +60,201 @@
                         <div class="card-drag"></div>
                     </div>
                     <div class="col-12 order-details-container" style="overflow-x: auto; height: 635px;">
-                        <div class="row">
+                        <div v-if="!apply_job">
+                          <div class="row">
                             <div class="col-10">
-                                <p class="delivery-info">
-                                    Job Information
-                                </p>
-<!--                                <p class="order-number">-->
-<!--                                    {{this.job_data.order_id}}-->
-<!--                                </p>-->
-                                <p class="request-date">
-                                  <i class="fas fa-calendar-alt"></i>
-                                  {{ job_data.created_at | moment("dddd, MMMM Do YYYY, h:mm a")}}
-                                </p>
+                              <p class="delivery-info">
+                                Job Information
+                              </p>
+                              <!--                                <p class="order-number">-->
+                              <!--                                    {{this.job_data.order_id}}-->
+                              <!--                                </p>-->
+                              <p class="request-date">
+                                <i class="fas fa-calendar-alt"></i>
+                                {{ job_data.created_at | moment("dddd, MMMM Do YYYY, h:mm a")}}
+                              </p>
                             </div>
                             <div class="col-2 d-flex justify-content-end align-items-center">
-                                <div class="time-distance">
-<!--                                    <div class="d-flex delivery-time-container justify-content-center">-->
-<!--                                        <img class="delivery-time" src="images/doorder_driver_assets/delivery-time.png" alt="delivery time">-->
-<!--                                        {{durationTime}}-->
-<!--                                    </div>-->
-                                    <div class="delivery-distance">
-                                        {{distance}} Away
-                                    </div>
+                              <div class="time-distance">
+                                <!--                                    <div class="d-flex delivery-time-container justify-content-center">-->
+                                <!--                                        <img class="delivery-time" src="images/doorder_driver_assets/delivery-time.png" alt="delivery time">-->
+                                <!--                                        {{durationTime}}-->
+                                <!--                                    </div>-->
+                                <div class="delivery-distance">
+                                  {{distance}} Away
                                 </div>
+                              </div>
                             </div>
-                        </div>
-                        <div class="row">
+                          </div>
+                          <div class="row">
                             <div class="col-2">
-                                <img src="images/garden_help_driver_assets/location.png" class="pickup-icon" alt="pickup-icon">
+                              <img src="images/garden_help_driver_assets/location.png" class="pickup-icon" alt="pickup-icon">
                             </div>
                             <div class="col-10 order-address-row">
-                                <p class="order-address-title">
-                                    Job Location
-                                </p>
-                                <p class="order-address-value">
-                                  {{job_data.location}}
-                                  <a href="#" @click="redirectToGoogleMaps(job_data.location_coordinates)">(Open on maps)</a>
-                                </p>
+                              <p class="order-address-title">
+                                Job Location
+                              </p>
+                              <p class="order-address-value">
+                                {{job_data.location}}
+                                <a href="#" @click="redirectToGoogleMaps(job_data.location_coordinates)">(Open on maps)</a>
+                              </p>
                             </div>
-                        </div>
+                          </div>
 
-                        <div class="row">
+                          <div class="row">
                             <div class="col-2">
-                                <img src="images/garden_help_driver_assets/first_time.png" class="service-icon" alt="service-type-icon">
+                              <img src="images/garden_help_driver_assets/first_time.png" class="service-icon" alt="service-type-icon">
                             </div>
                             <div class="col-10 order-address-row">
-                                <p class="order-address-title">
-                                  First time to do this service for the property?
-                                </p>
-                                <p class="order-address-value">
-                                  {{ job_data.is_first_time == 1 ? 'Yes' : 'no' }}
-                                </p>
+                              <p class="order-address-title">
+                                First time to do this service for the property?
+                              </p>
+                              <p class="order-address-value">
+                                {{ job_data.is_first_time == 1 ? 'Yes' : 'no' }}
+                              </p>
                             </div>
-                        </div>
-                        <div class="row">
+                          </div>
+                          <div class="row">
                             <div class="col-2">
-                                <img src="images/garden_help_driver_assets/last_time.png" class="service-icon" alt="service-type-icon">
+                              <img src="images/garden_help_driver_assets/last_time.png" class="service-icon" alt="service-type-icon">
                             </div>
                             <div class="col-10 order-address-row">
-                                <p class="order-address-title">
-                                  Last time was
-                                </p>
-                                <p class="order-address-value">
-                                  {{job_data.last_service ? job_data.last_service : 'N/A'}}
-                                </p>
+                              <p class="order-address-title">
+                                Last time was
+                              </p>
+                              <p class="order-address-value">
+                                {{job_data.last_service ? job_data.last_service : 'N/A'}}
+                              </p>
                             </div>
-                        </div>
-                        <div class="row">
+                          </div>
+                          <div class="row">
                             <div class="col-2">
-                                <img src="images/garden_help_driver_assets/site_details.png" class="service-icon" alt="service-type-icon">
+                              <img src="images/garden_help_driver_assets/site_details.png" class="service-icon" alt="service-type-icon">
                             </div>
                             <div class="col-10 order-address-row">
-                                <p class="order-address-title">
-                                  Site details
-                                </p>
-                                <p class="order-address-value">
-                                  {{job_data.site_details ? job_data.site_details : 'N/A'}}
-                                </p>
+                              <p class="order-address-title">
+                                Site details
+                              </p>
+                              <p class="order-address-value">
+                                {{job_data.site_details ? job_data.site_details : 'N/A'}}
+                              </p>
                             </div>
-                        </div>
+                          </div>
 
-                      <div class="row">
-                        <div class="col-2">
-                          <img src="images/garden_help_driver_assets/site_details.png" class="service-icon" alt="service-type-icon">
-                        </div>
-                        <div class="col-10 order-address-row">
-                          <p class="order-address-title">
-                            Job Types
-                          </p>
-                          <p class="order-address-value">
-                            <span v-for="service in job_service_types">{{service.name}}</span>
-                          </p>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-2">
-                          <img src="images/garden_help_driver_assets/site_details.png" class="service-icon" alt="service-type-icon">
-                        </div>
-                        <div class="col-10 order-address-row">
-                          <p class="order-address-title">
-                            Min Working Hours
-                          </p>
-                          <p class="order-address-value">
-                            <span>{{calcMinHours()}}</span>
-                          </p>
-                        </div>
-                      </div>
+                          <div class="row">
+                            <div class="col-2">
+                              <img src="images/garden_help_driver_assets/services.png" class="service-icon" alt="service-type-icon">
+                            </div>
+                            <div class="col-10 order-address-row">
+                              <p class="order-address-title">
+                                Services
+                              </p>
+                              <p class="order-address-value">
+                                <span v-for="service in job_service_types">{{service.name}}</span>
+                              </p>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-2">
+                              <img src="images/garden_help_driver_assets/budget.png" class="service-icon" alt="budget-icon">
+                            </div>
+                            <div class="col-10 order-address-row">
+                              <p class="order-address-title">
+                                Budget
+                              </p>
+                              <p class="order-address-value">
+                                {{job_data.budget ? job_data.budget : 'N/A'}}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-2">
+                              <img src="images/garden_help_driver_assets/site_details.png" class="service-icon" alt="service-type-icon">
+                            </div>
+                            <div class="col-10 order-address-row">
+                              <p class="order-address-title">
+                                Min Working Hours
+                              </p>
+                              <p class="order-address-value">
+                                <span>{{calcMinHours()}}</span>
+                              </p>
+                            </div>
+                          </div>
 
-                      <div class="row">
-                        <div class="col-2">
-                          <img src="images/garden_help_driver_assets/parking_site.png" class="service-icon" alt="service-type-icon">
+                          <div class="row">
+                            <div class="col-2">
+                              <img src="images/garden_help_driver_assets/parking_site.png" class="service-icon" alt="service-type-icon">
+                            </div>
+                            <div class="col-10 order-address-row">
+                              <p class="order-address-title">
+                                Parking access on site?
+                              </p>
+                              <p class="order-address-value">
+                                {{job_data.is_parking_access == 1 ? 'Yes' : 'No'}}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="row" v-if="job_data.property_photo">
+                            <div class="col-10 order-address-row">
+                              <p class="order-address-value">
+                                <img :src="job_data.property_photo" alt="Property Image" style="width: 100%; height: 100%">
+                              </p>
+                            </div>
+                          </div>
                         </div>
-                        <div class="col-10 order-address-row">
-                          <p class="order-address-title">
-                            Parking access on site?
-                          </p>
-                          <p class="order-address-value">
-                            {{job_data.is_parking_access == 1 ? 'Yes' : 'No'}}
-                          </p>
+                        <div v-else>
+                          <div class="row">
+                            <div class="col-10">
+                              <p class="delivery-info">
+                                Price Quotation
+                              </p>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-2">
+                              <img src="images/garden_help_driver_assets/services.png" class="service-icon" alt="service-type-icon">
+                            </div>
+                            <div class="col-10 order-address-row">
+                              <p class="order-address-title">
+                                Services
+                              </p>
+                              <p class="order-address-value">
+                                <span v-for="service in job_service_types">{{service.name}}</span>
+                              </p>
+                            </div>
+                          </div>
+                          <div class="row align-items-center pt-2 pb-2">
+                            <div class="col-2">
+                              <img src="images/garden_help_driver_assets/budget.png" class="service-icon mt-0" alt="budget-icon">
+                            </div>
+                            <div class="col-10 order-address-row">
+                              <div class="row align-items-center">
+                                <div class="col">
+                                  <p class="order-address-title">
+                                    Your Price Quotation
+                                  </p>
+                                </div>
+                                <div class="col pb-2">
+                                  <input type="number" class="form-control form-control-sm estimated-input" min="1" v-model="estimated_quote">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                      <div class="row" v-if="job_data.property_photo">
-                        <div class="col-10 order-address-row">
-                          <p class="order-address-value">
-                            <img :src="job_data.property_photo" alt="Property Image" style="width: 100%; height: 100%">
-                          </p>
-                        </div>
-                      </div>
-
-<!--                        <div class="row" v-if="job_data.status != 'ready' && job_data.status != 'assigned'">-->
-<!--                            <div class="col-2">-->
-<!--                                <img src="images/doorder_driver_assets/pickup-address-pin.png" class="pickup-icon" alt="pickup-icon">-->
-<!--                            </div>-->
-<!--                            <div class="col-10 order-address-row">-->
-<!--                                <p class="order-address-title">-->
-<!--                                    Delivery Address-->
-<!--                                </p>-->
-<!--                                <p class="order-address-value">-->
-<!--                                    {{job_data.customer_address}}-->
-<!--                                </p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-
-<!--                        <div class="row">-->
-<!--                            <div class="col-2">-->
-<!--                                <img src="images/doorder_driver_assets/time.png" class="package-details-icon" alt="pickup-icon">-->
-<!--                            </div>-->
-<!--                            <div class="col-10 order-address-row">-->
-<!--                                <p class="order-address-title">-->
-<!--                                    Estimated Arrival Time to Delivery Address-->
-<!--                                </p>-->
-<!--                                <p class="order-address-value">-->
-<!--                                    {{duration}}-->
-<!--                                </p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-
-<!--                        <div class="row">-->
-<!--                            <div class="col-2">-->
-<!--                                <img src="images/doorder_driver_assets/package-details.png" class="package-details-icon" alt="pickup-icon">-->
-<!--                            </div>-->
-<!--                            <div class="col-8 order-address-row">-->
-<!--                                <p class="order-address-title">-->
-<!--                                    Package details-->
-<!--                                </p>-->
-<!--                                <p class="order-address-value">-->
-<!--                                  {{job_data.weight ? job_data.weight + ' / ' : ''}}  {{!job_data.fragile ? 'Not' : ''}} Fragile / {{job_data.dimensions ? job_data.dimensions : 'N/A Dimensions'}}-->
-<!--                                  <br v-if="job_data.notes != ''">-->
-<!--                                  <br v-if="job_data.notes != ''">-->
-<!--                                  {{job_data.notes != '' ? 'Notes: ' + job_data.notes : ''}}-->
-<!--                                </p>-->
-<!--                            </div>-->
-<!--                            <div>-->
-<!--&lt;!&ndash;                                <img src="images/doorder_driver_assets/whatsapp.png" class="whatsapp-icon" alt="whatsapp">&ndash;&gt;-->
-<!--                                <button class="btn btn-round doorder-btn-map" @click="navigateToAddress()">-->
-<!--                                    <i class="fas fa-map-marked-alt"></i>-->
-<!--                                </button>-->
-<!--                            </div>-->
-<!--                        </div>-->
                     </div>
                 </div>
                 <div class="order-details-cart-actions">
-                    <div class="row accept-reject-container" v-if="job_data.status == 'ready' || job_data.status == 'assigned'">
+                    <div class="row accept-reject-container" v-if="job_data.status == 'ready'">
+                      <div class="col-md-12">
+                        <button class="btn btn-lg doorder-btn block" @click="applyForJob" v-if="!apply_job">
+                          Apply for this job
+                        </button>
+                        <button class="btn btn-lg doorder-btn block" @click="submitApplication" v-else>
+                          Send application
+                        </button>
+                      </div>
+                    </div>
+                    <div class="row accept-reject-container" v-else-if="job_data.status == 'assigned'">
                         <div class="col-md-12">
                           <button class="btn btn-lg doorder-btn block" @click="openConfirmationDialog('accepted')">
                             Accept
@@ -366,7 +379,9 @@
                 duration: '0',
                 durationTime: '0',
                 job_service_types: [],
-                current_working_status: 'start_working'
+                current_working_status: 'start_working',
+                apply_job: false,
+                estimated_quote: 1
             }
         },
         mounted() {
@@ -689,6 +704,33 @@
                 min_hours += service.min_hours
               }
               return min_hours;
+          },
+          applyForJob() {
+            this.apply_job = true
+          },
+          submitApplication() {
+            let user = JSON.parse(localStorage.getItem('user'));
+            axios.post(process.env.MIX_API_URL + 'contractor-bidding', {
+                  job_id: this.$route.params.id,
+                  estimated_quote: this.estimated_quote
+              },
+              {
+                  headers: {
+                      Accept: "application/json",
+                      Authorization: user.access_token
+                  }
+              })
+              .then(res => {
+                Vue.$toast.success(res.data.message, {
+                  position: 'top'
+                });
+                this.$router.push({name: 'orders-list'});
+              })
+              .catch(err => {
+                Vue.$toast.error(err.response.data.message, {
+                  position: 'top'
+                });
+              });
           }
         }
     }
@@ -873,5 +915,16 @@
     }
     .keep_working {
       background-color: rgb(85, 144, 245);
+    }
+
+    .estimated-input {
+      width: 99px;
+      height: 28px;
+      left: 241px;
+      top: 654px;
+
+      background: #E1E1E1;
+      box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.0796252);
+      border-radius: 20px;
     }
 </style>

@@ -15,6 +15,7 @@ use App\User;
 use App\UserClient;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
 use mysql_xdevapi\Exception;
@@ -48,122 +49,49 @@ class CustomersController extends Controller
     }
 
     public function postRegistrationForm(Request $request) {
-        dd($request);
         $this->validate($request, [
-            'work_location' => 'required',
+            'name' => 'required',
+            'email' => 'required|unique:users',
+            'contact_through' => 'required',
+            'phone' => 'required|unique:users',
+            'password' => 'required|confirmed',
         ]);
-        if ($request->work_location == 'other') {
-            $this->validate($request, [
-                'email' => 'required'
+        //Create a new user
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = ($request->type_of_work == 'Commercial') ? $request->contact_number : $request->phone;
+        $user->password = $request->password ? bcrypt($request->password) : bcrypt(Str::random(8));
+        $user->user_role = 'customer';
+        $user->save();
+
+        $client = \App\Client::where('name', 'GardenHelp')->first();
+        if($client) {
+            //Making Client Relation
+            UserClient::create([
+                'user_id' => $user->id,
+                'client_id' => $client->id
             ]);
-
-            $customer = new Customer();
-            $customer->email = $request->email;
-            $customer->work_location = $request->work_location;
-            $customer->save();
-        } else {
-            $this->validate($request, [
-                'type_of_work' => 'required|in:Commercial,Residential',
-                'name' => 'required',
-                'email' => 'required',
-                'contact_through' => 'required',
-                'phone' => 'required_if:type_of_work,Residential',
-                /*'password' => 'required_if:type_of_work,Residential|confirmed',*/
-                'service_types' => 'required_if:type_of_work,Residential',
-                'location' => 'required_if:type_of_work,Residential',
-                'location_coordinates' => 'required_if:type_of_work,Residential',
-                'property_photo' => 'required_if:type_of_work,Residential',
-                'is_first_time' => 'required_if:type_of_work,Residential',
-                'last_services' => 'required_if:is_first_time,0',
-                /*'site_details' => 'required_if:is_first_time,0',*/
-                'is_parking_site' => 'required_if:type_of_work,Residential',
-                'contact_name' => 'required_if:type_of_work,Commercial',
-                'contact_number' => 'required_if:type_of_work,Commercial',
-//                'available_date_time' => 'required_if:type_of_work,Commercial',
-                'service_types_json' => 'required_if:type_of_work,Residential',
-            ]);
-            if ($request->has('contact_number')) {
-                $request->phone = $request->contact_number;
-            }
-            $user = User::where('email','=',$request->email)
-                ->where('phone','=',$request->phone)->where('user_role', 'customer')->first();
-            if(!$user) {
-                $check_phone = User::where('phone','=',$request->phone)->first();
-                if($check_phone!=null){
-                    alert()->error('This phone number is already registered with another email!');
-                    return redirect()->back()->withInput();
-                }
-                $check_email = User::where('email','=',$request->email)->first();
-                if($check_email!=null){
-                    alert()->error('This email is already registered with another phone number!');
-                    return redirect()->back()->withInput();
-                }
-                //Create User
-                $user = new User();
-                $user->name = $request->name;
-                $user->email = $request->email;
-                $user->phone = ($request->type_of_work == 'Commercial') ? $request->contact_number : $request->phone;
-                $user->password = $request->password ? bcrypt($request->password) : bcrypt(Str::random(8));
-                $user->user_role = 'customer';
-                $user->save();
-
-                $client = \App\Client::where('name', 'GardenHelp')->first();
-                if($client) {
-                    //Making Client Relation
-                    UserClient::create([
-                        'user_id' => $user->id,
-                        'client_id' => $client->id
-                    ]);
-                }
-            }
-
-            //Create Customer
-            $customer = new Customer();
-            $customer->user_id = $user->id;
-            $customer->work_location = $request->work_location;
-            $customer->type_of_work = $request->type_of_work;
-            $customer->name = $request->name;
-//            $customer->email = $request->email;
-            $customer->contact_through = $request->contact_through;
-            $customer->phone_number = $request->phone;
-//            $customer->password = $request->password;
-            $customer->service_types = $request->service_types;
-            $customer->location = $request->location;
-            $customer->location_coordinates = $request->location_coordinates;
-            $customer->property_photo = $request->hasFile('property_photo') ? $request->file('property_photo')->store('uploads/customers_uploads') : null;
-            $customer->property_size = $request->property_size;
-            $customer->is_first_time = $request->is_first_time;
-            $customer->last_service = $request->last_services;
-            $customer->site_details = $request->site_details;
-            $customer->is_parking_access = $request->is_parking_site;
-            $customer->contact_name = $request->contact_name;
-            $customer->contact_number = $request->contact_number;
-            $customer->available_date_time = $request->available_date_time;
-            $customer->area_coordinates = $request->area_coordinates;
-            $customer->address = $request->address;
-            $customer->services_types_json = $request->service_types_json;
-            $customer->is_recurring = $request->is_recurring;
-            $customer->recurring_frequency = $request->recurring_frequency;
-            $customer->save();
-
-            //Sending Redis event
-            try{
-                Redis::publish('garden-help-channel', json_encode([
-                    'event' => 'new-customer-request'.'-'.env('APP_ENV','dev'),
-                    'data' => [
-                        'id' => $customer->id,
-                        'toast_text' => 'There is a new customer request.',
-                        'alert_text' => "There is a new customer request! with order No# $customer->id",
-                        'click_link' => route('garden_help_getcustomerSingleRequest' , ['garden-help', $customer->id]),
-                    ]
-                ]));
-            } catch (\Exception $exception){
-                \Log::error('Publish Redis new order notification from external shop API failed');
-            }
         }
-        CustomNotificationHelper::send('new_customer', $customer->id, 'GardenHelp');
-        alert()->success('We will Get back to you shortly.', 'Thank you for filling the Registration Form');
-        return redirect()->back();
+        //Sending Redis event
+//        try{
+//            Redis::publish('garden-help-channel', json_encode([
+//                'event' => 'new-customer-request'.'-'.env('APP_ENV','dev'),
+//                'data' => [
+//                    'id' => $customer->id,
+//                    'toast_text' => 'There is a new customer request.',
+//                    'alert_text' => "There is a new customer request! with order No# $customer->id",
+//                    'click_link' => route('garden_help_getcustomerSingleRequest' , ['garden-help', $customer->id]),
+//                ]
+//            ]));
+//        } catch (\Exception $exception){
+//            \Log::error('Publish Redis new order notification from external shop API failed');
+//        }
+
+//        CustomNotificationHelper::send('new_customer', $customer->id, 'GardenHelp');
+        Auth::guard('garden-help')->attempt(['email' => $request->email, 'password' => $request->password]);
+        alert()->success('Thank you for filling the Registration Form');
+        return redirect()->route('garden_help_addNewJob', ['garden-help']);
     }
 
 

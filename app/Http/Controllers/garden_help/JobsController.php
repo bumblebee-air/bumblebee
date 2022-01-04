@@ -145,13 +145,21 @@ class JobsController extends Controller
 
     public function addNewJob()
     {
+        $current_user = auth()->user();
+        
         $services = GardenServiceType::all();
         foreach ($services as $item) {
             $item->title = $item->name;
             $item->is_checked = $item->false;
             $item->is_recurring = "0";
         }
-        return view('admin.garden_help.jobs_table.add_job', ['services' => $services]);
+        
+        
+        //$properties = Customer::get();
+                
+        return view('admin.garden_help.jobs_table.add_job', ['services' => $services, 'current_user' => $current_user, 'type_of_work'=>'Residential'
+           // ,'properties'=>$properties
+        ]);
     }
 
     public function postNewJob(Request $request)

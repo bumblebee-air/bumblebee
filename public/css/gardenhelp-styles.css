@@ -32,7 +32,7 @@ input {
 
 @media screen and (min-width: 900px) {
 	.card-login {
-		padding: 20px 200px;
+		padding: 20px 100px;
 	}
 }
 
@@ -48,14 +48,17 @@ input {
 	line-height: 20px;
 	color: #000000;
 }
-.loginP a{
+
+.loginP a {
 	color: #60A244;
 }
-.btn-contrainer-img{
+
+.btn-contrainer-img {
 	background: transparent;
 	border: none;
 }
-.btn-contrainer-img:focus{
+
+.btn-contrainer-img:focus {
 	outline: none;
 }
 /************ end login *****************/
@@ -88,13 +91,23 @@ input, .select2-container--default .select2-selection--single .select2-selection
 
 label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	font-family: Roboto;
-	font-size: 15px !important;
+	font-size: 16px !important;
 	font-weight: normal;
 	font-stretch: normal;
 	font-style: normal;
-	line-height: normal;
+	line-height: 19px;
 	letter-spacing: 0.32px;
 	color: #acb1c0;
+	
+}
+
+.form-group label {
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 19px;
+	color: #656565;
 }
 
 .is-focused [class*=" bmd-label"], .is-focused [class^=bmd-label],
@@ -387,8 +400,11 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	border-color: #60a244 !important;
 }
 
-.check {
-	background-color: #60a244 !important;
+/* .check { */
+/* 	background-color: #60a244 !important; */
+/* } */
+.form-check .form-check-input:checked ~.form-check-sign .check {
+	background: #60a244 !important;
 }
 
 .form-check-label {

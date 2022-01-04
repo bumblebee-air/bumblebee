@@ -14,8 +14,10 @@
 
 .btn-gardenhelp-green {
 	color: #fff;
-	background-color: #60a244;
-	border-color: #60a244
+/* 	background-color: #60a244; */
+/* 	border-color: #60a244 */
+	background-color: #30BB30;
+	border-color: #30BB30;
 }
 
 .btn-gardenhelp-green.focus, .btn-gardenhelp-green:focus {

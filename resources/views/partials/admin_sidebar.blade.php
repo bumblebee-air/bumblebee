@@ -4,7 +4,7 @@
       Tip 2: you can also add an image using data-image tag
     -->
 	@if(($user_type == 'client' || $user_type == 'retailer' || $user_type == 'driver_manager'
-	|| $user_type == 'investor') && $admin_nav_logo!=null)
+	|| $user_type == 'investor' || $user_type == 'customer' ) && $admin_nav_logo!=null)
 	<div class="user" style="z-index: 3">
 		<div class="photo photo-full text-center">
 			<img src="{{asset($admin_nav_logo)}}" title="{{$admin_client_name}}"
@@ -19,11 +19,11 @@
 	<div class="logo">
 		<a href="{{url('/')}}" class="simple-text logo-mini"> @if($user_type == 'client'
 			|| $user_type == 'retailer' || $user_type == 'driver_manager'
-			|| $user_type == 'investor') {{$admin_client_name[0]}}
+			|| $user_type == 'investor'|| $user_type == 'customer' ) {{$admin_client_name[0]}}
 			@else BB @endif </a> <a href="{{url('/')}}"
 			class="simple-text logo-normal"> @if($user_type == 'client'
 			|| $user_type == 'retailer' || $user_type == 'driver_manager'
-			|| $user_type == 'investor') {{$admin_client_name}} @else Bumblebee
+			|| $user_type == 'investor'|| $user_type == 'customer' ) {{$admin_client_name}} @else Bumblebee
 			@endif </a>
 	</div>
 	@endif
@@ -519,6 +519,7 @@
         </ul>
         @elseif(Auth::guard('garden-help')->check())
 		<ul class="nav">
+			@if(auth()->user()->user_role == 'client')
 			<li class="nav-item"><a class="nav-link d-flex"
 				href="{{url('garden-help/home')}}"> {{-- <i
 					class="fas fa-plus-circle"></i>--}} <img class="my-nav-icon"
@@ -691,7 +692,22 @@
 					<p>Notification</p>
 				</a>
 			</li>
+ 			@elseif(auth()->user()->user_role == 'customer')
+ 			
+ 			<li class="nav-item"><a class="nav-link d-flex"
+				href="{{route('garden_help_addNewJob', 'garden-help')}}"> <i
+					class="fas fa-plus-circle"></i>
+					<p>Add New Job</p>
+			</a></li>
+ 			<li class="nav-item"><a class="nav-link d-flex"
+				href="{{route('garden_help_getJobsTable', 'garden-help')}}"><img
+					class="my-nav-icon"
+					src="{{asset('images/gardenhelp_icons/Job-Table-white.png')}}"
+					alt="Dashboard">
+					<p>Jobs Table</p> </a></li>
 
+			
+ 			@endif
 
 			<li class="nav-item "><a class="nav-link d-flex"
 				href="{{url('logout')}}"> <i class="fas fa-sign-out-alt"></i>

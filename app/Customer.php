@@ -37,4 +37,8 @@ class Customer extends Model
     public function job_timestamps() {
         return $this->morphMany(JobTimestamp::class, 'model');
     }
+
+    public  function contractors_bidding() {
+        return $this->hasMany(ContractorBidding::class, 'job_id');
+    }
 }

@@ -55,9 +55,10 @@ span.form-control {
 .modal .modal-dialog {
 	margin-top: 50px;
 }
+
 .form-control.StripeElement {
-    padding: 10px 14px;
-    background-image: none !important;
+	padding: 10px 14px;
+	background-image: none !important;
 }
 /* .form-control, .form-control:invalid, .is-focused .form-control { */
 /* 	box-shadow: none !important; */
@@ -102,7 +103,7 @@ span.form-control {
 														</select>
 													</div>
 												</div>
-												
+
 											</div>
 											@if(auth()->user()->user_role == 'customer') <input
 												type="hidden" name="customer_id"
@@ -377,8 +378,7 @@ span.form-control {
 														<div class="form-group ">
 															<label for="type_of_work" class="">Property type <select
 																id="type_of_work" name="type_of_work"
-																class="form-control js-example-basic-single"
-																>
+																class="form-control js-example-basic-single">
 																	<option disabled selected value="">Select property type</option>
 																	<option value="Residential">Residential</option>
 																	<option value="Commercial">Commercial</option>
@@ -771,8 +771,7 @@ span.form-control {
 							</div>
 							<div class="col-12 text-center">
 								<button id="addNewJobBtn"
-									class="btn btn-register btn-gardenhelp-green" >Add new
-									job</button>
+									class="btn btn-register btn-gardenhelp-green">Add new job</button>
 
 							</div>
 						</div>
@@ -959,6 +958,58 @@ span.form-control {
 	</div>
 	<!-- Map Navigation Modal -->
 </div>
+
+
+<!-- area-calculated-message-modal -->
+<div class="modal fade" id="area-calculated-message-modal" tabindex="-1"
+	role="dialog" aria-labelledby="area-calculated-message-label"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+
+				<button type="button" class="close d-flex justify-content-center"
+					data-dismiss="modal" aria-label="Close">
+					<i class="fas fa-times"></i>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row justify-content-center">
+					<div class="col-md-12">
+
+
+						<div class="row justify-content-center ">
+
+							<div class="col text-center">
+								<img src="{{asset('images/gardenhelp_icons/success.png')}}"
+									style="" alt="warning">
+							</div>
+						</div>
+						<div class="row justify-content-center mt-3">
+
+							<div class="col text-center">
+								<label class="modal-message-label">The land has been calculated
+									successfully </label>
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row justify-content-center mt-3">
+
+					<div class="col text-center">
+						<button type="button"
+							class="btn btn-register btn-gardenhelp-green mb-1"
+							data-dismiss="modal">Ok</button>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+<!-- end area-calculated-message-modal -->
 
 @endsection @section('page-scripts')
 <script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
@@ -1516,6 +1567,8 @@ span.form-control {
 			map.fitBounds(bounds);
         }
         
+        var total_property_size = 0;
+        var all_overlays = [];
         window.initMapDraw = function initMapDraw(){
         	
             //Marker
@@ -1547,6 +1600,7 @@ span.form-control {
     				attributes: true,
     				attributeFilter: ['autocomplete']
     			});
+    			
                 let autocomplete_location = new google.maps.places.Autocomplete(location_input);
                 autocomplete_location.setComponentRestrictions({'country': ['ie']});
                 autocomplete_location.addListener('place_changed', () => {
@@ -1603,6 +1657,7 @@ span.form-control {
             // });
 
             google.maps.event.addListener(drawingManager, 'overlaycomplete', function (e) {
+            	 all_overlays.push(e);
                 if (e.type != google.maps.drawing.OverlayType.MARKER) {
                     // Switch back to non-drawing mode after drawing a shape.
                     drawingManager.setDrawingMode(null);
@@ -1617,10 +1672,15 @@ span.form-control {
                     var area = google.maps.geometry.spherical.computeArea(newShape.getPath());
                     let property_size = $("#property_size");
                     let area_coordinates = $("#area_coordinates");
-                    app.property_size = area.toFixed(0) + ' Square Meters';
+                    total_property_size = parseInt(total_property_size) + parseInt(area.toFixed(0)); 
+                    app.property_size = total_property_size + ' Square Meters';
                     property_size.parent().addClass('is-filled');
                     area_coordinates.val(JSON.stringify(newShape.getPath().getArray()));
+                    
+                    $("#area-calculated-message-modal").modal('show');
+                    
                     setSelection(newShape);
+					
 
                 }
             });
@@ -1691,15 +1751,27 @@ span.form-control {
         }
 
         function deleteSelectedShape() {
-            if (selectedShape) {
-                selectedShape.setMap(null);
-                let property_size = $("#property_size");
+//             if (selectedShape) {
+//                 selectedShape.setMap(null);
+//                 let property_size = $("#property_size");
+//                 let area_coordinates = $("#area_coordinates");
+//                 area_coordinates.val('');
+//                 app.property_size = '';
+//                 total_property_size = 0;
+//                 property_size.parent().removeClass('is-filled');
+//                 clearMarkers();
+//             }
+             for (var i=0; i < all_overlays.length; i++)
+              {
+                all_overlays[i].overlay.setMap(null);
+              }
+              all_overlays = [];
+               let property_size = $("#property_size");
                 let area_coordinates = $("#area_coordinates");
                 area_coordinates.val('');
                 app.property_size = '';
+                total_property_size = 0;
                 property_size.parent().removeClass('is-filled');
-                clearMarkers();
-            }
         }
 
         function selectColor(color) {

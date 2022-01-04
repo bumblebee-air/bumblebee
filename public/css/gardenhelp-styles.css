@@ -98,14 +98,13 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	line-height: 19px;
 	letter-spacing: 0.32px;
 	color: #acb1c0;
-	
 }
 
 .form-group label {
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
-	font-size: 16px !important; 
+	font-size: 16px !important;
 	line-height: 19px;
 	color: #acb1c0;
 }
@@ -413,6 +412,16 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	color: #1e2432;
 }
 
+.modal-message-label {
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 30px;
+	line-height: 35px;
+	text-align: center;
+	color: #60A244;
+}
+
 .terms {
 	margin: 0 0 10px;
 	font-family: Roboto;
@@ -497,6 +506,7 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	letter-spacing: normal;
 	color: #60a244;
 	margin-bottom: 0px !important;
+	text-transform: capitalize;
 }
 
 .recommendContractorDataP {
@@ -509,6 +519,7 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	letter-spacing: normal;
 	color: #656565;
 	margin-bottom: 1px !important;
+	text-transform: capitalize;
 }
 
 .selected-contractor-card .recommendContractorNameH6 {
@@ -521,6 +532,7 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	letter-spacing: normal;
 	color: #60a244;
 	margin-bottom: 0px !important;
+	text-transform: capitalize;
 }
 
 .selected-contractor-card .recommendContractorDataP {

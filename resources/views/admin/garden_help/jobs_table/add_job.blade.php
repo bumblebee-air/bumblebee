@@ -3,7 +3,6 @@ Job') @section('page-styles')
 <link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
 
 <style>
-
 @media ( max-width : 767px) {
 	.container-fluid {
 		padding-left: 0px !important;
@@ -32,13 +31,37 @@ Job') @section('page-styles')
 }
 
 .requestSubTitle {
-	margin-top: 25px !important;
-	margin-bottom: 10px !important;
+	/*  	margin-top: 25px !important;  */
+	margin-bottom: 0 !important;
 }
 
-.form-control, .form-control:invalid, .is-focused .form-control {
-	box-shadow: none !important;
+span.form-control {
+	font-family: Roboto;
+	font-size: 17px !important;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.32px;
+	color: #1e2432 !important;
+	padding-left: 10px;
+	padding-right: 10px;
+	border-radius: 6px;
+	background-image: none !important;
+	min-height: 35px;
+	height: auto;
 }
+
+.modal .modal-dialog {
+	margin-top: 50px;
+}
+.form-control.StripeElement {
+    padding: 10px 14px;
+    background-image: none !important;
+}
+/* .form-control, .form-control:invalid, .is-focused .form-control { */
+/* 	box-shadow: none !important; */
+/* } */
 </style>
 <script src="https://js.stripe.com/v3/"></script>
 @endsection @section('page-content')
@@ -46,7 +69,8 @@ Job') @section('page-styles')
 	<div class="container-fluid">
 		<div class="container-fluid" id="app">
 			<form action="{{route('postAddJob', 'garden-help')}}" method="POST"
-				enctype="multipart/form-data" autocomplete="off" id="add-new-job" @submit="beforeSubmitForm">
+				enctype="multipart/form-data" autocomplete="off" id="add-new-job"
+				@submit="beforeSubmitForm">
 				{{csrf_field()}}
 				<div class="row">
 					<div class="col-md-12">
@@ -62,6 +86,9 @@ Job') @section('page-styles')
 									<div class="row">
 										<div class="col-md-7 col-sm-6 col-12">
 											<div class="row">
+												<div class="col-md-12">
+													<h5 class="requestSubTitle">Location Details</h5>
+												</div>
 												<div class="col-12">
 													<div class="form-group ">
 														<label for="work_location" class="">Location</label> <select
@@ -75,24 +102,14 @@ Job') @section('page-styles')
 														</select>
 													</div>
 												</div>
-
-												<div class="col-md-12">
-													<div class="form-group ">
-														<label for="type_of_work" class="">Type of work </label><select
-															id="type_of_work" name="type_of_work"
-															class="form-control js-example-basic-single"
-															v-model="type_of_work" onchange="changeWorkType()">
-															<option disabled selected value="">Select type of work</option>
-															<option value="Residential">Residential</option>
-															<option value="Commercial">Commercial</option>
-														</select>
-													</div>
-												</div>
-
-
+												
 											</div>
+											@if(auth()->user()->user_role == 'customer') <input
+												type="hidden" name="customer_id"
+												value="{{$current_user->id}}" /> @endif
 
-											<div class="row" v-if="type_of_work == 'Residential'">
+											@if(auth()->user()->user_role == 'client')
+											<div class="row mt-3" v-if="type_of_work == 'Residential'">
 												<div class="col-md-12">
 													<h5 class="requestSubTitle">Person Details</h5>
 												</div>
@@ -146,7 +163,7 @@ Job') @section('page-styles')
 											</div>
 
 
-											<div class="row" v-if="type_of_work == 'Commercial'">
+											<div class="row mt-3" v-if="type_of_work == 'Commercial'">
 												<div class="col-md-12">
 													<h5 class="requestSubTitle">Business Details</h5>
 												</div>
@@ -208,16 +225,15 @@ Job') @section('page-styles')
 												<div class="col-md-12">
 													<div class="form-group bmd-form-group is-filled">
 														<label for="available_date_time">Select from the available
-															date & time</label> 
-															<input name="available_date_time" type="text"
-																class="form-control datetimepicker"
-																id="available_date_time"
-																 required> 
+															date & time</label> <input name="available_date_time"
+															type="text" class="form-control datetimepicker"
+															id="available_date_time" required>
 													</div>
 												</div>
 
 											</div>
-											<div class="row" v-if="type_of_work != '' ">
+											@endif
+											<div class="row mt-3">
 												<div class="col-md-12">
 													<h5 class="requestSubTitle">Service Details</h5>
 												</div>
@@ -236,211 +252,397 @@ Job') @section('page-styles')
 													</div>
 												</div>
 											</div>
-											<div class="row" v-if="type_of_work != ''">
-												<div class="col-md-12">
-													<h5 class="requestSubTitle">Property Information</h5>
-												</div>
-												<div class="col-md-12">
-													<div class="form-group bmd-form-group">
-														<label class="" for="location">Address</label> <input
-															type="text" class="form-control" id="location"
-															name="location" value="{{old('location')}}" required> <input
-															type="hidden" id="location_coordinates"
-															name="location_coordinates">
+											<div>
+												<div class="row mt-3">
+													<div class="col-md-12">
+														<h5 class="requestSubTitle">Property Information</h5>
 													</div>
-												</div>
-
-												<div class="col-md-12 ">
-													<div
-														class="form-group form-file-upload form-file-multiple ">
-														<label class="bmd-label-static"
-															for="photographs_of_property"> Upload photographs of
-															property </label> <br> <input id="property_photo"
-															name="property_photo" type="file" class="inputFileHidden"
-															@change="onChangeFile($event, 'property_photo_input')">
-														<div class="input-group"
-															@click="addFile('property_photo')">
-															<input type="text" id="property_photo_input"
-																class="form-control inputFileVisible"
-																placeholder="Upload Photo" required> <span
-																class="input-group-btn">
-																<button type="button"
-																	class="btn btn-fab btn-round btn-success">
-																	<i class="fas fa-cloud-upload-alt"></i>
-																</button>
-															</span>
+													<div class="col-md-12">
+														<div class="form-group ">
+															<label for="property" class="">Property <select
+																id="property" name="property"
+																class="form-control js-example-basic-single"
+																v-model="property" onchange="changeProperty()">
+																	<option disabled selected value="">Select property</option>
+																	<option v-for="property in properties"
+																		:value="property.id">@{{property.location}}</option>
+																	<option value="other">Other</option>
+															</select></label>
 														</div>
 													</div>
 												</div>
 
+												<div class="row"
+													v-if="property != '' && property != 'other' ">
 
-												<div class="col-md-12">
-													<div class="form-group bmd-form-group">
-														<label>Property size</label> <input type="text"
-															class="form-control" id="property_size"
-															name="property_size"
-															required v-model="property_size">
+													<div class="col-12">
+														<div class="form-group bmd-form-group">
+															<label class="" for="location">Product type</label> <span
+																class="form-control">@{{selected_property.type_of_work}}</span>
+														</div>
 													</div>
+													<div class="col-12">
+														<div class="form-group bmd-form-group">
+															<label class="" for="location">Address</label> <span
+																class="form-control">@{{selected_property.location}}</span>
+														</div>
+													</div>
+													<div class="col-12">
+														<div class="form-group bmd-form-group">
+															<label class="">Property Image</label>
+															<div class="">
+																<img :src="'../../'+selected_property.property_photo"
+																	style="width: 200px; height: 200px">
+															</div>
+														</div>
+													</div>
+													<div class="col-12">
+														<div class="form-group bmd-form-group">
+															<label class="" for="location">Property size</label> <span
+																class="form-control">@{{selected_property.property_size}}</span>
+														</div>
+													</div>
+													<div class="col-12">
+														<div class="form-group bmd-form-group">
+															<label class="" for="location">Is this the first time you
+																do service for your property?</label> <span
+																class="form-control">@{{selected_property.is_first_time
+																? 'Yes' : 'No'}}</span>
+														</div>
+													</div>
+													<div class="col-12"
+														v-if="selected_property.is_first_time != 1">
+														<div class=" form-group bmd-form-group">
+															<label class="">When Was the last Service? </label><span
+																class="form-control customerRequestSpan col-12">
+																@{{selected_property.last_service}}</span>
+
+														</div>
+													</div>
+													<div class="col-12">
+														<div class="form-group bmd-form-group">
+															<label class="" for="location">Site details</label> <span
+																class="form-control">@{{selected_property.site_details}}</span>
+														</div>
+													</div>
+													<div class="col-12">
+														<div class="form-group bmd-form-group">
+															<label class="">Is there a parking access on site? </label><span
+																class="form-control customerRequestSpan col-12">@{{selected_property.is_parking_access
+																? 'Yes' : 'No'}}</span>
+
+														</div>
+													</div>
+
+													<div class="col-12">
+														<div class="form-group bmd-form-group">
+															<label class="" for="location">Is recurring? </label> <span
+																class="form-control">@{{selected_property.is_recurring ?
+																'Yes' : 'No'}}</span>
+														</div>
+													</div>
+													<div class="col-12"
+														v-if="selected_property.is_recurring == 1">
+														<div class=" form-group bmd-form-group">
+															<label class="">What is the frequency of the recurring in
+																months? </label> <span
+																class="form-control customerRequestSpan col-12">
+																@{{selected_property.recurring_frequency}}</span>
+
+														</div>
+													</div>
+
+													<div class="col-md-12">
+														<div class="form-group bmd-form-group">
+															<label for="available_date_time">Schedual at</label> <input
+																name="available_date_time" type="text"
+																class="form-control datetimepicker"
+																id="available_date_time"
+																value="{{old('available_date_time')}}"
+																required @focusout="getAvailableContractors">
+														</div>
+													</div>
+													<div class="col-md-12">
+														<div class="form-group bmd-form-group">
+															<label for="budget">Budget</label> <input name="budget"
+																type="number" min="0" class="form-control " id="budget"
+																value="{{old('budget')}}" required>
+														</div>
+													</div>
+
+												</div>
+												<div class="row"
+													v-if="property != '' && property == 'other' ">
+													<div class="col-md-12">
+														<div class="form-group ">
+															<label for="type_of_work" class="">Property type <select
+																id="type_of_work" name="type_of_work"
+																class="form-control js-example-basic-single"
+																>
+																	<option disabled selected value="">Select property type</option>
+																	<option value="Residential">Residential</option>
+																	<option value="Commercial">Commercial</option>
+															</select></label>
+														</div>
+													</div>
+
+
+													<div class="col-md-12">
+														<div class="form-group ">
+															<label class="" for="location">Address</label> <input
+																type="text" class="form-control js-example-basic-single"
+																id="location" name="location"
+																value="{{old('location')}}" required> <input
+																type="hidden" id="location_coordinates"
+																name="location_coordinates">
+														</div>
+													</div>
+													<div class="col-md-12 ">
+														<div
+															class="form-group form-file-upload form-file-multiple ">
+															<label class="bmd-label-static"
+																for="photographs_of_property">Property image </label> <br>
+															<input id="property_photo" name="property_photo"
+																type="file" class="inputFileHidden"
+																@change="onChangeFile($event, 'property_photo_input')">
+															<div class="input-group"
+																@click="addFile('property_photo')">
+																<input type="text" id="property_photo_input"
+																	class="form-control inputFileVisible"
+																	placeholder="Upload Photo" required> <span
+																	class="input-group-btn">
+																	<button type="button"
+																		class="btn btn-fab btn-round btn-success">
+																		<i class="fas fa-cloud-upload-alt"></i>
+																	</button>
+																</span>
+															</div>
+														</div>
+													</div>
+
+
+													<div class="col-md-12">
+														<div class="form-group bmd-form-group">
+															<label>Property size</label> <input type="text"
+																class="form-control" id="property_size"
+																name="property_size" required v-model="property_size">
+														</div>
+													</div>
+
+													<div class="col-md-12">
+														<div class="form-group bmd-form-group">
+															<label for="vat-number">Is this the first time you do
+																service for your property?</label>
+															<div class="row">
+																<div class="col">
+																	<div class="form-check form-check-radio">
+																		<label class="form-check-label"> <input
+																			class="form-check-input" type="radio"
+																			id="exampleRadios2" name="is_first_time"
+																			v-model="is_first_time" value="1"
+																			{{old('is_first_time') ===
+																			'1' ? 'checked' : ''}} required> Yes <span
+																			class="circle"> <span class="check"></span>
+																		</span>
+																		</label>
+																	</div>
+																</div>
+																<div class="col">
+																	<div class="form-check form-check-radio">
+																		<label class="form-check-label"> <input
+																			class="form-check-input" type="radio"
+																			id="exampleRadios1" name="is_first_time"
+																			v-model="is_first_time" value="0"
+																			{{old('is_first_time') ===
+																			'0' ? 'checked' : ''}} @click="changeIsFirst()"
+																			required> No <span class="circle"> <span
+																				class="check"></span>
+																		</span>
+																		</label>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<div class="col-md-12"
+														v-if="is_first_time != '' && is_first_time == 0">
+														<div class="form-group bmd-form-group">
+															<label for="type_of_experience">When was the last
+																service?</label>
+															<div class="d-flex justify-content-between"
+																@click="openModal('last_services')">
+																<input name="last_services" type="text"
+																	class="form-control" id="last_services"
+																	{{old('last_services')}} required>
+																<!--<a class="select-icon"> <i class="fas fa-caret-down"></i></a>-->
+															</div>
+														</div>
+													</div>
+
+													<div class="col-md-12">
+														<div class="form-group bmd-form-group">
+															<label for="type_of_experience">Site details</label>
+															<div class="d-flex justify-content-between"
+																@click="openModal('site_details')">
+																<input name="site_details" type="text"
+																	class="form-control" id="site_details"
+																	v-model="site_details_input"
+																	{{old('site_details')}} required> <a
+																	class="select-icon"> <i class="fas fa-caret-down"></i>
+																</a>
+															</div>
+														</div>
+													</div>
+
+													<div class="col-md-12">
+														<div class="form-group bmd-form-group">
+															<label for="vat-number">Is there a parking access on
+																site?</label>
+															<div class="row">
+																<div class="col">
+																	<div class="form-check form-check-radio">
+																		<label class="form-check-label"> <input
+																			class="form-check-input" type="radio"
+																			id="exampleRadios2" name="is_parking_site"
+																			v-model="is_parking_site" value="1"
+																			{{old('is_parking_site') ===
+																			'1' ? 'checked' : ''}} required> Yes <span
+																			class="circle"> <span class="check"></span>
+																		</span>
+																		</label>
+																	</div>
+																</div>
+																<div class="col">
+																	<div class="form-check form-check-radio">
+																		<label class="form-check-label"> <input
+																			class="form-check-input" type="radio"
+																			id="exampleRadios1" name="is_parking_site"
+																			v-model="is_parking_site" value="0"
+																			{{old('is_parking_site') ===
+																			'0' ? 'checked' : ''}} required> No <span
+																			class="circle"> <span class="check"></span>
+																		</span>
+																		</label>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<div class="col-md-12">
+														<div class="form-group bmd-form-group">
+															<label for="vat-number">Is recurring?</label>
+															<div class="row">
+																<div class="col">
+																	<div class="form-check form-check-radio">
+																		<label class="form-check-label"> <input
+																			class="form-check-input" type="radio"
+																			id="exampleRadios2" name="is_recurring"
+																			v-model="is_recurring" value="1"
+																			{{old('is_recurring') ===
+																			'1' ? 'checked' : ''}} required> Yes <span
+																			class="circle"> <span class="check"></span>
+																		</span>
+																		</label>
+																	</div>
+																</div>
+																<div class="col">
+																	<div class="form-check form-check-radio">
+																		<label class="form-check-label"> <input
+																			class="form-check-input" type="radio"
+																			id="exampleRadios1" name="is_recurring"
+																			v-model="is_recurring" value="0"
+																			{{old('is_recurring') ===
+																			'0' ? 'checked' : ''}} required> No <span
+																			class="circle"> <span class="check"></span>
+																		</span>
+																		</label>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<div class="col-md-12"
+														v-if="is_recurring != '' && is_recurring == 1">
+														<div class="form-group bmd-form-group">
+															<label for="type_of_experience">What is the frequency of
+																the recurring in months?</label> <input
+																name="recurring_frequency" type="number"
+																class="form-control" id="recurring_frequency"
+																value="{{old('recurring_frequency')}}" required>
+														</div>
+													</div>
+
+													<div class="col-md-12">
+														<div class="form-group bmd-form-group">
+															<label for="available_date_time">Schedual at</label> <input
+																name="available_date_time" type="text"
+																class="form-control datetimepicker"
+																id="available_date_time"
+																value="{{old('available_date_time')}}"
+																required @focusout="getAvailableContractors">
+														</div>
+													</div>
+													<div class="col-md-12">
+														<div class="form-group bmd-form-group">
+															<label for="budget">Budget</label> <input name="budget"
+																type="number" min="0" class="form-control " id="budget"
+																value="{{old('budget')}}" required>
+														</div>
+													</div>
+
 												</div>
 
-												<div class="col-md-12">
-													<div class="form-group bmd-form-group">
-														<label for="vat-number">Is this the first time you do
-															service for your property?</label>
+											</div>
+
+										</div>
+										<div class="col-md-5 col-sm-6 col-12">
+											<div class="row "
+												style="margin-top: -20px; margin-bottom: 5px">
+												<div class="col-md-10">
+													<h5 class="requestSubTitle mb-3">Select location on map</h5>
+												</div>
+												<div class="col-md-2 mt-2">
+													<button type="button"
+														class="btn-contrainer-img float-right" data-toggle="modal"
+														data-target="#map-navigation-modal">
+														<img
+															src="{{asset('images/gardenhelp_icons/info-icon.png')}}"
+															style="width: 25px" alt="GardenHelp">
+													</button>
+												</div>
+											</div>
+											<div id="area"></div>
+											<div id="map" style="height: 100%; margin-top: 0"></div>
+											<input type="hidden" id="area_coordinates"
+												name="area_coordinates">
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="card">
+
+							<div class="card-body">
+								<div class="container">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group bmd-form-group">
+												<div class="row mt-3">
+													<div class="col-md-12">
+														<h5 class="requestSubTitle">Payment Details</h5>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-3 d-flex align-content-center p-4">
+														<img src="{{asset('images/powered-by-stripe.png')}}"
+															style="width: 100%" alt="Powred By Stripe">
+													</div>
+													<div class="col-md-9">
 														<div class="row">
-															<div class="col">
-																<div class="form-check form-check-radio">
-																	<label class="form-check-label"> <input
-																		class="form-check-input" type="radio"
-																		id="exampleRadios2" name="is_first_time"
-																		v-model="is_first_time" value="1"
-																		{{old('is_first_time') ===
-																		'1' ? 'checked' : ''}} required> Yes <span
-																		class="circle"> <span class="check"></span>
-																	</span>
-																	</label>
-																</div>
-															</div>
-															<div class="col">
-																<div class="form-check form-check-radio">
-																	<label class="form-check-label"> <input
-																		class="form-check-input" type="radio"
-																		id="exampleRadios1" name="is_first_time"
-																		v-model="is_first_time" value="0"
-																		{{old('is_first_time') ===
-																		'0' ? 'checked' : ''}} @click="changeIsFirst()"
-																		required> No <span class="circle"> <span class="check"></span>
-																	</span>
-																	</label>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-
-												<div class="col-md-12"
-													v-if="is_first_time != '' && is_first_time == 0">
-													<div class="form-group bmd-form-group">
-														<label for="type_of_experience">When was the last service?</label>
-														<div class="d-flex justify-content-between"
-															@click="openModal('last_services')">
-															<input name="last_services" type="text"
-																class="form-control" id="last_services"
-																{{old('last_services')}} required>
-															<!--<a class="select-icon"> <i class="fas fa-caret-down"></i></a>-->
-														</div>
-													</div>
-												</div>
-
-												<div class="col-md-12">
-													<div class="form-group bmd-form-group">
-														<label for="type_of_experience">Site details</label>
-														<div class="d-flex justify-content-between"
-															@click="openModal('site_details')">
-															<input name="site_details" type="text"
-																class="form-control" id="site_details"
-																v-model="site_details_input"
-																{{old('site_details')}} required> <a class="select-icon">
-																<i class="fas fa-caret-down"></i>
-															</a>
-														</div>
-													</div>
-												</div>
-
-												<div class="col-md-12">
-													<div class="form-group bmd-form-group">
-														<label for="vat-number">Is there a parking access on site?</label>
-														<div class="row">
-															<div class="col">
-																<div class="form-check form-check-radio">
-																	<label class="form-check-label"> <input
-																		class="form-check-input" type="radio"
-																		id="exampleRadios2" name="is_parking_site"
-																		v-model="is_parking_site" value="1"
-																		{{old('is_parking_site') ===
-																		'1' ? 'checked' : ''}} required> Yes <span
-																		class="circle"> <span class="check"></span>
-																	</span>
-																	</label>
-																</div>
-															</div>
-															<div class="col">
-																<div class="form-check form-check-radio">
-																	<label class="form-check-label"> <input
-																		class="form-check-input" type="radio"
-																		id="exampleRadios1" name="is_parking_site"
-																		v-model="is_parking_site" value="0"
-																		{{old('is_parking_site') ===
-																		'0' ? 'checked' : ''}} required> No <span
-																		class="circle"> <span class="check"></span>
-																	</span>
-																	</label>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-
-												<div class="col-md-12">
-													<div class="form-group bmd-form-group">
-														<label for="vat-number">Is recurring?</label>
-														<div class="row">
-															<div class="col">
-																<div class="form-check form-check-radio">
-																	<label class="form-check-label"> <input
-																				class="form-check-input" type="radio"
-																				id="exampleRadios2" name="is_recurring"
-																				v-model="is_recurring" value="1"
-																				{{old('is_recurring') ===
-                                                                                '1' ? 'checked' : ''}} required> Yes <span
-																				class="circle"> <span class="check"></span>
-																	</span>
-																	</label>
-																</div>
-															</div>
-															<div class="col">
-																<div class="form-check form-check-radio">
-																	<label class="form-check-label"> <input
-																				class="form-check-input" type="radio"
-																				id="exampleRadios1" name="is_recurring"
-																				v-model="is_recurring" value="0"
-																				{{old('is_recurring') ===
-                                                                                '0' ? 'checked' : ''}} required> No <span
-																				class="circle"> <span class="check"></span>
-																	</span>
-																	</label>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-
-												<div class="col-md-12"
-													 v-if="is_recurring != '' && is_recurring == 1">
-													<div class="form-group bmd-form-group">
-														<label for="type_of_experience">What is the frequency of the recurring in months?</label>
-														<input name="recurring_frequency" type="number" class="form-control" id="recurring_frequency" value="{{old('recurring_frequency')}}" required>
-													</div>
-												</div>
-
-												<div class="col-md-12">
-													<div class="form-group bmd-form-group">
-														<label for="available_date_time">Schedual at</label>
-														{{--                                <div class="d-flex justify-content-between">--}}
-														<input name="available_date_time" type="text" class="form-control datetimepicker" id="available_date_time" value="{{old('available_date_time')}}" required @focusout="getAvailableContractors">
-														{{--                                    <a class="select-icon">--}}
-														{{--                                        <i class="fas fa-caret-down"></i>--}}
-														{{--                                    </a>--}}
-														{{--                                </div>--}}
-													</div>
-												</div>
-
-												<div class="col-md-12">
-													<div class="form-group bmd-form-group">
-														<div class="row">
-															<div class="col-md-12">
-																<h5 class="requestSubTitle">Payment Details</h5>
-															</div>
 															<div class="col-md-12">
 																<div class="form-group bmd-form-group">
 																	<label>Card Number</label>
@@ -462,31 +664,20 @@ Job') @section('page-styles')
 														</div>
 													</div>
 												</div>
-
-
 											</div>
-
 										</div>
-										<div class="col-md-5 col-sm-6 col-12">
-											<div class="row justify-content-center" style="margin-top: -20px; margin-bottom: 5px">
-												<button type="button" class="btn btn-sm btn-outline-success btn-round" data-toggle="modal" data-target="#map-navigation-modal">How to navigate map?</button>
-											</div>
-											<div id="area"></div>
-											<div id="map" style="height: 100%; margin-top: 0"></div>
-											<input type="hidden" id="area_coordinates"
-												name="area_coordinates">
-										</div>
-
 									</div>
 								</div>
 							</div>
 						</div>
 
 						<div class="row">
-							<div class="col-lg-6">
+							@if(auth()->user()->user_role == 'client')
+							<div class="col-lg-12">
 								<div class="card ">
 									<div class="card-body" style="padding-top: 0 !important;">
-										<div class="container" style="padding-bottom: 10px !important;">
+										<div class="container"
+											style="padding-bottom: 10px !important;">
 											<div class="row">
 												<div class="col-12">
 													<div class=" row">
@@ -497,12 +688,14 @@ Job') @section('page-styles')
 													</div>
 												</div>
 												<div class="col-12">
-													<div class="row" v-for="type in service_types" v-if="type.is_checked">
+													<div class="row" v-for="type in service_types"
+														v-if="type.is_checked">
 														<div class="col-md-3 col-6">
 															<label class="requestLabelGreen">@{{ type.title }}</label>
 														</div>
-														<div class="col-md-3 col-6">
-															<span class="requestSpanGreen">€@{{ getPropertySizeRate(type) }}</span>
+														<div class="col-md-9 col-6">
+															<span class="requestSpanGreen">€@{{
+																getPropertySizeRate(type) }}</span>
 														</div>
 													</div>
 
@@ -510,8 +703,9 @@ Job') @section('page-styles')
 														<div class="col-md-3 col-6">
 															<label class="requestLabelGreen">VAT</label>
 														</div>
-														<div class="col-md-3 col-6">
-															<span class="requestSpanGreen">€@{{ getVat(13.5, getTotalPrice()) }} (13.5%)</span>
+														<div class="col-md-9 col-6">
+															<span class="requestSpanGreen">€@{{ getVat(13.5,
+																getTotalPrice()) }} (13.5%)</span>
 														</div>
 													</div>
 
@@ -519,44 +713,53 @@ Job') @section('page-styles')
 														<div class="col-md-3 col-6">
 															<label class="requestSpanGreen">Total</label>
 														</div>
-														<div class="col-md-3 col-6">
-															<span class="requestSpanGreen">€@{{ (getTotalPrice() - this.percentage + getVat(13.5, getTotalPrice())).toFixed(2) }} - €@{{ (getTotalPrice() + this.percentage + getVat(13.5, getTotalPrice())).toFixed(2) }}</span>
+														<div class="col-md-9 col-6">
+															<span class="requestSpanGreen">€@{{ (getTotalPrice() -
+																this.percentage + getVat(13.5,
+																getTotalPrice())).toFixed(2) }} - €@{{ (getTotalPrice()
+																+ this.percentage + getVat(13.5,
+																getTotalPrice())).toFixed(2) }}</span>
 														</div>
 													</div>
-													<input type="hidden" name="services_types_json" v-model="JSON.stringify(services_types_json)">
+													<input type="hidden" name="services_types_json"
+														v-model="JSON.stringify(services_types_json)">
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-							<div class="col-lg-6" v-if="available_contractors.length > 0">
+							@endif
+							<div class="col-lg-12" v-if="available_contractors.length > 0">
 								<div class="card ">
 									<div class="card-body" style="padding-top: 0 !important;">
-										<div class="container" style="padding-bottom: 10px !important;">
+										<div class="container"
+											style="padding-bottom: 10px !important;">
 											<div class="row">
 												<div class="col-lg-12 d-flex">
 													<div class="row">
 														<div class="col-12">
 															<div class=" row">
 																<div class="col-12">
-																	<h5 class="cardTitleGreen requestSubTitle ">Available contractors on this date</h5>
+																	<h5 class="cardTitleGreen requestSubTitle ">Available
+																		contractors on this date</h5>
 																</div>
 															</div>
 														</div>
 														<div class="col-12">
-															<div class="row" v-for="contractor in available_contractors" v-if="available_contractors.length > 0">
+															<div class="row"
+																v-for="contractor in available_contractors"
+																v-if="available_contractors.length > 0">
 																<div class="col-md-3 col-6">
 																	<span class="requestSpanGreen">@{{ contractor.name }} </span>
 																</div>
 																<div class="col-md-3 col-6">
-																	<label class="requestLabelGreen">@{{ contractor.experience_level }}</label>
+																	<label class="requestLabelGreen">@{{
+																		contractor.experience_level }}</label>
 																</div>
 															</div>
 															<div class="col text-center" v-else>
-																<div>
-																	There is no contractors available on this date.
-																</div>
+																<div>There is no contractors available on this date.</div>
 															</div>
 														</div>
 													</div>
@@ -568,13 +771,14 @@ Job') @section('page-styles')
 							</div>
 							<div class="col-12 text-center">
 								<button id="addNewJobBtn"
-									class="btn btn-register btn-gardenhelp-green" disabled>Add
-									new job</button>
+									class="btn btn-register btn-gardenhelp-green" >Add new
+									job</button>
 
 							</div>
 						</div>
 
 					</div>
+
 				</div>
 			</form>
 		</div>
@@ -604,30 +808,37 @@ Job') @section('page-styles')
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-md-12" v-for="(type, index) in service_types">
-							<div class="d-flex justify-content-between" @click="toggleCheckedValue(type)">
-								<label for="my-check-box" :class="type.is_checked == true ? 'my-check-box-label my-check-box-label-checked' : 'my-check-box-label'">@{{ type.title }}</label>
+							<div class="d-flex justify-content-between"
+								@click="toggleCheckedValue(type)">
+								<label for="my-check-box"
+									:class="type.is_checked == true ? 'my-check-box-label my-check-box-label-checked' : 'my-check-box-label'">@{{
+									type.title }}</label>
 								<div class="my-check-box" id="check">
-									<i :class="type.is_checked == true ? 'fas fa-check-square checked' : 'fas fa-check-square'"></i>
+									<i
+										:class="type.is_checked == true ? 'fas fa-check-square checked' : 'fas fa-check-square'"></i>
 								</div>
 							</div>
-							<div class="col-md-12 d-flex" v-if="type.is_checked == true && type.is_service_recurring == true">
-								<div class="form-check form-check-radio form-check-inline d-flex justify-content-between">
-									<label class="form-check-label">
-										<input class="form-check-input" type="radio"
-											   :name="'is_recurring' + index" id="inlineRadio1"
-											   value="1" v-model="type.is_recurring" checked> Recurring <span
-												class="circle"> <span class="check"></span>
-												</span>
+							<div class="col-md-12 d-flex"
+								v-if="type.is_checked == true && type.is_service_recurring == true">
+								<div
+									class="form-check form-check-radio form-check-inline d-flex justify-content-between">
+									<label class="form-check-label"> <input
+										class="form-check-input" type="radio"
+										:name="'is_recurring' + index" id="inlineRadio1" value="1"
+										v-model="type.is_recurring" checked> Recurring <span
+										class="circle"> <span class="check"></span>
+									</span>
 									</label>
 								</div>
 
-								<div class="form-check form-check-radio form-check-inline d-flex justify-content-between">
-									<label class="form-check-label">
-										<input class="form-check-input" type="radio"
-											   :name="'is_recurring' + index" id="inlineRadio1"
-											   value="0" v-model="type.is_recurring"> Once <span
-												class="circle"> <span class="check"></span>
-												</span>
+								<div
+									class="form-check form-check-radio form-check-inline d-flex justify-content-between">
+									<label class="form-check-label"> <input
+										class="form-check-input" type="radio"
+										:name="'is_recurring' + index" id="inlineRadio1" value="0"
+										v-model="type.is_recurring"> Once <span class="circle"> <span
+											class="check"></span>
+									</span>
 									</label>
 								</div>
 							</div>
@@ -693,38 +904,55 @@ Job') @section('page-styles')
 	<!-- end modal site details -->
 
 	<!-- Map Navigation Modal -->
-	<div class="modal fade bd-example-modal-lg" id="map-navigation-modal" tabindex="-1" role="dialog" aria-labelledby="map-navigationLabel" aria-hidden="true">
+	<div class="modal fade bd-example-modal-lg" id="map-navigation-modal"
+		tabindex="-1" role="dialog" aria-labelledby="map-navigationLabel"
+		aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-{{--				<div class="modal-header">--}}
-{{--					<h5 class="modal-title text-left registerModalTitle"--}}
-{{--						id="map-navigationLabel">Site Details</h5>--}}
-{{--					<button type="button" class="close" data-dismiss="modal"--}}
-{{--							aria-label="Close">--}}
-{{--						<span aria-hidden="true">&times;</span>--}}
-{{--					</button>--}}
-{{--				</div>--}}
+				{{--
+				<div class="modal-header">
+					--}} {{--
+					<h5 class="modal-title text-left registerModalTitle"
+						--}}
+{{--						id="map-navigationLabel">Site Details</h5>
+					--}} {{--
+					<button type="button" class="close" data-dismiss="modal"
+						--}}
+{{--							aria-label="Close">
+						--}} {{-- <span aria-hidden="true">&times;</span>--}} {{--
+					</button>
+					--}} {{--
+				</div>
+				--}}
 				<div class="modal-body">
 					<div class="container-fluid">
 						<div class="row">
-						<div class="col-md-6 col-sm-12 d-flex justify-content-center align-content-center p-3">
-							<img src="{{asset('images/map-navigation-step-1.png')}}" alt="step-1" style="width: 70%">
+							<div
+								class="col-md-6 col-sm-12 d-flex justify-content-center align-content-center p-3">
+								<img src="{{asset('images/map-navigation-step-1.png')}}"
+									alt="step-1" style="width: 95%; height: 95%">
+							</div>
+							<div
+								class="col-md-6 col-sm-12 d-flex justify-content-center align-content-center p-3">
+								<img src="{{asset('images/map-navigation-step-2.png')}}"
+									alt="step-2" style="width: 95%; height: 95%">
+							</div>
+							<div
+								class="col-md-6 col-sm-12 d-flex justify-content-center align-content-center p-3">
+								<img src="{{asset('images/map-navigation-step-3.png')}}"
+									alt="step-3" style="width: 95%; height: 95%">
+							</div>
+							<div
+								class="col-md-6 col-sm-12 d-flex justify-content-center align-content-center p-3">
+								<img src="{{asset('images/map-navigation-step-4.png')}}"
+									alt="step-4" style="width: 95%; height: 95%">
+							</div>
 						</div>
-						<div class="col-md-6 col-sm-12 d-flex justify-content-center align-content-center p-3">
-							<img src="{{asset('images/map-navigation-step-2.png')}}" alt="step-2" style="width: 70%">
-						</div>
-						<div class="col-md-6 col-sm-12 d-flex justify-content-center align-content-center p-3">
-							<img src="{{asset('images/map-navigation-step-3.png')}}" alt="step-3" style="width: 70%">
-						</div>
-						<div class="col-md-6 col-sm-12 d-flex justify-content-center align-content-center p-3">
-							<img src="{{asset('images/map-navigation-step-4.png')}}" alt="step-4" style="width: 70%">
-						</div>
-					</div>
 					</div>
 				</div>
 				<div class="modal-footer justify-content-center">
 					<button type="button" class="btn btn-register btn-gardenhelp-green"
-							data-dismiss="modal">Ok</button>
+						data-dismiss="modal">Ok</button>
 				</div>
 			</div>
 		</div>
@@ -781,7 +1009,7 @@ Job') @section('page-styles')
             } else {
                 setTimeout(() => {
                     window.initMap();
-                    window.initAutoComplete()
+                    //window.initAutoComplete()
                     $('#available_date_time').datetimepicker({
                         icons: {
                             time: "fa fa-clock",
@@ -814,6 +1042,58 @@ Job') @section('page-styles')
                 preferredCountries: ['IE', 'GB'],
                 utilsScript: "{{asset('js/intlTelInput/utils.js')}}"
             });
+        }
+        
+        
+    	function changeProperty(){
+               console.log("ssss") 
+               console.log($('option:selected',$("#property")).index()); 
+            app.property=$("#property").val();
+           
+            
+            if(app.property === 'other'){
+            	 setTimeout(() => {
+                    window.initMap();
+                    window.initMapDraw();
+                   // window.initAutoComplete();
+                     $("#type_of_work").select2();
+                	$('#available_date_time').datetimepicker({
+						icons: {
+							time: "fa fa-clock",
+							date: "fa fa-calendar",
+							up: "fa fa-chevron-up",
+							down: "fa fa-chevron-down",
+							previous: 'fa fa-chevron-left',
+							next: 'fa fa-chevron-right',
+							today: 'fa fa-screenshot',
+							clear: 'fa fa-trash',
+							close: 'fa fa-remove'
+						}
+					});
+                 }, 500)
+            	app.selected_property = {};
+            }else{
+                 console.log(app.properties[$('option:selected',$("#property")).index()-1])
+                app.selected_property = app.properties[$('option:selected',$("#property")).index()-1]
+                setTimeout(() => {
+                    area_coordinates = app.selected_property.area_coordinates;
+                        window.initMapDisplay();
+                        
+                        $('#available_date_time').datetimepicker({
+    						icons: {
+    							time: "fa fa-clock",
+    							date: "fa fa-calendar",
+    							up: "fa fa-chevron-up",
+    							down: "fa fa-chevron-down",
+    							previous: 'fa fa-chevron-left',
+    							next: 'fa fa-chevron-right',
+    							today: 'fa fa-screenshot',
+    							clear: 'fa fa-trash',
+    							close: 'fa fa-remove'
+    						}
+    					});
+    			}, 500)		
+            }
         }
         
         var app = new Vue({
@@ -930,7 +1210,10 @@ Job') @section('page-styles')
 				property_size: "{{old('property_size') ? old('property_size') : ''}}",
 				services_types_json: [],
 				is_recurring: '',
-				available_contractors: []
+				available_contractors: [],
+				property: '',
+				properties : {!! json_encode($properties) !!},
+				selected_property: null
             },
             mounted() {
                 if (this.type_of_work == 'Commercial') {
@@ -947,7 +1230,7 @@ Job') @section('page-styles')
                             close: 'fa fa-remove'
                         }
                     });
-                    this.addIntelInput('contact_number', 'contact_number');
+                    //this.addIntelInput('contact_number', 'contact_number');
                 } else if (this.type_of_work == 'Residential') {
                     /*$('#last_services').datetimepicker({
                         icons: {
@@ -962,25 +1245,41 @@ Job') @section('page-styles')
                             close: 'fa fa-remove'
                         }
                     });*/
-                    this.addIntelInput('phone', 'phone');
+                    $('#available_date_time').datetimepicker({
+						icons: {
+							time: "fa fa-clock",
+							date: "fa fa-calendar",
+							up: "fa fa-chevron-up",
+							down: "fa fa-chevron-down",
+							previous: 'fa fa-chevron-left',
+							next: 'fa fa-chevron-right',
+							today: 'fa fa-screenshot',
+							clear: 'fa fa-trash',
+							close: 'fa fa-remove'
+						}
+					});
+                   // this.addIntelInput('phone', 'phone');
+                   
                 }
             },
             methods: {
             	beforeSubmitForm(e) {
             		e.preventDefault();
-					if ($('#area_coordinates').val() == "") {
-						swal({
-							icon: 'warning',
-							text: 'Please make sure you have selected the area on the map!',
-						});
-						return;
-					}
-					if ($('#location_coordinates').val() == "") {
-						swal({
-							icon: 'warning',
-							text: 'Please make sure you have selected an address from Google suggestions!',
-						});
-						return;
+            		if($("#property").val()=='other'){
+    					if ($('#area_coordinates').val() == "") {
+    						swal({
+    							icon: 'warning',
+    							text: 'Please make sure you have selected the area on the map!',
+    						});
+    						return;
+    					}
+    					if ($('#location_coordinates').val() == "") {
+    						swal({
+    							icon: 'warning',
+    							text: 'Please make sure you have selected an address from Google suggestions!',
+    						});
+    						return;
+    					}
 					}
             		generateStripeToken(e)
 				},
@@ -1073,7 +1372,7 @@ Job') @section('page-styles')
                 },
                 changeWorkType() {
                    // alert('ss');
-                    // app.type_of_work = $("#type_of_work").val();
+                     app.type_of_work = $("#type_of_work").val();
 
                     if ($("#type_of_work").val() == 'Residential') {
                         setTimeout(() => {
@@ -1180,7 +1479,45 @@ Job') @section('page-styles')
                 disableDefaultUI: true,
 				mapTypeId: 'hybrid'
 			});
+        }
+        
+        let area_coordinates ;
+        window.initMapDisplay = function initMapDisplay(){
+        	//Map Initialization
+			this.map = new google.maps.Map(document.getElementById('map'), {
+				zoom: 12,
+				center: {lat: 53.346324, lng: -6.258668},
+				mapTypeId: 'hybrid'
+			});
 
+			// Define the LatLng coordinates for the polygon's path.
+			
+			const polygonCoords = JSON.parse(area_coordinates);
+			// Construct the polygon.
+			const polygon = new google.maps.Polygon({
+				paths: polygonCoords,
+				strokeColor: "#0068b8",
+				strokeOpacity: 0.26,
+				strokeWeight: 2,
+				fillColor: "#0068b8",
+				fillOpacity: 0.35,
+			});
+			polygon.setMap(map);
+			// Create the bounds object
+			var bounds = new google.maps.LatLngBounds();
+
+			// Get paths from polygon and set event listeners for each path separately
+			polygon.getPath().forEach(function (path, index) {
+
+				bounds.extend(path);
+			});
+
+			// Fit Polygon path bounds
+			map.fitBounds(bounds);
+        }
+        
+        window.initMapDraw = function initMapDraw(){
+        	
             //Marker
             let marker_icon = {
                 url: "{{asset('images/doorder_driver_assets/customer-address-pin.png')}}",
@@ -1199,38 +1536,41 @@ Job') @section('page-styles')
 
             //Autocomplete Initialization
             let location_input = document.getElementById('location');
-			//Mutation observer hack for chrome address autofill issue
-			let observerHackAddress = new MutationObserver(function() {
-				observerHackAddress.disconnect();
-				location_input.setAttribute("autocomplete", "new-password");
-			});
-			observerHackAddress.observe(location_input, {
-				attributes: true,
-				attributeFilter: ['autocomplete']
-			});
-            let autocomplete_location = new google.maps.places.Autocomplete(location_input);
-            autocomplete_location.setComponentRestrictions({'country': ['ie']});
-            autocomplete_location.addListener('place_changed', () => {
-                let place = autocomplete_location.getPlace();
-                if (!place.geometry) {
-                    // User entered the name of a Place that was not suggested and
-                    // pressed the Enter key, or the Place Details request failed.
-                    window.alert("No details available for input: '" + place.name + "'");
-                } else {
-                    let place_lat = place.geometry.location.lat();
-                    let place_lon = place.geometry.location.lng();
-
-                    locationMarker.setPosition({lat: place_lat, lng: place_lon})
-                    locationMarker.setVisible(true);
-
-                    //Fit Bounds
-                    let bounds = new google.maps.LatLngBounds();
-                    bounds.extend({lat: place_lat, lng: place_lon})
-                    this.map.fitBounds(bounds);
-
-                    document.getElementById("location_coordinates").value = '{"lat": ' + place_lat.toFixed(5) + ', "lon": ' + place_lon.toFixed(5) + '}';
-                }
-            });
+            console.log(location_input)
+            if(location_input != null){
+    			//Mutation observer hack for chrome address autofill issue
+    			let observerHackAddress = new MutationObserver(function() {
+    				observerHackAddress.disconnect();
+    				location_input.setAttribute("autocomplete", "new-password");
+    			});
+    			observerHackAddress.observe(location_input, {
+    				attributes: true,
+    				attributeFilter: ['autocomplete']
+    			});
+                let autocomplete_location = new google.maps.places.Autocomplete(location_input);
+                autocomplete_location.setComponentRestrictions({'country': ['ie']});
+                autocomplete_location.addListener('place_changed', () => {
+                    let place = autocomplete_location.getPlace();
+                    if (!place.geometry) {
+                        // User entered the name of a Place that was not suggested and
+                        // pressed the Enter key, or the Place Details request failed.
+                        window.alert("No details available for input: '" + place.name + "'");
+                    } else {
+                        let place_lat = place.geometry.location.lat();
+                        let place_lon = place.geometry.location.lng();
+    
+                        locationMarker.setPosition({lat: place_lat, lng: place_lon})
+                        locationMarker.setVisible(true);
+    
+                        //Fit Bounds
+                        let bounds = new google.maps.LatLngBounds();
+                        bounds.extend({lat: place_lat, lng: place_lon})
+                        this.map.fitBounds(bounds);
+    
+                        document.getElementById("location_coordinates").value = '{"lat": ' + place_lat.toFixed(5) + ', "lon": ' + place_lon.toFixed(5) + '}';
+                    }
+                });
+             }   
 
             //Map drawing
             var polyOptions = {
@@ -1450,6 +1790,8 @@ Job') @section('page-styles')
 		classes: elementClasses,
 	});
 
+	initStripeElements();
+					
 	function initStripeElements() {
 		// Add an instance of the card Element into the `card-element` <div>
 		cardNumber.mount('#card_number');

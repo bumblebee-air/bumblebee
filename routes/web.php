@@ -309,6 +309,16 @@ Route::group(
                 Route::get('/', 'doorder\SettingsController@getSettings')->name('garden_help_getSetting');
                 Route::post('save_notification', 'doorder\SettingsController@postSaveNotification')->name('gardenhelp_postSaveNotification');
             });
+            Route::group([
+                'prefix' => 'properties'
+            ], function () {
+                Route::get('/', 'garden_help\PropertiesController@index')->name('garden_help_getProperties');
+                Route::get('add', 'garden_help\PropertiesController@add')->name('gardenhelp_addProperties');
+                Route::post('save', 'garden_help\PropertiesController@save')->name('gardenhelp_saveProperties');
+                Route::get('edit/{id}', 'garden_help\PropertiesController@edit')->name('gardenhelp_editProperties');
+                Route::post('update/{id}', 'garden_help\PropertiesController@update')->name('gardenhelp_updateProperties');
+                Route::post('delete/{id}', 'garden_help\PropertiesController@delete')->name('gardenhelp_deletetProperties');
+            });
             Route::post('send_notification_contractor', 'garden_help\InvoiceController@postSendNotification')->name('garden_help_sendNotificationDriver');
             Route::post('payout_contractor_invoice', 'garden_help\InvoiceController@postPayout')->name('garden_help_sendNotificationContractor');
             Route::post('update_contractor_last_payout_date', 'garden_help\InvoiceController@postUpdateLastPayoutDate')->name('garden_help_updateContractorLastPayout');

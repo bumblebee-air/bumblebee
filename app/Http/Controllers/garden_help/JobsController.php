@@ -149,6 +149,7 @@ class JobsController extends Controller
 
     public function addNewJob()
     {
+        
         $current_user = auth()->user();
         
         $services = GardenServiceType::all();
@@ -159,15 +160,16 @@ class JobsController extends Controller
         }
         
         
-        //$properties = Customer::get();
+        $properties = Customer::get();
                 
         return view('admin.garden_help.jobs_table.add_job', ['services' => $services, 'current_user' => $current_user, 'type_of_work'=>'Residential'
-           // ,'properties'=>$properties
+            ,'properties'=>$properties
         ]);
     }
 
     public function postNewJob(Request $request)
     {
+        dd($request);
         $this->validate($request, [
             'work_location' => 'required'
         ]);

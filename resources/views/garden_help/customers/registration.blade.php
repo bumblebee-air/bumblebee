@@ -75,6 +75,13 @@ input.form-control {
 .my-check-box i {
 	font-size: 20px
 }
+
+.form-group label {
+	position: initial !important;
+}
+.is-focused{
+    box-shadow: none;
+}
 </style>
 @endsection @section('content')
 
@@ -109,21 +116,10 @@ input.form-control {
 									<div class="col-md-12">
 										<h6 class="loginH6">Create Account</h6>
 									</div>
-									<div class="col-md-12">
-										<div class="form-group ">
-											<label for="type_of_work" class="">Type of work <select
-												id="type_of_work" name="type_of_work"
-												class="form-control js-example-basic-single"
-												v-model="type_of_work" onchange="changeWorkType()">
-													<option disabled selected value="">Select type of work</option>
-													<option value="Residential">Residential</option>
-													<option value="Commercial">Commercial</option>
-											</select></label>
-										</div>
-									</div>
+
 								</div>
 
-								<div class="row" v-if="type_of_work == 'Residential'">
+								<div class="row">
 
 									<div class="col-md-12">
 										<div class="form-group bmd-form-group  my-1">
@@ -192,175 +188,40 @@ input.form-control {
 										</div>
 									</div>
 									<div class="col-md-12">
-										<div class="form-group">
+										<div class="form-group bmd-form-group">
 											<label>Contact through</label>
-											<div class="d-flex">
-												<div class="contact-through d-flex pr-5"
-													@click="changeContact('whatsapp')">
-													<div id="check"
-														:class="contact_through == 'whatsapp' ? 'my-check-box checked' : 'my-check-box'">
-														<i class="fas fa-check-square"></i>
+											<div class="row">
+												<div class="col">
+													<div class="contact-through d-flex pr-5"
+														@click="changeContact('phone')">
+														<div id="check"
+															:class="contact_through == 'phone' ? 'my-check-box checked' : 'my-check-box'">
+															<i class="fas fa-check-square"></i>
+														</div>
+														<label class="form-check-label">Phone number</label>
 													</div>
-													<label class="form-check-label">Whatsapp</label>
 												</div>
 
-												<div class="contact-through d-flex"
-													@click="changeContact('sms')">
-													<div id="check"
-														:class="contact_through == 'sms' ? 'my-check-box checked' : 'my-check-box'">
-														<i class="fas fa-check-square"></i>
+												<div class="col">
+													<div class="contact-through d-flex"
+														@click="changeContact('email')">
+														<div id="check"
+															:class="contact_through == 'email' ? 'my-check-box checked' : 'my-check-box'">
+															<i class="fas fa-check-square"></i>
+														</div>
+														<label class="form-check-label">Email</label>
 													</div>
-													<label class="form-check-label">SMS</label>
 												</div>
-												<input type="hidden" v-model="contact_through"
-													name="contact_through">
 											</div>
+
+											<input type="hidden" v-model="contact_through"
+												name="contact_through">
 										</div>
 									</div>
 
 								</div>
 
-								<div class="row" v-if="type_of_work == 'Commercial'">
 
-									<div class="col-md-12">
-										<div class="form-group bmd-form-group">
-											<label class="bmd-form-floating">Business name</label>
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text"><i class="fas fa-user"></i>
-													</span>
-												</div>
-												<input type="text" class="form-control" name="name"
-													value="{{old('name')}}" required>
-											</div>
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group bmd-form-group">
-											<label>Address / Eircode</label>
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text"><i
-														class="fas fa-map-marker-alt"></i> </span>
-												</div>
-												<input type="text" class="form-control" id="location"
-													name="location" value="{{old('location')}}" required> <input
-													type="hidden" id="location_coordinates"
-													name="location_coordinates">
-											</div>
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group bmd-form-group">
-											<label>Company email</label>
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text"><i class="fas fa-envelope"></i>
-													</span>
-												</div>
-												<input type="email" class="form-control" name="email"
-													value="{{old('email')}}" required>
-											</div>
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group bmd-form-group">
-											<label>Password</label>
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text"> <i class="material-icons">lock_outline</i>
-													</span>
-												</div>
-												<input type="password" class="form-control" name="password"
-													value="{{old('password')}}" required>
-											</div>
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group bmd-form-group">
-											<label>Confirm password</label>
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text"> <i class="material-icons">lock_outline</i>
-													</span>
-												</div>
-												<input type="password" class="form-control"
-													name="password_confirmation"
-													value="{{old('password_confirmation')}}" required>
-											</div>
-										</div>
-									</div>
-
-									<div class="col-md-12">
-										<div class="form-group bmd-form-group">
-											<label>Contact person name</label>
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text"><i class="fas fa-user"></i>
-													</span>
-												</div>
-												<input type="text" class="form-control" name="contact_name"
-													value="{{old('contact_name')}}" required>
-											</div>
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group bmd-form-group">
-											<label>Contact person number</label> <input type="text"
-												class="form-control" id="contact_number"
-												name="contact_number" value="{{old('contact_number')}}"
-												required>
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<label>Contact through</label>
-											<div class="d-flex">
-												<div class="contact-through d-flex pr-5"
-													onclick="changeContact('email')">
-													<div id="check"
-														:class="contact_through == 'email' ? 'my-check-box checked' : 'my-check-box'">
-														<i class="fas fa-check-square"></i>
-													</div>
-													<label class="form-check-label">Email</label>
-												</div>
-
-												<div class="contact-through d-flex"
-													onclick="changeContact('phone')">
-													<div id="check"
-														:class="contact_through == 'phone' ? 'my-check-box checked' : 'my-check-box'">
-														<i class="fas fa-check-square"></i>
-													</div>
-													<label class="form-check-label">Phone calls</label>
-												</div>
-												<input type="hidden" v-model="contact_through"
-													name="contact_through">
-											</div>
-										</div>
-
-
-									</div>
-									{{--
-									<div class="col-md-12">
-										--}} {{--
-										<div class="form-group bmd-form-group is-filled">
-											--}} {{-- <label for="available_date_time">Select from the
-												available date & time</label>--}} {{--
-											<div class="d-flex justify-content-between">
-												--}} {{-- <input name="available_date_time" type="text"
-													class="form-control datetimepicker"
-													id="available_date_time"
-													{{old('available_date_time')}} required>--}} {{-- <a
-													class="select-icon">--}} {{-- <i class="fas fa-caret-down"></i>--}}
-													{{--
-												</a>--}} {{--
-											</div>
-											--}} {{--
-										</div>
-										--}} {{--
-									</div>
-									--}}
-								</div>
 								<div class="row mt-4">
 									<div class="col-md-12 mb-3">
 										<p class="terms">
@@ -404,38 +265,12 @@ input.form-control {
         Popper.createPopper(icon, tooltip, {
             placement: 'right',
         });
+        
+        
+                    addIntelInput('phone', 'phone');
     });
 
-        function changeWorkType(){
-            console.log("Sadasfsafsafsgdg");
-            console.log($("#type_of_work").val());
-            app.type_of_work=$("#type_of_work").val();
-
-            if ($("#type_of_work").val() == 'Residential') {
-                setTimeout(() => {
-                   
-                    addIntelInput('phone', 'phone');
-                }, 500)
-            } else {
-                setTimeout(() => {
-              	  window.initMap();
-                    $('#available_date_time').datetimepicker({
-                        icons: {
-                            time: "fa fa-clock",
-                            date: "fa fa-calendar",
-                            up: "fa fa-chevron-up",
-                            down: "fa fa-chevron-down",
-                            previous: 'fa fa-chevron-left',
-                            next: 'fa fa-chevron-right',
-                            today: 'fa fa-screenshot',
-                            clear: 'fa fa-trash',
-                            close: 'fa fa-remove'
-                        }
-                    });
-                    addIntelInput('contact_number', 'contact_number');
-                });
-            }
-        }
+       
        
         function changeContact(cont){
             console.log("change contact "+cont);
@@ -468,25 +303,25 @@ input.form-control {
                 is_recurring: ''
             },
             mounted() {
-                if (this.type_of_work == 'Commercial') {
-                    $('#available_date_time').datetimepicker({
-                        icons: {
-                            time: "fa fa-clock",
-                            date: "fa fa-calendar",
-                            up: "fa fa-chevron-up",
-                            down: "fa fa-chevron-down",
-                            previous: 'fa fa-chevron-left',
-                            next: 'fa fa-chevron-right',
-                            today: 'fa fa-screenshot',
-                            clear: 'fa fa-trash',
-                            close: 'fa fa-remove'
-                        }
-                    });
-                    this.addIntelInput('contact_number', 'contact_number');
-                } else if (this.type_of_work == 'Residential') {
+//                 if (this.type_of_work == 'Commercial') {
+//                     $('#available_date_time').datetimepicker({
+//                         icons: {
+//                             time: "fa fa-clock",
+//                             date: "fa fa-calendar",
+//                             up: "fa fa-chevron-up",
+//                             down: "fa fa-chevron-down",
+//                             previous: 'fa fa-chevron-left',
+//                             next: 'fa fa-chevron-right',
+//                             today: 'fa fa-screenshot',
+//                             clear: 'fa fa-trash',
+//                             close: 'fa fa-remove'
+//                         }
+//                     });
+//                     this.addIntelInput('contact_number', 'contact_number');
+//                 } else if (this.type_of_work == 'Residential') {
                    
-                    this.addIntelInput('phone', 'phone');
-                }
+//                     this.addIntelInput('phone', 'phone');
+//                 }
             },
             methods: {
                 changeContact(value) {
@@ -573,5 +408,5 @@ input.form-control {
        }     
 
      </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=geometry,places,drawing&callback=initMap"></script>
+
 @endsection

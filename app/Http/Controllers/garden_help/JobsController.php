@@ -291,8 +291,8 @@ class JobsController extends Controller
     }
 
     public function getCommercialJobs(Request $request) {
-        $jobs = Customer::where('status', '!=', 'completed')
-            ->where('type', 'job')
+        $jobs = Customer::where('type', 'job')
+            ->where('status', 'ready')
             ->with([
                 'contractor' => function ($q) {
                     $q->select(['id', 'name']);

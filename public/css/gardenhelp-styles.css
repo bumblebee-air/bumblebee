@@ -105,9 +105,9 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
-	font-size: 16px;
+	font-size: 16px !important; 
 	line-height: 19px;
-	color: #656565;
+	color: #acb1c0;
 }
 
 .is-focused [class*=" bmd-label"], .is-focused [class^=bmd-label],

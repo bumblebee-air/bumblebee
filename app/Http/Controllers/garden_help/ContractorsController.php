@@ -794,6 +794,7 @@ class ContractorsController extends Controller
             'estimated_quote' => 'required|min:1',
             'job_id' => 'required|exists:customers_registrations,id'
         ]);
+        $job = Customer::find($request->job_id);
         $checkIfBidBefore = ContractorBidding::where('job_id', $request->job_id)->where('contractor_id', $request->user()->contractor_profile->id)->first();
         if ($checkIfBidBefore) {
             $response = [
@@ -811,6 +812,8 @@ class ContractorsController extends Controller
             'message' => 'Operation done successfully',
             'error' => 0
         ];
+        //Notify the customer
+        TwilioHelper::sendSMS('GardenHelp', $job->user->phone, 'There a new contractor has offered a new price, please click the following link for more details: '. route('garden_help_getSingleJob', ['garden-help', $job->id]));
         return response()->json($response)->setStatusCode(200);
     }
 }

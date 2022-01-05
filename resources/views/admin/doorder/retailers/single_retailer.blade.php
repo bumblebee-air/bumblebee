@@ -16,12 +16,9 @@
 /* 	border: none !important; */
 /* 	max-height: 21px !important; */
 /* } */
+
 textarea {
 	height: auto !important;
-}
-
-.iti {
-	width: 100% !important;
 }
 
 .dropdown-menu .dropdown-item:focus, .dropdown-menu .dropdown-item:hover,
@@ -55,6 +52,7 @@ textarea {
 /* 	border: none !important; */
 /* 	max-height: 21px !important; */
 /* } */
+
 .my-check-box {
 	display: inline-block;
 	width: 20px;
@@ -71,10 +69,6 @@ textarea {
 .my-check-box i {
 	font-size: 18px
 }
-
-#usersTable td {
-	text-align: left;
-}
 </style>
 @endsection @section('title','DoOrder | Retailer ' . $retailer->name)
 @section('page-content')
@@ -86,10 +80,8 @@ textarea {
 					<div class="card">
 						<div class="card-header card-header-icon  row">
 							<div class="col-12 col-xl-7 col-lg-8 col-md-9 col-sm-12">
-								<h4 class="card-title my-md-4 mt-4 mb-md-1 mb-4">
-									Retailer Profile: <span class="titleNameSpan ml-2">
-										{{$retailer->name}} </span>
-								</h4>
+								<h4 class="card-title my-md-4 mt-4 mb-md-1 mb-4">Retailer
+									Profile: {{$retailer->name}}</h4>
 							</div>
 						</div>
 					</div>
@@ -98,25 +90,23 @@ textarea {
 						<ul
 							class="nav nav-pills nav-pills-primary justify-content-start justify-content-md-center row"
 							role="tablist" id="navSettingsUl">
-							<li class="nav-item" data-value="general"><a
-								class="nav-link active" data-toggle="tab" href="#generalDetails"
-								role="tablist" aria-expanded="true"> General Details </a></li>
-							<li class="nav-item" data-value="locations"><a class="nav-link"
-								data-toggle="tab" href="#locations" role="tablist"
-								aria-expanded="true"> Locations </a></li>
-							<li class="nav-item" data-value="shopify"><a class="nav-link "
-								data-toggle="tab" href="#shopifyDetails" role="tablist"
-								aria-expanded="true"> Shopify Details </a></li>
-							@if($readOnly==0)
-							<li class="nav-item" data-value="payment"><a class="nav-link "
-								data-toggle="tab" href="#paymentDetails" role="tablist"
-								aria-expanded="true"> Payment Details </a></li>@endif
-							<li class="nav-item" data-value="subaccounts"><a class="nav-link"
-								data-toggle="tab" href="#subAccounts" role="tablist"
-								aria-expanded="true"> Sub-Accounts </a></li>
-							<li class="nav-item" data-value="users"><a class="nav-link "
-								data-toggle="tab" href="#users" role="tablist"
-								aria-expanded="true"> Users </a></li>
+							<li class="nav-item"><a class="nav-link active" data-toggle="tab"
+								href="#generalDetails" role="tablist" aria-expanded="true">
+									General Details </a></li>
+							<li class="nav-item"><a class="nav-link" data-toggle="tab"
+								href="#locations" role="tablist" aria-expanded="true"> Locations
+							</a></li>
+							<li class="nav-item"><a class="nav-link " data-toggle="tab"
+								href="#shopifyDetails" role="tablist" aria-expanded="true">
+									Shopify Details </a></li> @if($readOnly==0)
+							<li class="nav-item"><a class="nav-link " data-toggle="tab"
+								href="#paymentDetails" role="tablist" aria-expanded="true">
+									Payment Details </a></li>@endif
+							<li class="nav-item"><a class="nav-link " data-toggle="tab"
+								href="#subAccounts" role="tablist" aria-expanded="true">
+									Sub-Accounts </a></li>
+							<li class="nav-item"><a class="nav-link" data-toggle="tab"
+								href="#users" role="tablist" aria-expanded="true"> Users </a></li>
 
 						</ul>
 					</div>
@@ -363,55 +353,38 @@ textarea {
 																	v-model="location.eircode"
 																	placeholder="Postcode/Eircode" required>
 															</div>
-
-														</div>
-														<div class="col-sm-6">
 															<div class="form-group bmd-form-group">
-																<label>Country</label> <select
-																	class="form-control form-control-select selectpicker"
-																	data-style="select-with-transition"
-																	:id="'country' + (index + 1)"
-																	:name="'country' + (index + 1)"
-																	v-model="location.country" required>
-																	<option disabled>Select Country</option>
-																	<option value="Ireland" selected>Ireland</option>
-																</select>
+																<label>Country</label> <input type="text"
+																	class="form-control" :id="'country' + (index + 1)"
+																	:name="'country' + (index + 1)" value="Ireland"
+																	placeholder="Country" required>
 															</div>
 														</div>
+
 														<div class="col-sm-6">
 															<div class="form-group bmd-form-group">
-																<label>County</label> <select
-																	class="form-control form-control-select selectpicker"
-																	data-style="select-with-transition"
-																	:id="'county' + (index + 1)"
-																	:name="'county' + (index + 1)"
-																	v-model="location.county" required>
-																	<option selected disabled>Select County</option>
-																	<option v-for="county in counties"
-																		:value="JSON.stringify(county)">@{{county.name}}</option>
-																</select>
-															</div>
-														</div>
-														<div class="col-sm-12">
-															<div class="form-group bmd-form-group">
-																<label>Working days and hours</label>
-
-																<textarea class="form-control" rows="4"
+																<label>Working days and hours</label> <input type="text"
+																	class="form-control"
 																	:id="'business_hours' + (index + 1)"
-																	:name="'business_hours' + (index + 1)"
+																	:name="'business_hours' + (index + 1)" value=""
 																	v-model="location.business_hours"
 																	placeholder="Working Days and Hours"
 																	data-toggle="modal"
-																	:data-target="'#exampleModal' + index" required></textarea>
-
-																<input type="hidden"
-																	:id="'business_hours_json' + (index + 1)"
+																	:data-target="'#exampleModal' + index" required> <input
+																	type="hidden" :id="'business_hours_json' + (index + 1)"
 																	:name="'business_hours_json' + (index + 1)"
 																	v-model="location.business_hours_json">
 															</div>
 														</div>
 
-
+														<div class="col-sm-6">
+															<div class="form-group bmd-form-group">
+																<label>County</label> <input type="text"
+																	class="form-control" :id="'county' + (index + 1)"
+																	:name="'county' + (index + 1)" value="Dublin"
+																	placeholder="County" required>
+															</div>
+														</div>
 													</div>
 
 													<!-- Workig Hours Modal -->
@@ -421,13 +394,10 @@ textarea {
 														<div class="modal-dialog modal-lg" role="document">
 															<div class="modal-content">
 																<div class="modal-header">
-																	<button type="button"
-																		class="close d-flex justify-content-center"
+																	<button type="button" class="close d-flex justify-content-center"
 																		data-dismiss="modal" aria-label="Close">
-
 																		<i class="fas fa-times"></i>
 																	</button>
-
 																</div>
 																<div class="modal-body">
 																	<div
@@ -435,8 +405,7 @@ textarea {
 																		Working Days and Hours</div>
 
 																	<div class="row justify-content-center">
-																		<div class="row"
-																			:id="'business_hours_container' + (index + 1)"></div>
+																		<div class="row" :id="'business_hours_container' + (index + 1)"></div>
 																	</div>
 
 																	<div class="row justify-content-center mt-4">
@@ -448,7 +417,7 @@ textarea {
 																		</div>
 																	</div>
 																</div>
-
+															
 															</div>
 														</div>
 													</div>
@@ -592,131 +561,9 @@ textarea {
 							</div>
 							@endif
 
-							<div class="tab-pane " id="subAccounts" aria-expanded="true">
-								<div class="card">
 
-									<div class="card-body">
-										<div
-											class=" justify-content-right float-sm-right  mt-md-2 mb-2">
-											<button type="button"
-												class=" btn-doorder-filter btn-doorder-add-item mt-0"
-												@click="addNewAccount()">Add new account</button>
-
-										</div>
-										<div class="table-responsive">
-											<table id="retailersTable"
-												class="table table-no-bordered table-hover doorderTable "
-												cellspacing="0" width="100%" style="width: 100%">
-												<thead>
-													<tr class="theadColumnsNameTr">
-														<th>Business Type</th>
-														<th>Retailer Name</th>
-														<th class="text-center">Locations Number</th>
-														<!-- 											<th class="text-center">Sub-Accounts</th> -->
-														<th class="disabled-sorting text-center">Actions</th>
-													</tr>
-												</thead>
-
-												<tbody>
-													<tr v-for="account in subaccounts"
-														v-if="subaccounts.length > 0" class="order-row">
-														<td class="text-left">@{{ account.business_type}}</td>
-														<td class="text-left">@{{ account.name}}</td>
-														<td>@{{ account.nom_business_locations }}</td>
-														<!-- 											<td></td> -->
-														<td class="actionsTd"><a class="edit"
-															@click="openRetailerSubaccount(account.id)"><img
-																src="{{asset('images/doorder-new-layout/edit-icon.png')}}"></a>
-															<button type="button" class="remove"
-																@click="clickDeleteRetailerSubaccount(account.id)">
-																<img
-																	src="{{asset('images/doorder-new-layout/delete-icon.png')}}">
-															</button></td>
-
-													</tr>
-
-													<tr v-else>
-														<td colspan="4" class="text-center"><strong>No data found.</strong>
-														</td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-									</div>
-								</div>
-								<!--  end card subaccounts -->
-							</div>
-							<div class="tab-pane" id="users" aria-expanded="true">
-								<div class="card">
-									<div class="card-body">
-										<div class="container " style="width: 100%; max-width: 100%;">
-											<div class="row ">
-												<div class="col-12 col-lg-7 col-md-6 d-flex form-head pl-3"></div>
-												<div class="col-12 col-lg-5 col-md-6 mt-md-2 mb-2">
-													<div class="row justify-content-end float-sm-right">
-
-														<button type="button"
-															class="btn-doorder-filter btn-doorder-add-item mt-0"
-															@click="clickAddUser()">Add New User</button>
-
-													</div>
-												</div>
-											</div>
-
-											<div class="table-responsive">
-												<table id="usersTable"
-													class="table table-no-bordered table-hover doorderTable "
-													width="100%" style="width: 100%">
-													<thead>
-														<tr class="">
-															<th>User</th>
-															<th>Last Activity</th>
-															<th>User Type</th>
-															<th>Business Account</th>
-															<th class="disabled-sorting text-center">Actions</th>
-														</tr>
-													</thead>
-
-													<tbody>
-														<tr v-for="user in users" v-if="users.length > 0"
-															class="order-row">
-															<td>
-																<p class="invoiceServiceP">@{{ user.name}}</p>
-																<p class="invoiceDateSpan">@{{user.email}}</p>
-															</td>
-															<td>@{{ user.last_activity}}</td>
-															<td>@{{ user.user_type }}</td>
-															<td>@{{ user.business_account }}</td>
-
-															<td class="actionsTd"><button type="button" class="edit"
-																	@click="clickEditUser(user.id,user.name,user.email,user.userTypeId,user.businessAccountId)">
-																	<img
-																		src="{{asset('images/doorder-new-layout/edit-icon.png')}}">
-																</button>
-																<button type="button" class="remove"
-																	@click="clickDeleteUser(user.id)">
-
-																	<img
-																		src="{{asset('images/doorder-new-layout/delete-icon.png')}}">
-																</button></td>
-														</tr>
-
-
-														<tr v-else>
-															<td colspan="4" class="text-center"><strong>No data
-																	found.</strong></td>
-														</tr>
-
-
-													</tbody>
-												</table>
-											</div>
-										</div>
-									</div>
-								</div>
-								<!-- end card users -->
-
-							</div>
+							<div class="tab-pane " id="subAccounts" aria-expanded="true"></div>
+							<div class="tab-pane " id="users" aria-expanded="true"></div>
 
 
 						</div>
@@ -726,8 +573,7 @@ textarea {
 					</form>
 					@endif @if($readOnly==0)
 					<div class="row justify-content-center">
-						<div class="col-lg-3  col-md-3 col-sm-4 px-md-1 text-center"
-							id="saveButtonContainer">
+						<div class="col-lg-3  col-md-3 col-sm-4 px-md-1 text-center">
 
 							<button type="button"
 								class="btnDoorder btn-doorder-primary  mb-1"
@@ -742,317 +588,54 @@ textarea {
 						@endif
 					</div>
 					@endif
+					<!-- Delete modal -->
+					<div class="modal fade" id="delete-retailer-modal" tabindex="-1"
+						role="dialog" aria-labelledby="delete-retailer-label"
+						aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
 
+									<button type="button"
+										class="close d-flex justify-content-center"
+										data-dismiss="modal" aria-label="Close">
+										<i class="fas fa-times"></i>
+									</button>
+								</div>
+								<div class="modal-body">
+									<div class="modal-dialog-header modalHeaderMessage">Are you
+										sure you want to delete this account?</div>
+									<div>
+										<form method="POST" id="delete-retailer"
+											action="{{url('doorder/retailer/delete')}}"
+											style="margin-bottom: 0 !important;">
+											@csrf <input type="hidden" id="retailerId" name="retailerId"
+												value="{{$retailer->id}}" />
+										</form>
+									</div>
+								</div>
+								<div class="row justify-content-center">
+									<div class="col-lg-4 col-md-6 text-center">
+										<button type="button"
+											class="btnDoorder btn-doorder-primary mb-1"
+											onclick="$('form#delete-retailer').submit()">Yes</button>
+									</div>
+
+									<div class="col-lg-4 col-md-6 text-center">
+										<button type="button"
+											class="btnDoorder btn-doorder-danger-outline mb-1"
+											data-dismiss="modal">Cancel</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 
 	</div>
 </div>
-<!-- Delete retailer modal -->
-<div class="modal fade" id="delete-retailer-modal" tabindex="-1"
-	role="dialog" aria-labelledby="delete-retailer-label"
-	aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-
-				<button type="button" class="close d-flex justify-content-center"
-					data-dismiss="modal" aria-label="Close">
-					<i class="fas fa-times"></i>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="modal-dialog-header modalHeaderMessage">Are you sure you
-					want to delete this account?</div>
-				<div>
-					<form method="POST" id="delete-retailer"
-						action="{{url('doorder/retailer/delete')}}"
-						style="margin-bottom: 0 !important;">
-						@csrf <input type="hidden" id="retailerId" name="retailerId"
-							value="{{$retailer->id}}" />
-					</form>
-				</div>
-			</div>
-			<div class="row justify-content-center">
-				<div class="col-lg-4 col-md-6 text-center">
-					<button type="button" class="btnDoorder btn-doorder-primary mb-1"
-						onclick="$('form#delete-retailer').submit()">Yes</button>
-				</div>
-
-				<div class="col-lg-4 col-md-6 text-center">
-					<button type="button"
-						class="btnDoorder btn-doorder-danger-outline mb-1"
-						data-dismiss="modal">Cancel</button>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- end delete retailer modal -->
-
-<!-- delete user modal -->
-<div class="modal fade" id="delete-user-modal" tabindex="-1"
-	role="dialog" aria-labelledby="delete-user-label" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close d-flex justify-content-center"
-					data-dismiss="modal" aria-label="Close">
-					<i class="fas fa-times"></i>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="modal-dialog-header modalHeaderMessage">Are you sure you
-					want to delete this account?</div>
-				<div>
-					<form method="POST" id="delete-user"
-						action="{{url('doorder/retailer/user/delete')}}"
-						style="margin-bottom: 0 !important;">
-						@csrf <input type="hidden" name="retailer_id"
-							value="{{$retailer->id}}"> <input type="hidden" id="userId"
-							name="userId" value="" />
-					</form>
-				</div>
-			</div>
-			<div class="row justify-content-center">
-				<div class="col-lg-4 col-md-6 text-center">
-					<button type="button" class="btnDoorder btn-doorder-primary mb-1"
-						onclick="$('form#delete-user').submit()">Yes</button>
-				</div>
-				<div class="col-lg-4 col-md-6 text-center">
-					<button type="button"
-						class="btnDoorder btn-doorder-danger-outline mb-1"
-						data-dismiss="modal">Cancel</button>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- end delete user modal -->
-
-<!-- add user modal -->
-<div class="modal fade" id="add-user-modal" tabindex="-1" role="dialog"
-	aria-labelledby="add-user-label" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<div class="modal-dialog-header addUserModalHeader">Add User</div>
-				<button type="button" class="close d-flex justify-content-center"
-					data-dismiss="modal" aria-label="Close">
-					<i class="fas fa-times"></i>
-				</button>
-			</div>
-			<form method="POST" id="add-user"
-				action="{{url('doorder/retailer/user/save')}}"
-				style="margin-bottom: 0 !important;">
-				@csrf <input type="hidden" name="retailer_id"
-					value="{{$retailer->id}}">
-				<div class="modal-body">
-					<div class="row">
-						<div class="col">
-							<div class="form-group bmd-form-group">
-								<label for="user_name">Name </label> <input type="text"
-									class="form-control" name="user_name" id="user_name"
-									placeholder="Name" required>
-							</div>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col">
-							<div class="form-group bmd-form-group">
-								<label for="email">Email </label> <input type="text"
-									class="form-control" name="email" id="email"
-									placeholder="Email" required>
-							</div>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col">
-							<div class="form-group bmd-form-group">
-								<label>Role</label> <select
-									class="form-control form-control-select selectpicker"
-									data-style="select-with-transition" id="userTypeSelect"
-									name="user_type" required="required">
-									<option value="" selected disabled>Select role</option>
-									<option value="admin">Admin</option>
-									<option value="retailer">Retailer</option>
-									<option value="sales">Sales</option>
-								</select>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col">
-							<div class="form-group bmd-form-group">
-								<label>Business account</label> <select
-									class="form-control form-control-select"
-									id="businessAccountSelect" name="business_account[]"
-									required="required" multiple="multiple">
-									<option value="" disabled>Select business account</option>
-									<option value="all" class="selectAllOption">All</option>
-									@foreach ($businessAccounts as $account)
-									<option value="{{$account->id}}" class="option">{{$account->name}}</option>
-									@endforeach
-								</select>
-							</div>
-						</div>
-					</div>
-
-				</div>
-
-				<div class="row justify-content-center">
-					<div class="col-lg-4 col-md-6 text-center">
-						<button class="btnDoorder btn-doorder-primary mb-1" type="submit"
-							id="addUserBtn">Add User</button>
-					</div>
-
-					<!-- 				<div class="col-sm-6"> -->
-					<!-- 					<button type="button" -->
-					<!-- 						class="btn btn-danger doorder-btn-lg doorder-btn" -->
-					<!-- 						data-dismiss="modal">Cancel</button> -->
-					<!-- 				</div> -->
-				</div>
-			</form>
-		</div>
-	</div>
-</div>
-<!-- end add user modal -->
-
-<!-- edit user modal -->
-<div class="modal fade" id="edit-user-modal" tabindex="-1" role="dialog"
-	aria-labelledby="edit-user-label" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<div class="modal-dialog-header addUserModalHeader">Edit User</div>
-				<button type="button" class="close d-flex justify-content-center"
-					data-dismiss="modal" aria-label="Close">
-					<i class="fas fa-times"></i>
-				</button>
-			</div>
-			<form method="POST" id="add-user"
-				action="{{url('doorder/retailer/user/edit')}}"
-				style="margin-bottom: 0 !important;">
-				@csrf <input type="hidden" name="retailer_id"
-					value="{{$retailer->id}}"> <input type="hidden" name="userId"
-					id="userId" />
-				<div class="modal-body">
-					<div class="row">
-						<div class="col">
-							<div class="form-group bmd-form-group">
-								<label for="user_name">Name </label> <input type="text"
-									class="form-control" name="user_name" id="user_nameEdit"
-									placeholder="Name" required>
-							</div>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col">
-							<div class="form-group bmd-form-group">
-								<label for="email">Email </label> <input type="text"
-									class="form-control" name="email" id="emailEdit"
-									placeholder="Email" required>
-							</div>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col">
-							<div class="form-group bmd-form-group">
-								<label>Role</label> <select
-									class="form-control form-control-select selectpicker"
-									data-style="select-with-transition" id="userTypeSelectEdit"
-									name="user_type" required="required">
-									<option value="" disabled>Select role</option>
-									<option value="admin">Admin</option>
-									<option value="retailer">Retailer</option>
-									<option value="sales">Sales</option>
-								</select>
-							</div>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col">
-							<div class="form-group bmd-form-group">
-								<label>Business account</label> <select class="form-control "
-									id="businessAccountSelectEdit" name="business_account[]"
-									required="required" multiple="multiple">
-									<option value="" disabled>Select business account</option>
-									<option value="all">All</option> @foreach ($businessAccounts as
-									$account)
-									<option value="{{$account->id}}">{{$account->name}}</option>
-									@endforeach
-								</select>
-							</div>
-						</div>
-					</div>
-
-
-				</div>
-				<div class="row justify-content-center">
-					<div class="col-lg-4 col-md-6 text-center">
-						<button class="btnDoorder btn-doorder-primary mb-1" type="submit"
-							id="editUserBtn">Edit User</button>
-					</div>
-
-					<!-- 				<div class="col-sm-6"> -->
-					<!-- 					<button type="button" -->
-					<!-- 						class="btn btn-danger doorder-btn-lg doorder-btn" -->
-					<!-- 						data-dismiss="modal">Cancel</button> -->
-					<!-- 				</div> -->
-				</div>
-			</form>
-		</div>
-	</div>
-</div>
-<!-- end edit user modal -->
-
-
-<!-- delete subaccount modal -->
-<div class="modal fade" id="delete-subaccount-modal" tabindex="-1"
-	role="dialog" aria-labelledby="delete-subaccount-label"
-	aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close d-flex justify-content-center"
-					data-dismiss="modal" aria-label="Close">
-					<i class="fas fa-times"></i>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="modal-dialog-header modalHeaderMessage">Are you sure you
-					want to delete this account?</div>
-				<div>
-					<form method="POST" id="delete-user"
-						action="{{url('doorder/retailer/subaccount/delete')}}"
-						style="margin-bottom: 0 !important;">
-						@csrf <input type="hidden" name="retailer_id"
-							value="{{$retailer->id}}"> <input type="hidden" id="accountId"
-							name="accountId" value="" />
-					</form>
-				</div>
-			</div>
-			<div class="row justify-content-center">
-				<div class="col-lg-4 col-md-6 text-center">
-					<button type="button" class="btnDoorder btn-doorder-primary mb-1"
-						onclick="$('form#delete-user').submit()">Yes</button>
-				</div>
-				<div class="col-lg-4 col-md-6 text-center">
-					<button type="button"
-						class="btnDoorder btn-doorder-danger-outline mb-1"
-						data-dismiss="modal">Cancel</button>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- end delete subaccount modal -->
 
 @endsection @section('page-scripts')
 <script src="{{asset('js/jquery.businessHours.min.js')}}"></script>
@@ -1066,8 +649,6 @@ textarea {
 
 <script>
 	let autocomp_countries = JSON.parse('{!!$google_auto_comp_countries!!}');
-	let retailer_id = {!! $retailer->id !!}
-	
 	$(document).ready(function() {
 		var readonly = {!! $readOnly !!};
 		if(readonly==1){
@@ -1077,119 +658,6 @@ textarea {
 			$(".inputSearchNavbar").prop('disabled', false);
 			$('.addCircle,.removeCircle').css("display","none")
 		}
-		
-		var table= $('#retailersTable').DataTable({
-         "pagingType": "full_numbers",
-                "lengthMenu": [
-                  [-1,10, 25, 50,100],
-                  ["All",10, 25, 50,100]
-                ],
-          responsive: true,
-          "language": {  
-            		search: '',
-        			"searchPlaceholder": "Search ",
-        			
-        			"paginate": {
-                              "previous": "<i class='fas fa-angle-left'></i>",
-                              "next": "<i class='fas fa-angle-right'></i>",
-                              "first":"<i class='fas fa-angle-double-left'></i>",
-                              "last":"<i class='fas fa-angle-double-right'></i>"
-                            }
-            	},
-        	"columnDefs": [ {
-        		"targets": -1,
-        		"orderable": false
-        	} ],
-    	});
-    	
-    	 var table= $('#usersTable').DataTable({
-           		"pagingType": "full_numbers",
-         		 fixedColumns: true,
-                "lengthMenu": [
-                  [-1,10, 25, 50,100],
-                  ["All",10, 25, 50,100]
-                ],
-                "ordering": false,
-                "language": {  
-            		search: '',
-        			"searchPlaceholder": "Search ",
-        			
-        			"paginate": {
-                              "previous": "<i class='fas fa-angle-left'></i>",
-                              "next": "<i class='fas fa-angle-right'></i>",
-                              "first":"<i class='fas fa-angle-double-left'></i>",
-                              "last":"<i class='fas fa-angle-double-right'></i>"
-                            }
-            	},
-            	"columnDefs": [ {
-                		"targets": [-1],
-                		"orderable": false
-            		},                        
-                 ],
-                scrollX:        true,
-                scrollCollapse: true,
-                fixedColumns:   {
-                    leftColumns: 0,
-                },
-    });
-    $('a[data-toggle="tab"]').on( 'shown.bs.tab', function (e) {
-        $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();
-    } );
-    	
-    	$("#navSettingsUl li").click(function(){
-        		var val = $(this).attr('data-value');
-            	if(val=="users" || val=="subaccounts"){
-            		$("#saveButtonContainer").css("display","none");
-            	}else{
-            		$("#saveButtonContainer").css("display","block");
-            	}       
-     	 });
-     	 
-     	 
-    		   		$("#add-user-modal #businessAccountSelect").select2({ tags: true});
-    		   		$("#edit-user-modal #businessAccountSelectEdit").select2({ tags: true});
-    		   		$("#businessAccountSelect").change(function(e){
-    		   			e.preventDefault()
-                      	//console.log($(this).val())
-                      	if($(this).val().indexOf("all") ==-1){
-                      		$("#businessAccountSelect .option").prop('disabled', false);
-                      	}
-                      	else{
-                      		if($(this).val().length==1){
-                      			return;
-                      		}
-                      		$("#businessAccountSelect .option").prop('disabled', true);
-                      		//$("#businessAccountSelect").select2().val('')
-                      		$("#businessAccountSelect").select2('val',['all'])
-                      		//$("#businessAccountSelect").select2(['all'], null, false)
-                      		$('#businessAccountSelect').select2('close');
-                      	}
-                    });
-                    $("#businessAccountSelectEdit").change(function(e){
-    		   			e.preventDefault()
-                      	//console.log("edit "+$(this).val())
-                      	if($(this).val().indexOf("all") ==-1){
-                      		//console.log("edit  -1")
-                      		$("#businessAccountSelectEdit .option").prop('disabled', false);
-                      	}
-                      	else{
-                      		//console.log("edit ! -1")
-                      		if($(this).val().length==1){
-                      			
-                      			//console.log("edit ! -1 & length 1")
-                      			return;
-                      		}
-                      		$("#businessAccountSelectEdit .option").prop('disabled', true);
-                      		//$("#businessAccountSelectEdit").select2().val('')
-                      		$("#businessAccountSelectEdit").select2('val',['all'])
-                      		//$("#businessAccountSelect").select2(['all'], null, false)
-                      		$('#businessAccountSelectEdit').select2('close');
-                      		
-                      		//console.log("edit  ! -1 end")
-                      	}
-                    });
-                    
-                    
 	});
 
         let business_hours_initial_array = [
@@ -1215,9 +683,7 @@ textarea {
                     require_card: false,
                     readOnly : {!! $readOnly !!},
                     disabled:'',
-                    contact_location: null,
-                    subaccounts: {!! json_encode($subaccounts) !!},
-                    users: {!! json_encode($users) !!},
+                    contact_location: null
 				}
             },
 			mounted() {
@@ -1261,7 +727,6 @@ textarea {
 							// }
 							if (eircode_value != undefined) {
 								retailer_eircode_input.value = eircode_value.long_name;
-                                app.locations[index-1].eircode = eircode_value.long_name;
 							} else {
 								//document.getElementById("location_"+index+"_coordinates").value = '';
 								retailer_eircode_input.value = '';
@@ -1274,16 +739,10 @@ textarea {
 						}
 					});
 					
-//                     console.log(business_hours_initial_array)	
-//                     console.log(Array.isArray(business_hours_initial_array))					
-//                     console.log(this.locations[index-1].business_hours_json)	
-//                     console.log(Array.isArray(this.locations[index-1].business_hours_json))
-//                     console.log((this.locations[index-1].business_hours_json != 0) ? JSON.parse(this.locations[index-1].business_hours_json) : "")
-//                     console.log((this.locations[index-1].business_hours_json != 0) ? Array.isArray(JSON.parse(this.locations[index-1].business_hours_json)) : Array.isArray(""))
+					
 
-					var operationTimeArr = (this.locations[index-1].business_hours_json != 0) ? JSON.parse(this.locations[index-1].business_hours_json) : "";
 					 window['business_hours_container'+index] = $('#business_hours_container'+index).businessHours({
-                    	operationTime: Array.isArray(operationTimeArr) ? operationTimeArr : business_hours_initial_array,
+                    	operationTime: JSON.parse(this.locations[index-1].business_hours_json),
                     	dayTmpl:'<div class="dayContainer col-md-3 col-4 mt-1" style="">' +
                         '<div data-original-title="" class="colorBox"><input type="checkbox" class="invisible operationState"></div>' +
                         '<div class="weekday text-center"></div>' +
@@ -1294,8 +753,8 @@ textarea {
                     checkedColorClass: 'workingBusinssDay',
                     uncheckedColorClass: 'dayOff',
                 })
-// 					console.log(JSON.parse(this.locations[index-1].business_hours_json));
-// 					console.log(business_hours_initial_array)
+					console.log(JSON.parse(this.locations[index-1].business_hours_json));
+					console.log(business_hours_initial_array)
 				}
 				
 				for (let contact of this.contacts){
@@ -1311,15 +770,15 @@ textarea {
 					});
 				}
 				
-				//Temporarily edited as DoOrder only want Dublin
-                let iresh_counties_json = jQuery.getJSON('{{asset('iresh_counties.json')}}', data => {
-                		
-                	 for (let county of data) {
-                        if(county.city.toLowerCase() == 'dublin') {
-                            this.counties.push({name: county.city, coordinates: {lat: county.lat, lng: county.lng}});
-                        }
-                    }
-                });
+				{{--let iresh_counties_json = jQuery.getJSON('{{asset('iresh_counties.json')}}', data => {--}}
+				{{--	console.log(data)--}}
+				{{--	for (let county of data) {--}}
+				{{--		if(county.city.toLowerCase() == 'dublin') {--}}
+				{{--			this.counties.push({name: county.city, coordinates: {lat: county.lat, lng: county.lng}});--}}
+				{{--		}--}}
+				{{--	}--}}
+				{{--});--}}
+				
 				
 			},
 			methods: {
@@ -1328,16 +787,10 @@ textarea {
 					this.timer = setTimeout(() => {
                         this.addAutoCompleteInput();
                         this.addBusinessHoursContainer();
-            			$('.selectpicker').selectpicker();
-            			$(".selectpicker").selectpicker("refresh");
-                    }, 1000)
+                    }, 500)
 				},
                 removeLocation(index){
 					this.locations.splice(index, 1);
-					this.timer = setTimeout(() => {
-                       $('.selectpicker').selectpicker();
-                       $(".selectpicker").selectpicker("refresh");
-                    }, 500)
                 },
                 addContact() {
                		// console.log(this.itn_inputs)
@@ -1350,15 +803,10 @@ textarea {
                     this.timer = setTimeout(() => {
                         this.addIntelInput();
                     $('.selectpicker').selectpicker();
-            			$(".selectpicker").selectpicker("refresh");
-                    }, 500)
+                    }, 200)
                 },
                 removeContact(index){
 					this.contacts.splice(index, 1);
-					this.timer = setTimeout(() => {
-                       $('.selectpicker').selectpicker();
-                       $(".selectpicker").selectpicker("refresh");
-                    }, 500)
                 },
 				submitForm(){
 					//e.preventDefault();
@@ -1441,12 +889,9 @@ textarea {
 							document.getElementById("location_"+latest_key+"_coordinates").value = '{lat: ' + place_lat.toFixed(5) + ', lon: ' + place_lon.toFixed(5) +'}';
 							// if (retailer_address_input.value != '') {
 							retailer_address_input.value = place.formatted_address;
-							 app.locations[latest_key-1].address = place.formatted_address;
-                                app.locations[latest_key-1].coordinates = '{lat: ' + place_lat.toFixed(5) + ', lon: ' + place_lon.toFixed(5) +'}';
 							// }
 							if (eircode_value != undefined) {
 								retailer_eircode_input.value = eircode_value.long_name;
-								 app.locations[latest_key-1].eircode = eircode_value.long_name;
 							} else {
 								//document.getElementById("location_"+latest_key+"_coordinates").value = '';
 								retailer_eircode_input.value = '';
@@ -1507,9 +952,6 @@ textarea {
 					}
 					$('#business_hours' + index).val(businessHoursText)
 					$('#business_hours_json' + index).val(JSON.stringify(businessHours))
-					
-                    app.locations[index-1].business_hours = businessHoursText;
-                    app.locations[index-1].business_hours_json = JSON.stringify(businessHours);
 				},
 				addBusinessHoursContainer() {
 					let latest_key = this.locations.length;
@@ -1560,40 +1002,6 @@ textarea {
                         //this.validateEmailAndPhone();
                     }
                 },
-                clickEditUser(user_id,name, email, user_type,business_account){
-    		   		//console.log("edit user ",user_id,name, email, user_type, business_account);
-    		   		
-    		   		$("#edit-user-modal").modal('show');
-    		   		$("#edit-user-modal #userId").val(user_id);
-    		   		$("#edit-user-modal #user_nameEdit").val(name);
-    		   		$("#edit-user-modal #emailEdit").val(email);
-    		   		$("#edit-user-modal #userTypeSelectEdit").val(user_type);
-    		   		$("#edit-user-modal #businessAccountSelectEdit").val(business_account).change();
-    		   		$('#edit-user-modal .selectpicker').selectpicker('refresh');
-    		   	//$("#businessAccountSelectEdit").select2('val',['all'])	
-    		   },
-    		   clickDeleteUser(userId){
-    		   		//console.log("delete user ",userId);
-                    		   		
-                    $('#delete-user-modal').modal('show')
-                    $('#delete-user-modal #userId').val(userId);
-    		   },
-    		   clickAddUser(){
-    		   		//console.log("click add user");
-    		   		$("#add-user-modal").modal('show');
-    		   },
-    		   clickDeleteRetailerSubaccount(account_id){
-    		   		//console.log("delete subaccount ",account_id);
-                    		   		
-                    $('#delete-subaccount-modal').modal('show')
-                    $('#delete-subaccount-modal #accountId').val(account_id);
-    		   },
-    		   addNewAccount(){
-    		   		window.location.href = "{{url('doorder/retailer')}}/"+retailer_id+"/subaccount/add";
-    		   },
-    		   openRetailerSubaccount(account_id){
-    		   		window.location.href = "{{url('doorder/retailer')}}/"+retailer_id+'/subaccount/edit/'+account_id;
-    		   }
 			}
         });
         Vue.config.devtools = true

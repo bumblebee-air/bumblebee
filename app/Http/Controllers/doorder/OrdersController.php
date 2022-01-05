@@ -141,7 +141,7 @@ class OrdersController extends Controller
             'fragile' => $request->fragile,
             'retailer_name' => ($retailer_profile != null) ? $retailer_profile->name : $current_user->name,
             'retailer_id' => ($retailer_profile != null) ? $retailer_profile->id : '0',
-            'status' => 'ready',
+            'status' => 'pending',
             'weight' => $request->weight,
             'dimensions' => $request->dimensions
         ]);

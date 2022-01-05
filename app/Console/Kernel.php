@@ -28,8 +28,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('chargeretailer:cron')->daily();
-        $schedule->command('payoutdeliverer:cron')->hourly();
+        // $schedule->command('chargeretailer:cron')->daily();
+        // $schedule->command('payoutdeliverer:cron')->hourly();
         $schedule->command('gardenhelpcustomerpaymentintent:cron')->daily();
         $schedule->command('gh_drivers_update_working_hours:cron')->weeklyOn(5, '11:00');
         $schedule->command('gh_drivers_update_working_hours:cron reminder')->weeklyOn(1, '09:30');

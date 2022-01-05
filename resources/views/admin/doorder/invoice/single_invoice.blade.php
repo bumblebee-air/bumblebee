@@ -253,8 +253,9 @@ table.doorderTable {
 								@else
 								<div class="row justify-content-center">
 									<div class="col-lg-3  col-md-3 col-sm-4 ">
-										<a class="btnDoorder btn-doorder-primary  mb-1 w-100 "
-											href="">Download invoice</a>
+										<button class="btnDoorder btn-doorder-primary  mb-1 w-100 "
+											data-toggle="modal"
+												data-target="#warning-modal">Download invoice</button>
 									</div>
 									<div class="col-lg-3  col-md-3 col-sm-4 ">
 										<a class="btnDoorder btn-doorder-green  mb-1 w-100 "
@@ -345,7 +346,49 @@ table.doorderTable {
 	</div>
 </div>
 <!-- end confirm invoice modal -->
+<!-- warning modal -->
+<div class="modal fade" id="warning-modal" tabindex="-1"
+	role="dialog" aria-labelledby="warning--label"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
 
+				<button type="button" class="close d-flex justify-content-center"
+					data-dismiss="modal" aria-label="Close">
+					<i class="fas fa-times"></i>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row justify-content-center">
+					<div class="col-md-12">
+
+						<div class="text-center">
+							<img
+								src="{{asset('images/doorder-new-layout/warning-icon.png')}}"
+								style="" alt="warning">
+						</div>
+						<div class="text-center mt-3">
+							<label class="warning-label">Under construction</label>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="row justify-content-center mt-3">
+					
+					<div class="col-lg-4 col-md-6 text-center">
+						<button type="button"
+							class="btnDoorder btn-doorder-primary mb-1"
+							data-dismiss="modal">Ok</button>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+<!-- end warning modal -->
 
 
 @endsection @section('page-scripts')

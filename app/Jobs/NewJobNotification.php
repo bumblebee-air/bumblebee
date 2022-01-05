@@ -11,6 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class NewJobNotification implements ShouldQueue
 {
@@ -50,7 +51,7 @@ class NewJobNotification implements ShouldQueue
                 }
             }
         } catch (\Exception $e) {
-            dd($e);
+            Log::error($e);
         }
     }
 }

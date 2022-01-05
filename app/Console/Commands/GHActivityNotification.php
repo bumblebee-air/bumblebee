@@ -5,10 +5,14 @@ namespace App\Console\Commands;
 use App\ContractorBidding;
 use App\Customer;
 use App\CustomNotification;
+use App\Helpers\CustomNotificationHelper;
+use App\Helpers\TwilioHelper;
 use Carbon\Carbon;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Redis;
 
 class GHActivityNotification extends Command
 {
@@ -69,12 +73,30 @@ class GHActivityNotification extends Command
                         });
                     })
                     ->get();
-//                    ->toSql();
-//                    ->dd();
-//                dd($jobs);
-//                dd($jobs->latest_contractors_bidding->where('created_at', '<', Carbon::now()->subHours($notification_period)->toDateTimeString())->first());
-//                dd(Carbon::now()->subHours($notification_period)->toDateTimeString());
-                dd(count($jobs), Carbon::now()->subHours($notification_period)->toDateTimeString());
+                foreach ($jobs as $job) {
+                    if ($custom_notification->channel == 'sms') {
+                        $contacts = json_decode($custom_notification->send_to, true);
+                        foreach ($contacts as $contact) {
+                            TwilioHelper::sendSMS('GardenHelp', $contact['value'], $custom_notification->content);
+                        }
+                    } else if ($custom_notification->channel == 'email') {
+                        $contacts = json_decode($custom_notification->send_to, true);
+                        foreach ($contacts as $contact) {
+                            Mail::to($contact['value'])->send(new \App\Mail\CustomNotification($custom_notification->content, 'Activity Alert'));
+                        }
+                    } else {
+                        //Platform Notification
+                        $channel = 'garden-help-channel';
+                        Redis::publish($channel, json_encode([
+                            'event' => 'custom-notification'.'-'.env('APP_ENV','dev'),
+                            'data' => [
+                                'title' => 'Activity Alert',
+                                'url' => route('garden_help_getSingleJob', ['garden-help', $job->id]),
+                                'id' => $custom_notification->send_to
+                            ]
+                        ]));
+                    }
+                }
             }
         }
     }

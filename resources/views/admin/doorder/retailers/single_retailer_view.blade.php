@@ -87,8 +87,7 @@ textarea {
 						<div class="card card-profile-page-title">
     						<div class="card-header row">
     							<div class="col-12 col-md-8 p-0">
-    								<h4 class="card-title my-md-4 mt-4 mb-1">Retailer Profile: <span class="titleNameSpan ml-2"> 
-    								{{$retailer->name}} </span></h4>
+    								<h4 class="card-title my-md-4 mt-4 mb-1">Retailer Profile: {{$retailer->name}}</h4>
     							</div>
     							@if($readOnly==1)
 								<div class="col-12 col-md-4 ">
@@ -212,9 +211,6 @@ textarea {
 															v-model="location.eircode" placeholder="Postcode/Eircode"
 															required>
 													</div>
-												</div>
-												
-												<div class="col-sm-6">
 													<div class="form-group bmd-form-group">
 														<label>Country</label> <input type="text"
 															class="form-control" :id="'country' + (index + 1)"
@@ -225,24 +221,24 @@ textarea {
 
 												<div class="col-sm-6">
 													<div class="form-group bmd-form-group">
-														<label>County</label> <input type="text"
-															class="form-control" :id="'county' + (index + 1)"
-															:name="'county' + (index + 1)" value="Dublin"
-															placeholder="County" required>
-													</div>
-												</div>
-
-												<div class="col-sm-12">
-													<div class="form-group bmd-form-group">
-														<label>Working days and hours</label> <textarea rows="4"
+														<label>Working days and hours</label> <input type="text"
 															class="form-control" :id="'business_hours' + (index + 1)"
 															:name="'business_hours' + (index + 1)" value=""
 															v-model="location.business_hours"
 															placeholder="Working Days and Hours" data-toggle="modal"
-															:data-target="'#exampleModal' + index" required> </textarea><input
+															:data-target="'#exampleModal' + index" required> <input
 															type="hidden" :id="'business_hours_json' + (index + 1)"
 															:name="'business_hours_json' + (index + 1)"
 															v-model="location.business_hours_json">
+													</div>
+												</div>
+
+												<div class="col-sm-6">
+													<div class="form-group bmd-form-group">
+														<label>County</label> <input type="text"
+															class="form-control" :id="'county' + (index + 1)"
+															:name="'county' + (index + 1)" value="Dublin"
+															placeholder="County" required>
 													</div>
 												</div>
 											</div>

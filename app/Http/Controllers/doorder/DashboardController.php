@@ -44,10 +44,10 @@ class DashboardController extends Controller
             $annual_chart_data_last = $admin_data['annual_chart_data_last'];
             $drivers_arr = $admin_data['drivers_arr'];
 
-            $thisWeekPercentage = $admin_data['thisWeekPercentage'];
-            $lastWeekPercentage = $admin_data['lastWeekPercentage'];
-            $thisMonthPercentage = $admin_data['thisMonthPercentage'];
-            $lastMonthPercentage = $admin_data['lastMonthPercentage'];
+            $thisWeekPercentage = round($admin_data['thisWeekPercentage'], 2);
+            $lastWeekPercentage = round($admin_data['lastWeekPercentage'], 2);
+            $thisMonthPercentage = round($admin_data['thisMonthPercentage'], 2);
+            $lastMonthPercentage = round($admin_data['lastMonthPercentage'], 2);
 
             // $week_chart_labels = $admin_data['week_chart_labels'];
             // $last_week_chart_values = $admin_data['last_week_chart_values'];

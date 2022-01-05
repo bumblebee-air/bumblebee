@@ -223,10 +223,9 @@ Route::get('stripe-onboard/stripe/success', 'StripeController@getOnboardSuccess'
 
 Route::post('validate-email-phone', 'HelperController@postValidateEmailAndPhone');
 // Clients Login
-Route::group(
-    [
-        'prefix' => '{client_name}'
-    ],
+Route::group([
+    'prefix' => '{client_name}'
+],
     function () {
         Route::get('login', 'Auth\LoginController@showLoginForm')->name('clientLogin');
         Route::post('login', 'Auth\LoginController@login')->name('clientLogin');
@@ -347,7 +346,6 @@ Route::group(
         Route::post('order/save_update_address', 'doorder\OrdersController@saveUpdateAddress')->name('doorder_saveUpdateAddress');
         Route::get('order/save_address_success', 'doorder\OrdersController@getUpdateAddressSuccess')->name('doorder_saveAddressSuccess');
 
-
         Route::group([
             'middleware' => "auth:doorder"
         ], function () {
@@ -355,13 +353,12 @@ Route::group(
             Route::get('search_map', 'doorder\DashboardController@searchOrderMap')->name('doorder_searchMapOrder');
             Route::get('metrics_dashboard', 'doorder\DashboardController@metricsDashboard')->name('doorder_metrics_dashboard');
             Route::get('get_metrics_chart_label_data', 'doorder\DashboardController@getMetricsChartLabelData')->name('doorder_metrics_chart_label_data');
-            Route::get('get_metrics_average_chart_data','doorder\DashboardController@getMetricsAverageChartData')->name('doorder_metrics_average_chart_data');
+            Route::get('get_metrics_average_chart_data', 'doorder\DashboardController@getMetricsAverageChartData')->name('doorder_metrics_average_chart_data');
             Route::get('orders', 'doorder\OrdersController@getOrdersTable')->name('doorder_ordersTable');
             Route::get('orders/history', 'doorder\OrdersController@getOrdersHistoryTable')->name('doorder_ordersHistoryTable');
             Route::get('single-order/{id}', 'doorder\OrdersController@getSingleOrder')->name('doorder_singleOrder');
             Route::post('orders/import', 'doorder\OrdersController@postImportOrders')->name('doorder_addNewOrder');
             Route::post('order/delete', 'doorder\OrdersController@deleteOrder')->name('doorder_deleteOrderOrder');
-
 
             Route::get('calendar-orders-events', 'doorder\OrdersController@getCalendarOrdersEvents')->name('doorder_getCalendarOrdersEvents');
 
@@ -374,6 +371,15 @@ Route::group(
             Route::get('view_route_optimization_map', 'doorder\MapRoutesConroller@getMapRoutes')->name('doorder_postMapRoutesView');
             Route::get('confirm_route_optimization_map', 'doorder\MapRoutesConroller@SendOrdersToDrivers')->name('doorder_ConfirmRouteOptimization');
 
+            Route::post('retailer/user/save', 'doorder\RetailerSubAccountsController@postAddRetailerUser')->name('doorder_postAddRetailerUser');
+            Route::post('retailer/user/edit', 'doorder\RetailerSubAccountsController@postEditRetailerUser')->name('doorder_postEditRetailerUser');
+            Route::post('retailer/user/delete', 'doorder\RetailerSubAccountsController@postDeleteRetailerUser')->name('doorder_postDeleteRetailerUser');
+            Route::post('retailer/subaccount/delete', 'doorder\RetailerSubAccountsController@postDeleteRetailerSubaccount')->name('doorder_postDeleteRetailerSubaccount');
+            Route::get('retailer/{retailer_id}/subaccount/add','doorder\RetailerSubAccountsController@getAddRetailerSubAccount')->name('doorder_getAddRetailerSubAccount');
+            Route::post('retailer/subaccount/add','doorder\RetailerSubAccountsController@postAddRetailerSubAccount')->name('doorder_postAddRetailerSubAccount');
+            Route::get('retailer/{retailer_id}/subaccount/edit/{id}','doorder\RetailerSubAccountsController@getEditRetailerSubAccount')->name('doorder_getEditRetailerSubAccount');
+            Route::post('retailer/subaccount/edit','doorder\RetailerSubAccountsController@postEditRetailerSubAccount')->name('doorder_postEditRetailerSubAccount');
+            
             Route::group([
                 'middleware' => "client"
             ], function () {
@@ -395,7 +401,9 @@ Route::group(
                 Route::post('save_general_settings', 'doorder\SettingsController@postSaveGeneralSettings')->name('doorder_postSaveGeneralSettings');
             });
             Route::group([
-                'middleware' => ["client_or_driver_manager"]
+                'middleware' => [
+                    "client_or_driver_manager"
+                ]
             ], function () {
                 Route::post('order/assign', 'doorder\OrdersController@assignDriverToOrder')->name('doorder_assignOrder');
                 Route::post('order/update', 'doorder\OrdersController@updateOrder')->name('doorder_updateOrder');
@@ -439,7 +447,6 @@ Route::group(
             Route::get('invoice_driver_view/{id}', 'doorder\InvoiceDriversController@getSingleInvoice')->name('doorder_getSingleDriverInvoice');
             Route::post('send_notification_driver', 'doorder\InvoiceDriversController@postSendNotificationDriver')->name('doorder_sendNotificationDriver');
             Route::post('payout_driver_invoice', 'doorder\InvoiceDriversController@postSendDriverPayout')->name('doorder_sendDriverPayout');
-
 
             // Edit Retailer profile
             Route::get('profile/edit', 'doorder\RetailerController@editRetailerProfile')->name('doorder_retailers_view_retailer');
@@ -577,9 +584,10 @@ Route::group(
             Route::post('get_engineer_location', 'unified\CalendarController@getEngineerLocation')->name('unified_getEngineerLocation');
         });
         Route::get('authenticate-zoom', 'ZoomController@getAuthenticateZoom');
-    }
-);
-Route::group(['middleware' => 'auth:garden-help,doorder,doom-yoga,unified'], function () {
+    });
+Route::group([
+    'middleware' => 'auth:garden-help,doorder,doom-yoga,unified'
+], function () {
     // Zoom redirect
     Route::get('zoom-oauth-redirect', 'ZoomController@authenticateZoomRedirect');
     // Zoom API test for token validation

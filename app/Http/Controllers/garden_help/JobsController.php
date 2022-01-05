@@ -4,9 +4,11 @@ namespace App\Http\Controllers\garden_help;
 use App\Contractor;
 use App\Customer;
 use App\CustomerExtraData;
+use App\CustomerProperty;
 use App\GardenServiceType;
 use App\Helpers\TwilioHelper;
 use App\Http\Controllers\Controller;
+use App\Jobs\NewJobNotification;
 use App\KPITimestamp;
 use App\User;
 use App\UserClient;
@@ -160,7 +162,7 @@ class JobsController extends Controller
         }
         
         
-        $properties = Customer::get();
+        $properties = CustomerProperty::where('user_id', auth()->user()->id)->get();
                 
         return view('admin.garden_help.jobs_table.add_job', ['services' => $services, 'current_user' => $current_user, 'type_of_work'=>'Residential'
             ,'properties'=>$properties
@@ -169,7 +171,7 @@ class JobsController extends Controller
 
     public function postNewJob(Request $request)
     {
-        dd($request);
+//        dd($request->all());
         $this->validate($request, [
             'work_location' => 'required'
         ]);
@@ -185,10 +187,10 @@ class JobsController extends Controller
         } else {
             $this->validate($request, [
                 'type_of_work' => 'required|in:Commercial,Residential',
-                'name' => 'required',
-                'email' => 'required',
-                'contact_through' => 'required',
-                'phone' => 'required_if:type_of_work,Residential',
+//                'name' => 'required',
+//                'email' => 'required',
+//                'contact_through' => 'required',
+//                'phone' => 'required_if:type_of_work,Residential',
                 /*'password' => 'required_if:type_of_work,Residential|confirmed',*/
                 'service_types' => 'required_if:type_of_work,Residential',
                 'location' => 'required_if:type_of_work,Residential',
@@ -203,49 +205,49 @@ class JobsController extends Controller
                 'available_date_time' => 'required_if:type_of_work,Commercial',
                 'stripeToken' => 'required'
             ]);
-
-            $user = User::where('email','=',$request->email)
-                ->where('phone','=',$request->phone)->where('user_role', 'customer')->first();
-            if(!$user) {
-                $check_phone = User::where('phone','=',$request->phone)->first();
-                if($check_phone!=null){
-                    alert()->error('This phone number is already registered with another email!');
-                    return redirect()->back()->withInput();
-                }
-                $check_email = User::where('email','=',$request->email)->first();
-                if($check_email!=null){
-                    alert()->error('This email is already registered with another phone number!');
-                    return redirect()->back()->withInput();
-                }
-                //Create User
-                $user = new User();
-                $user->name = $request->name;
-                $user->email = $request->email;
-                $user->phone = ($request->type_of_work == 'Commercial') ? $request->contact_number : $request->phone;
-                $user->password = $request->password ? bcrypt($request->password) : bcrypt(Str::random(8));
-                $user->user_role = 'customer';
-                $user->save();
-
-                $client = \App\Client::where('name', 'GardenHelp')->first();
-                if($client) {
-                    //Making Client Relation
-                    UserClient::create([
-                        'user_id' => $user->id,
-                        'client_id' => $client->id
-                    ]);
-                }
-            }
+            $user = $request->user();
+//            $user = User::where('email','=',$request->email)
+//                ->where('phone','=',$request->phone)->where('user_role', 'customer')->first();
+//            if(!$user) {
+//                $check_phone = User::where('phone','=',$request->phone)->first();
+//                if($check_phone!=null){
+//                    alert()->error('This phone number is already registered with another email!');
+//                    return redirect()->back()->withInput();
+//                }
+//                $check_email = User::where('email','=',$request->email)->first();
+//                if($check_email!=null){
+//                    alert()->error('This email is already registered with another phone number!');
+//                    return redirect()->back()->withInput();
+//                }
+//                //Create User
+//                $user = new User();
+//                $user->name = $request->name;
+//                $user->email = $request->email;
+//                $user->phone = ($request->type_of_work == 'Commercial') ? $request->contact_number : $request->phone;
+//                $user->password = $request->password ? bcrypt($request->password) : bcrypt(Str::random(8));
+//                $user->user_role = 'customer';
+//                $user->save();
+//
+//                $client = \App\Client::where('name', 'GardenHelp')->first();
+//                if($client) {
+//                    //Making Client Relation
+//                    UserClient::create([
+//                        'user_id' => $user->id,
+//                        'client_id' => $client->id
+//                    ]);
+//                }
+//            }
 
             // Create Customer
             $customer = new Customer();
             $customer->user_id = $user->id;
             $customer->work_location = $request->work_location;
             $customer->type_of_work = $request->type_of_work;
-            $customer->name = $request->name;
+            $customer->name = $user->name;
             $customer->type = 'job';
             $customer->status = 'ready';
-            $customer->contact_through = $request->contact_through;
-            $customer->phone_number = $request->phone;
+            $customer->contact_through = 'sms'; //sms for now
+            $customer->phone_number = $user->phone;
             // $customer->password = $request->password;
             $customer->service_types = $request->service_types;
             $customer->location = $request->location;
@@ -264,7 +266,25 @@ class JobsController extends Controller
             $customer->services_types_json = $request->services_types_json;
             $customer->is_recurring = $request->is_recurring;
             $customer->recurring_frequency = $request->recurring_frequency;
+            $customer->budget = $request->budget;
             $customer->save();
+
+            if ($request->property == 'other') {
+                //Saving New Property
+                CustomerProperty::create([
+                    'work_location' => $request->work_location,
+                    'type_of_work' => $request->type_of_work,
+                    'location' => $request->location,
+                    'location_coordinates' => $request->location_coordinates,
+                    'property_size' => $request->property_size,
+                    'site_details' => $request->site_details,
+                    'is_parking_access' => $request->is_parking_site,
+                    'area_coordinates' => $request->area_coordinates,
+                    'services_types_json' => $request->services_types_json,
+                    'user_id' => $request->user()->id,
+                    'property_photo' => $customer->property_photo
+                ]);
+            }
 
             try {
                 $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
@@ -287,6 +307,8 @@ class JobsController extends Controller
             if ($customer->phone_number) {
                 TwilioHelper::sendSMS('GardenHelp', $customer->phone_number, 'Your job has been received. Thank you for using GardenHelp.');
             }
+            //Notify the available contractors
+            $this->dispatch(new NewJobNotification($customer));
         }
         alert()->success("The job is added successfully");
         return redirect()->to('garden-help/jobs_table/add_job');

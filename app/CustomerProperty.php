@@ -19,6 +19,7 @@ class CustomerProperty extends Model
         'area_coordinates',
         'services_types_json',
         'user_id',
+        'property_photo',
     ];
 
     protected $casts = [

@@ -670,7 +670,8 @@ span.form-control {
 								</div>
 							</div>
 						</div>
-
+                        <input type="hidden" name="services_types_json"
+                               v-model="JSON.stringify(services_types_json)">
 						<div class="row">
 							@if(auth()->user()->user_role == 'client')
 							<div class="col-lg-12">
@@ -721,8 +722,6 @@ span.form-control {
 																getTotalPrice())).toFixed(2) }}</span>
 														</div>
 													</div>
-													<input type="hidden" name="services_types_json"
-														v-model="JSON.stringify(services_types_json)">
 												</div>
 											</div>
 										</div>

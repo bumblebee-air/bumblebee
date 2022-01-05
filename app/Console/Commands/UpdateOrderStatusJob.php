@@ -39,7 +39,7 @@ class UpdateOrderStatusJob extends Command
      */
     public function handle()
     {
-        $orders = Order::where('status', 'pending')->whereNotNull('fulfilment')->whereDate('fulfilment', '<=', Carbon::now()->toDateTimeString())->get();
+        $orders = Order::where('status', 'pending')->whereNotNull('fulfilment_date')->whereDate('fulfilment_date', '<=', Carbon::now()->toDateTimeString())->get();
 
         foreach ($orders as $order) {
             $order->status = 'ready';

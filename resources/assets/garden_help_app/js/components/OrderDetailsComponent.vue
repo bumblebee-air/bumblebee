@@ -280,9 +280,14 @@
                           </button>
                         </div>
                         <div class="row">
-                          <button v-for="(status, index) in job_status" v-if="job_data.status == status.status" :class="'btn order-details-button ' + job_status[index + 1].status " @click="openConfirmationDialog(job_status[index + 1].status)">
+                          <button v-for="(status, index) in job_status" v-if="job_data.status == status.status" :class="job_data.is_contacted == 1 ? 'col-10 btn order-details-button ' + job_status[index + 1].status : 'btn order-details-button ' + job_status[index + 1].status" @click="openConfirmationDialog(job_status[index + 1].status)">
                             {{ job_status[index + 1].text}}
                           </button>
+                          <div class="col-2" v-if="job_data.is_contacted == 1">
+                            <a :href="'tel:'+job_data.phone_number" type="button" class="btn btn-light btn-circle">
+                              <img src="images/garden_help_driver_assets/call.png" alt="call">
+                            </a>
+                          </div>
                         </div>
                     </div>
                 </div>
@@ -340,7 +345,7 @@
                     {
                         status: 'on_route',
                         text: 'On the way to Job Location',
-                        color: '#8d6f3a'
+                        color: '#E8CA49'
                     },
                     {
                         status: 'arrived',
@@ -875,7 +880,7 @@
     }
 
     .on_route {
-        background-color: #8d6f3a;
+        background-color: #E8CA49;
     }
 
     .completed {
@@ -927,4 +932,24 @@
       box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.0796252);
       border-radius: 20px;
     }
+
+    .btn-circle {
+      width: 45px;
+      height: 45px;
+      line-height: 45px;
+      text-align: center;
+      padding: 0;
+      border-radius: 50%;
+      background: #FFFFFF;
+      box-shadow: 2px 2px 7px rgba(25, 84, 0, 0.4);
+    }
+
+    .btn-circle img {
+      position: relative;
+      top: -1px;
+    }
+    /*.call-icon {*/
+    /*  background: #FFFFFF;*/
+    /*  box-shadow: 2px 2px 7px rgba(25, 84, 0, 0.4);*/
+    /*}*/
 </style>

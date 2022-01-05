@@ -577,6 +577,38 @@ span.form-control {
 
 													<div class="col-md-12">
 														<div class="form-group bmd-form-group">
+															<label for="vat-number">Are you happy to be contacted prior to book to discuss details?</label>
+															<div class="row">
+																<div class="col">
+																	<div class="form-check form-check-radio">
+																		<label class="form-check-label"> <input
+																					class="form-check-input" type="radio"
+																					id="exampleRadios2" name="is_contacted" value="1"
+																					{{old('is_contacted') ===
+                                                                                    '1' ? 'checked' : ''}} required> Yes <span
+																					class="circle"> <span class="check"></span>
+																		</span>
+																		</label>
+																	</div>
+																</div>
+																<div class="col">
+																	<div class="form-check form-check-radio">
+																		<label class="form-check-label"> <input
+																					class="form-check-input" type="radio"
+																					id="exampleRadios1" name="is_contacted" value="0"
+																					{{old('is_contacted') ===
+                                                                                    '0' ? 'checked' : ''}} required> No <span
+																					class="circle"> <span class="check"></span>
+																		</span>
+																		</label>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<div class="col-md-12">
+														<div class="form-group bmd-form-group">
 															<label for="available_date_time">Schedual at</label> <input
 																name="available_date_time" type="text"
 																class="form-control datetimepicker"
@@ -585,6 +617,7 @@ span.form-control {
 																required @focusout="getAvailableContractors">
 														</div>
 													</div>
+
 													<div class="col-md-12">
 														<div class="form-group bmd-form-group">
 															<label for="budget">Budget</label> <input name="budget"

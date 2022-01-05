@@ -267,6 +267,7 @@ class JobsController extends Controller
             $customer->is_recurring = $request->is_recurring;
             $customer->recurring_frequency = $request->recurring_frequency;
             $customer->budget = $request->budget;
+            $customer->is_contacted = $request->is_contacted;
             $customer->save();
 
             if ($request->property == 'other') {

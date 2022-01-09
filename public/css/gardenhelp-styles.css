@@ -77,7 +77,7 @@ a:focus, a:hover {
 	padding-left: 4px;
 }
 
-input, .select2-container--default .select2-selection--single .select2-selection__rendered
+input, .select2-container--default .select2-selection--single .select2-selection__rendered, textarea
 	{
 	font-family: Roboto;
 	font-size: 17px !important;
@@ -716,4 +716,64 @@ table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after,
 	.gardenHelpTable>tfoot>tr>td, .gardenHelpTable>tfoot>tr>th,
 	.gardenHelpTable>thead>tr>td, .gardenHelpTable>thead>tr>th {
 	padding: 12px 8px !important;
+}
+
+/******************/
+ .tablePinSpan{
+	font-size: 20px;
+}
+.tooltipC {
+	position: relative;
+	position: relative;
+	display: inline-block;
+}
+
+.tooltipC .tooltiptextC {
+	visibility: hidden;
+	display: none;
+	width: max-content;
+	height: auto;
+	background-color: #e7e7e7;
+	text-align: left;
+	border-radius: 6px;
+	padding: 5px;
+	z-index: 1;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: normal;
+	color: #656565;
+	position: absolute;
+	/*   top: 100%; */
+	/*   left: 50%; */
+	/*   margin-left: -60px; */
+	top: 0px;
+	right: 130%;
+	overflow: inherit;
+	box-shadow: 0 2px 2px 0 hsl(0deg 0% 60%/ 14%), 0 3px 1px -2px
+		hsl(0deg 0% 60%/ 20%), 0 1px 5px 0 hsl(0deg 0% 60%/ 12%);
+}
+
+.tooltipC .tooltiptextC::after {
+	content: "";
+	position: absolute;
+	/*   bottom: 100%; */
+	/*   left: 50%; */
+	/*   margin-left: -5px; */
+	/*   border-width: 10px; */
+	/*   border-style: solid; */
+	/*   border-color: transparent transparent #e6e6e6 transparent; */
+	top: 50%;
+	left: 100%;
+	margin-top: -8px;
+	border-width: 8px;
+	border-style: solid;
+	border-color: transparent transparent transparent #e7e7e7;
+}
+
+.tooltipC:hover .tooltiptextC {
+	display: block;
+	visibility: visible;
+	/*   position: absolute; */
+	/*    position: absolute; */
+	/*   z-index: 1001; */
 }

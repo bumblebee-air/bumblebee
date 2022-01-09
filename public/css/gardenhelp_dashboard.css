@@ -54,7 +54,7 @@ li .nav-link:hover p {
 	line-height: 30px !important;
 	/* identical to box height, or 281% */
 	letter-spacing: 0.15px;
-	color: #FFFFFF !important;
+	/* color: #FFFFFF !important; */
 }
 
 li .nav-link:hover a i {
@@ -297,8 +297,9 @@ td {
 	color: #acb1c0;
 }
 
-.form-group input {
+.form-group input, .form-group textarea{
 	padding-left: 14px;
+	padding-right: 14px;
 }
 
 /*.form-group select {*/
@@ -390,6 +391,8 @@ td {
 	background-color: #60a244;
 	font-weight: bold;
 	box-shadow: none !important;
+    color: white !important;
+    text-decoration: none !important;
 }
 
 .pagination>.page-item>.page-link, .pagination>.page-item>span {

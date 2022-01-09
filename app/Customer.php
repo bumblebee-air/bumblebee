@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Customer extends Model
 {
@@ -16,6 +17,16 @@ class Customer extends Model
     protected $casts = [
         'job_image' => 'array',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        Customer::creating(function($model) {
+            $model->customer_confirmation_code = Str::random(10);
+            $model->contractor_confirmation_code = Str::random(10);
+        });
+    }
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

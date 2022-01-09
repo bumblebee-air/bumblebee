@@ -45,16 +45,6 @@ class Contractor extends Model
         'is_notifiable'
     ];
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        Contractor::creating(function($model) {
-            $model->customer_confirmation_code = Str::random(10);
-            $model->contractor_confirmation_code = Str::random(10);
-        });
-    }
-
     public function user() {
         return $this->belongsTo(User::class, 'user_id')->withTrashed();
     }

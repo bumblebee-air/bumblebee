@@ -57,7 +57,8 @@ tr.order-row:hover, tr.order-row:focus {
 											@if(count($properties) > 0) @foreach($properties as
 											$property)
 											<tr class="order-row"
-												onclick="editProperty({{$property->id}})">
+												@click="editProperty({{$property->id}})"
+											>
 												<td>{{$property->created_at}}</td>
 												<td>{{$property->id}}</td>
 												<td>{{$property->work_location}}</td>
@@ -71,13 +72,13 @@ tr.order-row:hover, tr.order-row:focus {
 												</td>
 												<td>{{$property->type_of_work}}</td>
 												<td>{{$property->property_size}}</td>
-												<td><a
-													class="btn  btn-link btn-link-gardenhelp btn-just-icon edit"
-													onclick="editProperty({{$property['id']}})"><i
+												<td>
+													<a class="btn  btn-link btn-link-gardenhelp btn-just-icon edit"
+													@click="editProperty({{$property['id']}})"><i
 														class="fas fa-pen-fancy"></i></a>
 													<button type="button"
 														class="btn btn-link btn-danger btn-just-icon remove"
-														onClick="clickDeleteProperty({{$property['id']}})">
+														@click.prevent.stop="clickDeleteProperty({{$property['id']}})">
 														<i class="fas fa-trash-alt"></i>
 													</button></td>
 											</tr>
@@ -204,18 +205,24 @@ $(document).ready(function() {
     
 } );
 
+var app = new Vue({
+	el: '#app',
+	data: {
+		//
+	},
+	methods: {
+		clickDeleteProperty(id){
+			console.log("delete prop ",id)
+			$('#delete-property-modal').modal('show')
+			$('#delete-property-modal #propertyId').val(id);
 
-function editProperty(propertyId){
-	console.log("edit ",propertyId)
-	window.location.href = "{{url('garden-help/properties/edit/')}}/"+propertyId;
-}
-
-function clickDeleteProperty(id){
-    console.log("delete prop ",id)
-    $('#delete-property-modal').modal('show')
-    $('#delete-property-modal #propertyId').val(id);
-
-}
-    </script>
+		},
+		editProperty(propertyId){
+			console.log("edit ",propertyId)
+			window.location.href = "{{url('garden-help/properties/edit/')}}/"+propertyId;
+		}
+	}
+});
+</script>
 @endsection
 

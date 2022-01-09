@@ -22,12 +22,14 @@ class CustomerProperty extends Model
         'services_types_json',
         'user_id',
         'property_photo',
+        'notes'
     ];
 
     protected $casts = [
         'location_coordinates' => 'array',
         'area_coordinates' => 'array',
         'services_types_json' => 'array',
+        'property_photo' => 'array',
     ];
 
     public function user() {

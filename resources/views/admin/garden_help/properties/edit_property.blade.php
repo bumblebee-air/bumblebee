@@ -523,16 +523,18 @@ span.form-control {
 															<div class="timeline-carousel__item-wrapper"
 																data-js="timeline-carousel">
 
-																@foreach($property->images as $item)
-																<!--Timeline item-->
-																<div class="timeline-carousel__item">
-																	<div class="timeline-carousel__image">
-																		<div class="media-wrapper media-wrapper--overlay"
-																			style="background: url('{{asset($item)}}') center center; background-size: cover;"></div>
-																	</div>
-																</div>
-																<!--/Timeline item-->
-																@endforeach
+																@if($property->property_photo != null)
+																	@foreach($property->property_photo as $item)
+																		<!--Timeline item-->
+																		<div class="timeline-carousel__item">
+																			<div class="timeline-carousel__image">
+																				<div class="media-wrapper media-wrapper--overlay"
+																					 style="background: url('{{asset($item)}}') center center; background-size: cover;"></div>
+																			</div>
+																		</div>
+																		<!--/Timeline item-->
+																	@endforeach
+																@endif
 
 
 															</div>
@@ -825,7 +827,7 @@ span.form-control {
 
 @endsection @section('page-scripts')
 <script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"> </script>

@@ -132,7 +132,7 @@ class CustomersController extends Controller
             TwilioHelper::sendSMS('GardenHelp', $singleRequest->phone_number, $body);
             alert()->success('The Quotation was sent successfully to the client');
         }
-        return redirect()->route('garden_help_getCustomerssRequests', 'garden-help');
+        return redirect()->to('garden-help/jobs_table/jobs');
     }
 
     public function getServicesBooking($id) {

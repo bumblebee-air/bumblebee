@@ -11,7 +11,8 @@ class Customer extends Model
 
     protected $fillable = [
         'status',
-        'contractor_id'
+        'contractor_id',
+        'property_photo'
     ];
 
     protected $casts = [

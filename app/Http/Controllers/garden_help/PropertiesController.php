@@ -27,7 +27,7 @@ class PropertiesController extends Controller
 
     public function save(Request $request)
     {
-        dd($request);
+//        dd($request->all());
         $this->validate($request, [
             'type_of_work' => 'required',
             'work_location' => 'required',
@@ -39,17 +39,23 @@ class PropertiesController extends Controller
             'area_coordinates' => 'required'
             // 'services_types_json' => 'required',
         ]);
+        $property_paths = [];
+        foreach ($request->property_photo as $key => $file) {
+            $property_paths[] = $request->property_photo[$key]->store('uploads/customers_uploads');
+        }
         CustomerProperty::create([
             'type_of_work' => $request->type_of_work,
             'work_location' => $request->work_location,
             'location' => $request->location,
             'location_coordinates' => $request->location_coordinates,
             'property_size' => $request->property_size,
-            'site_detail' => $request->site_details,
+            'site_details' => $request->site_details,
             'is_parking_access' => $request->is_parking_access,
             'area_coordinates' => $request->area_coordinates,
             'services_types_json' => '', // $request->services_types_json,
-            'user_id' => $request->customer_id
+            'user_id' => $request->customer_id,
+            'notes' => $request->notes,
+            'property_photo' => $property_paths
         ]);
 
         alert()->success('Property has saved successfully');
@@ -66,20 +72,17 @@ class PropertiesController extends Controller
             alert()->error('The property ID is invalid.');
             return redirect()->back();
         }
-        
-        $property->images = array($property->property_photo,$property->property_photo,$property->property_photo,$property->property_photo);
-        
+
         return view('admin.garden_help.properties.edit_property', [
             'current_user' => $current_user,
             'property' => $property
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        dd($request);
-        $property = CustomerProperty::find($id);
-        if (! $property) {
+        $property = CustomerProperty::find($request->property_id);
+        if (!$property) {
             alert()->error('The Job ID is invalid.');
             return redirect()->back();
         }
@@ -89,10 +92,10 @@ class PropertiesController extends Controller
             'location' => 'required',
             'location_coordinates' => 'required',
             'property_size' => 'required',
-            'site_detail' => 'required',
+            'site_details' => 'required',
             'is_parking_access' => 'required',
             'area_coordinates' => 'required',
-            'services_types_json' => 'required'
+//            'services_types_json' => 'required'
         ]);
         $property->update([
             'type_of_work' => $request->type_of_work,
@@ -100,13 +103,23 @@ class PropertiesController extends Controller
             'location' => $request->location,
             'location_coordinates' => $request->location_coordinates,
             'property_size' => $request->property_size,
-            'site_detail' => $request->site_detail,
+            'site_details' => $request->site_details,
             'is_parking_access' => $request->is_parking_access,
             'area_coordinates' => $request->area_coordinates,
-            'services_types_json' => $request->services_types_json
+            'services_types_json' => '', //$request->services_types_json
+            'notes' => $request->notes,
         ]);
+        if ($request->property_photo && count($request->property_photo) > 0) {
+            $property_paths = [];
+            foreach ($request->property_photo as $key => $file) {
+                $property_paths[] = $request->property_photo[$key]->store('uploads/customers_uploads');
+            }
+            $property->update([
+                'property_photo' => $property_paths
+            ]);
+        }
         alert('Property has updated successfully');
-        return redirect()->route('garden_help_getProperties');
+        return redirect()->route('garden_help_getProperties', 'garden-help');
     }
 
     public function delete(Request $request)

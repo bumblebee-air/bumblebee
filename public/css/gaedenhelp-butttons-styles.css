@@ -133,6 +133,14 @@
 	height: 40px;
 	border-radius: 19px !important;
 }
+a.btn:hover, a.btn:focus{
+	color: #fff !important;
+	text-decoration: none !important;
+}
+a.btn.edit:hover, a.btn.edit:focus{
+	color: #60a244 !important;
+	text-decoration: none !important;
+}
 
 .editLinkA {
 	color: #60a244 !important;

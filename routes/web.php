@@ -316,8 +316,8 @@ Route::group(
                 Route::get('add', 'garden_help\PropertiesController@add')->name('gardenhelp_addProperties');
                 Route::post('save', 'garden_help\PropertiesController@save')->name('gardenhelp_saveProperties');
                 Route::get('edit/{id}', 'garden_help\PropertiesController@edit')->name('gardenhelp_editProperties');
-                Route::post('update/{id}', 'garden_help\PropertiesController@update')->name('gardenhelp_updateProperties');
-                Route::post('delete/{id}', 'garden_help\PropertiesController@delete')->name('gardenhelp_deletetProperties');
+                Route::post('update', 'garden_help\PropertiesController@update')->name('gardenhelp_updateProperties');
+                Route::post('delete', 'garden_help\PropertiesController@delete')->name('gardenhelp_deleteProperties');
             });
             Route::post('send_notification_contractor', 'garden_help\InvoiceController@postSendNotification')->name('garden_help_sendNotificationDriver');
             Route::post('payout_contractor_invoice', 'garden_help\InvoiceController@postPayout')->name('garden_help_sendNotificationContractor');

@@ -706,6 +706,14 @@
 					alt="Dashboard">
 					<p>Jobs Table</p> </a></li>
 
+			<li class="nav-item"><a class="nav-link d-flex"
+				href="{{route('garden_help_getProperties', 'garden-help')}}"> <img
+					class="my-nav-icon"
+					src="{{asset('images/gardenhelp_icons/property-icon-white.png')}}"
+					alt="Dashboard">
+					<p style="padding-right: 30px;">Properties list</p>
+					
+			</a></li>
 			
  			@endif
 

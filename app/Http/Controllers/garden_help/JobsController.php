@@ -24,10 +24,13 @@ class JobsController extends Controller
     public function getJobsTable()
     {
         $jobs = Customer::query();
-        if (auth()->user()->user_role == 'customer'){
+        if (auth()->user()->user_role == 'customer') {
             $jobs = $jobs->where('user_id', auth()->user()->id);
         }
-        $jobs = $jobs->where('type', 'job')->where('status', '!=', 'missing')->orderBy('id', 'desc')->paginate(20);
+        $jobs = $jobs->where('type', 'job')
+            ->where('status', '!=', 'missing')
+            ->orderBy('id', 'desc')
+            ->paginate(20);
 
         return view('admin.garden_help.jobs_table.jobs', [
             'jobs' => $jobs
@@ -37,9 +40,9 @@ class JobsController extends Controller
     public function getSingleJob($client_name, $id)
     {
         $customer_request = Customer::find($id);
-//        if ($customer_request->user != null) {
-//            $customer_request->email = $customer_request->user->email;
-//        }
+        // if ($customer_request->user != null) {
+        // $customer_request->email = $customer_request->user->email;
+        // }
         // dd($customer_request);
         if (! $customer_request) {
             abort(404);
@@ -47,7 +50,7 @@ class JobsController extends Controller
 
         $contractors = Contractor::where('status', 'completed')->get();
         // dd($customer_request);
-        if ($customer_request->status != 'ready' ) {
+        if ($customer_request->status != 'ready') {
             $contractor = Contractor::withTrashed()->where('user_id', $customer_request->contractor_id)->first();
             if ($contractor) {
                 if ($customer_request->user != null) {
@@ -57,7 +60,7 @@ class JobsController extends Controller
                     'job' => $customer_request,
                     'contractor' => $contractor,
                     'contractors' => [],
-                    'reassign'=>0
+                    'reassign' => 0
                 ]);
             } else {
                 $job = $customer_request;
@@ -75,7 +78,7 @@ class JobsController extends Controller
         foreach ($contractors as $contractor) {
             if ($contractor->business_hours_json) {
                 $contractor_business_hours = json_decode($contractor->business_hours_json, true);
-                if($contractor_business_hours[$currentDayName]['isActive']){
+                if ($contractor_business_hours[$currentDayName]['isActive']) {
                     $available_contractors[] = $contractor;
                 }
             }
@@ -83,7 +86,7 @@ class JobsController extends Controller
         return view('admin.garden_help.jobs_table.single_job', [
             'job' => $customer_request,
             'contractors' => $available_contractors,
-            'reassign'=>0
+            'reassign' => 0
         ]);
     }
 
@@ -104,7 +107,7 @@ class JobsController extends Controller
         return view('admin.garden_help.jobs_table.single_job', [
             'job' => $customer_request,
             'contractors' => $contractors,
-            'reassign'=>1
+            'reassign' => 1
         ]);
     }
 
@@ -119,9 +122,8 @@ class JobsController extends Controller
         if (! $job) {
             abort(404);
         }
-        $timestamps = KPITimestamp::where('model','=','gardenhelp_job')
-            ->where('model_id','=',$job->id)->first();
-        if(!$timestamps){
+        $timestamps = KPITimestamp::where('model', '=', 'gardenhelp_job')->where('model_id', '=', $job->id)->first();
+        if (! $timestamps) {
             $timestamps = new KPITimestamp();
             $timestamps->model = 'gardenhelp_job';
             $timestamps->model_id = $job->id;
@@ -151,27 +153,27 @@ class JobsController extends Controller
 
     public function addNewJob()
     {
-        
         $current_user = auth()->user();
-        
+
         $services = GardenServiceType::all();
         foreach ($services as $item) {
             $item->title = $item->name;
             $item->is_checked = $item->false;
             $item->is_recurring = "0";
         }
-        
-        
+
         $properties = CustomerProperty::where('user_id', auth()->user()->id)->get();
-                
-        return view('admin.garden_help.jobs_table.add_job', ['services' => $services, 'current_user' => $current_user, 'type_of_work'=>'Residential'
-            ,'properties'=>$properties
+
+        return view('admin.garden_help.jobs_table.add_job', [
+            'services' => $services,
+            'current_user' => $current_user,
+            'properties' => $properties
         ]);
     }
 
     public function postNewJob(Request $request)
     {
-//        dd($request->all());
+        // dd($request->all());
         $this->validate($request, [
             'work_location' => 'required'
         ]);
@@ -187,11 +189,11 @@ class JobsController extends Controller
         } else {
             $this->validate($request, [
                 'type_of_work' => 'required|in:Commercial,Residential',
-//                'name' => 'required',
-//                'email' => 'required',
-//                'contact_through' => 'required',
-//                'phone' => 'required_if:type_of_work,Residential',
-                /*'password' => 'required_if:type_of_work,Residential|confirmed',*/
+                // 'name' => 'required',
+                // 'email' => 'required',
+                // 'contact_through' => 'required',
+                // 'phone' => 'required_if:type_of_work,Residential',
+                /* 'password' => 'required_if:type_of_work,Residential|confirmed', */
                 'service_types' => 'required_if:type_of_work,Residential',
                 'location' => 'required_if:type_of_work,Residential',
                 'location_coordinates' => 'required_if:type_of_work,Residential',
@@ -206,37 +208,37 @@ class JobsController extends Controller
                 'stripeToken' => 'required'
             ]);
             $user = $request->user();
-//            $user = User::where('email','=',$request->email)
-//                ->where('phone','=',$request->phone)->where('user_role', 'customer')->first();
-//            if(!$user) {
-//                $check_phone = User::where('phone','=',$request->phone)->first();
-//                if($check_phone!=null){
-//                    alert()->error('This phone number is already registered with another email!');
-//                    return redirect()->back()->withInput();
-//                }
-//                $check_email = User::where('email','=',$request->email)->first();
-//                if($check_email!=null){
-//                    alert()->error('This email is already registered with another phone number!');
-//                    return redirect()->back()->withInput();
-//                }
-//                //Create User
-//                $user = new User();
-//                $user->name = $request->name;
-//                $user->email = $request->email;
-//                $user->phone = ($request->type_of_work == 'Commercial') ? $request->contact_number : $request->phone;
-//                $user->password = $request->password ? bcrypt($request->password) : bcrypt(Str::random(8));
-//                $user->user_role = 'customer';
-//                $user->save();
-//
-//                $client = \App\Client::where('name', 'GardenHelp')->first();
-//                if($client) {
-//                    //Making Client Relation
-//                    UserClient::create([
-//                        'user_id' => $user->id,
-//                        'client_id' => $client->id
-//                    ]);
-//                }
-//            }
+            // $user = User::where('email','=',$request->email)
+            // ->where('phone','=',$request->phone)->where('user_role', 'customer')->first();
+            // if(!$user) {
+            // $check_phone = User::where('phone','=',$request->phone)->first();
+            // if($check_phone!=null){
+            // alert()->error('This phone number is already registered with another email!');
+            // return redirect()->back()->withInput();
+            // }
+            // $check_email = User::where('email','=',$request->email)->first();
+            // if($check_email!=null){
+            // alert()->error('This email is already registered with another phone number!');
+            // return redirect()->back()->withInput();
+            // }
+            // //Create User
+            // $user = new User();
+            // $user->name = $request->name;
+            // $user->email = $request->email;
+            // $user->phone = ($request->type_of_work == 'Commercial') ? $request->contact_number : $request->phone;
+            // $user->password = $request->password ? bcrypt($request->password) : bcrypt(Str::random(8));
+            // $user->user_role = 'customer';
+            // $user->save();
+            //
+            // $client = \App\Client::where('name', 'GardenHelp')->first();
+            // if($client) {
+            // //Making Client Relation
+            // UserClient::create([
+            // 'user_id' => $user->id,
+            // 'client_id' => $client->id
+            // ]);
+            // }
+            // }
 
             // Create Customer
             $customer = new Customer();
@@ -246,7 +248,7 @@ class JobsController extends Controller
             $customer->name = $user->name;
             $customer->type = 'job';
             $customer->status = 'ready';
-            $customer->contact_through = 'sms'; //sms for now
+            $customer->contact_through = 'sms'; // sms for now
             $customer->phone_number = $user->phone;
             // $customer->password = $request->password;
             $customer->service_types = $request->service_types;
@@ -271,7 +273,7 @@ class JobsController extends Controller
             $customer->save();
 
             if ($request->property == 'other') {
-                //Saving New Property
+                // Saving New Property
                 CustomerProperty::create([
                     'work_location' => $request->work_location,
                     'type_of_work' => $request->type_of_work,
@@ -299,7 +301,7 @@ class JobsController extends Controller
                 return redirect()->back();
             }
             $stripe_customer_id = $stripe_customer->id;
-            //Saving customer id
+            // Saving customer id
             CustomerExtraData::create([
                 'user_id' => $customer->user_id,
                 'job_id' => $customer->id,
@@ -308,24 +310,38 @@ class JobsController extends Controller
             if ($customer->phone_number) {
                 TwilioHelper::sendSMS('GardenHelp', $customer->phone_number, 'Your job has been received. Thank you for using GardenHelp.');
             }
-            //Notify the available contractors
+            // Notify the available contractors
             $this->dispatch(new NewJobNotification($customer));
         }
         alert()->success("The job is added successfully");
         return redirect()->to('garden-help/jobs_table/add_job');
     }
 
-    public function getCommercialJobs(Request $request) {
-        $jobs = Customer::where('type', 'job')
-            ->where('status', 'ready')
+    public function getCommercialJobs(Request $request)
+    {
+        $jobs = Customer::where('type', 'job')->where('status', 'ready')
             ->with([
-                'contractor' => function ($q) {
-                    $q->select(['id', 'name']);
-                }
-            ])
+            'contractor' => function ($q) {
+                $q->select([
+                    'id',
+                    'name'
+                ]);
+            }
+        ])
             ->whereNotNull('property_size')
-            ->select(['id', 'work_location', 'type_of_work', 'contractor_id', 'property_photo', 'property_size', 'status', 'services_types_json'])
+            ->select([
+            'id',
+            'work_location',
+            'type_of_work',
+            'contractor_id',
+            'property_photo',
+            'property_size',
+            'status',
+            'services_types_json'
+        ])
             ->paginate(12);
-        return view('garden_help.contractors.commercial_jobs_board', ['jobs' => $jobs]);
+        return view('garden_help.contractors.commercial_jobs_board', [
+            'jobs' => $jobs
+        ]);
     }
 }

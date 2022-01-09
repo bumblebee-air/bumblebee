@@ -31,6 +31,14 @@
 	.bmd-form-group .bmd-label-static {
 		top: -1rem !important;
 	}
+	
+.radio-container .form-check .circle .check {
+	background-color: #60a244 !important;
+}
+.form-check .form-check-label .circle .check{
+	background-color: #60a244 !important;
+}
+	
 </style>
 @endsection
 @section('content')

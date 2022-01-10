@@ -359,13 +359,16 @@ class ContractorsController extends Controller
 //                    } else {
                         StripePaymentHelper::capturePaymentIntent($job->payment_intent_id);
 //                    }
-                    //Transfer to the connected account
-                    if ($job->contractor->contractor_profile && $job->contractor->contractor_profile->experience_level_value) {
-                        $client_setting = ClientSetting::where('name', "lvl_".$job->contractor->contractor_profile->experience_level_value."_percentage")->first();
-                        if ($client_setting) {
-                            StripePaymentHelper::transferPaymentToConnectedAccount($request->user()->stripe_account->account_id, round(($client_setting->the_value / 100 ) * $actual_services_amount));
-                        }
-                    }
+//                    //Transfer to the connected account
+//                    if ($job->contractor->contractor_profile && $job->contractor->contractor_profile->experience_level_value) {
+//                        $client_setting = ClientSetting::where('name', "lvl_".$job->contractor->contractor_profile->experience_level_value."_percentage")->first();
+//                        if ($client_setting) {
+//                            $contractor_bidding = ContractorBidding::where('job_id', $job->id)
+//                                ->where('contractor_id', $job->contractor->contractor_profile->id)
+//                                ->orderBy('id', 'desc')->first();
+//                            StripePaymentHelper::transferPaymentToConnectedAccount($request->user()->stripe_account->account_id, $contractor_bidding->estimated_quote);
+//                        }
+//                    }
                     $job->is_paid = true;
                     $timestamps->completed = $current_timestamp;
 

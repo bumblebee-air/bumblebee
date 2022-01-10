@@ -22,35 +22,35 @@
           <input class="form-control" id="number_of_hours" type="text" v-model="item.min_hours" required>
         </div>
       </div>
-      <div class="row justify-content-center pl-1 pr-1">
-        <div class="col-md-12 mb-2">
-          <label class="form-label" for="services_types">Other Expenses</label>
-          <input class="form-control" id="services_types" type="text" data-toggle="modal" data-target="#other_expenses_Modal" v-model="other_expenses_input">
-        </div>
-        <div class="col-md-12 mt-2" v-for="item in other_expenses" v-if="item.is_checked == true">
-          <div v-if="item.name !== 'other'">
-            <label class="form-label" for="number_of_hours">{{item.name == 'other' ? 'Add The Other Expenses type' : item.title+' Cost (€)'}}</label>
-            <input class="form-control" id="number_of_hours" type="number" v-model="item.value" required>
-          </div>
-          <div v-else>
-            <div>
-              <label class="form-label" for="number_of_hours">Add The Other Expenses Type</label>
-              <input class="form-control" id="number_of_hours" type="text" v-model="item.title" required>
-            </div>
-            <label class="form-label" for="number_of_hours">Add The Other Expenses Cost (€)</label>
-            <input class="form-control" id="number_of_hours" type="number" v-model="item.value" required>
-          </div>
-        </div>
-        <div class="col-md-12 mb-2">
-          <label class="form-label" for="services_types">Other Expenses Receipt</label>
-          <input class="form-control" type="text" id="expenses_receipt" @click="clickOnExpensesReceiptPhoto()">
-          <input type="file" id="expenses_receipt_input" @change="changeExpensesReceiptImage" accept="image/*" style="display: none">
-        </div>
-        <div class="col-md-12 mb-2">
-          <label class="form-label" for="notes">Notes: (Optional)</label>
-          <textarea class="form-control" type="text" id="notes" rows="4" v-model="notes"></textarea>
-        </div>
-      </div>
+<!--      <div class="row justify-content-center pl-1 pr-1">-->
+<!--        <div class="col-md-12 mb-2">-->
+<!--          <label class="form-label" for="services_types">Other Expenses</label>-->
+<!--          <input class="form-control" id="services_types" type="text" data-toggle="modal" data-target="#other_expenses_Modal" v-model="other_expenses_input">-->
+<!--        </div>-->
+<!--        <div class="col-md-12 mt-2" v-for="item in other_expenses" v-if="item.is_checked == true">-->
+<!--          <div v-if="item.name !== 'other'">-->
+<!--            <label class="form-label" for="number_of_hours">{{item.name == 'other' ? 'Add The Other Expenses type' : item.title+' Cost (€)'}}</label>-->
+<!--            <input class="form-control" id="number_of_hours" type="number" v-model="item.value" required>-->
+<!--          </div>-->
+<!--          <div v-else>-->
+<!--            <div>-->
+<!--              <label class="form-label" for="number_of_hours">Add The Other Expenses Type</label>-->
+<!--              <input class="form-control" id="number_of_hours" type="text" v-model="item.title" required>-->
+<!--            </div>-->
+<!--            <label class="form-label" for="number_of_hours">Add The Other Expenses Cost (€)</label>-->
+<!--            <input class="form-control" id="number_of_hours" type="number" v-model="item.value" required>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="col-md-12 mb-2">-->
+<!--          <label class="form-label" for="services_types">Other Expenses Receipt</label>-->
+<!--          <input class="form-control" type="text" id="expenses_receipt" @click="clickOnExpensesReceiptPhoto()">-->
+<!--          <input type="file" id="expenses_receipt_input" @change="changeExpensesReceiptImage" accept="image/*" style="display: none">-->
+<!--        </div>-->
+<!--        <div class="col-md-12 mb-2">-->
+<!--          <label class="form-label" for="notes">Notes: (Optional)</label>-->
+<!--          <textarea class="form-control" type="text" id="notes" rows="4" v-model="notes"></textarea>-->
+<!--        </div>-->
+<!--      </div>-->
 
       <div class="row justify-content-center align-content-center mt-5">
         <button class="btn btn-lg doorder-btn" type="submit">

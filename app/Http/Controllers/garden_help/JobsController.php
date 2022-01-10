@@ -6,6 +6,7 @@ use App\Customer;
 use App\CustomerExtraData;
 use App\CustomerProperty;
 use App\GardenServiceType;
+use App\Helpers\GardenHelpUsersNotificationHelper;
 use App\Helpers\TwilioHelper;
 use App\Http\Controllers\Controller;
 use App\Jobs\NewJobNotification;
@@ -169,7 +170,9 @@ class JobsController extends Controller
             ]);
         }
         if ($contractor->is_notifiable) {
-            TwilioHelper::sendSMS('GardenHelp', '+201005088541', "Hi $contractor->name, there is an job assigned to you, please open your app to confirm you job. " . url('contractors_app#/order-details/' . $job_id));
+//            TwilioHelper::sendSMS('GardenHelp', $contractor->user->phone, "Hi $contractor->name, there is a job assigned to you, please open your app to confirm you job. " . url('contractors_app#/order-details/' . $job_id));
+            $body = "Hi $contractor->name, a new job has been assigned to you, please open your app to confirm it. " . url('contractors_app#/order-details/' . $job_id);
+            GardenHelpUsersNotificationHelper::notifyUser($contractor->user, $body, $contractor->contact_through);
         }
 
         alert()->success("The job has been successfully assigned to $contractor->name");
@@ -198,7 +201,7 @@ class JobsController extends Controller
 
     public function postNewJob(Request $request)
     {
-        // dd($request->all());
+         dd($request->all());
         $this->validate($request, [
             'work_location' => 'required'
         ]);
@@ -265,6 +268,34 @@ class JobsController extends Controller
             // }
             // }
 
+            //Check if saved property
+            if ($request->property == 'other') {
+                $property_paths = [];
+                if ($request->property_photo && count($request->property_photo) > 0) {
+                    $property_paths = [];
+                    foreach ($request->property_photo as $key => $file) {
+                        $property_paths[] = $request->property_photo[$key]->store('uploads/customers_uploads');
+                    }
+                }
+
+                // Saving New Property
+                $property = CustomerProperty::create([
+                    'work_location' => $request->work_location,
+                    'type_of_work' => $request->type_of_work,
+                    'location' => $request->location,
+                    'location_coordinates' => $request->location_coordinates,
+                    'property_size' => $request->property_size,
+                    'site_details' => $request->site_details,
+                    'is_parking_access' => $request->is_parking_site,
+                    'area_coordinates' => $request->area_coordinates,
+                    'services_types_json' => $request->services_types_json,
+                    'user_id' => $request->user()->id,
+                    'property_photo' => $property_paths
+                ]);
+            } else {
+                $property = CustomerProperty::find($request->property);
+            }
+
             // Create Customer
             $customer = new Customer();
             $customer->user_id = $user->id;
@@ -279,7 +310,7 @@ class JobsController extends Controller
             $customer->service_types = $request->service_types;
             $customer->location = $request->location;
             $customer->location_coordinates = $request->location_coordinates;
-            $customer->property_photo = $request->hasFile('property_photo') ? $request->file('property_photo')->store('uploads/customers_uploads') : null;
+            $customer->property_photo = $property->property_photo;
             $customer->property_size = $request->property_size;
             $customer->is_first_time = $request->is_first_time;
             $customer->last_service = $request->last_services;
@@ -296,23 +327,6 @@ class JobsController extends Controller
             $customer->budget = $request->budget;
             $customer->is_contacted = $request->is_contacted;
             $customer->save();
-
-            if ($request->property == 'other') {
-                // Saving New Property
-                CustomerProperty::create([
-                    'work_location' => $request->work_location,
-                    'type_of_work' => $request->type_of_work,
-                    'location' => $request->location,
-                    'location_coordinates' => $request->location_coordinates,
-                    'property_size' => $request->property_size,
-                    'site_details' => $request->site_details,
-                    'is_parking_access' => $request->is_parking_site,
-                    'area_coordinates' => $request->area_coordinates,
-                    'services_types_json' => $request->services_types_json,
-                    'user_id' => $request->user()->id,
-                    'property_photo' => $customer->property_photo
-                ]);
-            }
 
             try {
                 $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
@@ -333,7 +347,9 @@ class JobsController extends Controller
                 'stripe_customer_id' => $stripe_customer_id
             ]);
             if ($customer->phone_number) {
-                TwilioHelper::sendSMS('GardenHelp', $customer->phone_number, 'Your job has been received. Thank you for using GardenHelp.');
+//                TwilioHelper::sendSMS('GardenHelp', $customer->phone_number, 'Your job has been received. Thank you for using GardenHelp.');
+                $body = 'Your job has been received. Thank you for using GardenHelp.';
+                GardenHelpUsersNotificationHelper::notifyUser($customer->user, $body, $customer->contact_through);
             }
             // Notify the available contractors
             $this->dispatch(new NewJobNotification($customer));

@@ -402,7 +402,7 @@ span.form-control {
 															class="form-group form-file-upload form-file-multiple ">
 															<label class="bmd-label-static"
 																for="photographs_of_property">Property image </label> <br>
-															<input id="property_photo" name="property_photo"
+															<input id="property_photo" name="property_photo[]"
 																type="file" class="inputFileHidden" multiple="multiple"
 																@change="onChangeFile($event, 'property_photo_input')">
 															<div class="input-group"

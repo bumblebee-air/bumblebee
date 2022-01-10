@@ -6,6 +6,7 @@ use App\ClientSetting;
 use App\Contractor;
 use App\ContractorPayout;
 use App\Customer;
+use App\Helpers\GardenHelpUsersNotificationHelper;
 use App\Helpers\StripePaymentHelper;
 use App\Helpers\TwilioHelper;
 use App\Http\Controllers\Controller;
@@ -110,7 +111,9 @@ class InvoiceController extends Controller
         $contractor_stripe_account = $contractor->user->stripe_account;
 
         if ($contractor_stripe_account) {
-            TwilioHelper::sendSMS('GardenHelp', '+201005088541', "Hello $contractor_user->name, You have to complete your Stripe profile to be paid. Click on the following link to complete your profile: ". url('stripe-onboard/'.$contractor_stripe_account->onboard_code));
+//            TwilioHelper::sendSMS('GardenHelp', $contractor_user->phone, "Hello $contractor_user->name, You have to complete your Stripe profile to be paid. Click on the following link to complete your profile: ". url('stripe-onboard/'.$contractor_stripe_account->onboard_code));
+            $body = "Hello $contractor_user->name, You have to complete your Stripe profile to be paid. Click on the following link to complete your profile: ". url('stripe-onboard/'.$contractor_stripe_account->onboard_code);
+            GardenHelpUsersNotificationHelper::notifyUser($contractor_user, $body, $contractor->contact_through);
         } else {
             $stripe_manager = new StripeManager();
             $stripe_account = $stripe_manager->createCustomAccount($contractor_user);

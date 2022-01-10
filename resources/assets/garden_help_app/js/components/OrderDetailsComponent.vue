@@ -194,10 +194,10 @@
                               </p>
                             </div>
                           </div>
-                          <div class="row" v-if="job_data.property_photo">
+                          <div class="row" v-if="job_data.property_photo.length">
                             <div class="col-10 order-address-row">
                               <p class="order-address-value">
-                                <img :src="job_data.property_photo" alt="Property Image" style="width: 100%; height: 100%">
+                                <img v-for="photo in job_data.property_photo" :src="photo"  alt="Property Image" style="width: 100%; height: 100%">
                               </p>
                             </div>
                           </div>

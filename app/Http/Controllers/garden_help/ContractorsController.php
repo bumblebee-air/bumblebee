@@ -6,6 +6,7 @@ use App\Contractor;
 use App\ContractorBidding;
 use App\Customer;
 use App\Helpers\CustomNotificationHelper;
+use App\Helpers\GardenHelpUsersNotificationHelper;
 use App\Helpers\ServicesTypesHelper;
 use App\Helpers\StripePaymentHelper;
 use App\Helpers\TwilioHelper;
@@ -193,7 +194,8 @@ class ContractorsController extends Controller
             // Sending SMS
             $body = "Hi " . $singleRequest->name . ",
              we are sorry, your contractor profile has been rejected.";
-            TwilioHelper::sendSMS('GardenHelp', $singleRequest->phone_number, $body);
+//            TwilioHelper::sendSMS('GardenHelp', $singleRequest->phone_number, $body);
+            GardenHelpUsersNotificationHelper::notifyUser($singleRequest->user, $body, $singleRequest->contact_through);
         } else {
             $singleRequest->status = 'completed';
             $singleRequest->save();
@@ -376,7 +378,8 @@ class ContractorsController extends Controller
                     //Sending confirmation URL to the customer
                     if ($job->user && $job->user->phone) {
                         $body = "Hi $job->name, GardenHelp service has been completed, open the link to scan the QR code and confirm the job. " . url('gh/customer/job/' . $job->customer_confirmation_code);
-                        TwilioHelper::sendSMS('GardenHelp', $job->user->phone, $body);
+//                        TwilioHelper::sendSMS('GardenHelp', $job->user->phone, $body);
+                        GardenHelpUsersNotificationHelper::notifyUser($job->user, $body, $job->contact_through);
                     }
                 }
                 $job->save();
@@ -406,8 +409,10 @@ class ContractorsController extends Controller
                     $job->status = 'matched';
                     $job->contractor_id = $request->user()->id;
                     // Sending Twilio SMS
-                    $body = "Your request has accepted by: " . $request->user()->name . " and has been scheduled in " . $job->available_date_time;
-                    TwilioHelper::sendSMS('GardenHelp', $job->phone_number, $body);
+                    $body = "Your request has accepted by: " . $request->user()->name . " and has been scheduled on " . $job->available_date_time;
+//                    TwilioHelper::sendSMS('GardenHelp', $job->phone_number, $body);
+                    GardenHelpUsersNotificationHelper::notifyUser($job->user, $body, $job->contact_through);
+
                     $timestamps->accepted = $current_timestamp;
                 } elseif ($request->status == 'rejected') {
                     if ($job->driver != $request->user()->id) {
@@ -813,7 +818,9 @@ class ContractorsController extends Controller
             'error' => 0
         ];
         //Notify the customer
-        TwilioHelper::sendSMS('GardenHelp', $job->user->phone, 'There a new contractor has offered a new price, please click the following link for more details: '. route('garden_help_getSingleJob', ['garden-help', $job->id]));
+//        TwilioHelper::sendSMS('GardenHelp', $job->user->phone, 'There a new contractor has offered a new price, please click the following link for more details: '. route('garden_help_getSingleJob', ['garden-help', $job->id]));
+        $body = 'A contractor has offered a new price, please click the following link for more details: '. route('garden_help_getSingleJob', ['garden-help', $job->id]);
+        GardenHelpUsersNotificationHelper::notifyUser($job->user, $body, $job->contact_through);
         return response()->json($response)->setStatusCode(200);
     }
 }

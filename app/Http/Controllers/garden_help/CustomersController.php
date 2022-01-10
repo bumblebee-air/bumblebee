@@ -7,6 +7,7 @@ use App\Customer;
 use App\CustomerExtraData;
 use App\GardenServiceType;
 use App\Helpers\CustomNotificationHelper;
+use App\Helpers\GardenHelpUsersNotificationHelper;
 use App\Helpers\StripePaymentHelper;
 use App\Helpers\TwilioHelper;
 use App\Http\Controllers\Controller;
@@ -129,7 +130,8 @@ class CustomersController extends Controller
             $singleRequest->status = 'quote_sent';
             $singleRequest->save();
             $body = "Hi $singleRequest->name, Please visit " . route('garde_help_getServicesBooking', $singleRequest->id) . " to view quotation and book your service. ";
-            TwilioHelper::sendSMS('GardenHelp', $singleRequest->phone_number, $body);
+//            TwilioHelper::sendSMS('GardenHelp', $singleRequest->phone_number, $body);
+//            GardenHelpUsersNotificationHelper::notifyUser($job->user, $body, $job->contact_through);
             alert()->success('The Quotation was sent successfully to the client');
         }
         return redirect()->to('garden-help/jobs_table/jobs');
@@ -248,14 +250,22 @@ class CustomersController extends Controller
         }
         if ($customer->contractor_id) {
             try {
-                TwilioHelper::sendSMS('GardenHelp', $customer->contractor->phone, "There is a customer has canceled his service, Scheduled at: $customer->available_date_time");
+//                TwilioHelper::sendSMS('GardenHelp', $customer->contractor->phone, "There is a customer has canceled his service, Scheduled at: $customer->available_date_time");
+                $body = "The service scheduled at: $customer->available_date_time, has been canceled.";
+                $contractor_profile = Contractor::where('user_id', $customer->contractor_id)->first();
+                if ($contractor_profile) {
+                    GardenHelpUsersNotificationHelper::notifyUser($customer->contractor, $body, $contractor_profile->contract_through);
+                }
             } catch (Exception $e) {
                 \Log::error($e->getMessage());
             }
         }
 
         try {
-            TwilioHelper::sendSMS('GardenHelp', $customer->phone_number, 'Your service has been canceled successfully');
+//            TwilioHelper::sendSMS('GardenHelp', $customer->phone_number, 'Your service has been canceled successfully');
+            $body = 'Your service has been canceled successfully';
+            GardenHelpUsersNotificationHelper::notifyUser($customer->user, $body, $customer->contract_through);
+
         } catch (Exception $e) {
             \Log::error($e->getMessage());
         }

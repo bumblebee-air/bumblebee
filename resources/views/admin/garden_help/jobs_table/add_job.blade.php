@@ -1576,7 +1576,17 @@ span.form-control {
                     $('#' + id).click();
                 },
                 onChangeFile(e, id) {
-                    $("#" + id).val(e.target.files[0].name);
+                    // $("#" + id).val(e.target.files[0].name);
+                    console.log(e.target.files)
+                	if(e.target.files.length==1){
+                    	$("#" + id).val(e.target.files[0].name);
+                    }else{
+                    	var fileNames = e.target.files[0].name;
+                    	for(var i=1; i<e.target.files.length;i++){
+                    		fileNames += ", "+e.target.files[i].name;
+                    	}
+                    	$("#" + id).val(fileNames)
+                    }
                 },
                 changeContact(value) {
                     this.contact_through = value;

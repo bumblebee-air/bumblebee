@@ -292,7 +292,7 @@ span.form-control {
 														<div class="form-group bmd-form-group">
 															<label class="">Property Image</label>
 															<div class="">
-																<img :src="'../../'+selected_property.property_photo"
+																<img :src="'{{asset('/')}}'+selected_property.property_photo"
 																	style="width: 200px; height: 200px">
 															</div>
 														</div>
@@ -403,13 +403,13 @@ span.form-control {
 															<label class="bmd-label-static"
 																for="photographs_of_property">Property image </label> <br>
 															<input id="property_photo" name="property_photo"
-																type="file" class="inputFileHidden"
+																type="file" class="inputFileHidden" multiple="multiple"
 																@change="onChangeFile($event, 'property_photo_input')">
 															<div class="input-group"
 																@click="addFile('property_photo')">
 																<input type="text" id="property_photo_input"
 																	class="form-control inputFileVisible"
-																	placeholder="Upload Photo" required> <span
+																	placeholder="Upload Photos" required> <span
 																	class="input-group-btn">
 																	<button type="button"
 																		class="btn btn-fab btn-round btn-success">

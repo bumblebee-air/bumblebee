@@ -267,6 +267,7 @@ Route::group(
                 Route::get('roster', 'garden_help\ContractorsController@getContractorsRoster')->name('garden_help_getContractorsRoster');
                 Route::get('roster-events', 'garden_help\ContractorsController@getContractorsRosterEvents')->name('garden_help_getContractorsRosterEvents');
                 Route::get('roster-data', 'garden_help\ContractorsController@postContractorsRoster')->name('garden_help_postContractorsRoster');
+                
             });
             Route::group([
                 'prefix' => 'customers'
@@ -286,6 +287,8 @@ Route::group(
                 Route::get('add_job', 'garden_help\JobsController@addNewJob')->name('garden_help_addNewJob');
                 Route::post('add_job', 'garden_help\JobsController@postNewJob')->name('postAddJob');
             });
+            Route::get('view_applied_contractor/{id}', 'garden_help\JobsController@getSingleAppliedContractor')->name('garden_help_getAppliedContractorSingleView');
+            
             Route::group([
                 'prefix' => 'service_types'
             ], function () {

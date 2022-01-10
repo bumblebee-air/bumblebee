@@ -1,5 +1,10 @@
 @extends('templates.dashboard') @section('title', 'GardenHelp | Job')
 @section('page-styles')
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css">
+
+<link rel="stylesheet"
+	href="{{asset('css/gardenhelp-slick-styles.css')}}">
 <style>
 .modal-content {
 	padding: 51px !important;
@@ -74,12 +79,26 @@ input[type="radio"]:checked+div i {
 	color: #60a244;
 }
 
-.recommendAssignContractor .recommendContractorNameH6, .recommendAssignContractor .recommendContractorDataP {
+.recommendAssignContractor .recommendContractorNameH6,
+	.recommendAssignContractor .recommendContractorDataP {
 	position: absolute;
 	top: 50%;
 	transform: translateY(-50%);
 }
 
+.requestSubTitle {
+	margin: 0 !important;
+}
+
+.input-group-text img {
+	width: 18px;
+	height: 22px;
+}
+
+.my-check-box-label, .customer-register-label, .requestLabel {
+	font-size: 16px;
+	line-height: 19px;
+}
 </style>
 @endsection @section('page-content')
 <div class="content">
@@ -101,164 +120,206 @@ input[type="radio"]:checked+div i {
 								<div class="row">
 									<div class="col-md-6 col-sm-6 col-12">
 										<div class="row">
-											<div class="col-12">
-												<div class=" row">
-													<label class="requestLabel col-12">Location: <span
-														class="form-control customerRequestSpan col-12">{{$job->work_location}}
-													</span></label>
-												</div>
-											</div>
-											<div class="col-12">
-												<div class=" row">
-													<label class="requestLabel col-12">Type of work: <span
-														class="form-control customerRequestSpan col-12">{{$job->type_of_work}}</span></label>
-												</div>
-											</div>
-
 
 											<div class="col-12">
 												<div class=" row">
 													<div class="col-12">
-														<h5 class="requestSubTitle">Personal Details</h5>
+														<h5 class="requestSubTitle my-0">Service Details</h5>
 													</div>
 												</div>
 											</div>
-											<div class="col-12">
+											<div class="col-12 mt-2">
 												<div class=" row">
-													<label class="requestLabel col-12">Name: <span
-														class="form-control customerRequestSpan col-12">{{$job->name}}</span></label>
-												</div>
-											</div>
-											<div class="col-12">
-												<div class=" row">
-													<label class="requestLabel col-12">Email: <span
-														class="form-control customerRequestSpan col-12">{{$job->user->email}}</span></label>
-												</div>
-											</div>
-											<div class="col-12">
-												<div class=" row">
-													<label class="requestLabel col-12">Contact through: <span
-														class="form-control customerRequestSpan col-12">{{$job->contact_through}}</span></label>
-												</div>
-											</div>
-											<div class="col-12">
-												<div class=" row ">
-													<label class="requestLabel  col-12">Phone number: <span
-														class="form-control customerRequestSpan  col-12">{{$job->phone_number}}</span></label>
-												</div>
-											</div>
-											<div class="col-12">
-												<div class=" row">
-													<div class="col-12">
-														<h5 class="requestSubTitle">Service Details</h5>
+													<div class=" col-12">
+														<span class="input-group-text d-inline"> <img
+															src="{{asset('images/gardenhelp_icons/service-type-icon.png')}}"
+															alt="GardenHelp">
+														</span> <label class="requestLabel d-inline">Service type:
+															<span class="customerRequestSpan ">{{$job->service_types}}</span>
+														</label>
 													</div>
-												</div>
-											</div>
-											<div class="col-12">
-												<div class=" row">
-													<label class="requestLabel col-12">Service type: <span
-														class="form-control customerRequestSpan col-12">{{$job->service_types}}</span></label>
 												</div>
 											</div>
 
-											<div class="col-12">
+											<div class="col-12 mt-3">
 												<div class=" row">
 													<div class="col-12">
 														<h5 class="requestSubTitle">Property Information</h5>
 													</div>
 												</div>
 											</div>
-											<div class="col-12">
+
+											<div class="col-12 mt-2">
 												<div class=" row">
-													<label class="requestLabel col-12">Address: <span
-														class="form-control customerRequestSpan col-12">{{$job->location}}</span></label>
+													<div class=" col-12">
+														<span class="input-group-text d-inline"> <img
+															src="{{asset('images/gardenhelp_icons/location-icon.png')}}"
+															alt="GardenHelp">
+														</span> <label class="requestLabel d-inline"><span
+															class="customerRequestSpan ">{{$job->work_location}}</span></label>
+													</div>
 												</div>
 											</div>
-											<div class="col-12">
+
+											<div class="col-12 mt-3">
 												<div class=" row">
-													<label class="requestLabel col-12">Property Image</label>
-													<div class="col">
-														<img src="{{asset($job->property_photo)}}"
-															style="width: 200px; height: 200px">
+													<div class=" col-12">
+														<label class="requestLabel d-inline">Property type: <span
+															class="customerRequestSpan ">{{$job->type_of_work}}</span></label>
+													</div>
+												</div>
+											</div>
+
+											<div class="col-12 mt-3">
+												<div class=" row">
+													<div class=" col-12">
+														<span class="input-group-text d-inline"> <img
+															src="{{asset('images/gardenhelp_icons/location-icon.png')}}"
+															alt="GardenHelp">
+														</span> <label class="requestLabel d-inline"><span
+															class="customerRequestSpan ">{{$job->location}}</span></label>
+													</div>
+												</div>
+											</div>
+
+											<div class="col-12 mt-3">
+												<div class=" row">
+													<div class=" col-12">
+														<span class="input-group-text d-inline"> <img
+															src="{{asset('images/gardenhelp_icons/property-size-icon.png')}}"
+															alt="GardenHelp">
+														</span> <label class="requestLabel d-inline">Property
+															size: <span class="customerRequestSpan ">{{$job->property_size}}</span>
+														</label>
+													</div>
+												</div>
+											</div>
+
+											<div class="col-12 mt-3">
+												<div class=" row">
+													<label class="requestLabel col-12">Property Images</label>
+													<div class="col-12">
+														<section class="timeline-carousel">
+
+															<div class="timeline-carousel__item-wrapper"
+																data-js="timeline-carousel">
+
+																@if($job->property_photo != null)
+																@foreach(json_decode($job->property_photo) as $item)
+																<!--Timeline item-->
+																<div class="timeline-carousel__item">
+																	<div class="timeline-carousel__image">
+																		<div class="media-wrapper media-wrapper--overlay"
+																			style="background: url('{{asset($item)}}') center center; background-size: cover;"></div>
+																	</div>
+																</div>
+																<!--/Timeline item-->
+																@endforeach @endif
+
+
+															</div>
+														</section>
+													</div>
+												</div>
+											</div>
+
+											<div class="col-12 mt-3">
+												<div class=" row">
+													<div class=" col-12">
+														<span class="input-group-text d-inline"> <img
+															src="{{asset('images/gardenhelp_icons/time-icon.png')}}"
+															alt="GardenHelp">
+														</span> <label class="requestLabel d-inline">Scheduled at:
+															<span class="customerRequestSpan ">{{$job->available_date_time}}</span>
+														</label>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 mt-3">
+												<div class=" row">
+													<div class=" col-12">
+														<span class="input-group-text d-inline"> <img
+															src="{{asset('images/gardenhelp_icons/budget-icon.png')}}"
+															alt="GardenHelp">
+														</span> <label class="requestLabel d-inline">Budget: <span
+															class="customerRequestSpan ">€{{$job->budget}}</span></label>
+													</div>
+												</div>
+											</div>
+
+											<div class="col-12 mt-3">
+												<div class=" row">
+													<div class=" col-12">
+														<label class="requestLabel d-inline">Is this your first
+															service? <span class="customerRequestSpan ">{{$job->is_first_time
+																? 'Yes' : 'No'}}</span>
+														</label>
+													</div>
+												</div>
+											</div>
+
+											@if($job->is_first_time != 1)
+
+											<div class="col-12 mt-2">
+												<div class=" row">
+													<div class=" col-12">
+														<span class="input-group-text d-inline"> <img
+															src="{{asset('images/gardenhelp_icons/time-icon.png')}}"
+															alt="GardenHelp">
+														</span> <label class="requestLabel d-inline">Last service:
+															<span class="customerRequestSpan ">{{$job->last_service}}</span>
+														</label>
+													</div>
+												</div>
+											</div>
+											@endif
+
+											<div class="col-12 mt-3">
+												<div class=" row">
+													<div class=" col-12">
+														<label class="requestLabel d-inline">Is there a parking
+															access on site? <span class="customerRequestSpan ">{{$job->is_parking_access
+																? 'Yes' : 'No'}}</span>
+														</label>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 mt-3">
+												<div class=" row">
+													<div class=" col-12">
+														<label class="requestLabel d-inline">Do you mind being
+															contacted prior to job? <span
+															class="customerRequestSpan ">{{$job->is_contacted ? 'Yes'
+																: 'No'}}</span>
+														</label>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 mt-3">
+												<div class=" row">
+													<div class=" col-12">
+														<label class="requestLabel d-inline">Contact me through: <span
+															class="customerRequestSpan ">{{$job->contact_through}}</span></label>
 													</div>
 												</div>
 											</div>
 
 
-											<div class="col-12">
+
+											<div class="col-12 mt-3">
 												<div class=" row">
-													<label class="requestLabel col-12">Property size: <span
-														class="form-control customerRequestSpan col-12">{{$job->property_size}}</span></label>
+													<label class="requestLabel col-12 mb-0">Site details: </label><span
+														class=" customerRequestSpan col-12 mt-0">{{$job->site_details}}</span>
 												</div>
 											</div>
-											<div class="col-12">
+											<div class="col-12 mt-3">
 												<div class=" row">
-													<label class="requestLabel col-12">Is this the first time
-														you do service for your property?: <span
-														class="form-control customerRequestSpan col-12">{{$job->is_first_time
-															? 'Yes' : 'No'}}</span>
-													</label>
-												</div>
-											</div>
-											@if($job->is_first_time != 1)
-											<div class="col-12">
-												<div class=" row">
-													<label class="requestLabel col-12">When Was the last
-														Service?: <span
-														class="form-control customerRequestSpan col-12">{{$job->last_service}}</span>
-													</label>
-												</div>
-											</div>
-											@endif
-											<div class="col-12">
-												<div class=" row">
-													<label class="requestLabel col-12">Site details: <span
-														class="form-control customerRequestSpan col-12">{{$job->site_details}}</span></label>
-												</div>
-											</div>
-											<div class="col-12">
-												<div class=" row">
-													<label class="requestLabel col-12">Is there a parking
-														access on site?: <span
-														class="form-control customerRequestSpan col-12">{{$job->is_parking_access
-															? 'Yes' : 'No'}}</span>
-													</label>
+													<label class="requestLabel col-12 mb-0">Notes: </label><span
+														class=" customerRequestSpan col-12 mt-0">{{$job->notes}}</span>
 												</div>
 											</div>
 
-											<div class="col-12">
-												<div class="form-group bmd-form-group">
-													<label class="" for="location">Is recurring? </label> <span
-														class="form-control">{{$job->is_recurring ? 'Yes' : 'No'}}</span>
-												</div>
-											</div>
-											@if($job->is_recurring != 1)
-											<div class="col-12">
-												<div class=" form-group bmd-form-group">
-													<label class="">What is the frequency of the recurring in
-														months? </label> <span
-														class="form-control customerRequestSpan col-12">
-														{{$job->recurring_frequency}}</span>
 
-												</div>
-											</div>
-											@endif
-
-											<div class="col-md-12">
-												<div class="form-group bmd-form-group">
-													<label for="available_date_time">Schedual at</label> <span
-														class="form-control customerRequestSpan col-12">
-														{{$job->available_date_time}}</span>
-
-												</div>
-											</div>
-											<div class="col-md-12">
-												<div class="form-group bmd-form-group">
-													<label for="budget">Budget</label> <span
-														class="form-control customerRequestSpan col-12">
-														{{$job->budget}}</span>
-												</div>
-											</div>
 										</div>
 
 									</div>
@@ -274,116 +335,88 @@ input[type="radio"]:checked+div i {
 					<div class="row ">
 						@if($job->status =='ready' || $reassign == 1)
 						<div class="col-lg-12 ">
-							<div class="card ">
-								<div class="card-body" style="padding-top: 0 !important;">
-									<div class="container" style="padding-bottom: 10px !important;">
-										<div class="row">
-											<div class="col-12">
-												<div class=" row">
-													<div class="col-12">
-														<h5 class=" requestSubTitle cardTitleGrey"
-															style="margin-bottom: 0 !important;">Contractor
-															Applications</h5>
-													</div>
-												</div>
-											</div>
-											<div class="col-12" id="contractors-list">
-												@if(count($contractors) > 0) @foreach($contractors as
-												$contractor)
-												<div class="card recommendContractor recommendAssignContractor"
-													id="contractor-row-{{$contractor->id}}" data-sort="0"
-													@click="selectContractor">
-													<input type="radio"
-														id="radioInputContractor-{{$contractor->id}}"
-														name="selected-contractor" value="{{$contractor->id}}"
-														data-contractor-name="{{$contractor->name}}"
-														data-contractor-level="{{$contractor->experience_level}}"
-														data-contractor-away="{{$contractor->km_away}}"
-														data-contractor-price="{{$contractor->price_quotation}}">
-													<div class="card-body">
-														<div class="col-12  ">
-															<label class="form-check-label w-100 px-0"
-																for="radioInputContractor-{{$contractor->id}}">
-																<div class="row">
+							<section class="timeline-carousel timeline-carousel-contractors">
 
-																	<div class="col-3">
-																		<h6 class="recommendContractorNameH6">
-																			{{$contractor->name}}</h6>
-																	</div>
-																	<div class="col-2">
-																		<p class="recommendContractorDataP">{{$contractor->experience_level}}</p>
-																	</div>
-																	<div class="col-2">
-																		<p class="recommendContractorDataP"
-																			id="km-away-{{$contractor->id}}">{{$contractor->km_away}}
-																			Km away</p>
-																	</div>
-																	<div class="col-3">
-																		<h6 class="recommendContractorNameH6">Price quotation:
-																			€{{$contractor->price_quotation}}</h6>
-																	</div>
-																	<div class="col-2" style="text-align: right">
-																		<i class="fas fa-check-circle"></i>
-																	</div>
-																</div>
-															</label>
-														</div>
-													</div>
+								<div class="timeline-carousel__item-wrapper"
+									data-js="timeline-carousel">
+
+									@if(count($contractors) > 0) @foreach($contractors as
+									$contractor)
+									<!--Timeline item-->
+									<div class="timeline-carousel__item">
+										<div class="contractor-card text-center">
+											<img
+												src="{{asset('images/gardenhelp_icons/contractors_applied.png')}}"
+												alt="" width="70px"> <img>
+											<h2 class="carouselContractorH2 mt-2">Contractor Applied</h2>
+											<h4 class="carouselContractorNameH4 mt-1">
+												<a target="_blank" href="{{url('garden-help/view_applied_contractor')}}/{{$contractor->id}}"><u>{{$contractor->name}}</u></a></h4>
+											<p class="carouselContractorKmP mt-2"
+												id="km-away-{{$contractor->id}}">{{$contractor->km_away}} Km
+												away</p>
+											<input type="hidden" id="hiddenKmAway-{{$contractor->id}}"
+												value="" />
+											<div class=" row mt-2">
+												<div class=" col-12 ">
+													<span class="input-group-text d-inline"> </span> <label
+														class="requestLabel d-inline"><img
+														src="{{asset('images/gardenhelp_icons/budget-icon.png')}}"
+														alt="GardenHelp" width="18px"> Bidding: <span
+														class="customerRequestSpan ">€{{$contractor->price_quotation}}</span></label>
 												</div>
-												@endforeach @endif
 											</div>
+											<button type="button"
+												class="btn btn-gardenhelp-green addServiceButton mt-3"
+												onclick="showAssignContractorModal({{$contractor->id}},'{{$contractor->name}}','{{$contractor->experience_level}}', '{{$contractor->price_quotation}}')">
+												<p>Assign</p>
+											</button>
 										</div>
 									</div>
+									<!--/Timeline item-->
+									@endforeach @endif
+
+
 								</div>
-							</div>
+							</section>
+
 						</div>
 						@elseif( ($job->status !='ready' || $job->status =='completed') &&
 						$reassign == 0)
-						<div class="col-lg-6 "
-							v-if="job.status != 'ready' || job.status =='completed'">
-							<div class="card ">
-								<div class="card-body" style="padding-top: 0 !important;">
-									<div class="container" style="padding-bottom: 10px !important;">
-										<div class="row">
-											<div class="col-12">
-												<div class=" row">
-													<div class="col-12">
-														<h5 class=" requestSubTitle cardTitleGrey"
-															style="margin-bottom: 0 !important; display: inline-block;">Assigned
-															Contractor</h5>
-														<a v-if="job.status != 'completed'"
-															href="{{url('garden-help/jobs_table/reassign_job/')}}/{{$job->id}}"
-															class="editLinkA "> <i class="fas fa-redo-alt"></i>
-														</a>
-													</div>
+						<div class="col-12"
+							v-if="job.status != 'ready' && job.status != 'completed' ">
+							<div class="card">
+								<div class="card-body">
+									<div class="recommendContractor recommendAssignContractor">
+										<div class="col-12  ">
+
+											<div class="row">
+												<div class="col-2">
+													<img
+														src="{{asset('images/gardenhelp_icons/contractor-assigned.png')}}"
+														alt="" width="70px"> <img>
 												</div>
-											</div>
-											<div class="col-12">
 
-												<div class="card recommendContractor">
+												<div class="col-6 justify-content-center align-self-center">
+													<h2 class="carouselContractorH2 mt-2 d-inline-block"
+														style="font-size: large">Assigned contractor:</h2>
+
+													<h4
+														class="carouselContractorH2 mt-2 d-inline-block font-weight-bold"
+														style="font-size: large">{{$contractor->name}}</h4>
+												</div>
 
 
-													<div class="card-body">
-														<div class="col-12  ">
-															<div class="row">
-
-																<div class="col">
-																	<h6 class="recommendContractorNameH6">
-																		{{$contractor->name}}</h6>
-
-																	<p class="recommendContractorDataP">{{$contractor->experience_level}}</p>
-
-																	<p class="recommendContractorDataP"
-																		id="km-away-{{$contractor->id}}">
-																		{{$contractor->km_away}} km away</p>
-
-																	<h6 class="recommendContractorNameH6">Price quotation:
-																		€{{$contractor->price_quotation}}</h6>
-																</div>
-															</div>
-														</div>
-
-													</div>
+												<div class="col-2 justify-content-center align-self-center">
+													<p class="carouselContractorKmP mt-2"
+														id="km-away-{{$contractor->id}}">{{$contractor->km_away}}
+														Km away</p>
+												</div>
+												<div
+													class="col-2 justify-content-center align-self-center mt-3 mb-2">
+													<label class="requestLabel d-inline"><img
+														src="{{asset('images/gardenhelp_icons/budget-icon.png')}}"
+														alt="GardenHelp" width="18px"> Bidding: <span
+														class="customerRequestSpan ">€{{$contractor->price_quotation}}</span></label>
 												</div>
 											</div>
 										</div>
@@ -391,6 +424,87 @@ input[type="radio"]:checked+div i {
 								</div>
 							</div>
 						</div>
+						<div class="col-12" v-if="job.status == 'completed' ">
+							<div class="card">
+								<div class="card-body">
+									<div class="recommendContractor recommendAssignContractor">
+										<div class="col-12  ">
+
+											<div class="row">
+												<div class="col-2">
+													<img
+														src="{{asset('images/gardenhelp_icons/job-completed.png')}}"
+														alt="" width="70px"> <img>
+												</div>
+												<div class="col-4  justify-content-center align-self-center">
+													<h4
+														class="carouselContractorH2 mt-2 d-inline-block font-weight-bold"
+														style="color:#60A244">Job Completed</h4>
+
+												</div>
+
+												<div class="col-6 justify-content-center align-self-center">
+													<h2 class="carouselContractorH2 mt-2 d-inline-block"
+														style="">Assigned contractor:</h2>
+
+													<h4
+														class="carouselContractorH2 mt-2 d-inline-block font-weight-bold"
+														style="">{{$contractor->name}}</h4>
+												</div>
+
+
+
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+<!-- 						<div class="col-lg-12 " -->
+<!-- 							v-if="job.status != 'ready' || job.status =='completed'"> -->
+<!-- 							<div class="card "> 
+								<div class="card-body" style="padding-top: 0 !important;">
+									<div class="container" style="padding-bottom: 10px !important;">
+<!-- 										<div class="row"> -->
+<!-- 											<div class="col-12"> -->
+<!-- 												<div class=" row"> -->
+<!-- 													<div class="col-12"> -->
+<!-- 														<h5 class=" requestSubTitle cardTitleGrey" 
+															style="margin-bottom: 0 !important; display: inline-block;">Assigned
+<!-- 															Contractor</h5> -->
+<!-- 														<a v-if="job.status != 'completed'" -->
+<!-- 															href="{{url('garden-help/jobs_table/reassign_job/')}}/{{$job->id}}" -->
+<!-- 															class="editLinkA "> <i class="fas fa-redo-alt"></i> -->
+<!-- 														</a> -->
+<!-- 													</div> -->
+<!-- 												</div> -->
+<!-- 											</div> -->
+<!-- 											<div class="col-12"> -->
+<!-- 												<div class="card recommendContractor"> -->
+<!-- 													<div class="card-body"> -->
+<!-- 														<div class="col-12  "> -->
+<!-- 															<div class="row"> -->
+<!-- 																<div class="col"> -->
+<!-- 																	<h6 class="recommendContractorNameH6"> -->
+<!-- 																		{{$contractor->name}}</h6> -->
+<!-- 																	<p class="recommendContractorDataP">{{$contractor->experience_level}}</p> -->
+<!-- 																	<p class="recommendContractorDataP" -->
+<!-- 																		id="km-away-{{$contractor->id}}"> -->
+<!-- 																		{{$contractor->km_away}} km away</p> -->
+<!-- 																	<h6 class="recommendContractorNameH6">Price quotation: -->
+<!-- 																		€{{$contractor->price_quotation}}</h6> -->
+<!-- 																</div> -->
+<!-- 															</div> -->
+<!-- 														</div> -->
+
+<!-- 													</div> -->
+<!-- 												</div> -->
+<!-- 											</div> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
 						@endif @if($job->status =='completed')
 						@if(auth()->user()->user_role == 'client')
 						<div class="col-lg-6  ">
@@ -464,6 +578,7 @@ input[type="radio"]:checked+div i {
 							</div>
 						</div>
 						@endif
+						@if(auth()->user()->user_role == 'client')
 						<div class="col-lg-6" v-if="job_other_expenses_json.length > 0">
 							<div class="card">
 								<div class="card-body" style="padding-top: 0 !important;">
@@ -543,6 +658,7 @@ input[type="radio"]:checked+div i {
 								</div>
 							</div>
 						</div>
+						
 						@if($job->notes)
 						<div class="col-lg-6">
 							<div class="card">
@@ -608,9 +724,11 @@ input[type="radio"]:checked+div i {
 								</div>
 							</div>
 						</div>
+						@endif
 						@endif @php $timestamps = \App\KPITimestamp::where('model_id',
 						$job->id)->where('model', 'gardenhelp_job')->first(); @endphp
 						@if($timestamps)
+						@if(auth()->user()->user_role == 'client')
 						<div class="col-lg-6">
 							<div class="card">
 								<div class="card-body" style="padding-top: 0 !important;">
@@ -664,6 +782,7 @@ input[type="radio"]:checked+div i {
 								</div>
 							</div>
 						</div>
+						@endif
 						@endif @else @if(auth()->user()->user_role == 'client')
 						<div class="col-lg-6  ">
 							<div class="card ">
@@ -718,17 +837,17 @@ input[type="radio"]:checked+div i {
 					</div>
 
 					<div class="row " v-if="job.status == 'ready' || reassign == 1">
-						<div class="col-sm-6 text-center">
+						<!-- 						<div class="col-sm-6 text-center"> -->
 
-							<button class="btn btn-register btn-gardenhelp-green"
+						<!-- 							<button class="btn btn-register btn-gardenhelp-green" 
 								id="assignContractorBtn" style="float: right;" disabled
 								onclick="showAssignContractorModal()">Assign Contractor</button>
 
-						</div>
-						<div class="col-sm-6 text-center">
+<!-- 						</div> -->
+						<div class="col-sm-12 text-center">
 							<button class="btn btn-register btn-gardenhelp-danger"
-								style="float: left" data-toggle="modal"
-								data-target="#rejection-reason-modal">Cancel Job</button>
+								data-toggle="modal" data-target="#rejection-reason-modal">Cancel
+								Job</button>
 						</div>
 					</div>
 					<div class="row " v-else-if="job.status == 'assigned'">
@@ -818,7 +937,7 @@ input[type="radio"]:checked+div i {
 															<div class="card-header deliverer-details row">
 
 																<div class="col-10">
-																	<h6 class="recommendContractorNameH6 mt-1">
+																	<h6 class="recommendContractorNameH6 mt-2">
 																		<span id="contractorNameSpan"></span>
 																	</h6>
 																	<p class="recommendContractorDataP">
@@ -870,14 +989,37 @@ input[type="radio"]:checked+div i {
 </div>
 @endsection @section('page-scripts')
 
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"> </script>
 <script type="text/javascript">
 
-		// $(document).ready(function () {
-		//
-		//     $('input').on('change', function () {
-		//         $('#assignContractorBtn').prop("disabled", false);
-		//     });
-		// });
+		$(document).ready(function () {
+		
+// 		    $('input').on('change', function () {
+// 		        $('#assignContractorBtn').prop("disabled", false);
+// 		    });
+			
+			$('.timeline-carousel__item-wrapper').slick({
+                infinite: false,
+                arrows: true,
+                prevArrow: '<div class="slick-prev"> <div class="btn mr-3  d-flex justify-content-center align-items-center"> <i class="fas fa-chevron-left"></i></div></div>',
+                nextArrow: '<div class="slick-next"> <div class="btn d-flex justify-content-center align-items-center"><i class="fas fa-chevron-right"></i> </div></div>',
+                dots: true,
+                autoplay: false,
+                speed: 1100,
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                responsive: [
+                  {
+                    breakpoint: 800,
+                    settings: {
+                      slidesToShow: 1,
+                      slidesToScroll: 1
+                    }
+                  }]
+              });	
+		});
+		
 		var app = new Vue({
 			el: '#app',
 			data: {
@@ -939,20 +1081,25 @@ input[type="radio"]:checked+div i {
 			}
 		});
 
-		function showAssignContractorModal() {
-			$('#contractorId').val($("input[name='selected-contractor']:checked").val());
+		function showAssignContractorModal(contractorId,contractor_name, contractor_level, price_quotation) {
+			//$('#contractorId').val($("input[name='selected-contractor']:checked").val());
 			$('#assign-contractor-modal').modal('show')
 
-			let selectedInput = $("input[name='selected-contractor']:checked");
-			let contractor_name = selectedInput.data('contractor-name');
-			$('#contractorNameSpan').html(contractor_name);
-			let contractor_level = selectedInput.data('contractor-level');
-			$('#contractorLevelSpan').html(contractor_level);
-			let contractor_away = selectedInput.data('contractor-away');
-			$('#contractorAwaySpan').html(contractor_away);
-			let price_quotation = selectedInput.data('contractor-price');
-			$('#contractorPriceQuotation').html(price_quotation);
+// 			let selectedInput = $("input[name='selected-contractor']:checked");
+// 			let contractor_name = selectedInput.data('contractor-name');
+// 			$('#contractorNameSpan').html(contractor_name);
+// 			let contractor_level = selectedInput.data('contractor-level');
+// 			$('#contractorLevelSpan').html(contractor_level);
+// 			let contractor_away = selectedInput.data('contractor-away');
+// 			$('#contractorAwaySpan').html(contractor_away);
+// 			let price_quotation = selectedInput.data('contractor-price');
+// 			$('#contractorPriceQuotation').html(price_quotation);
 			
+			$('#contractorId').val(contractorId);
+			$('#contractorNameSpan').html(contractor_name);
+			$('#contractorLevelSpan').html(contractor_level);
+			$('#contractorAwaySpan').html($("#hiddenKmAway-"+contractorId).val());
+			$('#contractorPriceQuotation').html(price_quotation);
 		}
 
 		function initMap() {
@@ -962,6 +1109,25 @@ input[type="radio"]:checked+div i {
 				center: {lat: 53.346324, lng: -6.258668},
 				mapTypeId: 'hybrid'
 			});
+			
+			//Marker
+            let marker_icon = {
+                url: "{{asset('images/doorder_driver_assets/customer-address-pin.png')}}",
+                scaledSize: new google.maps.Size(30, 35), // scaled size
+                // origin: new google.maps.Point(0,0), // origin
+                // anchor: new google.maps.Point(0, 0) // anchor
+            };
+            var loc = {!!$job->location_coordinates!!};
+            
+            //console.log(loc.lat)
+            
+			let locationMarker = new google.maps.Marker({
+                map: this.map,
+                icon: marker_icon,
+                position:  {"lat": loc.lat, "lng": loc.lon}
+            });
+
+            locationMarker.setVisible(true)
 
 			// Define the LatLng coordinates for the polygon's path.
 			let area_coordinates = {!!$job->area_coordinates!!};
@@ -990,17 +1156,22 @@ input[type="radio"]:checked+div i {
 
 			//Getting the distance between the contractor and the customer location
 			let contractors = {!! json_encode($contractors) !!};
-			let job = {!! json_encode($job) !!};
+			let job = {!! $job !!};
 			let job_coordinates = JSON.parse(job.location_coordinates);
 			@if($job->status == 'ready')
 					for (let contractor of contractors) {
 				let contractor_location = JSON.parse(contractor.address_coordinates);
+				console.log(contractor_location.lat)
 				let from = new google.maps.LatLng(contractor_location.lat, contractor_location.lon)
 				let to = new google.maps.LatLng(job_coordinates.lat, job_coordinates.lon);
+				console.log( google.maps.geometry.spherical.computeDistanceBetween(from, to))
 				let distance = google.maps.geometry.spherical.computeDistanceBetween(from, to) / 1000;
-				$('#km-away-' + contractor.id).text(distance.toFixed(0) + ' km away');
-				$('#contractor-row-' + contractor.id).data('sort', distance.toFixed(0));
-				$('#radioInputContractor-' + contractor.id).attr('data-contractor-away', distance.toFixed(0) + ' km away');
+				console.log(distance)
+				console.log('#contractors-list #km-away-' + contractor.id)
+				$('.timeline-carousel-contractors #km-away-' + contractor.id).text(distance.toFixed(2) + ' km away');
+				$('.timeline-carousel-contractors #hiddenKmAway-' + contractor.id).val(distance.toFixed(2));
+				$('#contractors-list #contractor-row-' + contractor.id).data('sort', distance.toFixed(2));
+				$('#contractors-list #radioInputContractor-' + contractor.id).attr('data-contractor-away', distance.toFixed(2) + ' km away');
 			}
 			@else
 			let assigned_contractor = {!! json_encode($contractor) !!};
@@ -1008,9 +1179,9 @@ input[type="radio"]:checked+div i {
 			let from = new google.maps.LatLng(contractor_location.lat, contractor_location.lon)
 			let to = new google.maps.LatLng(job_coordinates.lat, job_coordinates.lon);
 			let distance = google.maps.geometry.spherical.computeDistanceBetween(from, to) / 1000;
-			$('#km-away-' + assigned_contractor.id).text(distance.toFixed(0) + ' km away');
-			$('#contractor-row-' + assigned_contractor.id).data('sort', distance.toFixed(0));
-			$('#radioInputContractor-' + assigned_contractor.id).attr('data-contractor-away', distance.toFixed(0) + ' km away');
+			$('#km-away-' + assigned_contractor.id).text(distance.toFixed(2) + ' km away');
+			$('#contractor-row-' + assigned_contractor.id).data('sort', distance.toFixed(2));
+			$('#radioInputContractor-' + assigned_contractor.id).attr('data-contractor-away', distance.toFixed(2) + ' km away');
 			@endif
 
 			//Arranging Contractors

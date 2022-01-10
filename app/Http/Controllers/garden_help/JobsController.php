@@ -31,7 +31,7 @@ class JobsController extends Controller
             ->where('status', '!=', 'missing')
             ->orderBy('id', 'desc')
             ->paginate(20);
-
+        // dd($jobs);
         return view('admin.garden_help.jobs_table.jobs', [
             'jobs' => $jobs
         ]);
@@ -56,12 +56,21 @@ class JobsController extends Controller
                 if ($customer_request->user != null) {
                     $customer_request->email = $customer_request->user->email;
                 }
-                return view('admin.garden_help.jobs_table.single_job', [
-                    'job' => $customer_request,
-                    'contractor' => $contractor,
-                    'contractors' => [],
-                    'reassign' => 0
-                ]);
+                if (auth()->user()->user_role == 'customer') {
+                    return view('admin.garden_help.jobs_table.single_job_customer', [
+                        'job' => $customer_request,
+                        'contractor' => $contractor,
+                        'contractors' => [],
+                        'reassign' => 0
+                    ]);
+                } else {
+                    return view('admin.garden_help.jobs_table.single_job', [
+                        'job' => $customer_request,
+                        'contractor' => $contractor,
+                        'contractors' => [],
+                        'reassign' => 0
+                    ]);
+                }
             } else {
                 $job = $customer_request;
                 $job->update([
@@ -79,15 +88,24 @@ class JobsController extends Controller
             if ($contractor->business_hours_json) {
                 $contractor_business_hours = json_decode($contractor->business_hours_json, true);
                 if ($contractor_business_hours[$currentDayName]['isActive']) {
+                    $contractor->price_quotation = 100;
                     $available_contractors[] = $contractor;
                 }
             }
         }
-        return view('admin.garden_help.jobs_table.single_job', [
-            'job' => $customer_request,
-            'contractors' => $available_contractors,
-            'reassign' => 0
-        ]);
+        if (auth()->user()->user_role == 'customer') {
+            return view('admin.garden_help.jobs_table.single_job_customer', [
+                'job' => $customer_request,
+                'contractors' => $available_contractors,
+                'reassign' => 0
+            ]);
+        } else {
+            return view('admin.garden_help.jobs_table.single_job', [
+                'job' => $customer_request,
+                'contractors' => $available_contractors,
+                'reassign' => 0
+            ]);
+        }
     }
 
     public function getSingleJobReassign($client_name, $id)
@@ -342,6 +360,22 @@ class JobsController extends Controller
             ->paginate(12);
         return view('garden_help.contractors.commercial_jobs_board', [
             'jobs' => $jobs
+        ]);
+    }
+    
+    public function getSingleAppliedContractor($client, $id)
+    {
+       // dd($client,$id);
+        $contractor = Contractor::find($id);
+        if (! $contractor) {
+            alert()->error('Contractor not found!');
+            return redirect()->back();
+        }
+        
+        $contractor->km_away = 10;
+        
+        return view('admin.garden_help.jobs_table.single_contractor', [
+            'contractor' => $contractor
         ]);
     }
 }

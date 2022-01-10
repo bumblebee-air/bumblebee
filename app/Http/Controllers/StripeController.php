@@ -281,7 +281,7 @@ class StripeController extends Controller
                     Log::warning("There requirement not exists: $item");
                 }
             }
-            $client = $user->client;
+            $client = $user->client->client;
             TwilioHelper::sendSMS($client->name, $user->phone, $message);
         }
         $stripe_account->onboard_status = ($account_ready_flag==true)? 'complete' : 'incomplete';

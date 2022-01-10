@@ -310,7 +310,7 @@ class JobsController extends Controller
             $customer->service_types = $request->service_types;
             $customer->location = $request->location;
             $customer->location_coordinates = $request->location_coordinates;
-            $customer->property_photo = $property->property_photo;
+            $customer->property_photo = json_encode($property->property_photo);
             $customer->property_size = $request->property_size;
             $customer->is_first_time = $request->is_first_time;
             $customer->last_service = $request->last_services;

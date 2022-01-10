@@ -1,6 +1,11 @@
 @extends('templates.dashboard') @section('title', 'GardenHelp | Add
 Job') @section('page-styles')
 <link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css">
+
+<link rel="stylesheet"
+	href="{{asset('css/gardenhelp-slick-styles.css')}}">
 
 <style>
 @media ( max-width : 767px) {
@@ -63,6 +68,31 @@ span.form-control {
 /* .form-control, .form-control:invalid, .is-focused .form-control { */
 /* 	box-shadow: none !important; */
 /* } */
+.select2-container, .inputContainerDiv {
+	width: calc(100% - 52px) !important;
+}
+
+.input-group-text {
+	color: #aaa;
+	padding-left: 0;
+	box-shadow: 0 2px 48px 0 rgb(0 0 0/ 8%);
+}
+
+.card .card-body .form-group {
+	margin-top: 2px;
+}
+
+.form-control {
+	border-radius: 6px;
+}
+
+.input-group-prepend+.inputContainerDiv .form-control {
+	border-radius: 0 6px 6px 0;
+}
+
+.input-group-text img {
+	width: 20px;
+}
 </style>
 <script src="https://js.stripe.com/v3/"></script>
 @endsection @section('page-content')
@@ -86,25 +116,7 @@ span.form-control {
 								<div class="container">
 									<div class="row">
 										<div class="col-md-7 col-sm-6 col-12">
-											<div class="row">
-												<div class="col-md-12">
-													<h5 class="requestSubTitle">Location Details</h5>
-												</div>
-												<div class="col-12">
-													<div class="form-group ">
-														<label for="work_location" class="">Location</label> <select
-															id="work_location" name="work_location"
-															class="form-control js-example-basic-single ">
-															<option disabled selected value="">Select location</option>
-															<option value="Dublin">Dublin</option>
-															<option value="Carlow">Carlow</option>
-															<option value="Kilkenny">Kilkenny</option>
-															<option value="Kildare">Kildare</option>
-														</select>
-													</div>
-												</div>
 
-											</div>
 											@if(auth()->user()->user_role == 'customer') <input
 												type="hidden" name="customer_id"
 												value="{{$current_user->id}}" /> @endif
@@ -234,25 +246,7 @@ span.form-control {
 
 											</div>
 											@endif
-											<div class="row mt-3">
-												<div class="col-md-12">
-													<h5 class="requestSubTitle">Service Details</h5>
-												</div>
-												<div class="col-md-12">
-													<div class="form-group bmd-form-group">
-														<label for="type_of_experience">Service type</label>
-														<div class="d-flex justify-content-between"
-															@click="openModal('service_type')">
-															<input name="service_types" type="text"
-																class="form-control" id="service_type_input"
-																v-model="service_types_input"
-																{{old('service_details')}} required> <a
-																class="select-icon"> <i class="fas fa-caret-down"></i>
-															</a>
-														</div>
-													</div>
-												</div>
-											</div>
+
 											<div>
 												<div class="row mt-3">
 													<div class="col-md-12">
@@ -260,143 +254,203 @@ span.form-control {
 													</div>
 													<div class="col-md-12">
 														<div class="form-group ">
-															<label for="property" class="">Property <select
-																id="property" name="property"
-																class="form-control js-example-basic-single"
-																v-model="property" onchange="changeProperty()">
+															<label for="property" class="">Property </label>
+															<div class="input-group">
+																<div class="input-group-prepend">
+																	<span class="input-group-text"> <img
+																		src="{{asset('images/gardenhelp_icons/property-icon.png')}}"
+																		alt="GardenHelp">
+																	</span>
+																</div>
+																<select id="property" name="property"
+																	class="form-control js-example-basic-single"
+																	v-model="property" onchange="changeProperty()">
 																	<option disabled selected value="">Select property</option>
 																	<option v-for="property in properties"
 																		:value="property.id">@{{property.location}}</option>
 																	<option value="other">Other</option>
-															</select></label>
+																</select>
+															</div>
+
 														</div>
 													</div>
 												</div>
-
 												<div class="row"
 													v-if="property != '' && property != 'other' ">
-
-													<div class="col-12">
-														<div class="form-group bmd-form-group">
-															<label class="" for="location">Product type</label> <span
-																class="form-control">@{{selected_property.type_of_work}}</span>
-														</div>
-													</div>
-													<div class="col-12">
-														<div class="form-group bmd-form-group">
-															<label class="" for="location">Address</label> <span
-																class="form-control">@{{selected_property.location}}</span>
-														</div>
-													</div>
-													<div class="col-12">
-														<div class="form-group bmd-form-group">
-															<label class="">Property Image</label>
-															<div class="">
-																<img :src="'{{asset('/')}}'+selected_property.property_photo"
-																	style="width: 200px; height: 200px">
+													<div class="col-12 mt-2">
+														<div class=" row">
+															<div class=" col-12">
+																<span class="input-group-text d-inline"> <img
+																	src="{{asset('images/gardenhelp_icons/location-icon.png')}}"
+																	alt="GardenHelp">
+																</span> <label class="requestLabel d-inline"><span
+																	class="customerRequestSpan ">@{{selected_property.work_location}}</span></label>
 															</div>
 														</div>
 													</div>
-													<div class="col-12">
-														<div class="form-group bmd-form-group">
-															<label class="" for="location">Property size</label> <span
-																class="form-control">@{{selected_property.property_size}}</span>
-														</div>
-													</div>
-													<div class="col-12">
-														<div class="form-group bmd-form-group">
-															<label class="" for="location">Is this the first time you
-																do service for your property?</label> <span
-																class="form-control">@{{selected_property.is_first_time
-																? 'Yes' : 'No'}}</span>
-														</div>
-													</div>
-													<div class="col-12"
-														v-if="selected_property.is_first_time != 1">
-														<div class=" form-group bmd-form-group">
-															<label class="">When Was the last Service? </label><span
-																class="form-control customerRequestSpan col-12">
-																@{{selected_property.last_service}}</span>
-
-														</div>
-													</div>
-													<div class="col-12">
-														<div class="form-group bmd-form-group">
-															<label class="" for="location">Site details</label> <span
-																class="form-control">@{{selected_property.site_details}}</span>
-														</div>
-													</div>
-													<div class="col-12">
-														<div class="form-group bmd-form-group">
-															<label class="">Is there a parking access on site? </label><span
-																class="form-control customerRequestSpan col-12">@{{selected_property.is_parking_access
-																? 'Yes' : 'No'}}</span>
-
+													<div class="col-12 mt-2">
+														<div class=" row">
+															<div class=" col-12">
+																<label class="requestLabel d-inline">Property type: <span
+																	class="customerRequestSpan ">@{{selected_property.type_of_work}}</span></label>
+															</div>
 														</div>
 													</div>
 
-													<div class="col-12">
-														<div class="form-group bmd-form-group">
-															<label class="" for="location">Is recurring? </label> <span
-																class="form-control">@{{selected_property.is_recurring ?
-																'Yes' : 'No'}}</span>
+													<div class="col-12 mt-2">
+														<div class=" row">
+															<div class=" col-12">
+																<span class="input-group-text d-inline"> <img
+																	src="{{asset('images/gardenhelp_icons/location-icon.png')}}"
+																	alt="GardenHelp">
+																</span> <label class="requestLabel d-inline"><span
+																	class="customerRequestSpan ">@{{selected_property.location}}</span></label>
+															</div>
 														</div>
 													</div>
-													<div class="col-12"
-														v-if="selected_property.is_recurring == 1">
-														<div class=" form-group bmd-form-group">
-															<label class="">What is the frequency of the recurring in
-																months? </label> <span
-																class="form-control customerRequestSpan col-12">
-																@{{selected_property.recurring_frequency}}</span>
+													<div class="col-12 mt-2">
+														<div class=" row">
+															<div class=" col-12">
+																<span class="input-group-text d-inline"> <img
+																	src="{{asset('images/gardenhelp_icons/property-size-icon.png')}}"
+																	alt="GardenHelp">
+																</span> <label class="requestLabel d-inline">Property
+																	size: <span class="customerRequestSpan ">@{{selected_property.property_size}}</span>
+																</label>
+															</div>
+														</div>
+													</div>
 
+
+													<div class="col-12 mt-3">
+														<div class=" row">
+															<label class="requestLabel col-12">Property Images</label>
+															<div class="col-12">
+																<section class="timeline-carousel">
+
+																	<div class="timeline-carousel__item-wrapper"
+																		data-js="timeline-carousel">
+																		<!--Timeline item-->
+																		<div class="timeline-carousel__item"
+																			v-for="item in selected_property.property_photo">
+																			<div class="timeline-carousel__image">
+																				<div class=" ">
+																					<img :src="'{{asset('/')}}'+item" width="100%">
+																				</div>
+																			</div>
+																		</div>
+																		<!--/Timeline item-->
+
+																	</div>
+																</section>
+															</div>
 														</div>
 													</div>
 
-													<div class="col-md-12">
-														<div class="form-group bmd-form-group">
-															<label for="available_date_time">Schedual at</label> <input
-																name="available_date_time" type="text"
-																class="form-control datetimepicker"
-																id="available_date_time"
-																value="{{old('available_date_time')}}"
-																required @focusout="getAvailableContractors">
+													<div class="col-12 mt-2">
+														<div class=" row">
+															<div class=" col-12">
+																<label class="requestLabel d-inline">Is there a parking
+																	access on site? <span class="customerRequestSpan ">@{{selected_property.is_parking_access
+																		? 'Yes' : 'No'}}</span>
+																</label>
+															</div>
 														</div>
 													</div>
-													<div class="col-md-12">
-														<div class="form-group bmd-form-group">
-															<label for="budget">Budget</label> <input name="budget"
-																type="number" min="0" class="form-control " id="budget"
-																value="{{old('budget')}}" required>
+
+
+
+													<div class="col-12 mt-2">
+														<div class=" row">
+															<label class="requestLabel col-12 mb-0">Site details: </label><span
+																class=" customerRequestSpan col-12 mt-0">@{{selected_property.site_details}}</span>
 														</div>
 													</div>
 
 												</div>
 												<div class="row"
 													v-if="property != '' && property == 'other' ">
-													<div class="col-md-12">
+													<div class="col-12">
 														<div class="form-group ">
-															<label for="type_of_work" class="">Property type <select
-																id="type_of_work" name="type_of_work"
-																class="form-control js-example-basic-single">
-																	<option disabled selected value="">Select property type</option>
-																	<option value="Residential">Residential</option>
-																	<option value="Commercial">Commercial</option>
-															</select></label>
+															<label for="work_location" class="">Location</label>
+															<div class="input-group">
+																<div class="input-group-prepend">
+																	<span class="input-group-text"> <img
+																		src="{{asset('images/gardenhelp_icons/location-icon.png')}}"
+																		alt="GardenHelp">
+																	</span>
+																</div>
+																<select id="work_location" name="work_location"
+																	class="form-control js-example-basic-single ">
+																	<option disabled selected value="">Select location</option>
+																	<option value="Dublin">Dublin</option>
+																	<option value="Carlow">Carlow</option>
+																	<option value="Kilkenny">Kilkenny</option>
+																	<option value="Kildare">Kildare</option>
+																</select>
+															</div>
+														</div>
+													</div>
+													<div class="col-md-12">
+														<!-- 														<div class="form-group "> -->
+														<!-- 															<label for="type_of_work" class="">Property type <select -->
+														<!-- 																id="type_of_work" name="type_of_work" -->
+														<!-- 																class="form-control js-example-basic-single"> -->
+														<!-- 																	<option disabled selected value="">Select property type</option> -->
+														<!-- 																	<option value="Residential">Residential</option> -->
+														<!-- 																	<option value="Commercial">Commercial</option> -->
+														<!-- 															</select></label> -->
+														<!-- 														</div> -->
+														<div class="form-group bmd-form-group">
+															<label>Property type</label>
+															<div class="row">
+																<div class="col">
+
+																	<div class="form-check">
+																		<label class="form-check-label"> <input
+																			class="form-check-input" type="radio"
+																			name="type_of_work" value="Residential">Residential <span
+																			class="form-check-sign"> <span class="check"></span>
+																		</span>
+																		</label>
+																	</div>
+																</div>
+																<div class="col">
+
+																	<div class="form-check">
+																		<label class="form-check-label"> <input
+																			class="form-check-input" type="radio"
+																			name="type_of_work" value="Commercial">Commercial <span
+																			class="form-check-sign"> <span class="check"></span>
+																		</span>
+																		</label>
+																	</div>
+																</div>
+															</div>
+
 														</div>
 													</div>
 
-
 													<div class="col-md-12">
 														<div class="form-group ">
-															<label class="" for="location">Address</label> <input
-																type="text" class="form-control js-example-basic-single"
-																id="location" name="location"
-																value="{{old('location')}}" required> <input
-																type="hidden" id="location_coordinates"
-																name="location_coordinates">
+															<label class="" for="location">Address</label>
+															<div class="input-group">
+																<div class="input-group-prepend">
+																	<span class="input-group-text"> <img
+																		src="{{asset('images/gardenhelp_icons/location-icon.png')}}"
+																		alt="GardenHelp">
+																	</span>
+																</div>
+																<input type="text"
+																	class="form-control js-example-basic-single"
+																	id="location" name="location"
+																	value="{{old('location')}}" required> <input
+																	type="hidden" id="location_coordinates"
+																	name="location_coordinates">
+															</div>
 														</div>
 													</div>
+													
 													<div class="col-md-12 ">
 														<div
 															class="form-group form-file-upload form-file-multiple ">
@@ -421,79 +475,23 @@ span.form-control {
 													</div>
 
 
-													<div class="col-md-12">
+<div class="col-md-12">
 														<div class="form-group bmd-form-group">
-															<label>Property size</label> <input type="text"
-																class="form-control" id="property_size"
-																name="property_size" required v-model="property_size">
-														</div>
-													</div>
-
-													<div class="col-md-12">
-														<div class="form-group bmd-form-group">
-															<label for="vat-number">Is this the first time you do
-																service for your property?</label>
-															<div class="row">
-																<div class="col">
-																	<div class="form-check form-check-radio">
-																		<label class="form-check-label"> <input
-																			class="form-check-input" type="radio"
-																			id="exampleRadios2" name="is_first_time"
-																			v-model="is_first_time" value="1"
-																			{{old('is_first_time') ===
-																			'1' ? 'checked' : ''}} required> Yes <span
-																			class="circle"> <span class="check"></span>
-																		</span>
-																		</label>
-																	</div>
+															<label>Property size</label>
+															<div class="input-group">
+																<div class="input-group-prepend">
+																	<span class="input-group-text"> <img
+																		src="{{asset('images/gardenhelp_icons/property-size-icon.png')}}"
+																		alt="GardenHelp">
+																	</span>
 																</div>
-																<div class="col">
-																	<div class="form-check form-check-radio">
-																		<label class="form-check-label"> <input
-																			class="form-check-input" type="radio"
-																			id="exampleRadios1" name="is_first_time"
-																			v-model="is_first_time" value="0"
-																			{{old('is_first_time') ===
-																			'0' ? 'checked' : ''}} @click="changeIsFirst()"
-																			required> No <span class="circle"> <span
-																				class="check"></span>
-																		</span>
-																		</label>
-																	</div>
-																</div>
+																<input type="text" class="form-control"
+																	id="property_size" name="property_size" required
+																	v-model="property_size">
 															</div>
 														</div>
 													</div>
-
-													<div class="col-md-12"
-														v-if="is_first_time != '' && is_first_time == 0">
-														<div class="form-group bmd-form-group">
-															<label for="type_of_experience">When was the last
-																service?</label>
-															<div class="d-flex justify-content-between"
-																@click="openModal('last_services')">
-																<input name="last_services" type="text"
-																	class="form-control" id="last_services"
-																	{{old('last_services')}} required>
-																<!--<a class="select-icon"> <i class="fas fa-caret-down"></i></a>-->
-															</div>
-														</div>
-													</div>
-
-													<div class="col-md-12">
-														<div class="form-group bmd-form-group">
-															<label for="type_of_experience">Site details</label>
-															<div class="d-flex justify-content-between"
-																@click="openModal('site_details')">
-																<input name="site_details" type="text"
-																	class="form-control" id="site_details"
-																	v-model="site_details_input"
-																	{{old('site_details')}} required> <a
-																	class="select-icon"> <i class="fas fa-caret-down"></i>
-																</a>
-															</div>
-														</div>
-													</div>
+													
 
 													<div class="col-md-12">
 														<div class="form-group bmd-form-group">
@@ -530,17 +528,95 @@ span.form-control {
 														</div>
 													</div>
 
+													
 													<div class="col-md-12">
 														<div class="form-group bmd-form-group">
-															<label for="vat-number">Is recurring?</label>
+															<label for="type_of_experience">Site details</label>
+															<div class="d-flex justify-content-between"
+																@click="openModal('site_details')">
+																<textarea name="site_details" rows="2"
+																	class="form-control" id="site_details"
+																	v-model="site_details_input" required>{{old('site_details')}}</textarea>
+															</div>
+														</div>
+													</div>
+													
+												</div>
+
+												<div class="row">
+
+													<div class="col-md-12">
+														<h5 class="requestSubTitle">Job Information</h5>
+													</div>
+													<div class="col-md-12">
+														<div class="form-group bmd-form-group">
+															<label for="type_of_experience">Service type</label>
+															<div class="input-group">
+																<div class="input-group-prepend">
+																	<span class="input-group-text"> <img
+																		src="{{asset('images/gardenhelp_icons/property-size-icon.png')}}"
+																		alt="GardenHelp">
+																	</span>
+																</div>
+																<div
+																	class="d-flex justify-content-between inputContainerDiv"
+																	@click="openModal('service_type')">
+																	<input name="service_types" type="text"
+																		class="form-control" id="service_type_input"
+																		v-model="service_types_input"
+																		{{old('service_details')}} required>
+																</div>
+															</div>
+
+														</div>
+													</div>
+													<div class="col-md-12">
+														<div class="form-group bmd-form-group">
+															<label for="available_date_time">Job time</label>
+															<div class="input-group">
+																<div class="input-group-prepend">
+																	<span class="input-group-text"> <img
+																		src="{{asset('images/gardenhelp_icons/time-icon.png')}}"
+																		alt="GardenHelp">
+																	</span>
+																</div>
+																<input name="available_date_time" type="text"
+																	class="form-control datetimepicker"
+																	id="available_date_time"
+																	value="{{old('available_date_time')}}"
+																	required @focusout="getAvailableContractors">
+															</div>
+														</div>
+													</div>
+
+													<div class="col-md-12">
+														<div class="form-group bmd-form-group">
+															<label for="budget">Budget</label>
+															<div class="input-group">
+																<div class="input-group-prepend">
+																	<span class="input-group-text"> <img
+																		src="{{asset('images/gardenhelp_icons/budget-icon.png')}}"
+																		alt="GardenHelp">
+																	</span>
+																</div>
+																<input name="budget" type="number" min="0"
+																	class="form-control " id="budget"
+																	value="{{old('budget')}}" required>
+															</div>
+														</div>
+													</div>
+
+													<div class="col-md-12">
+														<div class="form-group bmd-form-group">
+															<label for="vat-number">Is this your first service?</label>
 															<div class="row">
 																<div class="col">
 																	<div class="form-check form-check-radio">
 																		<label class="form-check-label"> <input
 																			class="form-check-input" type="radio"
-																			id="exampleRadios2" name="is_recurring"
-																			v-model="is_recurring" value="1"
-																			{{old('is_recurring') ===
+																			id="exampleRadios2" name="is_first_time"
+																			v-model="is_first_time" value="1"
+																			{{old('is_first_time') ===
 																			'1' ? 'checked' : ''}} required> Yes <span
 																			class="circle"> <span class="check"></span>
 																		</span>
@@ -551,11 +627,12 @@ span.form-control {
 																	<div class="form-check form-check-radio">
 																		<label class="form-check-label"> <input
 																			class="form-check-input" type="radio"
-																			id="exampleRadios1" name="is_recurring"
-																			v-model="is_recurring" value="0"
-																			{{old('is_recurring') ===
-																			'0' ? 'checked' : ''}} required> No <span
-																			class="circle"> <span class="check"></span>
+																			id="exampleRadios1" name="is_first_time"
+																			v-model="is_first_time" value="0"
+																			{{old('is_first_time') ===
+																			'0' ? 'checked' : ''}} @click="changeIsFirst()"
+																			required> No <span class="circle"> <span
+																				class="check"></span>
 																		</span>
 																		</label>
 																	</div>
@@ -565,28 +642,35 @@ span.form-control {
 													</div>
 
 													<div class="col-md-12"
-														v-if="is_recurring != '' && is_recurring == 1">
+														v-if="is_first_time != '' && is_first_time == 0">
 														<div class="form-group bmd-form-group">
-															<label for="type_of_experience">What is the frequency of
-																the recurring in months?</label> <input
-																name="recurring_frequency" type="number"
-																class="form-control" id="recurring_frequency"
-																value="{{old('recurring_frequency')}}" required>
+															<label for="type_of_experience">Time of last service</label>
+															<div class="input-group">
+																<div class="input-group-prepend">
+																	<span class="input-group-text"> <img
+																		src="{{asset('images/gardenhelp_icons/time-icon.png')}}"
+																		alt="GardenHelp">
+																	</span>
+																</div>
+																<input name="last_services" type="text"
+																	class="form-control datetimepicker" id="last_services"
+																	{{old('last_services')}} required>
+															</div>
 														</div>
 													</div>
-
 													<div class="col-md-12">
 														<div class="form-group bmd-form-group">
-															<label for="vat-number">Are you happy to be contacted prior to book to discuss details?</label>
+															<label for="vat-number">Do you mind being contacted prior
+																to job?</label>
 															<div class="row">
 																<div class="col">
 																	<div class="form-check form-check-radio">
 																		<label class="form-check-label"> <input
-																					class="form-check-input" type="radio"
-																					id="exampleRadios2" name="is_contacted" value="1"
-																					{{old('is_contacted') ===
-                                                                                    '1' ? 'checked' : ''}} required> Yes <span
-																					class="circle"> <span class="check"></span>
+																			class="form-check-input" type="radio"
+																			id="exampleRadios2" name="is_contacted" value="1"
+																			v-model="is_contacted" {{old('is_contacted') ===
+																			'1' ? 'checked' : ''}} required> Yes <span
+																			class="circle"> <span class="check"></span>
 																		</span>
 																		</label>
 																	</div>
@@ -594,11 +678,11 @@ span.form-control {
 																<div class="col">
 																	<div class="form-check form-check-radio">
 																		<label class="form-check-label"> <input
-																					class="form-check-input" type="radio"
-																					id="exampleRadios1" name="is_contacted" value="0"
-																					{{old('is_contacted') ===
-                                                                                    '0' ? 'checked' : ''}} required> No <span
-																					class="circle"> <span class="check"></span>
+																			class="form-check-input" type="radio"
+																			id="exampleRadios1" name="is_contacted" value="0"
+																			v-model="is_contacted" {{old('is_contacted') ===
+																			'0' ? 'checked' : ''}} required @click="changeIsContacted()">
+																			No <span class="circle"> <span class="check"></span>
 																		</span>
 																		</label>
 																	</div>
@@ -606,26 +690,42 @@ span.form-control {
 															</div>
 														</div>
 													</div>
-
-													<div class="col-md-12">
+													<div class="col-md-12"
+														v-if="is_contacted != '' && is_contacted == 0">
 														<div class="form-group bmd-form-group">
-															<label for="available_date_time">Schedual at</label> <input
-																name="available_date_time" type="text"
-																class="form-control datetimepicker"
-																id="available_date_time"
-																value="{{old('available_date_time')}}"
-																required @focusout="getAvailableContractors">
+															<label for="">Contact me through</label>
+															<div class="row">
+																<div class="col">
+																	<div class="form-check form-check-radio">
+																		<label class="form-check-label"> <input
+																			class="form-check-input" type="radio"
+																			name="job_contact_through" value="call" required>
+																			Call <span class="circle"> <span class="check"></span>
+																		</span>
+																		</label>
+																	</div>
+																</div>
+																<div class="col">
+																	<div class="form-check form-check-radio">
+																		<label class="form-check-label"> <input
+																			class="form-check-input" type="radio"
+																			name="job_contact_through" value="email" required>
+																			Email <span class="circle"> <span class="check"></span>
+																		</span>
+																		</label>
+																	</div>
+																</div>
+															</div>
 														</div>
 													</div>
-
 													<div class="col-md-12">
 														<div class="form-group bmd-form-group">
-															<label for="budget">Budget</label> <input name="budget"
-																type="number" min="0" class="form-control " id="budget"
-																value="{{old('budget')}}" required>
+															<label for="">Notes</label>
+															<textarea name="notes" rows="2" class="form-control"
+																id="notes">{{old('notes')}}</textarea>
+
 														</div>
 													</div>
-
 												</div>
 
 											</div>
@@ -703,8 +803,8 @@ span.form-control {
 								</div>
 							</div>
 						</div>
-                        <input type="hidden" name="services_types_json"
-                               v-model="JSON.stringify(services_types_json)">
+						<input type="hidden" name="services_types_json"
+							v-model="JSON.stringify(services_types_json)">
 						<div class="row">
 							@if(auth()->user()->user_role == 'client')
 							<div class="col-lg-12">
@@ -762,6 +862,7 @@ span.form-control {
 								</div>
 							</div>
 							@endif
+							@if(auth()->user()->user_role == 'client')
 							<div class="col-lg-12" v-if="available_contractors.length > 0">
 								<div class="card ">
 									<div class="card-body" style="padding-top: 0 !important;">
@@ -801,6 +902,7 @@ span.form-control {
 									</div>
 								</div>
 							</div>
+							@endif
 							<div class="col-12 text-center">
 								<button id="addNewJobBtn"
 									class="btn btn-register btn-gardenhelp-green">Add new job</button>
@@ -811,6 +913,7 @@ span.form-control {
 					</div>
 
 				</div>
+
 			</form>
 		</div>
 
@@ -1047,9 +1150,12 @@ span.form-control {
 <script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"> </script>
 <script>
     $(document).ready(function() {
         $(".js-example-basic-single").select2();
+        
     });
     function changeWorkType(){
                 $('#addNewJobBtn').prop("disabled", false);
@@ -1107,7 +1213,7 @@ span.form-control {
                         }
                     });
                     addIntelInput('contact_number', 'contact_number');
-                });
+                },300);
             }
         }
         
@@ -1140,6 +1246,7 @@ span.form-control {
                     window.initMapDraw();
                    // window.initAutoComplete();
                      $("#type_of_work").select2();
+                     $("#work_location").select2();
                 	$('#available_date_time').datetimepicker({
 						icons: {
 							time: "fa fa-clock",
@@ -1153,6 +1260,7 @@ span.form-control {
 							close: 'fa fa-remove'
 						}
 					});
+					
                  }, 500)
             	app.selected_property = {};
             }else{
@@ -1175,8 +1283,28 @@ span.form-control {
     							close: 'fa fa-remove'
     						}
     					});
+    					 $('.timeline-carousel__item-wrapper').slick({
+                            infinite: false,
+                            arrows: true,
+                            prevArrow: '<div class="slick-prev"> <div class="btn mr-3  d-flex justify-content-center align-items-center"> <i class="fas fa-chevron-left"></i></div></div>',
+                            nextArrow: '<div class="slick-next"> <div class="btn d-flex justify-content-center align-items-center"><i class="fas fa-chevron-right"></i> </div></div>',
+                            dots: true,
+                            autoplay: false,
+                            speed: 1100,
+                            slidesToShow: 3,
+                            slidesToScroll: 1,
+                            responsive: [
+                              {
+                                breakpoint: 800,
+                                settings: {
+                                  slidesToShow: 1,
+                                  slidesToScroll: 1
+                                }
+                              }]
+                     	 });
     			}, 500)		
             }
+            
         }
         
         var app = new Vue({
@@ -1285,6 +1413,7 @@ span.form-control {
                     },
                 ],
                 is_first_time: '',
+                is_contacted:'',
                 is_parking_site: '',
                 contact_through: '',
                 service_types_input: '',
@@ -1299,6 +1428,7 @@ span.form-control {
 				selected_property: null
             },
             mounted() {
+            	
                 if (this.type_of_work == 'Commercial') {
                     $('#available_date_time').datetimepicker({
                         icons: {
@@ -1344,6 +1474,7 @@ span.form-control {
                    // this.addIntelInput('phone', 'phone');
                    
                 }
+                
             },
             methods: {
             	beforeSubmitForm(e) {
@@ -1512,6 +1643,8 @@ span.form-control {
                         });*/
                     }, 500)
                 },
+                changeIsContacted(){
+                },
 				getAvailableContractors(e) {
 					let date_time = e.target.value;
 					if (date_time) {
@@ -1597,10 +1730,28 @@ span.form-control {
 
 			// Fit Polygon path bounds
 			map.fitBounds(bounds);
+			
+			//Marker
+            let marker_icon = {
+                url: "{{asset('images/doorder_driver_assets/customer-address-pin.png')}}",
+                scaledSize: new google.maps.Size(30, 35), // scaled size
+                // origin: new google.maps.Point(0,0), // origin
+                // anchor: new google.maps.Point(0, 0) // anchor
+            };
+			 console.log(app.selected_property.location_coordinates)
+            let locationMarker = new google.maps.Marker({
+                map: this.map,
+                icon: marker_icon,
+                position: JSON.parse(app.selected_property.location_coordinates)
+            });
+			
         }
         
         var total_property_size = 0;
         var all_overlays = [];
+        
+        let locationMarker;
+        
         window.initMapDraw = function initMapDraw(){
         	
             //Marker
@@ -1611,7 +1762,7 @@ span.form-control {
                 // anchor: new google.maps.Point(0, 0) // anchor
             };
 
-            let locationMarker = new google.maps.Marker({
+            locationMarker = new google.maps.Marker({
                 map: this.map,
                 icon: marker_icon,
                 position: {lat: 53.346324, lng: -6.258668}

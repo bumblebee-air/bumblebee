@@ -171,8 +171,6 @@ span.form-control {
 																		</label>
 																	</div>
 																</div>
-
-
 															</div>
 
 														</div>

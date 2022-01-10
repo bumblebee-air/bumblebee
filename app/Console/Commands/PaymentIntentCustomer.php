@@ -47,15 +47,15 @@ class PaymentIntentCustomer extends Command
             ->whereNotNull('contractor_id')
             ->where('status', 'matched')
             ->where('is_paid', false)
-            ->whereDate('available_date_time', '>=' ,Carbon::now())
-            ->whereDate('available_date_time', '<=' ,Carbon::now()->addDays(6))
+//            ->whereDate('available_date_time', '>=' ,Carbon::now()->toDateTimeString())
+//            ->whereDate('available_date_time', '<=' ,Carbon::now()->addDays(6)->toDateTimeString())
             ->get();
-
         foreach ($customers as $customer) {
             //Get Amount
+//            dd(Carbon::parse($customer->available_date_time)->getTimestamp());
 //            dd(Carbon::now()->getTimestamp() <= Carbon::parse($customer->available_date_time)->getTimestamp() && Carbon::now()->getTimestamp() >= Carbon::parse($customer->available_date_time)->subDays(6)->getTimestamp());
 //            dd(Carbon::parse($customer->available_date_time)->toDateTimeString(), Carbon::now()->toDateTimeString(), Carbon::parse($customer->available_date_time)->addDays(6)->toDateTimeString());
-//            if ($customer->available_date_time && (Carbon::now()->getTimestamp() <= Carbon::parse($customer->available_date_time)->getTimestamp() && Carbon::now()->getTimestamp() >= Carbon::parse($customer->available_date_time)->subDays(6)->getTimestamp())) {
+            if ($customer->available_date_time && (Carbon::now()->getTimestamp() <= Carbon::parse($customer->available_date_time)->getTimestamp() && Carbon::now()->getTimestamp() >= Carbon::parse($customer->available_date_time)->subDays(3)->getTimestamp())) {
                 if ($customer->stripe_customer) {
                     $customer_bidding = ContractorBidding::where('job_id', $customer->id)
                         ->where('contractor_id', $customer->contractor->contractor_profile->id)
@@ -71,7 +71,7 @@ class PaymentIntentCustomer extends Command
                         $customer->save();
                     }
                 }
-//            }
+            }
         }
     }
 }

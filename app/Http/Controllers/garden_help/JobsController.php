@@ -30,8 +30,11 @@ class JobsController extends Controller
         $jobs = $jobs->where('type', 'job')
             ->where('status', '!=', 'missing')
             ->orderBy('id', 'desc')
+            ->with(['contractor' => function($q) {
+                $q->select(['id', 'name']);
+            }])
             ->paginate(20);
-        // dd($jobs);
+//        dd($jobs);
         return view('admin.garden_help.jobs_table.jobs', [
             'jobs' => $jobs
         ]);
@@ -48,7 +51,11 @@ class JobsController extends Controller
             abort(404);
         }
 
-        $contractors = Contractor::where('status', 'completed')->get();
+        $contractors = Contractor::where('status', 'completed')->whereHas('bidding', function ($q) use ($id) {
+            $q->where('job_id', $id);
+        })->with(['bidding' => function ($q) use ($id) {
+            $q->where('job_id', $id);
+        }])->get();
         // dd($customer_request);
         if ($customer_request->status != 'ready') {
             $contractor = Contractor::withTrashed()->where('user_id', $customer_request->contractor_id)->first();
@@ -82,21 +89,21 @@ class JobsController extends Controller
         if ($customer_request->user != null) {
             $customer_request->email = $customer_request->user->email;
         }
-        $available_contractors = [];
-        $currentDayName = Carbon::createFromFormat('d/m/Y H:i A', $customer_request->available_date_time)->format('l');
-        foreach ($contractors as $contractor) {
-            if ($contractor->business_hours_json) {
-                $contractor_business_hours = json_decode($contractor->business_hours_json, true);
-                if ($contractor_business_hours[$currentDayName]['isActive']) {
-                    $contractor->price_quotation = 100;
-                    $available_contractors[] = $contractor;
-                }
-            }
-        }
+//        $available_contractors = [];
+//        $currentDayName = Carbon::createFromFormat('d/m/Y H:i A', $customer_request->available_date_time)->format('l');
+//        foreach ($contractors as $contractor) {
+//            if ($contractor->business_hours_json) {
+//                $contractor_business_hours = json_decode($contractor->business_hours_json, true);
+//                if ($contractor_business_hours[$currentDayName]['isActive']) {
+//                    $contractor->price_quotation = 100;
+//                    $available_contractors[] = $contractor;
+//                }
+//            }
+//        }
         if (auth()->user()->user_role == 'customer') {
             return view('admin.garden_help.jobs_table.single_job_customer', [
                 'job' => $customer_request,
-                'contractors' => $available_contractors,
+                'contractors' => $contractors,
                 'reassign' => 0
             ]);
         } else {
@@ -162,7 +169,7 @@ class JobsController extends Controller
             ]);
         }
         if ($contractor->is_notifiable) {
-            TwilioHelper::sendSMS('GardenHelp', $contractor->user->phone, "Hi $contractor->name, there is an job assigned to you, please open your app. " . url('contractors_app#/order-details/' . $job_id));
+            TwilioHelper::sendSMS('GardenHelp', '+201005088541', "Hi $contractor->name, there is an job assigned to you, please open your app to confirm you job. " . url('contractors_app#/order-details/' . $job_id));
         }
 
         alert()->success("The job has been successfully assigned to $contractor->name");

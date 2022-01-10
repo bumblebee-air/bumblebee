@@ -129,7 +129,7 @@ tr.order-row:hover, tr.order-row:focus {
 													</div>
 												</td>
 												@if(auth()->user()->user_role == 'client')<td>@{{job.name}}</td>@endif
-												<td>@{{job.contractor_name}}</td>
+												<td>@{{job.contractor ? job.contractor.name : 'N/A'}}</td>
 											</tr>
 											<tr v-else>
 												<td colspan="8" class="text-center"><strong>No data found.</strong>
@@ -162,21 +162,23 @@ tr.order-row:hover, tr.order-row:focus {
                 stage: 16.66
             },
             mounted() {
-                socket.on('garden-help-channel:update-job-status'+'-'+'{{env('APP_ENV','dev')}}', (data) => {
-                    let decodedData = JSON.parse(data);
-                    //Check if job exists
-                    let orderIndex = this.jobs.map(function(x) {return x.id; }).indexOf(decodedData.data.id)
-                    if (orderIndex != -1) {
-                        this.jobs[orderIndex].status = decodedData.data.status;
-                        updateAudio.play();
-                    }
-                });
+                @if(Auth::user()->user_role != 'customer')
+					socket.on('garden-help-channel:update-job-status'+'-'+'{{env('APP_ENV','dev')}}', (data) => {
+						let decodedData = JSON.parse(data);
+						//Check if job exists
+						let orderIndex = this.jobs.map(function(x) {return x.id; }).indexOf(decodedData.data.id)
+						if (orderIndex != -1) {
+							this.jobs[orderIndex].status = decodedData.data.status;
+							updateAudio.play();
+						}
+					});
+				@endif
 
                 var jobs = {!! json_encode($jobs) !!};
 
                 for(let item of jobs.data) {
                     item.created_at = moment(item.created_at).format('YYYY-MM-DD')
-                    item.available_date_time = moment(item.available_date_time, "MM/DD/YYYY HH:mm").format('YYYY-MM-DD HH:mm')
+                    item.available_date_time = moment(item.available_date_time, "MM/DD/YYYY HH:mm").format('YYYY-MM-DD HH:mm');
                 }
 
                 this.jobs = jobs.data;

@@ -205,17 +205,17 @@ input[type="radio"]:checked+div i {
 																data-js="timeline-carousel">
 
 																@if($job->property_photo != null)
-																@foreach(json_decode($job->property_photo) as $item)
-																<!--Timeline item-->
-																<div class="timeline-carousel__item">
-																	<div class="timeline-carousel__image">
-																		<div class="media-wrapper media-wrapper--overlay"
-																			style="background: url('{{asset($item)}}') center center; background-size: cover;"></div>
+																	@foreach(json_decode($job->property_photo) as $item)
+																	<!--Timeline item-->
+																	<div class="timeline-carousel__item">
+																		<div class="timeline-carousel__image">
+																			<div class="media-wrapper media-wrapper--overlay"
+																				style="background: url('{{asset($item)}}') center center; background-size: cover;"></div>
+																		</div>
 																	</div>
-																</div>
-																<!--/Timeline item-->
-																@endforeach @endif
-
+																	<!--/Timeline item-->
+																	@endforeach
+																@endif
 
 															</div>
 														</section>
@@ -340,40 +340,41 @@ input[type="radio"]:checked+div i {
 								<div class="timeline-carousel__item-wrapper"
 									data-js="timeline-carousel">
 
-									@if(count($contractors) > 0) @foreach($contractors as
-									$contractor)
-									<!--Timeline item-->
-									<div class="timeline-carousel__item">
-										<div class="contractor-card text-center">
-											<img
-												src="{{asset('images/gardenhelp_icons/contractors_applied.png')}}"
-												alt="" width="70px"> <img>
-											<h2 class="carouselContractorH2 mt-2">Contractor Applied</h2>
-											<h4 class="carouselContractorNameH4 mt-1">
-												<a target="_blank" href="{{url('garden-help/view_applied_contractor')}}/{{$contractor->id}}"><u>{{$contractor->name}}</u></a></h4>
-											<p class="carouselContractorKmP mt-2"
-												id="km-away-{{$contractor->id}}">{{$contractor->km_away}} Km
-												away</p>
-											<input type="hidden" id="hiddenKmAway-{{$contractor->id}}"
-												value="" />
-											<div class=" row mt-2">
-												<div class=" col-12 ">
-													<span class="input-group-text d-inline"> </span> <label
-														class="requestLabel d-inline"><img
-														src="{{asset('images/gardenhelp_icons/budget-icon.png')}}"
-														alt="GardenHelp" width="18px"> Bidding: <span
-														class="customerRequestSpan ">€{{$contractor->price_quotation}}</span></label>
+									@if(count($contractors) > 0)
+										@foreach($contractors as $contractor)
+										<!--Timeline item-->
+										<div class="timeline-carousel__item">
+											<div class="contractor-card text-center">
+												<img
+													src="{{asset('images/gardenhelp_icons/contractors_applied.png')}}"
+													alt="" width="70px"> <img>
+												<h2 class="carouselContractorH2 mt-2">Contractor Applied</h2>
+												<h4 class="carouselContractorNameH4 mt-1">
+													<a target="_blank" href="{{url('garden-help/view_applied_contractor')}}/{{$contractor->id}}"><u>{{$contractor->name}}</u></a></h4>
+												<p class="carouselContractorKmP mt-2"
+													id="km-away-{{$contractor->id}}">{{$contractor->km_away}} Km
+													away</p>
+												<input type="hidden" id="hiddenKmAway-{{$contractor->id}}"
+													value="" />
+												<div class=" row mt-2">
+													<div class=" col-12 ">
+														<span class="input-group-text d-inline"> </span> <label
+															class="requestLabel d-inline"><img
+															src="{{asset('images/gardenhelp_icons/budget-icon.png')}}"
+															alt="GardenHelp" width="18px"> Bidding: <span
+															class="customerRequestSpan ">€{{$contractor->bidding[0]->estimated_quote}}</span></label>
+													</div>
 												</div>
+												<button type="button"
+													class="btn btn-gardenhelp-green addServiceButton mt-3"
+													onclick="showAssignContractorModal({{$contractor->id}},'{{$contractor->name}}','{{$contractor->experience_level}}', '{{$contractor->bidding[0]->estimated_quote}}')">
+													<p>Assign</p>
+												</button>
 											</div>
-											<button type="button"
-												class="btn btn-gardenhelp-green addServiceButton mt-3"
-												onclick="showAssignContractorModal({{$contractor->id}},'{{$contractor->name}}','{{$contractor->experience_level}}', '{{$contractor->price_quotation}}')">
-												<p>Assign</p>
-											</button>
 										</div>
-									</div>
-									<!--/Timeline item-->
-									@endforeach @endif
+										<!--/Timeline item-->
+										@endforeach
+									@endif
 
 
 								</div>
@@ -413,10 +414,10 @@ input[type="radio"]:checked+div i {
 												</div>
 												<div
 													class="col-2 justify-content-center align-self-center mt-3 mb-2">
-													<label class="requestLabel d-inline"><img
-														src="{{asset('images/gardenhelp_icons/budget-icon.png')}}"
+													<label class="requestLabel d-inline">
+														<img src="{{asset('images/gardenhelp_icons/budget-icon.png')}}"
 														alt="GardenHelp" width="18px"> Bidding: <span
-														class="customerRequestSpan ">€{{$contractor->price_quotation}}</span></label>
+														class="customerRequestSpan ">€{{$contractor->bidding[0]->estimated_quote}}</span></label>
 												</div>
 											</div>
 										</div>

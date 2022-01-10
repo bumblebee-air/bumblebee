@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\ContractorBidding;
 use App\Customer;
 use App\Helpers\ServicesTypesHelper;
 use App\Helpers\StripePaymentHelper;
@@ -43,19 +44,21 @@ class PaymentIntentCustomer extends Command
     {
         $customers = Customer::where('type', 'job')
             ->whereNull('payment_intent_id')
+            ->whereNotNull('contractor_id')
+            ->where('status', 'matched')
             ->where('is_paid', false)
-//            ->whereDate('available_date_time', '>=' ,Carbon::now()->toDateTimeString())
-//            ->whereDate('available_date_time', '<=' ,Carbon::now()->addDays(6)->toDateTimeString())
+            ->whereDate('available_date_time', '>=' ,Carbon::now())
+            ->whereDate('available_date_time', '<=' ,Carbon::now()->addDays(6))
             ->get();
 
         foreach ($customers as $customer) {
             //Get Amount
 //            dd(Carbon::now()->getTimestamp() <= Carbon::parse($customer->available_date_time)->getTimestamp() && Carbon::now()->getTimestamp() >= Carbon::parse($customer->available_date_time)->subDays(6)->getTimestamp());
 //            dd(Carbon::parse($customer->available_date_time)->toDateTimeString(), Carbon::now()->toDateTimeString(), Carbon::parse($customer->available_date_time)->addDays(6)->toDateTimeString());
-            if ($customer->available_date_time && (Carbon::now()->getTimestamp() <= Carbon::parse($customer->available_date_time)->getTimestamp() && Carbon::now()->getTimestamp() >= Carbon::parse($customer->available_date_time)->subDays(6)->getTimestamp())) {
-                if ($customer->services_types_json && $customer->stripe_customer) {
-                    $service_types_amount = ServicesTypesHelper::getJobServicesTypesAmount($customer);
-                    $amount = $service_types_amount + ServicesTypesHelper::getVat(13.5, $service_types_amount);
+//            if ($customer->available_date_time && (Carbon::now()->getTimestamp() <= Carbon::parse($customer->available_date_time)->getTimestamp() && Carbon::now()->getTimestamp() >= Carbon::parse($customer->available_date_time)->subDays(6)->getTimestamp())) {
+                if ($customer->stripe_customer) {
+                    $customer_bidding = ContractorBidding::where()->orderBy('id', 'desc')->first();
+                    $amount = $customer_bidding->estimated_quote + ServicesTypesHelper::getVat(13.5, $customer_bidding->estimated_quote);
                     if ($customer->stripe_customer->payment_method_type == 'sepa_debit') {
                         $payment_intent = StripePaymentHelper::paymentIntent($amount, $customer->stripe_customer->stripe_customer_id, 'eur', ['sepa_debit'], 'automatic');
                     } else {
@@ -66,7 +69,7 @@ class PaymentIntentCustomer extends Command
                         $customer->save();
                     }
                 }
-            }
+//            }
         }
     }
 }

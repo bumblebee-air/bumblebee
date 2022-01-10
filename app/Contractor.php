@@ -52,4 +52,8 @@ class Contractor extends Model
     public function payouts() {
         return $this->hasMany(ContractorPayout::class, 'contractor_id');
     }
+
+    public function bidding() {
+        return $this->hasMany(ContractorBidding::class, 'contractor_id');
+    }
 }

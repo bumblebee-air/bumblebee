@@ -57,7 +57,9 @@ class PaymentIntentCustomer extends Command
 //            dd(Carbon::parse($customer->available_date_time)->toDateTimeString(), Carbon::now()->toDateTimeString(), Carbon::parse($customer->available_date_time)->addDays(6)->toDateTimeString());
 //            if ($customer->available_date_time && (Carbon::now()->getTimestamp() <= Carbon::parse($customer->available_date_time)->getTimestamp() && Carbon::now()->getTimestamp() >= Carbon::parse($customer->available_date_time)->subDays(6)->getTimestamp())) {
                 if ($customer->stripe_customer) {
-                    $customer_bidding = ContractorBidding::where()->orderBy('id', 'desc')->first();
+                    $customer_bidding = ContractorBidding::where('job_id', $customer->id)
+                        ->where('contractor_id', $customer->contractor->contractor_profile->id)
+                        ->orderBy('id', 'desc')->first();
                     $amount = $customer_bidding->estimated_quote + ServicesTypesHelper::getVat(13.5, $customer_bidding->estimated_quote);
                     if ($customer->stripe_customer->payment_method_type == 'sepa_debit') {
                         $payment_intent = StripePaymentHelper::paymentIntent($amount, $customer->stripe_customer->stripe_customer_id, 'eur', ['sepa_debit'], 'automatic');

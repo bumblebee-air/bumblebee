@@ -201,7 +201,7 @@ class JobsController extends Controller
 
     public function postNewJob(Request $request)
     {
-         dd($request->all());
+//         dd($request->all());
         $this->validate($request, [
             'work_location' => 'required'
         ]);

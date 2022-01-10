@@ -406,7 +406,7 @@
             });
         }
     </script>
-	@elseif(Auth::guard('garden-help')->check())
+	@elseif(Auth::guard('garden-help')->check()  && Auth::user()->user_role != 'customer')
 	<script>
         $('.sidebar').attr('data-background-color', 'white');
         //Socket Script

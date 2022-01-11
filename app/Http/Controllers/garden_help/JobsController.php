@@ -201,9 +201,8 @@ class JobsController extends Controller
 
     public function postNewJob(Request $request)
     {
-//         dd($request->all());
         $this->validate($request, [
-            'work_location' => 'required'
+            'work_location' => 'required_if:property,other'
         ]);
         if ($request->work_location == 'other') {
             $this->validate($request, [
@@ -216,7 +215,7 @@ class JobsController extends Controller
             $customer->save();
         } else {
             $this->validate($request, [
-                'type_of_work' => 'required|in:Commercial,Residential',
+                'type_of_work' => 'required_if:property,other|in:Commercial,Residential',
                 // 'name' => 'required',
                 // 'email' => 'required',
                 // 'contact_through' => 'required',
@@ -290,7 +289,7 @@ class JobsController extends Controller
                     'area_coordinates' => $request->area_coordinates,
                     'services_types_json' => $request->services_types_json,
                     'user_id' => $request->user()->id,
-                    'property_photo' => $property_paths
+                    'property_photo' => $property_paths,
                 ]);
             } else {
                 $property = CustomerProperty::find($request->property);
@@ -299,33 +298,34 @@ class JobsController extends Controller
             // Create Customer
             $customer = new Customer();
             $customer->user_id = $user->id;
-            $customer->work_location = $request->work_location;
-            $customer->type_of_work = $request->type_of_work;
+            $customer->work_location = $property->work_location;
+            $customer->type_of_work = $property->type_of_work;
             $customer->name = $user->name;
             $customer->type = 'job';
             $customer->status = 'ready';
-            $customer->contact_through = 'sms'; // sms for now
+            $customer->contact_through = $request->contact_through; // sms for now
             $customer->phone_number = $user->phone;
             // $customer->password = $request->password;
             $customer->service_types = $request->service_types;
-            $customer->location = $request->location;
-            $customer->location_coordinates = $request->location_coordinates;
+            $customer->location = $property->location;
+            $customer->location_coordinates = $property->location_coordinates;
             $customer->property_photo = json_encode($property->property_photo);
-            $customer->property_size = $request->property_size;
+            $customer->property_size = $property->property_size;
             $customer->is_first_time = $request->is_first_time;
             $customer->last_service = $request->last_services;
-            $customer->site_details = $request->site_details;
-            $customer->is_parking_access = $request->is_parking_site;
+            $customer->site_details = $property->site_details;
+            $customer->is_parking_access = $request->property == 'other' ? $request->is_parking_site : $property->is_parking_access;
             $customer->contact_name = $request->contact_name;
             $customer->contact_number = $request->contact_number;
             $customer->available_date_time = $request->available_date_time;
-            $customer->area_coordinates = $request->area_coordinates;
-            $customer->address = $request->address;
+            $customer->area_coordinates = $property->area_coordinates;
+            $customer->address = $property->address;
             $customer->services_types_json = $request->services_types_json;
-            $customer->is_recurring = $request->is_recurring;
+            $customer->is_recurring = false; //$request->is_recurring
             $customer->recurring_frequency = $request->recurring_frequency;
             $customer->budget = $request->budget;
             $customer->is_contacted = $request->is_contacted;
+            $customer->notes = $request->notes;
             $customer->save();
 
             try {

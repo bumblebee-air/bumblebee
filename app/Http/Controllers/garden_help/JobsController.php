@@ -110,7 +110,7 @@ class JobsController extends Controller
         } else {
             return view('admin.garden_help.jobs_table.single_job', [
                 'job' => $customer_request,
-                'contractors' => $available_contractors,
+                'contractors' => $contractors,
                 'reassign' => 0
             ]);
         }

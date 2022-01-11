@@ -49,8 +49,8 @@
                             <div class="card-body">
                                 <div class="container">
                                     <div class="table-responsive">
-                                        <table class="table">
-                                            <thead>
+                                        <table class="table" id="requestsTable">
+                                            <thead><tr>
                                                 <th>Date/Time</th>
                                                 <th>Years Of Experience</th>
                                                 <th>Contractor Name</th>
@@ -59,6 +59,7 @@
                                                 <th>Stage</th>
                                                 <th>Address</th>
                                                 <th>Action</th>
+                                                </tr>
                                             </thead>
 
                                             <tbody>
@@ -161,6 +162,29 @@
 
 @section('page-scripts')
     <script>
+    
+$(document).ready(function() {
+ var table= $('#requestsTable').DataTable({
+    	
+          fixedColumns: true,
+          "lengthChange": false,
+          "searching": true,
+  		  "info": false,
+  		  "ordering": false,
+  		  "paging": false,
+  		  
+           "language": {  
+            	search: '',
+        		"searchPlaceholder": "Search ",
+           },             
+        scrollX:        true,
+        scrollCollapse: true,
+        fixedColumns:   {
+            leftColumns: 0,
+        },
+    	
+    });
+});
         var app = new Vue({
             el: '#app',
             data: {

@@ -53,8 +53,8 @@
                             <div class="card-body">
                                 <div class="container">
                                     <div class="table-responsive">
-                                        <table class="table">
-                                            <thead>
+                                        <table class="table" id="requestsTable">
+                                            <thead><tr>
                                                 <th>Date/Time</th>
                                                 <th>Type</th>
                                                 <th>Customer Name</th>
@@ -63,6 +63,7 @@
                                                 <th>Stage</th>
                                                 <th>Location</th>
                                                 <th>Actions</th>
+                                                </tr>
                                             </thead>
 
                                             <tbody>
@@ -158,6 +159,30 @@
 @section('page-scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
     <script>
+    
+$(document).ready(function() {
+ var table= $('#requestsTable').DataTable({
+    	
+          fixedColumns: true,
+          "lengthChange": false,
+          "searching": true,
+  		  "info": false,
+  		  "ordering": false,
+  		  "paging": false,
+  		  
+           "language": {  
+            	search: '',
+        		"searchPlaceholder": "Search ",
+           },             
+        scrollX:        true,
+        scrollCollapse: true,
+        fixedColumns:   {
+            leftColumns: 0,
+        },
+    	
+    });
+});
+    
         Vue.use(VueToast);
         var app = new Vue({
             el: '#app',

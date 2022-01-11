@@ -7,18 +7,9 @@
 	href="{{asset('css/gardenhelp-slick-styles.css')}}">
 <style>
 .modal-content {
-	padding: 51px !important;
 	border-radius: 30px !important;
 	border: solid 1px #979797 !important;
 	background-color: #ffffff;
-}
-
-@media ( min-width : 576px) {
-	.modal-dialog {
-		max-width: 972px !important;
-		margin-left: 16.75rem !important;
-		margin-right: 16.75rem !important;
-	}
 }
 
 @media ( max-width : 767px) {
@@ -205,17 +196,16 @@ input[type="radio"]:checked+div i {
 																data-js="timeline-carousel">
 
 																@if($job->property_photo != null)
-																	@foreach(json_decode($job->property_photo) as $item)
-																	<!--Timeline item-->
-																	<div class="timeline-carousel__item">
-																		<div class="timeline-carousel__image">
-																			<div class="media-wrapper media-wrapper--overlay"
-																				style="background: url('{{asset($item)}}') center center; background-size: cover;"></div>
-																		</div>
+																@foreach(json_decode($job->property_photo) as $item)
+																<!--Timeline item-->
+																<div class="timeline-carousel__item">
+																	<div class="timeline-carousel__image">
+																		<div class="media-wrapper media-wrapper--overlay"
+																			style="background: url('{{asset($item)}}') center center; background-size: cover;"></div>
 																	</div>
-																	<!--/Timeline item-->
-																	@endforeach
-																@endif
+																</div>
+																<!--/Timeline item-->
+																@endforeach @endif
 
 															</div>
 														</section>
@@ -340,41 +330,42 @@ input[type="radio"]:checked+div i {
 								<div class="timeline-carousel__item-wrapper"
 									data-js="timeline-carousel">
 
-									@if(count($contractors) > 0)
-										@foreach($contractors as $contractor)
-										<!--Timeline item-->
-										<div class="timeline-carousel__item">
-											<div class="contractor-card text-center">
-												<img
-													src="{{asset('images/gardenhelp_icons/contractors_applied.png')}}"
-													alt="" width="70px"> <img>
-												<h2 class="carouselContractorH2 mt-2">Contractor Applied</h2>
-												<h4 class="carouselContractorNameH4 mt-1">
-													<a target="_blank" href="{{url('garden-help/view_applied_contractor')}}/{{$contractor->id}}"><u>{{$contractor->name}}</u></a></h4>
-												<p class="carouselContractorKmP mt-2"
-													id="km-away-{{$contractor->id}}">{{$contractor->km_away}} Km
-													away</p>
-												<input type="hidden" id="hiddenKmAway-{{$contractor->id}}"
-													value="" />
-												<div class=" row mt-2">
-													<div class=" col-12 ">
-														<span class="input-group-text d-inline"> </span> <label
-															class="requestLabel d-inline"><img
-															src="{{asset('images/gardenhelp_icons/budget-icon.png')}}"
-															alt="GardenHelp" width="18px"> Bidding: <span
-															class="customerRequestSpan ">€{{$contractor->bidding[0]->estimated_quote}}</span></label>
-													</div>
+									@if(count($contractors) > 0) @foreach($contractors as
+									$contractor)
+									<!--Timeline item-->
+									<div class="timeline-carousel__item">
+										<div class="contractor-card text-center">
+											<img
+												src="{{asset('images/gardenhelp_icons/contractors_applied.png')}}"
+												alt="" width="70px"> <img>
+											<h2 class="carouselContractorH2 mt-2">Contractor Applied</h2>
+											<h4 class="carouselContractorNameH4 mt-1">
+												<a target="_blank"
+													href="{{url('garden-help/view_applied_contractor')}}/{{$contractor->id}}"><u>{{$contractor->name}}</u></a>
+											</h4>
+											<p class="carouselContractorKmP mt-2"
+												id="km-away-{{$contractor->id}}">{{$contractor->km_away}} Km
+												away</p>
+											<input type="hidden" id="hiddenKmAway-{{$contractor->id}}"
+												value="" />
+											<div class=" row mt-2">
+												<div class=" col-12 ">
+													<span class="input-group-text d-inline"> </span> <label
+														class="requestLabel d-inline"><img
+														src="{{asset('images/gardenhelp_icons/budget-icon.png')}}"
+														alt="GardenHelp" width="18px"> Bidding: <span
+														class="customerRequestSpan ">€{{$contractor->bidding[0]->estimated_quote}}</span></label>
 												</div>
-												<button type="button"
-													class="btn btn-gardenhelp-green addServiceButton mt-3"
-													onclick="showAssignContractorModal({{$contractor->id}},'{{$contractor->name}}','{{$contractor->experience_level}}', '{{$contractor->bidding[0]->estimated_quote}}')">
-													<p>Assign</p>
-												</button>
 											</div>
+											<button type="button"
+												class="btn btn-gardenhelp-green addServiceButton mt-3" style="max-width: 100%"
+												onclick="showAssignContractorModal({{$contractor->id}},'{{$contractor->name}}','{{$contractor->experience_level}}', '{{$contractor->bidding[0]->estimated_quote}}')">
+												<p>Assign</p>
+											</button>
 										</div>
-										<!--/Timeline item-->
-										@endforeach
-									@endif
+									</div>
+									<!--/Timeline item-->
+									@endforeach @endif
 
 
 								</div>
@@ -388,16 +379,14 @@ input[type="radio"]:checked+div i {
 							<div class="card">
 								<div class="card-body">
 									<div class="recommendContractor recommendAssignContractor">
-										<div class="col-12  ">
-
-											<div class="row">
-												<div class="col-2">
+										<div class="row text-center">
+												<div class="col-xl-2 col-lg-2 ">
 													<img
 														src="{{asset('images/gardenhelp_icons/contractor-assigned.png')}}"
 														alt="" width="70px"> <img>
 												</div>
 
-												<div class="col-6 justify-content-center align-self-center">
+												<div class="col-xl-6 col-lg-5 justify-content-center align-self-center">
 													<h2 class="carouselContractorH2 mt-2 d-inline-block"
 														style="font-size: large">Assigned contractor:</h2>
 
@@ -407,20 +396,19 @@ input[type="radio"]:checked+div i {
 												</div>
 
 
-												<div class="col-2 justify-content-center align-self-center">
+												<div class="col-xl-2 col-lg-2 justify-content-center align-self-center">
 													<p class="carouselContractorKmP mt-2"
 														id="km-away-{{$contractor->id}}">{{$contractor->km_away}}
 														Km away</p>
 												</div>
 												<div
-													class="col-2 justify-content-center align-self-center mt-3 mb-2">
-													<label class="requestLabel d-inline">
-														<img src="{{asset('images/gardenhelp_icons/budget-icon.png')}}"
+													class="col-xl-2 col-lg-3 justify-content-center align-self-center mt-3 mb-2">
+													<label class="requestLabel d-inline"> <img
+														src="{{asset('images/gardenhelp_icons/budget-icon.png')}}"
 														alt="GardenHelp" width="18px"> Bidding: <span
 														class="customerRequestSpan ">€{{$contractor->bidding[0]->estimated_quote}}</span></label>
 												</div>
 											</div>
-										</div>
 									</div>
 								</div>
 							</div>
@@ -429,22 +417,20 @@ input[type="radio"]:checked+div i {
 							<div class="card">
 								<div class="card-body">
 									<div class="recommendContractor recommendAssignContractor">
-										<div class="col-12  ">
-
-											<div class="row">
-												<div class="col-2">
+										<div class="row text-center">
+												<div class="col-xl-2 col-lg-2 ">
 													<img
 														src="{{asset('images/gardenhelp_icons/job-completed.png')}}"
 														alt="" width="70px"> <img>
 												</div>
-												<div class="col-4  justify-content-center align-self-center">
+												<div class="col-xl-4 col-lg-4   justify-content-center align-self-center">
 													<h4
 														class="carouselContractorH2 mt-2 d-inline-block font-weight-bold"
-														style="color:#60A244">Job Completed</h4>
+														style="color: #60A244">Job Completed</h4>
 
 												</div>
 
-												<div class="col-6 justify-content-center align-self-center">
+												<div class="col-xl-6 col-lg-6  justify-content-center align-self-center">
 													<h2 class="carouselContractorH2 mt-2 d-inline-block"
 														style="">Assigned contractor:</h2>
 
@@ -453,59 +439,56 @@ input[type="radio"]:checked+div i {
 														style="">{{$contractor->name}}</h4>
 												</div>
 
-
-
-											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-<!-- 						<div class="col-lg-12 " -->
-<!-- 							v-if="job.status != 'ready' || job.status =='completed'"> -->
-<!-- 							<div class="card "> 
+						<!-- 						<div class="col-lg-12 " -->
+						<!-- 							v-if="job.status != 'ready' || job.status =='completed'"> -->
+						<!-- 							<div class="card "> 
 								<div class="card-body" style="padding-top: 0 !important;">
 									<div class="container" style="padding-bottom: 10px !important;">
 <!-- 										<div class="row"> -->
-<!-- 											<div class="col-12"> -->
-<!-- 												<div class=" row"> -->
-<!-- 													<div class="col-12"> -->
-<!-- 														<h5 class=" requestSubTitle cardTitleGrey" 
+						<!-- 											<div class="col-12"> -->
+						<!-- 												<div class=" row"> -->
+						<!-- 													<div class="col-12"> -->
+						<!-- 														<h5 class=" requestSubTitle cardTitleGrey" 
 															style="margin-bottom: 0 !important; display: inline-block;">Assigned
 <!-- 															Contractor</h5> -->
-<!-- 														<a v-if="job.status != 'completed'" -->
-<!-- 															href="{{url('garden-help/jobs_table/reassign_job/')}}/{{$job->id}}" -->
-<!-- 															class="editLinkA "> <i class="fas fa-redo-alt"></i> -->
-<!-- 														</a> -->
-<!-- 													</div> -->
-<!-- 												</div> -->
-<!-- 											</div> -->
-<!-- 											<div class="col-12"> -->
-<!-- 												<div class="card recommendContractor"> -->
-<!-- 													<div class="card-body"> -->
-<!-- 														<div class="col-12  "> -->
-<!-- 															<div class="row"> -->
-<!-- 																<div class="col"> -->
-<!-- 																	<h6 class="recommendContractorNameH6"> -->
-<!-- 																		{{$contractor->name}}</h6> -->
-<!-- 																	<p class="recommendContractorDataP">{{$contractor->experience_level}}</p> -->
-<!-- 																	<p class="recommendContractorDataP" -->
-<!-- 																		id="km-away-{{$contractor->id}}"> -->
-<!-- 																		{{$contractor->km_away}} km away</p> -->
-<!-- 																	<h6 class="recommendContractorNameH6">Price quotation: -->
-<!-- 																		€{{$contractor->price_quotation}}</h6> -->
-<!-- 																</div> -->
-<!-- 															</div> -->
-<!-- 														</div> -->
+						<!-- 														<a v-if="job.status != 'completed'" -->
+						<!-- 															href="{{url('garden-help/jobs_table/reassign_job/')}}/{{$job->id}}" -->
+						<!-- 															class="editLinkA "> <i class="fas fa-redo-alt"></i> -->
+						<!-- 														</a> -->
+						<!-- 													</div> -->
+						<!-- 												</div> -->
+						<!-- 											</div> -->
+						<!-- 											<div class="col-12"> -->
+						<!-- 												<div class="card recommendContractor"> -->
+						<!-- 													<div class="card-body"> -->
+						<!-- 														<div class="col-12  "> -->
+						<!-- 															<div class="row"> -->
+						<!-- 																<div class="col"> -->
+						<!-- 																	<h6 class="recommendContractorNameH6"> -->
+						<!-- 																		{{$contractor->name}}</h6> -->
+						<!-- 																	<p class="recommendContractorDataP">{{$contractor->experience_level}}</p> -->
+						<!-- 																	<p class="recommendContractorDataP" -->
+						<!-- 																		id="km-away-{{$contractor->id}}"> -->
+						<!-- 																		{{$contractor->km_away}} km away</p> -->
+						<!-- 																	<h6 class="recommendContractorNameH6">Price quotation: -->
+						<!-- 																		€{{$contractor->price_quotation}}</h6> -->
+						<!-- 																</div> -->
+						<!-- 															</div> -->
+						<!-- 														</div> -->
 
-<!-- 													</div> -->
-<!-- 												</div> -->
-<!-- 											</div> -->
-<!-- 										</div> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
+						<!-- 													</div> -->
+						<!-- 												</div> -->
+						<!-- 											</div> -->
+						<!-- 										</div> -->
+						<!-- 									</div> -->
+						<!-- 								</div> -->
+						<!-- 							</div> -->
+						<!-- 						</div> -->
 						@endif @if($job->status =='completed')
 						@if(auth()->user()->user_role == 'client')
 						<div class="col-lg-6  ">
@@ -578,8 +561,7 @@ input[type="radio"]:checked+div i {
 								</div>
 							</div>
 						</div>
-						@endif
-						@if(auth()->user()->user_role == 'client')
+						@endif @if(auth()->user()->user_role == 'client')
 						<div class="col-lg-6" v-if="job_other_expenses_json.length > 0">
 							<div class="card">
 								<div class="card-body" style="padding-top: 0 !important;">
@@ -659,7 +641,7 @@ input[type="radio"]:checked+div i {
 								</div>
 							</div>
 						</div>
-						
+
 						@if($job->notes)
 						<div class="col-lg-6">
 							<div class="card">
@@ -725,10 +707,9 @@ input[type="radio"]:checked+div i {
 								</div>
 							</div>
 						</div>
-						@endif
-						@endif @php $timestamps = \App\KPITimestamp::where('model_id',
-						$job->id)->where('model', 'gardenhelp_job')->first(); @endphp
-						@if($timestamps)
+						@endif @endif @php $timestamps =
+						\App\KPITimestamp::where('model_id', $job->id)->where('model',
+						'gardenhelp_job')->first(); @endphp @if($timestamps)
 						@if(auth()->user()->user_role == 'client')
 						<div class="col-lg-6">
 							<div class="card">
@@ -783,8 +764,7 @@ input[type="radio"]:checked+div i {
 								</div>
 							</div>
 						</div>
-						@endif
-						@endif @else @if(auth()->user()->user_role == 'client')
+						@endif @endif @else @if(auth()->user()->user_role == 'client')
 						<div class="col-lg-6  ">
 							<div class="card ">
 								<div class="card-body" style="padding-top: 0 !important;">
@@ -897,21 +877,20 @@ input[type="radio"]:checked+div i {
 										</form>
 									</div>
 								</div>
-								<div class="modal-footer d-flex justify-content-around ">
-									<div class="row">
-										<div class="col-sm-6 col-12">
-											<button type="button"
-												class="btn btn-register btn-gardenhelp-green "
-												onclick="$('form#request-rejection').submit()">Send</button>
-										</div>
+								<div class="row justify-content-center">
+									<div class="col-lg-4 col-md-6 text-center">
+										<button type="button"
+											class="btn btn-register btn-gardenhelp-green "
+											onclick="$('form#request-rejection').submit()">Send</button>
+									</div>
 
-										<div class="col-sm-6 col-12">
-											<button type="button"
-												class="btn btn-register btn-gardenhelp-danger  "
-												data-dismiss="modal">Close</button>
-										</div>
+									<div class="col-lg-4 col-md-6 text-center">
+										<button type="button"
+											class="btn btn-register btn-gardenhelp-danger  "
+											data-dismiss="modal">Close</button>
 									</div>
 								</div>
+
 							</div>
 						</div>
 					</div>
@@ -933,7 +912,7 @@ input[type="radio"]:checked+div i {
 										<div class="card-body">
 											<div class="container">
 												<div class="row">
-													<div class="col-md-8 offset-md-2 deliverers-container">
+													<div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 deliverers-container">
 														<div class="card selected-contractor-card">
 															<div class="card-header deliverer-details row">
 
@@ -970,13 +949,18 @@ input[type="radio"]:checked+div i {
 										</form>
 									</div>
 								</div>
-								<div class="modal-footer d-flex justify-content-around">
-									<button type="button"
-										class="btn btn-register btn-gardenhelp-green"
-										onclick="$('form#assign-contractor').submit()">Assign</button>
-									<button type="button"
-										class="btn btn-register btn-gardenhelp-danger"
-										data-dismiss="modal">Cancel</button>
+								<div class="row justify-content-center">
+									<div class="col-lg-4 col-md-6 text-center">
+										<button type="button"
+											class="btn btn-register btn-gardenhelp-green"
+											onclick="$('form#assign-contractor').submit()">Assign</button>
+									</div>
+
+									<div class="col-lg-4 col-md-6 text-center">
+										<button type="button"
+											class="btn btn-register btn-gardenhelp-danger"
+											data-dismiss="modal">Cancel</button>
+									</div>
 								</div>
 							</div>
 						</div>

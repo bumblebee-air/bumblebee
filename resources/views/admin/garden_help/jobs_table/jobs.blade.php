@@ -15,14 +15,14 @@ tr.order-row:hover, tr.order-row:focus {
 				<div class="col-md-12">
 					<div class="card">
 						<div class="card-header card-header-icon card-header-rose row">
-							<div class="col-12 col-lg-3">
+							<div class="col-12  col-md-4">
 								<div class="card-icon">
 									<img class="page_icon"
 										src="{{asset('images/gardenhelp_icons/Job-Table-white.png')}}">
 								</div>
 								<h4 class="card-title ">Jobs Table</h4>
 							</div>
-							<div class="col-12 col-lg-9 mt-4">
+							<div class="col-12  col-md-8 mt-4">
 								<div class="row justify-content-end">
 									<div class="status">
 										<div class="status_item">
@@ -63,17 +63,17 @@ tr.order-row:hover, tr.order-row:focus {
 						<div class="card-body">
 							<div class="container">
 								<div class="table-responsive">
-									<table class="table">
+									<table class="table" id="jobsTable">
 										<thead>
 											<tr>
-												<th>Created At</th>
-												<th>Scheduled At</th>
-												<th>Service Type</th>
-												<th>Job Number</th>
-												<th>Status</th>
-												<th>Stage</th>
-												@if(auth()->user()->user_role == 'client')<th>Customer Name</th>@endif
-												<th>Contractor Name</th>
+												<th  width="10%">Created At</th>
+												<th  width="10%">Scheduled At</th>
+												<th  width="20%">Service Type</th>
+												<th  width="10%">Job Number</th>
+												<th  width="10%">Status</th>
+												<th  width="10%">Stage</th>
+												@if(auth()->user()->user_role == 'client')<th  width="10%">Customer Name</th>@endif
+												<th  width="10%">Contractor Name</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -154,6 +154,30 @@ tr.order-row:hover, tr.order-row:focus {
 	integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
 	crossorigin="anonymous"></script>
 <script>
+   
+$(document).ready(function() {
+ var table= $('#jobsTable').DataTable({
+    	
+          fixedColumns: true,
+          "lengthChange": false,
+          "searching": true,
+  		  "info": false,
+  		  "ordering": false,
+  		  "paging": false,
+  		  
+           "language": {  
+            	search: '',
+        		"searchPlaceholder": "Search ",
+           },             
+        scrollX:        true,
+        scrollCollapse: true,
+        fixedColumns:   {
+            leftColumns: 0,
+        },
+    	
+    });
+});
+
         Vue.use(VueToast);
         var app = new Vue({
             el: '#app',

@@ -15,20 +15,18 @@ tr.order-row:hover, tr.order-row:focus {
 				<div class="col-md-12">
 					<div class="card">
 						<div class="card-header card-header-icon card-header-rose row">
-							<div class="col-12 col-sm-7">
+							<div class="col-12 col-md-7">
 								<div class="card-icon">
 									<img class="page_icon"
 										src="{{asset('images/gardenhelp_icons/property-icon-white.png')}}">
 								</div>
 								<h4 class="card-title ">Properties List</h4>
 							</div>
-							<div class="col-6 col-sm-5 mt-3">
-								<div class="row justify-content-end">
-									<a class="btn btn-gardenhelp-green addServiceButton"
+							<div class="col-12 col-md-5 mt-0 mt-md-3 justify-content-end">
+								<a class="btn btn-gardenhelp-green addServiceButton float-right"
 										href="{{url('garden-help/properties/add')}}">
 										<p>Add property</p>
 									</a>
-								</div>
 							</div>
 
 
@@ -165,7 +163,12 @@ $(document).ready(function() {
     		"targets": -1,
     		"orderable": false
     	} ],
-    	
+    	scrollX:        true,
+        scrollCollapse: true,
+        fixedColumns:   {
+            leftColumns: 0,
+        },
+        
         initComplete: function () {
 //          var column = this.api().column(1);
 //                   var select = $('<select id="selectFilter" class="form-control"><option value="">Select years of experience</option></select>')

@@ -339,12 +339,12 @@ span.form-control {
 
 										</div>
 										<div class="col-md-5 col-sm-6 col-12">
-											<div class="row "
-												style="margin-top: -20px; margin-bottom: 5px">
-												<div class="col-md-10">
+											<div class="row mt-2 mt-md-0"
+												style=" margin-bottom: 5px">
+												<div class="col-10">
 													<h5 class="requestSubTitle mb-3">Select location on map</h5>
 												</div>
-												<div class="col-md-2 mt-2">
+												<div class="col-2 mt-2">
 													<button type="button"
 														class="btn-contrainer-img float-right" data-toggle="modal"
 														data-target="#map-navigation-modal">
@@ -355,7 +355,7 @@ span.form-control {
 												</div>
 											</div>
 											<div id="area"></div>
-											<div id="map" style="height: 100%; margin-top: 0"></div>
+											<div id="map" style=" margin-top: 0"></div>
 											<input type="hidden" id="area_coordinates"
 												name="area_coordinates" value="{{$property->area_coordinates}}">
 										</div>

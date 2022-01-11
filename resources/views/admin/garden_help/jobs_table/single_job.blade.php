@@ -1,20 +1,17 @@
 @extends('templates.dashboard') @section('title', 'GardenHelp | Job')
 @section('page-styles')
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css">
+
+<link rel="stylesheet"
+	href="{{asset('css/gardenhelp-slick-styles.css')}}">
 <style>
 .modal-content {
-	padding: 51px !important;
 	border-radius: 30px !important;
 	border: solid 1px #979797 !important;
 	background-color: #ffffff;
 }
 
-@media ( min-width : 576px) {
-	.modal-dialog {
-		max-width: 972px !important;
-		margin-left: 16.75rem !important;
-		margin-right: 16.75rem !important;
-	}
-}
 
 @media ( max-width : 767px) {
 	.container-fluid {
@@ -174,12 +171,30 @@ input[type="radio"]:checked+div i {
 														class="form-control customerRequestSpan col-12">{{$job->location}}</span></label>
 												</div>
 											</div>
-											<div class="col-12">
+											
+											<div class="col-12 mt-3">
 												<div class=" row">
-													<label class="requestLabel col-12">Property Image</label>
-													<div class="col">
-														<img src="{{asset($job->property_photo)}}"
-															style="width: 200px; height: 200px">
+													<label class="requestLabel col-12">Property Images</label>
+													<div class="col-12">
+														<section class="timeline-carousel">
+
+															<div class="timeline-carousel__item-wrapper"
+																data-js="timeline-carousel">
+
+																@if($job->property_photo != null)
+																@foreach(json_decode($job->property_photo) as $item)
+																<!--Timeline item-->
+																<div class="timeline-carousel__item">
+																	<div class="timeline-carousel__image">
+																		<div class="media-wrapper media-wrapper--overlay"
+																			style="background: url('{{asset($item)}}') center center; background-size: cover;"></div>
+																	</div>
+																</div>
+																<!--/Timeline item-->
+																@endforeach @endif
+
+															</div>
+														</section>
 													</div>
 												</div>
 											</div>
@@ -777,19 +792,17 @@ input[type="radio"]:checked+div i {
 										</form>
 									</div>
 								</div>
-								<div class="modal-footer d-flex justify-content-around ">
-									<div class="row">
-										<div class="col-sm-6 col-12">
-											<button type="button"
-												class="btn btn-register btn-gardenhelp-green "
-												onclick="$('form#request-rejection').submit()">Send</button>
-										</div>
+								<div class="row justify-content-center">
+									<div class="col-lg-4 col-md-6 text-center">
+										<button type="button"
+											class="btn btn-register btn-gardenhelp-green "
+											onclick="$('form#request-rejection').submit()">Send</button>
+									</div>
 
-										<div class="col-sm-6 col-12">
-											<button type="button"
-												class="btn btn-register btn-gardenhelp-danger  "
-												data-dismiss="modal">Close</button>
-										</div>
+									<div class="col-lg-4 col-md-6 text-center">
+										<button type="button"
+											class="btn btn-register btn-gardenhelp-danger  "
+											data-dismiss="modal">Close</button>
 									</div>
 								</div>
 							</div>
@@ -813,7 +826,7 @@ input[type="radio"]:checked+div i {
 										<div class="card-body">
 											<div class="container">
 												<div class="row">
-													<div class="col-md-8 offset-md-2 deliverers-container">
+													<div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 deliverers-container">
 														<div class="card selected-contractor-card">
 															<div class="card-header deliverer-details row">
 
@@ -850,13 +863,18 @@ input[type="radio"]:checked+div i {
 										</form>
 									</div>
 								</div>
-								<div class="modal-footer d-flex justify-content-around">
-									<button type="button"
-										class="btn btn-register btn-gardenhelp-green"
-										onclick="$('form#assign-contractor').submit()">Assign</button>
-									<button type="button"
-										class="btn btn-register btn-gardenhelp-danger"
-										data-dismiss="modal">Cancel</button>
+								<div class="row justify-content-center">
+									<div class="col-lg-4 col-md-6 text-center">
+										<button type="button"
+											class="btn btn-register btn-gardenhelp-green"
+											onclick="$('form#assign-contractor').submit()">Assign</button>
+									</div>
+
+									<div class="col-lg-4 col-md-6 text-center">
+										<button type="button"
+											class="btn btn-register btn-gardenhelp-danger"
+											data-dismiss="modal">Cancel</button>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -870,14 +888,36 @@ input[type="radio"]:checked+div i {
 </div>
 @endsection @section('page-scripts')
 
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"> </script> 
 <script type="text/javascript">
 
-		// $(document).ready(function () {
-		//
-		//     $('input').on('change', function () {
-		//         $('#assignContractorBtn').prop("disabled", false);
-		//     });
-		// });
+		$(document).ready(function () {
+		
+// 		    $('input').on('change', function () {
+// 		        $('#assignContractorBtn').prop("disabled", false);
+// 		    });
+			
+			$('.timeline-carousel__item-wrapper').slick({
+                infinite: false,
+                arrows: true,
+                prevArrow: '<div class="slick-prev"> <div class="btn mr-3  d-flex justify-content-center align-items-center"> <i class="fas fa-chevron-left"></i></div></div>',
+                nextArrow: '<div class="slick-next"> <div class="btn d-flex justify-content-center align-items-center"><i class="fas fa-chevron-right"></i> </div></div>',
+                dots: true,
+                autoplay: false,
+                speed: 1100,
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                responsive: [
+                  {
+                    breakpoint: 800,
+                    settings: {
+                      slidesToShow: 1,
+                      slidesToScroll: 1
+                    }
+                  }]
+              });	
+		});
 		var app = new Vue({
 			el: '#app',
 			data: {
@@ -962,7 +1002,25 @@ input[type="radio"]:checked+div i {
 				center: {lat: 53.346324, lng: -6.258668},
 				mapTypeId: 'hybrid'
 			});
+			//Marker
+            let marker_icon = {
+                url: "{{asset('images/doorder_driver_assets/customer-address-pin.png')}}",
+                scaledSize: new google.maps.Size(30, 35), // scaled size
+                // origin: new google.maps.Point(0,0), // origin
+                // anchor: new google.maps.Point(0, 0) // anchor
+            };
+            var loc = {!!$job->location_coordinates!!};
+            
+            //console.log(loc.lat)
+            
+			let locationMarker = new google.maps.Marker({
+                map: this.map,
+                icon: marker_icon,
+                position:  {"lat": loc.lat, "lng": loc.lon}
+            });
 
+            locationMarker.setVisible(true)
+            
 			// Define the LatLng coordinates for the polygon's path.
 			let area_coordinates = {!!$job->area_coordinates!!};
 			const polygonCoords = area_coordinates;

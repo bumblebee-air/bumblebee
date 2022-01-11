@@ -192,14 +192,6 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	padding: 10px 23px 23px 35px;
 }
 
-@media ( min-width : 576px) {
-	.modal-dialog {
-		max-width: 972px !important;
-		margin-left: 16.75rem !important;
-		margin-right: 16.75rem !important;
-	}
-}
-
 .modal-content {
 	border-radius: 20px !important;
 	box-shadow: 0 20px 20px 0 rgba(0, 0, 0, 0.08) !important;
@@ -806,4 +798,50 @@ table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after,
 	/*   position: absolute; */
 	/*    position: absolute; */
 	/*   z-index: 1001; */
+}
+
+#map {
+	height: 100%;
+}
+
+.modal-dialog .btn {
+	max-width: 100%;
+}
+/****** responsive *******/
+.modal-dialog {
+	width: 60%;
+}
+
+@media ( min-width : 576px) {
+	.modal-dialog {
+		max-width: 972px !important;
+	}
+	.modal-dialog .modal-body .card-body {
+		padding: 5px;
+	}
+}
+
+@media ( max-width : 575.5px) {
+	.modal-dialog {
+		width: 95% !important;
+		margin-top: 20px !important;
+	}
+	.modal-content {
+		padding: 35px 30px !important;
+	}
+	.modal-dialog .modal-body {
+		padding: 15px;
+	}
+	.modal-dialog .modal-body .card-body {
+		padding: 5px;
+	}
+	#map {
+		min-height: 400px;
+	}
+}
+
+@media ( max-width : 766.5px) {
+	table.dataTable>tbody>tr>td:first-child {
+		padding-left: 5px !important;
+	}
 }

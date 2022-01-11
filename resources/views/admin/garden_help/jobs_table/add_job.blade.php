@@ -1283,7 +1283,8 @@ span.form-control {
     							close: 'fa fa-remove'
     						}
     					});
-    					 $('.timeline-carousel__item-wrapper').slick({
+    					
+    					 $('.timeline-carousel__item-wrapper').not('.slick-initialized').slick({
                             infinite: false,
                             arrows: true,
                             prevArrow: '<div class="slick-prev"> <div class="btn mr-3  d-flex justify-content-center align-items-center"> <i class="fas fa-chevron-left"></i></div></div>',
@@ -1693,7 +1694,7 @@ span.form-control {
                     let place_lat = place.geometry.location.lat();
                     let place_lon = place.geometry.location.lng();
 
-                    document.getElementById("location_coordinates").value = '{"lat": ' + place_lat.toFixed(5) + ', "lon": ' + place_lon.toFixed(5) + '}';
+                    document.getElementById("location_coordinates").value = '{"lat": ' + place_lat.toFixed(5) + ', "lng": ' + place_lon.toFixed(5) + '}';
                 }
             });
         }
@@ -1814,7 +1815,7 @@ span.form-control {
                         bounds.extend({lat: place_lat, lng: place_lon})
                         this.map.fitBounds(bounds);
     
-                        document.getElementById("location_coordinates").value = '{"lat": ' + place_lat.toFixed(5) + ', "lon": ' + place_lon.toFixed(5) + '}';
+                        document.getElementById("location_coordinates").value = '{"lat": ' + place_lat.toFixed(5) + ', "lng": ' + place_lon.toFixed(5) + '}';
                     }
                 });
              }   

@@ -622,3 +622,9 @@ Route::post('customer/job/{customer_confirmation_code}', 'unified\CustomerContro
 Route::get('gh/customer/job/{customer_confirmation_code}', 'garden_help\CustomersController@getJobConfirmation');
 Route::post('gh/customer/job/confirm', 'garden_help\CustomersController@postJobConfirmation')->name('postCustomerConfirmationURL');
 Route::get('garden-help/commercial/job', 'garden_help\JobsController@getCommercialJobs')->name('getCommercialJobs');
+
+Route::get('run-payment-intent-command', function () {
+    \Illuminate\Support\Facades\Artisan::call('gardenhelpcustomerpaymentintent:cron');
+    $output = \Illuminate\Support\Facades\Artisan::output();
+    return 'Done';
+});

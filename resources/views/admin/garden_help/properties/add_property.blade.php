@@ -231,7 +231,8 @@ span.form-control {
 																</div>
 																<input type="text" class="form-control"
 																	id="property_size" name="property_size" required
-																	v-model="property_size">
+																	v-model="property_size" 
+																	placeholder="Please use map to calculate size">
 															</div>
 														</div>
 													</div>
@@ -299,19 +300,27 @@ span.form-control {
 
 										</div>
 										<div class="col-md-5 col-sm-6 col-12">
-											<div class="row mt-2 mt-md-0"
-												style=" margin-bottom: 5px">
-												<div class="col-10">
-													<h5 class="requestSubTitle mb-3">Select location on map</h5>
-												</div>
-												<div class="col-2 mt-2">
+											<!-- 	<div class="row mt-2 mt-md-0" style=" margin-bottom: 5px"> -->
+											<!-- 												<div class="col-10"> -->
+											<!-- 													<h5 class="requestSubTitle mb-3">Select location on map</h5> -->
+											<!-- 												</div> -->
+											<!-- 												<div class="col-2 mt-2"> -->
+											<!-- 													<button type="button" -->
+											<!-- 														class="btn-contrainer-img float-right" data-toggle="modal" -->
+											<!-- 														data-target="#map-navigation-modal"> -->
+											<!-- 														<img -->
+											<!-- 															src="{{asset('images/gardenhelp_icons/info-icon.png')}}" -->
+											<!--  style="width: 25px" alt="GardenHelp"> -->
+											<!-- 													</button> -->
+											<!-- 												</div> -->
+											<!-- 											</div> -->
+											<div class="row  justify-content-center">
+												<div class="col text-center">
 													<button type="button"
-														class="btn-contrainer-img float-right" data-toggle="modal"
-														data-target="#map-navigation-modal">
-														<img
-															src="{{asset('images/gardenhelp_icons/info-icon.png')}}"
-															style="width: 25px" alt="GardenHelp">
-													</button>
+														style="max-width: 100%; text-transform: none; font-size: 16px"
+														class="btn btn-outline-success btn-sm btn-round "
+														data-toggle="modal" data-target="#map-navigation-modal">How
+														to select the location on the map ?</button>
 												</div>
 											</div>
 											<div id="area"></div>
@@ -866,8 +875,9 @@ span.form-control {
 			map.fitBounds(bounds);
         }
         
-        var total_property_size = 0;
-        var all_overlays = [];
+       // var total_property_size = 0;
+       // var all_overlays = [];
+       var newShape;
         window.initMap = function initMap(){
         	 //Map Initialization
             this.map = new google.maps.Map(document.getElementById('map'), {
@@ -963,14 +973,17 @@ span.form-control {
             // });
 
             google.maps.event.addListener(drawingManager, 'overlaycomplete', function (e) {
-            	 all_overlays.push(e);
-                if (e.type != google.maps.drawing.OverlayType.MARKER) {
+            	// all_overlays.push(e);
+            	if(newShape!=null){
+            		   	newShape.setMap(null);
+            	}
+            	 if (e.type != google.maps.drawing.OverlayType.MARKER) {
                     // Switch back to non-drawing mode after drawing a shape.
                     drawingManager.setDrawingMode(null);
 
                     // Add an event listener that selects the newly-drawn shape when the user
                     // mouses down on it.
-                    var newShape = e.overlay;
+                    newShape = e.overlay;
                     newShape.type = e.type;
                     google.maps.event.addListener(newShape, 'click', function () {
                         setSelection(newShape);
@@ -978,7 +991,7 @@ span.form-control {
                     var area = google.maps.geometry.spherical.computeArea(newShape.getPath());
                     let property_size = $("#property_size");
                     let area_coordinates = $("#area_coordinates");
-                    total_property_size = parseInt(total_property_size) + parseInt(area.toFixed(0)); 
+                    var total_property_size = parseInt(area.toFixed(0)); 
                     app.property_size = total_property_size + ' Square Meters';
                     property_size.parent().addClass('is-filled');
                     area_coordinates.val(JSON.stringify(newShape.getPath().getArray()));
@@ -1067,11 +1080,12 @@ span.form-control {
 //                 property_size.parent().removeClass('is-filled');
 //                 clearMarkers();
 //             }
-             for (var i=0; i < all_overlays.length; i++)
-              {
-                all_overlays[i].overlay.setMap(null);
-              }
-              all_overlays = [];
+//              for (var i=0; i < all_overlays.length; i++)
+//               {
+//                 all_overlays[i].overlay.setMap(null);
+//               }
+//               all_overlays = [];
+				newShape.setMap(null);
                let property_size = $("#property_size");
                 let area_coordinates = $("#area_coordinates");
                 area_coordinates.val('');

@@ -3,8 +3,9 @@ Property') @section('page-styles')
 <link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css">
-	
-<link rel="stylesheet" href="{{asset('css/gardenhelp-slick-styles.css')}}">	
+
+<link rel="stylesheet"
+	href="{{asset('css/gardenhelp-slick-styles.css')}}">
 
 <style>
 @media ( max-width : 767px) {
@@ -221,7 +222,7 @@ span.form-control {
 																@click="addFile('property_photo')">
 																<input type="text" id="property_photo_input"
 																	class="form-control inputFileVisible"
-																	placeholder="Upload photos" > <span
+																	placeholder="Upload photos"> <span
 																	class="input-group-btn">
 																	<button type="button"
 																		class="btn btn-fab btn-round btn-success">
@@ -238,17 +239,16 @@ span.form-control {
 																data-js="timeline-carousel">
 
 																@if($property->property_photo != null)
-																	@foreach($property->property_photo as $item)
-																		<!--Timeline item-->
-																		<div class="timeline-carousel__item">
-																			<div class="timeline-carousel__image">
-																				<div class="media-wrapper media-wrapper--overlay"
-																					 style="background: url('{{asset($item)}}') center center; background-size: cover;"></div>
-																			</div>
-																		</div>
-																		<!--/Timeline item-->
-																	@endforeach
-																@endif
+																@foreach($property->property_photo as $item)
+																<!--Timeline item-->
+																<div class="timeline-carousel__item">
+																	<div class="timeline-carousel__image">
+																		<div class="media-wrapper media-wrapper--overlay"
+																			style="background: url('{{asset($item)}}') center center; background-size: cover;"></div>
+																	</div>
+																</div>
+																<!--/Timeline item-->
+																@endforeach @endif
 
 
 															</div>
@@ -271,7 +271,8 @@ span.form-control {
 																<input type="text" class="form-control"
 																	id="property_size" name="property_size" required
 																	value="{{$property->property_size}}"
-																	v-model="property_size">
+																	v-model="property_size"
+																	placeholder="Please use map to calculate size">
 															</div>
 														</div>
 													</div>
@@ -299,9 +300,8 @@ span.form-control {
 																		<label class="form-check-label"> <input
 																			class="form-check-input" type="radio"
 																			id="exampleRadios2" name="is_parking_access"
-																			v-model="is_parking_site" value="1"
-																			@if($property->is_parking_access == '1') checked @endif
-																			 required> Yes <span
+																			v-model="is_parking_site" value="1" @if($property->is_parking_access
+																			== '1') checked @endif required> Yes <span
 																			class="circle"> <span class="check"></span>
 																		</span>
 																		</label>
@@ -312,9 +312,8 @@ span.form-control {
 																		<label class="form-check-label"> <input
 																			class="form-check-input" type="radio"
 																			id="exampleRadios1" name="is_parking_access"
-																			v-model="is_parking_site" value="0"
-																			@if($property->is_parking_access == '0') checked @endif
-																			required> No <span
+																			v-model="is_parking_site" value="0" @if($property->is_parking_access
+																			== '0') checked @endif required> No <span
 																			class="circle"> <span class="check"></span>
 																		</span>
 																		</label>
@@ -339,25 +338,20 @@ span.form-control {
 
 										</div>
 										<div class="col-md-5 col-sm-6 col-12">
-											<div class="row mt-2 mt-md-0"
-												style=" margin-bottom: 5px">
-												<div class="col-10">
-													<h5 class="requestSubTitle mb-3">Select location on map</h5>
-												</div>
-												<div class="col-2 mt-2">
+											<div class="row  justify-content-center">
+												<div class="col text-center">
 													<button type="button"
-														class="btn-contrainer-img float-right" data-toggle="modal"
-														data-target="#map-navigation-modal">
-														<img
-															src="{{asset('images/gardenhelp_icons/info-icon.png')}}"
-															style="width: 25px" alt="GardenHelp">
-													</button>
+														style="max-width: 100%; text-transform: none; font-size: 16px"
+														class="btn btn-outline-success btn-sm btn-round "
+														data-toggle="modal" data-target="#map-navigation-modal">How
+														to select the location on the map ?</button>
 												</div>
 											</div>
 											<div id="area"></div>
-											<div id="map" style=" margin-top: 0"></div>
+											<div id="map" style="margin-top: 0"></div>
 											<input type="hidden" id="area_coordinates"
-												name="area_coordinates" value="{{$property->area_coordinates}}">
+												name="area_coordinates"
+												value="{{$property->area_coordinates}}">
 										</div>
 
 									</div>
@@ -945,8 +939,9 @@ console.log(property.work_location)
 			map.fitBounds(bounds);
         }
         
-        var total_property_size = 0;
-        var all_overlays = [];
+//         var total_property_size = 0;
+//         var all_overlays = [];
+let newShape;
         window.initMap = function initMap(){
         	 //Map Initialization
             this.map = new google.maps.Map(document.getElementById('map'), {
@@ -1044,15 +1039,19 @@ window.initMapDisplay();
             // });
 
             google.maps.event.addListener(drawingManager, 'overlaycomplete', function (e) {
-            	 all_overlays.push(e);
+            	// all_overlays.push(e);
+            	
                 if (e.type != google.maps.drawing.OverlayType.MARKER) {
                 	polygon.setMap(null);
+                	if(newShape!=null){
+            			newShape.setMap(null)
+            		}
                     // Switch back to non-drawing mode after drawing a shape.
                     drawingManager.setDrawingMode(null);
 
                     // Add an event listener that selects the newly-drawn shape when the user
                     // mouses down on it.
-                    var newShape = e.overlay;
+                    newShape = e.overlay;
                     newShape.type = e.type;
                     google.maps.event.addListener(newShape, 'click', function () {
                         setSelection(newShape);
@@ -1060,7 +1059,7 @@ window.initMapDisplay();
                     var area = google.maps.geometry.spherical.computeArea(newShape.getPath());
                     let property_size = $("#property_size");
                     let area_coordinates = $("#area_coordinates");
-                    total_property_size = parseInt(total_property_size) + parseInt(area.toFixed(0)); 
+                    var total_property_size = parseInt(area.toFixed(0)); 
                     app.property_size = total_property_size + ' Square Meters';
                     property_size.parent().addClass('is-filled');
                     area_coordinates.val(JSON.stringify(newShape.getPath().getArray()));
@@ -1149,11 +1148,17 @@ window.initMapDisplay();
 //                 property_size.parent().removeClass('is-filled');
 //                 clearMarkers();
 //             }
-             for (var i=0; i < all_overlays.length; i++)
-              {
-                all_overlays[i].overlay.setMap(null);
-              }
-              all_overlays = [];
+//              for (var i=0; i < all_overlays.length; i++)
+//               {
+//                 all_overlays[i].overlay.setMap(null);
+//               }
+//               all_overlays = [];
+				if(newShape!=null){
+            		newShape.setMap(null)
+            	}
+            	if(polygon!=null){
+            		polygon.setMap(null)
+            	}
                let property_size = $("#property_size");
                 let area_coordinates = $("#area_coordinates");
                 area_coordinates.val('');

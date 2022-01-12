@@ -110,7 +110,7 @@ span.form-control {
 								<div class="card-icon">
 									<i class="fas fa-plus-circle"></i>
 								</div>
-								<h4 class="card-title ">Add New Job</h4>
+								<h4 class="card-title ">Create New Job</h4>
 							</div>
 							<div class="card-body">
 								<div class="container">
@@ -252,7 +252,7 @@ span.form-control {
 													<div class="col-md-12">
 														<h5 class="requestSubTitle">Property Information</h5>
 													</div>
-													<div class="col-md-12">
+													<div class="col-md-12"  v-show="properties.length > 0">
 														<div class="form-group ">
 															<label for="property" class="">Property </label>
 															<div class="input-group">
@@ -262,13 +262,13 @@ span.form-control {
 																		alt="GardenHelp">
 																	</span>
 																</div>
-																<select id="property" name="property"
+																<select id="property" name="property" 
 																	class="form-control js-example-basic-single"
 																	v-model="property" onchange="changeProperty()">
 																	<option disabled selected value="">Select property</option>
 																	<option v-for="property in properties"
 																		:value="property.id">@{{property.location}}</option>
-																	<option value="other">Other</option>
+																	<option value="other" >Other</option>
 																</select>
 															</div>
 
@@ -487,7 +487,8 @@ span.form-control {
 																</div>
 																<input type="text" class="form-control"
 																	id="property_size" name="property_size" required
-																	v-model="property_size">
+																	v-model="property_size"
+																	placeholder="Please use map to calculate size">
 															</div>
 														</div>
 													</div>
@@ -550,7 +551,7 @@ span.form-control {
 													</div>
 													<div class="col-md-12">
 														<div class="form-group bmd-form-group">
-															<label for="type_of_experience">Service type</label>
+															<label for="type_of_experience">What Services would you like to book?</label>
 															<div class="input-group">
 																<div class="input-group-prepend">
 																	<span class="input-group-text"> <img
@@ -572,7 +573,7 @@ span.form-control {
 													</div>
 													<div class="col-md-12">
 														<div class="form-group bmd-form-group">
-															<label for="available_date_time">Job time</label>
+															<label for="available_date_time">What date and time would you like to book ?</label>
 															<div class="input-group">
 																<div class="input-group-prepend">
 																	<span class="input-group-text"> <img
@@ -644,7 +645,7 @@ span.form-control {
 													<div class="col-md-12"
 														v-if="is_first_time != '' && is_first_time == 0">
 														<div class="form-group bmd-form-group">
-															<label for="type_of_experience">Time of last service</label>
+															<label for="type_of_experience">What was the time of your last service ?</label>
 															<div class="input-group">
 																<div class="input-group-prepend">
 																	<span class="input-group-text"> <img
@@ -766,23 +767,29 @@ span.form-control {
 
 										</div>
 										<div class="col-md-5 col-sm-6 col-12">
-											<div class="row "
-												style="margin-top: -20px; margin-bottom: 5px">
-												<div class="col-md-10">
-													<h5 class="requestSubTitle mb-3">Select location on map</h5>
-												</div>
-												<div class="col-md-2 mt-2">
-													<button type="button"
-														class="btn-contrainer-img float-right" data-toggle="modal"
-														data-target="#map-navigation-modal">
-														<img
-															src="{{asset('images/gardenhelp_icons/info-icon.png')}}"
-															style="width: 25px" alt="GardenHelp">
-													</button>
+<!-- 											<div class="row mt-3" style="margin-top: -20px; margin-bottom: 5px"> -->
+<!-- 												<div class="col-md-10"> -->
+<!-- 													<h5 class="requestSubTitle mb-3">Select location on map</h5> -->
+<!-- 												</div> -->
+<!-- 												<div class="col-md-2 mt-2"> -->
+<!-- 													<button type="button" -->
+<!-- 														class="btn-contrainer-img float-right" data-toggle="modal" -->
+<!-- 														data-target="#map-navigation-modal"> -->
+<!-- 														<img -->
+<!-- 															src="{{asset('images/gardenhelp_icons/info-icon.png')}}" 
+															style="width: 25px" alt="GardenHelp"> -->
+<!-- 													</button> -->
+<!-- 												</div> -->
+<!-- 											</div> -->
+											<div class="row mt-3 justify-content-center">
+												<div class="col text-center">
+													<button type="button" style="max-width: 100%;text-transform: none; font-size: 16px"
+														class="btn btn-outline-success btn-sm btn-round " data-toggle="modal"
+														data-target="#map-navigation-modal">How to select the location on the map ?</button>
 												</div>
 											</div>
 											<div id="area"></div>
-											<div id="map" style="height: 100%; margin-top: 0"></div>
+											<div id="map" style="height: 95%; margin-top: 0"></div>
 											<input type="hidden" id="area_coordinates"
 												name="area_coordinates">
 										</div>
@@ -939,7 +946,7 @@ span.form-control {
 							@endif
 							<div class="col-12 text-center">
 								<button id="addNewJobBtn"
-									class="btn btn-register btn-gardenhelp-green">Add new job</button>
+									class="btn btn-register btn-gardenhelp-green">Submit</button>
 
 							</div>
 						</div>
@@ -1463,7 +1470,9 @@ span.form-control {
 				selected_property: null
             },
             mounted() {
-            	
+            	if(this.properties.length == 0 ){
+            		this.property = 'other'
+            	}
                 if (this.type_of_work == 'Commercial') {
                     $('#available_date_time').datetimepicker({
                         icons: {
@@ -1792,9 +1801,9 @@ span.form-control {
 			
         }
         
-        var total_property_size = 0;
-        var all_overlays = [];
-        
+//         var total_property_size = 0;
+//         var all_overlays = [];
+        let newShape;
         let locationMarker;
         
         window.initMapDraw = function initMapDraw(){
@@ -1885,14 +1894,17 @@ span.form-control {
             // });
 
             google.maps.event.addListener(drawingManager, 'overlaycomplete', function (e) {
-            	 all_overlays.push(e);
+            	// all_overlays.push(e);
                 if (e.type != google.maps.drawing.OverlayType.MARKER) {
+                	if(newShape !=null){
+                		newShape.setMap(null)
+                	}
                     // Switch back to non-drawing mode after drawing a shape.
                     drawingManager.setDrawingMode(null);
 
                     // Add an event listener that selects the newly-drawn shape when the user
                     // mouses down on it.
-                    var newShape = e.overlay;
+                    newShape = e.overlay;
                     newShape.type = e.type;
                     google.maps.event.addListener(newShape, 'click', function () {
                         setSelection(newShape);
@@ -1900,7 +1912,7 @@ span.form-control {
                     var area = google.maps.geometry.spherical.computeArea(newShape.getPath());
                     let property_size = $("#property_size");
                     let area_coordinates = $("#area_coordinates");
-                    total_property_size = parseInt(total_property_size) + parseInt(area.toFixed(0)); 
+                    var total_property_size = parseInt(area.toFixed(0)); 
                     app.property_size = total_property_size + ' Square Meters';
                     property_size.parent().addClass('is-filled');
                     area_coordinates.val(JSON.stringify(newShape.getPath().getArray()));
@@ -1930,25 +1942,24 @@ span.form-control {
             controlUI.style.borderRadius = "3px";
             controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
             controlUI.style.cursor = "pointer";
-            controlUI.style.marginBottom = "22px";
+            controlUI.style.marginTop = "5px";
+            controlUI.style.height = "24px";
             controlUI.style.textAlign = "center";
             controlUI.title = "Click to recenter the map";
             controlDiv.appendChild(controlUI);
 
-            // Set CSS for the control interior.
-            const controlText = document.createElement("div");
+             const controlText = document.createElement("div");
             controlText.style.color = "rgb(25,25,25)";
             controlText.style.fontFamily = "Roboto,Arial,sans-serif";
             controlText.style.fontSize = "16px";
-            controlText.style.lineHeight = "38px";
-            controlText.style.paddingLeft = "5px";
-            controlText.style.paddingRight = "5px";
-            controlText.innerHTML = "Reset Area";
+            controlText.style.lineHeight = "16px";
+            controlText.style.padding = "4px";
+            controlText.innerHTML = '<i class="fas fa-eraser"></i>';
             controlUI.appendChild(controlText);
             // Setup the click event listeners: simply set the map to Chicago.
             controlUI.addEventListener("click", () => deleteSelectedShape());
 
-            this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(controlDiv)
+            this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(controlDiv)
         }
 
         var drawingManager;
@@ -1989,11 +2000,13 @@ span.form-control {
 //                 property_size.parent().removeClass('is-filled');
 //                 clearMarkers();
 //             }
-             for (var i=0; i < all_overlays.length; i++)
-              {
-                all_overlays[i].overlay.setMap(null);
-              }
-              all_overlays = [];
+
+//              for (var i=0; i < all_overlays.length; i++)
+//               {
+//                 all_overlays[i].overlay.setMap(null);
+//               }
+//               all_overlays = [];
+				newShape.setMap(null);
                let property_size = $("#property_size");
                 let area_coordinates = $("#area_coordinates");
                 area_coordinates.val('');

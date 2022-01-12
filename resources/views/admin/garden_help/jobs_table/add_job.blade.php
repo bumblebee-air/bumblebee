@@ -592,7 +592,7 @@ span.form-control {
 
 													<div class="col-md-12">
 														<div class="form-group bmd-form-group">
-															<label for="budget">Budget</label>
+															<label for="budget">What is your budget?</label>
 															<div class="input-group">
 																<div class="input-group-prepend">
 																	<span class="input-group-text"> <img

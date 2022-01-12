@@ -1221,7 +1221,7 @@ span.form-control {
                         }
                     });*/
 
-					$('#available_date_time').datetimepicker({
+					$('.datetimepicker').datetimepicker({
 						icons: {
 							time: "fa fa-clock",
 							date: "fa fa-calendar",
@@ -1240,7 +1240,7 @@ span.form-control {
                 setTimeout(() => {
                     window.initMap();
                     //window.initAutoComplete()
-                    $('#available_date_time').datetimepicker({
+                    $('.datetimepicker').datetimepicker({
                         icons: {
                             time: "fa fa-clock",
                             date: "fa fa-calendar",
@@ -1288,7 +1288,7 @@ span.form-control {
                    // window.initAutoComplete();
                      $("#type_of_work").select2();
                      $("#work_location").select2();
-                	$('#available_date_time').datetimepicker({
+                	$('.datetimepicker').datetimepicker({
 						icons: {
 							time: "fa fa-clock",
 							date: "fa fa-calendar",
@@ -1299,7 +1299,8 @@ span.form-control {
 							today: 'fa fa-screenshot',
 							clear: 'fa fa-trash',
 							close: 'fa fa-remove'
-						}
+						},
+						
 					});
 					
                  }, 500)
@@ -1311,7 +1312,7 @@ span.form-control {
                     area_coordinates = app.selected_property.area_coordinates;
                         window.initMapDisplay();
                         
-                        $('#available_date_time').datetimepicker({
+                        $('.datetimepicker').datetimepicker({
     						icons: {
     							time: "fa fa-clock",
     							date: "fa fa-calendar",
@@ -1471,10 +1472,32 @@ span.form-control {
             },
             mounted() {
             	if(this.properties.length == 0 ){
-            		this.property = 'other'
+            		this.property = 'other';
+            		 setTimeout(() => {
+                    window.initMap();
+                    window.initMapDraw();
+                   // window.initAutoComplete();
+                     $("#type_of_work").select2();
+                     $("#work_location").select2();
+                	$('.datetimepicker').datetimepicker({
+						icons: {
+							time: "fa fa-clock",
+							date: "fa fa-calendar",
+							up: "fa fa-chevron-up",
+							down: "fa fa-chevron-down",
+							previous: 'fa fa-chevron-left',
+							next: 'fa fa-chevron-right',
+							today: 'fa fa-screenshot',
+							clear: 'fa fa-trash',
+							close: 'fa fa-remove'
+						},
+						
+					});
+					
+                 }, 500)
             	}
                 if (this.type_of_work == 'Commercial') {
-                    $('#available_date_time').datetimepicker({
+                    $('.datetimepicker').datetimepicker({
                         icons: {
                             time: "fa fa-clock",
                             date: "fa fa-calendar",
@@ -1489,7 +1512,7 @@ span.form-control {
                     });
                     //this.addIntelInput('contact_number', 'contact_number');
                 } else if (this.type_of_work == 'Residential') {
-                    /*$('#last_services').datetimepicker({
+                    /*$('.datetimepicker').datetimepicker({
                         icons: {
                             time: "fa fa-clock",
                             date: "fa fa-calendar",
@@ -1502,7 +1525,7 @@ span.form-control {
                             close: 'fa fa-remove'
                         }
                     });*/
-                    $('#available_date_time').datetimepicker({
+                    $('.datetimepicker').datetimepicker({
 						icons: {
 							time: "fa fa-clock",
 							date: "fa fa-calendar",
@@ -1663,7 +1686,7 @@ span.form-control {
                     } else {
                         setTimeout(() => {
                             window.initMap();
-                            $('#available_date_time').datetimepicker({
+                            $('.datetimepicker').datetimepicker({
                                 icons: {
                                     time: "fa fa-clock",
                                     date: "fa fa-calendar",
@@ -1682,7 +1705,7 @@ span.form-control {
                 },
                 changeIsFirst() {
                     setTimeout(() => {
-                        /*$('#last_services').datetimepicker({
+                        /*$('.datetimepicker').datetimepicker({
                             icons: {
                                 time: "fa fa-clock",
                                 date: "fa fa-calendar",

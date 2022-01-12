@@ -659,40 +659,36 @@ span.form-control {
 															</div>
 														</div>
 													</div>
-													<div class="col-md-12">
-														<div class="form-group bmd-form-group">
-															<label for="vat-number">Contact Through</label>
-															<div class="row">
-																<div class="col">
-																	<div class="form-check form-check-radio">
-																		<label class="form-check-label"> <input
-																					class="form-check-input" type="radio"
-																					id="contact-through" name="contact_through"
-																					value="sms"
-																					{{old('contact_through') ===
-                                                                                    'sms' ? 'checked' : ''}} required> Phone <span
-																					class="circle"> <span class="check"></span>
-																		</span>
-																		</label>
-																	</div>
-																</div>
-																<div class="col">
-																	<div class="form-check form-check-radio">
-																		<label class="form-check-label"> <input
-																					class="form-check-input" type="radio"
-																					id="contact-through" name="contact_through"
-																					value="email"
-																					{{old('contact_through') ===
-                                                                                    'email' ? 'checked' : ''}}
-																					required> Email <span class="circle"> <span
-																						class="check"></span>
-																		</span>
-																		</label>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
+<!-- 													<div class="col-md-12"> -->
+<!-- 														<div class="form-group bmd-form-group"> -->
+<!-- 															<label for="vat-number">Contact Through</label> -->
+<!-- 															<div class="row"> -->
+<!-- 																<div class="col"> -->
+<!-- 																	<div class="form-check form-check-radio"> -->
+<!-- 																		<label class="form-check-label"> <input -->
+<!-- 																					class="form-check-input" type="radio" -->
+<!-- 																					id="contact-through" name="contact_through" -->
+<!-- 																					value="sms" --><!-- required> Phone <span -->
+<!-- 																					class="circle"> <span class="check"></span> -->
+<!-- 																		</span> -->
+<!-- 																		</label> -->
+<!-- 																	</div> -->
+<!-- 																</div> -->
+<!-- 																<div class="col"> -->
+<!-- 																	<div class="form-check form-check-radio"> -->
+<!-- 																		<label class="form-check-label"> <input -->
+<!-- 																					class="form-check-input" type="radio" -->
+<!-- 																					id="contact-through" name="contact_through" -->
+<!-- 																					value="email" -->
+<!-- 																					required> Email <span class="circle"> <span -->
+<!-- 																						class="check"></span> -->
+<!-- 																		</span> -->
+<!-- 																		</label> -->
+<!-- 																	</div> -->
+<!-- 																</div> -->
+<!-- 															</div> -->
+<!-- 														</div> -->
+<!-- 													</div> -->
 													<div class="col-md-12">
 														<div class="form-group bmd-form-group">
 															<label for="vat-number">Do you mind being contacted prior
@@ -734,8 +730,9 @@ span.form-control {
 																	<div class="form-check form-check-radio">
 																		<label class="form-check-label"> <input
 																			class="form-check-input" type="radio"
-																			name="job_contact_through" value="call" required>
-																			Call <span class="circle"> <span class="check"></span>
+																			name="contact_through" value="sms"
+																			{{old('contact_through') ===  'sms' ? 'checked' : ''}} required>
+																			Phone <span class="circle"> <span class="check"></span>
 																		</span>
 																		</label>
 																	</div>
@@ -744,7 +741,10 @@ span.form-control {
 																	<div class="form-check form-check-radio">
 																		<label class="form-check-label"> <input
 																			class="form-check-input" type="radio"
-																			name="job_contact_through" value="email" required>
+																			name="contact_through" value="email" 
+																			{{old('contact_through') ===
+                                                                                    'email' ? 'checked' : ''}}
+																			required>
 																			Email <span class="circle"> <span class="check"></span>
 																		</span>
 																		</label>

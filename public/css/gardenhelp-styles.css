@@ -599,33 +599,35 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 /************************* datetime picker **************************/
 .bootstrap-datetimepicker-widget table td.active:hover>div,
 	.bootstrap-datetimepicker-widget table td.active>div {
-	background-color: #60a244 !important;
+	background-color: #30BB30 !important;
 }
 
 .bootstrap-datetimepicker-widget a[data-action] span,
 	.bootstrap-datetimepicker-widget a[data-action]:hover span {
-	color: #60a244 !important;
+	color: #30BB30 !important;
 }
 
 .bootstrap-datetimepicker-widget table td.today>div:before {
-	border-bottom-color: #60a244 !important;
+	border-bottom-color: #30BB30 !important;
 }
 
 .bootstrap-datetimepicker-widget .btn.btn-primary.focus,
 	.bootstrap-datetimepicker-widget .btn.btn-primary {
 	color: #fff;
-	background-color: #60a244 !important;
-	border-color: #60a244 !important;
+	background-color: #30BB30 !important;
+	border-color: #30BB30 !important;
 }
 
 .bootstrap-datetimepicker-widget .btn.btn-primary.focus,
 	.bootstrap-datetimepicker-widget .btn.btn-primary:focus,
 	.bootstrap-datetimepicker-widget .btn.btn-primary:hover {
 	color: #fff;
-	background-color: #60a244 !important;
-	border-color: #487834 !important;
+	background-color: #30BB30 !important;
+	border-color: #60a244 !important;
 }
-
+.bootstrap-datetimepicker-widget a[data-action]:hover{
+	background-color: transparent !important;
+}
 .form-control, .form-control:invalid, .is-focused .form-control {
 	background-image: none;
 	box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);

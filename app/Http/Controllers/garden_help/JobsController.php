@@ -362,24 +362,25 @@ class JobsController extends Controller
     {
         $jobs = Customer::where('type', 'job')->where('status', 'ready')
             ->with([
-            'contractor' => function ($q) {
-                $q->select([
-                    'id',
-                    'name'
-                ]);
-            }
-        ])
+                'contractor' => function ($q) {
+                    $q->select([
+                        'id',
+                        'name'
+                    ]);
+                }
+            ])
             ->whereNotNull('property_size')
             ->select([
-            'id',
-            'work_location',
-            'type_of_work',
-            'contractor_id',
-            'property_photo',
-            'property_size',
-            'status',
-            'services_types_json'
-        ])->orderBy('id', 'desc')->paginate(12);
+                'id',
+                'work_location',
+                'type_of_work',
+                'contractor_id',
+                'property_photo',
+                'property_size',
+                'status',
+                'services_types_json',
+                'budget'
+            ])->orderBy('id', 'desc')->paginate(12);
         return view('garden_help.contractors.commercial_jobs_board', [
             'jobs' => $jobs
         ]);

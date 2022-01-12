@@ -109,7 +109,7 @@
         <div class="row">
             <div class="col-md-3 col-sm-12 d-flex align-items-stretch" v-for="job in jobs.data">
                 <div class="card">
-                    <img :src="getImagePath(job.property_photo)" class="card-img-top" alt="job image" v-if="job.property_photo">
+                    <img :src="getImagePath(JSON.parse(job.property_photo)[0])" class="card-img-top" alt="job image" v-if="JSON.parse(job.property_photo).length > 0">
                     <img :src="getImagePath('/images/no-image.png')" class="card-img-top" alt="job image" v-else>
                     <div class="card-body">
                         <div class="row job-details">
@@ -146,8 +146,8 @@
                         </div>
                         <div class="row b-0">
                             <div class="col-12 pl-1 pr-1">
-                                <span class="estimated-price-title">Estimated Price</span>
-                                <span class="font-weight-bold main-text-color estimated-price">@{{ getTotalPrice(job) }}</span>
+                                <span class="estimated-price-title">Max Budget</span>
+                                <span class="font-weight-bold main-text-color estimated-price">@{{ job.budget }}</span>
                             </div>
                         </div>
                         <div class="row align-items-center">
@@ -160,9 +160,9 @@
                             <div class="col pr-1">
                                 <a href="{{url('contractors_app')}}" class="float-right" v-if="job.contractor_id && job.contractor">
                                     ASSIGNED
-{{--                                    <span class="text-gray">--}}
-{{--                                        @{{ job.contractor.name }}--}}
-{{--                                    </span>--}}
+                                    {{--                                    <span class="text-gray">--}}
+                                    {{--                                        @{{ job.contractor.name }}--}}
+                                    {{--                                    </span>--}}
                                 </a>
                                 <a :href="getJobURL(job.id)" class="float-right" v-else>APPLY FOR JOB <i class="fas fa-chevron-right"></i></a>
                             </div>
@@ -208,7 +208,7 @@
                         }
                     }
                     this.percentage = (total_price / 100) * 20;
-                     return this.getTotalAverage(parseFloat(total_price));
+                    return this.getTotalAverage(parseFloat(total_price));
                 },
                 getTotalAverage(totalValue) {
                     let percentage = (20 * totalValue) / 100;

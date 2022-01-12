@@ -343,11 +343,11 @@ input[type="radio"]:checked+div i {
 												<a target="_blank"
 													href="{{url('garden-help/view_applied_contractor')}}/{{$contractor->id}}"><u>{{$contractor->name}}</u></a>
 											</h4>
-											<p class="carouselContractorKmP mt-2"
-												id="km-away-{{$contractor->id}}">{{$contractor->km_away}} Km
-												away</p>
-											<input type="hidden" id="hiddenKmAway-{{$contractor->id}}"
-												value="" />
+{{--											<p class="carouselContractorKmP mt-2"--}}
+{{--												id="km-away-{{$contractor->id}}">{{$contractor->km_away}} Km--}}
+{{--												away</p>--}}
+{{--											<input type="hidden" id="hiddenKmAway-{{$contractor->id}}"--}}
+{{--												value="" />--}}
 											<div class=" row mt-2">
 												<div class=" col-12 ">
 													<span class="input-group-text d-inline"> </span> <label
@@ -360,7 +360,7 @@ input[type="radio"]:checked+div i {
 											<button type="button"
 												class="btn btn-gardenhelp-green addServiceButton mt-3" style="max-width: 100%"
 												onclick="showAssignContractorModal({{$contractor->id}},'{{$contractor->name}}','{{$contractor->experience_level}}', '{{$contractor->bidding[0]->estimated_quote}}')">
-												<p>Assign</p>
+												<p>BOOK NOW</p>
 											</button>
 										</div>
 									</div>

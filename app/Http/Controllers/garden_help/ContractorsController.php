@@ -214,9 +214,9 @@ class ContractorsController extends Controller
 
     public function getJobsList(Request $request)
     {
-        $availableJobs = Customer::where('type', 'job')->whereNull('contractor_id')->where('status', '!=', 'completed')->get();
+        $availableJobs = Customer::where('type', 'job')->whereNull('contractor_id')->where('status', '!=', 'completed')->orderBy('id', 'desc')->get();
         $myJobs = Customer::where('type', 'job')->where('contractor_id', $request->user()->id)
-            ->where('status', '!=', 'completed')->get();
+            ->where('status', '!=', 'completed')->orderBy('id', 'desc')->get();
 
         return response()->json([
             'available_jobs' => $availableJobs,

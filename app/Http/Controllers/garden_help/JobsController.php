@@ -379,8 +379,7 @@ class JobsController extends Controller
             'property_size',
             'status',
             'services_types_json'
-        ])
-            ->paginate(12);
+        ])->orderBy('id', 'desc')->paginate(12);
         return view('garden_help.contractors.commercial_jobs_board', [
             'jobs' => $jobs
         ]);

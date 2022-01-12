@@ -93,6 +93,9 @@ span.form-control {
 .input-group-text img {
 	width: 20px;
 }
+.errorMessage{
+    color: red; font-weight: 500; display: none; margin-bottom: 0;
+}
 </style>
 <script src="https://js.stripe.com/v3/"></script>
 @endsection @section('page-content')
@@ -110,7 +113,7 @@ span.form-control {
 								<div class="card-icon">
 									<i class="fas fa-plus-circle"></i>
 								</div>
-								<h4 class="card-title ">Create New Job</h4>
+								<h4 class="card-title ">Book New Job</h4>
 							</div>
 							<div class="card-body">
 								<div class="container">
@@ -264,7 +267,7 @@ span.form-control {
 																</div>
 																<select id="property" name="property" 
 																	class="form-control js-example-basic-single"
-																	v-model="property" onchange="changeProperty()">
+																	v-model="property" onchange="changeProperty()" required="required">
 																	<option disabled selected value="">Select property</option>
 																	<option v-for="property in properties"
 																		:value="property.id">@{{property.location}}</option>
@@ -381,7 +384,7 @@ span.form-control {
 																	</span>
 																</div>
 																<select id="work_location" name="work_location"
-																	class="form-control js-example-basic-single ">
+																	class="form-control js-example-basic-single " required="required">
 																	<option disabled selected value="">Select location</option>
 																	<option value="Dublin">Dublin</option>
 																	<option value="Carlow">Carlow</option>
@@ -403,13 +406,15 @@ span.form-control {
 														<!-- 														</div> -->
 														<div class="form-group bmd-form-group">
 															<label>Property type</label>
+															<p id="productTypeErrorMessage" class="errorMessage">Please
+													select one of these options</p>
 															<div class="row">
 																<div class="col">
 
 																	<div class="form-check">
 																		<label class="form-check-label"> <input
 																			class="form-check-input" type="radio"
-																			name="type_of_work" value="Residential">Residential <span
+																			name="type_of_work" value="Residential" required="required">Residential <span
 																			class="form-check-sign"> <span class="check"></span>
 																		</span>
 																		</label>
@@ -485,11 +490,14 @@ span.form-control {
 																		alt="GardenHelp">
 																	</span>
 																</div>
-																<input type="text" class="form-control"
+																<span class="form-control"
+																	id="property_size_span"
+																	></span>
+															</div>
+															<input type="hidden" class="form-control"
 																	id="property_size" name="property_size" required
 																	v-model="property_size"
 																	placeholder="Please use map to calculate size">
-															</div>
 														</div>
 													</div>
 													
@@ -498,6 +506,8 @@ span.form-control {
 														<div class="form-group bmd-form-group">
 															<label for="vat-number">Is there a parking access on
 																site?</label>
+															<p id="isParkingErrorMessage" class="errorMessage">Please
+													select one of these options</p>
 															<div class="row">
 																<div class="col">
 																	<div class="form-check form-check-radio">
@@ -610,7 +620,11 @@ span.form-control {
 													<div class="col-md-12">
 														<div class="form-group bmd-form-group">
 															<label for="vat-number">Is this your first service?</label>
-															<div class="row">
+															
+															<p id="isFirstServiceErrorMessage" class="errorMessage">Please
+													select one of these options</p>
+													
+													<div class="row">
 																<div class="col">
 																	<div class="form-check form-check-radio">
 																		<label class="form-check-label"> <input
@@ -631,7 +645,7 @@ span.form-control {
 																			id="exampleRadios1" name="is_first_time"
 																			v-model="is_first_time" value="0"
 																			{{old('is_first_time') ===
-																			'0' ? 'checked' : ''}} @click="changeIsFirst()"
+																			'0' ? 'checked' : ''}} onclick="changeIsFirst()"
 																			required> No <span class="circle"> <span
 																				class="check"></span>
 																		</span>
@@ -693,7 +707,9 @@ span.form-control {
 														<div class="form-group bmd-form-group">
 															<label for="vat-number">Do you mind being contacted prior
 																to job?</label>
-															<div class="row">
+															
+															<p id="isContactErrorMessage" class="errorMessage">Please
+													select one of these options</p><div class="row">
 																<div class="col">
 																	<div class="form-check form-check-radio">
 																		<label class="form-check-label"> <input
@@ -945,7 +961,7 @@ span.form-control {
 							</div>
 							@endif
 							<div class="col-12 text-center">
-								<button id="addNewJobBtn"
+								<button id="addNewJobBtn" 
 									class="btn btn-register btn-gardenhelp-green">Submit</button>
 
 							</div>
@@ -1197,10 +1213,78 @@ span.form-control {
     $(document).ready(function() {
         $(".js-example-basic-single").select2();
         
+        $('.datetimepicker').datetimepicker({
+						icons: {
+							time: "fa fa-clock",
+							date: "fa fa-calendar",
+							up: "fa fa-chevron-up",
+							down: "fa fa-chevron-down",
+							previous: 'fa fa-chevron-left',
+							next: 'fa fa-chevron-right',
+							today: 'fa fa-screenshot',
+							clear: 'fa fa-trash',
+							close: 'fa fa-remove'
+						},
+						
+					});
+					
+		 $('#addNewJobBtn').click(function( event ) {
+    	//console.log("submittttt")
+		 		validateInput();
+         });				
     });
+    
+    function validateInput(){
+    	//console.log("submit")
+    	if($("#property").val()==="other"){
+    		if( $("input[name=type_of_work]:checked").val()==null ){
+            			//console.log("submit 4")
+					 	$('#productTypeErrorMessage').css("display","block")
+                        return false;
+           }else{
+              // console.log("submit 5")
+                $('#productTypeErrorMessage').css("display","none");
+                
+                if( $("input[name=is_parking_site]:checked").val()==null ){
+                			//console.log("submit 44")
+    					 	$('#isParkingErrorMessage').css("display","block")
+                            return false;
+               }else{
+                   //console.log("submit 55")
+                    $('#isParkingErrorMessage').css("display","none");
+                               
+                 }           
+                            
+              
+             }
+    	}
+    	
+       if( $("input[name=is_first_time]:checked").val()==null ){
+            			//console.log("submit 4")
+					 	$('#isFirstServiceErrorMessage').css("display","block")
+                        return false;
+       }else{
+           //console.log("submit 5")
+            $('#isFirstServiceErrorMessage').css("display","none");
+            
+            if( $("input[name=is_contacted]:checked").val()==null ){
+            			//console.log("submit 44")
+					 	$('#isContactErrorMessage').css("display","block")
+                        return false;
+           }else{
+               //console.log("submit 55")
+                $('#isContactErrorMessage').css("display","none");
+                           
+             }           
+                        
+          
+         }
+         return true;
+    }
+    
     function changeWorkType(){
                 $('#addNewJobBtn').prop("disabled", false);
-            console.log($("#type_of_work").val());
+          //  console.log($("#type_of_work").val());
             app.type_of_work=$("#type_of_work").val();
 
             if ($("#type_of_work").val() == 'Residential') {
@@ -1259,8 +1343,8 @@ span.form-control {
         }
         
         function changeContact(cont){
-        console.log("change contact "+cont);
-        app.contact_through=cont;
+            //console.log("change contact "+cont);
+            app.contact_through=cont;
         }
 
         function addIntelInput(input_id, input_name) {
@@ -1274,10 +1358,28 @@ span.form-control {
             });
         }
         
+         function  changeIsFirst() {
+                    setTimeout(() => {
+                        $('.datetimepicker').datetimepicker({
+                            icons: {
+                                time: "fa fa-clock",
+                                date: "fa fa-calendar",
+                                up: "fa fa-chevron-up",
+                                down: "fa fa-chevron-down",
+                                previous: 'fa fa-chevron-left',
+                                next: 'fa fa-chevron-right',
+                                today: 'fa fa-screenshot',
+                                clear: 'fa fa-trash',
+                                close: 'fa fa-remove'
+                            }
+                        });
+                    }, 500)
+               
+        }
         
     	function changeProperty(){
-               console.log("ssss") 
-               console.log($('option:selected',$("#property")).index()); 
+//                console.log("ssss") 
+//                console.log($('option:selected',$("#property")).index()); 
             app.property=$("#property").val();
            
             
@@ -1306,7 +1408,7 @@ span.form-control {
                  }, 500)
             	app.selected_property = {};
             }else{
-                 console.log(app.properties[$('option:selected',$("#property")).index()-1])
+                 //console.log(app.properties[$('option:selected',$("#property")).index()-1])
                 app.selected_property = app.properties[$('option:selected',$("#property")).index()-1]
                 setTimeout(() => {
                     area_coordinates = app.selected_property.area_coordinates;
@@ -1562,6 +1664,8 @@ span.form-control {
     						return;
     					}
 					}
+					
+					validateInput();
             		generateStripeToken(e)
 				},
 				getVat(percentage, total_price) {
@@ -1578,7 +1682,7 @@ span.form-control {
 						if (parseInt(property_size) >= parseInt(size_from) && parseInt(property_size) <= parseInt(size_to)) {
 							let service_price = parseInt(rate_per_hour) * parseInt(type.min_hours);
 							this.total_price += service_price;
-							console.log('service_price ' + service_price);
+							//console.log('service_price ' + service_price);
 							return service_price;
 						}
 					}
@@ -1644,7 +1748,7 @@ span.form-control {
                 },
                 onChangeFile(e, id) {
                     // $("#" + id).val(e.target.files[0].name);
-                    console.log(e.target.files)
+                   // console.log(e.target.files)
                 	if(e.target.files.length==1){
                     	$("#" + id).val(e.target.files[0].name);
                     }else{
@@ -1815,7 +1919,7 @@ span.form-control {
                 // origin: new google.maps.Point(0,0), // origin
                 // anchor: new google.maps.Point(0, 0) // anchor
             };
-			 console.log(app.selected_property.location_coordinates)
+			// console.log(app.selected_property.location_coordinates)
             let locationMarker = new google.maps.Marker({
                 map: this.map,
                 icon: marker_icon,
@@ -1849,7 +1953,7 @@ span.form-control {
 
             //Autocomplete Initialization
             let location_input = document.getElementById('location');
-            console.log(location_input)
+            //console.log(location_input)
             if(location_input != null){
     			//Mutation observer hack for chrome address autofill issue
     			let observerHackAddress = new MutationObserver(function() {
@@ -1936,7 +2040,8 @@ span.form-control {
                     let property_size = $("#property_size");
                     let area_coordinates = $("#area_coordinates");
                     var total_property_size = parseInt(area.toFixed(0)); 
-                    app.property_size = total_property_size + ' Square Meters';
+                     app.property_size = total_property_size + ' Square Meters';
+                    $("#property_size_span").html(total_property_size + ' Square Meters')
                     property_size.parent().addClass('is-filled');
                     area_coordinates.val(JSON.stringify(newShape.getPath().getArray()));
                     
@@ -2140,7 +2245,7 @@ span.form-control {
 				// Inform the user if there was an error
 				var errorElement = document.getElementById('card-errors');
 				errorElement.textContent = result.error.message;
-				console.log(result.error.message);
+				//console.log(result.error.message);
 			} else {
 				// Send the token to your server
 				// Insert the token ID into the form so it gets submitted to the server

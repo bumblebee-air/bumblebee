@@ -317,7 +317,7 @@ span.form-control {
 											<div class="row  justify-content-center">
 												<div class="col text-center">
 													<button type="button"
-														style="max-width: 100%; text-transform: none; font-size: 16px"
+														style="max-width: 100%; text-transform: none; font-size: 16px;white-space: normal;"
 														class="btn btn-outline-success btn-sm btn-round "
 														data-toggle="modal" data-target="#map-navigation-modal">How
 														to select the location on the map ?</button>

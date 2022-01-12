@@ -20,7 +20,7 @@ tr.order-row:hover, tr.order-row:focus {
 									<img class="page_icon"
 										src="{{asset('images/gardenhelp_icons/property-icon-white.png')}}">
 								</div>
-								<h4 class="card-title ">Properties List</h4>
+								<h4 class="card-title ">My Properties</h4>
 							</div>
 							<div class="col-12 col-md-5 mt-0 mt-md-3 justify-content-end">
 								<a class="btn btn-gardenhelp-green addServiceButton float-right"

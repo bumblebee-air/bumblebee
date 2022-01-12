@@ -20,7 +20,11 @@ tr.order-row:hover, tr.order-row:focus {
 									<img class="page_icon"
 										src="{{asset('images/gardenhelp_icons/Job-Table-white.png')}}">
 								</div>
+								@if(auth()->user()->user_role == 'client')
 								<h4 class="card-title ">Jobs Table</h4>
+								@else
+								<h4 class="card-title ">My Bookings</h4>
+								@endif
 							</div>
 							<div class="col-12  col-md-8 mt-4">
 								<div class="row justify-content-end">

@@ -194,6 +194,19 @@
                               </p>
                             </div>
                           </div>
+                          <div class="row" v-if="job_data.notes">
+                            <div class="col-2">
+                              <img src="images/garden_help_driver_assets/parking_site.png" class="service-icon" alt="service-type-icon">
+                            </div>
+                            <div class="col-10 order-address-row">
+                              <p class="order-address-title">
+                                Extra Details
+                              </p>
+                              <p class="order-address-value">
+                                {{job_data.notes}}
+                              </p>
+                            </div>
+                          </div>
                           <div class="row" v-if="job_data.property_photo != null && JSON.parse(job_data.property_photo).length">
                             <div class="col-10 order-address-row">
                               <p class="order-address-value">

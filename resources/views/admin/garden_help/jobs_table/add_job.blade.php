@@ -755,7 +755,7 @@ span.form-control {
 													</div>
 													<div class="col-md-12">
 														<div class="form-group bmd-form-group">
-															<label for="">Notes</label>
+															<label for="">Any specific details regarding the Service you are booking ?</label>
 															<textarea name="notes" rows="2" class="form-control"
 																id="notes">{{old('notes')}}</textarea>
 

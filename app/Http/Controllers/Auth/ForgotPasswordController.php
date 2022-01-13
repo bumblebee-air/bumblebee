@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -37,6 +36,9 @@ class ForgotPasswordController extends Controller
         if (strpos(request()->getHost(), 'doorder.eu') !== false || str_contains(request()->url(), 'doorder/password/reset')) {
 
             return view("auth.doorder.passwords.email");
+        } else if (str_contains(request()->url(), 'garden-help/password/reset')) {
+
+            return view("auth.garden_help.passwords.email");
         } else {
             return view('auth.passwords.email');
         }
@@ -44,20 +46,19 @@ class ForgotPasswordController extends Controller
 
     public function sendResetLinkEmail(Request $request)
     {
-
         $this->validateEmail($request);
 
         if (strpos(request()->getHost(), 'doorder.eu') !== false || str_contains(request()->url(), 'doorder/password/reset')) {
             \Config::set('mail.from.address', 'no-reply@doorder.eu');
             \Config::set('mail.from.name', 'DoOrder');
             \Config::set('app.name', 'DoOrder');
+        } else if (str_contains(request()->url(), 'garden-help/password/reset')) {
+            \Config::set('mail.from.address', 'no-reply@gardenhelp.ie');
+            \Config::set('mail.from.name', 'GardenHelp');
+            \Config::set('app.name', 'GardenHelp');
         }
-        $response = $this->broker()->sendResetLink(
-            $this->credentials($request)
-        );
+        $response = $this->broker()->sendResetLink($this->credentials($request));
 
-        return $response == Password::RESET_LINK_SENT
-            ? $this->sendResetLinkResponse($request, $response)
-            : $this->sendResetLinkFailedResponse($request, $response);
+        return $response == Password::RESET_LINK_SENT ? $this->sendResetLinkResponse($request, $response) : $this->sendResetLinkFailedResponse($request, $response);
     }
 }

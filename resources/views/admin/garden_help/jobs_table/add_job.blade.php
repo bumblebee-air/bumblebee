@@ -492,7 +492,7 @@ span.form-control {
 																</div>
 																<span class="form-control"
 																	id="property_size_span"
-																	></span>
+																	><span style="color: #ACB1C0">Please use map to calculate size </span></span>
 															</div>
 															<input type="hidden" class="form-control"
 																	id="property_size" name="property_size" required
@@ -2139,6 +2139,7 @@ span.form-control {
                 let area_coordinates = $("#area_coordinates");
                 area_coordinates.val('');
                 app.property_size = '';
+                 $("#property_size_span").html('<span style="color: #ACB1C0">Please use map to calculate size </span>')
                 total_property_size = 0;
                 property_size.parent().removeClass('is-filled');
         }

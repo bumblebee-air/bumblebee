@@ -84,7 +84,7 @@
                     <img src="{{asset('images/doorder_driver_assets/delivered-successfully.png')}}" alt="delivered successfully">
                 </div>
                 <div class="col-md-12 delivered-title-container">
-                    Thank you for using DoOrder, we hope that to use our service in the future
+                    Thank you for using DoOrder, we hope that you use our service in the future
                 </div>
             </div>
         @endif

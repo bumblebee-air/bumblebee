@@ -22,6 +22,9 @@ class ProfileController extends Controller
         if($client_url_prefix == 'doorder'){
             return view('admin.doorder.profile',compact('client_url_prefix'));   
         }
+        if($client_url_prefix == 'garden-help'){
+            return view('admin.garden_help.profile',compact('client_url_prefix'));
+        }
         
         return view('admin.profile',compact('client_url_prefix'));
     }

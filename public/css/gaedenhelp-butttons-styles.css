@@ -1,42 +1,47 @@
 .btn {
-	padding: 19px 45px;
-	border-radius: 24px;
+	padding: 14px 45px;
+	border-radius: 6px;
 	margin-top: 10px;
-	/* text-transform: uppercase; */
-	font-family: Roboto;
-	font-size: 14px;
-	font-weight: 500;
 	font-stretch: normal;
+	font-family: Poppins;
 	font-style: normal;
-	/* line-height: 0.75; */
-	/* letter-spacing: 0.54px; */
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 20px;
+	text-align: center;
+	color: #FFFFFF;
+	text-transform: capitalize;
+}
+
+.btn.btn-submit{
+	width: 200px
 }
 
 .btn-gardenhelp-green {
 	color: #fff;
-/* 	background-color: #60a244; */
-/* 	border-color: #60a244 */
+	/* 	background-color: #60a244; */
+	/* 	border-color: #60a244 */
 	background-color: #30BB30;
 	border-color: #30BB30;
 }
 
 .btn-gardenhelp-green.focus, .btn-gardenhelp-green:focus {
 	color: #fff;
-	background-color: #487834;
-	border-color: #487834
+	background-color: #2aa22a;
+	border-color: #2aa22a
 }
 
 .btn-gardenhelp-green:hover {
 	color: #fff;
-	background-color: #487834;
-	border-color: #487834
+	background-color: #2aa22a;
+	border-color: #2aa22a
 }
 
-.btn-gardenhelp-green.active, .btn-gardenhelp-green:active,
-	.open>.dropdown-toggle.btn-gardenhelp-green {
+.btn-gardenhelp-green.active, .btn-gardenhelp-green:active, .open>.dropdown-toggle.btn-gardenhelp-green
+	{
 	color: #fff;
-	background-color: #487834;
-	border-color: #487834
+	background-color: #2aa22a;
+	border-color: #2aa22a
 }
 
 .btn-gardenhelp-green.active.focus, .btn-gardenhelp-green.active:focus,
@@ -45,35 +50,37 @@
 	.open>.dropdown-toggle.btn-gardenhelp-green.focus, .open>.dropdown-toggle.btn-gardenhelp-green:focus,
 	.open>.dropdown-toggle.btn-gardenhelp-green:hover {
 	color: #fff;
-	background-color: #487834;
-	border-color: #487834
+	background-color: #2aa22a;
+	border-color: #2aa22a
 }
 
-.btn-gardenhelp-green.active, .btn-gardenhelp-green:active,
-	.open>.dropdown-toggle.btn-gardenhelp-green {
+.btn-gardenhelp-green.active, .btn-gardenhelp-green:active, .open>.dropdown-toggle.btn-gardenhelp-green
+	{
 	background-image: none
 }
-.btn-gardenhelp-green.disabled, .btn-gardenhelp-green:disabled{
-	background-color:  #a3a3a3 !important;
+
+.btn-gardenhelp-green.disabled, .btn-gardenhelp-green:disabled {
+	/* 	background-color: #a3a3a3 !important; */
+	opacity: 0.5;
 }
 
- .btn-gardenhelp-green.disabled.focus, .btn-gardenhelp-green.disabled:focus, .btn-gardenhelp-green.disabled:hover,
-	.btn-gardenhelp-green[disabled].focus, .btn-gardenhelp-green[disabled]:focus,
-	.btn-gardenhelp-green[disabled]:hover, fieldset[disabled] .btn-gardenhelp-green.focus,
-	fieldset[disabled] .btn-gardenhelp-green:focus, fieldset[disabled] .btn-gardenhelp-green:hover
-	{
-	background-color: #a3a3a3;
-	border-color: #a3a3a3;
+.btn-gardenhelp-green.disabled.focus, .btn-gardenhelp-green.disabled:focus,
+	.btn-gardenhelp-green.disabled:hover, .btn-gardenhelp-green[disabled].focus,
+	.btn-gardenhelp-green[disabled]:focus, .btn-gardenhelp-green[disabled]:hover,
+	fieldset[disabled] .btn-gardenhelp-green.focus, fieldset[disabled] .btn-gardenhelp-green:focus,
+	fieldset[disabled] .btn-gardenhelp-green:hover {
+	/* 	background-color: #a3a3a3; */
+	/* 	border-color: #a3a3a3; */
+	opacity: 0.5;
 }
- 
-.btn-gardenhelp-danger{
+
+.btn-gardenhelp-danger {
 	color: #fff;
 	background-color: #d85656;
 	border-color: #d85656
 }
 
-.btn-gardenhelp-danger.focus, .btn-gardenhelp-danger:focus
-	{
+.btn-gardenhelp-danger.focus, .btn-gardenhelp-danger:focus {
 	color: #fff;
 	background-color: #af4747;
 	border-color: #af4747
@@ -85,28 +92,25 @@
 	border-color: #af4747
 }
 
-.btn-gardenhelp-danger.active, .btn-gardenhelp-danger:active,
-	.open>.dropdown-toggle.btn-gardenhelp-danger {
-	color: #fff;
-	background-color: #af4747;
-	border-color: #af4747
-}
-
-.btn-gardenhelp-danger.active.focus,
-	.btn-gardenhelp-danger.active:focus,
-	.btn-gardenhelp-danger.active:hover,
-	.btn-gardenhelp-danger:active.focus,
-	.btn-gardenhelp-danger:active:focus,
-	.btn-gardenhelp-danger:active:hover, .open>.dropdown-toggle.btn-gardenhelp-danger.focus,
-	.open>.dropdown-toggle.btn-gardenhelp-danger:focus, .open>.dropdown-toggle.btn-gardenhelp-danger:hover
+.btn-gardenhelp-danger.active, .btn-gardenhelp-danger:active, .open>.dropdown-toggle.btn-gardenhelp-danger
 	{
 	color: #fff;
 	background-color: #af4747;
 	border-color: #af4747
 }
 
-.btn-gardenhelp-danger.active, .btn-gardenhelp-danger:active,
-	.open>.dropdown-toggle.btn-gardenhelp-danger {
+.btn-gardenhelp-danger.active.focus, .btn-gardenhelp-danger.active:focus,
+	.btn-gardenhelp-danger.active:hover, .btn-gardenhelp-danger:active.focus,
+	.btn-gardenhelp-danger:active:focus, .btn-gardenhelp-danger:active:hover,
+	.open>.dropdown-toggle.btn-gardenhelp-danger.focus, .open>.dropdown-toggle.btn-gardenhelp-danger:focus,
+	.open>.dropdown-toggle.btn-gardenhelp-danger:hover {
+	color: #fff;
+	background-color: #af4747;
+	border-color: #af4747
+}
+
+.btn-gardenhelp-danger.active, .btn-gardenhelp-danger:active, .open>.dropdown-toggle.btn-gardenhelp-danger
+	{
 	background-image: none
 }
 
@@ -119,25 +123,28 @@
 	border-color: #c785c7;
 }
  */
- 
-.btn-link-gardenhelp{
+.btn-link-gardenhelp {
 	color: #60a244 !important;
-} 
+}
+
 .btn.btn-fab, .btn.btn-just-icon {
 	font-size: 20px !important;
 }
-.addServiceButton{
+
+.addServiceButton {
 	font-size: 12px;
 	padding: 10px;
 	width: 170px;
 	height: 40px;
 	border-radius: 19px !important;
 }
-a.btn:hover, a.btn:focus{
+
+a.btn:hover, a.btn:focus {
 	color: #fff !important;
 	text-decoration: none !important;
 }
-a.btn.edit:hover, a.btn.edit:focus{
+
+a.btn.edit:hover, a.btn.edit:focus {
 	color: #60a244 !important;
 	text-decoration: none !important;
 }

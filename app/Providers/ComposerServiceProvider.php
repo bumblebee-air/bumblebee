@@ -15,10 +15,10 @@ class ComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer(
-            ['templates.main','templates.aviva','templates.auth','templates.dashboard','templates.doorder_dashboard'],
+            ['templates.main','templates.aviva','templates.auth','templates.dashboard','templates.doorder_dashboard','templates.garden_help-dashboard'],
             'App\Http\ViewComposers\MainComposer'
         );
-        View::composer(['partials.admin_sidebar','partials.admin_sidebar_doorder'], 'App\Http\ViewComposers\SideNavComposer');
+        View::composer(['partials.admin_sidebar','partials.admin_sidebar_doorder','partials.admin_sidebar_gardenhelp'], 'App\Http\ViewComposers\SideNavComposer');
     }
 
     /**

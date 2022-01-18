@@ -203,7 +203,7 @@
 						<div class="row justify-content-center">
 							<div class="col-lg-3  col-md-3 col-sm-4 px-md-1 text-center">
 								<button type="submit"
-									class="btnDoorder btn-doorder-primary  mb-1">Submit</button>
+									class="btnDoorder btn-doorder-primary  mb-1" onclick="$('#order-form').submit()">Submit</button>
 							</div>
 
 						</div>

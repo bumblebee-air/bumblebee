@@ -6,6 +6,10 @@ html {
 	-webkit-font-smoothing: none;
 }
 
+a:hover {
+	text-decoration: none !important;
+}
+
 .sidebar {
 	background-color: #fff;
 	box-shadow: none !important;
@@ -20,6 +24,7 @@ html {
 
 .sidebar .sidebar-wrapper {
 	width: 270px;
+	min-height: 620px !important;
 }
 
 .sidebar .nav {
@@ -34,6 +39,9 @@ html {
 	.main-panel {
 		width: calc(100% - 270px)
 	}
+	.sidebar-mini .sidebar, .sidebar-mini .sidebar .sidebar-wrapper {
+		width: 98px;
+	}
 }
 
 @media ( max-width : 991px) {
@@ -41,6 +49,20 @@ html {
 		.nav-open .menu-on-left .wrapper-full-page {
 		transform: translate3d(270px, 0, 0);
 	}
+}
+
+.sidebar-mini .sidebar .nav li .dropdown-menu a, .sidebar-mini .sidebar .nav li a,
+	.sidebar-mini .sidebar .nav li:first-child>a {
+	margin: 6px 1.5rem 0;
+}
+
+.sidebar .nav li .dropdown-menu a, .sidebar .nav li a, .sidebar .nav li:first-child>a
+	{
+	margin: 10px 0.5rem 0;
+}
+
+.sidebar .user:after {
+	background-color: transparent;
 }
 
 #adminNavLogoImg {
@@ -94,7 +116,7 @@ li .nav-link:hover .my-nav-icon-grey {
 	display: none;
 }
 
-/* .sidebar[data-background-color=doorder-color] { */
+/* .sidebar[data-background-color=gardenHelp-color] { */
 /* 	background-color: rgba(68, 68, 68, 0.6) */
 /* } */
 .sidebar .nav li.active>[data-toggle=collapse], .sidebar .nav li .dropdown-menu a:focus,
@@ -249,17 +271,21 @@ li .nav-link:hover .my-nav-icon-grey {
 	background: #30BB30 !important;
 	color: #fff !important;
 }
-#navbarTop li.list-group-item{
+
+#navbarTop li.list-group-item {
 	border-bottom: 1px solid #e7e7e7;
 }
-#navbarTop li.list-group-item:last-child{
+
+#navbarTop li.list-group-item:last-child {
 	border-bottom: none
 }
-#navbarTop li.list-group-item:hover{
+
+#navbarTop li.list-group-item:hover {
 	background-color: #ebebeb;
 	box-shadow: none;
 }
-#navbarTop li.list-group-item a:hover{
+
+#navbarTop li.list-group-item a:hover {
 	background-color: #ebebeb;
 	text-decoration: none !important;
 	box-shadow: none;
@@ -349,6 +375,750 @@ input.form-control, textarea.form-control, select.form-control, span.form-contro
 	border: none !important;
 	background-color: #ededed;
 }
+
+.form-control:read-only {
+	background-image: none;
+}
+/*********** dashboard *************/
+.card-dashboard-content {
+	padding: 1.3rem 1.2rem;
+}
+
+.dashboard-card-icon-container {
+	padding: 0
+}
+
+.dashboard-card-img {
+	width: 70px;
+	height: 70px;
+}
+
+#commerical-jobs-dashboard-img.dashboard-card-img {
+	width: 60px;
+}
+
+#contractors-dashboard-img.dashboard-card-img {
+	width: 90px;
+}
+
+.dashboard-card-icon {
+	text-align: center
+}
+
+#dashboardFilterRowDiv .inputFilter, .mapContainerDiv .inputFilter,
+	.filterContrainerDiv .inputFilter, .filterContrainerDiv select {
+	font-size: 12px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.66px;
+	color: #4d4d4d;
+	width: 100%;
+	height: 40px;
+	padding: 6px 18px 6px 14px;
+	border-radius: 7px;
+	border: 1px solid #eee;
+	box-shadow: 0 1px 34px 0 rgba(0, 0, 0, 0.08);
+	background-color: white;
+}
+
+.filterContrainerDiv .filter-option-inner {
+	font-size: 12px;
+}
+
+#dashboardCardDiv .card.card-stats {
+	margin-top: 0;
+	margin-bottom: 15px;
+}
+
+#dashboardCardDiv .card.card-stats .cardDashboardValueH3 {
+	font-style: normal;
+	font-weight: 600 !important;
+	font-size: 40px !important;
+	line-height: 49px !important;
+	color: #171B1E !important;
+}
+
+#dashboardCardDiv .card.card-stats p.card-category {
+	font-style: normal;
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 24px;
+	color: #717579;
+	margin: 0;
+}
+
+#dashboardCardDiv .card-dashboard-content .card-footer {
+	margin: 0 !important;
+	padding-top: 5px;
+}
+
+#dashboardCardDiv .card-dashboard-content .card-footer .stats {
+	font-size: 13px !important;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.46px;
+	color: #c2c8d5 !important;
+}
+
+#dashboardCardDiv .cardContentTableDiv .card-title.tableDashboardH3 {
+	font-style: normal;
+	font-weight: bold !important;
+	font-size: 20px !important;
+	line-height: 24px !important;
+	color: #23314B !important;
+	margin-top: 10px;
+}
+
+#dashboardCardDiv .cardContentTableDiv .card-title.tableDashboardH3  span
+	{
+	font-style: normal;
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 20px;
+	color: #656565;
+}
+
+.ct-chart .ct-series-a .ct-area, .ct-chart .ct-series-a .ct-bar,
+	.ct-chart .ct-series-a .ct-line, .ct-chart .ct-series-a .ct-point,
+	.ct-chart .ct-series-a .ct-slice-donut, .ct-chart .ct-series-a .ct-slice-donut-solid,
+	.ct-chart .ct-series-a .ct-slice-pie {
+	stroke: #F8C140 !important;
+	stroke-width: 2px;
+}
+
+.ct-chart .ct-series-b .ct-area, .ct-chart .ct-series-b .ct-bar,
+	.ct-chart .ct-series-b .ct-line, .ct-chart .ct-series-b .ct-point,
+	.ct-chart .ct-series-b .ct-slice-donut, .ct-chart .ct-series-b .ct-slice-donut-solid,
+	.ct-chart .ct-series-b .ct-slice-pie {
+	stroke: #30BB30 !important;
+	stroke-width: 2px;
+}
+
+.ct-series-a .ct-line .ct-point {
+	opacity: 1;
+	stroke-linecap: round;
+}
+
+.ct-label {
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 17px;
+	color: #A098AE;
+}
+
+.chartDataH3 {
+	font-style: normal;
+	font-weight: bold;
+	font-size: 20px;
+	line-height: 24px;
+	color: #252525;
+}
+
+.weekMonthData .chartDataLabel {
+	font-style: normal;
+	font-weight: normal;
+	font-size: 18px;
+	line-height: 22px;
+	/* identical to box height */
+	color: #7B7B7B;
+	margin-bottom: 0;
+}
+
+.weekMonthData .chartDataValue {
+	font-style: normal;
+	font-weight: bold;
+	font-size: 24px;
+	line-height: 29px;
+}
+
+.weekMonthData .chartDataValue.chartDataValueLast {
+	color: #EC882B;
+}
+
+.weekMonthData .chartDataValue.chartDataValuePlus {
+	color: #30BB30;
+}
+
+.weekMonthData .chartDataValue.chartDataValueMinus {
+	color: #DB3C3C;;
+}
+
+#thisMonthAverageLabel, #lastMonthAverageLabel {
+	font-size: 21px;
+	line-height: 25px;
+}
+/************ tables ***************/
+.dataTables_length select.form-control:not([size]):not([multiple]) {
+	height: 36px !important;
+	padding: 8px 14px 8px 14px !important;
+	border-radius: 5px;
+	box-shadow: 0 2px 48px 0 rgb(0 0 0/ 8%);
+	border: 1px solid #eee !important;
+	background-color: #ffffff !important;
+	font-size: 14px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.77px;
+	color: #4d4d4d;
+	width: auto;
+	background-color: #ffffff;
+}
+
+.pagination>.page-item.active>a, .pagination>.page-item.active>a:focus,
+	.pagination>.page-item.active>a:hover, .pagination>.page-item.active>span,
+	.pagination>.page-item.active>span:focus, .pagination>.page-item.active>span:hover
+	{
+	background-color: #30BB30;
+	font-weight: bold;
+	box-shadow: none !important;
+	color: white !important;
+	text-decoration: none !important;
+}
+
+.pagination>.page-item>.page-link, .pagination>.page-item>span {
+	border-radius: 6px !important;
+}
+
+/*********** tables *************/
+div.dataTables_wrapper div.dataTables_filter input {
+	font-size: 14px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.66px;
+	color: #4d4d4d;
+	width: 219px;
+	height: 28px;
+	padding: 6px 18px 6px 14px;
+	border-radius: 7px;
+	border: 1px solid #eee;
+	box-shadow: 0 1px 34px 0 rgba(0, 0, 0, 0.08);
+	background-color: white;
+}
+
+.gardenHelpTable thead tr th {
+	text-align: left;
+	font-stretch: normal;
+	font-style: normal;
+	font-weight: 600 !important;
+	font-size: 12px !important;
+	line-height: 15px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	color: #5E5873;
+	background-color: #F3F2F7;
+	padding: 12px 8px;
+}
+
+.gardenHelpTable tbody tr td {
+	font-stretch: normal;
+	letter-spacing: normal;
+	font-style: normal;
+	font-weight: 500 !important;
+	font-size: 14px !important;
+	line-height: 21px;
+	color: #6E6B7B;
+	/* text-align: left !important; */
+}
+
+.table tbody tr td.orderDateTimeTd, .ordersListTable tbody tr td.orderDateTimeTd
+	{
+	font-style: normal;
+	font-weight: 600 !important;
+	font-size: 14px;
+	line-height: 21px;
+	color: #7367F0;
+}
+
+.gardenHelpTable td .orderStatusSpan, .orderStatusSpan {
+	font-style: normal;
+	font-weight: 600;
+	font-size: 12px;
+	line-height: 18px;
+	text-align: center;
+	padding: 3px 6px;
+	border-radius: 16px;
+	height: auto;
+}
+
+.ordersListTable>tbody>tr>td {
+	padding: 10px 5px !important;
+}
+
+.dataTables_scrollBody table thead tr th, .dataTables_scrollBody table tfoot tr th
+	{
+	border: none !important;
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
+}
+
+.gardenHelpTable td .tablePinSpan {
+	font-size: 25px !important;
+}
+
+.table td span.tableTextSpan {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	line-height: 1rem;
+	height: 2rem;
+}
+
+.gardenHelpTable td .orderStatusSpan.pendingStatus, .orderStatusSpan.pendingStatus
+	{
+	color: #82868B;
+	background-color: #82868B1F;
+}
+
+.gardenHelpTable td .orderStatusSpan.readyStatus, .orderStatusSpan.readyStatus
+	{
+	color: #F3D54F;
+	background-color: #F3D54F1F;
+}
+
+.gardenHelpTable td .orderStatusSpan.matchedStatus, .orderStatusSpan.matchedStatus
+	{
+	color: #38B018;
+	background-color: #38B0181F;
+}
+
+.gardenHelpTable td .orderStatusSpan.onRoutePickupStatus,
+	.orderStatusSpan.onRoutePickupStatus {
+	color: #FF9F43;
+	background-color: #FF9F431F;
+}
+
+.gardenHelpTable td .orderStatusSpan.pickedUpStatus, .orderStatusSpan.pickedUpStatus
+	{
+	color: #4A95D3;
+	background-color: #4A95D31F;
+}
+
+.gardenHelpTable td .orderStatusSpan.onRouteStatus, .orderStatusSpan.onRouteStatus
+	{
+	color: #FF9F43;
+	background-color: #FF9F431F;
+}
+
+.gardenHelpTable td .orderStatusSpan.deliveredArrivedStatus,
+	.orderStatusSpan.deliveredArrivedStatus {
+	color: #F56D6D;
+	background-color: #F56D6D1F;
+}
+
+.gardenHelpTable td .orderStatusSpan.deliveredStatus, .orderStatusSpan.deliveredStatus
+	{
+	color: #28C76F;
+	background-color: #28C76F1F;
+}
+
+.gardenHelpTable td .orderStatusSpan.notDeliveredStatus,
+	.orderStatusSpan.notDeliveredStatus {
+	color: #d85656;
+	background-color: #d856561f
+}
+
+.gardenHelpTable td .orderStatusSpan.invoicedStatus {
+	color: #28C76F;
+	background: #28C76F1F;
+}
+
+.gardenHelpTable td .orderStatusSpan.awaitingInvoiceStatus {
+	color: #FF9F43;
+	background: #FF9F431F;
+}
+
+.gardenHelpTable td .orderStatusSpan.receivedStatus {
+	color: #E9C218;
+	background: #E9C2181F;
+}
+
+.gardenHelpTable td .orderStatusSpan.stripeFormSentStatus {
+	color: #4A95D3;
+	background: #4A95D31F;
+}
+
+.gardenHelpTable td .orderStatusSpan.missingStatus {
+	color: #DB3C3C;
+	background: #DB3C3C1F;
+}
+
+.gardenHelpTable td .orderStatusSpan.completedStatus {
+	color: #28C76F;
+	background: #28C76F1F;
+}
+
+.tooltipC {
+	position: relative;
+	position: relative;
+	display: inline-block;
+}
+
+.tooltipC .tooltiptextC {
+	visibility: hidden;
+	display: none;
+	width: max-content;
+	height: auto;
+	background-color: #e7e7e7;
+	text-align: left;
+	border-radius: 6px;
+	padding: 5px;
+	z-index: 1;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: normal;
+	color: #656565;
+	position: absolute;
+	/*   top: 100%; */
+	/*   left: 50%; */
+	/*   margin-left: -60px; */
+	top: -15px;
+	right: 110%;
+	overflow: inherit;
+	box-shadow: 0 2px 2px 0 hsl(0deg 0% 60%/ 14%), 0 3px 1px -2px
+		hsl(0deg 0% 60%/ 20%), 0 1px 5px 0 hsl(0deg 0% 60%/ 12%);
+}
+
+.tooltipC .tooltiptextC::after {
+	content: "";
+	position: absolute;
+	/*   bottom: 100%; */
+	/*   left: 50%; */
+	/*   margin-left: -5px; */
+	/*   border-width: 10px; */
+	/*   border-style: solid; */
+	/*   border-color: transparent transparent #e6e6e6 transparent; */
+	top: 50%;
+	left: 100%;
+	margin-top: -8px;
+	border-width: 8px;
+	border-style: solid;
+	border-color: transparent transparent transparent #e7e7e7;
+}
+
+.tooltipC:hover .tooltiptextC {
+	display: block;
+	visibility: visible;
+	/*   position: absolute; */
+	/*    position: absolute; */
+	/*   z-index: 1001; */
+}
+
+ul.pagination {
+	background: #F3F2F7;
+	border-radius: 16px;
+	width: max-content;
+	float: right;
+}
+
+.pagination>.page-item>.page-link, .pagination>.page-item>span {
+	font-style: normal;
+	font-weight: normal;
+	font-size: 12px;
+	text-align: center;
+	color: #6E6B7B;
+}
+
+.pagination>.page-item.active>a, .pagination>.page-item.active>a:focus,
+	.pagination>.page-item.active>a:hover, .pagination>.page-item.active>span,
+	.pagination>.page-item.active>span:focus, .pagination>.page-item.active>span:hover
+	{
+	background: #30BB30;
+	border-radius: 29px !important;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 14px;
+	text-align: center;
+	/* 1) Theme Color / White */
+	color: #FFFFFF;
+}
+
+.pagination .page-item:first-child a, .pagination .page-item:first-child span,
+	.pagination .page-item:last-child a, .pagination .page-item:last-child span,
+	.pagination .paginate_button.first a, .pagination .paginate_button.previous a,
+	.pagination .paginate_button.next a, .pagination .paginate_button.last a
+	{
+	color: #30BB30;
+	font-size: 16px;
+}
+
+.dataTables_length select.form-control:not([size]):not([multiple]) {
+	height: 36px !important;
+	padding: 8px 14px 8px 14px !important;
+	border-radius: 5px;
+	box-shadow: 0 2px 48px 0 rgb(0 0 0/ 8%);
+	border: 1px solid #eee !important;
+	background-color: #ffffff !important;
+	font-size: 14px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: 0.77px;
+	color: #4d4d4d;
+	width: auto;
+	background-color: #ffffff;
+}
+
+.gardenHelpDashboardTable thead tr th {
+	font-family: Poppins;
+	font-style: normal;
+	font-weight: 500 !important;
+	font-size: 14px !important;
+	line-height: 21px !important;
+	color: #8E8E8E !important;
+	background-color: white;
+	text-transform: capitalize;
+	text-align: center;
+}
+
+.gardenHelpDashboardTable thead tr th:first-child {
+	text-align: left !important;
+}
+
+.ordersListTableWithYellowTime tbody td span.orderTime {
+	color: #e9c218 !important;
+	display: block;
+	height: auto
+}
+
+.gardenHelpDashboardTable tbody tr td.nameTd {
+	font-style: normal;
+	font-weight: 500 !important;
+	font-size: 16px !important;
+	line-height: 20px;
+	color: #23314B;
+	text-align: left;
+}
+
+.gardenHelpDashboardTable tbody tr td.countTd {
+	font-style: normal;
+	font-weight: 600 !important;
+	font-size: 16px !important;
+	line-height: 20px;
+	color: #60a244;
+	text-align: center !important;
+}
+
+.gardenHelpDashboardTable tbody tr td.chargeTd {
+	font-family: Poppins;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 21px;
+	color: #000000;
+	text-align: center !important;
+}
+
+.ui-datepicker-calendar td, .ui-datepicker-calendar th,
+	.dt-datetime-table, .dt-datetime-table td, .dt-datetime-table th {
+	font-family: Poppins;
+}
+
+.ui-datepicker-calendar td a {
+	text-align: center;
+}
+
+.dt-datetime-table td.now button.dt-datetime-button.dt-datetime-day {
+	font-weight: 600;
+}
+
+.ui-state-highlight, .ui-widget-content .ui-state-highlight,
+	.ui-widget-header .ui-state-highlight {
+	background: #E9C218;
+	border-color: #E9C218;
+	color: #fff;
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active,
+	a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover,
+	.dt-datetime-table td.selected button.dt-datetime-button.dt-datetime-day
+	{
+	border-color: #60A244;
+	background-color: #60A244;
+}
+
+.ui-state-default:hover, .ui-widget-content .ui-state-default:hover,
+	.ui-widget-header .ui-state-default:hover {
+	color: #454545;
+}
+
+.bootstrap-datetimepicker-widget table th {
+	width: 30px;
+}
+
+.viewIcon {
+	height: 30px;
+}
+
+.remove-icon {
+	width: 20px;
+}
+
+table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before,
+	table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_desc:before,
+	table.dataTable thead .sorting_desc_disabled:before {
+	top: 20% !important;
+	left: 84%;
+	right: 8px;
+	font-size: 18px
+}
+
+table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after,
+	table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc:after,
+	table.dataTable thead .sorting_desc_disabled:after {
+	top: 20% !important;
+	left: 90%;
+	right: 0;
+	font-size: 18px
+}
+
+div.dataTables_wrapper div.dataTables_info {
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 21px;
+	/* identical to box height, or 150% */
+	color: #B9B9C3;
+	margin-top: 20px;
+}
+
+div.dataTables_wrapper div.dataTables_paginate {
+	margin-top: 20px;
+}
+
+#invoiceListTable tfoot tr:first-child th, #invoiceListTable tfoot tr th.tfootBorderTh
+	{
+	border-top: 1px solid #EBE9F1 !important;
+}
+
+.actionsTd button, .btnActions {
+	padding: 0;
+	margin: 0;
+	border: none;
+	background: transparent;
+}
+
+.btnActions img {
+	width: 24px;
+	height: 24px;
+}
+
+.actionsTd button:focus {
+	outline: none !important;
+}
+
+.actionsTd a img, .actionsTd img {
+	width: 24px;
+	height: 24px
+}
+
+.tableTextLeft thead th, .tableTextLeft tbody td {
+	text-align: left !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+	padding: 0 !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+	border: none !important;
+	background: none !important;
+}
+
+.dataTables_length label {
+	margin: 0
+}
+
+table.dataTable tbody td.select-checkbox:before, table.dataTable tbody th.select-checkbox:before
+	{
+	border-radius: 5px !important;
+	border: 1px solid #efefef !important;
+}
+
+table.dataTable tbody td.select-checkbox:before, table.dataTable tbody td.select-checkbox:after,
+	table.dataTable tbody th.select-checkbox:before, table.dataTable tbody th.select-checkbox:after
+	{
+	width: 20px !important;
+	height: 20px !important;
+	background: #efefef;
+}
+
+table.dataTable tr.selected td.select-checkbox:after, table.dataTable tr.selected th.select-checkbox:after
+	{
+	margin-top: -8px !important;
+	width: 20px !important;
+	height: 21px !important;
+	background: #E9C21866;
+	border-radius: 5px !important;
+	border: 1px solid #E9C21866 !important;
+	text-shadow: none !important;
+	color: #e9c218;
+	font-size: 15px !important;
+}
+
+table.dataTable tr.selected {
+	background: #F3ECCE !important;
+}
+
+table.dataTable tr.selected td {
+	border-color: #fff !important;
+}
+
+table .progress {
+	width: 100px;
+	height: 8px;
+	border-radius: 10px;
+	background-color: #eaeaea;
+	margin-bottom: 0;
+	text-align: left;
+}
+
+table .progress-bar {
+	background: linear-gradient(239.57deg, #E9C218 20.53%, #E9C218 79.85%);
+}
+
+.dt-datetime-table thead tr th, .dt-datetime-table tbody tr td {
+	min-width: 30px !important;
+	max-width: 30px !important;
+	width: 30px !important;
+}
+
+div.dt-datetime {
+	padding: 1px !important;
+}
+
+div.dt-datetime table th {
+	padding: 4px 0 !important;
+}
+
+div.dt-datetime table td.selectable.now {
+	background-color: #f7dc69;
+	color: white;
+}
+
+div.dt-datetime table td.selectable button:hover {
+	background-color: #d6b93d !important;
+}
+
+.ui-datepicker-calendar td {
+	min-width: auto;
+}
+
+.ui-draggable, .ui-droppable {
+	background-position: top;
+}
+
 /*********** responsive *************/
 @media ( max-width :767.5px) {
 	.card {
@@ -357,10 +1127,91 @@ input.form-control, textarea.form-control, select.form-control, span.form-contro
 	.card-profile-page-title {
 		margin-top: 0 !important;
 	}
+	.card-dashboard-content {
+		padding: 10px !important;
+	}
+	#dashboardCardDiv .card.card-stats .cardDashboardValueH3 {
+		font-weight: 600;
+		font-size: 24px;
+		line-height: 29px;
+	}
+	#dashboardCardDiv .card.card-stats p.card-category {
+		font-weight: 500;
+		font-size: 11px;
+		line-height: 13px;
+	}
+	#dashboardCardDiv .card-dashboard-content .card-footer .stats {
+		font-size: 10px !important;
+	}
+	.dashboard-card-img {
+		width: 55px;
+		height: 55px
+	}
+	#commerical-jobs-dashboard-img.dashboard-card-img {
+		width: 45px;
+	}
+	#contractors-dashboard-img.dashboard-card-img {
+		width: 65px;
+	}
+	.chartDataH3 {
+		font-size: 14xp;
+		line-height: 17px;
+	}
+	.weekMonthData .chartDataLabel {
+		font-size: 16px;
+		line-height: 19px;
+	}
+	.weekMonthData .chartDataValue {
+		font-size: 18px;
+		line-height: 22px
+	}
+	#dashboardCardDiv .cardContentTableDiv .card-title.tableDashboardH3 {
+		font-size: 18px;
+		line-height: 22px
+	}
+	#dashboardCardDiv .cardContentTableDiv .card-title.tableDashboardH3 span
+		{
+		font-size: 14px;
+		line-height: 17px;
+	}
+	#thisMonthAverageLabel, #lastMonthAverageLabel {
+		font-size: 18px;
+		line-height: 22px;
+	}
+	.card-header-profile-border h4, .settingsTitle {
+		font-size: 18px;
+		line-height: 22px;
+	}
 }
 
 @media ( min-width :768px) and ( max-width :991.5px) {
 	.card-profile-page-title {
 		margin-top: 0 !important;
+	}
+	#dashboardCardDiv .card.card-stats .cardDashboardValueH3 {
+		font-size: 30px;
+		line-height: 35px;
+	}
+	#dashboardCardDiv .card.card-stats p.card-category {
+		font-size: 13px;
+		line-height: 18px;
+	}
+	#dashboardCardDiv .card-dashboard-content .card-footer .stats {
+		font-size: 12px !important;
+		letter-spacing: 0.46px;
+	}
+	.dashboard-card-img {
+		width: 60px;
+		height: 60px
+	}
+	#commerical-jobs-dashboard-img.dashboard-card-img {
+		width: 50px;
+	}
+	#contractors-dashboard-img.dashboard-card-img {
+		width: 80px;
+	}
+	.card-header-profile-border h4, .settingsTitle {
+		font-size: 19px;
+		line-height: 23px;
 	}
 }

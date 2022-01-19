@@ -248,7 +248,7 @@ Route::group(
         Route::group([
             'middleware' => "auth:garden-help"
         ], function () {
-            Route::get('home', 'garden_help\DashboardController@index')->name('garden_help_getDashboard');
+            Route::get('garden_help_dashboard', 'garden_help\DashboardController@index')->name('garden_help_getDashboard');
             Route::group([
                 'prefix' => 'contractors'
             ], function () {

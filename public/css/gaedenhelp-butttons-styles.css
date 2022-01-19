@@ -161,3 +161,33 @@ a.btn.edit:hover, a.btn.edit:focus {
 	letter-spacing: 0.77px;
 	margin-right: 35px;
 }
+
+.btn-gardenhelp-filter {
+	background: #30BB30;
+	border: 1px solid #30BB30;
+	border-radius: 6px;
+	min-width: 120px;
+	height: 40px;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 21px;
+	color: #FFFFFF;
+	position: relative;
+	margin: 0.45rem 5px 0;
+	display: inline-block;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	user-select: none;
+	padding: 6px 14px;
+}
+
+.btn-gardenhelp-filter:hover {
+	background: #2aa22a;
+	border: 1px solid #2aa22a;
+}
+
+.btn-gardenhelp-filter:focus {
+	outline: none !important;
+}

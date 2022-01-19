@@ -48,7 +48,7 @@ class LoginController extends Controller
 
     public function redirectPath() {
         if ($this->guard == 'garden-help') {
-            return 'garden-help/home';
+            return 'garden-help/garden_help_dashboard';
         }
         if ($this->guard == 'doom-yoga') {
             return 'doom-yoga/customers/registrations';

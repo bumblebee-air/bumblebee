@@ -50,10 +50,14 @@ input {
 	letter-spacing: 0.3px;
 	color: #6E6B7B !important;
 	background-color: #F5F8FA !important;
+	padding-left: 10px;
+	padding-right: 10px
 }
 
 .card-login input.form-control {
 	border-color: transparent !important;
+	padding-left: 10px;
+	padding-right: 10px
 }
 
 .form-control:focus {

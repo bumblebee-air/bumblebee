@@ -51,7 +51,7 @@
 <link
 	href="https://cdn.datatables.net/fixedcolumns/3.3.3/css/fixedColumns.dataTables.min.css"
 	rel="stylesheet" type="text/css">
-<!-- <link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" rel="stylesheet" type="text/css"> -->
+<link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" rel="stylesheet" type="text/css">
 </head>
 
 <body class="menu-on-left">
@@ -121,7 +121,7 @@
 								class="nav-link navbarDropdownMenuLink" href=""
 								id="navbarDropdownMenuLinkNotification" data-toggle="dropdown"
 								aria-haspopup="true" aria-expanded="false"> <img
-									src="{{asset('images/gardenhelp/notification-icon.png')}}" /> <span
+									src="{{asset('images/gardenhelp/notification-nav-icon.png')}}" /> <span
 									class="badge badge-light">4</span>
 							</a>
 								<div class="dropdown-menu dropdown-menu-right"
@@ -238,6 +238,11 @@
 		src="https://cdn.datatables.net/fixedcolumns/3.3.3/js/dataTables.fixedColumns.min.js"></script>
 	<!-- 	<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
  -->
+ 
+	<script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
+	
+    <script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>
+    
 	{{--Socket & Vue server --}}
 	<script src="{{asset('js/socket.io-3.0.1.min.js')}}"></script>
 	<audio id="alert-audio" src="{{asset('audio/update.mp3')}}"></audio>

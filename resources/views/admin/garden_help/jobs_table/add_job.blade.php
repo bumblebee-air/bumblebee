@@ -1009,8 +1009,7 @@ span.form-control {
 										:class="type.is_checked == true ? 'fas fa-check-square checked' : 'fas fa-check-square'"></i>
 								</div>
 							</div>
-							<div class="col-md-12 d-flex"
-								v-if="type.is_checked == true && type.is_service_recurring == true">
+							<div class="col-md-12 d-flex" v-if="type.is_checked == true && type.is_service_recurring == true">
 								<div
 									class="form-check form-check-radio form-check-inline d-flex justify-content-between">
 									<label class="form-check-label"> <input
@@ -1031,6 +1030,16 @@ span.form-control {
 											class="check"></span>
 									</span>
 									</label>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="input-group mb-3 input-group-sm">
+								<input type="text" class="form-control form-control-sm" placeholder="Other Service" v-model="other_service">
+								<div class="input-group-append">
+									<button class="btn btn-primary btn-sm m-0" type="button" :disabled="other_service.length == 0" @click="addOtherService">
+										<i class="fas fa-plus ml-2 mr-2"></i>
+									</button>
 								</div>
 							</div>
 						</div>
@@ -1205,7 +1214,7 @@ span.form-control {
 
 @endsection @section('page-scripts')
 <script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"> </script>
@@ -1570,7 +1579,8 @@ span.form-control {
 				available_contractors: [],
 				property: '',
 				properties : {!! json_encode($properties) !!},
-				selected_property: null
+				selected_property: null,
+				other_service: ''
             },
             mounted() {
             	if(this.properties.length == 0 ){
@@ -1646,6 +1656,18 @@ span.form-control {
                 
             },
             methods: {
+				addOtherService() {
+					this.service_types.push({
+						"id": null,
+						"name": this.other_service,
+						"min_hours":20,
+						"rate_property_sizes":"[{\"rate_per_hour\":\"30\",\"max_property_size_from\":\"1\",\"max_property_size_to\":\"5000\"}]","is_service_recurring":0,"created_at":"2021-05-05T10:54:44.000000Z","updated_at":"2021-05-05T10:54:44.000000Z",
+						"title":this.other_service,
+						"is_checked": true,
+						"is_recurring":"0"
+					});
+					this.other_service = ''
+				},
             	beforeSubmitForm(e) {
             		e.preventDefault();
             		if($("#property").val()=='other'){

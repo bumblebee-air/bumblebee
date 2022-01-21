@@ -6,6 +6,10 @@ html {
 	-webkit-font-smoothing: none;
 }
 
+.container{
+/*     width: 95%; */
+    max-width: 100%
+}
 a:hover {
 	text-decoration: none !important;
 }
@@ -370,6 +374,17 @@ input.form-control, textarea.form-control, select.form-control, span.form-contro
 	height: auto;
 }
 
+
+.bootstrap-select .dropdown-item.active {
+	background: #60a244;
+}
+
+.bootstrap-select .dropdown-item:hover {
+	background: #60a244;
+	color: #ffffff !important;
+	box-shadow: none
+}
+
 .form-control[disabled], .form-group .form-control[disabled], fieldset[disabled] .form-control,
 	fieldset[disabled] .form-group .form-control {
 	border: none !important;
@@ -379,6 +394,8 @@ input.form-control, textarea.form-control, select.form-control, span.form-contro
 .form-control:read-only {
 	background-image: none;
 }
+
+
 /*********** dashboard *************/
 .card-dashboard-content {
 	padding: 1.3rem 1.2rem;
@@ -423,8 +440,52 @@ input.form-control, textarea.form-control, select.form-control, span.form-contro
 	background-color: white;
 }
 
+.filter-option-inner {
+	
+	font-size: 18px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 20px;
+	color: #6e6b7b !important;
+}
+
 .filterContrainerDiv .filter-option-inner {
-	font-size: 12px;
+	font-size: 14px;
+	line-height: 18px
+}
+
+div.dropdown.bootstrap-select.form-control {
+	height: 40px;
+	border-radius: 7px;
+	border: 1px solid #eee;
+}
+
+button.dropdown-toggle.select-with-transition {
+	padding: 0 10px !important;
+	border-radius: 7px !important;
+	border: 1px solid #eee !important;
+	font-style: normal !important;
+	font-weight: normal !important;
+	font-size: 12px !important;
+	line-height: 24px !important;
+	color: #4D4D4D !important;
+	height: 40px !important;
+}
+
+.filter-option {
+	padding-top: 0px !important;
+	padding-left: 14px !important;
+}
+
+.selectShowPinsContainer .dropdown-toggle:after, .filterContrainerDiv .dropdown-toggle:after,
+	.selectAverageChartContainer  .dropdown-toggle:after {
+	color: #60a244;
+	border-top: 0.5em solid;
+	border-right: 0.5em solid transparent;
+	border-bottom: 0;
+	border-left: 0.5em solid transparent;
+	margin-bottom: 5px
 }
 
 #dashboardCardDiv .card.card-stats {
@@ -605,51 +666,54 @@ div.dataTables_wrapper div.dataTables_filter input {
 }
 
 .gardenHelpTable thead tr th {
-	text-align: left;
+	text-align: center;
+	font-family: Poppins;
 	font-stretch: normal;
 	font-style: normal;
-	font-weight: 600 !important;
-	font-size: 12px !important;
-	line-height: 15px;
-	letter-spacing: 1px;
+	font-weight: 500 !important;
+	font-size: 15px !important;
+	line-height: 20px;
+	/* 	letter-spacing: 1px; */
 	text-transform: uppercase;
-	color: #5E5873;
-	background-color: #F3F2F7;
+	color: #656565;
+	background-color: rgba(96, 162, 68, 0.2);
 	padding: 12px 8px;
 }
 
 .gardenHelpTable tbody tr td {
+	font-family: Poppins;
 	font-stretch: normal;
 	letter-spacing: normal;
 	font-style: normal;
-	font-weight: 500 !important;
+	font-weight: normal !important;
 	font-size: 14px !important;
 	line-height: 21px;
-	color: #6E6B7B;
-	/* text-align: left !important; */
+	color: #656565;
+	text-align: center !important; 
 }
 
-.table tbody tr td.orderDateTimeTd, .ordersListTable tbody tr td.orderDateTimeTd
+.table tbody tr td .jobDateTimeTd, .jobsListTable tbody tr td .jobDateTimeTd
 	{
 	font-style: normal;
-	font-weight: 600 !important;
+	font-weight: 500 !important;
 	font-size: 14px;
 	line-height: 21px;
-	color: #7367F0;
+	color: #3B9A13;
 }
-
-.gardenHelpTable td .orderStatusSpan, .orderStatusSpan {
+.gardenHelpTable .jobStatusTd{
+	width: 90px
+}
+.gardenHelpTable td .jobStatusSpan, .jobStatusSpan {
 	font-style: normal;
-	font-weight: 600;
-	font-size: 12px;
+	font-weight: 500;
+	font-size: 14px;
 	line-height: 18px;
-	text-align: center;
 	padding: 3px 6px;
 	border-radius: 16px;
 	height: auto;
 }
 
-.ordersListTable>tbody>tr>td {
+.jobsListTable>tbody>tr>td {
 	padding: 10px 5px !important;
 }
 
@@ -674,89 +738,64 @@ div.dataTables_wrapper div.dataTables_filter input {
 	height: 2rem;
 }
 
-.gardenHelpTable td .orderStatusSpan.pendingStatus, .orderStatusSpan.pendingStatus
+.gardenHelpTable td .jobStatusSpan.readyStatus, .jobStatusSpan.readyStatus
 	{
-	color: #82868B;
-	background-color: #82868B1F;
+	color: #656565;
+	background-color: #6161611F;
 }
-
-.gardenHelpTable td .orderStatusSpan.readyStatus, .orderStatusSpan.readyStatus
+.gardenHelpTable td .jobStatusSpan.assignedStatus, .jobStatusSpan.assignedStatus
 	{
-	color: #F3D54F;
-	background-color: #F3D54F1F;
+	color: #FC7A00;
+	background-color: #DB7F3C1F;
 }
 
-.gardenHelpTable td .orderStatusSpan.matchedStatus, .orderStatusSpan.matchedStatus
-	{
-	color: #38B018;
-	background-color: #38B0181F;
-}
-
-.gardenHelpTable td .orderStatusSpan.onRoutePickupStatus,
-	.orderStatusSpan.onRoutePickupStatus {
-	color: #FF9F43;
-	background-color: #FF9F431F;
-}
-
-.gardenHelpTable td .orderStatusSpan.pickedUpStatus, .orderStatusSpan.pickedUpStatus
-	{
-	color: #4A95D3;
-	background-color: #4A95D31F;
-}
-
-.gardenHelpTable td .orderStatusSpan.onRouteStatus, .orderStatusSpan.onRouteStatus
-	{
-	color: #FF9F43;
-	background-color: #FF9F431F;
-}
-
-.gardenHelpTable td .orderStatusSpan.deliveredArrivedStatus,
-	.orderStatusSpan.deliveredArrivedStatus {
-	color: #F56D6D;
-	background-color: #F56D6D1F;
-}
-
-.gardenHelpTable td .orderStatusSpan.deliveredStatus, .orderStatusSpan.deliveredStatus
+.gardenHelpTable td .jobStatusSpan.matchedStatus, .jobStatusSpan.matchedStatus
 	{
 	color: #28C76F;
 	background-color: #28C76F1F;
 }
 
-.gardenHelpTable td .orderStatusSpan.notDeliveredStatus,
-	.orderStatusSpan.notDeliveredStatus {
-	color: #d85656;
-	background-color: #d856561f
+.gardenHelpTable td .jobStatusSpan.onRouteStatus, .jobStatusSpan.onRouteStatus
+	{
+	color: #D89556;
+	background-color: #DB7F3C1F;
+}
+.gardenHelpTable td .jobStatusSpan.arrivedStatus, .jobStatusSpan.arrivedStatus
+	{
+	color: #2699FB;
+	background-color: #7C80DE1F;
+}
+.gardenHelpTable td .jobStatusSpan.completedStatus, .jobStatusSpan.completedStatus
+	{
+	color: #fff;
+	background-color: #30BB30;
 }
 
-.gardenHelpTable td .orderStatusSpan.invoicedStatus {
+.gardenHelpTable td .jobStatusSpan.invoicedStatus {
 	color: #28C76F;
 	background: #28C76F1F;
 }
 
-.gardenHelpTable td .orderStatusSpan.awaitingInvoiceStatus {
+.gardenHelpTable td .jobStatusSpan.awaitingInvoiceStatus {
 	color: #FF9F43;
 	background: #FF9F431F;
 }
 
-.gardenHelpTable td .orderStatusSpan.receivedStatus {
+.gardenHelpTable td .jobStatusSpan.receivedStatus {
 	color: #E9C218;
 	background: #E9C2181F;
 }
 
-.gardenHelpTable td .orderStatusSpan.stripeFormSentStatus {
+.gardenHelpTable td .jobStatusSpan.stripeFormSentStatus {
 	color: #4A95D3;
 	background: #4A95D31F;
 }
 
-.gardenHelpTable td .orderStatusSpan.missingStatus {
+.gardenHelpTable td .jobStatusSpan.missingStatus {
 	color: #DB3C3C;
 	background: #DB3C3C1F;
 }
 
-.gardenHelpTable td .orderStatusSpan.completedStatus {
-	color: #28C76F;
-	background: #28C76F1F;
-}
 
 .tooltipC {
 	position: relative;
@@ -782,8 +821,8 @@ div.dataTables_wrapper div.dataTables_filter input {
 	/*   top: 100%; */
 	/*   left: 50%; */
 	/*   margin-left: -60px; */
-	top: -15px;
-	right: 110%;
+	top: -5px;
+	right: 115%;
 	overflow: inherit;
 	box-shadow: 0 2px 2px 0 hsl(0deg 0% 60%/ 14%), 0 3px 1px -2px
 		hsl(0deg 0% 60%/ 20%), 0 1px 5px 0 hsl(0deg 0% 60%/ 12%);
@@ -886,7 +925,7 @@ ul.pagination {
 	text-align: left !important;
 }
 
-.ordersListTableWithYellowTime tbody td span.orderTime {
+.jobsListTableWithGreenTime tbody td span.jobsTime {
 	color: #e9c218 !important;
 	display: block;
 	height: auto
@@ -898,7 +937,7 @@ ul.pagination {
 	font-size: 16px !important;
 	line-height: 20px;
 	color: #23314B;
-	text-align: left;
+	text-align: left !important;
 }
 
 .gardenHelpDashboardTable tbody tr td.countTd {
@@ -1085,7 +1124,7 @@ table .progress {
 }
 
 table .progress-bar {
-	background: linear-gradient(239.57deg, #E9C218 20.53%, #E9C218 79.85%);
+	background: linear-gradient(254deg, #60a244, #8b6e3c)
 }
 
 .dt-datetime-table thead tr th, .dt-datetime-table tbody tr td {

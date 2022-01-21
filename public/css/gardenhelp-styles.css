@@ -649,23 +649,23 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	table-layout: fixed;
 }
 
-div.dataTables_wrapper div.dataTables_filter input {
-	font-family: Roboto;
-	font-size: 14px !important;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: 0.66px;
-	color: #4d4d4d !important;
-	width: 219px;
-	height: 28px;
-	padding: 6px 18px 6px 14px;
-	border-radius: 7px;
-	border: 1px solid #eee;
-	box-shadow: 0 1px 34px 0 rgba(0, 0, 0, 0.08);
-	background-color: white;
-}
+/* div.dataTables_wrapper div.dataTables_filter input { */
+/* 	font-family: Roboto; */
+/* 	font-size: 14px !important; */
+/* 	font-weight: normal; */
+/* 	font-stretch: normal; */
+/* 	font-style: normal; */
+/* 	line-height: normal; */
+/* 	letter-spacing: 0.66px; */
+/* 	color: #4d4d4d !important; */
+/* 	width: 219px; */
+/* 	height: 28px; */
+/* 	padding: 6px 18px 6px 14px; */
+/* 	border-radius: 7px; */
+/* 	border: 1px solid #eee; */
+/* 	box-shadow: 0 1px 34px 0 rgba(0, 0, 0, 0.08); */
+/* 	background-color: white; */
+/* } */
 
 th select {
 	font-family: Roboto !important;
@@ -735,11 +735,11 @@ table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after,
 	right: 0;
 }
 
-.gardenHelpTable>tbody>tr>td, .gardenHelpTable>tbody>tr>th,
-	.gardenHelpTable>tfoot>tr>td, .gardenHelpTable>tfoot>tr>th,
-	.gardenHelpTable>thead>tr>td, .gardenHelpTable>thead>tr>th {
-	padding: 12px 8px !important;
-}
+/* .gardenHelpTable>tbody>tr>td, .gardenHelpTable>tbody>tr>th, */
+/* 	.gardenHelpTable>tfoot>tr>td, .gardenHelpTable>tfoot>tr>th, */
+/* 	.gardenHelpTable>thead>tr>td, .gardenHelpTable>thead>tr>th { */
+/* 	padding: 12px 8px !important; */
+/* } */
 
 /******************/
 .tablePinSpan {

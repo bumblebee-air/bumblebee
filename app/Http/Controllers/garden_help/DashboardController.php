@@ -140,7 +140,7 @@ class DashboardController extends Controller
             ]);
             $annual_chart_labels[] = $current_month->format('M');
             $orders_count = count($month_orders);
-            $annual_chart_data[] = (string) $orders_count;
+            $annual_chart_data[] =  $orders_count;
             // $annual_chart_data_revenue[] = $orders_count*10;
             
             $current_month_last = Carbon::parse($startOfLastYear)->addMonths($i);
@@ -151,7 +151,7 @@ class DashboardController extends Controller
                 $end_of_month_last
             ]);
             $orders_count_last = count($month_orders_last);
-            $annual_chart_data_last[] = (string) $orders_count_last;
+            $annual_chart_data_last[] =  $orders_count_last;
         }
         
         $thisWeekPercentage = Customer::whereBetween('created_at', [Carbon::now()->startOfWeek()->toDateTimeString(), Carbon::now()->endOfWeek()->toDateTimeString()])->where('status', 'completed')->count();

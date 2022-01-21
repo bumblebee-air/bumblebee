@@ -31,7 +31,7 @@
 		<ul class="nav">
 			@if(auth()->user()->user_role == 'client')
 			<li class="nav-item"><a class="nav-link d-flex"
-				href="{{url('garden-help/home')}}"> <img class="my-nav-icon"
+				href="{{url('garden-help/garden_help_dashboard')}}"> <img class="my-nav-icon"
 					src="{{asset('images/gardenhelp/dashboard-icon.png')}}"
 					alt="Dashboard">
 					<p>Dashboard</p>

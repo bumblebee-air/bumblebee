@@ -163,33 +163,33 @@ li .nav-link:hover a i {
 	color: #656565;
 }
 
-th {
-	font-size: 16px !important;
-	text-align: center;
-	word-wrap: break-word !important;
-	/* white-space: nowrap; */
-	font-family: Roboto;
-	font-weight: bold !important;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: normal;
-	color: #656565;
-}
+/* th { */
+/* 	font-size: 16px !important; */
+/* 	text-align: center; */
+/* 	word-wrap: break-word !important; */
+/* 	/* white-space: nowrap; */ */
+/* 	font-family: Roboto; */
+/* 	font-weight: bold !important; */
+/* 	font-stretch: normal; */
+/* 	font-style: normal; */
+/* 	line-height: normal; */
+/* 	letter-spacing: normal; */
+/* 	color: #656565; */
+/* } */
 
-td {
-	text-align: center;
-	line-height: 1.07;
-	font-family: Roboto;
-	font-size: 14px !important;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: normal;
-	text-align: center;
-	color: #656565;
-}
+/* td { */
+/* 	text-align: center; */
+/* 	line-height: 1.07; */
+/* 	font-family: Roboto; */
+/* 	font-size: 14px !important; */
+/* 	font-weight: normal; */
+/* 	font-stretch: normal; */
+/* 	font-style: normal; */
+/* 	line-height: normal; */
+/* 	letter-spacing: normal; */
+/* 	text-align: center; */
+/* 	color: #656565; */
+/* } */
 
 .order_status_icon {
 	width: 19px;
@@ -375,14 +375,14 @@ td {
 	color: #ffffff;
 }
 
-.bootstrap-select .dropdown-item.active {
-	background: #60a244;
-}
+/* .bootstrap-select .dropdown-item.active { */
+/* 	background: #60a244; */
+/* } */
 
-.bootstrap-select .dropdown-item:hover {
-	background: #60a244;
-	color: #ffffff
-}
+/* .bootstrap-select .dropdown-item:hover { */
+/* 	background: #60a244; */
+/* 	color: #ffffff */
+/* } */
 
 
 .garden-btn {

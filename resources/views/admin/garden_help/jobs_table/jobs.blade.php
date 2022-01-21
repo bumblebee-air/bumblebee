@@ -1,4 +1,4 @@
-@extends('templates.dashboard') @section('title', 'GardenHelp | Jobs
+@extends('templates.garden_help-dashboard') @section('title', 'GardenHelp | Jobs
 Table') @section('page-styles')
 <style>
 tr.order-row:hover, tr.order-row:focus {
@@ -14,68 +14,38 @@ tr.order-row:hover, tr.order-row:focus {
 			<div class="row">
 				<div class="col-md-12">
 					<div class="card">
-						<div class="card-header card-header-icon card-header-rose row">
-							<div class="col-12  col-md-4">
-								<div class="card-icon">
-									<img class="page_icon"
-										src="{{asset('images/gardenhelp_icons/Job-Table-white.png')}}">
-								</div>
+						<div class="card-header card-header-icon  row">
+							<div class="col-12 col-xl-5 col-lg-4 col-md-3 col-sm-12">
+								
 								@if(auth()->user()->user_role == 'client')
-								<h4 class="card-title ">Jobs Table</h4>
+								<h4 class="card-title  my-md-4 mt-4 mb-1">Jobs Table</h4>
 								@else
-								<h4 class="card-title ">My Bookings</h4>
+								<h4 class="card-title my-md-4 mt-4 mb-1 ">My Bookings</h4>
 								@endif
 							</div>
-							<div class="col-12  col-md-8 mt-4">
-								<div class="row justify-content-end">
-									<div class="status">
-										<div class="status_item">
-											<img class="status_icon"
-												src="{{asset('images/doorder_icons/order_status_pending.png')}}"
-												alt="Not Assigned">0 Applications
+							<div class="col-12 col-xl-7 col-lg-8 col-md-9 col-sm-12">
+								<div class="row justify-content-end mt-2 mt-xs-0 filterContrainerDiv mb-2 mt-1">
+										
+										<div class="col-xl-5 col-lg-5 col-md-6 col-sm-6 px-md-1">
+											<div id="serviceTypeFilterDiv" class="form-group bmd-form-group"></div>
 										</div>
-										<div class="status_item">
-											<img class="status_icon"
-												src="{{asset('images/doorder_icons/order_status_on_route.png')}}"
-												alt="Assigned"> Contractors Applied
-										</div>
-										<div class="status_item">
-											<img class="status_icon"
-												src="{{asset('images/doorder_icons/order_status_matched.png')}}"
-												alt="Accepted"> Assigned
-										</div>
-										<div class="status_item">
-											<img class="status_icon"
-												src="{{asset('images/gardenhelp_icons/order_status_on_route_pickup.png')}}"
-												alt="on way"> On the way to Job Location
-										</div>
-										<div class="status_item">
-											<img class="status_icon"
-												src="{{asset('images/doorder_icons/order_status_picked_up.png')}}"
-												alt="arrived"> Arrived to Job Location
-										</div>
-										<div class="status_item">
-											<img class="status_icon"
-												src="{{asset('images/doorder_icons/order_status_delivered.png')}}"
-												alt="Completed"> Job Completed
-										</div>
-									</div>
-
 								</div>
 							</div>
 						</div>
-						<div class="card-body">
+						</div><div class="card">
+						<div class="card-body ">
 							<div class="container">
 								<div class="table-responsive">
-									<table class="table" id="jobsTable">
+									<table class="table table-no-bordered table-hover gardenHelpTable jobsListTable" id="jobsTable" width="100%">
 										<thead>
 											<tr>
 												<th  width="10%">Created At</th>
 												<th  width="10%">Scheduled At</th>
+												<th  width="10%">Job No.</th>
 												<th  width="20%">Service Type</th>
-												<th  width="10%">Job Number</th>
-												<th  width="10%">Status</th>
-												<th  width="10%">Stage</th>
+												<th  width="15%">Location</th>
+												<th width="20%">Status</th>
+												<th  width="15%">Stage</th>
 												@if(auth()->user()->user_role == 'client')<th  width="10%">Customer Name</th>@endif
 												<th  width="10%">Contractor Name</th>
 											</tr>
@@ -83,27 +53,31 @@ tr.order-row:hover, tr.order-row:focus {
 										<tbody>
 											<tr v-for="job in jobs" v-if="jobs.length" class="order-row"
 												@click="openJob(job.id)">
-												<td>@{{job.created_at}}</td>
-												<td>@{{job.available_date_time}}</td>
-												<td>@{{job.service_types}}</td>
+												<td class="" v-html="job.created_at">@{{job.created_at}}</td>
+												<td class="" v-html="job.available_date_time">@{{job.available_date_time}}</td>
 												<td>@{{job.id}}</td>
-												<td><img v-if="job.status == 'ready'" class="status_icon"
-													src="{{asset('images/doorder_icons/order_status_pending.png')}}"
-													alt="not assigned"> <img
-													v-else-if="job.status == 'assigned'" class="status_icon"
-													src="{{asset('images/doorder_icons/order_status_on_route.png')}}"
-													alt="assigned"> <img v-else-if="job.status == 'matched'"
-													class="status_icon"
-													src="{{asset('images/doorder_icons/order_status_matched.png')}}"
-													alt="accepted"> <img v-else-if="job.status == 'on_route'"
-													class="status_icon"
-													src="{{asset('images/gardenhelp_icons/order_status_on_route_pickup.png')}}"
-													alt="on way"> <img v-else-if="job.status == 'arrived'"
-													class="status_icon"
-													src="{{asset('images/doorder_icons/order_status_picked_up.png')}}"
-													alt="arrived"> <img v-else class="status_icon"
-													src="{{asset('images/doorder_icons/order_status_delivered.png')}}"
-													alt="completed"></td>
+												<td>@{{job.service_types}}</td>
+												<td> <p style="" class="tablePinSpan tooltipC mb-0">
+																<span> <i class="fas fa-map-marker-alt"
+																	style="color: #30BB30"></i></span>
+																<span class="tooltiptextC"> @{{job.location}} 
+																</span>
+															</p></td>
+												<td class="jobStatusTd">
+													<span 	v-if="job.status == 'ready'"
+															class="jobStatusSpan readyStatus">0 Applications</span>
+													<span 	v-else-if="job.status == 'assigned'"
+															class="jobStatusSpan assignedStatus">Contractors Applied</span>
+													<span 	v-else-if="job.status == 'matched'"
+															class="jobStatusSpan matchedStatus">Assigned</span>
+													<span 	v-else-if="job.status == 'on_route'"
+															class="jobStatusSpan onRouteStatus">On the way to Job Location</span>
+													<span 	v-else-if="job.status == 'arrived'"
+															class="jobStatusSpan arrivedStatus">Arrived to Job Location</span>
+													<span 	v-else-if="job.status == 'completed'"
+															class="jobStatusSpan completedStatus">Job Completed</span>
+												</td>
+													
 												<td>
 													<div class="progress m-auto">
 														<div class="progress-bar" role="progressbar"
@@ -161,23 +135,57 @@ tr.order-row:hover, tr.order-row:focus {
    
 $(document).ready(function() {
  var table= $('#jobsTable').DataTable({
-    	
-          fixedColumns: true,
+    	  fixedColumns: true,
           "lengthChange": false,
           "searching": true,
   		  "info": false,
   		  "ordering": false,
   		  "paging": false,
-  		  
+  		   "responsive":true,
            "language": {  
             	search: '',
         		"searchPlaceholder": "Search ",
-           },             
+           },     
+            columnDefs: [
+                { width: 60, targets: 2 },
+                { width: 150, targets: 5 },
+                { width: 100, targets: 7 },
+                { width: 100, targets: 8 },
+            ],        
         scrollX:        true,
         scrollCollapse: true,
         fixedColumns:   {
             leftColumns: 0,
         },
+         initComplete: function () {
+        	var column = this.api().column(3);
+                  var select = $('<select id="" data-style="select-with-transition" class="form-control selectpicker selectFilter"><option value="">Filter by service type</option></select>')
+                    .appendTo( $('#serviceTypeFilterDiv').empty().text('') )
+                    .on( 'change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                        console.log($(this).val())
+                        column
+                            .search( $(this).val() )
+                            .draw();
+                      
+                  } );
+                  column.data().unique().sort().each( function( d, j ) {      
+                           var nameArr = d.split(",");
+                            nameArr.forEach(function(number) {          
+                                console.log(number)
+                                if(number != ''){          
+                                    var optionExists = ($("#language option[value='"+number+"']").length > 0);
+                                    console.log(optionExists)
+                                    if(!optionExists){
+                                        select.append( '<option value="'+number+'">'+number+'</option>' );
+                                    } 
+                                }                       
+                            });                     
+                   
+                	} );
+                	
+
+          }            
     	
     });
 });
@@ -205,8 +213,10 @@ $(document).ready(function() {
                 var jobs = {!! json_encode($jobs) !!};
 
                 for(let item of jobs.data) {
-                    item.created_at = moment(item.created_at).format('YYYY-MM-DD')
-                    item.available_date_time = moment(item.available_date_time, "MM/DD/YYYY HH:mm").format('YYYY-MM-DD HH:mm');
+                    item.created_at = '<span class="jobDateTimeTd">'+ moment(item.created_at).format('D MMM YYYY')+ '</span><br>'
+                    						+moment(item.created_at).format('HH:mm')
+                    item.available_date_time = '<span class="jobDateTimeTd">'+moment(item.available_date_time, "MM/DD/YYYY HH:mm").format('D MMM YYYY') + '</span><br>'
+                    							+ moment(item.available_date_time, "MM/DD/YYYY HH:mm").format('HH:mm');
                 }
 
                 this.jobs = jobs.data;

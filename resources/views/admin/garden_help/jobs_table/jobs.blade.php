@@ -1,10 +1,6 @@
 @extends('templates.garden_help-dashboard') @section('title', 'GardenHelp | Jobs
 Table') @section('page-styles')
 <style>
-tr.order-row:hover, tr.order-row:focus {
-	cursor: pointer;
-	box-shadow: 5px 5px 18px #88888836, 5px -5px 18px #88888836;
-}
 </style>
 @endsection @section('page-content')
 
@@ -24,9 +20,9 @@ tr.order-row:hover, tr.order-row:focus {
 								@endif
 							</div>
 							<div class="col-12 col-xl-7 col-lg-8 col-md-9 col-sm-12">
-								<div class="row justify-content-end mt-2 mt-xs-0 filterContrainerDiv mb-2 mt-1">
+								<div class="row justify-content-end mt-2 mt-xs-0 filterContrainerDiv mb-3 mt-3">
 										
-										<div class="col-xl-5 col-lg-5 col-md-6 col-sm-6 px-md-1">
+										<div class=" col-md-6 col-sm-6 px-md-1">
 											<div id="serviceTypeFilterDiv" class="form-group bmd-form-group"></div>
 										</div>
 								</div>
@@ -115,7 +111,9 @@ tr.order-row:hover, tr.order-row:focus {
 											</tr>
 										</tbody>
 									</table>
-									<nav aria-label="pagination" class="float-right"></nav>
+									
+										<div class="d-flex justify-content-end mt-3">
+											{{$jobs->links()}}</div>
 								</div>
 							</div>
 						</div>

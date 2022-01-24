@@ -6,10 +6,11 @@ html {
 	-webkit-font-smoothing: none;
 }
 
-.container{
-/*     width: 95%; */
-    max-width: 100%
+.container {
+	/*     width: 95%; */
+	max-width: 100%
 }
+
 a:hover {
 	text-decoration: none !important;
 }
@@ -84,7 +85,7 @@ li .nav-link, .sidebar .nav li .dropdown-menu a, .sidebar .nav li a,
 	font-family: Poppins;
 	font-style: normal;
 	font-weight: 400;
-	font-size: 18px !important;
+	font-size: 17px !important;
 	line-height: 28px !important;
 	/* identical to box height */
 	/* 	letter-spacing: 0.02em; */
@@ -374,7 +375,6 @@ input.form-control, textarea.form-control, select.form-control, span.form-contro
 	height: auto;
 }
 
-
 .bootstrap-select .dropdown-item.active {
 	background: #60a244;
 }
@@ -395,7 +395,59 @@ input.form-control, textarea.form-control, select.form-control, span.form-contro
 	background-image: none;
 }
 
+.modal-dialog .modal-content {
+	border: none !important;
+	border-radius: 6px !important;
+	box-shadow: none !important;
+	padding: 25px;
+}
 
+.modal-dialog .modal-header {
+	padding: 0
+}
+
+.modalHeaderMessage {
+	font-style: normal;
+	font-weight: normal;
+	font-size: 24px;
+	line-height: 36px;
+	text-align: center;
+	color: #000000;
+	text-align: center;
+	margin-top: 10px;
+	margin-bottom: 15px;
+	font-weight: normal;
+	font-size: 24px;
+	line-height: 36px;
+	text-align: center;
+	color: #000000;
+}
+
+.modalSubHeaderMessage {
+	font-style: normal;
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 20px;
+	color: #656565;
+	margin-bottom: 15px;
+}
+
+.modal-header .close {
+	border-radius: 6px;
+	background-color: #CC4B4C;
+	width: 15px;
+	height: 15px;
+	margin: 39px 37px 35px 49px;
+	color: white !important;
+	padding: 0.6rem;
+	opacity: 1 !important;
+	top: -20px !important;
+}
+
+.modal-header .close i {
+	font-size: 10px !important;
+	margin: -5px;
+}
 /*********** dashboard *************/
 .card-dashboard-content {
 	padding: 1.3rem 1.2rem;
@@ -441,7 +493,6 @@ input.form-control, textarea.form-control, select.form-control, span.form-contro
 }
 
 .filter-option-inner {
-	
 	font-size: 18px;
 	font-weight: 500;
 	font-stretch: normal;
@@ -543,35 +594,6 @@ button.dropdown-toggle.select-with-transition {
 	color: #656565;
 }
 
-.ct-chart .ct-series-a .ct-area, .ct-chart .ct-series-a .ct-bar,
-	.ct-chart .ct-series-a .ct-line, .ct-chart .ct-series-a .ct-point,
-	.ct-chart .ct-series-a .ct-slice-donut, .ct-chart .ct-series-a .ct-slice-donut-solid,
-	.ct-chart .ct-series-a .ct-slice-pie {
-	stroke: #F8C140 !important;
-	stroke-width: 2px;
-}
-
-.ct-chart .ct-series-b .ct-area, .ct-chart .ct-series-b .ct-bar,
-	.ct-chart .ct-series-b .ct-line, .ct-chart .ct-series-b .ct-point,
-	.ct-chart .ct-series-b .ct-slice-donut, .ct-chart .ct-series-b .ct-slice-donut-solid,
-	.ct-chart .ct-series-b .ct-slice-pie {
-	stroke: #30BB30 !important;
-	stroke-width: 2px;
-}
-
-.ct-series-a .ct-line .ct-point {
-	opacity: 1;
-	stroke-linecap: round;
-}
-
-.ct-label {
-	font-style: normal;
-	font-weight: 500;
-	font-size: 14px;
-	line-height: 17px;
-	color: #A098AE;
-}
-
 .chartDataH3 {
 	font-style: normal;
 	font-weight: bold;
@@ -647,6 +669,15 @@ button.dropdown-toggle.select-with-transition {
 	border-radius: 6px !important;
 }
 
+.table.table-hover tbody tr:hover {
+	background: #f5f9f5 !important;
+}
+
+tr.order-row:hover, tr.order-row:focus {
+	cursor: pointer;
+	box-shadow: 5px 5px 18px #88888836, 5px -5px 18px #88888836;
+}
+
 /*********** tables *************/
 div.dataTables_wrapper div.dataTables_filter input {
 	font-size: 14px;
@@ -689,7 +720,7 @@ div.dataTables_wrapper div.dataTables_filter input {
 	font-size: 14px !important;
 	line-height: 21px;
 	color: #656565;
-	text-align: center !important; 
+	text-align: center !important;
 }
 
 .table tbody tr td .jobDateTimeTd, .jobsListTable tbody tr td .jobDateTimeTd
@@ -700,9 +731,11 @@ div.dataTables_wrapper div.dataTables_filter input {
 	line-height: 21px;
 	color: #3B9A13;
 }
-.gardenHelpTable .jobStatusTd{
+
+.gardenHelpTable .jobStatusTd {
 	width: 90px
 }
+
 .gardenHelpTable td .jobStatusSpan, .jobStatusSpan {
 	font-style: normal;
 	font-weight: 500;
@@ -743,6 +776,7 @@ div.dataTables_wrapper div.dataTables_filter input {
 	color: #656565;
 	background-color: #6161611F;
 }
+
 .gardenHelpTable td .jobStatusSpan.assignedStatus, .jobStatusSpan.assignedStatus
 	{
 	color: #FC7A00;
@@ -760,11 +794,13 @@ div.dataTables_wrapper div.dataTables_filter input {
 	color: #D89556;
 	background-color: #DB7F3C1F;
 }
+
 .gardenHelpTable td .jobStatusSpan.arrivedStatus, .jobStatusSpan.arrivedStatus
 	{
 	color: #2699FB;
 	background-color: #7C80DE1F;
 }
+
 .gardenHelpTable td .jobStatusSpan.completedStatus, .jobStatusSpan.completedStatus
 	{
 	color: #fff;
@@ -795,7 +831,6 @@ div.dataTables_wrapper div.dataTables_filter input {
 	color: #DB3C3C;
 	background: #DB3C3C1F;
 }
-
 
 .tooltipC {
 	position: relative;
@@ -1047,6 +1082,9 @@ div.dataTables_wrapper div.dataTables_paginate {
 	border: none;
 	background: transparent;
 }
+.btnActions:focus{
+	outline: none;
+}
 
 .btnActions img {
 	width: 24px;
@@ -1158,10 +1196,30 @@ div.dt-datetime table td.selectable button:hover {
 	background-position: top;
 }
 
+table td input.form-control {
+	background: #fff;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 18px !important;
+	color: #656565 !important;
+	padding: 10px ;
+	width: 75%;
+	position: relative;
+	margin: auto;
+	text-align: center;
+}
+table td input.form-control:focus{
+	background: #fff !important;
+}
 /*********** responsive *************/
 @media ( max-width :767.5px) {
 	.card {
 		margin-top: 0;
+	}
+	.card-body {
+		padding-left: 0 !important;
+		padding-right: 0 !important;
 	}
 	.card-profile-page-title {
 		margin-top: 0 !important;

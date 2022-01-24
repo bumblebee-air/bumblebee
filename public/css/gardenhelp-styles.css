@@ -24,11 +24,11 @@ body, html {
 	height: 55px;
 }
 
-input {
-	font-size: 16px !important;
-	letter-spacing: 0.3px;
-	color: #60a244 !important;
-}
+/* input { */
+/* 	font-size: 16px !important; */
+/* 	letter-spacing: 0.3px; */
+/* 	color: #60a244 !important; */
+/* } */
 
 @media screen and (min-width: 900px) {
 	.card-login {
@@ -77,17 +77,17 @@ a:focus, a:hover {
 	padding-left: 4px;
 }
 
-input, .select2-container--default .select2-selection--single .select2-selection__rendered,
-	textarea {
-	font-family: Roboto;
-	font-size: 17px !important;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: 0.32px;
-	color: #1e2432 !important;
-}
+/* input, .select2-container--default .select2-selection--single .select2-selection__rendered, */
+/* 	textarea { */
+/* 	font-family: Roboto; */
+/* 	font-size: 17px !important; */
+/* 	font-weight: normal; */
+/* 	font-stretch: normal; */
+/* 	font-style: normal; */
+/* 	line-height: normal; */
+/* 	letter-spacing: 0.32px; */
+/* 	color: #1e2432 !important; */
+/* } */
 
 label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	font-family: Roboto;
@@ -192,66 +192,66 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	padding: 10px 23px 23px 35px;
 }
 
-.modal-content {
-	border-radius: 20px !important;
-	box-shadow: 0 20px 20px 0 rgba(0, 0, 0, 0.08) !important;
-	padding: 25px;
-}
+/* .modal-content { */
+/* 	border-radius: 20px !important; */
+/* 	box-shadow: 0 20px 20px 0 rgba(0, 0, 0, 0.08) !important; */
+/* 	padding: 25px; */
+/* } */
 
-.modal-dialog .modal-header .close {
-	top: auto !important;
-}
+/* .modal-dialog .modal-header .close { */
+/* 	top: auto !important; */
+/* } */
 
-.modal-button-close {
-	font-family: Roboto;
-	font-size: 18px !important;
-	font-weight: 500;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: 2.5 !important;
-	letter-spacing: 0.17px !important;
-	color: #767676 !important;
-}
+/* .modal-button-close { */
+/* 	font-family: Roboto; */
+/* 	font-size: 18px !important; */
+/* 	font-weight: 500; */
+/* 	font-stretch: normal; */
+/* 	font-style: normal; */
+/* 	line-height: 2.5 !important; */
+/* 	letter-spacing: 0.17px !important; */
+/* 	color: #767676 !important; */
+/* } */
 
-.modal-button-done {
-	font-family: Roboto;
-	font-size: 18px !important;
-	font-weight: 500;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: 2.5 !important;
-	letter-spacing: 0.17px !important;
-	color: #60a244 !important;
-}
+/* .modal-button-done { */
+/* 	font-family: Roboto; */
+/* 	font-size: 18px !important; */
+/* 	font-weight: 500; */
+/* 	font-stretch: normal; */
+/* 	font-style: normal; */
+/* 	line-height: 2.5 !important; */
+/* 	letter-spacing: 0.17px !important; */
+/* 	color: #60a244 !important; */
+/* } */
 
-.modal-button-done:disabled {
-	color: #999 !important;
-}
+/* .modal-button-done:disabled { */
+/* 	color: #999 !important; */
+/* } */
 
-.modal-dialog .modal-footer {
-	padding: 0 !important;
-}
+/* .modal-dialog .modal-footer { */
+/* 	padding: 0 !important; */
+/* } */
 
-.modal-dialog-header {
-	font-size: 25px;
-	font-weight: 500;
-	line-height: 1.2;
-	text-align: center;
-	color: #60a244;
-}
+/* .modal-dialog-header { */
+/* 	font-size: 25px; */
+/* 	font-weight: 500; */
+/* 	line-height: 1.2; */
+/* 	text-align: center; */
+/* 	color: #60a244; */
+/* } */
 
-.deleteHeader {
-	margin: 25px 0 29px 27px;
-	font-family: Roboto;
-	font-size: 25px;
-	font-weight: 500;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: 1.2;
-	letter-spacing: normal;
-	text-align: center;
-	color: #60a244;
-}
+/* .deleteHeader { */
+/* 	margin: 25px 0 29px 27px; */
+/* 	font-family: Roboto; */
+/* 	font-size: 25px; */
+/* 	font-weight: 500; */
+/* 	font-stretch: normal; */
+/* 	font-style: normal; */
+/* 	line-height: 1.2; */
+/* 	letter-spacing: normal; */
+/* 	text-align: center; */
+/* 	color: #60a244; */
+/* } */
 
 .my-check-box-label, .customer-register-label, .requestLabel {
 	font-family: Roboto;
@@ -434,15 +434,15 @@ label.bmd-label-floating, .form-check-label, .bmd-label-static {
 	text-align: center;
 }
 
-.btn-register {
-	width: 247px !important;
-	height: 55px !important;
-}
+/* .btn-register { */
+/* 	width: 247px !important; */
+/* 	height: 55px !important; */
+/* } */
 
-.main-radius {
-	border-radius: 30px !important;
-	margin-top: 20px;
-}
+/* .main-radius { */
+/* 	border-radius: 30px !important; */
+/* 	margin-top: 20px; */
+/* } */
 
 .select2-container--default .select2-results__option--highlighted[aria-selected]
 	{

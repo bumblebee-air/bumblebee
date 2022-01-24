@@ -1,27 +1,22 @@
-@extends('templates.dashboard') @section('title', 'GardenHelp |
-Contractors ') @section('page-styles')
+@extends('templates.garden_help-dashboard') @section('title',
+'GardenHelp | Contractors ') @section('page-styles')
 <style>
 
-tr.order-row:hover, tr.order-row:focus {
-	cursor: pointer;
-	box-shadow: 5px 5px 18px #88888836, 5px -5px 18px #88888836;
-}
+/* #yearsOfExperience { */
+/* 	font-family: Roboto; */
+/* 	font-size: 12px; */
+/* 	font-weight: normal; */
+/* 	font-stretch: normal; */
+/* 	font-style: normal; */
+/* 	line-height: normal; */
+/* 	letter-spacing: 0.66px; */
+/* 	color: #4d4d4d; */
+/* } */
 
-#yearsOfExperience {
-	font-family: Roboto;
-	font-size: 12px;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: 0.66px;
-	color: #4d4d4d;
-}
-
-#selectFilter {
-	display: inline-block;
-	width: 200px;
-}
+/* #selectFilter { */
+/* 	display: inline-block; */
+/* 	width: 200px; */
+/* } */
 </style>
 @endsection @section('page-content')
 
@@ -31,35 +26,34 @@ tr.order-row:hover, tr.order-row:focus {
 			<div class="row">
 				<div class="col-md-12">
 					<div class="card">
-						<div class="card-header card-header-icon card-header-rose row">
-							<div class="col-12 col-sm-6">
-								<div class="card-icon">
-									<img class="page_icon"
-										src="{{asset('images/gardenhelp_icons/Contractors-white.png')}}">
-								</div>
-								<h4 class="card-title ">Contractors List</h4>
-							</div>
+						<div class="card-header card-header-icon  row">
+							<div class="col-12 col-xl-5 col-lg-4 col-md-3 col-sm-12">
 
+								<h4 class="card-title  my-md-4 mt-4 mb-1 ">Contractors List</h4>
+							</div>
+							<div class="col-12 col-xl-7 col-lg-8 col-md-9 col-sm-12">
+								<div
+									class="row justify-content-end mt-2 mt-xs-0 filterContrainerDiv mb-3 mt-3">
+
+									<div class=" col-md-8 col-sm-8 px-md-1">
+										<div id="yearsOfExperience"
+											class="form-group bmd-form-group"></div>
+									</div>
+								</div>
+							</div>
 						</div>
+					</div>
+					<div class="card">
 						<div class="card-body">
 							<div class="container">
 								<div class="table-responsive">
-									<p id="yearsOfExperience"></p>
 									<table id="contractorsTable"
-										class="table table-no-bordered table-hover gardenHelpTable"
+										class="table table-no-bordered table-hover gardenHelpTable jobsListTable"
 										cellspacing="0" width="100%" style="width: 100%">
 
 										<thead>
-<!-- 											<tr> -->
-<!-- 												<th class="filterhead">Date/Time</th> -->
-<!-- 												<th class="filterhead">Years Of Experience</th> -->
-<!-- 												<th class="filterhead">Contractor Name</th> -->
-<!-- 												<th class="filterhead">Request No</th> -->
-<!-- 												<th class="filterhead">Address</th> -->
-<!-- 												<th class="filterhead">Actions</th> -->
-<!-- 											</tr> -->
-											<tr class="theadColumnsNameTr">
-												<th style="width: 16%">Date/Time</th>
+											<tr class="">
+												<th>Date/Time</th>
 												<th>Years Of Experience</th>
 												<th>Contractor Name</th>
 												<th>Request No</th>
@@ -69,27 +63,25 @@ tr.order-row:hover, tr.order-row:focus {
 										</thead>
 
 										<tbody>
-											@if(count($contractors) > 0) @foreach($contractors as
-											$contractor)
-											<tr class="order-row"
-												onclick="clickViewContractor(event,{{$contractor->id}})">
-												<td>{{$contractor->created_at}}</td>
-												<td>{{$contractor->experience_level}}</td>
-												<td>{{$contractor->name}}</td>
-												<td>{{$contractor->id}}</td>
+											<tr class="order-row" v-for="contractor in contractors" v-if="contractors.length"
+												@click="clickViewContractor(event,contractor.id)">
+												<td v-html="contractor.created_at">@{{contractor.created_at}}</td>
+												<td>@{{contractor.experience_level}}</td>
+												<td>@{{contractor.name}}</td>
+												<td>@{{contractor.id}}</td>
 
-												<td>{{$contractor->address}}</td>
-												<td><a
-													class="btn  btn-link btn-link-gardenhelp btn-just-icon edit"
-													onclick="editContractor({{$contractor['id']}})"><i
-														class="fas fa-pen-fancy"></i></a>
+												<td>@{{contractor.location}}</td>
+												<td class="actionsTd"><a
+													class="edit"
+													@click="editContractor(contractor.id)"><img
+															src="{{asset('images/gardenhelp/edit-icon.png')}}"></a>
 													<button type="button"
-														class="btn btn-link btn-danger btn-just-icon remove"
-														onClick="clickDeleteContractor({{$contractor['id']}})">
-														<i class="fas fa-trash-alt"></i>
+														class="remove"
+														@click="clickDeleteContractor(contractor.id)">
+														<img
+															src="{{asset('images/gardenhelp/delete-icon.png')}}">
 													</button></td>
 											</tr>
-											@endforeach @endif
 										</tbody>
 									</table>
 									<nav aria-label="pagination" class="float-right">
@@ -119,7 +111,7 @@ tr.order-row:hover, tr.order-row:focus {
 				</button>
 			</div>
 			<div class="modal-body">
-				<div class="modal-dialog-header deleteHeader">Are you sure you want
+				<div class="modal-dialog-header modalHeaderMessage">Are you sure you want
 					to delete this account?</div>
 
 				<div>
@@ -132,12 +124,14 @@ tr.order-row:hover, tr.order-row:focus {
 					</form>
 				</div>
 			</div>
-			<div class="modal-footer d-flex justify-content-around">
-				<button type="button" class="btn  btn-register btn-gardenhelp-green"
+			<div class="row justify-content-center">
+				<div class="col-lg-4 col-md-6 text-center"><button type="button" 
+				class="btn  btn-submit btn-gardenhelp-green"
 					onclick="$('form#delete-contractor').submit()">Yes</button>
-				<button type="button"
-					class="btn btn-register  btn-gardenhelp-danger"
-					data-dismiss="modal">Cancel</button>
+				</div>
+				<div class="col-lg-4 col-md-6 text-center"><button type="button"
+					class="btn btn-submit  btn-gardenhelp-danger"
+					data-dismiss="modal">Cancel</button></div>
 			</div>
 
 
@@ -150,12 +144,13 @@ tr.order-row:hover, tr.order-row:focus {
 <script type="text/javascript">
 $(document).ready(function() {
     var table= $('#contractorsTable').DataTable({
-    "pagingType": "full_numbers",
-        "lengthMenu": [
-          [10, 25, 50,100, -1],
-          [10, 25, 50,100, "All"]
-        ],
-        responsive: true,
+    	fixedColumns: true,
+          "lengthChange": false,
+          "searching": true,
+  		  "info": false,
+  		  "ordering": false,
+  		  "paging": false,
+  		   "responsive":true,
     	"language": {  
     		search: '',
 			"searchPlaceholder": "Search ",
@@ -164,11 +159,17 @@ $(document).ready(function() {
     		"targets": -1,
     		"orderable": false
     	} ],
-    	
+    	      
+        scrollX:        true,
+        scrollCollapse: true,
+        fixedColumns:   {
+            leftColumns: 0,
+        },
+        
         initComplete: function () {
          var column = this.api().column(1);
-                  var select = $('<select id="selectFilter" class="form-control"><option value="">Select years of experience</option></select>')
-                    .appendTo( $('#yearsOfExperience').empty().text('Filter ') )
+                  var select = $('<select id="" data-style="select-with-transition" class="form-control selectpicker selectFilter"><option value="">Filter by years of experience</option></select>')
+                    .appendTo( $('#yearsOfExperience').empty().text('') )
                     .on( 'change', function () {
                         var val = $.fn.dataTable.util.escapeRegex(
                             $(this).val()
@@ -183,45 +184,48 @@ $(document).ready(function() {
                   } );    
         }
     });
-    
-    
-     $(".filterhead").each(function (i) {
-                 if (i == 1  ) {
-                     var select = $('<select ><option value="">Select '+$(this).text()+'</option></select>')
-                         .appendTo($(this).empty())
-                         .on('change', function () {
-                             var term = $(this).val();
-                             table.column(i).search(term, false, false).draw();
-                         });
-                     table.column(i).data().unique().sort().each(function (d, j) {
-                         select.append('<option value="' + d + '">' + d + '</option>')
-                     });
-                 } else {
-                    $(this).empty();
-                 }
-             });
-                      
+                        
     
 } );
 
-function clickViewContractor(e,contractorId){
- 		e.preventDefault();
-                	
-        if (e.target.cellIndex == undefined) {  }
-        else{
-        	window.location.href = "{{url('garden-help/contractors/view/')}}/"+contractorId;
-        }
-}
-function editContractor(contractorId){
-	window.location.href = "{{url('garden-help/contractors/edit/')}}/"+contractorId;
-}
+var app = new Vue({
+            el: '#app',
+            data: {
+                contractors: {},
+            },
+            mounted() {
+            	console.log({!! json_encode($contractors) !!})
+                var contractors = {!! json_encode($contractors) !!};
 
-function clickDeleteContractor(contractorId){
+                for(let item of contractors.data) {
+                    item.created_at = '<span class="jobDateTimeTd">'+ moment(item.created_at).format('D MMM YYYY')+ '</span><br>'
+                    						+moment(item.created_at).format('HH:mm')
+                 }
 
-$('#delete-contractor-modal').modal('show')
-$('#delete-contractor-modal #contractorId').val(contractorId);
+                this.contractors = contractors.data;
+            },
+            methods: {
+                clickViewContractor(e,contractorId){
+                    e.preventDefault();
+                    
+                    if (e.target.cellIndex == undefined) {  }
+                    else{
+                       window.location.href = "{{url('garden-help/contractors/view/')}}/"+contractorId;
+                    }                
+                },
+                editContractor(contractorId){
+                	window.location.href = "{{url('garden-help/contractors/edit/')}}/"+contractorId;
+                },
+                clickDeleteContractor(contractorId){
 
-}
+                    $('#delete-contractor-modal').modal('show')
+                    $('#delete-contractor-modal #contractorId').val(contractorId);
+                    
+                 }
+                
+            }
+        });
+
     </script>
 @endsection
 

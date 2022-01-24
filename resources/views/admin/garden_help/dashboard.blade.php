@@ -39,88 +39,7 @@ table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
 	background-size: cover;
 }
 
-.ct-legend {
-	position: relative;
-	z-index: 10;
-	list-style: none;
-	text-align: right;
-	top: -19px;
-	margin-bottom: 0;
-}
 
-.ct-chart .ct-legend li {
-	position: relative;
-	padding-left: 23px;
-	margin-right: 10px;
-	margin-bottom: 3px;
-	cursor: pointer;
-	display: inline-block;
-	font-style: normal;
-	font-weight: bold;
-	font-size: 13px;
-	line-height: 21px;
-	color: #000000;
-}
-
-#chart .ct-legend li {
-	color: #645b5b !important;
-}
-
-.ct-chart .ct-legend li.inactive {
-	font-weight: normal;
-}
-
-.ct-chart .ct-legend li:before {
-	width: 12px;
-	height: 12px;
-	position: absolute;
-	content: "";
-	border: 3px solid transparent;
-	border-radius: 50%;
-	left: 8px;
-	top: 4px;
-}
-
-.ct-chart .ct-legend li .inactive:before {
-	background: transparent;
-}
-
-.ct-legend li:nth-child(1)::before {
-	background-color: #F8C140;
-}
-
-.ct-legend li:nth-child(2)::before {
-	background-color: #30BB30;
-}
-
-.ct-chart .ct-legend .ct-legend-inside {
-	position: absolute;
-	top: 0;
-	right: 0;
-}
-
-#chart g:not(.ct-grids):not(.ct-labels) g:nth-child(1) .ct-point,
-	#chart1 g:not(.ct-grids):not(.ct-labels) g:nth-child(1) .ct-line {
-	stroke: #e9c218;
-}
-
-#chart g:not(.ct-grids):not(.ct-labels) g:nth-child(2) .ct-point,
-	#chart1 g:not(.ct-grids):not(.ct-labels) g:nth-child(2) .ct-line {
-	stroke: #E5EAEE;
-}
-
-.chart-container {
-	width: 100%;
-	overflow: auto;
-}
-
-.chart-container svg {
-	touch-action: pan-x;
-}
-
-.ct-legend {
-	top: 0
-}
 </style>
 
 @endsection @section('page-content')
@@ -286,7 +205,7 @@ table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
 											<div class="row">
 												<div class="col-md-12">
 													<div class="chart-container">
-														<div class="ct-chart"></div>
+														<div id="statisticsChart"></div>
 													</div>
 												</div>
 											</div>
@@ -421,17 +340,7 @@ table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
 
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-lg-7 col-md-7 col-sm-6">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="card mt-1">
-									<div id="testChart"></div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+			
 
 			</div>
 		</div>
@@ -440,11 +349,6 @@ table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
 @endsection @section('page-scripts')
 
 <script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/chartist-plugin-legend/0.6.1/chartist-plugin-legend.min.js"></script>
-
-<script type="text/javascript"
-	src="https://cdn.jsdelivr.net/npm/chartist-plugin-pointlabels@0.0.6/dist/chartist-plugin-pointlabels.min.js"> </script>
 
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/series-label.js"></script>
@@ -453,89 +357,85 @@ table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
 <script type="text/javascript">
-var ll = JSON.parse('{!! json_encode($annual_chart_data_last) !!}');
-var tt = JSON.parse('{!! json_encode($annual_chart_data) !!}');
-	$( document ).ready(function() {
-	console.log(ll)
-	console.log(tt)
+
+$( document ).ready(function() {
 	
-Highcharts.chart('testChart', {
-	 chart: {
-        type: 'spline',
-        style:{fontFamily: 'Poppins'},
-    },
-    title: {
-        text: 'Statistics'
-    },
-
-    subtitle: {
-        text: ' Jobs Per Month'
-    },
-
-    yAxis: {
-        title: {
-            text: 'Number of Jobs'
-        }
-    },
-
-   
-    legend: {
-        layout: 'horizontal',
-        align: 'center',
-        verticalAlign: 'top'
-    },
-
-     plotOptions: {
-        spline: {
-            dataLabels: {
-                enabled: false
-            },
+	
+            Highcharts.chart('statisticsChart', {
+            	 chart: {
+                    type: 'spline',
+                    style:{fontFamily: 'Poppins'},
+                    height: '300px'
+                },
+                title: {
+                    text: null
+                },
             
-            enableMouseTracking: true
-        },
-       
-        series:{
-        	label:{
-        	//	enabled: true,
-        		 connectorAllowed: false
-        	},
-//         	   marker: {
-//                 enabled: true
-//             }
-        }
-    },
-
-	xAxis: {
-        categories:JSON.parse('{!! json_encode($annual_chart_labels) !!}')
-    },
-     credits: {
-    enabled: false
-  },
-    series: [{
-    		color: '#F8C140',
-        	 name: 'Last year',
-            data: JSON.parse('{!! json_encode($annual_chart_data_last) !!}')
-        }, {
-    		color: '#30BB30',
-            name: 'This year',
-            data: JSON.parse('{!! json_encode($annual_chart_data) !!}')
-        } ],
-    responsive: {
-        rules: [{
-            condition: {
-                maxWidth: 500
-            },
-            chartOptions: {
+                subtitle: {
+                    text:null
+                },
+            
+                yAxis: {
+                    title: {
+                        text: 'Number of Jobs'
+                    }
+                },
+            
                 legend: {
                     layout: 'horizontal',
                     align: 'center',
-                    verticalAlign: 'bottom'
+                    verticalAlign: 'top'
+                },
+            
+                 plotOptions: {
+                    spline: {
+                        dataLabels: {
+                            enabled: false
+                        },
+                        
+                        enableMouseTracking: true
+                    },
+                   
+                    series:{
+                    	label:{
+                    	//	enabled: true,
+                    		 connectorAllowed: false
+                    	},
+            //         	   marker: {
+            //                 enabled: true
+            //             }
+                    }
+                },
+            
+            	xAxis: {
+                    categories:JSON.parse('{!! json_encode($annual_chart_labels) !!}')
+                },
+                 credits: {
+                enabled: false
+              },
+                series: [{
+                		color: '#F8C140',
+                    	 name: 'Last year',
+                        data: JSON.parse('{!! json_encode($annual_chart_data_last) !!}')
+                    }, {
+                		color: '#30BB30',
+                        name: 'This year',
+                        data: JSON.parse('{!! json_encode($annual_chart_data) !!}')
+                    } ],
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                            }
+                        }
+                    }]
                 }
-            }
-        }]
-    }
-
-});
+            
+            });
 
 
 			if($(window).width()>768){
@@ -663,17 +563,7 @@ Highcharts.chart('testChart', {
                       if(data.customers_charges.length>0){
                       	$('#customersChargesPerMonthTable').dataTable().fnAddData(data.customers_charges);
                       }
-                      
-                      	
-                      
-                      var data = {
-                          labels:JSON.parse('{!! json_encode($annual_chart_labels) !!}'),
-                          series: [
-                           	{"name": "Last year", "data": data.annual_chart_data_last },
-                            {"name": "This year", "data": data.annual_chart_data }
-                          ]
-                        };
-					  new Chartist.Line('.ct-chart', data, options, responsiveOptions);
+                    
                       
                    }
             	});
@@ -682,53 +572,7 @@ Highcharts.chart('testChart', {
      }
       
       
-      var data = {
-  labels:JSON.parse('{!! json_encode($annual_chart_labels) !!}'),
-  series: [
-    {"name": "Last year", "data": JSON.parse('{!! json_encode($annual_chart_data_last) !!}') }, 
-   	 {"name": "This year", "data": JSON.parse('{!! json_encode($annual_chart_data) !!}') },
-  ]
-};
-
-
-var options = {
-  height: 250,
-  
-  fullWidth: true,
-   
-    showPoint: false,
-    plugins: [
-       
-        Chartist.plugins.legend({
-          
-            clickable: true
-        }),
-    ],
-	//width :'500px',
-	
-	 chartPadding: {
-        right: 30,
-        left: 5
-    },
-     distributeSeries: true,
-     //     axisX: { offset: 10 } ,
-     showPoint: true,
-      seriesBarDistance: 100,
-};
-
-var responsiveOptions = [
-  ['screen and (max-width: 640px)', {
-    
-    axisX: {
-      labelInterpolationFnc: function (value) {
-        return value[0];
-      }
-    }
-  }]
-];
-
-new Chartist.Line('.ct-chart', data, options, responsiveOptions);
-             
+              
         
 </script>
 @endsection

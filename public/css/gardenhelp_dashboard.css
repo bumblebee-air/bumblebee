@@ -340,9 +340,9 @@ li .nav-link:hover a i {
 	padding-bottom: 0 !important;
 }
 
-.card-body .container {
-	padding-bottom: 40px;
-}
+/* .card-body .container { */
+/* 	padding-bottom: 40px; */
+/* } */
 
 .radio-container {
 	padding-left: 20px;

@@ -530,6 +530,12 @@ class ContractorsController extends Controller
     public function getContractorsList()
     {
         $contractors = Contractor::where('status', 'completed')->paginate(20);
+        
+        foreach ($contractors  as $contractor){
+            $county = explode(',', $contractor->address);
+            $contractor->location = $county[count($county) - 2] . ', ' . $county[count($county) - 1];
+        }
+        
         return view('admin.garden_help.contractors.completed_contractors', [
             'contractors' => $contractors
         ]);
@@ -708,8 +714,11 @@ class ContractorsController extends Controller
         }
         $fee->the_value = $request->the_value;
         $fee->save();
-        alert()->success('Fee has updated successfully');
-        return redirect()->route('garden_help_getContractorsFee', 'garden-help');
+        return response()->json([
+            'message' => 'Fee has updated successfully'
+        ]);
+//         alert()->success('Fee has updated successfully');
+//         return redirect()->route('garden_help_getContractorsFee', 'garden-help');
     }
 
     public function deleteContractorRequest(Request $request, $client_id, $id) {

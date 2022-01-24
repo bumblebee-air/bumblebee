@@ -18,7 +18,7 @@
 	rel="stylesheet">
 <link href="{{asset('css/main.css')}}" rel="stylesheet">
 <link rel="stylesheet" href="{{asset('css/jquery-ui.css')}}">
-<link rel="stylesheet" href="{{asset('css/chartist.min.css')}}">
+<!-- <link rel="stylesheet" href="{{asset('css/chartist.min.css')}}"> -->
 <link rel="stylesheet"
 	href="{{asset('css/dataTables.bootstrap4.min.css')}}">
 <link href="{{asset('css/select2.min.css')}}" rel="stylesheet">
@@ -227,7 +227,7 @@
 	<script src="{{asset('js/moment.min.js')}}"></script>
 	<script src="{{asset('js/moment-timezone.min.js')}}"></script>
 	<!-- 	<script src="{{asset('js/ct-material/material-dashboard.min.js')}}"></script> -->
-	<script src="{{asset('js/chartist.min.js')}}"></script>
+<!-- 	<script src="{{asset('js/chartist.min.js')}}"></script> -->
 	<script src="{{asset('js/jquery-ui.js')}}"></script>
 	<script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
 	<script src="{{asset('js/bootstrap-datetimepicker.min.js')}}"></script>

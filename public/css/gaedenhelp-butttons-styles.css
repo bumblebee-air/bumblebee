@@ -190,6 +190,28 @@ a.btn.edit:hover, a.btn.edit:focus {
 	border: 1px solid #2aa22a;
 }
 
+a.btn-gardenhelp-filter{
+	line-height: 26px;
+}
+
+a.btn-gardenhelp-filter:hover{
+	color: #fff !important;
+}
+
+.btn-gardenhelp-add-item {
+	font-size: 11px;
+	line-height: 13px;
+	color: #FFFFFF;
+	height: 30px;
+}
+
+@media ( max-width : 1200px) {
+	.btngardenhelp, .btn-gardenhelp-filter, .btn-gardenhelp-filter-danger-outline {
+		min-width: 100%;
+		width: 100%;
+	}
+}
+
 .btn-gardenhelp-danger-filter {
 	background: #CC4B4C;
 	border: 1px solid #CC4B4C;

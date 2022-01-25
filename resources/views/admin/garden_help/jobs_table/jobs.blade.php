@@ -20,7 +20,7 @@ Table') @section('page-styles')
 								@endif
 							</div>
 							<div class="col-12 col-xl-7 col-lg-8 col-md-9 col-sm-12">
-								<div class="row justify-content-end mt-2 mt-xs-0 filterContrainerDiv mb-3 mt-3">
+								<div class="row justify-content-end mt-2 mt-xs-0 filterContrainerDiv mt-1 mb-2 my-md-3">
 										
 										<div class=" col-md-6 col-sm-6 px-md-1">
 											<div id="serviceTypeFilterDiv" class="form-group bmd-form-group"></div>

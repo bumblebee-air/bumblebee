@@ -331,6 +331,12 @@ li .nav-link:hover .my-nav-icon-grey {
 	color: #000000 !important;
 }
 
+.card-title-green {
+	font-size: 22px !important;
+	line-height: 30px !important;
+	color: #60a244 !important;
+}
+
 .card-profile-page-title {
 	background: transparent;
 	box-shadow: none;
@@ -347,14 +353,21 @@ li .nav-link:hover .my-nav-icon-grey {
 	line-height: 36px;
 	color: #000000;
 }
-
+.remove-img-icon{
+	width: 25px;
+}
 /******* forms *********/
 .form-group label, .locationLabel, .control-label {
+	/* 	font-style: normal; */
+	/* 	font-weight: 600; */
+	/* 	font-size: 16px; */
+	/* 	line-height: 20px; */
+	/* 	color: #23314B; */
 	font-style: normal;
-	font-weight: 600;
+	font-weight: 500;
 	font-size: 16px;
-	line-height: 20px;
-	color: #23314B;
+	line-height: 21px;
+	color: #000000;
 }
 
 input.form-control, textarea.form-control, select.form-control, span.form-control,
@@ -375,6 +388,24 @@ input.form-control, textarea.form-control, select.form-control, span.form-contro
 	height: auto;
 }
 
+.form-control:invalid {
+	background-image: none !important;
+}
+.form-control, .is-focused .form-control{
+	background-image: none !important;	
+}
+
+.form-control:focus {
+	background-image: none !important;
+	border-bottom: 2px solid #60a244 !important;
+	box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14) !important;
+}
+
+.form-group input, .form-group textarea {
+	padding-left: 14px;
+	padding-right: 14px;
+}
+
 .bootstrap-select .dropdown-item.active {
 	background: #60a244;
 }
@@ -393,6 +424,16 @@ input.form-control, textarea.form-control, select.form-control, span.form-contro
 
 .form-control:read-only {
 	background-image: none;
+}
+
+.fa-check-circle {
+	color: #b1b1b1;
+	line-height: 3;
+	font-size: 20px
+}
+
+.iti {
+	width: 100%;
 }
 
 .modal-dialog .modal-content {
@@ -1082,7 +1123,8 @@ div.dataTables_wrapper div.dataTables_paginate {
 	border: none;
 	background: transparent;
 }
-.btnActions:focus{
+
+.btnActions:focus {
 	outline: none;
 }
 
@@ -1152,7 +1194,7 @@ table.dataTable tr.selected td {
 	border-color: #fff !important;
 }
 
-table .progress {
+table .progress,.progress {
 	width: 100px;
 	height: 8px;
 	border-radius: 10px;
@@ -1161,9 +1203,11 @@ table .progress {
 	text-align: left;
 }
 
-table .progress-bar {
-	background: linear-gradient(254deg, #60a244, #8b6e3c)
+table .progress-bar,.progress-bar {
+	background: linear-gradient(254deg, #60a244, #8b6e3c);
+	border-radius: 10px;
 }
+
 
 .dt-datetime-table thead tr th, .dt-datetime-table tbody tr td {
 	min-width: 30px !important;
@@ -1203,13 +1247,14 @@ table td input.form-control {
 	font-size: 14px;
 	line-height: 18px !important;
 	color: #656565 !important;
-	padding: 10px ;
+	padding: 10px;
 	width: 75%;
 	position: relative;
 	margin: auto;
 	text-align: center;
 }
-table td input.form-control:focus{
+
+table td input.form-control:focus {
 	background: #fff !important;
 }
 /*********** responsive *************/
@@ -1218,8 +1263,20 @@ table td input.form-control:focus{
 		margin-top: 0;
 	}
 	.card-body {
-		padding-left: 0 !important;
-		padding-right: 0 !important;
+		padding-left: 15px !important;
+		padding-right: 15px !important;
+	}
+	.card-title{
+		font-size: 20px !important;
+		line-height: 24px !important;
+		margin-top: 20px !important;
+		margin-bottom: 15px !important;
+	}
+	.card-title-green{
+		margin-top: 0 !important;
+	}
+	.cardBodyAddServiceType{
+		padding-top: 0 !important;
 	}
 	.card-profile-page-title {
 		margin-top: 0 !important;
@@ -1278,6 +1335,13 @@ table td input.form-control:focus{
 	.card-header-profile-border h4, .settingsTitle {
 		font-size: 18px;
 		line-height: 22px;
+	}
+	.form-group label {
+		margin-left: 0 !important;
+	}
+	.container-fluid {
+		padding-left: 5px;
+		padding-right: 5px;
 	}
 }
 

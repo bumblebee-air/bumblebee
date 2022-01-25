@@ -27,15 +27,15 @@
 				<div class="col-md-12">
 					<div class="card">
 						<div class="card-header card-header-icon  row">
-							<div class="col-12 col-xl-5 col-lg-4 col-md-3 col-sm-12">
+							<div class="col-12 col-xl-5 col-lg-4 col-md-4 col-sm-12">
 
 								<h4 class="card-title  my-md-4 mt-4 mb-1 ">Contractors List</h4>
 							</div>
-							<div class="col-12 col-xl-7 col-lg-8 col-md-9 col-sm-12">
+							<div class="col-12 col-xl-7 col-lg-8 col-md-8 col-sm-12">
 								<div
 									class="row justify-content-end mt-2 mt-xs-0 filterContrainerDiv mb-3 mt-3">
 
-									<div class=" col-md-8 col-sm-8 px-md-1">
+									<div class="col-xl-6 col-md-8 col-sm-8 px-md-1">
 										<div id="yearsOfExperience"
 											class="form-group bmd-form-group"></div>
 									</div>

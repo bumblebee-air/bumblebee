@@ -17,8 +17,8 @@ class ServiceTypesController extends Controller
             $property_sizes = '';
             $rate_property_sizes_json = json_decode($service_type->rate_property_sizes, true);
             foreach ($rate_property_sizes_json as $key => $item) {
-                $rate_hours .= '€' . $item['rate_per_hour'] . ($key == count($rate_property_sizes_json) - 1 ? '' : "-");
-                $property_sizes .= $item['max_property_size_from'] . '-' . $item['max_property_size_to'] . ($key == count($rate_property_sizes_json) - 1 ? '' : "/");
+                $rate_hours .= '€' . $item['rate_per_hour'] . ($key == count($rate_property_sizes_json) - 1 ? '' : "<br>");
+                $property_sizes .= $item['max_property_size_from'] . '-' . $item['max_property_size_to'] . ($key == count($rate_property_sizes_json) - 1 ? '' : "<br>");
             }
             $service_type->rate_hours = $rate_hours;
             $service_type->property_sizes = $property_sizes;

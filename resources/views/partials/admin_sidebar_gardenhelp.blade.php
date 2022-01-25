@@ -54,9 +54,12 @@
 			</a></li>
 
 			<li class="nav-item"><a class="nav-link d-flex"
-				href="{{url('garden-help/home')}}"> <img class="my-nav-icon"
+				href="{{url('garden-help/home')}}"> <img class="my-nav-icon my-nav-icon-grey"
 					src="{{asset('images/gardenhelp/customers-icon.png')}}"
 					alt="Customers">
+					<img
+                        class="my-nav-icon my-nav-icon-top"
+                        src="{{asset('images/gardenhelp/customers-icon-green.png')}}" alt="">
 					<p>Customers</p>
 			</a></li>
 
@@ -86,8 +89,11 @@
 
 			<li class="nav-item "><a class="nav-link collapsed d-flex"
 				data-toggle="collapse" href="#contractors-collapse"
-				aria-expanded="false"> <img class="my-nav-icon"
+				aria-expanded="false"> <img class="my-nav-icon my-nav-icon-grey"
 					src="{{asset('images/gardenhelp/contractors-icon.png')}}" alt="">
+					<img
+                        class="my-nav-icon my-nav-icon-top"
+                        src="{{asset('images/gardenhelp/contractors-icon-green.png')}}" alt="">
 					<p>
 						Contractors<b class="caret"></b>
 					</p>
@@ -104,7 +110,7 @@
 							href="{{route('garden_help_getContractorsFee', 'garden-help')}}">
 								<img class="my-nav-icon"
 					src="{{asset('images/gardenhelp/fees-icon.png')}}" alt="Fees">
-								<p class="">GardenHelp Fees</p>
+								<p class="">Contractors Fees</p>
 						</a></li>
 					</ul>
 				</div></li>
@@ -133,8 +139,11 @@
 			</a></li>
 			<li class="nav-item"><a class="nav-link d-flex"
 				href="{{route('garden_help_getInvoiceList', 'garden-help')}}"> <img
-					class="my-nav-icon"
+					class="my-nav-icon my-nav-icon-grey"
 					src="{{asset('images/gardenhelp/invoice-icon.png')}}" alt="Invoice">
+					<img
+                        class="my-nav-icon my-nav-icon-top"
+                        src="{{asset('images/gardenhelp/invoice-icon-green.png')}}" alt="">
 					<p >Invoice</p>
 			</a></li>
 
@@ -156,8 +165,11 @@
 
 			<li class="nav-item "><a class="nav-link collapsed d-flex"
 				data-toggle="collapse" href="#componentsExamples"
-				aria-expanded="false"> <img class="my-nav-icon"
+				aria-expanded="false"> <img class="my-nav-icon my-nav-icon-grey"
 					src="{{asset('images/gardenhelp/requests-icon.png')}}" alt="Requests">
+					<img
+                        class="my-nav-icon my-nav-icon-top"
+                        src="{{asset('images/gardenhelp/requests-icon-green.png')}}" alt="">
 					<p>
 						Requests <b class="caret"></b>
 					</p>

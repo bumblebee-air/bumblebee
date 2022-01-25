@@ -219,7 +219,7 @@ class DriversController extends Controller
                         $order->customer_phone,
                         [
                             "from" => $sender_name,
-                            "body" => "Hi $order->customer_name, DoOrder’s same day delivery service has your order and its on its way, open the link to track it and confirm the delivery afterwards. " . url('customer/order/' . $order->customer_confirmation_code) . " - $retailer_name"
+                            "body" => "Hi $order->customer_name, DoOrder’s same day delivery service has your $retailer_name order and its on its way, open the link to track it and confirm the delivery afterwards. " . url('customer/order/' . $order->customer_confirmation_code)
                         ]
                     );
                 } catch (\Exception $exception) {

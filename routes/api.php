@@ -49,6 +49,8 @@ Route::post('bigcommerce/order', 'BigCommerceController@receiveOrder');
 Route::post('bigcommerce/fulfill-order', 'BigCommerceController@fulfillOrder');
 Route::post('bigcommerce/create-webhook', 'BigCommerceController@createBigCommerceWebhook');
 Route::post('bigcommerce/list-or-delete-webhook', 'BigCommerceController@listOrDeleteBigCommerceWebhook');
+Route::post('sap-hybris/order', 'SAPHybrisController@receiveOrder');
+Route::post('sap-hybris/fulfill-order', 'SAPHybrisController@fulfillOrder');
 
 Route::post('driver-registration', 'doorder\DriversController@postDriverRegistration');
 Route::post('driver-login', 'doorder\DriversController@driversLogin');

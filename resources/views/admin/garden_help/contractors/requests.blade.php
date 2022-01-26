@@ -224,7 +224,7 @@ $(document).ready(function() {
                     
                     if (e.target.cellIndex == undefined) {  }
                     else{
-                       window.location.href = "{{url('garden-help/contractors/requests/')}}/"+contractorId;
+                       window.location.href = "{{url('garden-help/contractors/requests/view/')}}/"+contractorId;
                     }                
                 },
                  clickDeleteContractor(contractorId){

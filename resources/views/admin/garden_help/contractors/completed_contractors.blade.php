@@ -194,7 +194,7 @@ var app = new Vue({
                 contractors: {},
             },
             mounted() {
-            	console.log({!! json_encode($contractors) !!})
+            	//console.log({!! json_encode($contractors) !!})
                 var contractors = {!! json_encode($contractors) !!};
 
                 for(let item of contractors.data) {

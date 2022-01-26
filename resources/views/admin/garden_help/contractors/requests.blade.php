@@ -1,14 +1,12 @@
-@extends('templates.dashboard')
+@extends('templates.garden_help-dashboard')
 
 @section('title', 'GardenHelp | Contractors Requests')
 
 @section('page-styles')
     <style>
-        tr.order-row:hover,
-        tr.order-row:focus {
-            cursor: pointer;
-            box-shadow: 5px 5px 18px #88888836, 5px -5px 18px #88888836;
-        }
+     .status_icon{
+        width: 22px;
+     }
     </style>
 @endsection
 
@@ -20,14 +18,12 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
-                            <div class="card-header card-header-icon card-header-rose row">
-                                <div class="col-12 col-sm-6">
-                                    <div class="card-icon">
-                                        <img class="page_icon" src="{{asset('images/gardenhelp_icons/Requests-white.png')}}">
-                                    </div>
-                                    <h4 class="card-title ">Contractors Requests</h4>
+                            <div class="card-header card-header-icon row">
+                                <div class="col-12 col-xl-5 col-lg-4 col-md-4 col-sm-12">
+
+								<h4 class="card-title  my-md-4 mt-4 mb-1 ">Contractors Requests</h4>
                                 </div>
-                                <div class="col-6 col-sm-6 mt-4">
+                                <div class="col-12 col-xl-7 col-lg-8 col-md-8 col-sm-6 mt-4">
                                     <div class="row justify-content-end">
                                         <div class="status">
                                             <div class="status_item">
@@ -46,10 +42,13 @@
                                     </div>
                                 </div>
                             </div>
+                            </div>
+                            <div class="card">
                             <div class="card-body">
                                 <div class="container">
                                     <div class="table-responsive">
-                                        <table class="table" id="requestsTable">
+                                        <table id="requestsTable" class="table table-no-bordered table-hover gardenHelpTable jobsListTable"
+										cellspacing="0" width="100%" style="width: 100%">
                                             <thead><tr>
                                                 <th>Date/Time</th>
                                                 <th>Years Of Experience</th>
@@ -62,50 +61,61 @@
                                                 </tr>
                                             </thead>
 
-                                            <tbody>
-                                                @if(count($contractors_requests) > 0)
-                                                    @foreach($contractors_requests as $contractor)
-                                                        <tr class="order-row" onclick="window.location = '{{route('garden_help_getContractorSingleRequest',['garden-help', $contractor->id])}}'">
-                                                            <td>
-                                                                {{$contractor->created_at}}
+                                            <tbody> <tr class="order-row" v-if="contractors_requests.length"
+                                                        	v-for="contractor in contractors_requests"
+                                                        	@click="clickViewContractor(event,contractor.id)"
+                                                        >
+                                                            <td v-html="contractor.created_at">@{{contractor.created_at}}</td>
+												<td>@{{contractor.experience_level}}</td>
+												<td>@{{contractor.name}}</td>
+												<td>@{{contractor.id}}</td>
+
+                                                            <td class="jobStatusTd">
+                                                            	<span 	
+																	class="jobStatusSpan readyStatus">@{{contractor.status}}</span>
+                                                                <img class="status_icon"
+                                                                    	v-if="contractor.status == 'received'"
+                                                                    	 src="{{asset('images/doorder_icons/order_status_matched.png')}}" alt="Request received">
+                                                                <img class="status_icon" 
+                                                                    	v-if="contractor.status == 'missing'"
+                                                                    	src="{{asset('images/doorder_icons/order_status_on_route_pickup.png')}}" alt="Missing Data">
+                                                                
+                                                                    <img class="status_icon" v-else src="{{asset('images/doorder_icons/order_status_delivered.png')}}" alt="Request completed">
+                                                                
                                                             </td>
-                                                            <td> {{$contractor->experience_level}}</td>
-                                                            <td>{{$contractor->name}}</td>
-                                                            <td>{{$contractor->id}}</td>
                                                             <td>
-                                                                @if($contractor->status == 'received')
-                                                                    <img class="status_icon" src="{{asset('images/doorder_icons/order_status_matched.png')}}" alt="Request received">
-                                                                @elseif($contractor->status == 'missing')
-                                                                    <img class="status_icon" src="{{asset('images/doorder_icons/order_status_on_route_pickup.png')}}" alt="Missing Data">
-                                                                @else
-                                                                    <img class="status_icon" src="{{asset('images/doorder_icons/order_status_delivered.png')}}" alt="Request completed">
-                                                                @endif
-                                                            </td>
-                                                            <td>
-                                                                @php($i = '33.34')
                                                                 <div class="progress m-auto">
-                                                                    <div class="progress-bar" role="progressbar" 
-                                                                    style="width: {{($contractor->status == 'received' ? 1 : ($contractor->status == 'missing' ? 2 : 3)) *$i}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                	<div class="progress-bar" role="progressbar"
+            															:style="'width:' + (stage * 1) + '%'"
+            															v-if="contractor.status == 'received'" aria-valuenow="100"
+																			aria-valuemin="0" aria-valuemax="100"></div>
+                                                                	<div class="progress-bar" role="progressbar"
+            															:style="'width:' + (stage * 2) + '%'"
+            															v-if="contractor.status == 'missing'" aria-valuenow="100"
+																			aria-valuemin="0" aria-valuemax="100"></div>
+                                                                	<div class="progress-bar" role="progressbar"
+            															:style="'width:' + (stage * 3) + '%'"
+            															v-else aria-valuenow="100"
+																			aria-valuemin="0" aria-valuemax="100"></div>
+                                                                    
                                                                 </div>
                                                             </td>
                                                             <td>
-                                                                {{$contractor->address}}
+                                                                 @{{contractor.location}} 
                                                             </td>
-                                                            <td>
-                                                                <a type="button"
-                                                                   class="btn btn-link btn-danger btn-just-icon remove" @click.stop="deleteRequest(event, {{$contractor->id}})">
-                                                                    <i class="fas fa-trash-alt"></i>
-                                                                </a>
+                                                            <td class="actionsTd">
+                                                                <button type="button"
+                                                                   class="remove" @click="clickDeleteContractor(contractor.id)">
+                                                                   <img
+															src="{{asset('images/gardenhelp/delete-icon.png')}}">
+                                                                </button>
                                                             </td>
                                                         </tr>
-                                                    @endforeach
-                                                @else
-                                                    <tr>
-                                                        <td colspan="8" class="text-center">
+                                                    <tr v-else>
+                                                        <td colspan="9" class="text-center">
                                                             <strong>No data found.</strong>
                                                         </td>
                                                     </tr>
-                                                @endif
                                             </tbody>
                                         </table>
                                         <nav aria-label="pagination" class="float-right">
@@ -120,7 +130,7 @@
             </div>
             <!-- delete contractor modal -->
             <div class="modal fade" id="delete-request-modal" tabindex="-1"
-                 role="dialog" aria-labelledby="delete-contractor-label"
+                 role="dialog" aria-labelledby="delete-request-label"
                  aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -131,26 +141,29 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <div class="modal-dialog-header deleteHeader">Are you sure you want
+                            <div class="modal-dialog-header modalHeaderMessage">Are you sure you want
                                 to delete this request?</div>
 
                             <div>
 
-                                <form method="POST" id="delete-request"
-                                      :action='"{{url('garden-help/contractors/requests/delete')}}/"+request_id'
-                                      style="margin-bottom: 0 !important;">
-                                    @csrf
-                                </form>
-                            </div>
+							<form method="POST" id="delete-request"
+								action="{{url('garden-help/contractors/requests/delete')}}"
+								style="margin-bottom: 0 !important;">
+								@csrf <input type="hidden" id="contractorId" name="contractorId"
+									value="" />
+							</form>
+
+						</div>
                         </div>
-                        <div class="modal-footer d-flex justify-content-around">
-                            <button type="button" class="btn  btn-register btn-gardenhelp-green"
-                                    onclick="$('form#delete-request').submit()">Yes</button>
-                            <button type="button"
-                                    class="btn btn-register  btn-gardenhelp-danger"
+                        <div class="row justify-content-center">
+				<div class="col-lg-4 col-md-6 text-center"><button type="button" 
+				class="btn  btn-submit btn-gardenhelp-green" onclick="$('form#delete-request').submit()">Yes</button>
+                            </div>
+				<div class="col-lg-4 col-md-6 text-center"><button type="button"
+					class="btn btn-submit  btn-gardenhelp-danger"
                                     data-dismiss="modal">Cancel</button>
                         </div>
-
+</div>
 
                     </div>
                 </div>
@@ -176,7 +189,11 @@ $(document).ready(function() {
            "language": {  
             	search: '',
         		"searchPlaceholder": "Search ",
-           },             
+           }, 
+           "columnDefs": [ {
+    		"targets": -1,
+    		"orderable": false
+    	} ],            
         scrollX:        true,
         scrollCollapse: true,
         fixedColumns:   {
@@ -188,17 +205,35 @@ $(document).ready(function() {
         var app = new Vue({
             el: '#app',
             data: {
-                request_id: ''
+            	contractors_requests: {},
+                stage:33.34
             },
             mounted() {
+            	var contractors_requests = {!! json_encode($contractors_requests) !!};
 
+                for(let item of contractors_requests.data) {
+                    item.created_at = '<span class="jobDateTimeTd">'+ moment(item.created_at).format('D MMM YYYY')+ '</span><br>'
+                    						+moment(item.created_at).format('HH:mm')
+                 }
+
+                this.contractors_requests = contractors_requests.data;
             },
             methods: {
-                deleteRequest(e, id) {
+                clickViewContractor(e,contractorId){
                     e.preventDefault();
-                    this.request_id = id;
+                    
+                    if (e.target.cellIndex == undefined) {  }
+                    else{
+                       window.location.href = "{{url('garden-help/contractors/requests/')}}/"+contractorId;
+                    }                
+                },
+                 clickDeleteContractor(contractorId){
+
                     $('#delete-request-modal').modal('show')
-                }
+                    $('#delete-request-modal #contractorId').val(contractorId);
+                    
+                 }
+                
             }
         });
     </script>

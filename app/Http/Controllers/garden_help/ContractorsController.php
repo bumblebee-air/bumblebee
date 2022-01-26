@@ -162,6 +162,12 @@ class ContractorsController extends Controller
     public function getContractorsRequests()
     {
         $contractors_requests = Contractor::paginate(20);
+        
+        foreach ($contractors_requests  as $contractor){
+            $county = explode(',', $contractor->address);
+            $contractor->location = $county[count($county) - 2] . ', ' . $county[count($county) - 1];
+        }
+        
         return view('admin.garden_help.contractors.requests', [
             'contractors_requests' => $contractors_requests
         ]);
@@ -169,7 +175,7 @@ class ContractorsController extends Controller
 
     public function getSingleRequest($client_name, $id)
     {
-        $contractor_request = Contractor::find($id);
+       $contractor_request = Contractor::find($id);
         if (! $contractor_request) {
             alert()->error('Contractor request not found!');
             return redirect()->back();
@@ -721,8 +727,11 @@ class ContractorsController extends Controller
 //         return redirect()->route('garden_help_getContractorsFee', 'garden-help');
     }
 
-    public function deleteContractorRequest(Request $request, $client_id, $id) {
-        $contractor = Contractor::find($id);
+    public function deleteContractorRequest(Request $request) {
+        //dd($request);
+        $contractor_id = $request->get('contractorId');
+        $contractor = Contractor::find($contractor_id);
+        //dd($contractor_id);
         if (!$contractor) {
             alert()->warning('Contractor is invalid');
         } else {
@@ -731,6 +740,8 @@ class ContractorsController extends Controller
         }
         return redirect()->back();
     }
+    
+    
 
     public function editSetting(Request $request) {
         $user = $request->user();

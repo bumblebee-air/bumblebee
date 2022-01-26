@@ -1,0 +1,243 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "This is the REST API documentation of DoOrder delivery live for e-commerce stores to send orders",
+    "version" : "1.0",
+    "title" : "DoOrder Same Day Delivery",
+    "contact" : {
+      "email" : "mohamed@bumblebeeai.io"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host" : "staging.doorder.eu",
+  "basePath" : "/api",
+  "tags" : [ {
+    "name" : "SAP Hybris",
+    "description" : "Integration for the SAP Hybris platform",
+    "externalDocs" : {
+      "description" : "Find out more",
+      "url" : "https://www.sap.com/uk/acquired-brands/what-is-hybris.html"
+    }
+  }],
+  "schemes" : [ "https", "http" ],
+  "paths" : {
+    "/sap-hybris/order" : {
+      "post": {
+        "tags": [
+          "SAP Hybris"
+        ],
+        "summary": "Send a new order to the platform",
+        "description": "",
+        "operationId": "sapHybrisOrder",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "store_name",
+            "in": "query",
+            "description": "The name of the e-commerce store",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "store_address",
+            "in": "query",
+            "description": "The address of the e-commerce store",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "store_latitude",
+            "in": "query",
+            "description": "The latitude coordinate of the e-commerce store address",
+            "type": "string"
+          },
+          {
+            "name": "store_longitude",
+            "in": "query",
+            "description": "The longitude coordinate of the e-commerce store address",
+            "type": "string"
+          },
+          {
+            "name": "api_key",
+            "in": "query",
+            "description": "The API key to be provided by the DoOrder team for the store",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "shipping_method_name",
+            "in": "query",
+            "description": "The name of the selected shipping method by the customer, it should contain either 'Same day' or 'DoOrder' for the platform to accept the order",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "order_id",
+            "in": "query",
+            "description": "The order number/ID on the store",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "line_items",
+            "in": "query",
+            "description": "A json encoded array including the details of the items in the order",
+            "required": true,
+            "type": "string",
+            "example": "[{'title':'Item 1' , 'price':'3.99' , 'grams':500} , {'title':'Item 2' , 'price':'15.00' , 'grams':250}]"
+          },
+          {
+            "name": "notes",
+            "in": "query",
+            "description": "Optional notes added by the customer",
+            "type": "string"
+          },
+          {
+            "name": "total_weight",
+            "in": "query",
+            "description": "The total weight of the order in grams, default should be 0",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "description": "The order or store currency",
+            "required": true,
+            "type": "string",
+            "example": "£"
+          },
+          {
+            "name": "customer_name",
+            "in": "query",
+            "description": "The name of the customer",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "customer_phone",
+            "in": "query",
+            "description": "The phone number of the customer",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "customer_email",
+            "in": "query",
+            "description": "The email of the customer",
+            "type": "string"
+          },
+          {
+            "name": "shipping_address",
+            "in": "query",
+            "description": "The shipping address of the customer",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "shipping_address_latitude",
+            "in": "query",
+            "description": "The latitude coordinate of the shipping address",
+            "type": "number"
+          },
+          {
+            "name": "shipping_address_longitude",
+            "in": "query",
+            "description": "The longitude coordinate of the shipping",
+            "type": "number"
+          },
+          {
+            "name": "zip_code",
+            "in": "query",
+            "description": "The zip code (or Eircode) of the shipping address",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An OK response that represents either a successful saving of the order or an issue like the store account not being found on the system",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "boolean",
+                  "description": "0 if there are no issues, 1 if there is an issue"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "'Unregistered on platform' if the store account with the provided API key is not found, 'Order received successfully' if no issues were faced"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sap-hybris/fulfill-order" : {
+      "post": {
+        "tags": [
+          "SAP Hybris"
+        ],
+        "summary": "Mark an order as fulfilled and ready to collect on the platform",
+        "description": "",
+        "operationId": "sapHybrisFulfillOrder",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "store_name",
+            "in": "query",
+            "description": "The name of the e-commerce store",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "api_key",
+            "in": "query",
+            "description": "The API key to be provided by the DoOrder team for the store",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "order_id",
+            "in": "query",
+            "description": "The order number/ID on the store",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An OK response that represents either a successful fulfillment status update of the order or an issue like the store account not being found on the system",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "boolean",
+                  "description": "0 if there are no issues, 1 if there is an issue"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "'Unregistered on platform' if the store account with the provided API key is not found, 'Order fulfillment received successfully' if no issues were faced"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

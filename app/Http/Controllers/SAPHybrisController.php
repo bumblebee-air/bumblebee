@@ -55,7 +55,7 @@ class SAPHybrisController extends Controller
             $aWebhook["weight"] = $total_weightprd . "kg";
             //retailer name & address
             $aWebhook["retailer_name"] = $shop_name;
-            $aWebhook["pickup_address"] = $order_data['store_address'];
+            $aWebhook["pickup_address"] = $order_data['store_address'] ?? '';
                 /*$oShopData->shop->address1 . ", " .
                 $oShopData->shop->city . ", " .
                 $oShopData->shop->zip . ", " . $oShopData->shop->province . ", " .

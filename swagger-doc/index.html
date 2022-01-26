@@ -40,13 +40,13 @@
         let current_url = window.location;
         let base_url = current_url.protocol + "//" + current_url.host + "/";
         if(current_url.host.includes('doorder.eu') === false) {
-            base_url += current_url.pathname.split('/')[1];
+            base_url += current_url.pathname.split('/')[1] + "/";
         }
         console.log(current_url.pathname.split('/')[1]);
       // Begin Swagger UI call region
         //url: "http://localhost/bumblebee/swagger-doc/doorder-apis.json",
       const ui = SwaggerUIBundle({
-        url: base_url + "/swagger-doc/doorder-apis.json",
+        url: base_url + "swagger-doc/doorder-apis.json",
         dom_id: '#swagger-ui',
         deepLinking: true,
         presets: [

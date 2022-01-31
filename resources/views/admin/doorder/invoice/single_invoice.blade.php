@@ -63,7 +63,7 @@ table.doorderTable {
 			<div class="row">
 				<div class="col-md-12">
 
-					<div class="card invoiceCard">
+					<div class="card invoiceCard" id="invoiceCard">
 						<div class="card-header ">
 							<div class="container">
 								<div class="row mt-3">
@@ -233,7 +233,7 @@ table.doorderTable {
 								@if(auth()->user()->user_role != 'retailer')
 								<div class="row justify-content-center ">
 <!-- 									<div class="col-xl-2 offset-xl-6 col-md-3  col-sm-4 text-center"> -->
-<!-- 										<button class="btnDoorder btn-doorder-grey  mb-1" onclick="editInvoice({{$retailer->id}},'{{$month}}')">Edit</button>
+<!-- 										<button class="btnDoorder btn-doorder-grey  mb-1" onclick="editInvoice({{$retailer->id}},'{{$month}}')">Edit</button>-->
 <!-- 									</div> -->
 									<div class="col-lg-3  col-md-3 col-sm-4 text-center">
 										<form method="POST"
@@ -248,7 +248,9 @@ table.doorderTable {
 											onclick="clickSendEmail({{$retailer->id}},'{{$month}}')">Send
 											invoice email</button>
 									</div>
-
+									<div class="col-lg-3  col-md-3 col-sm-4 ">
+										<button class="btnDoorder btn-doorder-green" type="button" @click="PrintElem">Print</button>
+									</div>
 								</div>
 								@else
 								<div class="row justify-content-center">
@@ -260,6 +262,9 @@ table.doorderTable {
 									<div class="col-lg-3  col-md-3 col-sm-4 ">
 										<a class="btnDoorder btn-doorder-green  mb-1 w-100 "
 											href="{{url('doorder/pay_invoice/')}}/{{$retailer->id}}/{{$invoice_number}}">Pay</a>
+									</div>
+									<div class="col-lg-3  col-md-3 col-sm-4 ">
+										<button class="btnDoorder btn-doorder-green" type="button" @click="PrintElem">Print</button>
 									</div>
 								</div>
 								@endif
@@ -430,6 +435,24 @@ $( document ).ready(function() {
 			
 				submitForm(e) {
 					$('#confirm-invoice-modal').modal('show');
+				},
+				PrintElem()
+				{
+					var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+					mywindow.document.write('<html><head><title>' + document.title  + '</title>');
+					mywindow.document.write('</head><body >');
+					mywindow.document.write('<h1>' + document.title  + '</h1>');
+					mywindow.document.write(document.getElementById('invoiceCard').innerHTML);
+					mywindow.document.write('</body></html>');
+
+					mywindow.document.close(); // necessary for IE >= 10
+					mywindow.focus(); // necessary for IE >= 10*/
+
+					mywindow.print();
+					mywindow.close();
+
+					return true;
 				}
 			}
         });

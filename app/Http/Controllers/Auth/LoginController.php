@@ -77,7 +77,7 @@ class LoginController extends Controller
             return view("auth.doom_yoga.login");
         }else if(strpos(request()->getHost(),'unified.')!==false || str_contains(request()->url(),'unified/login')) {
             return view("auth.unified.login");
-        }else if(strpos(request()->getHost(),'ghstaging.')!==false || str_contains(request()->url(),'garden-help/login')) {
+        }else if(strpos(request()->getHost(),'ghstaging.')!==false || strpos(request()->getHost(),'gardenhelp.ie')!==false || str_contains(request()->url(),'garden-help/login')) {
             return view('auth.garden_help.login');
         } else {
             return view('auth.login');

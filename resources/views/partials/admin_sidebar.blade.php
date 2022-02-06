@@ -737,7 +737,7 @@
 					<p>My Events </p>
 			</a></li>
 			<li class="nav-item"><a class="nav-link d-flex"
-				href="">  <img class="my-nav-icon"
+				href="{{route('getDoomYogaDashboard', 'doom-yoga')}}">  <img class="my-nav-icon"
 					src="{{asset('images/doom-yoga/Dashboard.png')}}"
 					alt="Dashboard">
 					<p>Dashboard </p>

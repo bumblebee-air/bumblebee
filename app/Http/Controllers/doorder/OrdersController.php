@@ -329,14 +329,13 @@ class OrdersController extends Controller
 
     public function getOrdersHistoryTable(Request $request)
     {
-//         if (auth()->user()->user_role == 'retailer') {
-//             $orders = Order::where('retailer_id', auth()->user()->retailer_profile->id)->orderBy('id', 'desc')->paginate(20);
-//         } else {
-//             $orders = Order::where('is_archived', false)->where('status', '!=', 'delivered')
-//                 ->orderBy('id', 'desc')
-//                 ->paginate(20);
-//         }
-
+        // if (auth()->user()->user_role == 'retailer') {
+        // $orders = Order::where('retailer_id', auth()->user()->retailer_profile->id)->orderBy('id', 'desc')->paginate(20);
+        // } else {
+        // $orders = Order::where('is_archived', false)->where('status', '!=', 'delivered')
+        // ->orderBy('id', 'desc')
+        // ->paginate(20);
+        // }
         $orders = Order::query();
         $orders = $orders->where('is_archived', true);
         if (auth()->user()->user_role == 'retailer') {
@@ -482,5 +481,19 @@ class OrdersController extends Controller
     public function getUpdateAddressSuccess()
     {
         return view('doorder.retailers.orders.success_update_address');
+    }
+
+    public function viewQr($client_name, $id)
+    {
+        // dd($client_name,$id);
+        $name = 'sara';
+        $order_number = '123456';
+        $qr_str = 'hellooooo';
+
+        return view('admin.doorder.view_qr', [
+            'name' => $name,
+            'order_number' => $order_number,
+            'qr_str' => $qr_str
+        ]);
     }
 }

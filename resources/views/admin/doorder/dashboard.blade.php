@@ -666,7 +666,7 @@ function clickSearch(){
      		var fromDate = Date.parse(startDate);
      		var toDate = Date.parse(endDate);
      		
-     		if(fromDate > endDate){
+     		if(fromDate > toDate){
              	$("#errorMesssage").html("To date cannot be before from date");
              	$("#errorMesssage").css("display","block");
      		}else{

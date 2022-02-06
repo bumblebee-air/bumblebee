@@ -376,6 +376,8 @@ Route::group(
             Route::post('assign_orders_drivers', 'doorder\MapRoutesConroller@assignDriverEnableRouteOptimization')->name('doorder_assignOrdersDrivers');
             Route::get('view_route_optimization_map', 'doorder\MapRoutesConroller@getMapRoutes')->name('doorder_postMapRoutesView');
             Route::get('confirm_route_optimization_map', 'doorder\MapRoutesConroller@SendOrdersToDrivers')->name('doorder_ConfirmRouteOptimization');
+            
+            Route::get('view_qr/{id}','doorder\OrdersController@viewQr')->name('doorder_viewQrCode');
 
             Route::group([
                 'middleware' => "client"
@@ -462,6 +464,7 @@ Route::group(
             'middleware' => "auth:doom-yoga"
         ], function () {
             Route::get('customers/registrations', 'doom_yoga\CustomerController@getCustomersRegistrations')->name('getCustomersRegistrations');
+            Route::get('dashboard/doom_yoga', 'doom_yoga\DashboardController@index')->name('getDoomYogaDashboard');
 
             Route::group([
                 'prefix' => 'events'

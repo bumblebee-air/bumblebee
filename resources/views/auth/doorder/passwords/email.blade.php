@@ -57,6 +57,8 @@ input {
 
 .card-login input.form-control {
 	border-color: transparent !important;
+	padding-left: 12px;
+	padding-right: 12px;
 }
 
 .form-control:focus {

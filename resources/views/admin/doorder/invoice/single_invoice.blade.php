@@ -248,8 +248,8 @@ table.doorderTable {
 											onclick="clickSendEmail({{$retailer->id}},'{{$month}}')">Send
 											invoice email</button>
 									</div>
-									<div class="col-lg-3  col-md-3 col-sm-4 ">
-										<button class="btnDoorder btn-doorder-green" type="button" @click="PrintElem">Print</button>
+									<div class="col-lg-3  col-md-3 col-sm-4 text-center">
+										<button class="btnDoorder btn-doorder-grey mb-1" type="button" @click="PrintElem">Print</button>
 									</div>
 								</div>
 								@else
@@ -264,7 +264,7 @@ table.doorderTable {
 											href="{{url('doorder/pay_invoice/')}}/{{$retailer->id}}/{{$invoice_number}}">Pay</a>
 									</div>
 									<div class="col-lg-3  col-md-3 col-sm-4 ">
-										<button class="btnDoorder btn-doorder-green" type="button" @click="PrintElem">Print</button>
+										<button class="btnDoorder btn-doorder-grey" type="button" @click="PrintElem">Print</button>
 									</div>
 								</div>
 								@endif

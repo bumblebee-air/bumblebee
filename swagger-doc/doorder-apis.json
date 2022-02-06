@@ -158,7 +158,6 @@
             "name": "zip_code",
             "in": "query",
             "description": "The zip code (or Eircode) of the shipping address",
-            "required": true,
             "type": "string"
           }
         ],
@@ -217,6 +216,18 @@
             "description": "The order number/ID on the store",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "no_of_items",
+            "in": "query",
+            "description": "The number of boxes or items in the order",
+            "type": "integer"
+          },
+          {
+            "name": "require_label",
+            "in": "query",
+            "description": "1 if the label with QR code is required to be printed for each order item, 0 if not",
+            "type": "integer"
           }
         ],
         "responses": {
@@ -232,6 +243,11 @@
                 "message": {
                   "type": "string",
                   "description": "'Unregistered on platform' if the store account with the provided API key is not found, 'Order fulfillment received successfully' if no issues were faced"
+                },
+                "label_urls": {
+                  "type": "array",
+                  "description": "A group of urls that display the labels containing QR codes for the order depending on the number of boxes/items",
+                  "example": "[\"https://staging.doorder.eu/order-label-qr/1\",\"https://staging.doorder.eu/order-label-qr/2\"]"
                 }
               }
             }

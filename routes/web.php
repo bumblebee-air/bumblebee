@@ -376,8 +376,6 @@ Route::group(
             Route::post('assign_orders_drivers', 'doorder\MapRoutesConroller@assignDriverEnableRouteOptimization')->name('doorder_assignOrdersDrivers');
             Route::get('view_route_optimization_map', 'doorder\MapRoutesConroller@getMapRoutes')->name('doorder_postMapRoutesView');
             Route::get('confirm_route_optimization_map', 'doorder\MapRoutesConroller@SendOrdersToDrivers')->name('doorder_ConfirmRouteOptimization');
-            
-            Route::get('view_qr/{id}','doorder\OrdersController@viewQr')->name('doorder_viewQrCode');
 
             Route::group([
                 'middleware' => "client"
@@ -605,11 +603,12 @@ Route::post('service-booking/{id}', 'garden_help\CustomersController@postService
 // Cancel service
 Route::get('service-cancel/{id}', 'garden_help\CustomersController@getServicesCancelation')->name('garde_help_getServicesCancel');
 Route::post('service-cancel/{id}', 'garden_help\CustomersController@postServicesCancelation')->name('garde_help_postServicesCancel');
-
+// Order delivery (DoOrder)
 Route::get('customer/order/{customer_confirmation_code}', 'doorder\CustomerController@getCustomerOrderPage');
 Route::get('customer/tracking/{customer_confirmation_code}', 'doorder\CustomerController@getOrderTracking');
 Route::get('customer/delivery_confirmation/{customer_confirmation_code}', 'doorder\CustomerController@getDeliveryConfirmationURL')->name('getDeliveryConfirmationURL');
 Route::post('customer/delivery_confirmation', 'doorder\CustomerController@postDeliveryConfirmationURL')->name('postDeliveryConfirmationURL');
+Route::get('order-label-qr/{id}','doorder\OrdersController@viewQr')->name('doorder_viewQrCode');
 // Frontend error logging route
 Route::post('frontend/error', 'HelperController@logFrontendError');
 

@@ -7,6 +7,7 @@ use App\Helpers\TwilioHelper;
 use App\Imports\OrdersImport;
 use App\JobComment;
 use App\Order;
+use App\QrCode;
 use App\Retailer;
 use App\User;
 use App\UserFirebaseToken;
@@ -483,12 +484,20 @@ class OrdersController extends Controller
         return view('doorder.retailers.orders.success_update_address');
     }
 
-    public function viewQr($client_name, $id)
+    public function viewQr($id)
     {
-        // dd($client_name,$id);
-        $name = 'sara';
-        $order_number = '123456';
-        $qr_str = 'hellooooo';
+        //dd($id);
+        $qr_code = QrCode::where('id',$id)->where('model','order')->first();
+        if(!$qr_code){
+            die('This QR code was not found, please contact the administration team for more information');
+        }
+        $order = Order::find($qr_code->model_id);
+        if(!$order){
+            die('There is something wrong with this order, please contact the administration team for more information');
+        }
+        $name = $order->customer_name;
+        $order_number = $order->order_id;
+        $qr_str = $qr_code->code;
 
         return view('admin.doorder.view_qr', [
             'name' => $name,

@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Helpers\CustomNotificationHelper;
 use App\Helpers\GoogleMapsHelper;
 use App\Order;
+use App\QrCode;
 use App\Retailer;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Str;
 
 class SAPHybrisController extends Controller
 {
@@ -76,7 +78,7 @@ class SAPHybrisController extends Controller
             $aWebhook["customer_email"] = $order_data['customer_email'] ?? null;
             $aWebhook["customer_address_lat"] = $order_data['shipping_address_latitude'] ?? null;
             $aWebhook["customer_address_lon"] = $order_data['shipping_address_longitude'] ?? null;
-            $aWebhook["eircode"] = $order_data['zip_code'];
+            $aWebhook["eircode"] = $order_data['zip_code'] ?? null;
 
             try {//Get the nearest retailer location to the customer location
                 if($aWebhook["customer_address_lat"]!=null && $aWebhook["customer_address_lon"]!=null) {
@@ -172,21 +174,51 @@ class SAPHybrisController extends Controller
         $shop_name = $request->get('store_name');
         $shop_api_key = $request->get('api_key');
         //$shop_api_secret = $request->get('api_secret');
+        $label_urls = [];
         $retailer = Retailer::where('api_key','=',$shop_api_key)->first();
         if(!$retailer){
             \Log::error('Retailer not registered on the system, name: '.$shop_name);
-            return response()->json(['error'=>1,'message'=>'Unregistered on platform']);
+            return response()->json(['error'=>1,'message'=>'Unregistered on platform',
+                'label_urls'=>$label_urls]);
         }
         $retailer_id = $retailer->id;
         $order_id = $request->get('order_id');
+        $no_of_items = $request->get('no_of_items');
+        $require_label = $request->get('require_label');
         $order = Order::where('order_id',$order_id)
             ->where('retailer_id',$retailer_id)->first();
         if($order){
             $order->status = 'ready';
+            if($no_of_items!=null && intval($no_of_items)>0){
+                $no_of_items = intval($no_of_items);
+                $order->no_of_items = $no_of_items;
+            }
+            $order->label_qr_scan = ($require_label==1)? 1 : 0;
             $order->save();
+            if($require_label==1){
+                try {
+                    if($no_of_items<=0){
+                        \Log::warning('QR code labels required for order: '.$order_id
+                            .' but the number of items is not provided!');
+                    }
+                    for($i=0; $i<$no_of_items; $i++){
+                        $code = new QrCode();
+                        $code->model = 'order';
+                        $code->model_id = $order->id;
+                        $code->model_sub = 'label';
+                        $code->code = Str::random(32);
+                        $code->save();
+                        $label_urls[] = url('order-label-qr/'.$code->id);
+                    }
+                } catch (\Exception $exception){
+                    \Log::error('Unable to create qr code label entries for order: '
+                        .$order_id.' due to: '.$exception->getMessage());
+                }
+            }
             CustomNotificationHelper::send('external_store_fulfillment', $order->id);
         }
-        return response()->json(['error'=>0,'message'=>'Order fulfillment received successfully']);
+        return response()->json(['error'=>0,'message'=>'Order fulfillment received successfully',
+            'label_urls'=>$label_urls]);
     }
 
     public function getCustomerAddressCoordinates($address):array {

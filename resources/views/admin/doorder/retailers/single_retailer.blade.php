@@ -742,7 +742,7 @@ textarea {
 					
 
 					 window['business_hours_container'+index] = $('#business_hours_container'+index).businessHours({
-                    	operationTime: JSON.parse(this.locations[index-1].business_hours_json),
+                    	operationTime: Object.values(JSON.parse(this.locations[index-1].business_hours_json)),
                     	dayTmpl:'<div class="dayContainer col-md-3 col-4 mt-1" style="">' +
                         '<div data-original-title="" class="colorBox"><input type="checkbox" class="invisible operationState"></div>' +
                         '<div class="weekday text-center"></div>' +
@@ -750,11 +750,11 @@ textarea {
                         '<div class="operationTime input-group" style="flex-wrap: nowrap;"><div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-sun"></i></span></div><input type="text" class="mini-time form-control operationTimeFrom" name="startTime" value=""></div>' +
                         '<div class="operationTime input-group" style="flex-wrap: nowrap;"><div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-moon"></i></span></div><input type="text" class="mini-time form-control operationTimeTill" name="endTime" value=""></div>' +
                         '</div></div>',
-                    checkedColorClass: 'workingBusinssDay',
-                    uncheckedColorClass: 'dayOff',
-                })
-					console.log(JSON.parse(this.locations[index-1].business_hours_json));
-					console.log(business_hours_initial_array)
+						checkedColorClass: 'workingBusinssDay',
+						uncheckedColorClass: 'dayOff',
+                	})
+					// console.log(JSON.parse(this.locations[index-1].business_hours_json));
+					// console.log(business_hours_initial_array)
 				}
 				
 				for (let contact of this.contacts){
@@ -778,8 +778,7 @@ textarea {
 				{{--		}--}}
 				{{--	}--}}
 				{{--});--}}
-				
-				
+
 			},
 			methods: {
 				addLocation(){
@@ -796,7 +795,6 @@ textarea {
                		// console.log(this.itn_inputs)
 					for (let item of this.contacts) {
 						let intl_tel_input_value = this.itn_inputs['contact_number' + (this.contacts.indexOf(item) + 1)]
-						//console.log(item);
 						intl_tel_input_value.destroy();
 					}
                     this.contacts.push({});

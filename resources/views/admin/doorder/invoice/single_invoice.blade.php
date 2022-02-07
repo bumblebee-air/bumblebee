@@ -461,7 +461,9 @@ $( document ).ready(function() {
 					var frameDoc = frame1.contentWindow ? frame1.contentWindow : frame1.contentDocument.document ? frame1.contentDocument.document : frame1.contentDocument;
 					frameDoc.document.open('', 'PRINT', 'height=400,width=600');
 					frameDoc.document.write(`<html><head><title>document.title</title>`);
+					frameDoc.document.write(document.head.innerHTML);
 					frameDoc.document.write('</head><body>');
+					frameDoc.document.write('<div class="user" style="z-index: 3;"><div class="photo photo-full text-center mb-3"><img src="https://bumblebee.host/images/doorder-new-layout/Logo.png" title="DoOrder" alt="DoOrder" id="adminNavLogoImg"></div></div>');
 					frameDoc.document.write(contents);
 					frameDoc.document.write('</body></html>');
 					frameDoc.document.close();

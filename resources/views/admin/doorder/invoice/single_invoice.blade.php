@@ -463,7 +463,7 @@ $( document ).ready(function() {
 					frameDoc.document.write(`<html><head><title>document.title</title>`);
 					frameDoc.document.write(document.head.innerHTML);
 					frameDoc.document.write('</head><body>');
-					frameDoc.document.write('<div class="user" style="z-index: 3;"><div class="photo photo-full text-center mb-3"><img src="https://bumblebee.host/images/doorder-new-layout/Logo.png" title="DoOrder" alt="DoOrder" id="adminNavLogoImg"></div></div>');
+					frameDoc.document.write('<div class="user" style="z-index: 3;"><div class="photo photo-full text-center mb-3"><img src="{{asset('images/doorder-new-layout/Logo.png')}}" title="DoOrder" alt="DoOrder" id="adminNavLogoImg"></div></div>');
 					frameDoc.document.write(contents);
 					frameDoc.document.write('</body></html>');
 					frameDoc.document.close();

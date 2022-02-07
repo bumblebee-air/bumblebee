@@ -192,7 +192,7 @@ table.doorderTable {
 													</td>
 													<td>@{{item.count}}</td>
 													<td class="text-left">€10</td>
-													<td class="">€@{{item.charge}}</td>
+													<td class="">€@{{item.charge.toFixed(2)}}</td>
 												</tr>
 												<tr v-if="invoice.length == 0">
         											<td colspan="7" class="text-center">No data found.
@@ -203,17 +203,17 @@ table.doorderTable {
 												<tr>
 													<th colspan="5"></th>
 													<th class="tfootLabelTh">Subtotal</th>
-													<th class="tfootValueTh text-center">€{{$subtotal}}</th>
+													<th class="tfootValueTh text-center">€{{number_format((float)$subtotal, 2, '.', '')}}</th>
 												</tr>
 												<tr>
 													<th colspan="5"></th>
 													<th class="tfootLabelTh">VAT @ 23%</th>
-													<th class="tfootValueTh text-center">€{{$vat}}</th>
+													<th class="tfootValueTh text-center">€{{number_format((float)$vat, 2, '.', '')}}</th>
 												</tr>
 												<tr>
 													<th colspan="5"></th>
 													<th class="tfootLabelTh tfootBorderTh">Total</th>
-													<th class="tfootValueTh tfootBorderTh text-center">€{{$total}}</th>
+													<th class="tfootValueTh tfootBorderTh text-center">€{{number_format((float)$total, 2, '.', '')}}</th>
 												</tr>
 											</tfoot>
 										</table>

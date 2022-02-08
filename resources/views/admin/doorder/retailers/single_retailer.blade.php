@@ -890,6 +890,10 @@ textarea {
 							// }
 							if (eircode_value != undefined) {
 								retailer_eircode_input.value = eircode_value.long_name;
+								// locations[latest_key-1].eircode = eircode_value.long_name;
+								app.locations[latest_key-1].eircode = eircode_value.long_name;
+								app.locations[latest_key-1].coordinates = '{lat: ' + place_lat.toFixed(5) + ', lon: ' + place_lon.toFixed(5) +'}';
+								app.locations[latest_key-1].address = place.formatted_address;
 							} else {
 								//document.getElementById("location_"+latest_key+"_coordinates").value = '';
 								retailer_eircode_input.value = '';

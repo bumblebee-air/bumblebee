@@ -535,11 +535,11 @@
 					alt="Dashboard">
 					<p>Jobs Table</p> </a></li>
 
-			<li class="nav-item"><a class="nav-link d-flex"
-				href="{{route('garden_help_addNewJob', 'garden-help')}}"> <i
-					class="fas fa-plus-circle"></i>
-					<p>Add New Job</p>
-			</a></li>
+<!-- 			<li class="nav-item"><a class="nav-link d-flex" -->
+<!-- 				href="{{route('garden_help_addNewJob', 'garden-help')}}"> <i -->
+<!-- 					class="fas fa-plus-circle"></i> -->
+<!-- 					<p>Add New Job</p> -->
+<!-- 			</a></li> -->
 
 			<li class="nav-item"><a class="nav-link d-flex"
 				href="{{url('garden-help/home')}}"> <img
@@ -679,12 +679,12 @@
 				</li>	
 
 
-			<li class="nav-item"><a class="nav-link d-flex" href="#"> {{-- <i
-					class="fas fa-plus-circle"></i>--}} <img class="my-nav-icon"
-					src="{{asset('images/gardenhelp_icons/WhatsApp-white.png')}}"
-					alt="Dashboard">
-					<p>WhatsApp</p>
-			</a></li>
+<!-- 			<li class="nav-item"><a class="nav-link d-flex" href="#"> {{-- <i -->
+<!-- 					class="fas fa-plus-circle"></i>--}} <img class="my-nav-icon" -->
+<!-- 					src="{{asset('images/gardenhelp_icons/WhatsApp-white.png')}}" -->
+<!-- 					alt="Dashboard"> -->
+<!-- 					<p>WhatsApp</p> -->
+<!-- 			</a></li> -->
 
 			<li class="nav-item">
 				<a class="nav-link d-flex" href="{{route('garden_help_getSetting', 'garden-help')}}">

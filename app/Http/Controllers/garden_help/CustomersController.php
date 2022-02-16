@@ -52,7 +52,7 @@ class CustomersController extends Controller
     public function postRegistrationForm(Request $request) {
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required|unique:users',
+            'email' => 'required|unique:users,email,NULL,id,deleted_at,NULL',
             'contact_through' => 'required',
             'phone' => 'required|unique:users,phone,NULL,id,deleted_at,NULL',
             'password' => 'required|confirmed',

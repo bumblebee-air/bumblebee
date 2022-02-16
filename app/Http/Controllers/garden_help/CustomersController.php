@@ -54,7 +54,7 @@ class CustomersController extends Controller
             'name' => 'required',
             'email' => 'required|unique:users',
             'contact_through' => 'required',
-            'phone' => 'required|unique:users',
+            'phone' => 'required|unique:users,phone,NULL,id,deleted_at,NULL',
             'password' => 'required|confirmed',
         ]);
         //Create a new user

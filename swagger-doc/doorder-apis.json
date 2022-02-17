@@ -246,8 +246,13 @@
                 },
                 "label_urls": {
                   "type": "array",
-                  "description": "A group of urls that display the labels containing QR codes for the order depending on the number of boxes/items",
-                  "example": "[\"https://staging.doorder.eu/order-label-qr/1\",\"https://staging.doorder.eu/order-label-qr/2\"]"
+                  "description": "A group of arrays containing QR codes and urls that display the labels containing QR codes for the order depending on the number of boxes/items",
+                  "example": "[[\"url\":\"https://staging.doorder.eu/order-label-qr/1\",\"qr_code\":\"143b456asd2c3m028vn8CR235ve\"],[\"url\":\"https://staging.doorder.eu/order-label-qr/2\",\"qr_code\":\"am2409gm2n334903g232DL23\"]]"
+                },
+                "tracking_url": {
+                  "type": "string",
+                  "description": "The tracking url of the order to be provided to the customer",
+                  "example": "https://staging.doorder.eu/customer/order/GH865L"
                 }
               }
             }

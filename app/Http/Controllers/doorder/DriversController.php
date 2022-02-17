@@ -201,8 +201,8 @@ class DriversController extends Controller
                 $order->status = $status;
                 $timestamps->on_the_way_second = $current_timestamp;
                 //Send the customer order url for tracking & qr code
-                $order->customer_confirmation_code = Str::random(8);
-                $order->delivery_confirmation_code = Str::random(32);
+                $order->customer_confirmation_code = ($order->customer_confirmation_code==null)? Str::random(8) : $order->customer_confirmation_code;
+                $order->delivery_confirmation_code = ($order->delivery_confirmation_code==null)? Str::random(32) : $order->delivery_confirmation_code;
                 $retailer_name = $order->retailer_name;
                 try {
                     $sid = env('TWILIO_SID', '');

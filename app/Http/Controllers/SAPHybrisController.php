@@ -175,6 +175,7 @@ class SAPHybrisController extends Controller
         $shop_api_key = $request->get('api_key');
         //$shop_api_secret = $request->get('api_secret');
         $label_urls = [];
+        $tracking_url = null;
         $retailer = Retailer::where('api_key','=',$shop_api_key)->first();
         if(!$retailer){
             \Log::error('Retailer not registered on the system, name: '.$shop_name);
@@ -194,6 +195,8 @@ class SAPHybrisController extends Controller
                 $order->no_of_items = $no_of_items;
             }
             $order->label_qr_scan = ($require_label==1)? 1 : 0;
+            $order->customer_confirmation_code = Str::random(8);
+            $order->delivery_confirmation_code = Str::random(32);
             $order->save();
             if($require_label==1){
                 try {
@@ -208,17 +211,19 @@ class SAPHybrisController extends Controller
                         $code->model_sub = 'label';
                         $code->code = Str::random(32);
                         $code->save();
-                        $label_urls[] = url('order-label-qr/'.$code->id);
+                        $label_urls[] = ['url'=>url('order-label-qr/'.$code->id),
+                            'qr_code'=>$code->code];
                     }
                 } catch (\Exception $exception){
                     \Log::error('Unable to create qr code label entries for order: '
                         .$order_id.' due to: '.$exception->getMessage());
                 }
             }
+            $tracking_url = url('customer/order/' . $order->customer_confirmation_code);
             CustomNotificationHelper::send('external_store_fulfillment', $order->id);
         }
         return response()->json(['error'=>0,'message'=>'Order fulfillment received successfully',
-            'label_urls'=>$label_urls]);
+            'label_urls'=>$label_urls, 'tracking_url'=>$tracking_url]);
     }
 
     public function getCustomerAddressCoordinates($address):array {

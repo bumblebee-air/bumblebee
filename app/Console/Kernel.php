@@ -33,7 +33,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('gardenhelpcustomerpaymentintent:cron')->daily();
         $schedule->command('gh_drivers_update_working_hours:cron')->weeklyOn(5, '11:00');
         $schedule->command('gh_drivers_update_working_hours:cron reminder')->weeklyOn(1, '09:30');
-        $schedule->command('gh-recurring-jobs:cron:cron')->dailyAt('12:30');
+        $schedule->command('gh-recurring-jobs:cron')->dailyAt('12:30');
         $schedule->command('update:order')->everyFifteenMinutes();
     }
 

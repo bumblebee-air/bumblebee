@@ -7,6 +7,7 @@ use App\Helpers\GoogleMapsHelper;
 use App\Order;
 use App\QrCode;
 use App\Retailer;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
@@ -211,7 +212,19 @@ class SAPHybrisController extends Controller
                         $code->model_sub = 'label';
                         $code->code = Str::random(32);
                         $code->save();
-                        $label_urls[] = ['url'=>url('order-label-qr/'.$code->id),
+                        $label_qr = \SimpleSoftwareIO\QrCode\Facades\QrCode::size(250)->generate($code->code);
+                        $pdf = Pdf::setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif',
+                            'isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
+                        //To use the generated svg qr code in the view
+                        //<img src="data:image/svg+xml;base64,{{ base64_encode($qr_str) }}"/>
+                        $pdf->loadView('admin.doorder.view_qr',[
+                            'name' => 'Fayez test',
+                            'order_number' => $order_id,
+                            'qr_str' => $label_qr
+                        ]);
+                        $label_qr_file_name = 'uploads/pdfs/'.$code->code.'.pdf';
+                        \Storage::put($label_qr_file_name, $pdf->output());
+                        $label_urls[] = ['url'=>url('uploads/'.$label_qr_file_name),
                             'qr_code'=>$code->code];
                     }
                 } catch (\Exception $exception){

@@ -222,9 +222,9 @@ class SAPHybrisController extends Controller
                             'order_number' => $order_id,
                             'qr_str' => $label_qr
                         ]);
-                        $label_qr_file_name = 'uploads/pdfs/'.$code->code.'.pdf';
-                        \Storage::put($label_qr_file_name, $pdf->output());
-                        $label_urls[] = ['url'=>url('uploads/'.$label_qr_file_name),
+                        $label_qr_file_path = 'uploads/pdfs/'.$code->code.'.pdf';
+                        \Storage::put($label_qr_file_path, $pdf->output());
+                        $label_urls[] = ['url'=>url($label_qr_file_path),
                             'qr_code'=>$code->code];
                     }
                 } catch (\Exception $exception){

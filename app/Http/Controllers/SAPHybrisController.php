@@ -217,10 +217,12 @@ class SAPHybrisController extends Controller
                             'isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
                         //To use the generated svg qr code in the view
                         //<img src="data:image/svg+xml;base64,{{ base64_encode($qr_str) }}"/>
-                        $pdf->loadView('admin.doorder.view_qr',[
+                        $pdf->loadView('admin.doorder.print_label_qr',[
                             'name' => 'Fayez test',
                             'order_number' => $order_id,
-                            'qr_str' => $label_qr
+                            'qr_str' => $label_qr,
+                            'customer_address'=>$order->customer_address,
+                            'customer_phone'=>$order->customer_phone
                         ]);
                         $label_qr_file_path = 'uploads/pdfs/'.$code->code.'.pdf';
                         \Storage::put($label_qr_file_path, $pdf->output());

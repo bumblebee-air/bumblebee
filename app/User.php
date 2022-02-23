@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'is_profile_completed', 'user_role'
+        'name', 'email', 'password', 'is_profile_completed', 'user_role', 'phone'
     ];
 
     protected $guarded = ['id'];
@@ -93,5 +93,10 @@ class User extends Authenticatable
     public function retailerorders()
     {
         return $this->hasMany(Order::class, 'retailer_id', 'id');
+    }
+
+    public function properties()
+    {
+        return $this->hasMany(CustomerProperty::class, 'user_id');
     }
 }

@@ -533,13 +533,14 @@
 					class="my-nav-icon"
 					src="{{asset('images/gardenhelp_icons/Job-Table-white.png')}}"
 					alt="Dashboard">
-					<p>Jobs Table</p> </a></li>
+					<p>Jobs Table</p> </a>
+			</li>
 
-<!-- 			<li class="nav-item"><a class="nav-link d-flex" -->
-<!-- 				href="{{route('garden_help_addNewJob', 'garden-help')}}"> <i -->
-<!-- 					class="fas fa-plus-circle"></i> -->
-<!-- 					<p>Add New Job</p> -->
-<!-- 			</a></li> -->
+			<li class="nav-item"><a class="nav-link d-flex"
+				href="{{route('garden_help_addNewJob', 'garden-help')}}"> <i
+					class="fas fa-plus-circle"></i>
+					<p>Add New Job</p>
+			</a></li>
 
 			<li class="nav-item"><a class="nav-link d-flex"
 				href="{{url('garden-help/home')}}"> <img

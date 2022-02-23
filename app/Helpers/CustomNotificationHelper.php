@@ -64,6 +64,10 @@ class CustomNotificationHelper
                     $title = 'There is an new payment';
                     $url = '';
                     break;
+                case 'new_contractor_bidding_client':
+                    $title = 'There is an new contractor bidding';
+                    $url = route('garden_help_getcustomerSingleRequest', ['garden-help', $id]);
+                    break;
                 default:
                     $title = 'There is a new custom notification.';
             }

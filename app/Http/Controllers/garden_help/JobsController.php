@@ -57,7 +57,6 @@ class JobsController extends Controller
         })->with(['bidding' => function ($q) use ($id) {
             $q->where('job_id', $id);
         }])->get();
-        // dd($customer_request);
         if ($customer_request->status != 'ready') {
             $contractor = Contractor::withTrashed()->where('user_id', $customer_request->contractor_id)->first();
             if ($contractor) {
@@ -101,19 +100,19 @@ class JobsController extends Controller
 //                }
 //            }
 //        }
-        if (auth()->user()->user_role == 'customer') {
+//        if (auth()->user()->user_role == 'customer') {
             return view('admin.garden_help.jobs_table.single_job_customer', [
                 'job' => $customer_request,
                 'contractors' => $contractors,
                 'reassign' => 0
             ]);
-        } else {
-            return view('admin.garden_help.jobs_table.single_job', [
-                'job' => $customer_request,
-                'contractors' => $contractors,
-                'reassign' => 0
-            ]);
-        }
+//        } else {
+//            return view('admin.garden_help.jobs_table.single_job', [
+//                'job' => $customer_request,
+//                'contractors' => $contractors,
+//                'reassign' => 0
+//            ]);
+//        }
     }
 
     public function getSingleJobReassign($client_name, $id)
@@ -189,18 +188,24 @@ class JobsController extends Controller
             $item->is_checked = $item->false;
             $item->is_recurring = "0";
         }
-
-        $properties = CustomerProperty::where('user_id', auth()->user()->id)->get();
-
+        $customers = [];
+        $properties = [];
+        if (auth()->user()->user_role == 'client') {
+            $customers = User::with('properties')->where('user_role', 'customer')->get();
+        } else {
+            $properties = CustomerProperty::where('user_id', auth()->user()->id)->get();
+        }
         return view('admin.garden_help.jobs_table.add_job', [
             'services' => $services,
             'current_user' => $current_user,
-            'properties' => $properties
+            'properties' => $properties,
+            'customers' => $customers
         ]);
     }
 
     public function postNewJob(Request $request)
     {
+//        dd($request->all());
         $this->validate($request, [
             'work_location' => 'required_if:property,other'
         ]);
@@ -216,11 +221,6 @@ class JobsController extends Controller
         } else {
             $this->validate($request, [
                 'type_of_work' => 'required_if:property,other|in:Commercial,Residential',
-                // 'name' => 'required',
-                // 'email' => 'required',
-                // 'contact_through' => 'required',
-                // 'phone' => 'required_if:type_of_work,Residential',
-                /* 'password' => 'required_if:type_of_work,Residential|confirmed', */
                 'service_types' => 'required',
                 'location' => 'required_if:property,other',
                 'location_coordinates' => 'required_if:property,other',
@@ -235,6 +235,27 @@ class JobsController extends Controller
                 'stripeToken' => 'required'
             ]);
             $user = $request->user();
+            if ($user->user_role == 'client') {
+                $this->validate($request, [
+                    'customer' => 'required',
+                ]);
+                if ($request->customer == 'other') {
+                    $this->validate($request, [
+                        'name' => 'required',
+                        'email' => 'required|unique:users',
+                        'phone' => 'required|unique:users',
+                    ]);
+                    $user = User::create([
+                        'name' => $request->name,
+                        'phone' => $request->phone,
+                        'email' => $request->email,
+                        'password' => bcrypt(Str::random(8)),
+                        'user_role' => 'customer'
+                    ]);
+                } else {
+                    $user = User::find($request->customer);
+                }
+            }
             // $user = User::where('email','=',$request->email)
             // ->where('phone','=',$request->phone)->where('user_role', 'customer')->first();
             // if(!$user) {
@@ -326,6 +347,7 @@ class JobsController extends Controller
             $customer->budget = $request->budget;
             $customer->is_contacted = $request->is_contacted;
             $customer->notes = $request->notes;
+            $customer->added_by = auth()->user()->user_role;
             $customer->save();
 
             try {

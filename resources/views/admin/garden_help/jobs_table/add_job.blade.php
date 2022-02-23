@@ -125,128 +125,80 @@ span.form-control {
 												value="{{$current_user->id}}" /> @endif
 
 											@if(auth()->user()->user_role == 'client')
-											<div class="row mt-3" v-if="type_of_work == 'Residential'">
+											<div class="row mt-3">
 												<div class="col-md-12">
-													<h5 class="requestSubTitle">Person Details</h5>
+													<h5 class="requestSubTitle">Customer Details</h5>
+												</div>
+
+												<div class="col-md-12">
+													<div class="form-group ">
+														<label for="property" class="">Select Customer </label>
+														<div class="input-group">
+															<div class="input-group-prepend">
+															<span class="input-group-text"> <img
+																		src="{{asset('images/gardenhelp_icons/property-icon.png')}}"
+																		alt="GardenHelp">
+															</span>
+															</div>
+															<select id="customer" name="customer"
+																	class="form-control js-example-basic-single"
+																	v-model="customer" onchange="changeCustomer()" required="required">
+																<option disabled selected value="">Select customer</option>
+																<option v-for="customer in customers"
+																		:value="customer.id">@{{customer.name}}</option>
+																<option value="other" >Create a new customer</option>
+															</select>
+														</div>
+
+													</div>
 												</div>
 												<div class="col-md-12">
 													<div class="form-group bmd-form-group">
 														<label>Name</label> <input type="text"
-															class="form-control" name="name" value="{{old('name')}}"
-															required>
+															class="form-control" name="name" value="{{old('name')}}" v-model="selected_customer.name"
+															required :disabled="customer != 'other'">
 													</div>
 												</div>
 												<div class="col-md-12">
 													<div class="form-group bmd-form-group">
 														<label>Email address</label> <input type="email"
 															class="form-control" name="email"
-															value="{{old('email')}}" required>
+															value="{{old('email')}}" required v-model="selected_customer.email" :disabled="customer != 'other'">
 													</div>
 												</div>
-												<div class="col-md-12">
-													<div class="form-group">
-														<label>Contact through</label>
-														<div class="d-flex">
-															<div class="contact-through d-flex pr-5"
-																@click="changeContact('whatsapp')">
-																<div id="check"
-																	:class="contact_through == 'whatsapp' ? 'my-check-box checked' : 'my-check-box'">
-																	<i class="fas fa-check-square"></i>
-																</div>
-																WhatsApp
-															</div>
+{{--												<div class="col-md-12">--}}
+{{--													<div class="form-group">--}}
+{{--														<label>Contact through</label>--}}
+{{--														<div class="d-flex">--}}
+{{--															<div class="contact-through d-flex pr-5"--}}
+{{--																@click="changeContact('whatsapp')">--}}
+{{--																<div id="check"--}}
+{{--																	:class="contact_through == 'whatsapp' ? 'my-check-box checked' : 'my-check-box'">--}}
+{{--																	<i class="fas fa-check-square"></i>--}}
+{{--																</div>--}}
+{{--																WhatsApp--}}
+{{--															</div>--}}
 
-															<div class="contact-through d-flex"
-																@click="changeContact('sms')">
-																<div id="check"
-																	:class="contact_through == 'sms' ? 'my-check-box checked' : 'my-check-box'">
-																	<i class="fas fa-check-square"></i>
-																</div>
-																SMS
-															</div>
-															<input type="hidden" v-model="contact_through"
-																name="contact_through">
-														</div>
-													</div>
-												</div>
+{{--															<div class="contact-through d-flex"--}}
+{{--																@click="changeContact('sms')">--}}
+{{--																<div id="check"--}}
+{{--																	:class="contact_through == 'sms' ? 'my-check-box checked' : 'my-check-box'">--}}
+{{--																	<i class="fas fa-check-square"></i>--}}
+{{--																</div>--}}
+{{--																SMS--}}
+{{--															</div>--}}
+{{--															<input type="hidden" v-model="contact_through"--}}
+{{--																name="contact_through">--}}
+{{--														</div>--}}
+{{--													</div>--}}
+{{--												</div>--}}
 												<div class="col-md-12">
 													<div class="form-group bmd-form-group">
 														<label>Phone number</label> <input type="tel"
 															class="form-control" id="phone" name="phone"
-															value="{{old('phone')}}" required>
+															value="{{old('phone')}}" required v-model="selected_customer.phone" :disabled="customer != 'other'">
 													</div>
 												</div>
-											</div>
-
-
-											<div class="row mt-3" v-if="type_of_work == 'Commercial'">
-												<div class="col-md-12">
-													<h5 class="requestSubTitle">Business Details</h5>
-												</div>
-												<div class="col-md-12">
-													<div class="form-group bmd-form-group">
-														<label class="bmd-form-floating">Business name</label> <input
-															type="text" class="form-control" name="name"
-															value="{{old('name')}}" required>
-													</div>
-												</div>
-												<div class="col-md-12">
-													<div class="form-group bmd-form-group">
-														<label>Company email</label> <input type="email"
-															class="form-control" name="email"
-															value="{{old('email')}}" required>
-													</div>
-												</div>
-												<div class="col-md-12">
-													<div class="form-group">
-														<label>Contact through</label>
-														<div class="d-flex">
-															<div class="contact-through d-flex pr-5"
-																onclick="changeContact('email')">
-																<div id="check"
-																	:class="contact_through == 'email' ? 'my-check-box checked' : 'my-check-box'">
-																	<i class="fas fa-check-square"></i>
-																</div>
-																Email
-															</div>
-
-															<div class="contact-through d-flex"
-																onclick="changeContact('phone')">
-																<div id="check"
-																	:class="contact_through == 'phone' ? 'my-check-box checked' : 'my-check-box'">
-																	<i class="fas fa-check-square"></i>
-																</div>
-																Phone calls
-															</div>
-															<input type="hidden" v-model="contact_through"
-																name="contact_through">
-														</div>
-													</div>
-												</div>
-												<div class="col-md-12">
-													<div class="form-group bmd-form-group">
-														<label>Contact person name</label> <input type="text"
-															class="form-control" name="contact_name"
-															value="{{old('contact_name')}}" required>
-													</div>
-												</div>
-												<div class="col-md-12">
-													<div class="form-group bmd-form-group">
-														<label>Contact person number</label> <input type="text"
-															class="form-control" id="contact_number"
-															name="contact_number" value="{{old('contact_number')}}"
-															required>
-													</div>
-												</div>
-												<div class="col-md-12">
-													<div class="form-group bmd-form-group is-filled">
-														<label for="available_date_time">Select from the available
-															date & time</label> <input name="available_date_time"
-															type="text" class="form-control datetimepicker"
-															id="available_date_time" required>
-													</div>
-												</div>
-
 											</div>
 											@endif
 
@@ -862,110 +814,110 @@ span.form-control {
 						</div>
 						<input type="hidden" name="services_types_json"
 							v-model="JSON.stringify(services_types_json)">
-						<div class="row">
-							@if(auth()->user()->user_role == 'client')
-							<div class="col-lg-12">
-								<div class="card ">
-									<div class="card-body" style="padding-top: 0 !important;">
-										<div class="container"
-											style="padding-bottom: 10px !important;">
-											<div class="row">
-												<div class="col-12">
-													<div class=" row">
-														<div class="col-12">
-															<h5 class="cardTitleGreen requestSubTitle ">Estimated
-																Price Quotation</h5>
-														</div>
-													</div>
-												</div>
-												<div class="col-12">
-													<div class="row" v-for="type in service_types"
-														v-if="type.is_checked">
-														<div class="col-md-3 col-6">
-															<label class="requestLabelGreen">@{{ type.title }}</label>
-														</div>
-														<div class="col-md-9 col-6">
-															<span class="requestSpanGreen">€@{{
-																getPropertySizeRate(type) }}</span>
-														</div>
-													</div>
+{{--						<div class="row">--}}
+{{--							@if(auth()->user()->user_role == 'client')--}}
+{{--							<div class="col-lg-12">--}}
+{{--								<div class="card ">--}}
+{{--									<div class="card-body" style="padding-top: 0 !important;">--}}
+{{--										<div class="container"--}}
+{{--											style="padding-bottom: 10px !important;">--}}
+{{--											<div class="row">--}}
+{{--												<div class="col-12">--}}
+{{--													<div class=" row">--}}
+{{--														<div class="col-12">--}}
+{{--															<h5 class="cardTitleGreen requestSubTitle ">Estimated--}}
+{{--																Price Quotation</h5>--}}
+{{--														</div>--}}
+{{--													</div>--}}
+{{--												</div>--}}
+{{--												<div class="col-12">--}}
+{{--													<div class="row" v-for="type in service_types"--}}
+{{--														v-if="type.is_checked">--}}
+{{--														<div class="col-md-3 col-6">--}}
+{{--															<label class="requestLabelGreen">@{{ type.title }}</label>--}}
+{{--														</div>--}}
+{{--														<div class="col-md-9 col-6">--}}
+{{--															<span class="requestSpanGreen">€@{{--}}
+{{--																getPropertySizeRate(type) }}</span>--}}
+{{--														</div>--}}
+{{--													</div>--}}
 
-													<div class="row">
-														<div class="col-md-3 col-6">
-															<label class="requestLabelGreen">VAT</label>
-														</div>
-														<div class="col-md-9 col-6">
-															<span class="requestSpanGreen">€@{{ getVat(13.5,
-																getTotalPrice()) }} (13.5%)</span>
-														</div>
-													</div>
+{{--													<div class="row">--}}
+{{--														<div class="col-md-3 col-6">--}}
+{{--															<label class="requestLabelGreen">VAT</label>--}}
+{{--														</div>--}}
+{{--														<div class="col-md-9 col-6">--}}
+{{--															<span class="requestSpanGreen">€@{{ getVat(13.5,--}}
+{{--																getTotalPrice()) }} (13.5%)</span>--}}
+{{--														</div>--}}
+{{--													</div>--}}
 
-													<div class="row" style="margin-top: 15px">
-														<div class="col-md-3 col-6">
-															<label class="requestSpanGreen">Total</label>
-														</div>
-														<div class="col-md-9 col-6">
-															<span class="requestSpanGreen">€@{{ (getTotalPrice() -
-																this.percentage + getVat(13.5,
-																getTotalPrice())).toFixed(2) }} - €@{{ (getTotalPrice()
-																+ this.percentage + getVat(13.5,
-																getTotalPrice())).toFixed(2) }}</span>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							@endif
-							@if(auth()->user()->user_role == 'client')
-							<div class="col-lg-12" v-if="available_contractors.length > 0">
-								<div class="card ">
-									<div class="card-body" style="padding-top: 0 !important;">
-										<div class="container"
-											style="padding-bottom: 10px !important;">
-											<div class="row">
-												<div class="col-lg-12 d-flex">
-													<div class="row">
-														<div class="col-12">
-															<div class=" row">
-																<div class="col-12">
-																	<h5 class="cardTitleGreen requestSubTitle ">Available
-																		contractors on this date</h5>
-																</div>
-															</div>
-														</div>
-														<div class="col-12">
-															<div class="row"
-																v-for="contractor in available_contractors"
-																v-if="available_contractors.length > 0">
-																<div class="col-md-3 col-6">
-																	<span class="requestSpanGreen">@{{ contractor.name }} </span>
-																</div>
-																<div class="col-md-3 col-6">
-																	<label class="requestLabelGreen">@{{
-																		contractor.experience_level }}</label>
-																</div>
-															</div>
-															<div class="col text-center" v-else>
-																<div>There is no contractors available on this date.</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							@endif
+{{--													<div class="row" style="margin-top: 15px">--}}
+{{--														<div class="col-md-3 col-6">--}}
+{{--															<label class="requestSpanGreen">Total</label>--}}
+{{--														</div>--}}
+{{--														<div class="col-md-9 col-6">--}}
+{{--															<span class="requestSpanGreen">€@{{ (getTotalPrice() ---}}
+{{--																this.percentage + getVat(13.5,--}}
+{{--																getTotalPrice())).toFixed(2) }} - €@{{ (getTotalPrice()--}}
+{{--																+ this.percentage + getVat(13.5,--}}
+{{--																getTotalPrice())).toFixed(2) }}</span>--}}
+{{--														</div>--}}
+{{--													</div>--}}
+{{--												</div>--}}
+{{--											</div>--}}
+{{--										</div>--}}
+{{--									</div>--}}
+{{--								</div>--}}
+{{--							</div>--}}
+{{--							@endif--}}
+{{--							@if(auth()->user()->user_role == 'client')--}}
+{{--							<div class="col-lg-12" v-if="available_contractors.length > 0">--}}
+{{--								<div class="card ">--}}
+{{--									<div class="card-body" style="padding-top: 0 !important;">--}}
+{{--										<div class="container"--}}
+{{--											style="padding-bottom: 10px !important;">--}}
+{{--											<div class="row">--}}
+{{--												<div class="col-lg-12 d-flex">--}}
+{{--													<div class="row">--}}
+{{--														<div class="col-12">--}}
+{{--															<div class=" row">--}}
+{{--																<div class="col-12">--}}
+{{--																	<h5 class="cardTitleGreen requestSubTitle ">Available--}}
+{{--																		contractors on this date</h5>--}}
+{{--																</div>--}}
+{{--															</div>--}}
+{{--														</div>--}}
+{{--														<div class="col-12">--}}
+{{--															<div class="row"--}}
+{{--																v-for="contractor in available_contractors"--}}
+{{--																v-if="available_contractors.length > 0">--}}
+{{--																<div class="col-md-3 col-6">--}}
+{{--																	<span class="requestSpanGreen">@{{ contractor.name }} </span>--}}
+{{--																</div>--}}
+{{--																<div class="col-md-3 col-6">--}}
+{{--																	<label class="requestLabelGreen">@{{--}}
+{{--																		contractor.experience_level }}</label>--}}
+{{--																</div>--}}
+{{--															</div>--}}
+{{--															<div class="col text-center" v-else>--}}
+{{--																<div>There is no contractors available on this date.</div>--}}
+{{--															</div>--}}
+{{--														</div>--}}
+{{--													</div>--}}
+{{--												</div>--}}
+{{--											</div>--}}
+{{--										</div>--}}
+{{--									</div>--}}
+{{--								</div>--}}
+{{--							</div>--}}
+{{--							@endif--}}
 							<div class="col-12 text-center">
-								<button id="addNewJobBtn" 
+								<button id="addNewJobBtn"
 									class="btn btn-register btn-gardenhelp-green">Submit</button>
 
 							</div>
-						</div>
+{{--						</div>--}}
 
 					</div>
 
@@ -1240,7 +1192,7 @@ span.form-control {
 		 $('#addNewJobBtn').click(function( event ) {
     	//console.log("submittttt")
 		 		validateInput();
-         });				
+         });
     });
     
     function validateInput(){
@@ -1460,6 +1412,22 @@ span.form-control {
             }
             
         }
+		function changeCustomer(){
+			app.customer = $("#customer").val();
+			if (app.customer == 'other') {
+				app.selected_customer = {
+					id: '',
+					name: '',
+					phone: '',
+					properties: [],
+				}
+				app.selected_property = null;
+			} else {
+				app.selected_customer = app.customers[$('option:selected',$("#customer")).index()-1];
+			}
+			app.properties = app.selected_customer.properties;
+			// app.selected_customer.phone = window.phoneNumber.setNumber(app.selected_customer.phone);
+		}
         
         var app = new Vue({
             el: '#app',
@@ -1580,8 +1548,18 @@ span.form-control {
 				property: '',
 				properties : {!! json_encode($properties) !!},
 				selected_property: null,
-				other_service: ''
-            },
+				other_service: '',
+				customers : {!! json_encode($customers) !!},
+				customer: 'other',
+				selected_customer: {
+					id: '',
+					name: '',
+					phone_number: '',
+					location: '',
+					location_coordinates: ''
+				}
+
+			},
             mounted() {
             	if(this.properties.length == 0 ){
             		this.property = 'other';
@@ -1650,9 +1628,9 @@ span.form-control {
 							close: 'fa fa-remove'
 						}
 					});
-                   // this.addIntelInput('phone', 'phone');
                    
                 }
+				window.phoneNumber = this.addIntelInput('phone', 'phone');
                 
             },
             methods: {
@@ -1858,6 +1836,16 @@ span.form-control {
 								});
 					}
 				},
+				addIntelInput(input_id, input_name) {
+					let phone_input = document.querySelector("#" + input_id);
+					return window.intlTelInput(phone_input, {
+						hiddenInput: input_name,
+						initialCountry: 'IE',
+						separateDialCode: true,
+						preferredCountries: ['IE', 'GB'],
+						utilsScript: "{{asset('js/intlTelInput/utils.js')}}"
+					});
+				}
             }
         });
 

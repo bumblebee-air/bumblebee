@@ -820,10 +820,14 @@ class ContractorsController extends Controller
             'message' => 'Operation done successfully',
             'error' => 0
         ];
-        //Notify the customer
+        //Notify
 //        TwilioHelper::sendSMS('GardenHelp', $job->user->phone, 'There a new contractor has offered a new price, please click the following link for more details: '. route('garden_help_getSingleJob', ['garden-help', $job->id]));
         $body = 'A contractor has offered a new price, please click the following link for more details: '. route('garden_help_getSingleJob', ['garden-help', $job->id]);
-        GardenHelpUsersNotificationHelper::notifyUser($job->user, $body, $job->contact_through);
+        if ($job->added_by == 'client') {
+            CustomNotificationHelper::send('new_contractor_bidding_client', $job->id, 'GardenHelp');
+        } else {
+            GardenHelpUsersNotificationHelper::notifyUser($job->user, $body, $job->contact_through);
+        }
         return response()->json($response)->setStatusCode(200);
     }
 }

@@ -489,332 +489,338 @@ input[type="radio"]:checked+div i {
 						<!-- 								</div> -->
 						<!-- 							</div> -->
 						<!-- 						</div> -->
-						@endif @if($job->status =='completed')
-						@if(auth()->user()->user_role == 'client')
-						<div class="col-lg-6  ">
-							<div class="card ">
-								<div class="card-body" style="padding-top: 0 !important;">
-									<div class="container" style="padding-bottom: 10px !important;">
-										<div class="row">
-											<div class="col-12">
-												<div class=" row">
-													<div class="col-12">
-														<h5 class="cardTitleGreen requestSubTitle ">Estimated
-															Price Quotation</h5>
-													</div>
-												</div>
-											</div>
-											<div class="col-12">
-												<div class="row" v-for="type in services_types">
-													<div class="col-8">
-														<label class="requestLabelGreen">@{{ type.title }}</label>
-													</div>
-													<div class="col-4">
-														<span class="requestSpanGreen">€@{{
-															getPropertySizeRate(type) }}</span>
-													</div>
-												</div>
+						@endif
+{{--						@if($job->status =='completed')--}}
+{{--							@if(auth()->user()->user_role == 'client')--}}
+{{--							<div class="col-lg-6  ">--}}
+{{--								<div class="card ">--}}
+{{--									<div class="card-body" style="padding-top: 0 !important;">--}}
+{{--										<div class="container" style="padding-bottom: 10px !important;">--}}
+{{--											<div class="row">--}}
+{{--												<div class="col-12">--}}
+{{--													<div class=" row">--}}
+{{--														<div class="col-12">--}}
+{{--															<h5 class="cardTitleGreen requestSubTitle ">Estimated--}}
+{{--																Price Quotation</h5>--}}
+{{--														</div>--}}
+{{--													</div>--}}
+{{--												</div>--}}
+{{--												<div class="col-12">--}}
+{{--													<div class="row" v-for="type in services_types">--}}
+{{--														<div class="col-8">--}}
+{{--															<label class="requestLabelGreen">@{{ type.title }}</label>--}}
+{{--														</div>--}}
+{{--														<div class="col-4">--}}
+{{--															<span class="requestSpanGreen">€@{{--}}
+{{--																getPropertySizeRate(type) }}</span>--}}
+{{--														</div>--}}
+{{--													</div>--}}
+{{--		--}}
+{{--													<div class="row" style="margin-top: 15px">--}}
+{{--														<div class="col-8">--}}
+{{--															<label class="requestSpanGreen">Total</label>--}}
+{{--														</div>--}}
+{{--														<div class="col-4">--}}
+{{--															<span class="requestSpanGreen">€@{{ getTotalPrice() }}</span>--}}
+{{--														</div>--}}
+{{--													</div>--}}
+{{--												</div>--}}
+{{--											</div>--}}
+{{--		--}}
+{{--											<div class="row" style="margin-top: 25px">--}}
+{{--												<div class="col-12">--}}
+{{--													<div class=" row">--}}
+{{--														<div class="col-12">--}}
+{{--															<h5 class="cardTitleGreen requestSubTitle ">Actual Price--}}
+{{--																Quotation</h5>--}}
+{{--														</div>--}}
+{{--													</div>--}}
+{{--												</div>--}}
+{{--												<div class="col-12">--}}
+{{--													<div class="row" v-for="type in actual_services_types">--}}
+{{--														<div class="col-8">--}}
+{{--															<label class="requestLabelGreen">@{{ type.title }}</label>--}}
+{{--														</div>--}}
+{{--														<div class="col-4">--}}
+{{--															<span class="requestSpanGreen">€@{{--}}
+{{--																getPropertySizeRate(type) }}</span>--}}
+{{--														</div>--}}
+{{--													</div>--}}
+{{--		--}}
+{{--													<div class="row" style="margin-top: 15px">--}}
+{{--														<div class="col-8">--}}
+{{--															<label class="requestSpanGreen">Total</label>--}}
+{{--														</div>--}}
+{{--														<div class="col-4">--}}
+{{--															<span class="requestSpanGreen">€@{{ getTotalPrice(true) +--}}
+{{--																getVat(13.5, getTotalPrice(true)) }}</span>--}}
+{{--														</div>--}}
+{{--													</div>--}}
+{{--												</div>--}}
+{{--											</div>--}}
+{{--										</div>--}}
+{{--									</div>--}}
+{{--								</div>--}}
+{{--							</div>--}}
+{{--							@endif--}}
+{{--							@if(auth()->user()->user_role == 'client')--}}
+{{--							<div class="col-lg-6" v-if="job_other_expenses_json.length > 0">--}}
+{{--								<div class="card">--}}
+{{--									<div class="card-body" style="padding-top: 0 !important;">--}}
+{{--										<div class="container" style="padding-bottom: 10px !important;">--}}
+{{--											<div class="row">--}}
+{{--												<div class="col-12">--}}
+{{--													<div class=" row">--}}
+{{--														<div class="col-12">--}}
+{{--															<h5 class="cardTitleGreen requestSubTitle ">Other Expenses</h5>--}}
+{{--														</div>--}}
+{{--													</div>--}}
+{{--												</div>--}}
+{{--												<div class="col-12">--}}
+{{--													<div class="row" v-for="expense in job_other_expenses_json"--}}
+{{--														v-if="expense.is_checked">--}}
+{{--														<div class="col-8">--}}
+{{--															<label class="requestLabelGreen">@{{ expense.title }}</label>--}}
+{{--														</div>--}}
+{{--														<div class="col-4">--}}
+{{--															<span class="requestSpanGreen">€@{{ expense.value }}</span>--}}
+{{--														</div>--}}
+{{--													</div>--}}
+{{--		--}}
+{{--													<div class="row">--}}
+{{--														<div class="col-8">--}}
+{{--															<label class="requestLabelGreen">Other Expenses File</label>--}}
+{{--														</div>--}}
+{{--														<div class="col-4">--}}
+{{--															<span class="requestSpanGreen"> <a--}}
+{{--																:href="'https://'+location.hostname + '/' + job.job_expenses_receipt_file"--}}
+{{--																target="_blank"> <img--}}
+{{--																	:src="'https://'+location.hostname + '/' + job.job_expenses_receipt_file"--}}
+{{--																	alt="Other Expenses File" style="width: 100%">--}}
+{{--															</a>--}}
+{{--															</span>--}}
+{{--														</div>--}}
+{{--													</div>--}}
+{{--												</div>--}}
+{{--											</div>--}}
+{{--										</div>--}}
+{{--									</div>--}}
+{{--								</div>--}}
+{{--							</div>--}}
+{{--		--}}
+{{--							<div class="col-lg-6">--}}
+{{--								<div class="card">--}}
+{{--									<div class="card-body" style="padding-top: 0 !important;">--}}
+{{--										<div class="container" style="padding-bottom: 10px !important;">--}}
+{{--											<div class="row">--}}
+{{--												<div class="col-12">--}}
+{{--													<div class=" row">--}}
+{{--														<div class="col-12">--}}
+{{--															<h5 class="cardTitleGreen requestSubTitle ">Job Images</h5>--}}
+{{--														</div>--}}
+{{--													</div>--}}
+{{--												</div>--}}
+{{--												<div class="col-12">--}}
+{{--													<div class="row">--}}
+{{--														<div class="col-6" v-for="image in job_images">--}}
+{{--															<label class="requestLabelGreen"></label> <a--}}
+{{--																:href="'https://'+location.hostname+'/'+image"--}}
+{{--																target="_blank"> <img--}}
+{{--																:src="'https://'+location.hostname+'/'+image"--}}
+{{--																alt="job image" style="width: 100%">--}}
+{{--															</a>--}}
+{{--														</div>--}}
+{{--														--}}{{----}}
+{{--														<div class="col-4">--}}
+{{--															--}}{{-- --}}{{-- <span class="requestSpanGreen">€@{{--}}
+{{--																expense.value }}</span>--}}{{-- --}}{{----}}
+{{--														</div>--}}
+{{--														--}}
+{{--													</div>--}}
+{{--												</div>--}}
+{{--											</div>--}}
+{{--										</div>--}}
+{{--									</div>--}}
+{{--								</div>--}}
+{{--							</div>--}}
+{{--		--}}
+{{--							@if($job->notes)--}}
+{{--							<div class="col-lg-6">--}}
+{{--								<div class="card">--}}
+{{--									<div class="card-body" style="padding-top: 0 !important;">--}}
+{{--										<div class="container" style="padding-bottom: 10px !important;">--}}
+{{--											<div class="row">--}}
+{{--												<div class="col-12">--}}
+{{--													<div class=" row">--}}
+{{--														<div class="col-12">--}}
+{{--															<h5 class="cardTitleGreen requestSubTitle ">Contractor--}}
+{{--																Notes</h5>--}}
+{{--														</div>--}}
+{{--													</div>--}}
+{{--												</div>--}}
+{{--												<div class="col-12">--}}
+{{--													<div class="row">{{$job->notes}}</div>--}}
+{{--												</div>--}}
+{{--											</div>--}}
+{{--										</div>--}}
+{{--									</div>--}}
+{{--								</div>--}}
+{{--							</div>--}}
+{{--							@endif @if(count($job->job_timestamps) > 0)--}}
+{{--							<div class="col-lg-6">--}}
+{{--								<div class="card">--}}
+{{--									<div class="card-body" style="padding-top: 0 !important;">--}}
+{{--										<div class="container" style="padding-bottom: 10px !important;">--}}
+{{--											<div class="row">--}}
+{{--												<div class="col-12">--}}
+{{--													<div class=" row">--}}
+{{--														<div class="col-12">--}}
+{{--															<h5 class="cardTitleGreen requestSubTitle ">Contractor--}}
+{{--																Breaks</h5>--}}
+{{--														</div>--}}
+{{--													</div>--}}
+{{--												</div>--}}
+{{--												<div class="col-12">--}}
+{{--													<div class="row">--}}
+{{--														@foreach($job->job_timestamps as $key => $value)--}}
+{{--														<div class="col-12">--}}
+{{--															<div class=" row">--}}
+{{--																<div class="col-12">--}}
+{{--																	<h5 class="cardTitleGreen requestSubTitle ">Break--}}
+{{--																		{{$key+1}}</h5>--}}
+{{--																</div>--}}
+{{--															</div>--}}
+{{--														</div>--}}
+{{--														<div class="col-12">--}}
+{{--															<div class="row">--}}
+{{--																<div class="col-6">--}}
+{{--																	<label class="requestLabelGreen">From:{{\Carbon\Carbon::parse($value->started_at)->format('H:i--}}
+{{--																		A')}}, To:--}}
+{{--																		{{\Carbon\Carbon::parse($value->stopped_at)->format('H:i--}}
+{{--																		A')}}</label>--}}
+{{--																</div>--}}
+{{--															</div>--}}
+{{--														</div>--}}
+{{--														@endforeach--}}
+{{--													</div>--}}
+{{--												</div>--}}
+{{--											</div>--}}
+{{--										</div>--}}
+{{--									</div>--}}
+{{--								</div>--}}
+{{--							</div>--}}
+{{--							@endif @endif--}}
+{{--							@php--}}
+{{--								$timestamps = \App\KPITimestamp::where('model_id', $job->id)->where('model', 'gardenhelp_job')->first(); @endphp--}}
+{{--							@if($timestamps)--}}
+{{--							@if(auth()->user()->user_role == 'client')--}}
+{{--							<div class="col-lg-6">--}}
+{{--								<div class="card">--}}
+{{--									<div class="card-body" style="padding-top: 0 !important;">--}}
+{{--										<div class="container" style="padding-bottom: 10px !important;">--}}
+{{--											<div class="row">--}}
+{{--												<div class="col-12">--}}
+{{--													<div class=" row">--}}
+{{--														<div class="col-12">--}}
+{{--															<h5 class="cardTitleGreen requestSubTitle ">Job Timestamps</h5>--}}
+{{--														</div>--}}
+{{--													</div>--}}
+{{--												</div>--}}
+{{--												<div class="col-12">--}}
+{{--													<div class="row">--}}
+{{--														<div class="col-12">--}}
+{{--															<div class=" row">--}}
+{{--																<div class="col-12">--}}
+{{--																	<h5 class="cardTitleGreen requestSubTitle ">Started At</h5>--}}
+{{--																</div>--}}
+{{--															</div>--}}
+{{--														</div>--}}
+{{--														<div class="col-12">--}}
+{{--															<div class="row">--}}
+{{--																<div class="col-6">--}}
+{{--																	<label class="requestLabelGreen">--}}
+{{--																		{{$timestamps->accepted ?: 'N/A'}} </label>--}}
+{{--																</div>--}}
+{{--															</div>--}}
+{{--														</div>--}}
+{{--													</div>--}}
+{{--													<div class="row">--}}
+{{--														<div class="col-12">--}}
+{{--															<div class=" row">--}}
+{{--																<div class="col-12">--}}
+{{--																	<h5 class="cardTitleGreen requestSubTitle ">Completed At</h5>--}}
+{{--																</div>--}}
+{{--															</div>--}}
+{{--														</div>--}}
+{{--														<div class="col-12">--}}
+{{--															<div class="row">--}}
+{{--																<div class="col-6">--}}
+{{--																	<label class="requestLabelGreen">--}}
+{{--																		{{$timestamps->completed?: 'N/A'}} </label>--}}
+{{--																</div>--}}
+{{--															</div>--}}
+{{--														</div>--}}
+{{--													</div>--}}
+{{--												</div>--}}
+{{--											</div>--}}
+{{--										</div>--}}
+{{--									</div>--}}
+{{--								</div>--}}
+{{--							</div>--}}
+{{--							@endif--}}
+{{--							@endif --}}
+{{--						@else --}}
+{{--						@if(auth()->user()->user_role == 'client')--}}
+{{--						<div class="col-lg-6  ">--}}
+{{--							<div class="card ">--}}
+{{--								<div class="card-body" style="padding-top: 0 !important;">--}}
+{{--									<div class="container" style="padding-bottom: 10px !important;">--}}
+{{--										<div class="row">--}}
+{{--											<div class="col-12">--}}
+{{--												<div class=" row">--}}
+{{--													<div class="col-12">--}}
+{{--														<h5 class="cardTitleGreen requestSubTitle ">Estimated--}}
+{{--															Price Quotation</h5>--}}
+{{--													</div>--}}
+{{--												</div>--}}
+{{--											</div>--}}
+{{--											<div class="col-12">--}}
+{{--												<div class="row" v-for="type in services_types">--}}
+{{--													<div class="col-md-3 col-6">--}}
+{{--														<label class="requestLabelGreen">@{{ type.title }}</label>--}}
+{{--													</div>--}}
+{{--													<div class="col-md-3 col-6">--}}
+{{--														<span class="requestSpanGreen">€@{{--}}
+{{--															getPropertySizeRate(type) }}</span>--}}
+{{--													</div>--}}
+{{--												</div>--}}
 
-												<div class="row" style="margin-top: 15px">
-													<div class="col-8">
-														<label class="requestSpanGreen">Total</label>
-													</div>
-													<div class="col-4">
-														<span class="requestSpanGreen">€@{{ getTotalPrice() }}</span>
-													</div>
-												</div>
-											</div>
-										</div>
+{{--												<div class="row">--}}
+{{--													<div class="col-md-3 col-6">--}}
+{{--														<label class="requestLabelGreen">Vat</label>--}}
+{{--													</div>--}}
+{{--													<div class="col-md-3 col-6">--}}
+{{--														<span class="requestSpanGreen">€@{{ getVat(13.5,--}}
+{{--															getTotalPrice()) }} (13.5%)</span>--}}
+{{--													</div>--}}
+{{--												</div>--}}
 
-										<div class="row" style="margin-top: 25px">
-											<div class="col-12">
-												<div class=" row">
-													<div class="col-12">
-														<h5 class="cardTitleGreen requestSubTitle ">Actual Price
-															Quotation</h5>
-													</div>
-												</div>
-											</div>
-											<div class="col-12">
-												<div class="row" v-for="type in actual_services_types">
-													<div class="col-8">
-														<label class="requestLabelGreen">@{{ type.title }}</label>
-													</div>
-													<div class="col-4">
-														<span class="requestSpanGreen">€@{{
-															getPropertySizeRate(type) }}</span>
-													</div>
-												</div>
-
-												<div class="row" style="margin-top: 15px">
-													<div class="col-8">
-														<label class="requestSpanGreen">Total</label>
-													</div>
-													<div class="col-4">
-														<span class="requestSpanGreen">€@{{ getTotalPrice(true) +
-															getVat(13.5, getTotalPrice(true)) }}</span>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						@endif @if(auth()->user()->user_role == 'client')
-						<div class="col-lg-6" v-if="job_other_expenses_json.length > 0">
-							<div class="card">
-								<div class="card-body" style="padding-top: 0 !important;">
-									<div class="container" style="padding-bottom: 10px !important;">
-										<div class="row">
-											<div class="col-12">
-												<div class=" row">
-													<div class="col-12">
-														<h5 class="cardTitleGreen requestSubTitle ">Other Expenses</h5>
-													</div>
-												</div>
-											</div>
-											<div class="col-12">
-												<div class="row" v-for="expense in job_other_expenses_json"
-													v-if="expense.is_checked">
-													<div class="col-8">
-														<label class="requestLabelGreen">@{{ expense.title }}</label>
-													</div>
-													<div class="col-4">
-														<span class="requestSpanGreen">€@{{ expense.value }}</span>
-													</div>
-												</div>
-
-												<div class="row">
-													<div class="col-8">
-														<label class="requestLabelGreen">Other Expenses File</label>
-													</div>
-													<div class="col-4">
-														<span class="requestSpanGreen"> <a
-															:href="'https://'+location.hostname + '/' + job.job_expenses_receipt_file"
-															target="_blank"> <img
-																:src="'https://'+location.hostname + '/' + job.job_expenses_receipt_file"
-																alt="Other Expenses File" style="width: 100%">
-														</a>
-														</span>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-lg-6">
-							<div class="card">
-								<div class="card-body" style="padding-top: 0 !important;">
-									<div class="container" style="padding-bottom: 10px !important;">
-										<div class="row">
-											<div class="col-12">
-												<div class=" row">
-													<div class="col-12">
-														<h5 class="cardTitleGreen requestSubTitle ">Job Images</h5>
-													</div>
-												</div>
-											</div>
-											<div class="col-12">
-												<div class="row">
-													<div class="col-6" v-for="image in job_images">
-														<label class="requestLabelGreen"></label> <a
-															:href="'https://'+location.hostname+'/'+image"
-															target="_blank"> <img
-															:src="'https://'+location.hostname+'/'+image"
-															alt="job image" style="width: 100%">
-														</a>
-													</div>
-													{{--
-													<div class="col-4">
-														--}} {{-- <span class="requestSpanGreen">€@{{
-															expense.value }}</span>--}} {{--
-													</div>
-													--}}
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						@if($job->notes)
-						<div class="col-lg-6">
-							<div class="card">
-								<div class="card-body" style="padding-top: 0 !important;">
-									<div class="container" style="padding-bottom: 10px !important;">
-										<div class="row">
-											<div class="col-12">
-												<div class=" row">
-													<div class="col-12">
-														<h5 class="cardTitleGreen requestSubTitle ">Contractor
-															Notes</h5>
-													</div>
-												</div>
-											</div>
-											<div class="col-12">
-												<div class="row">{{$job->notes}}</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						@endif @if(count($job->job_timestamps) > 0)
-						<div class="col-lg-6">
-							<div class="card">
-								<div class="card-body" style="padding-top: 0 !important;">
-									<div class="container" style="padding-bottom: 10px !important;">
-										<div class="row">
-											<div class="col-12">
-												<div class=" row">
-													<div class="col-12">
-														<h5 class="cardTitleGreen requestSubTitle ">Contractor
-															Breaks</h5>
-													</div>
-												</div>
-											</div>
-											<div class="col-12">
-												<div class="row">
-													@foreach($job->job_timestamps as $key => $value)
-													<div class="col-12">
-														<div class=" row">
-															<div class="col-12">
-																<h5 class="cardTitleGreen requestSubTitle ">Break
-																	{{$key+1}}</h5>
-															</div>
-														</div>
-													</div>
-													<div class="col-12">
-														<div class="row">
-															<div class="col-6">
-																<label class="requestLabelGreen">From:{{\Carbon\Carbon::parse($value->started_at)->format('H:i
-																	A')}}, To:
-																	{{\Carbon\Carbon::parse($value->stopped_at)->format('H:i
-																	A')}}</label>
-															</div>
-														</div>
-													</div>
-													@endforeach
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						@endif @endif @php $timestamps =
-						\App\KPITimestamp::where('model_id', $job->id)->where('model',
-						'gardenhelp_job')->first(); @endphp @if($timestamps)
-						@if(auth()->user()->user_role == 'client')
-						<div class="col-lg-6">
-							<div class="card">
-								<div class="card-body" style="padding-top: 0 !important;">
-									<div class="container" style="padding-bottom: 10px !important;">
-										<div class="row">
-											<div class="col-12">
-												<div class=" row">
-													<div class="col-12">
-														<h5 class="cardTitleGreen requestSubTitle ">Job Timestamps</h5>
-													</div>
-												</div>
-											</div>
-											<div class="col-12">
-												<div class="row">
-													<div class="col-12">
-														<div class=" row">
-															<div class="col-12">
-																<h5 class="cardTitleGreen requestSubTitle ">Started At</h5>
-															</div>
-														</div>
-													</div>
-													<div class="col-12">
-														<div class="row">
-															<div class="col-6">
-																<label class="requestLabelGreen">
-																	{{$timestamps->accepted ?: 'N/A'}} </label>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="row">
-													<div class="col-12">
-														<div class=" row">
-															<div class="col-12">
-																<h5 class="cardTitleGreen requestSubTitle ">Completed At</h5>
-															</div>
-														</div>
-													</div>
-													<div class="col-12">
-														<div class="row">
-															<div class="col-6">
-																<label class="requestLabelGreen">
-																	{{$timestamps->completed?: 'N/A'}} </label>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						@endif @endif @else @if(auth()->user()->user_role == 'client')
-						<div class="col-lg-6  ">
-							<div class="card ">
-								<div class="card-body" style="padding-top: 0 !important;">
-									<div class="container" style="padding-bottom: 10px !important;">
-										<div class="row">
-											<div class="col-12">
-												<div class=" row">
-													<div class="col-12">
-														<h5 class="cardTitleGreen requestSubTitle ">Estimated
-															Price Quotation</h5>
-													</div>
-												</div>
-											</div>
-											<div class="col-12">
-												<div class="row" v-for="type in services_types">
-													<div class="col-md-3 col-6">
-														<label class="requestLabelGreen">@{{ type.title }}</label>
-													</div>
-													<div class="col-md-3 col-6">
-														<span class="requestSpanGreen">€@{{
-															getPropertySizeRate(type) }}</span>
-													</div>
-												</div>
-
-												<div class="row">
-													<div class="col-md-3 col-6">
-														<label class="requestLabelGreen">Vat</label>
-													</div>
-													<div class="col-md-3 col-6">
-														<span class="requestSpanGreen">€@{{ getVat(13.5,
-															getTotalPrice()) }} (13.5%)</span>
-													</div>
-												</div>
-
-												<div class="row" style="margin-top: 15px">
-													<div class="col-md-3 col-6">
-														<label class="requestSpanGreen">Total</label>
-													</div>
-													<div class="col-md-3 col-6">
-														<span class="requestSpanGreen">€@{{ getTotalPrice() +
-															getVat(13.5, getTotalPrice()) }}</span>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						@endif @endif
+{{--												<div class="row" style="margin-top: 15px">--}}
+{{--													<div class="col-md-3 col-6">--}}
+{{--														<label class="requestSpanGreen">Total</label>--}}
+{{--													</div>--}}
+{{--													<div class="col-md-3 col-6">--}}
+{{--														<span class="requestSpanGreen">€@{{ getTotalPrice() +--}}
+{{--															getVat(13.5, getTotalPrice()) }}</span>--}}
+{{--													</div>--}}
+{{--												</div>--}}
+{{--											</div>--}}
+{{--										</div>--}}
+{{--									</div>--}}
+{{--								</div>--}}
+{{--							</div>--}}
+{{--						</div>--}}
+{{--						@endif @endif--}}
 					</div>
 
 					<div class="row " v-if="job.status == 'ready' || reassign == 1">

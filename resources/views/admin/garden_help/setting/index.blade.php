@@ -762,7 +762,7 @@
                             id: 'service_type_{!! str_replace(' ', '_', $service_type->name) !!}',
                             label: '{!! $service_type->name !!}',
                             customLabel: 'Service Delivery, {!! $service_type->name !!}'
-                        }
+                        },
                         @endforeach
                     ],
                 }, {
@@ -774,6 +774,11 @@
                     id: 'activity',
                     label: 'Activity',
                     customLabel: 'Activity'
+                },
+                {
+                    id: 'new_contractor_bidding_client',
+                    label: 'New Contractor Bidding (for jobs that added by client)',
+                    customLabel: 'Registrations, New Contractor'
                 }
                 ],
 

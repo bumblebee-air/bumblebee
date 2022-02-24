@@ -226,7 +226,7 @@ class SAPHybrisController extends Controller
                         ]);
                         $label_qr_file_path = 'uploads/pdfs/'.$code->code.'.pdf';
                         \Storage::put($label_qr_file_path,
-                            $pdf->setPaper('a5', 'landscape')->output());
+                            $pdf->setPaper('a5')->output());
                         $label_urls[] = ['url'=>url($label_qr_file_path),
                             'qr_code'=>$code->code];
                     }

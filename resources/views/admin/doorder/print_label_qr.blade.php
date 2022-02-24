@@ -17,7 +17,7 @@
 }
 </style>
 @endsection @section('content')
-<div class="">
+<div class="" style="width:874px; max-width: 874px">
 	<table class="table-borderless">
 		<tbody>
 			<!-- tr represents .row and td represents .col -->
@@ -32,7 +32,7 @@
 							class="control-label" style="display: block; font-weight: 600">
 							{{$order_number}}</span>
 					</div>
-					<div class="form-group" style="width: 500px; max-width: 100%">
+					<div class="form-group" style="width: 400px; max-width: 100%">
 						<label class="control-label mb-0">Customer address:  <span
 							class="control-label" style="display: block; font-weight: 600; max-width: 100%">
 							{{$customer_address}} <span> </span></span></label>

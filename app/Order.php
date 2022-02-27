@@ -65,6 +65,6 @@ class Order extends Model
     }
 
     public function qr_codes(){
-        return $this->hasMany(Rating::class, 'model_id');
+        return $this->hasMany(QrCode::class, 'model_id');
     }
 }

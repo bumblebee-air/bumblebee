@@ -219,7 +219,6 @@ class RetailerController extends Controller
         $retailer = Retailer::find($id);
         //        dd(json_decode($retailer->locations_details, true));
         $retailer->invoice_reference_number = 'BR0128';
-        $retailer->qr_scan_required=1;
         
         if (!$retailer) {
             //abort(404);
@@ -237,14 +236,12 @@ class RetailerController extends Controller
             return redirect()->back();
         }
         $retailer->invoice_reference_number = 'BR0128';
-        $retailer->qr_scan_required=1;
 
         return view('admin.doorder.retailers.single_retailer_view', ['retailer' => $retailer, 'readOnly' => true]);
     }
 
     public function saveUpdateRetailer($client_name, $id, Request $request)
     {
-        dd($request);
         $retailer_id = $request->get('retailer_id');
         $retailer = Retailer::find($retailer_id);
         if (!$retailer) {
@@ -281,6 +278,7 @@ class RetailerController extends Controller
         $retailer->shopify_app_api_key = $request->get('shopify_app_api_key');
         $retailer->shopify_app_password = $request->get('shopify_app_password');
         $retailer->shopify_app_secret = $request->get('shopify_app_secret');
+        $retailer->qr_scan_required = ($request->get('qr_scan_required')!=null)? 1 : 0;
         $retailer->save();
         alert()->success('Retailer updated successfully');
         //alert()->success('Work in progress');
@@ -299,7 +297,6 @@ class RetailerController extends Controller
             alert()->error('Retailer not found!');
             return redirect()->back();
         }
-        $retailer->qr_scan_required=1;
         return view('admin.doorder.retailers.single_retailer', ['retailer' => $retailer, 'readOnly' => 0]);
     }
 }

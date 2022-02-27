@@ -245,7 +245,7 @@
 
 										<div class="col-sm-6">
 											<div class="form-group">
-												<label for="notes" class="control-label">Number of packages</label>
+												<label for="number_of_packages" class="control-label">Number of packages</label>
 												<input id="number_of_packages" type="number" min="0" name="number_of_packages"
 													class="form-control" value="1">
 											</div>

@@ -11,11 +11,13 @@ use App\QrCode;
 use App\Retailer;
 use App\User;
 use App\UserFirebaseToken;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use Twilio\Rest\Client;
 use function GuzzleHttp\json_decode;
@@ -144,7 +146,9 @@ class OrdersController extends Controller
             'retailer_id' => ($retailer_profile != null) ? $retailer_profile->id : '0',
             'status' => 'pending',
             'weight' => $request->weight,
-            'dimensions' => $request->dimensions
+            'dimensions' => $request->dimensions,
+            'no_of_items' => $request->number_of_packages,
+            'label_qr_scan' => ($retailer_profile != null) ? $retailer_profile->qr_scan_required : 0
         ]);
 
         Redis::publish('doorder-channel', json_encode([
@@ -162,14 +166,41 @@ class OrdersController extends Controller
             ]
         ]));
         CustomNotificationHelper::send('new_order', $order->id);
+        //Generate QR codes if required
+        if($retailer_profile != null && $retailer_profile->qr_scan_required == 1) {
+            for ($i = 0; $i < intval($request->number_of_packages); $i++) {
+                $code = new QrCode();
+                $code->model = 'order';
+                $code->model_id = $order->id;
+                $code->model_sub = 'label';
+                $code->code = Str::random(32);
+                $code->save();
+                $label_qr = \SimpleSoftwareIO\QrCode\Facades\QrCode::size(250)->generate($code->code);
+                $pdf = Pdf::setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif',
+                    'isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
+                //To use the generated svg qr code in the view
+                //<img src="data:image/svg+xml;base64,{{ base64_encode($qr_str) }}"/>
+                $pdf->loadView('admin.doorder.print_label_qr', [
+                    'name' => $order->customer_name,
+                    'order_number' => $order->order_id,
+                    'qr_str' => $label_qr,
+                    'customer_address' => $order->customer_address,
+                    'customer_phone' => $order->customer_phone
+                ]);
+                $label_qr_file_path = 'uploads/pdfs/' . $code->code . '.pdf';
+                \Storage::put($label_qr_file_path,
+                    $pdf->setPaper('a5')->output());
+            }
+        }
         alert()->success('Your order saved successfully');
         return redirect()->back();
     }
 
     public function getSingleOrder($client_name, $id)
     {
-        if (auth()->user()->user_role == 'retailer') {
-            $order = Order::where('retailer_id', auth()->user()->retailer_profile->id)->where('id', $id)->first();
+        $current_user = auth()->user();
+        if ($current_user->user_role == 'retailer') {
+            $order = Order::where('retailer_id', $current_user->retailer_profile->id)->where('id', $id)->first();
         } else {
             $order = Order::find($id);
         }
@@ -193,7 +224,18 @@ class OrdersController extends Controller
         $last_name = isset($customer_name[1]) ? $customer_name[1] : '';
         $order->first_name = $first_name;
         $order->last_name = $last_name;
-        $order->qr_scan_status ="test qr status";
+        $order->qr_scan_status = "No QR scan required";
+        if($order->label_qr_scan == 1){
+            $order_qr_codes = $order->qr_codes()->where('model','=','order')
+                ->where('model_sub','=','label')->get();
+            $scanned_count = 0;
+            $total_count = 0;
+            foreach($order_qr_codes as $qr_code){
+                $total_count++;
+                if($qr_code->scanned == 1) $scanned_count++;
+            }
+            $order->qr_scan_status = $scanned_count.' of '.$total_count.' scanned';
+        }
         return view('admin.doorder.single_order', [
             'order' => $order,
             'available_drivers' => $accepted_deliverers

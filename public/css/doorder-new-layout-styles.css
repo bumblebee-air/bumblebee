@@ -1911,3 +1911,110 @@ span.form-control {
 		line-height: 23px;
 	}
 }
+
+/******* toogle ************/
+
+.togglebutton {
+	margin-top: -3px;
+}
+
+.togglebutton label .toggle, .togglebutton label input[type=checkbox][disabled]+.toggle
+	{
+	width: 45px;
+	height: 20px;
+	margin-left: 30px;
+	background-color: #b2b2b2
+}
+
+.togglebutton label input[type=checkbox]+.toggle:after {
+	border-color: #b2b2b2;
+}
+
+.togglebutton label input[type=checkbox]:checked+.toggle {
+	background-color: #f7dc69;
+	background-color: #E8CA49;
+}
+
+.togglebutton label .toggle:after {
+	box-shadow: none;
+	left: 0;
+	top: 0px;
+}
+
+.toggleButtonConnectedApi label .toggle:after {
+	top: 0 !important;
+}
+
+.togglebutton label input[type=checkbox]:checked+.toggle:after {
+	border-color: #f7dc69;
+	left: 24px;
+}
+
+.togglebutton label input[type=checkbox]+.toggle:active:after,
+	.togglebutton label input[type=checkbox][disabled]+.toggle:active:after,
+	.togglebutton label input[type=checkbox]:checked+.toggle:active:after {
+	box-shadow: none !important;
+}
+
+/* 
+.toggleButtonGeneralSettings label .toggle:after {
+	top: 0 !important;
+}
+.toggleButtonGeneralSettings label .toggle, .toggleButtonGeneralSettings label input[type=checkbox][disabled]+.toggle
+	{width: 50px !important;
+	}
+
+.toggleButtonGeneralSettings label input[type=checkbox]:checked+.toggle:after {
+	border-color: #f7dc69;
+	left: 35px;
+	content: "on";
+}	
+.toggleButtonGeneralSettings label input[type=checkbox]+.toggle:after {
+	content: "off";
+}	 */
+.btn-default.toggle-off, .btn-default.toggle-off:hover {
+	background-color: #656565 !important;
+	border-color: #656565 !important
+}
+
+.toggle-handle {
+	background: white !important;
+	border-radius: 50% !important;
+	height: 95% !important;
+	padding: 0 !important;
+	width: 30px !important;
+	top: 1px;
+}
+
+.toggle-handle:before {
+	border-radius: 50% !important;
+}
+
+.toggle-on, .toggle-off, .toggle {
+	border-radius: 25px !important;
+}
+
+.toggle .toggle-handle {
+	left: -17px;
+}
+
+.toggle.off .toggle-handle {
+	left: 17px;
+}
+
+.toggle-on.btn-sm {
+	padding-right: 40px !important;
+}
+
+.toggle-off.btn-sm {
+	padding-left: 40px !important;
+}
+
+label.toggle-on, label.toggle-off {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 14px !important;
+	line-height: 18px;
+	color: #FFFFFF;
+}

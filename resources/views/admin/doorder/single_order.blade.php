@@ -144,10 +144,10 @@ input[type="checkbox"]:checked+label div i, .assignedDriverChecked i {
 }
 
 @media ( min-width :768px) and ( max-width :991.5px) {
-.form-check-label-select-all {
-    font-weight: 500;
-    font-size: 15px;
-}
+	.form-check-label-select-all {
+		font-weight: 500;
+		font-size: 15px;
+	}
 }
 
 .form-check .form-check-label .form-check-sign {
@@ -300,7 +300,6 @@ button.disabled, button:disabled {
 /* 	height: auto; */
 /* 	padding: 10px; */
 /* } */
-
 #printDiv {
 	background-color: #f6f7fa;
 	display: none;
@@ -542,6 +541,13 @@ button.disabled, button:disabled {
 															</div>
 															<div class="col-12">
 																<div class="form-group">
+																	<label for="notes" class="control-label">QR scan status</label>
+																	<span id="qr_scan_status" class="form-control">{{$order->qr_scan_status}}
+																	</span>
+																</div>
+															</div>
+															<div class="col-12">
+																<div class="form-group">
 																	<label for="deliver_by" class="control-label">Deliver
 																		by</label> <select id="deliver_by" name="deliver_by"
 																		data-style="select-with-transition"
@@ -589,8 +595,8 @@ button.disabled, button:disabled {
 										</div>
 									</section>
 								</form>
-@if(auth()->user()->user_role != 'retailer')
-										
+								@if(auth()->user()->user_role != 'retailer')
+
 								<div>
 									<!-- SECTION 3 -->
 									<h4 class="wizardH4"></h4>
@@ -739,8 +745,10 @@ button.disabled, button:disabled {
 																			class="check"></span>
 																	</span>
 																		<div class="card-header deliverer-details row ml-1">
-																			<div class="col-6 justify-content-center align-self-center">
-																				<h6 class="recommendDriverNameH6 deliverer-name my-auto">{{$driver->first_name}}
+																			<div
+																				class="col-6 justify-content-center align-self-center">
+																				<h6
+																					class="recommendDriverNameH6 deliverer-name my-auto">{{$driver->first_name}}
 																					{{$driver->last_name}}</h6>
 
 																			</div>
@@ -782,9 +790,7 @@ button.disabled, button:disabled {
 										@endif
 									</section>
 								</div>
-								 @endif
-								 
-								@if(auth()->user()->user_role != 'retailer')
+								@endif @if(auth()->user()->user_role != 'retailer')
 								<div>
 									<!-- SECTION 4 -->
 									<h4 class="wizardH4"></h4>
@@ -872,9 +878,10 @@ button.disabled, button:disabled {
 											</form>
 											@endif
 										</div>
-										
+
 									</section>
-								</div>@endif
+								</div>
+								@endif
 							</div>
 							<div class="col-12 col-sm-6" id="map-container">
 								<div id="map"
@@ -883,7 +890,7 @@ button.disabled, button:disabled {
 						</div>
 
 					</div>
-					
+
 
 					<div class="row justify-content-center mt-5">
 						<div
@@ -895,21 +902,22 @@ button.disabled, button:disabled {
 							<button class="btnDoorder btn-doorder-primary  mb-1 forward">Next</button>
 						</div>
 						@if(auth()->user()->user_role != 'retailer' &&
-							!$order->is_archived)
+						!$order->is_archived)
 						<div
 							class="col-xl-2 col-lg-3  col-md-3 col-sm-4 px-md-1 text-center">
 							<button class="btnDoorder btn-doorder-danger-outline  mb-1"
 								type="button" data-toggle="modal"
 								data-target="#delete-order-modal">Delete Order</button>
 						</div>
-						@endif
-                        						
-                        @if(auth()->user()->user_role == 'retailer')
-                        	@if($order->status != 'delivered' && !$order->is_archived)
-                       		<div class="col-xl-2 col-lg-3  col-md-3 col-sm-4 px-md-1 text-center"> <button id="printButton" onclick="printDiv()"
-                        	 class="btnDoorder btn-doorder-primary  mb-1" style="float: right">Print label</button>
-                        	</div>
-                        @endif @endif
+						@endif @if(auth()->user()->user_role == 'retailer')
+						@if($order->status != 'delivered' && !$order->is_archived)
+						<div
+							class="col-xl-2 col-lg-3  col-md-3 col-sm-4 px-md-1 text-center">
+							<button id="printButton" onclick="printDiv()"
+								class="btnDoorder btn-doorder-primary  mb-1"
+								style="float: right">Print label</button>
+						</div>
+						@endif @endif
 
 					</div>
 				</div>
@@ -1048,10 +1056,9 @@ button.disabled, button:disabled {
 				</div>
 
 				<div class="row justify-content-center mt-3">
-					
+
 					<div class="col-lg-4 col-md-6 text-center">
-						<button type="button"
-							class="btnDoorder btn-doorder-primary mb-1"
+						<button type="button" class="btnDoorder btn-doorder-primary mb-1"
 							data-dismiss="modal">Ok</button>
 					</div>
 				</div>

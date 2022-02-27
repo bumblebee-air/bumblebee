@@ -16,7 +16,6 @@
 /* 	border: none !important; */
 /* 	max-height: 21px !important; */
 /* } */
-
 textarea {
 	height: auto !important;
 }
@@ -52,7 +51,6 @@ textarea {
 /* 	border: none !important; */
 /* 	max-height: 21px !important; */
 /* } */
-
 .my-check-box {
 	display: inline-block;
 	width: 20px;
@@ -69,6 +67,7 @@ textarea {
 .my-check-box i {
 	font-size: 18px
 }
+
 </style>
 @endsection @section('title','DoOrder | Retailer ' . $retailer->name)
 @section('page-content')
@@ -183,6 +182,24 @@ textarea {
 															name="invoice_reference_number"
 															value="{{$retailer->invoice_reference_number}}"
 															placeholder="Retailer invoice reference number" required>
+													</div>
+												</div>
+												<div class="col-sm-6 ">
+													<div>
+														<div class="form-group bmd-form-group p-0"
+															style="display: inline-block;">
+															<label>QR label scan required</label>
+															<div class="toggleButtonGeneralSettings ml-2"
+															>
+															<input type="checkbox" data-toggle="toggle"
+																data-size="small" data-width="80" data-height="30"
+																id="qr_scan_required" value="1" name="qr_scan_required"
+																{{$retailer->qr_scan_required == 1 ? 'checked':''}} >
+
+														</div>
+														</div>
+
+														
 													</div>
 												</div>
 											</div>
@@ -394,7 +411,8 @@ textarea {
 														<div class="modal-dialog modal-lg" role="document">
 															<div class="modal-content">
 																<div class="modal-header">
-																	<button type="button" class="close d-flex justify-content-center"
+																	<button type="button"
+																		class="close d-flex justify-content-center"
 																		data-dismiss="modal" aria-label="Close">
 																		<i class="fas fa-times"></i>
 																	</button>
@@ -405,7 +423,8 @@ textarea {
 																		Working Days and Hours</div>
 
 																	<div class="row justify-content-center">
-																		<div class="row" :id="'business_hours_container' + (index + 1)"></div>
+																		<div class="row"
+																			:id="'business_hours_container' + (index + 1)"></div>
 																	</div>
 
 																	<div class="row justify-content-center mt-4">
@@ -417,7 +436,7 @@ textarea {
 																		</div>
 																	</div>
 																</div>
-															
+
 															</div>
 														</div>
 													</div>
@@ -642,6 +661,13 @@ textarea {
 <script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+<link
+	href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css"
+	rel="stylesheet">
+<script
+	src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
 
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <script

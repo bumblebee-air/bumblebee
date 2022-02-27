@@ -193,6 +193,7 @@ class OrdersController extends Controller
         $last_name = isset($customer_name[1]) ? $customer_name[1] : '';
         $order->first_name = $first_name;
         $order->last_name = $last_name;
+        $order->qr_scan_status ="test qr status";
         return view('admin.doorder.single_order', [
             'order' => $order,
             'available_drivers' => $accepted_deliverers

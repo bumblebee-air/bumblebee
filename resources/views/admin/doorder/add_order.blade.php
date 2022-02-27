@@ -245,9 +245,9 @@
 
 										<div class="col-sm-6">
 											<div class="form-group">
-												<label for="notes" class="control-label">Other details</label>
-												<input id="notes" type="text" name="notes"
-													class="form-control" value="{{old('notes')}}">
+												<label for="notes" class="control-label">Number of packages</label>
+												<input id="number_of_packages" type="number" min="0" name="number_of_packages"
+													class="form-control" value="1">
 											</div>
 										</div>
 
@@ -261,6 +261,13 @@
 													<option value="scooter">Scooter</option>
 													<option value="bicycle">Bicycle</option>
 												</select>
+											</div>
+										</div>
+										<div class="col-sm-12">
+											<div class="form-group">
+												<label for="notes" class="control-label">Other details</label>
+												<input id="notes" type="text" name="notes"
+													class="form-control" value="{{old('notes')}}">
 											</div>
 										</div>
 

@@ -225,17 +225,20 @@ class OrdersController extends Controller
         $order->first_name = $first_name;
         $order->last_name = $last_name;
         $order->qr_scan_status = "No QR scan required";
+        $available_qr_codes = [];
         if($order->label_qr_scan == 1){
             $order_qr_codes = $order->qr_codes()->where('model','=','order')
                 ->where('model_sub','=','label')->get();
             $scanned_count = 0;
             $total_count = 0;
             foreach($order_qr_codes as $qr_code){
+                $available_qr_codes[] = $qr_code->code;
                 $total_count++;
                 if($qr_code->scanned == 1) $scanned_count++;
             }
             $order->qr_scan_status = $scanned_count.' of '.$total_count.' scanned';
         }
+        $order->available_qr_codes = $available_qr_codes;
         return view('admin.doorder.single_order', [
             'order' => $order,
             'available_drivers' => $accepted_deliverers

@@ -588,6 +588,17 @@ button.disabled, button:disabled {
 																	</div>
 																</div>
 															</div>
+															{{-- Available QR Codes --}}
+															@if(count($order->available_qr_codes) > 0)
+															<div class="col-12">
+																<div class="form-group">
+																	<label class="control-label">Available QR codes</label>
+																		@foreach($order->available_qr_codes as $qr_code)
+																			<p>{{$qr_code}}</p>
+																		@endforeach
+																</div>
+															</div>
+															@endif
 														</div>
 													</div>
 												</div>

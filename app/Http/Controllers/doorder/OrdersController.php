@@ -576,6 +576,7 @@ class OrdersController extends Controller
                 if ($qr_code->scanned == 0) {
                     $qr_code->scanned = 1;
                     $qr_code->save();
+                    $return_values['scanned_items_count'] = $return_values['scanned_items_count'] + 1;
                     $return_values['message'] = 'QR code is scanned successfully for this order';
                 }
             }

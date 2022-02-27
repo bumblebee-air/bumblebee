@@ -506,4 +506,41 @@ class OrdersController extends Controller
             'qr_str' => $qr_str
         ]);
     }
+
+    public function checkOrderQrCode(Request $request){
+        $order_id = $request->get('order_id');
+        $code = $request->get('code');
+        $order = Order::find($order_id);
+        $return_values = [
+            'message' => '',
+            'valid' => 0,
+            'scanned' => 0,
+            'scanned_items_count' => 0
+        ];
+        if(!$order){
+            $return_values['message'] = 'No order was found with this ID!';
+            return response()->json($return_values)->setStatusCode(422);
+        }
+        $order_qr_codes = $order->qr_codes()->where('model','=','order')
+            ->where('model_sub','=','label')->get();
+        foreach($order_qr_codes as $qr_code){
+            if($qr_code->scanned == 1) {
+                $return_values['scanned_items_count'] = $return_values['scanned_items_count'] + 1;
+            }
+            if($code == $qr_code->code) {
+                $return_values['message'] = 'QR code has already been scanned before for this order';
+                $return_values['valid'] = 1;
+                $return_values['scanned'] = $qr_code->scanned;
+                if ($qr_code->scanned == 0) {
+                    $qr_code->scanned = 1;
+                    $qr_code->save();
+                    $return_values['message'] = 'QR code is scanned successfully for this order';
+                }
+            }
+        }
+        if($return_values['valid']==0){
+            $return_values['message'] = 'This QR code does not belong to this order!';
+        }
+        return response()->json($return_values);
+    }
 }

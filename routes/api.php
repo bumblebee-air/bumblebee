@@ -77,6 +77,7 @@ Route::group(['middleware' => "auth:api"], function () {
     Route::get('get-driver-profile', 'doorder\DriversController@getProfile');
     Route::post('update-driver-profile', 'doorder\DriversController@updateProfile');
     Route::post('optimize-orders-route', 'doorder\DriversController@optimizeOrdersRoute');
+    Route::post('check-order-qr-code', 'doorder\OrdersController@checkOrderQrCode');
 
     //GardenHelp
     Route::get('jobs-list', 'garden_help\ContractorsController@getJobsList');

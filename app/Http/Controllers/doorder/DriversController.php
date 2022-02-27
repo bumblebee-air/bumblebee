@@ -436,6 +436,9 @@ class DriversController extends Controller
         $now = date("Y-m-d H:i:s");
         $plus24H = date("Y-m-d H:i:s", strtotime('+24 hours', strtotime($createdAt)));
         $order['remainHours'] = (int)((strtotime($plus24H) - strtotime($now)) / (60 * 60));
+        $scanned_order_qr_codes = $order->qr_codes()->where('model','=','order')
+            ->where('model_sub','=','label')->where('scanned','=',1)->count();
+        $order->scanned_items_count = $scanned_order_qr_codes;
 
         $order = json_decode(json_encode($order), true);
 

@@ -108,6 +108,9 @@ class DriversController extends Controller
                 $retailer_number = $main_contact->contact_phone;
             }
             $driver_order->retailer_phone = $retailer_number;
+            $scanned_order_qr_codes = $driver_order->qr_codes()->where('model','=','order')
+                ->where('model_sub','=','label')->where('scanned','=',1)->count();
+            $driver_order->scanned_items_count = $scanned_order_qr_codes;
         }
         $driver_orders = $driver_orders->toArray();
         $response = [

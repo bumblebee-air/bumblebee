@@ -203,7 +203,7 @@ class ContractorsController extends Controller
             $user = User::find($singleRequest->user_id);
             try {
                 $stripe_manager = new StripeManager();
-                $stripe_account = $stripe_manager->createCustomAccount($user, 'individual', 5261);
+                $stripe_account = $stripe_manager->createCustomAccount($user, 'individual', 5261, $singleRequest->contact_through);
             } catch (\Exception $exception) {
                 \Log::error($exception->getMessage(), $exception->getTrace());
             }

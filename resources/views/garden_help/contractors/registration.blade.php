@@ -491,11 +491,11 @@
 						<div class="form-group">
 							<label>Contact through</label>
 							<div class="d-flex">
-								<div class="contact-through d-flex pr-5" @click="changeContact('whatsapp')">
-									<div id="check" :class="contact_through == 'whatsapp' ? 'my-check-box checked' : 'my-check-box'">
+								<div class="contact-through d-flex pr-5" @click="changeContact('email')">
+									<div id="check" :class="contact_through == 'email' ? 'my-check-box checked' : 'my-check-box'">
 										<i class="fas fa-check-square"></i>
 									</div>
-									Whatsapp
+									Email
 								</div>
 
 								<div class="contact-through d-flex" @click="changeContact('sms')">

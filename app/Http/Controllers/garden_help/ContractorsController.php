@@ -53,8 +53,8 @@ class ContractorsController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string',
-            'email' => 'required|email',
-            'phone_number' => 'required|string',
+            'email' => 'required|email|unique:users,email',
+            'phone_number' => 'required|string|unique:users,phone',
             'experience_level' => 'required|string',
             'experience_level_value' => 'required|string',
             'age_proof' => 'required_if:experience_level_value,==,2|file',
@@ -611,7 +611,7 @@ class ContractorsController extends Controller
             alert()->error('Contractor not found!');
         }
         $user = User::find($contractor_profile->user_id);
-        $contractor_profile->delete();
+        $contractor_profile->forceDelete();
         if($user!=null){
             $user_client = UserClient::where('user_id','=',$user->id)->first();
             if($user_client!=null){

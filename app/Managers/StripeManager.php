@@ -2,6 +2,7 @@
 
 namespace App\Managers;
 
+use App\Helpers\GardenHelpUsersNotificationHelper;
 use App\Helpers\TwilioHelper;
 use App\StripeAccount;
 use App\User;
@@ -21,7 +22,7 @@ class StripeManager
         $this->stripe_key = $stripe_key;
     }
 
-    public function createCustomAccount($user,$business_type='individual',$merchant_code=null){
+    public function createCustomAccount($user,$business_type='individual',$merchant_code=null, $contact_through='sms'){
         /*Stripe merchant code for 'Motor Freight Carriers and Trucking
             - Local and Long Distance, Moving and Storage Companies,
             and Local Delivery Services'*/
@@ -98,7 +99,11 @@ class StripeManager
         $twilio = new Client($sid, $token);
         $message_body = 'Hi '.$first_name.', Click on the following link to start your Stripe account on-boarding: '.
             url('stripe-onboard/'.$onboard_code);
-        TwilioHelper::sendSMS($company_name, $phone, $message_body);
+        if ($company_name=='GardenHelp') {
+            GardenHelpUsersNotificationHelper::notifyUser($user, $message_body, $contact_through);
+        } else {
+            TwilioHelper::sendSMS($company_name, $phone, $message_body);
+        }
         return $stripe_account;
     }
 

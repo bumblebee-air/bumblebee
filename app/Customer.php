@@ -39,7 +39,7 @@ class Customer extends Model
     }
 
     public function contractor() {
-        return $this->belongsTo(User::class, 'contractor_id')->withTrashed();
+        return $this->belongsTo(User::class, 'contractor_id');
     }
 
     public function kpi_timestamps() {

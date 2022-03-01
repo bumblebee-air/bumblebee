@@ -124,8 +124,8 @@ $(document).ready(function() {
     var table= $('#requestsTable').DataTable({
         lengthChange: false,
          searching: true,
-         // info: false,
-         // ordering: false,
+         info: false,
+         ordering: false,
          paging: true,
          language: {
             search: '',

@@ -274,10 +274,10 @@ Route::group(
             ], function () {
                 Route::get('all', 'garden_help\CustomersController@getCustomersList')->name('garden_help_getCustomersList');
                 Route::post('delete/{id}', 'garden_help\CustomersController@deleteCustomer')->name('garden_help_deleteCustomers');
-//                Route::get('requests', 'garden_help\CustomersController@getCustomersRequests')->name('garden_help_getCustomerssRequests');
-//                Route::get('requests/{id}', 'garden_help\CustomersController@getSingleRequest')->name('garden_help_getcustomerSingleRequest');
-//                Route::post('requests/{id}', 'garden_help\CustomersController@postSingleRequest')->name('garden_help_postCustomerSingleRequest');
-//                Route::post('requests/delete/{id}', 'garden_help\CustomersController@deleteCustomerRequest')->name('garden_help_deleteCustomerRequest');
+                Route::get('requests', 'garden_help\CustomersController@getCustomersRequests')->name('garden_help_getCustomerssRequests');
+                Route::get('requests/{id}', 'garden_help\CustomersController@getSingleRequest')->name('garden_help_getcustomerSingleRequest');
+                Route::post('requests/{id}', 'garden_help\CustomersController@postSingleRequest')->name('garden_help_postCustomerSingleRequest');
+                Route::post('requests/delete/{id}', 'garden_help\CustomersController@deleteCustomerRequest')->name('garden_help_deleteCustomerRequest');
             });
             Route::group([
                 'prefix' => 'jobs_table'

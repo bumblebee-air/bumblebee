@@ -617,7 +617,7 @@ class ContractorsController extends Controller
             if($user_client!=null){
                 $user_client->delete();
             }
-            $user->delete();
+            $user->forceDelete();
         }
         alert()->success('Contractor deleted successfully');
         return redirect()->back();

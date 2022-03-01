@@ -5,6 +5,7 @@ namespace App\Http\Controllers\garden_help;
 use App\Contractor;
 use App\Customer;
 use App\CustomerExtraData;
+use App\CustomerProperty;
 use App\GardenServiceType;
 use App\Helpers\CustomNotificationHelper;
 use App\Helpers\GardenHelpUsersNotificationHelper;
@@ -315,6 +316,24 @@ class CustomersController extends Controller
                 'message' => 'Customer has confirmed the delivery successfully',
             ]
         ]));
+        return redirect()->back();
+    }
+
+    public function getCustomersList(Request $request) {
+        $customers = User::where('user_role', 'customer')->paginate(20);
+        return view('admin.garden_help.customers.list', ['customers' => $customers]);
+    }
+
+    public function deleteCustomer(Request $request, $client, $id) {
+        $customer = User::where('user_role', 'customer')->where('id', $id)->first();
+        if (!$customer) {
+            alert()->error("No customer found with ID #$id");
+        } else {
+            $customer->delete();
+            Customer::where('user_id', $customer->id)->delete();
+            CustomerProperty::where('user_id', $customer->id)->delete();
+            alert()->success('Customer has deleted successfully');
+        }
         return redirect()->back();
     }
 }

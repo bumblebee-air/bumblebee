@@ -543,7 +543,7 @@
 			</a></li>
 
 			<li class="nav-item"><a class="nav-link d-flex"
-				href="{{url('garden-help/home')}}"> <img
+				href="{{url('garden-help/customers/all')}}"> <img
 					class="my-nav-icon my-nav-icon-cutomer"
 					src="{{asset('images/gardenhelp_icons/Customers-white.png')}}"
 					alt="">
@@ -661,11 +661,11 @@
 								<p class="sidebar-mini">CR</p>
 								<p class="sidebar-normal">Contractors Requests</p>
 						</a></li>
-						<li class="nav-item"><a class="nav-link d-flex"
-							href="{{route('garden_help_getCustomerssRequests', 'garden-help')}}">
-								<p class="sidebar-mini">CR</p>
-								<p class="sidebar-normal">Customers Requests</p>
-						</a></li>
+{{--						<li class="nav-item"><a class="nav-link d-flex"--}}
+{{--							href="{{route('garden_help_getCustomerssRequests', 'garden-help')}}">--}}
+{{--								<p class="sidebar-mini">CR</p>--}}
+{{--								<p class="sidebar-normal">Customers Requests</p>--}}
+{{--						</a></li>--}}
 					</ul>
 				</div></li>
 				

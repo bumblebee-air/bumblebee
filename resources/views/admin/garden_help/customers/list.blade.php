@@ -126,7 +126,7 @@ $(document).ready(function() {
          searching: true,
          info: false,
          ordering: false,
-         paging: true,
+         paging: false,
          language: {
             search: '',
             "searchPlaceholder": "Search ",
@@ -136,7 +136,7 @@ $(document).ready(function() {
         fixedColumns:   {
             leftColumns: 0,
         },
-        // fixedColumns: true
+        fixedColumns: true
     });
 });
     

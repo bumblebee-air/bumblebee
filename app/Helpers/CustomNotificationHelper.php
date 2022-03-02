@@ -66,7 +66,7 @@ class CustomNotificationHelper
                     break;
                 case 'new_contractor_bidding_client':
                     $title = 'There is an new contractor bidding';
-                    $url = route('garden_help_getcustomerSingleRequest', ['garden-help', $id]);
+                    $url = route('garden_help_getSingleJob', ['garden-help', $id]);
                     break;
                 default:
                     $title = 'There is a new custom notification.';

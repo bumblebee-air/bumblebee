@@ -6,6 +6,7 @@ namespace App\Helpers;
 
 use App\Mail\GardenHelpUserNotificationEmail;
 use App\User;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class GardenHelpUsersNotificationHelper {
@@ -15,6 +16,7 @@ class GardenHelpUsersNotificationHelper {
     }
 
     protected static function notifyByEmail($to, $body, $from = 'GardenHelp') {
+        Log::info("Sending Email to: $to->email with body: $body");
         Mail::to($to->email)->send(new GardenHelpUserNotificationEmail($body, $to->name));
     }
 

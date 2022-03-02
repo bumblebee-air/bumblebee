@@ -73,21 +73,25 @@ class CustomNotificationHelper
             }
         }
         foreach ($customNotifications as $notification) {
+            $content = $notification->content;
+            if ($url && $notification->channel != 'platform') {
+                $content .= ", Please click on the following URL: $url";
+            }
             if ($notification->channel == 'sms') {
                 $contacts = json_decode($notification->send_to, true);
                 foreach ($contacts as $contact) {
-                    TwilioHelper::sendSMS($client, $contact['value'], $notification->content);
+                    TwilioHelper::sendSMS($client, $contact['value'], $content);
                 }
                 if($notification->retailers){
                     $retailers = explode(',',$notification->retailers);
                     foreach ($retailers as $retailer) {
-                        TwilioHelper::sendSMS($client, $retailer, $notification->content);
+                        TwilioHelper::sendSMS($client, $retailer, $content);
                     }
                 }
             } else if ($notification->channel == 'email') {
                 $contacts = json_decode($notification->send_to, true);
                 foreach ($contacts as $contact) {
-                    Mail::to($contact['value'])->send(new \App\Mail\CustomNotification($notification->content, $title, $client));
+                    Mail::to($contact['value'])->send(new \App\Mail\CustomNotification($content, $title, $client));
                 }
             } else {
                 //Platform Notification

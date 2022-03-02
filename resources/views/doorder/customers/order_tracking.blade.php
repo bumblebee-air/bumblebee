@@ -32,10 +32,17 @@
                 <p>Order #{{$order_id}} from {{$retailer_name}}</p>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12">
+        <div class="row" id="map-container">
+            <div class="col-12">
                 <div id="map" style="width:100%; height: 400px;"></div>
                 <div style="margin-bottom: 20px"></div>
+            </div>
+        </div>
+        <div class="row d-none" id="customer-early" style="text-align: center">
+            <div class="col-12 mt-3">
+                <h2>Hi there, looks like you're here early</h2>
+                <h3>Your order is scheduled for pickup soon</h3>
+                <h3>You can open this page again later to track your order after it has been picked up</h3>
             </div>
         </div>
     </div>
@@ -51,6 +58,7 @@
         let driver_lon = '{{$driver_lon}}';
         let latest_timestamp = '{{$latest_timestamp}}';
         let customer_code = '{{$customer_code}}';
+        let with_driver = '{{$with_driver}}';
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 12,
@@ -82,6 +90,7 @@
             });
             deliverer_infowindow.open(map, deliverer_marker);
             map.setCenter(deliverer_latlng);
+            setTimeout(updateDriverLocation,10000);
         }
         function updateDriverLocation(){
             $.ajax({
@@ -105,9 +114,17 @@
                 }
             });
         }
-        $(document).ready(function(){
+        function checkDriverStatus(){
+            if(with_driver === 'no'){
+                $('#customer-early').removeClass('d-none');
+                $('#map-container').addClass('d-none');
+            } else {
+                initMap();
+            }
+        }
+        /*$(document).ready(function(){
             setTimeout(updateDriverLocation,10000);
-        });
+        });*/
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=geometry,places&callback=initMap"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo config('google.api_key'); ?>&libraries=geometry,places&callback=checkDriverStatus"></script>
 @endsection

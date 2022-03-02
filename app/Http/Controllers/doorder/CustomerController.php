@@ -18,7 +18,7 @@ class CustomerController extends Controller
             abort(404);
         }
         $order_status = $order->status;
-        if (in_array($order_status, ['on_route', 'on_route_pickup', 'picked_up'])) {
+        if (in_array($order_status, ['pending','ready','on_route', 'on_route_pickup', 'picked_up'])) {
             return redirect()->to('customer/tracking/' . $order->customer_confirmation_code);
         } elseif (in_array($order_status, ['delivery_arrived', 'delivered'])) {
             return redirect()->to('customer/delivery_confirmation/' . $order->customer_confirmation_code);
@@ -40,25 +40,29 @@ class CustomerController extends Controller
             }
             return redirect()->to('customer/delivery_confirmation/' . $order->customer_confirmation_code);
         }
+        $with_driver = (in_array($order_status, ['pending', 'ready']))? 'no' : 'yes';
         $retailer_name = $order->retailer_name;
         $driver_id = $order->driver;
         $order_id = $order->order_id;
-        $driver_profile = DriverProfile::where('user_id', '=', $driver_id)->first();
         $driver_lat = '';
         $driver_lon = '';
         $latest_timestamp = '';
-        if ($driver_profile) {
-            $driver_coordinates = json_decode($driver_profile->latest_coordinates);
-            $driver_lat = $driver_coordinates->lat;
-            $driver_lon = $driver_coordinates->lng;
-            $coordinates_updated_at = new Carbon($driver_profile->coordinates_updated_at);
-            $latest_timestamp = $coordinates_updated_at->format('H:i');
+        if($driver_id != null) {
+            $driver_profile = DriverProfile::where('user_id', '=', $driver_id)->first();
+            if ($driver_profile) {
+                $driver_coordinates = json_decode($driver_profile->latest_coordinates);
+                $driver_lat = $driver_coordinates->lat;
+                $driver_lon = $driver_coordinates->lng;
+                $coordinates_updated_at = new Carbon($driver_profile->coordinates_updated_at);
+                $latest_timestamp = $coordinates_updated_at->format('H:i');
+            }
         }
         if ($return_type == 'json') {
             return response()->json([
                 'redirect' => 0, 'order_id' => $order_id,
                 'driver_lat' => $driver_lat, 'driver_lon' => $driver_lon,
-                'latest_timestamp' => $latest_timestamp
+                'latest_timestamp' => $latest_timestamp,
+                'with_driver' => $with_driver
             ]);
         }
         $customer_code = $customer_confirmation_code;
@@ -68,7 +72,8 @@ class CustomerController extends Controller
             'driver_lon',
             'latest_timestamp',
             'customer_code',
-            'retailer_name'
+            'retailer_name',
+            'with_driver'
         ));
     }
 

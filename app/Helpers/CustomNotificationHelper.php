@@ -87,7 +87,7 @@ class CustomNotificationHelper
             } else if ($notification->channel == 'email') {
                 $contacts = json_decode($notification->send_to, true);
                 foreach ($contacts as $contact) {
-                    Mail::to($contact['value'])->send(new \App\Mail\CustomNotification($notification->content, $title));
+                    Mail::to($contact['value'])->send(new \App\Mail\CustomNotification($notification->content, $title, $client));
                 }
             } else {
                 //Platform Notification

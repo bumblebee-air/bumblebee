@@ -19,10 +19,12 @@ class CustomNotification extends Mailable
 
     public $content;
     public $title;
-    public function __construct($content, $title)
+    public $client;
+    public function __construct($content, $title, $client = 'doorder')
     {
         $this->content = $content;
         $this->title = $title;
+        $this->client = $client;
     }
 
     /**
@@ -32,6 +34,6 @@ class CustomNotification extends Mailable
      */
     public function build()
     {
-        return $this->view('email.doorder_custom_notifications')->with(['content' => $this->content]);
+        return $this->view('email.doorder_custom_notifications')->with(['content' => $this->content, 'client' => $this->client]);
     }
 }

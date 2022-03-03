@@ -594,7 +594,7 @@ button.disabled, button:disabled {
 																<div class="form-group">
 																	<label class="control-label">Available QR codes</label>
 																		@foreach($order->available_qr_codes as $qr_code)
-																			<p>{{$qr_code}}</p>
+																			<p><a href="{{asset('uploads/pdfs/'.$qr_code.'.pdf')}}" target="_blank">{{$qr_code}}</a></p>
 																		@endforeach
 																</div>
 															</div>
@@ -1304,7 +1304,7 @@ button.disabled, button:disabled {
             if(user_role!='retailer'){
                 $('.steps ul li:first-child').append('<img src="{{asset('images/doorder-new-layout/arrow-next.png')}}" alt="" class="step-arrow">')
                 		.find('a').append('<div class="row"> <div class="col-lg-2  p-0"> <img src="{{asset('images/doorder-new-layout/order-customer-active.png')}}" alt=""> </div> <div class="col-lg-10 "> <p class="step-order step-order-title">Customer</p><span class="step-order step-order-subtitle">Customer Info </span> </div></div>');
-                $('.steps ul li:nth-child(2').append('<img src="{{asset('images/doorder-new-layout/arrow-next.png')}}" alt="" class="step-arrow">')
+                $('.steps ul li:nth-child(2)').append('<img src="{{asset('images/doorder-new-layout/arrow-next.png')}}" alt="" class="step-arrow">')
                 		.find('a').append('<div class="row"> <div class="col-lg-2  p-0"> <img src="{{asset('images/doorder-new-layout/order-package.png')}}" alt=""> </div> <div class="col-lg-10 "> <p class="step-order step-order-title">Package</p><span class="step-order step-order-subtitle">Package Details </span> </div></div>');
                 $('.steps ul li:nth-child(3)').append('<img src="{{asset('images/doorder-new-layout/arrow-next.png')}}" alt="" class="step-arrow">')
                 		.find('a').append('<div class="row"> <div class="col-lg-2  p-0"> <img src="{{asset('images/doorder-new-layout/order-driver.png')}}" alt=""> </div> <div class="col-lg-10 "> <p class="step-order step-order-title">Deliverers</p><span class="step-order step-order-subtitle">Select Your Deliverer </span> </div></div>');

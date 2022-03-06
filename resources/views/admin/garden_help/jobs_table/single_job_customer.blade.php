@@ -354,7 +354,7 @@ input[type="radio"]:checked+div i {
 														class="requestLabel d-inline"><img
 														src="{{asset('images/gardenhelp_icons/budget-icon.png')}}"
 														alt="GardenHelp" width="18px"> Bidding: <span
-														class="customerRequestSpan ">€{{$contractor->bidding[0]->estimated_quote}}</span></label>
+														class="customerRequestSpan ">€{{$contractor->bidding->where('job_id', $job->id)[0]->estimated_quote}}</span></label>
 												</div>
 											</div>
 											<button type="button"

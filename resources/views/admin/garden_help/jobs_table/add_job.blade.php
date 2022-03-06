@@ -693,6 +693,8 @@ span.form-control {
 														v-if="is_contacted != '' && is_contacted == 0">
 														<div class="form-group bmd-form-group">
 															<label for="">Contact me through</label>
+																														<p id="contactThroughErrorMessage" class="errorMessage">Please
+													select one of these options</p>
 															<div class="row">
 																<div class="col">
 																	<div class="form-check form-check-radio">
@@ -1235,11 +1237,26 @@ span.form-control {
            }else{
                //console.log("submit 55")
                 $('#isContactErrorMessage').css("display","none");
+                if( $("input[name=is_contacted]:checked").val()==0 ){
+                    if( $("input[name=contact_through]:checked").val()==null ){
+                			//console.log("submit 44")
+    					 	$('#contactThroughErrorMessage').css("display","block")
+                            return false;
+                   }else{
+                       //console.log("submit 55")
+                        $('#contactThroughErrorMessage').css("display","none");
+                        
+                                   
+                     }   
+                 }    
                            
              }           
                         
           
          }
+         
+         
+         
          return true;
     }
     

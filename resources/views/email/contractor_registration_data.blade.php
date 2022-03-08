@@ -115,7 +115,7 @@
                         <tr>
                             <th>Age Proof:</th>
                             <td>
-                                <a href="{{asset('age_proof')}}" class="download-btn">
+                                <a href="{{asset($contractor_registration->age_proof)}}" class="download-btn">
                                     Click to Download Age proof file
                                 </a>
                             </td>

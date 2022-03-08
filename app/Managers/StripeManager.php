@@ -107,6 +107,30 @@ class StripeManager
         return $stripe_account;
     }
 
+    public function deleteCustomAccount($id){
+        try {
+            $stripe = new StripeClient($this->stripe_key);
+            $stripe->accounts->delete($id);
+        }
+        catch (ApiErrorException $e){
+            \Log::error('Stripe account delete error: '.$e->getMessage());
+            $request_url = \Request::getUri();
+            if(strpos($request_url,'api/')!==false){
+                $response = [
+                    'message' => 'Stripe account delete error: '.$e->getMessage(),
+                    'error' => 1
+                ];
+                return response()->json($response,500);
+            }else{
+                alert()->error('Stripe account delete error: '.$e->getMessage());
+                return redirect()->back();
+            }
+        }
+        return true;
+
+
+    }
+
     public function stripeAccountOnboardComplete($stripe_account_id){
         $stripe_account = StripeAccount::where('account_id','=',$stripe_account_id)->first();
         if(!$stripe_account){

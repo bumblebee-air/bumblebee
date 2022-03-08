@@ -15,6 +15,7 @@ use App\KPITimestamp;
 use App\Mail\ContractorRegistrationMail;
 use App\Mail\ContractorRegistrationSuccessMail;
 use App\Managers\StripeManager;
+use App\StripeAccount;
 use App\TermAndPolicy;
 use App\User;
 use App\UserClient;
@@ -614,8 +615,13 @@ class ContractorsController extends Controller
         $contractor_profile->forceDelete();
         if($user!=null){
             $user_client = UserClient::where('user_id','=',$user->id)->first();
+            $stripe_account = StripeAccount::where('user_id','=',$user->id)->first();
             if($user_client!=null){
                 $user_client->delete();
+            }if($stripe_account!=null){
+                $stripe_manager = new StripeManager();
+                $stripe_account = $stripe_manager->deleteCustomAccount($stripe_account->account_id);
+                $stripe_account->delete();
             }
             $user->forceDelete();
         }

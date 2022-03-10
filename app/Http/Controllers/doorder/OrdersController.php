@@ -168,7 +168,8 @@ class OrdersController extends Controller
         CustomNotificationHelper::send('new_order', $order->id);
         //Generate QR codes if required
         if($retailer_profile != null && $retailer_profile->qr_scan_required == 1) {
-            for ($i = 0; $i < intval($request->number_of_packages); $i++) {
+            $number_of_packages = $request->number_of_packages;
+            for ($i = 0; $i < intval($number_of_packages); $i++) {
                 $code = new QrCode();
                 $code->model = 'order';
                 $code->model_id = $order->id;
@@ -180,12 +181,18 @@ class OrdersController extends Controller
                     'isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
                 //To use the generated svg qr code in the view
                 //<img src="data:image/svg+xml;base64,{{ base64_encode($qr_str) }}"/>
+                $customer_address_formatted = '';
+                foreach(explode(',',$order->customer_address) as $address_line){
+                    $customer_address_formatted .= trim($address_line).'<br/>';
+                }
                 $pdf->loadView('admin.doorder.print_label_qr', [
                     'name' => $order->customer_name,
                     'order_number' => $order->order_id,
                     'qr_str' => $label_qr,
-                    'customer_address' => $order->customer_address,
-                    'customer_phone' => $order->customer_phone
+                    'customer_address' => $customer_address_formatted,
+                    'customer_phone' => $order->customer_phone,
+                    'package_no' => strval($i+1),
+                    'package_total' => $number_of_packages
                 ]);
                 $label_qr_file_path = 'uploads/pdfs/' . $code->code . '.pdf';
                 \Storage::put($label_qr_file_path,

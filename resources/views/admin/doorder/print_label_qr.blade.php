@@ -35,7 +35,7 @@
 					<div class="form-group" style="width: 400px; max-width: 100%">
 						<label class="control-label mb-0">Customer address:  <span
 							class="control-label" style="display: block; font-weight: 600; max-width: 100%">
-							{{$customer_address}} <span> </span></span></label>
+							{!! $customer_address !!} <span> </span></span></label>
 					</div>
 					<div class="form-group ">
 						<label class="control-label mb-0">Phone number: </label> <span
@@ -54,6 +54,13 @@
 							style="width: 200px; height: 140px">
 					</div></td>
 			</tr>
+			@if(isset($package_no) && isset($package_total))
+			<tr>
+				<td colspan="2" class="text-center">
+					<h4>Package {{$package_no}} of {{$package_total}}</h4>
+				</td>
+			</tr>
+			@endif
 		</tbody>
 	</table>
 

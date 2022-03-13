@@ -125,6 +125,7 @@ class OrdersController extends Controller
         // $fulfill_end->addDay();
         // }
         // $fulfill_time = $fulfill_end->diffInMinutes($fulfill_start);
+        $retailer_name = ($retailer_profile != null) ? $retailer_profile->name : $current_user->name;
         $order = Order::create([
             'customer_name' => "$request->first_name $request->last_name",
             'order_id' => random_int(000001, 999999),
@@ -142,7 +143,7 @@ class OrdersController extends Controller
             'notes' => $request->notes,
             'deliver_by' => $request->deliver_by,
             'fragile' => $request->fragile,
-            'retailer_name' => ($retailer_profile != null) ? $retailer_profile->name : $current_user->name,
+            'retailer_name' => $retailer_name,
             'retailer_id' => ($retailer_profile != null) ? $retailer_profile->id : '0',
             'status' => 'pending',
             'weight' => $request->weight,
@@ -162,7 +163,7 @@ class OrdersController extends Controller
                 'driver' => $order->orderDriver ? $order->orderDriver->name : 'N/A',
                 'pickup_address' => $order->pickup_address,
                 'customer_address' => $order->customer_address,
-                'created_at' => $order->created_at
+                'created_at' => $order->created_at,
             ]
         ]));
         CustomNotificationHelper::send('new_order', $order->id);
@@ -183,7 +184,13 @@ class OrdersController extends Controller
                 //<img src="data:image/svg+xml;base64,{{ base64_encode($qr_str) }}"/>
                 $customer_address_formatted = '';
                 foreach(explode(',',$order->customer_address) as $address_line){
+                    if(strtolower($address_line) == 'ireland') continue;
                     $customer_address_formatted .= trim($address_line).'<br/>';
+                }
+                $from_address_formatted = '';
+                foreach(explode(',',$order->pickup_address) as $address_line){
+                    if(strtolower($address_line) == 'ireland') continue;
+                    $from_address_formatted .= trim($address_line).'<br/>';
                 }
                 $pdf->loadView('admin.doorder.print_label_qr', [
                     'name' => $order->customer_name,
@@ -192,7 +199,9 @@ class OrdersController extends Controller
                     'customer_address' => $customer_address_formatted,
                     'customer_phone' => $order->customer_phone,
                     'package_no' => strval($i+1),
-                    'package_total' => $number_of_packages
+                    'package_total' => $number_of_packages,
+                    'from_name' => $retailer_name,
+                    'from_address' => $from_address_formatted
                 ]);
                 $label_qr_file_path = 'uploads/pdfs/' . $code->code . '.pdf';
                 \Storage::put($label_qr_file_path,

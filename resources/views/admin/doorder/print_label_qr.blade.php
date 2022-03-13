@@ -15,6 +15,9 @@
 .td-50 {
 	width: 50%;
 }
+.td-100 {
+	width: 100%;
+}
 </style>
 @endsection @section('content')
 <div class="" style="width:874px; max-width: 874px">
@@ -54,9 +57,19 @@
 							style="width: 200px; height: 140px">
 					</div></td>
 			</tr>
+			<tr>
+				<td colspan="2" class="td-100"
+					style="border-bottom: 2px solid black; border-top: 2px solid black;">
+					<label class="control-label mb-0">From: </label>
+					<span class="control-label"
+						  style="display: block; font-weight: 600">{{$from_name}}</span>
+					<span class="control-label"
+						  style="display: block; font-weight: 600">{!! $from_address !!}</span>
+				</td>
+			</tr>
 			@if(isset($package_no) && isset($package_total))
 			<tr>
-				<td colspan="2" class="text-center">
+				<td colspan="2" class="td-100 text-center">
 					<h4>Package {{$package_no}} of {{$package_total}}</h4>
 				</td>
 			</tr>

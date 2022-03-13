@@ -219,7 +219,13 @@ class SAPHybrisController extends Controller
                         //<img src="data:image/svg+xml;base64,{{ base64_encode($qr_str) }}"/>
                         $customer_address_formatted = '';
                         foreach(explode(',',$order->customer_address) as $address_line){
+                            if(strtolower($address_line) == 'ireland') continue;
                             $customer_address_formatted .= trim($address_line).'<br/>';
+                        }
+                        $from_address_formatted = '';
+                        foreach(explode(',',$order->pickup_address) as $address_line){
+                            if(strtolower($address_line) == 'ireland') continue;
+                            $from_address_formatted .= trim($address_line).'<br/>';
                         }
                         $pdf->loadView('admin.doorder.print_label_qr',[
                             'name' => $order->customer_name,
@@ -228,7 +234,9 @@ class SAPHybrisController extends Controller
                             'customer_address' => $customer_address_formatted,
                             'customer_phone' => $order->customer_phone,
                             'package_no' => strval($i+1),
-                            'package_total' => strval($no_of_items)
+                            'package_total' => strval($no_of_items),
+                            'from_name' => $shop_name,
+                            'from_address' => $from_address_formatted
                         ]);
                         $label_qr_file_path = 'uploads/pdfs/'.$code->code.'.pdf';
                         \Storage::put($label_qr_file_path,

@@ -1269,9 +1269,11 @@ class DriversController extends Controller
         $driver_coordinates = $request->get('driver_coordinates');
         $order_ids = $request->get('order_ids');
         if ($driver_coordinates == null || $order_ids == null) {
+            $error_msg = 'The driver coordinates or the order IDs are missing';
+            \Log::warning('Driver route optimize request failed due to: '.$error_msg);
             return response()->json([
                 'errors' => 1,
-                'error_msg' => 'The driver coordinates or the order IDs are missing',
+                'error_msg' => $error_msg,
                 'optimized_route' => []
             ]);
         }
@@ -1296,11 +1298,17 @@ class DriversController extends Controller
         $deliverers_coordinates = [];
         $deliverers_coordinates[] = ['deliverer_id' => (string)$driver_id, 'deliverer_coordinates' => $driver_coordinates];
         $route_opt_url = env('ROUTE_OPTIMIZE_URL', 'https://afternoon-lake-03061.herokuapp.com') . '/routing_table';
+        $deliverers_coordinates_enc = json_encode($deliverers_coordinates);
+        $orders_data_enc = json_encode($orders_data);
+        \Log::info('Driver route optimize request for driver with ID: '.$driver_id.
+            ', coordinates: '.$deliverers_coordinates_enc.
+            '. Orders data: '.$orders_data_enc);
         $route_optimization_req = Http::post($route_opt_url, [
-            'deliverers_coordinates' => json_encode($deliverers_coordinates),
-            'orders_address' => json_encode($orders_data)
+            'deliverers_coordinates' => $deliverers_coordinates_enc,
+            'orders_address' => $orders_data_enc
         ]);
         if ($route_optimization_req->status() != 200) {
+            \Log::warning('Driver route optimize request failed due to: '.$route_optimization_req->body());
             return response()->json([
                 'errors' => 1,
                 'error_msg' => 'The route optimization failed with the message: '
@@ -1308,6 +1316,7 @@ class DriversController extends Controller
                 'optimized_route' => []
             ]);
         }
+        \Log::info('Route optimize request succeeded with data: '.$route_optimization_req->body());
         $optimized_route_resp = json_decode($route_optimization_req->body());
         $optimized_route_arr = $optimized_route_resp[0];
         //Remove the first item (driver's current coordinates)

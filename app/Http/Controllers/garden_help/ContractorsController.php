@@ -604,12 +604,13 @@ class ContractorsController extends Controller
         return redirect()->to('garden-help/contractors/contractors_list');
     }
 
-    public function postDeleteContractor(Request $request)
+    public function postDeleteContractor(Request $request, $client_id, $id)
     {
-        $contractor_id = $request->get('contractorId');
+        $contractor_id = $id;
         $contractor_profile = Contractor::find($contractor_id);
         if(!$contractor_profile){
             alert()->error('Contractor not found!');
+            return redirect()->back();
         }
         $user = User::find($contractor_profile->user_id);
         $contractor_profile->forceDelete();

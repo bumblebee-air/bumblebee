@@ -255,7 +255,7 @@ Route::group(
                 Route::get('requests', 'garden_help\ContractorsController@getContractorsRequests')->name('garden_help_getContractorsRequests');
                 Route::get('requests/{id}', 'garden_help\ContractorsController@getSingleRequest')->name('garden_help_getContractorSingleRequest');
                 Route::post('requests/{id}', 'garden_help\ContractorsController@postSingleRequest')->name('garden_help_postContractorSingleRequest');
-                Route::post('requests/delete/{id}', 'garden_help\ContractorsController@deleteContractorRequest')->name('garden_help_deleteContractorRequest');
+                Route::post('requests/delete/{id}', 'garden_help\ContractorsController@postDeleteContractor')->name('garden_help_deleteContractorRequest');
                 Route::get('contractors_list', 'garden_help\ContractorsController@getContractorsList')->name('garden_help_getContractorsList');
                 Route::get('fee_list', 'garden_help\ContractorsController@getContractorsFee')->name('garden_help_getContractorsFee');
                 Route::get('edit_fee', 'garden_help\ContractorsController@editContractorsFee')->name('garden_help_editContractorsFee');
@@ -267,7 +267,7 @@ Route::group(
                 Route::get('roster', 'garden_help\ContractorsController@getContractorsRoster')->name('garden_help_getContractorsRoster');
                 Route::get('roster-events', 'garden_help\ContractorsController@getContractorsRosterEvents')->name('garden_help_getContractorsRosterEvents');
                 Route::get('roster-data', 'garden_help\ContractorsController@postContractorsRoster')->name('garden_help_postContractorsRoster');
-                
+
             });
             Route::group([
                 'prefix' => 'customers'
@@ -290,7 +290,7 @@ Route::group(
                 Route::post('add_job', 'garden_help\JobsController@postNewJob')->name('postAddJob');
             });
             Route::get('view_applied_contractor/{id}', 'garden_help\JobsController@getSingleAppliedContractor')->name('garden_help_getAppliedContractorSingleView');
-            
+
             Route::group([
                 'prefix' => 'service_types'
             ], function () {

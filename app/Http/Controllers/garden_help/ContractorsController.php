@@ -619,7 +619,7 @@ class ContractorsController extends Controller
             $stripe_account = StripeAccount::where('user_id','=',$user->id)->first();
             if($user_client!=null){
                 $user_client->delete();
-            }if($stripe_account!=null){
+            }if($stripe_account!=null && $stripe_account->onboard_status!=null){
                 $stripe_manager = new StripeManager();
                 $stripe_account = $stripe_manager->deleteCustomAccount($stripe_account->account_id);
                 $stripe_account->delete();

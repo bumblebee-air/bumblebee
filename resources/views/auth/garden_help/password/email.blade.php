@@ -39,7 +39,7 @@ input.form-control{
 					</div>
 					<div class="card-body">
 						<h6 class="loginH6">Welcome to Garden Help!</h6>
-						<form class="form-signin" method="POST" action="{{url('login')}}">
+						<form class="form-signin" method="POST" action="{{ route('password.email') }}">
 							{{ csrf_field() }}
 
 							<div class="bmd-form-group my-4">
@@ -55,43 +55,37 @@ input.form-control{
 								</div>
 							</div>
 
-							<div class="bmd-form-group my-4">
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<span class="input-group-text"> <i class="material-icons">lock_outline</i>
-										</span>
-									</div>
-									<input type="password" id="password" name="password"
-										class="form-control" placeholder="Password" required>
-								</div>
-							</div>
+{{--							<div class="bmd-form-group my-4">--}}
+{{--								<div class="input-group">--}}
+{{--									<div class="input-group-prepend">--}}
+{{--										<span class="input-group-text"> <i class="material-icons">lock_outline</i>--}}
+{{--										</span>--}}
+{{--									</div>--}}
+{{--									<input type="password" id="password" name="password"--}}
+{{--										class="form-control" placeholder="Password" required>--}}
+{{--								</div>--}}
+{{--							</div>--}}
 
-							<div class="col-md-9 my-4">
-								<div class="form-check">
-									<label class="form-check-label" for="remember-me"> <input
-										type="checkbox" class="form-check-input" id="remember-me"
-										name="remember"> Remember me <span class="form-check-sign"> <span
-											class="check"></span>
-									</span>
-									</label>
-								</div>
-							</div>
+{{--							<div class="col-md-9 my-4">--}}
+{{--								<div class="form-check">--}}
+{{--									<label class="form-check-label" for="remember-me"> <input--}}
+{{--										type="checkbox" class="form-check-input" id="remember-me"--}}
+{{--										name="remember"> Remember me <span class="form-check-sign"> <span--}}
+{{--											class="check"></span>--}}
+{{--									</span>--}}
+{{--									</label>--}}
+{{--								</div>--}}
+{{--							</div>--}}
 							<input type="hidden" name="guard" value="garden-help">
 							<div class="d-flex justify-content-center align-content-center">
-								<button class="btn btn-gardenhelp-green btn-login" type="submit">Login</button>
+								<button class="btn btn-gardenhelp-green btn-login" type="submit">Forgot Password</button>
 							</div>
-							<div class="d-flex justify-content-center align-content-center mt-3">
+							<div
+								class="d-flex justify-content-center align-content-center mt-3">
 								<p class="loginP">
-									Dont have an account?
-									<a href="{{url('garden-help/customers/registration')}}"> Sign up
-										here
-									</a>
-								</p>
-							</div>
-							<div class="d-flex justify-content-center align-content-center">
-								<p class="loginP">
-									Can't you remember your password?
-									<a href="{{url('garden-help/password/reset')}}"> Click here </a>
+									Dont have an account? <a
+										href="{{url('garden-help/customers/registration')}}"> Sign up
+										here </a>
 								</p>
 							</div>
 						</form>

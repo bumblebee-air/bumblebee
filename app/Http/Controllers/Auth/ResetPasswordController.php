@@ -57,7 +57,13 @@ class ResetPasswordController extends Controller
                 'token' => $token,
                 'email' => $request->email
             ]);
+        } else if (strpos(request()->getHost(), 'gardenhelp.ie') !== false || strpos(request()->getHost(), 'ghstaging') !== false || str_contains(request()->url(), 'gardenhelp/password/reset')) {
+            return view('auth.garden_help.password.reset')->with([
+                'token' => $token,
+                'email' => $request->email
+            ]);
         } else {
+
             return view('auth.doorder.passwords.reset')->with([
                 'token' => $token,
                 'email' => $request->email

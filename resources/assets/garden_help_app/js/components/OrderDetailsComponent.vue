@@ -276,6 +276,11 @@
                           <button class="btn btn-lg doorder-btn danger block" @click="openConfirmationDialog('rejected')">
                             Reject
                           </button>
+                          <div class="col-2" v-if="job_data.is_contacted == 1">
+                            <a :href="'tel:'+job_data.phone_number" type="button" class="btn btn-light btn-circle">
+                              <img src="images/garden_help_driver_assets/call.png" alt="call">
+                            </a>
+                          </div>
 <!--                          <img src="images/doorder_driver_assets/accept.png" width="40" height="40" alt="accept" @click="openConfirmationDialog('accepted')" >-->
 <!--                          <img src="images/doorder_driver_assets/reject.png" width="40" height="40" alt="reject" @click="openConfirmationDialog('rejected')">-->
                         </div>

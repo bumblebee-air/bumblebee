@@ -55,7 +55,7 @@ class CustomersController extends Controller
             'name' => 'required',
             'email' => 'required|email|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix|unique:users,email,NULL,id,deleted_at,NULL',
             'contact_through' => 'required',
-            'phone' => 'required|unique:users,phone,NULL,id,deleted_at,NULL',
+            'phone' => 'required|regex:/^[0-9*#+]+$/|unique:users,phone,NULL,id,deleted_at,NULL',
             'password' => 'required|confirmed',
         ]);
         //Create a new user

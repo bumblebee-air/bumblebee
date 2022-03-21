@@ -248,7 +248,7 @@
                                   </p>
                                 </div>
                                 <div class="col pb-2">
-                                  <input type="number" class="form-control form-control-sm estimated-input" min="1" v-model="estimated_quote">
+                                  <input type="number" class="form-control form-control-sm estimated-input" min="1" v-model="estimated_quote" required>
                                 </div>
                               </div>
                             </div>
@@ -399,7 +399,7 @@
                 job_service_types: [],
                 current_working_status: 'start_working',
                 apply_job: false,
-                estimated_quote: 1
+                estimated_quote: null
             }
         },
         mounted() {
@@ -728,27 +728,31 @@
           },
           submitApplication() {
             let user = JSON.parse(localStorage.getItem('user'));
-            axios.post(process.env.MIX_API_URL + 'contractor-bidding', {
-                  job_id: this.$route.params.id,
-                  estimated_quote: this.estimated_quote
-              },
-              {
-                  headers: {
+            if (this.estimated_quote > 0) {
+              axios.post(process.env.MIX_API_URL + 'contractor-bidding', {
+                    job_id: this.$route.params.id,
+                    estimated_quote: this.estimated_quote
+                  },
+                  {
+                    headers: {
                       Accept: "application/json",
                       Authorization: user.access_token
-                  }
-              })
-              .then(res => {
-                Vue.$toast.success(res.data.message, {
-                  position: 'top'
-                });
-                this.$router.push({name: 'orders-list'});
-              })
-              .catch(err => {
-                Vue.$toast.error(err.response.data.message, {
-                  position: 'top'
-                });
-              });
+                    }
+                  })
+                  .then(res => {
+                    Vue.$toast.success(res.data.message, {
+                      position: 'top'
+                    });
+                    this.$router.push({name: 'orders-list'});
+                  })
+                  .catch(err => {
+                    Vue.$toast.error(err.response.data.message, {
+                      position: 'top'
+                    });
+                  });
+            } else {
+              alert('the estimated quote is required.');
+            }
           }
         }
     }

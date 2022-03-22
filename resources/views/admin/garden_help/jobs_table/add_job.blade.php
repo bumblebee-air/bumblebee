@@ -668,7 +668,7 @@ span.form-control {
 																			class="form-check-input" type="radio"
 																			id="exampleRadios2" name="is_contacted" value="1"
 																			v-model="is_contacted" {{old('is_contacted') ===
-																			'1' ? 'checked' : ''}} required> Yes <span
+																			'0' ? 'checked' : ''}} required> Yes <span
 																			class="circle"> <span class="check"></span>
 																		</span>
 																		</label>
@@ -680,7 +680,7 @@ span.form-control {
 																			class="form-check-input" type="radio"
 																			id="exampleRadios1" name="is_contacted" value="0"
 																			v-model="is_contacted" {{old('is_contacted') ===
-																			'0' ? 'checked' : ''}} required @click="changeIsContacted()">
+																			'1' ? 'checked' : ''}} required @click="changeIsContacted()">
 																			No <span class="circle"> <span class="check"></span>
 																		</span>
 																		</label>

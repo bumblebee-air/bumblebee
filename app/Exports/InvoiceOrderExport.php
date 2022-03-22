@@ -27,7 +27,7 @@ class InvoiceOrderExport implements FromArray, WithHeadings
     {
         $exportable_array = [];
 
-        $invoices = Order::query();
+        $invoices = Order::where('status','=','delivered');
         if ($this->retailer_id != null){
             $invoices = $invoices->where('retailer_id','=',$this->retailer_id);
         }

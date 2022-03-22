@@ -88,6 +88,6 @@ class ResetPasswordController extends Controller
 
         alert()->success('Password has been reset successfully');
         // $this->guard()->login($user);
-        return redirect('/');
+        return redirect('/login');
     }
 }

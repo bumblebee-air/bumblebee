@@ -26,8 +26,10 @@
     
 <!-- favicon -->
     <link rel="icon" type="image/jpeg" href="{{asset('images/garden-help-fav.png')}}">
+    <script src="https://unpkg.com/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
 
-@yield('page-styles')
+
+    @yield('page-styles')
 </head>
 
 <body>
@@ -36,6 +38,7 @@
 
 <!-- Page Content -->
 <div class="container-fluid h-100 p-0">
+@include('sweet::alert')
 @include('partials.flash')
 
 @yield('page-content')

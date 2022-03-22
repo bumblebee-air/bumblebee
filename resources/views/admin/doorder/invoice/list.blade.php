@@ -86,6 +86,7 @@ div.dt-datetime table td.selectable.selected button {
 								<h4 class="card-title my-md-4 mt-4 mb-1">Invoice</h4>
 							</div>
 							<div class="col-12 col-xl-7 col-lg-8 col-md-9 col-sm-12">
+								@if($user_role != 'retailer')
 								<form method="post" class="mb-1"
 									action="{{route('doorder_exportInvoiceList', 'doorder')}}">
 									{{csrf_field()}}
@@ -109,6 +110,7 @@ div.dt-datetime table td.selectable.selected button {
 
 									</div>
 								</form>
+								@endif
 							</div>
 						</div>
 					</div>

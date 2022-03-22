@@ -22,9 +22,10 @@ class InvoiceController extends Controller
     public function getInvoiceList(Request $request)
     {
         $current_user = auth()->user();
+        $user_role = $current_user->user_role;
         $invoiceList = [];
         $retailers = Retailer::where('status', 'completed');
-        if ($current_user->user_role == 'retailer') {
+        if ($user_role == 'retailer') {
             $retailers = $retailers->where('user_id','=',$current_user->id);
         }
         $retailers = $retailers->whereHas('orders', function ($q) {
@@ -38,19 +39,20 @@ class InvoiceController extends Controller
                 return Carbon::parse($val->created_at)->format('M Y');
             });
             foreach ($orders_groups as $key => $orders_group) {
-                array_push($invoiceList, [
+                $invoiceList[] = [
                     'id' => $retailer->id,
                     'name' => $retailer->name,
                     'orders_count' => count($orders_group),
                     'month' => Carbon::parse($key)->format('M Y'),
                     'date' => Carbon::parse($key)->format('M Y'),
                     'invoiced' => true
-                ]);
+                ];
             }
         }
         
         return view('admin.doorder.invoice.list', [
-            'invoiceList' => $invoiceList
+            'invoiceList' => $invoiceList,
+            'user_role' => $user_role
         ]);
     }
 

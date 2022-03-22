@@ -11,11 +11,13 @@ class InvoiceOrderExport implements FromArray, WithHeadings
 {
     private $from;
     private $to;
+    private $retailer_id;
 
-    public function __construct($form=null, $to=null)
+    public function __construct($form=null, $to=null, $retailer_id=null)
     {
         $this->from = $form;
         $this->to = $to;
+        $this->retailer_id = $retailer_id;
     }
 
     /**
@@ -26,6 +28,9 @@ class InvoiceOrderExport implements FromArray, WithHeadings
         $exportable_array = [];
 
         $invoices = Order::query();
+        if ($this->retailer_id != null){
+            $invoices = $invoices->where('retailer_id','=',$this->retailer_id);
+        }
         if ($this->from) {
             $invoices = $invoices->where('created_at', '>=', Carbon::parse($this->from)->toDateTimeString());
         }

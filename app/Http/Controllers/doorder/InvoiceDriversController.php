@@ -2,21 +2,17 @@
 namespace App\Http\Controllers\doorder;
 
 use App\DriverPayout;
-use App\Exports\InvoiceOrderExport;
 use App\Helpers\StripePaymentHelper;
 use App\Helpers\TwilioHelper;
 use App\Managers\StripeManager;
 use App\Order;
-use App\Retailer;
 use App\StripePaymentLog;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use Stripe\InvoiceItem;
-
 use Stripe\StripeClient;
 use App\DriverProfile;
 

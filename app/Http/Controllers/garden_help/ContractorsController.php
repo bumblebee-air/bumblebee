@@ -299,7 +299,8 @@ class ContractorsController extends Controller
                     $job->status = $request->status;
                     $body = "The contractor is on his way to you.";
                     $timestamps->on_the_way_first = $current_timestamp;
-                    TwilioHelper::sendSMS('GardenHelp', $job->phone_number, $body);
+//                    TwilioHelper::sendSMS('GardenHelp', $job->phone_number, $body);
+                    GardenHelpUsersNotificationHelper::notifyUser($job->user, $body, $job->contact_through);
                 } elseif ($request->status == 'arrived') {
                     $job->status = $request->status;
                     $timestamps->arrived_first = $current_timestamp;

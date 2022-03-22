@@ -666,7 +666,7 @@ span.form-control {
 																	<div class="form-check form-check-radio">
 																		<label class="form-check-label"> <input
 																			class="form-check-input" type="radio"
-																			id="exampleRadios2" name="is_contacted" value="1"
+																			id="exampleRadios2" name="is_contacted" value="0"
 																			v-model="is_contacted" {{old('is_contacted') ===
 																			'0' ? 'checked' : ''}} required> Yes <span
 																			class="circle"> <span class="check"></span>
@@ -678,7 +678,7 @@ span.form-control {
 																	<div class="form-check form-check-radio">
 																		<label class="form-check-label"> <input
 																			class="form-check-input" type="radio"
-																			id="exampleRadios1" name="is_contacted" value="0"
+																			id="exampleRadios1" name="is_contacted" value="1"
 																			v-model="is_contacted" {{old('is_contacted') ===
 																			'1' ? 'checked' : ''}} required @click="changeIsContacted()">
 																			No <span class="circle"> <span class="check"></span>
@@ -690,7 +690,7 @@ span.form-control {
 														</div>
 													</div>
 													<div class="col-md-12"
-														v-if="is_contacted != '' && is_contacted == 0">
+														v-if="is_contacted != '' && is_contacted == 1">
 														<div class="form-group bmd-form-group">
 															<label for="">Contact me through</label>
 																														<p id="contactThroughErrorMessage" class="errorMessage">Please

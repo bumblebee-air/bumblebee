@@ -454,4 +454,9 @@ class StripeController extends Controller
         return json_encode(['client_secret' => $payment_intent->client_secret,
             'error'=>0, 'error_message'=>'']);
     }
+
+    public function setCustomerSetupIntent(Request $request){
+        return json_encode(['customer'=>"test"]);
+    }
 }
+

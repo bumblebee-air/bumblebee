@@ -379,6 +379,8 @@ Route::group(
             Route::get('view_route_optimization_map', 'doorder\MapRoutesConroller@getMapRoutes')->name('doorder_postMapRoutesView');
             Route::get('confirm_route_optimization_map', 'doorder\MapRoutesConroller@SendOrdersToDrivers')->name('doorder_ConfirmRouteOptimization');
 
+            Route::post('stripe_data','StripeController@setCustomerSetupIntent');
+
             Route::group([
                 'middleware' => "client"
             ], function () {

@@ -62,7 +62,6 @@ table.doorderTable {
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-12">
-
 					<div class="card invoiceCard" id="invoiceCard">
 						<div class="card-header ">
 							<div class="container">
@@ -235,14 +234,14 @@ table.doorderTable {
 <!-- 									<div class="col-xl-2 offset-xl-6 col-md-3  col-sm-4 text-center"> -->
 <!-- 										<button class="btnDoorder btn-doorder-grey  mb-1" onclick="editInvoice({{$retailer->id}},'{{$month}}')">Edit</button>-->
 <!-- 									</div> -->
-									<div class="col-lg-3  col-md-3 col-sm-4 text-center">
+									<div class="col-lg-3 col-md-3 col-sm-4 text-center @if($paid_flag==1) d-none @endif">
 										<form method="POST"
 											action="{{route('doorder_sendInvoice',['doorder',$retailer->id, 'month' => $_GET['month']])}}"
 											id="invoice_orders_form" style="margin: 0 !important;">{{csrf_field()}}</form>
 										<button class="btnDoorder btn-doorder-primary  mb-1"
 											@click="submitForm">Invoice</button>
 									</div>
-									<div class="col-lg-3  col-md-3 col-sm-4 text-center">
+									<div class="col-lg-3 col-md-3 col-sm-4 text-center @if($paid_flag==1) d-none @endif">
 										<button type="button"
 											class="btnDoorder btn-doorder-green  mb-1"
 											onclick="clickSendEmail({{$retailer->id}},'{{$month}}')">Send
@@ -254,16 +253,16 @@ table.doorderTable {
 								</div>
 								@else
 								<div class="row justify-content-center">
-									<div class="col-lg-3  col-md-3 col-sm-4 ">
-										<button class="btnDoorder btn-doorder-primary  mb-1 w-100 "
+									<div class="col-lg-3 col-md-3 col-sm-4">
+										<button class="btnDoorder btn-doorder-primary mb-1 w-100"
 											data-toggle="modal"
 												data-target="#warning-modal">Download invoice</button>
 									</div>
-									<div class="col-lg-3  col-md-3 col-sm-4 ">
+									<div class="col-lg-3 col-md-3 col-sm-4 @if($paid_flag==1) d-none @endif">
 										<a class="btnDoorder btn-doorder-green  mb-1 w-100 "
 											href="{{url('doorder/pay_invoice/')}}/{{$retailer->id}}/{{$invoice_number}}">Pay</a>
 									</div>
-									<div class="col-lg-3  col-md-3 col-sm-4 ">
+									<div class="col-lg-3 col-md-3 col-sm-4">
 										<button class="btnDoorder btn-doorder-grey" type="button" @click="PrintElem">Print</button>
 									</div>
 								</div>
@@ -274,7 +273,6 @@ table.doorderTable {
 				</div>
 			</div>
 		</div>
-
 	</div>
 </div>
 
@@ -292,9 +290,7 @@ table.doorderTable {
 			<div class="modal-body">
 				<div class="modal-dialog-header modalHeaderMessage">Are you sure you want
 					to send the invoice email to the retailer</div>
-
 				<div>
-
 					<form method="POST" id="sendEmailForm"
 						action="{{url('doorder/send_invoice_email')}}"
 						style="margin-bottom: 0 !important;">

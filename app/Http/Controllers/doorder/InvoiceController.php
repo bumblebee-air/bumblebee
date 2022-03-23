@@ -86,6 +86,7 @@ class InvoiceController extends Controller
         $month_days = Carbon::now()->startOfYear()->addMonths($request->month)->daysInMonth;
         $invoice = [];
         $subtotal = 0;
+        $paid_flag = 0;
         for ($i = 0; $i < $month_days; $i++) {
             $date = Carbon::parse($request->month)->startOfMonth()->addDays($i);
             $count = Order::where('retailer_id', $id)->with(['orderDriver', 'retailer'])->whereDate('created_at', $date)->where('is_archived', false)->where('status', 'delivered')->count();
@@ -94,6 +95,21 @@ class InvoiceController extends Controller
                 //$invoice[] = ['name' => "$data $count package for ". $count * 10 . "€",'count'=>$count , 'charge' => $count * 10];
                 $invoice[] = ['name' => "Same Day Delivery", 'date' => $data, 'data' => "$count package for $retailer->name", 'count' => $count, 'charge' => $count * 10];
                 $subtotal += $count * 10;
+            }
+        }
+        if(count($invoice) == 0){
+            //No unpaid orders found for this month, check for paid orders
+            for ($i = 0; $i < $month_days; $i++) {
+                $date = Carbon::parse($request->month)->startOfMonth()->addDays($i);
+                $count = Order::where('retailer_id', $id)->with(['orderDriver', 'retailer'])->whereDate('created_at', $date)->where('is_archived', true)->where('status', 'delivered')->count();
+                if ($count > 0) {
+                    $data = Carbon::parse($request->month)->startOfMonth()->addDays($i)->format('d/m/Y');
+                    $invoice[] = ['name' => "Same Day Delivery", 'date' => $data, 'data' => "$count package for $retailer->name", 'count' => $count, 'charge' => $count * 10];
+                    $subtotal += $count * 10;
+                }
+            }
+            if(count($invoice) > 0){
+                $paid_flag = 1;
             }
         }
         $vat = $subtotal * 0.23;
@@ -107,7 +123,7 @@ class InvoiceController extends Controller
         return view('admin.doorder.invoice.single_invoice', [
             "invoice" => $invoice, 'retailer' => $retailer, 'user' => $user,
             'subtotal' => $subtotal, 'vat' => $vat, 'total' => $total, 'month' => $request->month,
-            'invoice_number' => $invoice_number
+            'invoice_number' => $invoice_number, 'paid_flag' => $paid_flag
         ]);
     }
 

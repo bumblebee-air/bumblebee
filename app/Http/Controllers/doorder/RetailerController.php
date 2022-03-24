@@ -225,7 +225,9 @@ class RetailerController extends Controller
             alert()->error('Retailer not found!');
             return redirect()->back();
         }
-        return view('admin.doorder.retailers.single_retailer', ['retailer' => $retailer, 'readOnly' => 0]);
+        $retailer_user = $retailer->user;
+        return view('admin.doorder.retailers.single_retailer', ['retailer' => $retailer,
+            'readOnly' => 0, 'retailer_user'=>$retailer_user]);
     }
     public function getViewRetailer($client_name, $id)
     {
@@ -249,6 +251,7 @@ class RetailerController extends Controller
             return redirect()->back();
         }
         $stripe_token = $request->get('stripeToken');
+        $payment_method = $request->get('paymentMethod');
         if ($stripe_token != null && $stripe_token != '') {
             $user = User::find($retailer->user_id);
             if (!$user) {
@@ -258,14 +261,19 @@ class RetailerController extends Controller
             if (env('APP_ENV') == 'local' || env('APP_ENV') == 'development') {
                 $stripe_token = 'tok_visa';
             }
-            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
-            $customer = $stripe->customers->create([
-                'name' => $user->name,
-                'email' => $user->email,
-                'source' => $stripe_token
-            ]);
-            $customer_id = $customer->id;
-            $retailer->stripe_customer_id = $customer_id;
+            if($payment_method=='card') {
+                $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+                $customer = $stripe->customers->create([
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'source' => $stripe_token
+                ]);
+                $customer_id = $customer->id;
+                $retailer->stripe_customer_id = $customer_id;
+            } elseif($payment_method == 'sepa'){
+                $retailer->stripe_payment_id = $stripe_token;
+            }
+            $retailer->payment_method = $payment_method;
         }
         //dd($request);
         $retailer->name = $request->get('company_name');

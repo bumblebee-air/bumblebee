@@ -579,7 +579,7 @@
 																		</div>
 																	</div>
 																	<input type='hidden' name='stripeToken' v-model="stripeToken" />
-
+																	<input type='hidden' name='paymentMethod' v-model="paymentMethod" />
 																</div>
 															</div>
 														</div>
@@ -604,7 +604,7 @@
 								<div class="row justify-content-center">
 									<div class="col-lg-3  col-md-3 col-sm-4 px-md-1 text-center">
 
-										<button type="button" class="btnDoorder btn-doorder-primary  mb-1" @click="submitForm()">Save</button>
+										<button type="button" id="save-button" class="btnDoorder btn-doorder-primary mb-1" @click="submitForm()">Save</button>
 									</div>
 									@if (auth()->user()->user_role != 'retailer')
 										<div class="col-lg-3  col-md-3 col-sm-4 px-md-1 text-center">
@@ -674,7 +674,8 @@
 	 let ibanElement = null;
 	 let sepa_client_secret = "";
 	 let stripe_error_container = $('#stripe-validation-error');
-	 var token = '{{ csrf_token() }}';
+	 let form_submit_button = $('#save-button');
+	 let token = '{{ csrf_token() }}';
 
 	 let autocomp_countries = JSON.parse('{!! $google_auto_comp_countries !!}');
 	 $(document).ready(function() {
@@ -735,6 +736,7 @@
 	    business_hours: {},
 	    counties: [],
 	    stripeToken: '',
+	   	paymentMethod: '',
 	    require_card: false,
 	    require_bank: false,
 	    require_payment: false,
@@ -1119,33 +1121,40 @@
 	    ibanElement.on('change', function(event) {
 	     if (event.error) {
 	      stripe_error_container.html(event.error.message).show();
-	     // form_submit_button.prop('disabled', true);
+		  form_submit_button.prop('disabled', true);
 	     } else {
 	      stripe_error_container.html('').hide();
-	     // form_submit_button.prop('disabled', false);
+		  form_submit_button.prop('disabled', false);
 	     }
 	    });
 
 	   },
 	   confirmSEPADebitSetup() {
-	    //form_submit_button.prop('disabled', true);
+	    form_submit_button.prop('disabled', true);
 	    //$('#submit-spinner').show();
 	    $.ajax({
 	     type: 'POST',
-	     url: '{{ url("doorder/stripe_data") }}',
+	     url: '{{ url("doorder/stripe/customer-setup-intent") }}',
 	     data: {
 	      _token: token,
-	      retailer_id: {!! $retailer->id !!}
+			 intent_type: 'sepa',
+	      retailer_id: {{ $retailer->id }}
 	     },
 	     success: function(data) {
-	      console.log(data);
+	      //console.log(data);
+		  if(data.error == 1){
+			  stripe_error_container.html(data.message).show();
+			  form_submit_button.prop('disabled', false);
+			  return false;
+		  }
+		  sepa_client_secret = data.client_secret;
 	      stripe.confirmSepaDebitSetup(
 	       sepa_client_secret, {
 	        payment_method: {
 	         sepa_debit: ibanElement,
 	         billing_details: {
-	          name: 'Spire company',
-	          email: 'test@spiressl.com',
+	          name: '{{ $retailer->name }}',
+	          email: '{{ $retailer_user->email }}',
 	         },
 	        },
 	       }
@@ -1154,15 +1163,16 @@
 	       if (result.error) {
 	        let the_error = result.error;
 	        stripe_error_container.html(the_error.message).show();
-	        //form_submit_button.prop('disabled', false);
-	        $('#submit-spinner').hide();
+	        form_submit_button.prop('disabled', false);
+	        //$('#submit-spinner').hide();
 	       } else {
 	        let setup_intent = result.setupIntent;
 	        stripe_error_container.html('').hide();
 	        // Handle result.error or result.source
 	        // Add the payment method token to the form
 	        this.stripeToken = setup_intent.payment_method;
-	        //this.submitForm();
+	        this.paymentMethod = 'sepa';
+	        this.submitForm();
 	       }
 	      });
 	     }
@@ -1187,7 +1197,7 @@
 	    } else if (this.require_bank === true) {
 	     this.confirmSEPADebitSetup()
 	    } else {
-	     //this.submitForm();
+	     this.submitForm();
 	     //this.validateEmailAndPhone();
 	    }
 	   },
@@ -1197,7 +1207,8 @@
 	    } else {
 	     // token contains id, last4, and card type
 	     this.stripeToken = response['id'];
-	     this.submitForm();
+		 this.paymentMethod = 'card';
+		 this.submitForm();
 	     //this.validateEmailAndPhone();
 	    }
 	   },

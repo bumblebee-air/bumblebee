@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Helpers\TwilioHelper;
 use App\Managers\StripeManager;
+use App\Retailer;
 use App\StripeAccount;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Response;
+use Stripe\Stripe;
 use Twilio\Rest\Client;
 
 class StripeController extends Controller
@@ -432,7 +434,7 @@ class StripeController extends Controller
     public function setInvoicePaymentIntent(Request $request){
         try {
             $stripe_secret = env('STRIPE_SECRET');
-            \Stripe\Stripe::setApiKey($stripe_secret);
+            Stripe::setApiKey($stripe_secret);
             $amount = $request->get('amount');
             $amount = floatval($amount);
             $invoice_number = $request->get('invoice_number');
@@ -456,7 +458,49 @@ class StripeController extends Controller
     }
 
     public function setCustomerSetupIntent(Request $request){
-        return json_encode(['customer'=>"test"]);
+        $intent_type = $request->get('intent_type');
+        $retailer_id = $request->get('retailer_id');
+        $retailer = Retailer::find($retailer_id);
+        if(!$retailer){
+            return json_encode([
+                'error' => 1,
+                'message' => 'No Retailer account was found!',
+                'client_secret' => null
+            ]);
+        }
+        $user = $retailer->user;
+        $stripe_manager = new StripeManager();
+        $description = 'Retailer account: '.$retailer->name;
+        $customer_create_res = $stripe_manager->createCustomer($user->name,$user->email,$description);
+        if($customer_create_res['error'] == 1){
+            return json_encode([
+                'error' => 1,
+                'message' => $customer_create_res['message'],
+                'client_secret' => null
+            ]);
+        }
+        $stripe_customer_id = $customer_create_res['customer_id'];
+        if($intent_type == 'sepa'){
+            $sepa_intent_res = $stripe_manager->setupIntentSepa($stripe_customer_id);
+            if($sepa_intent_res['error'] == 1){
+                return json_encode([
+                    'error' => 1,
+                    'message' => $sepa_intent_res['message'],
+                    'client_secret' => null
+                ]);
+            }
+            $client_secret = $sepa_intent_res['client_secret'];
+            return json_encode([
+                'error' => 0,
+                'message' => 'Customer account created',
+                'client_secret' => $client_secret
+            ]);
+        }
+        return json_encode([
+            'error' => 1,
+            'message' => 'This intent type is not being processed yet in the system',
+            'client_secret' => null
+        ]);
     }
 }
 

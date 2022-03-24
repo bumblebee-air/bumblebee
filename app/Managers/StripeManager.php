@@ -168,4 +168,33 @@ class StripeManager
         }*/
         return true;
     }
+
+    public function createCustomer($name, $email, $description=''){
+        try {
+            $stripe = new StripeClient($this->stripe_key);
+            $customer = $stripe->customers->create([
+                'name' => $name,
+                'email' => $email,
+                'description' => $description
+            ]);
+            $stripe_customer_id = $customer->id;
+            return ['error'=>0, 'customer_id'=>$stripe_customer_id, 'message'=>'Customer created'];
+        } catch (\Exception $exception){
+            return ['error'=>1, 'customer_id'=>null, 'message'=>$exception->getMessage()];
+        }
+    }
+
+    public function setupIntentSepa($stripe_customer_id){
+        try {
+            $stripe = new StripeClient($this->stripe_key);
+            $setup_intent = $stripe->setupIntents->create([
+                'payment_method_types' => ['sepa_debit'],
+                'customer' => $stripe_customer_id,
+            ]);
+            $client_secret = $setup_intent->client_secret;
+            return ['error'=>0, 'client_secret'=>$client_secret, 'message'=>'Setup Intent successful'];
+        } catch (\Exception $exception){
+            return ['error'=>1, 'client_secret'=>null, 'message'=>$exception->getMessage()];
+        }
+    }
 }

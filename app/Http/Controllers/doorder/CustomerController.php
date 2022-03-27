@@ -18,7 +18,7 @@ class CustomerController extends Controller
             abort(404);
         }
         $order_status = $order->status;
-        if (in_array($order_status, ['pending','ready','on_route', 'on_route_pickup', 'picked_up'])) {
+        if (in_array($order_status, ['pending', 'ready', 'assigned', 'matched', 'on_route_pickup', 'picked_up', 'on_route'])) {
             return redirect()->to('customer/tracking/' . $order->customer_confirmation_code);
         } elseif (in_array($order_status, ['delivery_arrived', 'delivered'])) {
             return redirect()->to('customer/delivery_confirmation/' . $order->customer_confirmation_code);

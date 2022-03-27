@@ -40,7 +40,9 @@ class CustomerController extends Controller
             }
             return redirect()->to('customer/delivery_confirmation/' . $order->customer_confirmation_code);
         }
-        $with_driver = (in_array($order_status, ['pending', 'ready']))? 'no' : 'yes';
+        $no_tracking_status = ['pending', 'ready', 'assigned', 'matched', 'on_route_pickup', 'picked_up'];
+        $show_tracking = (in_array($order_status, $no_tracking_status))? 'no' : 'yes';
+        $message_to_customer = '';
         $retailer_name = $order->retailer_name;
         $driver_id = $order->driver;
         $order_id = $order->order_id;
@@ -57,12 +59,20 @@ class CustomerController extends Controller
                 $latest_timestamp = $coordinates_updated_at->format('H:i');
             }
         }
+        if(in_array($order_status, ['pending', 'ready', 'assigned', 'matched', 'on_route_pickup'])){
+            $message_to_customer = '<h3>We will be collecting your order shortly.</h3>'.
+                '<h3>You will receive a text message when your order is collected. Please check back soon for further updates.</h3>';
+        } elseif($order_status == 'picked_up') {
+            $message_to_customer = '<h3>Your order has been collected and will be out for delivery soon.</h3>'.
+                '<h3>You will receive a text message when our driver is on the way with a live tracking link.</h3>';
+        }
         if ($return_type == 'json') {
             return response()->json([
                 'redirect' => 0, 'order_id' => $order_id,
                 'driver_lat' => $driver_lat, 'driver_lon' => $driver_lon,
                 'latest_timestamp' => $latest_timestamp,
-                'with_driver' => $with_driver
+                'show_tracking' => $show_tracking,
+                'message_to_customer' => $message_to_customer
             ]);
         }
         $customer_code = $customer_confirmation_code;
@@ -73,7 +83,8 @@ class CustomerController extends Controller
             'latest_timestamp',
             'customer_code',
             'retailer_name',
-            'with_driver'
+            'show_tracking',
+            'message_to_customer'
         ));
     }
 

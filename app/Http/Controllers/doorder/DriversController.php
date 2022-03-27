@@ -222,7 +222,7 @@ class DriversController extends Controller
                         $order->customer_phone,
                         [
                             "from" => $sender_name,
-                            "body" => "Hi $order->customer_name, DoOrder’s same day delivery service has your $retailer_name order and its on its way, open the link to track it and confirm the delivery afterwards. " . url('customer/order/' . $order->customer_confirmation_code)
+                            "body" => "Hi $order->customer_name, Your $retailer_name order is on the way. You can track your order here: " . url('customer/order/' . $order->customer_confirmation_code)
                         ]
                     );
                 } catch (\Exception $exception) {
@@ -535,10 +535,10 @@ class DriversController extends Controller
             ]
         ]));*/
         //Send driver rating SMS to customer and retailer
-        $msg_content = "Hi $order->customer_name , thank you for selecting DoOrder delivery, you can" .
-            " rate your deliverer through the link: " . url('doorder/order/rating/2/' . $order_id);
-        TwilioHelper::sendSMS('DoOrder', $order->customer_phone, $msg_content);
         $retailer = Retailer::find($order->retailer_id);
+        $msg_content = "Hi $order->customer_name , Your $retailer->name order has been delivered." .
+            " You can rate your deliverer here: " . url('doorder/order/rating/2/' . $order_id);
+        TwilioHelper::sendSMS('DoOrder', $order->customer_phone, $msg_content);
         $retailer_number = 'N/A';
         if ($retailer != null) {
             $contact_details = json_decode($retailer->contacts_details);

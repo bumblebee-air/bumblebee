@@ -40,9 +40,10 @@
         </div>
         <div class="row d-none" id="customer-early" style="text-align: center">
             <div class="col-12 mt-3">
-                <h2>Hi there, looks like you're here early</h2>
+                {!! $message_to_customer !!}
+                {{--<h2>Hi there, looks like you're here early</h2>
                 <h3>Your order is scheduled for pickup soon</h3>
-                <h3>You can open this page again later to track your order after it has been picked up</h3>
+                <h3>You can open this page again later to track your order after it has been picked up</h3>--}}
             </div>
         </div>
     </div>
@@ -58,7 +59,7 @@
         let driver_lon = '{{$driver_lon}}';
         let latest_timestamp = '{{$latest_timestamp}}';
         let customer_code = '{{$customer_code}}';
-        let with_driver = '{{$with_driver}}';
+        let show_tracking = '{{$show_tracking}}';
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 12,
@@ -115,7 +116,7 @@
             });
         }
         function checkDriverStatus(){
-            if(with_driver === 'no'){
+            if(show_tracking === 'no'){
                 $('#customer-early').removeClass('d-none');
                 $('#map-container').addClass('d-none');
             } else {

@@ -44,4 +44,20 @@ class Controller extends BaseController
         $result = curl_exec ( $ch );
         curl_close ( $ch );
     }
+
+    public function checkPhoneInternationalFormat($phone_number,$format='+353'){
+        if($phone_number == null) return $phone_number;
+        //Replace spaces and hyphens if present
+        $phone_number = str_replace(' ', '', $phone_number);
+        $phone_number = str_replace('-', '', $phone_number);
+        //Remove first 0 if present
+        if (substr($phone_number, 0, 1) == '0') {
+            $phone_number = substr($phone_number, 1);
+        }
+        //Add country code if not present
+        if (substr($phone_number, 0, 4) != $format) {
+            $phone_number = $format . $phone_number;
+        }
+        return $phone_number;
+    }
 }

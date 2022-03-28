@@ -261,7 +261,7 @@ class BigCommerceController extends Controller
                 $eircode = $aWebhook['eircode'] ?? null;
                 //$status = 'ready';
                 $status = 'pending';
-
+                $customer_phone = $this->checkPhoneInternationalFormat($customer_phone,'+353');
                 $order = new Order();
                 $order->order_id = $order_id;
                 $order->description = $description;

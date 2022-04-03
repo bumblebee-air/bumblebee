@@ -171,8 +171,8 @@ class MapRoutesConroller extends Controller
                 '. Orders data: '.$orders_address_enc);
             $route_opt_url = env('ROUTE_OPTIMIZE_URL', 'https://afternoon-lake-03061.herokuapp.com') . '/routing_table';
             $route_request = Http::post($route_opt_url, [
-                'deliverers_coordinates' => json_encode($deliverers_coordinates_enc),
-                'orders_address' => json_encode($orders_address_enc)
+                'deliverers_coordinates' => $deliverers_coordinates_enc,
+                'orders_address' => $orders_address_enc
             ]);
 
             $response = $route_request->getBody();

@@ -1154,7 +1154,7 @@
 	         sepa_debit: ibanElement,
 	         billing_details: {
 	          name: '{{ $retailer->name }}',
-	          email: '{{ $retailer_user->email }}',
+	          email: '{{ $retailer->email }}',
 	         },
 	        },
 	       }
@@ -1181,7 +1181,8 @@
 
 	   checkPaymentCard(e) {
 	    e.preventDefault();
-		console.log(this.require_card,this.require_bank)
+		console.log(this.require_card,this.require_bank);
+		return ;
 	    if (this.require_card === true) {
 	     let exp_date = $('#payment_exp_date').val();
 	     let exp_month = exp_date.split('/')[0];

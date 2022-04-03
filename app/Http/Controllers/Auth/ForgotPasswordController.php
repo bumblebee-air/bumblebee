@@ -47,9 +47,16 @@ class ForgotPasswordController extends Controller
 
     public function sendResetLinkEmail(Request $request)
     {
-
         $this->validateEmail($request);
-        if (strpos(request()->getHost(), 'doorder.eu') !== false || str_contains(request()->url(), 'doorder/password/reset')) {
+        if (strpos(request()->getHost(), 'doorder.eu') !== false || str_contains(url()->previous(), 'doorder/password/reset')) {
+            //Check if unapproved retailer
+            $the_user = \App\User::where('email',$request->get('email'))->first();
+            if($the_user && $the_user->user_role == 'retailer'){
+                $retailer_profile = $the_user->retailer_profile;
+                if($retailer_profile && $retailer_profile->status != 'completed'){
+                    return redirect()->back()->withErrors(['message' => 'Your account has not been activated yet']);
+                }
+            }
             \Config::set('mail.from.address', 'no-reply@doorder.eu');
             \Config::set('mail.from.name', 'DoOrder');
             \Config::set('app.name', 'DoOrder');

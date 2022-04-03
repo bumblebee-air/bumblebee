@@ -160,14 +160,6 @@
                         <p>Settings</p>
                 </a></li>
 		    @elseif(auth()->user()->user_role == 'retailer')
-                <li class="nav-item"><a class="nav-link d-flex"
-                    href="{{route('doorder_addNewOrder', 'doorder')}}"> <img class="my-nav-icon my-nav-icon-grey"
-                        src="{{asset('images/doorder-new-layout/add-order-grey.png')}}" alt="">
-                         <img
-                        class="my-nav-icon my-nav-icon-top"
-                        src="{{asset('images/doorder-new-layout/add-order-yellow.png')}}" alt="">
-                        <p>New Order</p>
-                </a></li>
                 <li class="nav-item"><a class="nav-link d-flex" href="{{url('/')}}">
                         <img class="my-nav-icon my-nav-icon-grey"
                         src="{{asset('images/doorder-new-layout/dashboard-grey.png')}}" alt=""> <img
@@ -175,7 +167,14 @@
                         src="{{asset('images/doorder-new-layout/dashboard-yellow.png')}}" alt="">
                         <p>Dashboard</p>
                 </a></li>
-
+                <li class="nav-item"><a class="nav-link d-flex"
+                    href="{{route('doorder_addNewOrder', 'doorder')}}">
+                    <img class="my-nav-icon my-nav-icon-grey"
+                         src="{{asset('images/doorder-new-layout/add-order-grey.png')}}" alt="">
+                    <img class="my-nav-icon my-nav-icon-top"
+                        src="{{asset('images/doorder-new-layout/add-order-yellow.png')}}" alt="">
+                    <p>New Order</p>
+                </a></li>
                 <li class="nav-item"><a class="nav-link d-flex"
                     href="{{route('doorder_ordersTable', 'doorder')}}"> <img
                         class="my-nav-icon my-nav-icon-grey"

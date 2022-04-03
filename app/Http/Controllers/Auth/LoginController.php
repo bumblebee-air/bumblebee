@@ -64,6 +64,14 @@ class LoginController extends Controller
             \Session::flash('error', 'You are not allowed to login the portal');
             $this->logout($request);
         }
+        //Check if unapproved retailer
+        if($user && $user->user_role == 'retailer'){
+            $retailer_profile = $user->retailer_profile;
+            if($retailer_profile && $retailer_profile->status != 'completed'){
+                \Session::flash('error', 'Your account has not been activated yet');
+                $this->logout($request);
+            }
+        }
         //dd($user);
     }
 

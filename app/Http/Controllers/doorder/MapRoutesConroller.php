@@ -153,7 +153,7 @@ class MapRoutesConroller extends Controller
 //                 dd($coordinates_error);
 //                 if($coordinates_error) {return $item->id;}
                 return [
-                    'deliverer_id' => $item->id,
+                    'deliverer_id' => (string)$item->id,
                     'deliverer_coordinates' => $driver_coordinates_lat . ',' . $driver_coordinates_lon,
                     'coordinates_error' => $coordinates_error
                 ];

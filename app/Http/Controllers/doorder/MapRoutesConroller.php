@@ -165,13 +165,18 @@ class MapRoutesConroller extends Controller
                     'dropoff' => $item->customer_address_lat . ',' . $item->customer_address_lon,
                 ];
             });
+            $deliverers_coordinates_enc = json_encode($deliverers_coordinates);
+            $orders_address_enc = json_encode($orders_address);
+            \Log::info('Multi-driver route optimize request for driver with coordinates: '.$deliverers_coordinates_enc.
+                '. Orders data: '.$orders_address_enc);
             $route_opt_url = env('ROUTE_OPTIMIZE_URL', 'https://afternoon-lake-03061.herokuapp.com') . '/routing_table';
             $route_request = Http::post($route_opt_url, [
-                'deliverers_coordinates' => json_encode($deliverers_coordinates),
-                'orders_address' => json_encode($orders_address)
+                'deliverers_coordinates' => json_encode($deliverers_coordinates_enc),
+                'orders_address' => json_encode($orders_address_enc)
             ]);
 
             $response = $route_request->getBody();
+            \Log::info('Multi-driver route optimize request succeeded with data: '.$response);
             $response = json_decode($response);
           //  dd($response);
             $response = collect($response)->map(function ($item) {

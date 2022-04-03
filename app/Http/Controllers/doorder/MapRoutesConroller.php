@@ -160,7 +160,7 @@ class MapRoutesConroller extends Controller
             });
             $orders_address = $orders->map(function ($item) {
                 return [
-                    'order_id' => $item->id,
+                    'order_id' => (string)$item->id,
                     'pickup' => $item->pickup_lat . ',' . $item->pickup_lon,
                     'dropoff' => $item->customer_address_lat . ',' . $item->customer_address_lon,
                 ];

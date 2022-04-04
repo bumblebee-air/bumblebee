@@ -9,12 +9,12 @@ use Illuminate\Http\Request;
 
 class TermsController extends Controller
 {
-    
+
     public function index()
     {
         return view('admin.garden_help.terms_privacy');
     }
-    
+
     public function save(Request $request)
     {
         /*$this->validate($request, [
@@ -59,7 +59,7 @@ class TermsController extends Controller
         if(!$terms_policies_customer) {
             $terms_policies_customer = new TermAndPolicy();
             $terms_policies_customer->type = 'customer';
-            $terms_policies_contractor->client_id = $client_id;
+            $terms_policies_customer->client_id = $client_id;
         }
         if($request->hasFile('termsCustomer')) {
             $terms_policies_customer->terms = $request->file('termsCustomer')->store('uploads/terms_and_policies');

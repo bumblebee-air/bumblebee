@@ -489,6 +489,9 @@ class StripeController extends Controller
                     'client_secret' => null
                 ]);
             }
+            //update retailer customer id
+            $retailer->stripe_customer_id = $stripe_customer_id;
+            $retailer->save();
             $client_secret = $sepa_intent_res['client_secret'];
             return json_encode([
                 'error' => 0,

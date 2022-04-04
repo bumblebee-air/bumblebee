@@ -555,8 +555,8 @@
 																				<div id="iban-element"></div>
 																			</div>
 																			<div class="col-12">
-																				<p id="stripe-validation-error" style="color: darkred; margin-top: 10px;">
-																				</p>
+																				<p id="stripe-validation-error" class="mb-0"
+																			   		style="color: darkred; margin-top: 10px;"></p>
 																			</div>
 																		</div>
 																		<div class="form-group row pb-2">
@@ -604,7 +604,7 @@
 								<div class="row justify-content-center">
 									<div class="col-lg-3  col-md-3 col-sm-4 px-md-1 text-center">
 
-										<button type="button" id="save-button" class="btnDoorder btn-doorder-primary mb-1" @click="submitForm()">Save</button>
+										<button type="button" id="save-button" class="btnDoorder btn-doorder-primary mb-1" @click="checkPaymentCard">Save</button>
 									</div>
 									@if (auth()->user()->user_role != 'retailer')
 										<div class="col-lg-3  col-md-3 col-sm-4 px-md-1 text-center">
@@ -673,20 +673,22 @@
 	 let stripe = Stripe("{{ env('STRIPE_PUBLIC_KEY') }}");
 	 let ibanElement = null;
 	 let sepa_client_secret = "";
-	 let stripe_error_container = $('#stripe-validation-error');
-	 let form_submit_button = $('#save-button');
+	 let stripe_error_container;
+	 let stripe_error_flag = false;
+	 let form_submit_button;
 	 let token = '{{ csrf_token() }}';
 
 	 let autocomp_countries = JSON.parse('{!! $google_auto_comp_countries !!}');
 	 $(document).ready(function() {
-	  var readonly = {!! $readOnly !!};
-	  if (readonly == 1) {
-	   $("input").prop('disabled', true);
-	   $("textarea").prop('disabled', true);
-	   $("select").prop('disabled', true);
-	   $(".inputSearchNavbar").prop('disabled', false);
-	   $('.addCircle,.removeCircle').css("display", "none")
-	  }
+		 var readonly = {!! $readOnly !!};
+		 if (readonly == 1) {
+			 $("input").prop('disabled', true);
+			 $("textarea").prop('disabled', true);
+			 $("select").prop('disabled', true);
+			 $(".inputSearchNavbar").prop('disabled', false);
+			 $('.addCircle,.removeCircle').css("display", "none")
+		 }
+		 form_submit_button = $('#save-button');
 	 });
 
 	 let business_hours_initial_array = [{
@@ -1113,6 +1115,8 @@
 	     // placeholderCountry.
 	     placeholderCountry: 'IE',
 	    };
+		//Specify the error container element
+	   	stripe_error_container = $('#stripe-validation-error');
 	    // Create an instance of the IBAN Element
 	    let elements = stripe.elements();
 	    ibanElement = elements.create('iban', options);
@@ -1140,22 +1144,25 @@
 			 intent_type: 'sepa',
 	      retailer_id: {{ $retailer->id }}
 	     },
-	     success: function(data) {
-	      //console.log(data);
-		  if(data.error == 1){
-			  stripe_error_container.html(data.message).show();
+	     success: function(res) {
+	      let res_data = JSON.parse(res);
+		  //console.log(res_data);
+		  if(res_data.error == 1){
+			  stripe_error_container.html(res_data.message).show();
 			  form_submit_button.prop('disabled', false);
 			  return false;
 		  }
-		  sepa_client_secret = data.client_secret;
+		  sepa_client_secret = res_data.client_secret;
+		  let the_billing_details = {
+			  name: '{{ $retailer->name }}',
+			  email: '{{ $retailer_user->email }}',
+		  };
+		  console.log(the_billing_details);
 	      stripe.confirmSepaDebitSetup(
 	       sepa_client_secret, {
 	        payment_method: {
 	         sepa_debit: ibanElement,
-	         billing_details: {
-	          name: '{{ $retailer->name }}',
-	          email: '{{ $retailer->email }}',
-	         },
+	         billing_details: the_billing_details,
 	        },
 	       }
 	      ).then(result => {
@@ -1170,9 +1177,9 @@
 	        stripe_error_container.html('').hide();
 	        // Handle result.error or result.source
 	        // Add the payment method token to the form
-	        this.stripeToken = setup_intent.payment_method;
-	        this.paymentMethod = 'sepa';
-	        this.submitForm();
+	        app.stripeToken = setup_intent.payment_method;
+	        app.paymentMethod = 'sepa';
+	        app.submitForm();
 	       }
 	      });
 	     }
@@ -1181,8 +1188,6 @@
 
 	   checkPaymentCard(e) {
 	    e.preventDefault();
-		console.log(this.require_card,this.require_bank);
-		return ;
 	    if (this.require_card === true) {
 	     let exp_date = $('#payment_exp_date').val();
 	     let exp_month = exp_date.split('/')[0];

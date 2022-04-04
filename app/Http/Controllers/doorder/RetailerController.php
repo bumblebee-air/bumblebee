@@ -305,6 +305,8 @@ class RetailerController extends Controller
             alert()->error('Retailer not found!');
             return redirect()->back();
         }
-        return view('admin.doorder.retailers.single_retailer', ['retailer' => $retailer, 'readOnly' => 0]);
+        $retailer_user = $retailer->user;
+        return view('admin.doorder.retailers.single_retailer', ['retailer' => $retailer,
+            'readOnly' => 0, 'retailer_user'=>$retailer_user]);
     }
 }

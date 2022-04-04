@@ -71,7 +71,7 @@ class InvoiceController extends Controller
         }
         $from = $request->date ? Carbon::createFromFormat('M Y', $request->date)->startOfMonth()->format('d-m-Y') : ( $request->from ? $request->from : Carbon::now()->startOfMonth()->format('d-m-Y'));
         $to = $request->date ? Carbon::createFromFormat('M Y', $request->date)->endOfMonth()->format('d-m-Y') :  ( $request->to ? $request->to :Carbon::now()->endOfMonth()->format('d-m-Y'));
-        return Excel::download(new InvoiceOrderExport($from, $to, $retailer_id), "invoices_$from - $to.xlsx");
+        return Excel::download(new InvoiceOrderExport($from, $to, $retailer_id), "Invoice orders $from - $to.xlsx");
     }
 
     public function getSingleInvoice(Request $request, $client_name, $id)

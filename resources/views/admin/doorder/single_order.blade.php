@@ -830,11 +830,19 @@ button.disabled, button:disabled {
 															<div class="row">
 																<div class="col-12">
 																	<div class="form-group">
-																		<label class="control-label">Driver assigned </label>
+																		<label class="control-label">Driver assigned</label>
 																		<span class="form-control"
 																			style="display: block; font-weight: 600">
 																			@if($order->orderDriver)
 																			{{$order->orderDriver->name}} @else N/A @endif </span>
+																	</div>
+																</div>
+																<div class="col-12">
+																	<div class="form-group">
+																		<label class="control-label">Skip QR code reason</label>
+																		<span class="form-control" style="display: block; font-weight: 600">
+																			@if($order->delivery_confirmation_skip_reason!=null) {{$order->delivery_confirmation_skip_reason}} @endif
+																		</span>
 																	</div>
 																</div>
 

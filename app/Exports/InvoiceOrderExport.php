@@ -26,7 +26,8 @@ class InvoiceOrderExport implements FromArray, WithHeadings
     public function array():array
     {
         $exportable_array = [];
-
+        $exportable_array[] = ['Order no.','Retailer','Status','Pickup address','Delivery address',
+            'Deliverer','Skip QR code reason','Charge'];
         $invoices = Order::where('status','=','delivered');
         if ($this->retailer_id != null){
             $invoices = $invoices->where('retailer_id','=',$this->retailer_id);
@@ -45,9 +46,10 @@ class InvoiceOrderExport implements FromArray, WithHeadings
                 $invoice->order_id,
                 $invoice->retailer? $invoice->retailer->name: 'N/A',
                 $invoice->status,
-                $invoice->orderDriver ? $invoice->orderDriver->name: 'N/A',
                 $invoice->pickup_address,
                 $invoice->customer_address,
+                $invoice->orderDriver ? $invoice->orderDriver->name: 'N/A',
+                $invoice->delivery_confirmation_skip_reason ?: '',
                 '€10',
             ];
         }

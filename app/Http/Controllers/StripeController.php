@@ -6,7 +6,9 @@ use App\Helpers\TwilioHelper;
 use App\Managers\StripeManager;
 use App\Retailer;
 use App\StripeAccount;
+use App\StripePaymentLog;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Response;
@@ -296,7 +298,7 @@ class StripeController extends Controller
     }
 
     private static function checkIfRequirementExists($item, $requirements_array) {
-        $is_exists = true;
+        $is_exists = false;
         if (!in_array($item, $requirements_array)) {
             if (in_array($item, ['tos_acceptance.ip', 'tos_acceptance.date'])) {
                 $similar_items = ['tos_acceptance.ip', 'tos_acceptance.date'];
@@ -424,8 +426,6 @@ class StripeController extends Controller
                         $is_exists = true;
                     }
                 }
-            } else {
-                $is_exists = false;
             }
         }
         return $is_exists;
@@ -504,6 +504,56 @@ class StripeController extends Controller
             'message' => 'This intent type is not being processed yet in the system',
             'client_secret' => null
         ]);
+    }
+
+    public function PaymentIntentUpdateWebhook(Request $request){
+        \Log::info('Stripe Payment Intent update');
+        $update_type = $request->get('type');
+        $data = $request->get('data');
+        $data_object = $data['object'];
+        $payment_intent_id = $data_object['id'];
+        //Check if payment id is available in payment logs
+        $payment_log = StripePaymentLog::where('operation_id','=',$payment_intent_id)->first();
+        if($payment_log!=null) {
+            \Log::info(json_encode($request->all()));
+            $status = $data_object['status'];
+            $entity_type = $payment_log->model_name;
+            $entity_id = $payment_log->model_id;
+            if ($update_type == 'payment_intent.processing') {
+                $payment_log->status = $status;
+            } elseif ($update_type == 'payment_intent.succeeded') {
+                $payment_log->status = $status;
+                if($entity_type == 'retailer'){
+                    //Update retailer orders
+                    $retailer = Retailer::find($entity_id);
+                    if($retailer!=null) {
+                        $startOfMonth = Carbon::now()->startOfMonth()->subMonth()->startOfMonth()->toDateTimeString();
+                        $endOfMonth = Carbon::now()->startOfMonth()->subMonth()->endOfMonth()->toDateTimeString();
+                        $retailer_orders = $retailer->orders->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+                            ->where('status', 'delivered')->where('is_archived', 0)->where('is_paidout_retailer', false);
+                        foreach ($retailer_orders as $order) {
+                            $order->is_archived = 1;
+                            $order->is_paidout_retailer = true;
+                            $order->save();
+                        }
+                    }
+                }
+            } elseif ($update_type == 'payment_intent.payment_failed') {
+                $payment_log->status = $status;
+            } elseif ($update_type == 'payment_intent.requires_action') {
+                $payment_log->status = $status;
+            } elseif ($update_type == 'payment_intent.partially_funded') {
+                $payment_log->status = $status;
+            } elseif ($update_type == 'payment_intent.canceled') {
+                $payment_log->status = $status;
+            } else {
+                \Log::warning('Unknown/Unhandled event type: ' . $update_type);
+            }
+            $payment_log->save();
+        } else {
+            \Log::info('The payment intent was not found: ' . $payment_intent_id);
+        }
+        return response()->json('Webhook received successfully');
     }
 }
 

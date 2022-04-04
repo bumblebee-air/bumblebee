@@ -105,9 +105,9 @@ Route::group(['middleware' => "auth:api"], function () {
         Route::post('checkout_jobs', 'unified\EngineerController@checkOutJobs');
     });
 });
-
-
+//Stripe updates
 Route::post('stripe-account-update', 'StripeController@accountUpdateWebhook');
+Route::post('stripe-payment-intent-update', 'StripeController@PaymentIntentUpdateWebhook');
 
 //App Details
 Route::get('app-details', 'AppDetailsController@view');

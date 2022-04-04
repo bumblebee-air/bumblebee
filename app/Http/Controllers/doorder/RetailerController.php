@@ -258,10 +258,10 @@ class RetailerController extends Controller
                 alert()->error('The associated user of this retailer was not found!');
                 return redirect()->back();
             }
-            if (env('APP_ENV') == 'local' || env('APP_ENV') == 'development') {
-                $stripe_token = 'tok_visa';
-            }
             if($payment_method=='card') {
+                if (env('APP_ENV') == 'local' || env('APP_ENV') == 'development') {
+                    $stripe_token = 'tok_visa';
+                }
                 $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
                 $customer = $stripe->customers->create([
                     'name' => $user->name,

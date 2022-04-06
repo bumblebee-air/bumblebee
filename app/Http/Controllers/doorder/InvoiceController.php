@@ -45,7 +45,7 @@ class InvoiceController extends Controller
                     'orders_count' => count($orders_group),
                     'month' => Carbon::parse($key)->format('M Y'),
                     'date' => Carbon::parse($key)->format('M Y'),
-                    'invoiced' => true
+                    'invoiced' => false
                 ];
             }
         }
@@ -257,7 +257,8 @@ class InvoiceController extends Controller
         StripePaymentLog::create([
             'model_id' => $retailer_id,
             'model_name' => 'retailer',
-            'description' => 'charged retailer: ' . $retailer->name . ' for invoice number: ' . $invoice_number,
+            'description' => 'charged retailer: ' . $retailer->name . ' for invoice number: ' .
+                $invoice_number . ' of month ' . $the_month_datetime->monthName,
             'status' => $charge_status,
             'operation_id' => $charge_id,
             'operation_type' => 'charge',

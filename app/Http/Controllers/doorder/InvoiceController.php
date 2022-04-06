@@ -81,17 +81,20 @@ class InvoiceController extends Controller
             abort(404);
         }
         $start_of_month = Carbon::parse($request->month)->startOfMonth();
-        //        $start_of_month = Carbon::now()->startOfMonth();
-        //        $end_of_month = Carbon::now()->endOfMonth();
-        $month_days = Carbon::now()->startOfYear()->addMonths($request->month)->daysInMonth;
+        //$month_days = Carbon::now()->startOfYear()->addMonths($request->month)->daysInMonth;
+        $month_days = $start_of_month->daysInMonth;
         $invoice = [];
         $subtotal = 0;
         $paid_flag = 0;
         for ($i = 0; $i < $month_days; $i++) {
-            $date = Carbon::parse($request->month)->startOfMonth()->addDays($i);
-            $count = Order::where('retailer_id', $id)->with(['orderDriver', 'retailer'])->whereDate('created_at', $date)->where('is_archived', false)->where('status', 'delivered')->count();
+            //$date = Carbon::parse($request->month)->startOfMonth()->addDays($i);
+            $date = clone $start_of_month;
+            $date = $date->addDays($i);
+            $date_time_string = clone $date;
+            $date_time_string = $date_time_string->toDateTimeString();
+            $count = Order::where('retailer_id', $id)->with(['orderDriver', 'retailer'])->whereDate('created_at', $date_time_string)->where('is_archived', false)->where('status', 'delivered')->count();
             if ($count > 0) {
-                $data = Carbon::parse($request->month)->startOfMonth()->addDays($i)->format('d/m/Y');
+                $data = $date->format('d/m/Y');
                 //$invoice[] = ['name' => "$data $count package for ". $count * 10 . "€",'count'=>$count , 'charge' => $count * 10];
                 $invoice[] = ['name' => "Same Day Delivery", 'date' => $data, 'data' => "$count package for $retailer->name", 'count' => $count, 'charge' => $count * 10];
                 $subtotal += $count * 10;
@@ -100,10 +103,13 @@ class InvoiceController extends Controller
         if(count($invoice) == 0){
             //No unpaid orders found for this month, check for paid orders
             for ($i = 0; $i < $month_days; $i++) {
-                $date = Carbon::parse($request->month)->startOfMonth()->addDays($i);
-                $count = Order::where('retailer_id', $id)->with(['orderDriver', 'retailer'])->whereDate('created_at', $date)->where('is_archived', true)->where('status', 'delivered')->count();
+                $date = clone $start_of_month;
+                $date = $date->addDays($i);
+                $date_time_string = clone $date;
+                $date_time_string = $date_time_string->toDateTimeString();
+                $count = Order::where('retailer_id', $id)->with(['orderDriver', 'retailer'])->whereDate('created_at', $date_time_string)->where('is_archived', true)->where('status', 'delivered')->count();
                 if ($count > 0) {
-                    $data = Carbon::parse($request->month)->startOfMonth()->addDays($i)->format('d/m/Y');
+                    $data = $date->format('d/m/Y');
                     $invoice[] = ['name' => "Same Day Delivery", 'date' => $data, 'data' => "$count package for $retailer->name", 'count' => $count, 'charge' => $count * 10];
                     $subtotal += $count * 10;
                 }

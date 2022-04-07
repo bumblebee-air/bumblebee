@@ -28,13 +28,14 @@ class InvoiceController extends Controller
         if ($user_role == 'retailer') {
             $retailers = $retailers->where('user_id','=',$current_user->id);
         }
-        $retailers = $retailers->whereHas('orders', function ($q) {
+        //Unpaid invoices
+        $retailers_unpaid = clone $retailers;
+        $retailers_unpaid = $retailers_unpaid->whereHas('orders', function ($q) {
             $q->where('is_archived', false)->where('status', 'delivered');
         })->with(['orders' => function ($q) {
             $q->where('is_archived', false)->where('status', 'delivered');
         }])->get();
-
-        foreach ($retailers as $retailer) {
+        foreach ($retailers_unpaid as $retailer) {
             $orders_groups = $retailer->orders->groupBy(function ($val) {
                 return Carbon::parse($val->created_at)->format('M Y');
             });
@@ -46,6 +47,28 @@ class InvoiceController extends Controller
                     'month' => Carbon::parse($key)->format('M Y'),
                     'date' => Carbon::parse($key)->format('M Y'),
                     'invoiced' => false
+                ];
+            }
+        }
+        //Paid invoices
+        $retailers_paid = clone $retailers;
+        $retailers_paid = $retailers_paid->whereHas('orders', function ($q) {
+            $q->where('is_archived', true)->where('status', 'delivered');
+        })->with(['orders' => function ($q) {
+            $q->where('is_archived', true)->where('status', 'delivered');
+        }])->get();
+        foreach ($retailers_paid as $retailer) {
+            $orders_groups = $retailer->orders->groupBy(function ($val) {
+                return Carbon::parse($val->created_at)->format('M Y');
+            });
+            foreach ($orders_groups as $key => $orders_group) {
+                $invoiceList[] = [
+                    'id' => $retailer->id,
+                    'name' => $retailer->name,
+                    'orders_count' => count($orders_group),
+                    'month' => Carbon::parse($key)->format('M Y'),
+                    'date' => Carbon::parse($key)->format('M Y'),
+                    'invoiced' => true
                 ];
             }
         }
@@ -249,7 +272,8 @@ class InvoiceController extends Controller
             $orders = Order::where('retailer_id', $retailer_id)->with(['orderDriver', 'retailer'])->whereDate('created_at', $date)->where('is_archived', false)->where('status', 'delivered')->get();
             foreach ($orders as $order) {
                 $order->update([
-                    'is_archived' => true
+                    'is_archived' => true,
+                    'is_paidout_retailer' => true
                 ]);
             }
         }

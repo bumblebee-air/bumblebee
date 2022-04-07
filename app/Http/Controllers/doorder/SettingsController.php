@@ -156,17 +156,22 @@ class SettingsController extends Controller
         $client_setting = $the_client->setting;
         // dd($request->all());
         if ($request->has('retailerAutomaticCharging')) {
-            $check_if_deliverer_payout_exists = $client_setting->where('name', 'day_of_retailer_charging');
-            if (count($check_if_deliverer_payout_exists) > 0) {
-                $deliverer_payout = $check_if_deliverer_payout_exists->first();
-                $deliverer_payout->update([
-                    'the_value' => $request->dayOfMonth
+            $retailer_charge_day = $request->get('dayOfMonth');
+            if($retailer_charge_day==null || $retailer_charge_day==''){
+                alert()->error('No day was selected, please try again');
+                return redirect()->route('doorder_getSettings', 'doorder');
+            }
+            $check_if_retailer_charging_exists = $client_setting->where('name', 'day_of_retailer_charging');
+            if (count($check_if_retailer_charging_exists) > 0) {
+                $retailer_charging = $check_if_retailer_charging_exists->first();
+                $retailer_charging->update([
+                    'the_value' => $retailer_charge_day
                 ]);
             } else {
                 ClientSetting::create([
                     'name' => 'day_of_retailer_charging',
                     'client_id' => $the_client->id,
-                    'the_value' => $request->dayOfMonth,
+                    'the_value' => $retailer_charge_day,
                     'display_name' => 'The Schedule datetime'
                 ]);
             }

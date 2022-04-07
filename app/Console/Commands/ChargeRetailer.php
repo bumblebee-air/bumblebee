@@ -52,7 +52,7 @@ class ChargeRetailer extends Command
             ->where('name','day_of_retailer_charging')->first();
         $day_of_charge = 1;
         if(!$day_of_retailer_charging){
-            $this->info('Day of Retailer charging setting not found, defaulting to first day of month');
+            $this->info('Day of Retailer charging setting not found, aborting!');
             return false;
         } else {
             $day_of_charge = $day_of_retailer_charging->the_value ?? 1;

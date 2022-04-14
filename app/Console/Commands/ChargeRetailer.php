@@ -63,97 +63,122 @@ class ChargeRetailer extends Command
             $day_of_charge = $current_day_time->daysInMonth;
         }
         $current_day = $current_day_time->day;
-        if($current_day != $day_of_charge){
-            $this->info('Today is not the retailer charging day, exiting!');
-            return false;
-        }
+        $retailers = Retailer::all();
         $prev_month = $current_day_time->subMonth()->startOfMonth();
         $startOfMonth = Carbon::now()->startOfMonth()->subMonth()->startOfMonth()->toDateTimeString();
         $endOfMonth = Carbon::now()->startOfMonth()->subMonth()->endOfMonth()->toDateTimeString();
-        $retailers = Retailer::all();
         Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-        foreach($retailers as $retailer) {
-            if ($retailer->stripe_customer_id) {
-                $retailer_orders = $retailer->orders->whereBetween('created_at', [$startOfMonth, $endOfMonth])
-                    ->where('status', 'delivered')->where('is_archived', 0)->where('is_paidout_retailer', false);
-                /*if (env('APP_ENV') == 'local' || env('APP_ENV') == 'development') {
-                    $stripetoken = 'tok_visa';
-                } else{
-                    $stripetoken = $retailer->stripe_token?? null;
-                }*/
-                $retailer_orders_count = count($retailer_orders);
-                $amount = $retailer_orders_count * 1000;
-                $currency = 'eur';
-                $charge_description = 'Charged retailer: ' . $retailer->name . ' for ' . $retailer_orders_count .
-                    ' orders of month '.$prev_month->monthName;
-                $stripe_charge_status = '';
-                if ($amount > 0) {
-                    try {
-                        if($retailer->payment_method == 'sepa'){
-                            //SEPA Direct Debit payment
-                            $payment_intent = Stripe\PaymentIntent::create([
-                                'amount' => $amount,
-                                'currency' => 'eur',
-                                'customer' => $retailer->stripe_customer_id,
-                                'payment_method' => $retailer->stripe_payment_id,
-                                'payment_method_types' => ['sepa_debit'],
-                                'off_session' => true,
-                                'confirm' => true,
-                                'description' => $charge_description
-                            ]);
-                            StripePaymentLog::create([
-                                'model_id' => $retailer->id,
-                                'model_name' => 'retailer',
-                                'description' => 'charged retailer: ' . $retailer->name . ' for ' . $retailer_orders_count .
-                                    ' orders with amount: ' . ($amount / 100) . ' ' . $currency . ' for month ' . $prev_month->monthName,
-                                'status' => $payment_intent->status,
-                                'operation_id' => $payment_intent->id,
-                                'operation_type' => 'charge debit',
-                                'fail_message' => 'N/A'
-                            ]);
-                            $this->info($charge_description.' (Direct Debit)');
-                        } else {
-                            //Card payment
-                            $stripe_charge = Stripe\Charge::create([
-                                "amount" => $amount,
-                                "currency" => $currency,
-                                "customer" => $retailer->stripe_customer_id,
-                                "description" => $charge_description
-                            ]);
-
-                            StripePaymentLog::create([
-                                'model_id' => $retailer->id,
-                                'model_name' => 'retailer',
-                                'description' => 'charged retailer: ' . $retailer->name . ' for ' . $retailer_orders_count .
-                                    ' orders with amount: ' . ($amount / 100) . ' ' . $currency . ' for month ' . $prev_month->monthName,
-                                'status' => $stripe_charge->status,
-                                'operation_id' => $stripe_charge->id,
-                                'operation_type' => 'charge',
-                                'fail_message' => $stripe_charge->failure_message
-                            ]);
-                            foreach ($retailer_orders as $order) {
-                                $order->is_archived = 1;
-                                $order->is_paidout_retailer = true;
-                                $order->save();
-                            }
-                            $this->info($charge_description);
-                        }
-                    } catch (\Exception $e) {
-                        StripePaymentLog::create([
-                            'model_id' => $retailer->id,
-                            'model_name' => 'retailer',
-                            'description' => 'Failed to charge retailer: ' . $retailer->name . ' for ' . $retailer_orders_count . ' orders with amount: ' . ($amount / 100) . ' ' . $currency,
-                            'status' => 'failed',
-                            'operation_id' => null,
-                            'operation_type' => 'charge',
-                            'fail_message' => $e->getMessage()
-                        ]);
-                        $this->info('Failed to charge retailer: ' . $retailer->name . ' for ' . $retailer_orders_count . ' orders');
+        if($current_day != $day_of_charge){
+            $retailers_override_count = 0;
+            foreach($retailers as $retailer) {
+                $retailer_charging_day = $retailer->charging_day;
+                if($retailer_charging_day!=null && $retailer_charging_day==$day_of_charge) {
+                    if ($retailer->stripe_customer_id) {
+                        $charge_status = $this->chargeRetailer($retailer, $startOfMonth, $endOfMonth, $prev_month);
+                        if($charge_status) $retailers_override_count++;
                     }
                 }
+            }
+            if($retailers_override_count > 0){
+                \Log::info('Today is not the retailer charging day but successfully charged '.
+                    strval($retailers_override_count).' retailers as they have today as thr override charging day');
+                return true;
+            }
+            $log_text = 'Today is not the retailer charging day, '.
+                'and no retailers have today as an override charging day';
+            $this->info($log_text.', exiting!');
+            \Log::info($log_text);
+            return false;
+        }
+        foreach($retailers as $retailer) {
+            if ($retailer->stripe_customer_id) {
+                $this->chargeRetailer($retailer,$startOfMonth,$endOfMonth,$prev_month);
             }
         }
         $this->info('Finished automatic charge retailer function');
         return true;
+    }
+
+    private function chargeRetailer($retailer,$startOfMonth,$endOfMonth,$prev_month){
+        $retailer_orders = $retailer->orders->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+            ->where('status', 'delivered')->where('is_archived', 0)->where('is_paidout_retailer', false);
+        /*if (env('APP_ENV') == 'local' || env('APP_ENV') == 'development') {
+            $stripetoken = 'tok_visa';
+        } else{
+            $stripetoken = $retailer->stripe_token?? null;
+        }*/
+        $retailer_orders_count = count($retailer_orders);
+        $amount = $retailer_orders_count * 1000;
+        $currency = 'eur';
+        $charge_description = 'Charged retailer: ' . $retailer->name . ' for ' . $retailer_orders_count .
+            ' orders of month '.$prev_month->monthName;
+        $stripe_charge_status = '';
+        if ($amount > 0) {
+            try {
+                if($retailer->payment_method == 'sepa'){
+                    //SEPA Direct Debit payment
+                    $payment_intent = Stripe\PaymentIntent::create([
+                        'amount' => $amount,
+                        'currency' => 'eur',
+                        'customer' => $retailer->stripe_customer_id,
+                        'payment_method' => $retailer->stripe_payment_id,
+                        'payment_method_types' => ['sepa_debit'],
+                        'off_session' => true,
+                        'confirm' => true,
+                        'description' => $charge_description
+                    ]);
+                    StripePaymentLog::create([
+                        'model_id' => $retailer->id,
+                        'model_name' => 'retailer',
+                        'description' => 'charged retailer: ' . $retailer->name . ' for ' . $retailer_orders_count .
+                            ' orders with amount: ' . ($amount / 100) . ' ' . $currency . ' for month ' . $prev_month->monthName,
+                        'status' => $payment_intent->status,
+                        'operation_id' => $payment_intent->id,
+                        'operation_type' => 'charge debit',
+                        'fail_message' => 'N/A'
+                    ]);
+                    $this->info($charge_description.' (Direct Debit)');
+                } else {
+                    //Card payment
+                    $stripe_charge = Stripe\Charge::create([
+                        "amount" => $amount,
+                        "currency" => $currency,
+                        "customer" => $retailer->stripe_customer_id,
+                        "description" => $charge_description
+                    ]);
+
+                    StripePaymentLog::create([
+                        'model_id' => $retailer->id,
+                        'model_name' => 'retailer',
+                        'description' => 'charged retailer: ' . $retailer->name . ' for ' . $retailer_orders_count .
+                            ' orders with amount: ' . ($amount / 100) . ' ' . $currency . ' for month ' . $prev_month->monthName,
+                        'status' => $stripe_charge->status,
+                        'operation_id' => $stripe_charge->id,
+                        'operation_type' => 'charge',
+                        'fail_message' => $stripe_charge->failure_message
+                    ]);
+                    foreach ($retailer_orders as $order) {
+                        $order->is_archived = 1;
+                        $order->is_paidout_retailer = true;
+                        $order->save();
+                    }
+                    $this->info($charge_description);
+                }
+                return true;
+            } catch (\Exception $e) {
+                StripePaymentLog::create([
+                    'model_id' => $retailer->id,
+                    'model_name' => 'retailer',
+                    'description' => 'Failed to charge retailer: ' . $retailer->name . ' for ' . $retailer_orders_count . ' orders with amount: ' . ($amount / 100) . ' ' . $currency,
+                    'status' => 'failed',
+                    'operation_id' => null,
+                    'operation_type' => 'charge',
+                    'fail_message' => $e->getMessage()
+                ]);
+                $this->info('Failed to charge retailer: ' . $retailer->name . ' for ' . $retailer_orders_count . ' orders');
+                return false;
+            }
+        }
+        return false;
     }
 }

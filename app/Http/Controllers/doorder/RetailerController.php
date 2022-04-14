@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\doorder;
 
+use App\ClientSetting;
 use App\Exports\RetailersExport;
 use App\Helpers\CustomNotificationHelper;
 use App\Http\Controllers\Controller;
@@ -216,10 +217,13 @@ class RetailerController extends Controller
 
     public function getSingleRetailer($client_name, $id)
     {
+        $doorder_client = \App\Client::where('name','like','doorder')->first();
+        $day_of_retailer_charging = ClientSetting::where('client_id',$doorder_client->id)
+            ->where('name','day_of_retailer_charging')->first();
+        $general_charging_day = ($day_of_retailer_charging!=null)? $day_of_retailer_charging->the_value : null;
         $retailer = Retailer::find($id);
-        //        dd(json_decode($retailer->locations_details, true));
+        //dd(json_decode($retailer->locations_details, true));
         $retailer->invoice_reference_number = 'BR0128';
-        
         if (!$retailer) {
             //abort(404);
             alert()->error('Retailer not found!');
@@ -227,7 +231,7 @@ class RetailerController extends Controller
         }
         $retailer_user = $retailer->user;
         return view('admin.doorder.retailers.single_retailer', ['retailer' => $retailer,
-            'readOnly' => 0, 'retailer_user'=>$retailer_user]);
+            'readOnly' => 0, 'retailer_user'=>$retailer_user, 'general_charging_day'=>$general_charging_day]);
     }
     public function getViewRetailer($client_name, $id)
     {
@@ -287,6 +291,7 @@ class RetailerController extends Controller
         $retailer->shopify_app_password = $request->get('shopify_app_password');
         $retailer->shopify_app_secret = $request->get('shopify_app_secret');
         $retailer->qr_scan_required = ($request->get('qr_scan_required')!=null)? 1 : 0;
+        $retailer->charging_day = $request->get('charging_day');
         $retailer->save();
         alert()->success('Retailer updated successfully');
         //alert()->success('Work in progress');
@@ -299,6 +304,10 @@ class RetailerController extends Controller
 
     public function editRetailerProfile($client_name)
     {
+        $doorder_client = \App\Client::where('name','like','doorder')->first();
+        $day_of_retailer_charging = ClientSetting::where('client_id',$doorder_client->id)
+            ->where('name','day_of_retailer_charging')->first();
+        $general_charging_day = ($day_of_retailer_charging!=null)? $day_of_retailer_charging->the_value : null;
         $retailer = auth()->user()->retailer_profile;
         if (!$retailer) {
             //abort(404);
@@ -307,6 +316,6 @@ class RetailerController extends Controller
         }
         $retailer_user = $retailer->user;
         return view('admin.doorder.retailers.single_retailer', ['retailer' => $retailer,
-            'readOnly' => 0, 'retailer_user'=>$retailer_user]);
+            'readOnly' => 0, 'retailer_user'=>$retailer_user, 'general_charging_day'=>$general_charging_day]);
     }
 }

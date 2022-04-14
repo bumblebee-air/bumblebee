@@ -278,11 +278,11 @@
 																	<div class="form-group bmd-form-group">
 																		<label>Location</label>
 																		<!-- <input type="text"
-																																	class="form-control" value=""
-																																	v-model="contact.contact_location"
-																																	:name="'contact_location' + (index + 1)"
-																																	:id="'contact_location' + (index + 1)"
-																																	placeholder="Location" required> -->
+																			class="form-control" value=""
+																			v-model="contact.contact_location"
+																			:name="'contact_location' + (index + 1)"
+																			:id="'contact_location' + (index + 1)"
+																			placeholder="Location" required> -->
 																		<select class="form-control form-control-select selectpicker" data-style="select-with-transition"
 																			:id="'contact_location' + (index + 1)" :name="'contact_location' + (index + 1)"
 																			v-model="contact.contact_location">
@@ -580,6 +580,21 @@
 																	</div>
 																	<input type='hidden' name='stripeToken' v-model="stripeToken" />
 																	<input type='hidden' name='paymentMethod' v-model="paymentMethod" />
+																	@if($general_charging_day!=null)
+																		{{-- Retailer's charging day override --}}
+																		<div class="col-12">
+																			<div class="form-group bmd-form-group">
+																				<label>Retailer's charging day</label>
+																				<select class="form-control form-control-select selectpicker" data-style="select-with-transition"
+																					id="charging-day" name="charging_day">
+																					<option value="">No override</option>
+																					@for ($i = 1; $i <= 31; $i++)
+																						<option value="{{$i}}" @if($retailer->charging_day==$i) selected @endif >{{$i}}</option>
+																					@endfor
+																				</select>
+																			</div>
+																		</div>
+																	@endif
 																</div>
 															</div>
 														</div>

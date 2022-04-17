@@ -163,10 +163,8 @@ background-image: url("../images/doorder-new-layout/doorder-login-background.png
 <link
 	href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
 	rel="stylesheet">
-
-
-
-@endsection @section('page-content')
+@endsection
+@section('page-content')
 <div class="h-100">
 	<div class="row h-100 m-0">
 		<div class="col-xl-4 col-lg-8 col-md-10 col-sm-12 mx-auto my-auto">
@@ -180,7 +178,7 @@ background-image: url("../images/doorder-new-layout/doorder-login-background.png
 					<div class="card-body">
 						<h6>Welcome to DoOrder!</h6>
 						<p>Please sign-in to your account and start the adventure</p>
-						<form class="form-signin" method="POST" action="{{url('login')}}">
+						<form id="signin-form" class="form-signin" method="POST" action="{{url('login')}}">
 							{{ csrf_field() }}
 
 							<div class="row">
@@ -230,4 +228,22 @@ background-image: url("../images/doorder-new-layout/doorder-login-background.png
 		</div>
 	</div>
 </div>
+@endsection
+@section('page-scripts')
+	@if(env('RECAPTCHA_KEY')!=null)
+	<script>
+		$('#signin-form').on('submit', function(e){
+			//Add the reCAPTCHA token to the form data
+			e.preventDefault();
+			grecaptcha.ready(function() {
+				grecaptcha.execute('{{env('RECAPTCHA_KEY')}}', {action: 'login'})
+					.then(function(token) {
+						$('<input />').attr("type", "hidden").attr("name", "recaptcha_token")
+							.attr("value", token).appendTo("#signin-form");
+						$('#signin-form').unbind().submit();
+					});
+			});
+		});
+	</script>
+	@endif
 @endsection

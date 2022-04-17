@@ -39,6 +39,9 @@
 <!-- Scripts -->
 <script src="{{asset('js/jquery.min.js')}}"></script>
 <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
+@if(env('RECAPTCHA_KEY')!=null)
+    <script src="https://www.google.com/recaptcha/api.js?render={{env('RECAPTCHA_KEY')}}"></script>
+@endif
 @yield('page-scripts')
 </body>
 </html>

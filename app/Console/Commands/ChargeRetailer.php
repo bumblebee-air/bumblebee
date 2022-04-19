@@ -81,7 +81,7 @@ class ChargeRetailer extends Command
             }
             if($retailers_override_count > 0){
                 \Log::info('Today is not the retailer charging day but successfully charged '.
-                    strval($retailers_override_count).' retailers as they have today as thr override charging day');
+                    strval($retailers_override_count).' retailers as they have today as the override charging day');
                 return true;
             }
             $log_text = 'Today is not the retailer charging day, '.

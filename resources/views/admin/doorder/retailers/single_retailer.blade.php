@@ -588,6 +588,7 @@
 																				<select class="form-control form-control-select selectpicker" data-style="select-with-transition"
 																					id="charging-day" name="charging_day">
 																					<option value="">No override</option>
+																					<option value="0" @if($retailer->charging_day=='0') selected @endif >Do not auto charge</option>
 																					@for ($i = 1; $i <= 31; $i++)
 																						<option value="{{$i}}" @if($retailer->charging_day==$i) selected @endif >{{$i}}</option>
 																					@endfor

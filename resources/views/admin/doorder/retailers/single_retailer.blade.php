@@ -485,6 +485,16 @@
 														<div class="row">
 															<div class="col-md-12">
 																<div class="row">
+																	@if($retailer->stripe_customer_id!=null)
+																	<div class="col-12">
+																		<div class="form-group pl-2">
+																			<div class="d-flex form-group bmd-form-group">
+																				<label>Current payment method is @if($retailer->payment_method=='sepa')a Direct Debit bank account @else a Credit/Debit Card @endif
+																				 @if($retailer->payment_method_last_four!=null)ending with {{$retailer->payment_method_last_four}} @endif</label>
+																			</div>
+																		</div>
+																	</div>
+																	@endif
 																	<div class="col-12">
 																		<div class="form-group pl-2">
 																			<div class="d-flex form-group bmd-form-group" @click="requirePaymentDetails()">
@@ -580,6 +590,7 @@
 																	</div>
 																	<input type='hidden' name='stripeToken' v-model="stripeToken" />
 																	<input type='hidden' name='paymentMethod' v-model="paymentMethod" />
+																	<input type='hidden' name='paymentMethodLastFour' v-model="paymentMethodLastFour" />
 																	@if($general_charging_day!=null)
 																		{{-- Retailer's charging day override --}}
 																		<div class="col-12">
@@ -752,9 +763,9 @@
 	    itn_inputs: [],
 	    counties: [],
 	    business_hours: {},
-	    counties: [],
 	    stripeToken: '',
 	   	paymentMethod: '',
+	   	paymentMethodLastFour: '',
 	    require_card: false,
 	    require_bank: false,
 	    require_payment: false,
@@ -1224,17 +1235,17 @@
 	    }
 	   },
 	   stripeResponseHandler(status, response) {
-	    if (response.error) {
-	     alert(response.error.message);
-	    } else {
-	     // token contains id, last4, and card type
-	     this.stripeToken = response['id'];
-		 this.paymentMethod = 'card';
-		 this.submitForm();
-	     //this.validateEmailAndPhone();
-	    }
+		   if (response.error) {
+			   alert(response.error.message);
+		   } else {
+			   // response contains id and card object containing last4 and card type
+			   this.stripeToken = response.id;
+			   this.paymentMethod = 'card';
+			   this.paymentMethodLastFour = response.card.last4;
+			   this.submitForm();
+			   //this.validateEmailAndPhone();
+		   }
 	   },
-
 	  }
 	 });
 	 Vue.config.devtools = true

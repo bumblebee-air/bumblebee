@@ -256,17 +256,18 @@ class RetailerController extends Controller
         }
         $stripe_token = $request->get('stripeToken');
         $payment_method = $request->get('paymentMethod');
+        $payment_method_last_four = $request->get('paymentMethodLastFour');
         if ($stripe_token != null && $stripe_token != '') {
             $user = User::find($retailer->user_id);
             if (!$user) {
                 alert()->error('The associated user of this retailer was not found!');
                 return redirect()->back();
             }
+            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
             if($payment_method=='card') {
                 if (env('APP_ENV') == 'local' || env('APP_ENV') == 'development') {
                     $stripe_token = 'tok_visa';
                 }
-                $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
                 $customer = $stripe->customers->create([
                     'name' => $user->name,
                     'email' => $user->email,
@@ -276,8 +277,16 @@ class RetailerController extends Controller
                 $retailer->stripe_customer_id = $customer_id;
             } elseif($payment_method == 'sepa'){
                 $retailer->stripe_payment_id = $stripe_token;
+                $iban_payment_method = $stripe->paymentMethods->retrieve($stripe_token);
+                $bank_account_details = $iban_payment_method->sepa_debit;
+                if($bank_account_details!=null){
+                    $payment_method_last_four = $bank_account_details->last4;
+                } else {
+                    $payment_method_last_four = null;
+                }
             }
             $retailer->payment_method = $payment_method;
+            $retailer->payment_method_last_four = $payment_method_last_four;
         }
         //dd($request);
         $retailer->name = $request->get('company_name');

@@ -49,7 +49,8 @@
 											<th>Business Type</th>
 											<th>Retailer Name</th>
 											<th class="text-center">Locations Number</th>
-<!-- 											<th class="text-center">Sub-Accounts</th> -->
+											<!--<th class="text-center">Sub-Accounts</th>-->
+											<th>Payment method</th>
 											<th class="disabled-sorting text-center">Actions</th>
 										</tr>
 									</thead>
@@ -61,7 +62,8 @@
 											<td class="text-left">@{{ retailer.business_type}}</td>
 											<td class="text-left">@{{ retailer.name}}</td>
 											<td>@{{ retailer.nom_business_locations }}</td>
-<!-- 											<td></td> -->
+											<!--<td></td>-->
+											<td>@{{ retailer.payment_method }}</td>
 											<td class="actionsTd"><a
 												class="edit"
 												@click="openRetailer(retailer.id)"><img

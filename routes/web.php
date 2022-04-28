@@ -400,6 +400,8 @@ Route::group(
                 Route::post('user/save', 'doorder\SettingsController@saveUser')->name('doorder_saveUser');
                 Route::post('user/edit', 'doorder\SettingsController@editUser')->name('doorder_editUser');
                 Route::post('save_general_settings', 'doorder\SettingsController@postSaveGeneralSettings')->name('doorder_postSaveGeneralSettings');
+                // Payment logs
+                Route::get('payment-logs', 'doorder\PaymentLogsController@paymentLogsIndex')->name('doorder_paymentLogsIndex');
             });
             Route::group([
                 'middleware' => ["client_or_driver_manager"]

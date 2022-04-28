@@ -151,6 +151,17 @@
                         <p>Metrics</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{route('doorder_paymentLogsIndex', 'doorder')}}">
+                        <img class="my-nav-icon my-nav-icon-grey"
+                            src="{{asset('images/doorder-new-layout/payment-log-grey.png')}}"
+                            alt="">
+                        <img class="my-nav-icon my-nav-icon-top"
+                            src="{{asset('images/doorder-new-layout/payment-log-yellow.png')}}"
+                            alt="">
+                        <p>Payment logs</p>
+                    </a>
+                </li>
                 <li class="nav-item"><a class="nav-link d-flex" href="{{route('doorder_getSettings', 'doorder')}}"> <img
                         class="my-nav-icon my-nav-icon-grey"
                         src="{{asset('images/doorder-new-layout/settings-grey.png')}}" alt="">

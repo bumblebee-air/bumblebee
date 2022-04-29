@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\UserClient;
+use App\UserTwoFactor;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Twilio\Rest\Client;
 
 class LoginController extends Controller
 {
@@ -26,8 +30,10 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = '/';
-    #guard
+    //guard
     protected $guard = 'web';
+    //2FA check url
+    protected $two_factor_url = null;
 
     /**
      * Create a new controller instance.
@@ -37,7 +43,6 @@ class LoginController extends Controller
     public function __construct(Request $request)
     {
         $this->middleware('guest')->except('logout');
-        //$this->middleware('guest')->except('logout');
         if ($request->guard)
             $this->guard = $request->guard;
     }
@@ -73,27 +78,55 @@ class LoginController extends Controller
             $recaptcha_res = json_decode($result);
             if($recaptcha_res->success!=true || $recaptcha_res->action!='login'){
                 \Session::flash('error', 'Your request did not pass the assessment');
-                $this->logout($request);
+                return $this->logout($request);
             }
             $the_score = $recaptcha_res->score;
             if($the_score <= 0.4){
                 \Session::flash('error', 'Your request did not pass the assessment');
-                $this->logout($request);
+                return $this->logout($request);
             }
         }
         if ($user->user_role == "driver") {
             \Session::flash('error', 'You are not allowed to login the portal');
-            $this->logout($request);
+            return $this->logout($request);
         }
         //Check if unapproved retailer
         if($user && $user->user_role == 'retailer'){
             $retailer_profile = $user->retailer_profile;
             if($retailer_profile && $retailer_profile->status != 'completed'){
                 \Session::flash('error', 'Your account has not been activated yet');
-                $this->logout($request);
+                return $this->logout($request);
             }
         }
         //dd($user);
+        //Two factor authentication
+        $sid    = env('TWILIO_SID', '');
+        $token  = env('TWILIO_AUTH', '');
+        $verify_sid = env('TWILIO_VERIFICATION_SID','');
+        try {
+            $twilio = new Client($sid, $token);
+            $verification = $twilio->verify->v2->services($verify_sid)
+                ->verifications
+                ->create($user->phone, 'sms');
+            $last_attempt_sid = null;
+            foreach ($verification->sendCodeAttempts as $attempt) {
+                if ($attempt['attempt_sid'] != null) {
+                    $last_attempt_sid = $attempt['attempt_sid'];
+                }
+            }
+            if ($last_attempt_sid != null) {
+                $user_two_factor = new UserTwoFactor();
+                $user_two_factor->user_id = $user->id;
+                $user_two_factor->attempt_sid = $last_attempt_sid;
+                $user_two_factor->status = $verification->status;
+                $user_two_factor->save();
+                $this->two_factor_url = 'two-factor/verify/' . $last_attempt_sid;
+                return $this->logout($request);
+            }
+        } catch (\Exception $exception){
+            \Session::flash('error',$exception->getMessage());
+            return redirect()->back();
+        }
     }
 
     public function showLoginForm($client_name = null)
@@ -119,11 +152,14 @@ class LoginController extends Controller
 
     public function logout(Request $request) {
         $url = '/';
-
-        if (strpos(request()->getHost(),'doorder.eu')!==false) {
-            $url = 'doorder/login';
-        } else if (strpos(request()->getHost(),'ghstaging')!==false) {
-            $url = 'garden-help/login';
+        if($this->two_factor_url != null){
+            $url = $this->two_factor_url;
+        } else {
+            if (strpos(request()->getHost(), 'doorder.eu') !== false) {
+                $url = 'doorder/login';
+            } else if (strpos(request()->getHost(), 'ghstaging') !== false) {
+                $url = 'garden-help/login';
+            }
         }
         //$this->guard()->logout();
         Auth::guard('web')->logout();
@@ -133,9 +169,80 @@ class LoginController extends Controller
         Auth::guard('unified')->logout();
         $error_msg = $request->session()->get('error');
         $request->session()->invalidate();
+        $request->session()->regenerateToken();
         if($error_msg!=null && $error_msg!=''){
             \Session::flash('error',$error_msg);
         }
-        return redirect($url);
+        return $request->wantsJson()
+            ? new JsonResponse([], 204)
+            : redirect($url);
+    }
+
+    public function getTwoFactorCheckForm($sid){
+        $user_two_factor = UserTwoFactor::where('attempt_sid','=',$sid)->first();
+        if(!$user_two_factor){
+            \Session::flash('error','This verification attempt was not found!');
+            return redirect()->back();
+        }
+        $the_user = $user_two_factor->user;
+        $user_client = UserClient::where('user_id','=',$the_user->id)->first();
+        $the_client = $user_client->client;
+        $client_name = strtolower($the_client->name);
+        $view_name = 'auth.two_factor_verify';
+        if($client_name == 'doorder'){
+            $this->guard = 'doorder';
+            $view_name = 'auth.doorder.two_factor_verify';
+        } elseif($client_name == 'gardenhelp'){
+            $this->guard = 'garden-help';
+        } elseif($client_name == 'doomyoga'){
+            $this->guard = 'doom-yoga';
+        } elseif($client_name == 'unified'){
+            $this->guard = 'unified';
+        }
+        return view($view_name,['attempt_sid'=>$sid, 'phone'=>$the_user->phone,
+            'guard'=>$this->guard]);
+    }
+
+    public function postTwoFactorCheck(Request $request){
+        $guard = $request->get('guard');
+        $code = $request->get('code');
+        $attempt_sid = $request->get('attempt_sid');
+        $user_two_factor = UserTwoFactor::where('attempt_sid','=',$attempt_sid)->first();
+        if(!$user_two_factor){
+            \Session::flash('error','This verification attempt was not found!');
+            return redirect()->back();
+        }
+        $the_user = $user_two_factor->user;
+        if($guard!=null){
+            $this->guard = $guard;
+        }
+        //Check if the code is valid
+        $sid    = env('TWILIO_SID', '');
+        $token  = env('TWILIO_AUTH', '');
+        $verify_sid = env('TWILIO_VERIFICATION_SID','');
+        try {
+            $twilio = new Client($sid, $token);
+            $verification = $twilio->verify->v2->services($verify_sid)
+                ->verificationChecks
+                ->create($code, ["to" => $the_user->phone]);
+            $verification_status = $verification->status;
+            $user_two_factor->status = $verification_status;
+            $user_two_factor->save();
+            if($verification_status == 'approved'){
+                Auth::guard($this->guard)->loginUsingId($the_user->id,1);
+                return $request->wantsJson()
+                    ? new JsonResponse([], 204)
+                    : redirect()->intended($this->redirectPath());
+            }
+        } catch (\Exception $exception){
+            \Session::flash('error',$exception->getMessage());
+            return redirect()->back();
+        }
+        $error_msg = 'The code is invalid, please try again';
+        if($user_two_factor->status == 'canceled'){
+            $error_msg = 'This code has expired, please retry logging in';
+        }
+        \Session::flash('error',$error_msg);
+        return redirect()->back();
     }
 }

@@ -176,50 +176,24 @@ input {
 							alt="DoOrder Logo" style="width: 160px;"></a>
 					</div>
 					<div class="card-body">
-						<h6>Welcome to DoOrder!</h6>
-						<p>Please sign-in to your account and start the adventure</p>
-						<form id="signin-form" class="form-signin" method="POST" action="{{url('login')}}">
+						<p>Please enter the code that was sent to your phone {{$phone}}</p>
+						<form id="signin-form" class="form-signin" method="POST" action="{{url('two-factor/verify')}}">
 							{{ csrf_field() }}
-
+							<input type="hidden" name="guard" value="{{$guard}}"/>
+							<input type="hidden" name="attempt_sid" value="{{$attempt_sid}}"/>
 							<div class="row">
 								<div class="col">
 									<div class="form-group">
-										<label for="email" class="control-label"> Email </label> <input
-											id="email" class="form-control" name="email" required
+										<label for="email" class="control-label"> Code </label> <input
+											id="code" name="code" class="form-control" required
 											autofocus>
 									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col">
-									<div class="form-group">
-										<label for="email" class="control-label"> Password </label> <input
-											type="password" id="password" name="password"
-											class="form-control" required>
-									</div>
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-md-6 mt-1 mb-4">
-									<div class="form-check">
-										<label class="form-check-label" for="remember-me"> <input
-											type="checkbox" class="form-check-input" id="remember-me"
-											name="remember"> Remember me <span class="form-check-sign"> <span
-												class="check"></span>
-										</span>
-										</label>
-									</div>
-								</div>
-								<div class="col-md-6 mt-2 mb-4">
-									<a id="forgetPasswordA" href="{{url('doorder/password/reset')}}" class="float-right">Forget
-										password?</a>
 								</div>
 							</div>
 
 							<input type="hidden" name="guard" value="doorder">
 							<div class="d-flex justify-content-center align-content-center">
-								<button class="btn btn-login" type="submit">Login</button>
+								<button class="btn btn-login" type="submit">Submit</button>
 							</div>
 						</form>
 					</div>
@@ -230,20 +204,5 @@ input {
 </div>
 @endsection
 @section('page-scripts')
-	@if(env('RECAPTCHA_KEY')!=null)
-	<script>
-		$('#signin-form').on('submit', function(e){
-			//Add the reCAPTCHA token to the form data
-			e.preventDefault();
-			grecaptcha.ready(function() {
-				grecaptcha.execute('{{env('RECAPTCHA_KEY')}}', {action: 'login'})
-					.then(function(token) {
-						$('<input />').attr("type", "hidden").attr("name", "recaptcha_token")
-							.attr("value", token).appendTo("#signin-form");
-						$('#signin-form').unbind().submit();
-					});
-			});
-		});
-	</script>
-	@endif
+
 @endsection

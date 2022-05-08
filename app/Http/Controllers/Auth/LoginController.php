@@ -99,33 +99,35 @@ class LoginController extends Controller
             }
         }
         //dd($user);
-        //Two factor authentication
-        $sid    = env('TWILIO_SID', '');
-        $token  = env('TWILIO_AUTH', '');
-        $verify_sid = env('TWILIO_VERIFICATION_SID','');
-        try {
-            $twilio = new Client($sid, $token);
-            $verification = $twilio->verify->v2->services($verify_sid)
-                ->verifications
-                ->create($user->phone, 'sms');
-            $last_attempt_sid = null;
-            foreach ($verification->sendCodeAttempts as $attempt) {
-                if ($attempt['attempt_sid'] != null) {
-                    $last_attempt_sid = $attempt['attempt_sid'];
+        if($user->user_role == 'client' || $user->phone == null) {
+            //Two factor authentication
+            $sid = env('TWILIO_SID', '');
+            $token = env('TWILIO_AUTH', '');
+            $verify_sid = env('TWILIO_VERIFICATION_SID', '');
+            try {
+                $twilio = new Client($sid, $token);
+                $verification = $twilio->verify->v2->services($verify_sid)
+                    ->verifications
+                    ->create($user->phone, 'sms');
+                $last_attempt_sid = null;
+                foreach ($verification->sendCodeAttempts as $attempt) {
+                    if ($attempt['attempt_sid'] != null) {
+                        $last_attempt_sid = $attempt['attempt_sid'];
+                    }
                 }
+                if ($last_attempt_sid != null) {
+                    $user_two_factor = new UserTwoFactor();
+                    $user_two_factor->user_id = $user->id;
+                    $user_two_factor->attempt_sid = $last_attempt_sid;
+                    $user_two_factor->status = $verification->status;
+                    $user_two_factor->save();
+                    $this->two_factor_url = 'two-factor/verify/' . $last_attempt_sid;
+                    return $this->logout($request);
+                }
+            } catch (\Exception $exception) {
+                \Session::flash('error', $exception->getMessage());
+                return redirect()->back();
             }
-            if ($last_attempt_sid != null) {
-                $user_two_factor = new UserTwoFactor();
-                $user_two_factor->user_id = $user->id;
-                $user_two_factor->attempt_sid = $last_attempt_sid;
-                $user_two_factor->status = $verification->status;
-                $user_two_factor->save();
-                $this->two_factor_url = 'two-factor/verify/' . $last_attempt_sid;
-                return $this->logout($request);
-            }
-        } catch (\Exception $exception){
-            \Session::flash('error',$exception->getMessage());
-            return redirect()->back();
         }
     }
 

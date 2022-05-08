@@ -99,7 +99,7 @@ class LoginController extends Controller
             }
         }
         //dd($user);
-        if($user->user_role == 'client' || $user->phone == null) {
+        if(!($user->user_role == 'client' || $user->phone == null)){
             //Two factor authentication
             $sid = env('TWILIO_SID', '');
             $token = env('TWILIO_AUTH', '');

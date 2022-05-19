@@ -109,6 +109,8 @@ class ChargeRetailer extends Command
         }*/
         $retailer_orders_count = count($retailer_orders);
         $amount = $retailer_orders_count * 1000;
+        $vat = $amount * 0.23;
+        $total = $amount + $vat;
         $currency = 'eur';
         $charge_description = 'Charged retailer: ' . $retailer->name . ' for ' . $retailer_orders_count .
             ' orders of month '.$prev_month->monthName;
@@ -118,7 +120,7 @@ class ChargeRetailer extends Command
                 if($retailer->payment_method == 'sepa'){
                     //SEPA Direct Debit payment
                     $payment_intent = Stripe\PaymentIntent::create([
-                        'amount' => $amount,
+                        'amount' => $total,
                         'currency' => 'eur',
                         'customer' => $retailer->stripe_customer_id,
                         'payment_method' => $retailer->stripe_payment_id,
@@ -131,7 +133,7 @@ class ChargeRetailer extends Command
                         'model_id' => $retailer->id,
                         'model_name' => 'retailer',
                         'description' => 'charged retailer: ' . $retailer->name . ' for ' . $retailer_orders_count .
-                            ' orders with amount: ' . ($amount / 100) . ' ' . $currency . ' for month ' . $prev_month->monthName,
+                            ' orders with amount: ' . ($total / 100) . ' ' . $currency . ' for month ' . $prev_month->monthName,
                         'status' => $payment_intent->status,
                         'operation_id' => $payment_intent->id,
                         'operation_type' => 'charge debit',
@@ -141,7 +143,7 @@ class ChargeRetailer extends Command
                 } else {
                     //Card payment
                     $stripe_charge = Stripe\Charge::create([
-                        "amount" => $amount,
+                        "amount" => $total,
                         "currency" => $currency,
                         "customer" => $retailer->stripe_customer_id,
                         "description" => $charge_description
@@ -151,7 +153,7 @@ class ChargeRetailer extends Command
                         'model_id' => $retailer->id,
                         'model_name' => 'retailer',
                         'description' => 'charged retailer: ' . $retailer->name . ' for ' . $retailer_orders_count .
-                            ' orders with amount: ' . ($amount / 100) . ' ' . $currency . ' for month ' . $prev_month->monthName,
+                            ' orders with amount: ' . ($total / 100) . ' ' . $currency . ' for month ' . $prev_month->monthName,
                         'status' => $stripe_charge->status,
                         'operation_id' => $stripe_charge->id,
                         'operation_type' => 'charge',
@@ -169,7 +171,7 @@ class ChargeRetailer extends Command
                 StripePaymentLog::create([
                     'model_id' => $retailer->id,
                     'model_name' => 'retailer',
-                    'description' => 'Failed to charge retailer: ' . $retailer->name . ' for ' . $retailer_orders_count . ' orders with amount: ' . ($amount / 100) . ' ' . $currency,
+                    'description' => 'Failed to charge retailer: ' . $retailer->name . ' for ' . $retailer_orders_count . ' orders with amount: ' . ($total / 100) . ' ' . $currency,
                     'status' => 'failed',
                     'operation_id' => null,
                     'operation_type' => 'charge',

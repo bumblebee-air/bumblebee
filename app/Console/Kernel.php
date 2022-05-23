@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\ChargeRetailer::class,
+        Commands\ChargeRetailerManual::class,
         Commands\PayoutDeliverer::class,
         Commands\GHUpdateWeeklyWorkingHours::class,
         UpdateOrderStatusJob::class

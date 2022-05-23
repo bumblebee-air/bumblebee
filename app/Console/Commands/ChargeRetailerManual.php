@@ -32,6 +32,7 @@ class ChargeRetailerManual extends Command
     private $input_month;
     private $override_charging_day;
     private $input_vat_only;
+    private $recharge_all_orders;
     /**
      * Create a new command instance.
      *
@@ -53,6 +54,7 @@ class ChargeRetailerManual extends Command
         $this->input_month = $this->ask('Specific month? (Integer, default is last month)');
         $this->override_charging_day = $this->confirm('Override the charging day?');
         $this->input_vat_only = $this->confirm('Charge for VAT only?');
+        $this->recharge_all_orders = $this->confirm('Charge all orders including ones that have already been charged for?');
         $doorder_client = Client::where('name','like','doorder')->first();
         if(!$doorder_client){
             $this->error('DoOrder client entry not found, exiting!');
@@ -135,7 +137,10 @@ class ChargeRetailerManual extends Command
 
     private function chargeRetailer($retailer,$startOfMonth,$endOfMonth,$prev_month){
         $retailer_orders = $retailer->orders->whereBetween('created_at', [$startOfMonth, $endOfMonth])
-            ->where('status', 'delivered')->where('is_archived', 0)->where('is_paidout_retailer', false);
+            ->where('status', 'delivered')->where('is_archived', 0);
+        if($this->recharge_all_orders===false) {
+            $retailer_orders = $retailer_orders->where('is_paidout_retailer', false);
+        }
         /*if (env('APP_ENV') == 'local' || env('APP_ENV') == 'development') {
             $stripetoken = 'tok_visa';
         } else{

@@ -74,8 +74,7 @@ table.doorderTable {
 										</h5>
 									</div>
 									<div class="col-12 col-sm-6 mt-md-3">
-										<h6 class="card-title float-md-right invoiceTitleH6">Invoice
-											Number {{$retailer->id}}</h6>
+										<h6 class="card-title float-md-right invoiceTitleH6">Invoice Number {{$invoice_number}}</h6>
 									</div>
 								</div>
 								<div class="row">

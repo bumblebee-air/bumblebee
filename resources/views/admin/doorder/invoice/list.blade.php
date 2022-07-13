@@ -131,7 +131,7 @@ div.dt-datetime table td.selectable.selected button {
 
 									<tbody>
 										<tr v-for="invoice in invoiceList" class="order-row"
-											@click="clickInvoice(invoice.id, invoice.month)">
+											@click="clickInvoice(invoice.id, invoice.month, invoice.invoiced)">
 											<td class="text-left">@{{invoice.date}}</td>
 											<td class="text-left">@{{invoice.name}}</td>
 											<td class="text-left">
@@ -144,7 +144,7 @@ div.dt-datetime table td.selectable.selected button {
 											<td>€@{{ 10 * invoice.orders_count }}</td>
 											<td><a
 												class=""
-												@click="clickInvoice(invoice.id, invoice.month)">
+												@click="clickInvoice(invoice.id, invoice.month, invoice.invoiced)">
 													<img class="viewIcon"
 													src="{{asset('images/doorder-new-layout/view-icon.png')}}"
 													alt="">
@@ -292,9 +292,14 @@ $('#date').on("dp.show", function(e) {
                     return dateTime;
                 },
                 
-                clickInvoice(id, month) {
-                    window.location = "{{url('doorder/invoice_view/')}}/"+id + "?month=" + month
-                }
+                clickInvoice(id, month, is_paid=false) {
+					let the_url = "{{url('doorder/invoice_view/')}}/" + id + '?';
+					if (is_paid) {
+						the_url += "is_p=1&";
+					}
+					the_url += "month=" + month;
+					window.location = the_url;
+				}
             }
         });
     </script>

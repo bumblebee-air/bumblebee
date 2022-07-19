@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Redis;
 class ShopifyController extends Controller
 {
     public function receiveOrder(Request $request){
+        \Log::debug("Shopify incoming order");
         $shop_domain = $_SERVER['HTTP_X_SHOPIFY_SHOP_DOMAIN'];
         $retailer = Retailer::where('shopify_store_domain','=',$shop_domain)->first();
         if(!$retailer){
@@ -28,6 +29,7 @@ class ShopifyController extends Controller
         $api_key = $retailer->shopify_app_api_key;
         $password = $retailer->shopify_app_password;
         $app_secret = $retailer->shopify_app_secret;
+        $app_access_token = $retailer->shopify_access_token;
         $admin_url = 'https://' . $api_key . ':' . $password . '@' . $shopName . '/admin/api/2020-10/shop.json';
 
         /*$myfile = fopen("dynamic.txt", "a");
@@ -71,6 +73,7 @@ class ShopifyController extends Controller
             $aShippingLine = $orders['shipping_lines'][0];
             if(strpos(strtolower($aShippingLine['code']),"same day")!==false ||
                 strpos(strtolower($aShippingLine['code']),"doorder")!==false) {
+                \Log::info("Shopify order details: " . json_encode($orders));
                 $iLineItemsCount = count($orders['line_items']);
 
                 $aWebhook = [];
@@ -97,7 +100,14 @@ class ShopifyController extends Controller
                 $aWebhook["weight"] = $total_weightprd . "kg";
                 //Retailer Name & Pickup Address
                 $curl = curl_init();
-                $admin_url = $admin_url;
+                if($app_access_token!=null){
+                    //New integration API using the new access token for the new Shopify custom apps for 2022
+                    $admin_url = 'https://'.$retailer->shopify_store_domain.'/admin/api/2022-10/shop.json';
+                    curl_setopt($curl, CURLOPT_HTTPHEADER, [
+                        'Content-Type: application/json',
+                        'X-Shopify-Access-Token: '.$app_access_token
+                    ]);
+                }
                 curl_setopt_array($curl, [
                     CURLOPT_RETURNTRANSFER => 1,
                     CURLOPT_URL => $admin_url,
@@ -105,16 +115,27 @@ class ShopifyController extends Controller
                 ]);
                 curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
                 $shopJSONresponse = curl_exec($curl);
-                $oShopData = json_decode($shopJSONresponse);
-                //retailer name & address
-                $aWebhook["retailer_name"] = $oShopData->shop->name;
-                $aWebhook["pickup_address"] = $oShopData->shop->address1 . ", " .
-                    $oShopData->shop->city . ", " .
-                    $oShopData->shop->zip . ", " . $oShopData->shop->province . ", " .
-                    $oShopData->shop->country;
-                //$oShopData->shop->phone . ", "
-                $aWebhook["pickup_lat"] = $oShopData->shop->latitude;
-                $aWebhook["pickup_lon"] = $oShopData->shop->longitude;
+                $is_curl_err = 0;
+                if (curl_errno($curl)) {
+                    $error_msg = curl_error($curl);
+                    $is_curl_err = 1;
+                    \Log::error('Curl error: '.$error_msg);
+                }
+                curl_close($curl);
+                if($is_curl_err === 0) {
+                    $oShopData = json_decode($shopJSONresponse);
+                    //retailer name & address
+                    $aWebhook["retailer_name"] = $oShopData->shop->name;
+                    $aWebhook["pickup_address"] = $oShopData->shop->address1 . ", " .
+                        $oShopData->shop->city . ", " .
+                        $oShopData->shop->zip . ", " . $oShopData->shop->province . ", " .
+                        $oShopData->shop->country;
+                    //$oShopData->shop->phone . ", "
+                    $aWebhook["pickup_lat"] = $oShopData->shop->latitude;
+                    $aWebhook["pickup_lon"] = $oShopData->shop->longitude;
+                } else {
+                    $aWebhook["retailer_name"] = $retailer->name;
+                }
                 //customer name,details and address
                 $aWebhook["customer_name"] = $orders['shipping_address']['first_name'] .
                     " " . $orders['shipping_address']['last_name'];
@@ -227,7 +248,7 @@ class ShopifyController extends Controller
     }
 
     public function fulfillOrder(Request $request){
-        //\Log::info(json_encode($request->all()));
+        \Log::debug("Shopify order fulfillment");
         $shop_domain = $_SERVER['HTTP_X_SHOPIFY_SHOP_DOMAIN'];
         $retailer = Retailer::where('shopify_store_domain','=',$shop_domain)->first();
         if(!$retailer){
@@ -236,6 +257,7 @@ class ShopifyController extends Controller
         }
         $retailer_id = $retailer->id;
         $order_data = $request->all();
+        \Log::debug("Order fulfillment details: " . json_encode($order_data));
         $order_id = $order_data['name'];
         $order = Order::where('order_id',$order_id)
             ->where('retailer_id',$retailer_id)->first();

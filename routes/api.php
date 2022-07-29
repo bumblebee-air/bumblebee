@@ -92,8 +92,6 @@ Route::group(['middleware' => "auth:api"], function () {
     Route::post('job-time-tracker', 'garden_help\ContractorsController@jobTimeTracker');
     Route::post('contractor-bidding', 'garden_help\ContractorsController@postContractorBid');
 
-
-
     //Unified
     Route::group(['prefix' => 'unified'], function () {
         Route::get('jobs', 'unified\EngineerController@getJobsList');
@@ -104,6 +102,9 @@ Route::group(['middleware' => "auth:api"], function () {
         Route::post('update_location', 'unified\EngineerController@updateLocation');
         Route::post('checkout_jobs', 'unified\EngineerController@checkOutJobs');
     });
+
+    //General
+    Route::post('user/delete', 'UserController@deleteUserData');
 });
 //Stripe updates
 Route::post('stripe-account-update', 'StripeController@accountUpdateWebhook');

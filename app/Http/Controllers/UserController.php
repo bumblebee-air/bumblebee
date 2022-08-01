@@ -9,7 +9,6 @@ use App\UserClient;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Validator;
 
 class UserController extends Controller
 {
@@ -108,6 +107,8 @@ class UserController extends Controller
         }
         try {
             //Start data scrambling
+            $current_timestamp_c = \Carbon\Carbon::now();
+            $current_timestamp = $current_timestamp_c->toDateTimeString();
             $current_user->name .= ' (Deleted)';
             $current_user->email = 'deleted_user_' . $user_id . '@mail.com';
             $current_user->phone = '000000000000' . $user_id;
@@ -120,11 +121,12 @@ class UserController extends Controller
                     $driver_profile->last_name .= ' (Deleted)';
                     $driver_profile->dob = null;
                     $driver_profile->pps_number = null;
-                    $driver_profile->legal_word_evidence .= 'nulled';
-                    $driver_profile->driver_license .= 'nulled';
-                    $driver_profile->driver_license_back .= 'nulled';
-                    $driver_profile->insurance_proof .= 'nulled';
-                    $driver_profile->address_proof .= 'nulled';
+                    $driver_profile->legal_word_evidence .= '.nulled';
+                    $driver_profile->driver_license .= '.nulled';
+                    $driver_profile->driver_license_back .= '.nulled';
+                    $driver_profile->insurance_proof .= '.nulled';
+                    $driver_profile->address_proof .= '.nulled';
+                    $driver_profile->deleted_at = $current_timestamp;
                     $driver_profile->save();
                 }
             }

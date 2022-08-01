@@ -1229,16 +1229,25 @@ class DriversController extends Controller
                 $last_name = $name_split[1] ?? '';
             }
         }
-        $user->name = $first_name . ' ' . $last_name;
+        if($first_name!='') {
+            $user->name = $first_name . ' ' . $last_name;
+        }
         $user->is_profile_completed = true;
         $user->save();
         //Update User profile
         $driver = DriverProfile::where('user_id', $user->id)->first();
-        $driver->first_name = $first_name;
-        $driver->last_name = $last_name;
-        $driver->business_hours = $request->business_hours;
-        $driver->business_hours_json = $request->business_hours_json;
-        $driver->save();
+        if($driver!=null) {
+            $driver->first_name = $first_name;
+            $driver->last_name = $last_name;
+            $driver->business_hours = $request->business_hours;
+            $driver->business_hours_json = $request->business_hours_json;
+            $driver->save();
+        } else {
+            return response()->json([
+                'errors' => 1,
+                'message' => 'The driver profile was not found!'
+            ]);
+        }
         //return json response
         return response()->json([
             'errors' => 0,
@@ -1249,6 +1258,20 @@ class DriversController extends Controller
     public function getProfile(Request $request)
     {
         $driver = DriverProfile::where('user_id', auth()->user()->id)->first();
+        if(!$driver){
+            return response()->json([
+                'errors' => 1,
+                'data' => [
+                    'full_name' => 'N/A',
+                    'first_name' => 'N/A',
+                    'last_name' => 'N/A',
+                    'phone' => 'N/A',
+                    'email' => 'N/A',
+                    'business_hours' => 'N/A',
+                    'business_hours_json' => 'N/A',
+                ]
+            ]);
+        }
         return response()->json([
             'errors' => 0,
             'data' => [

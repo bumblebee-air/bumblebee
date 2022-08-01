@@ -3,11 +3,15 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class DriverProfile extends Model
 {
+    use SoftDeletes;
+
     protected $dates = ['last_active', 'last_assigned'];
     protected $appends = ['last_active_web', 'last_assigned_web', 'overall_rating'];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

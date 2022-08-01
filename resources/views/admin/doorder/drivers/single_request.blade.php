@@ -305,8 +305,8 @@ $singleRequest->id) @section('page-content')
 									<div class="text-center">
 										<form id="request-rejection" method="POST"
 											action="{{route('post_doorder_drivers_single_request', ['doorder', $singleRequest->id])}}">
-											<img src="{{asset('images/doorder-new-layout/reject-img.png')}}"
-													alt="Reqject"> 
+											{{csrf_field()}}
+											<img src="{{asset('images/doorder-new-layout/reject-img.png')}}" alt="Reject driver">
 											<div class="modal-dialog-header modalHeaderMessage">Rejected</div>
 											<div class="form-group bmd-form-group">
 												<label class="modal-dialog-header modalSubHeaderMessage">Please add reason for rejection</label>

@@ -706,6 +706,7 @@ class DriversController extends Controller
     public function getDriverRegistrationRequests()
     {
         $drivers_requests = DriverProfile::with('user')
+            ->where('status','<>','completed')
             ->orderBy('created_at', 'desc')->paginate(20);
         //->where('is_confirmed', false)->whereNull('rejection_reason')
         $driver_request_edited = $drivers_requests

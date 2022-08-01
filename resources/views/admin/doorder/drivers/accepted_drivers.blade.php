@@ -76,10 +76,11 @@ input[type="checkbox"] {
 												<th>Location</th>
 												<th>Vehicle</th>
 												<th>Work Type</th>
-												<!-- 												<th>Shift Time</th> -->
+												<!-- <th>Shift Time</th> -->
 												<th>Overall Rating</th>
 												<th>Last Seen</th>
-												<th class="disabled-sorting ">Actions</th>
+												<th>Last Assigned</th>
+												<th class="disabled-sorting">Actions</th>
 											</tr>
 										</thead>
 
@@ -93,8 +94,6 @@ input[type="checkbox"] {
 													class="p-3"><input type="checkbox" name="selectedDrivers[]"
 													disabled="disabled" v-bind:value="driver.id"></td>
 
-
-
 												<td class="text-left"><span v-if="driver.in_duty"
 													class="inDutyDriverSpan inDutyTrue"> <i
 														class="fas fa-circle"></i>
@@ -104,10 +103,11 @@ input[type="checkbox"] {
 												<td>@{{ JSON.parse(driver.work_location).name}}</td>
 												<td>@{{ driver.transport }}</td>
 												<td></td>
-												<!-- 												<td>@{{driver.business_hours}}</td> -->
+												<!-- <td>@{{driver.business_hours}}</td> -->
 												<td><div class="overallRating"
 														:data-score="driver.overall_rating"></div></td>
 												<td>@{{ driver.last_active_web }}</td>
+												<td>@{{ driver.last_assigned_web }}</td>
 												<td class="actionsTd"><button type="button" class="edit"
 														@click="openDriver(driver.id)">
 														<img
@@ -115,11 +115,9 @@ input[type="checkbox"] {
 													</button>
 													<button type="button" class="remove"
 														@click="clickDeleteDriver(driver.id)">
-
 														<img
 															src="{{asset('images/doorder-new-layout/delete-icon.png')}}">
 													</button></td>
-
 											</tr>
 											<tr v-else>
 												<td colspan="8" class="text-center"><strong>No data found.</strong>

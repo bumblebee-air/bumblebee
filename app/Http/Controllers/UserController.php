@@ -108,6 +108,7 @@ class UserController extends Controller
         }
         try {
             //Start data scrambling
+            $current_user->name .= ' (Deleted)';
             $current_user->email = 'deleted_user_' . $user_id . '@mail.com';
             $current_user->phone = '000000000000' . $user_id;
             $current_user->password = bcrypt('P@$$w0rd');
@@ -116,6 +117,7 @@ class UserController extends Controller
             if ($current_user->user_role == 'driver') {
                 $driver_profile = DriverProfile::where('user_id', '=', $user_id)->first();
                 if ($driver_profile != null) {
+                    $driver_profile->last_name .= ' (Deleted)';
                     $driver_profile->dob = null;
                     $driver_profile->pps_number = null;
                     $driver_profile->legal_word_evidence .= 'nulled';

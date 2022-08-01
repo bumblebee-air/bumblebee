@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class DriverProfile extends Model
 {
-    protected $dates = ['last_active'];
-    protected $appends = ['last_active_web', 'overall_rating'];
+    protected $dates = ['last_active', 'last_assigned'];
+    protected $appends = ['last_active_web', 'last_assigned_web', 'overall_rating'];
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -20,8 +20,14 @@ class DriverProfile extends Model
 
     public function getLastActiveWebAttribute()
     {
-        return $this->last_active ? $this->last_active->format('d-m-Y h:i A') : '';
+        return $this->last_active ? $this->last_active->format('d-m-y H:i') : '';
     }
+
+    public function getLastAssignedWebAttribute()
+    {
+        return $this->last_assigned ? $this->last_assigned->format('d-m-y H:i') : '';
+    }
+
     public function getOverallRatingAttribute()
     {
         $order_ids = $this->user->orders->pluck('id')->toArray();

@@ -226,7 +226,8 @@ class OrdersController extends Controller
             return redirect()->back();
         }
         // dd($order);
-        $accepted_deliverers = DriverProfile::where('is_confirmed', '=', 1)->get();
+        $accepted_deliverers = DriverProfile::where('is_confirmed', '=', 1)
+            ->orderBy('last_assigned','desc')->get();
         /*
          * $user_ids = [];
          * foreach($accepted_deliverers as $deliverer){
@@ -237,7 +238,7 @@ class OrdersController extends Controller
          */
         $customer_name = explode(' ', $order->customer_name);
         $first_name = $customer_name[0];
-        $last_name = isset($customer_name[1]) ? $customer_name[1] : '';
+        $last_name = $customer_name[1] ?? '';
         $order->first_name = $first_name;
         $order->last_name = $last_name;
         $order->qr_scan_status = "No QR scan required";
@@ -305,13 +306,16 @@ class OrdersController extends Controller
          * url('driver_app#/order-details/'.$order->id);
          * }
          */
+        $current_time_c = Carbon::now();
+        $current_timestamp = $current_time_c->toDateTimeString();
         $notification_message = '';
         $sms_message = '';
         foreach ($selected_drivers as $selected_driver) {
             $driver = User::where('id', '=', $selected_driver)->where('user_role', '=', 'driver')->first();
+            $driver_profile = $driver->driver_profile;
             $old_driver = $order->orderDriver;
             if ($drivers_count == 1) {
-                if (! $driver) {
+                if (!$driver || !$driver_profile) {
                     alert()->error('This driver is invalid!');
                     return redirect()->back();
                 }
@@ -319,15 +323,20 @@ class OrdersController extends Controller
                 $order->status = 'assigned';
                 $order->driver_status = 'assigned';
                 $order->save();
+                $driver_profile->last_assigned = $current_timestamp;
+                $driver_profile->save();
                 $notification_message = "Order #$order->order_id has been assigned to you";
-                $sms_message = "Hi $driver->name, there is an order assigned to you, please open your app. " . url('driver_app#/order-details/' . $order->id);
+                //$sms_message = "Hi $driver->name, there is an order assigned to you, please open your app. " . url('driver_app#/order-details/' . $order->id);
+                $sms_message = "Hi $driver->name, order #$order->order_id has been assigned to you";
             } else {
-                $notification_message = "Order #$order->order_id has been added to the available orders list";
-                $sms_message = "Hi, a new order #$order->order_id has been added to the available orders list";
                 $order->status = 'ready';
                 $order->driver = null;
                 $order->driver_status = null;
                 $order->save();
+                $driver_profile->last_assigned = $current_timestamp;
+                $driver_profile->save();
+                $notification_message = "Order #$order->order_id has been added to the available orders list";
+                $sms_message = "Hi, Order #$order->order_id has been added to the available orders list";
             }
             $driver_ids[] = $selected_driver;
         }
@@ -403,7 +412,7 @@ class OrdersController extends Controller
         $orders = $orders->where('is_archived', true);
         if (auth()->user()->user_role == 'retailer') {
             $orders = $orders->where('retailer_id', auth()->user()->retailer_profile->id);
-        } else {}
+        }
 
         if ($request->has('from')) {
             $orders = $orders->whereDate('created_at', '>=', $request->from);
@@ -420,11 +429,10 @@ class OrdersController extends Controller
 
         if ($request->has('export')) {
             // export
-        } else {
-            return view('admin.doorder.orders_history', [
-                'orders' => $orders
-            ]);
         }
+        return view('admin.doorder.orders_history', [
+            'orders' => $orders
+        ]);
     }
 
     public function importOrders()

@@ -1367,8 +1367,9 @@ class DriversController extends Controller
         $selectedOrders = Session::get('selectedOrders');
         $drivers = DriverProfile::with('user')
             ->where('is_confirmed', true)
+            ->orderBy('last_assigned','desc')
             ->orderBy('created_at', 'desc')->get();
-        //            ->whereNull('rejection_reason')->paginate(20)
+        //->whereNull('rejection_reason')->paginate(20)
         foreach ($drivers as $driver) {
             $driver->overall_rating = 4;
         }

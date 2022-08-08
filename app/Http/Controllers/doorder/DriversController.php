@@ -164,135 +164,163 @@ class DriversController extends Controller
 
     public function updateOrderDriverStatus(Request $request)
     {
-        $order_id = $request->get('order_id');
+        $order_ids = $request->get('order_ids');
+        $order_ids = explode(',',$order_ids);
         $status = $request->get('status');
-        $order = Order::find($order_id);
-        if (!$order) {
-            $response = [
-                'message' => 'No order was found with this ID',
-                'error' => 1
-            ];
-            return response()->json($response)->setStatusCode(403);
-        }
-        $timestamps = KPITimestamp::where('model', '=', 'order')
-            ->where('model_id', '=', $order->id)->first();
-        if (!$timestamps) {
-            $timestamps = new KPITimestamp();
-            $timestamps->model = 'order';
-            $timestamps->model_id = $order->id;
-        }
         $current_timestamp = Carbon::now();
         $current_timestamp = $current_timestamp->toDateTimeString();
         $current_driver = \Auth::user();
         $driver_id = $current_driver->id;
-        if ($status != 'accepted' && $status != 'rejected') {
-            if ($order->driver != (string)$driver_id) {
+        $delivery_confirmation_code = null;
+        //Check for order issues first
+        foreach ($order_ids as $order_id) {
+            $order = Order::find($order_id);
+            if (!$order) {
                 $response = [
-                    'message' => 'This order does not belong to this driver',
+                    'message' => 'No order was found with ID '.$order_id.'!',
+                    'delivery_confirmation_code' => $delivery_confirmation_code,
                     'error' => 1
                 ];
-                return response()->json($response)->setStatusCode(403);
+                return response()->json($response,403);
             }
-            $order->driver_status = $status;
-            if ($status == 'on_route_pickup') {
-                $order->status = $status;
-                $timestamps->on_the_way_first = $current_timestamp;
-            } elseif ($status == 'picked_up') {
-                $order->status = $status;
-                $timestamps->arrived_first = $current_timestamp;
-            } elseif ($status == 'on_route') {
-                $order->status = $status;
-                $timestamps->on_the_way_second = $current_timestamp;
-                //Send the customer order url for tracking & qr code
-                $order->customer_confirmation_code = ($order->customer_confirmation_code==null)? Str::random(8) : $order->customer_confirmation_code;
-                $order->delivery_confirmation_code = ($order->delivery_confirmation_code==null)? Str::random(32) : $order->delivery_confirmation_code;
-                $retailer_name = $order->retailer_name;
-                try {
-                    $sid = env('TWILIO_SID', '');
-                    $token = env('TWILIO_AUTH', '');
-                    $twilio = new Client($sid, $token);
-                    //url('customer/delivery_confirmation/' . $order->customer_confirmation_code)
-                    $sender_name = "DoOrder";
-                    foreach ($this->unallowed_sms_alpha_codes as $country_code) {
-                        if (strpos($order->customer_phone, $country_code) !== false) {
-                            $sender_name = env('TWILIO_NUMBER', 'DoOrder');
-                        }
-                    }
-                    $twilio->messages->create(
-                        $order->customer_phone,
-                        [
-                            "from" => $sender_name,
-                            "body" => "Hi $order->customer_name, Your $retailer_name order is on the way. You can track your order here: " . url('customer/order/' . $order->customer_confirmation_code)
-                        ]
-                    );
-                } catch (\Exception $exception) {
-                    \Log::error($exception->getMessage());
-                }
-            } elseif ($status == 'delivery_arrived') {
-                $order->status = $status;
-                $timestamps->arrived_second = $current_timestamp;
-                CustomNotificationHelper::send('order_completed', $order->id);
-            }
-            $order->save();
-            $timestamps->save();
-            Redis::publish('doorder-channel', json_encode([
-                'event' => 'update-order-status' . '-' . env('APP_ENV', 'dev'),
-                'data' => [
-                    'id' => $order->id,
-                    'status' => $order->status,
-                    'driver' => $order->orderDriver ? $order->orderDriver->name : null,
-                ]
-            ]));
-            $response = [
-                'message' => 'The order\'s status has been updated successfully',
-                'delivery_confirmation_code' => $status == 'delivery_arrived' ? $order->delivery_confirmation_code : null,
-                'error' => 0
-            ];
-            return response()->json($response)->setStatusCode(200);
-        } else {
-            if ($status == 'accepted') {
-                if ($order->driver != null && $order->driver != $driver_id) {
-                    $response = [
-                        'message' => 'This order has already been accepted by another driver',
-                        'error' => 1
-                    ];
-                    return response()->json($response)->setStatusCode(403);
-                }
-                $order->status = 'matched';
-                $order->driver = $driver_id;
-                $order->driver_status = $status;
-                $timestamps->accepted = $current_timestamp;
-                if ($timestamps->assigned == null) {
-                    $timestamps->assigned = $current_timestamp;
-                }
-            } elseif ($status == 'rejected') {
+            if ($status != 'accepted' && $status != 'rejected') {
                 if ($order->driver != (string)$driver_id) {
                     $response = [
-                        'message' => 'This order does not belong to this driver',
+                        'message' => 'Order '.$order->order_id.' does not belong to this driver',
+                        'delivery_confirmation_code' => $delivery_confirmation_code,
                         'error' => 1
                     ];
-                    return response()->json($response)->setStatusCode(403);
+                    return response()->json($response,403);
                 }
-                $order->status = 'ready';
-                $order->driver = null;
-                $order->driver_status = null;
+            } else {
+                if ($status == 'accepted') {
+                    if ($order->driver != null && $order->driver != $driver_id) {
+                        $response = [
+                            'message' => 'Order '.$order->order_id.' has already been accepted by another driver',
+                            'delivery_confirmation_code' => $delivery_confirmation_code,
+                            'error' => 1
+                        ];
+                        return response()->json($response,403);
+                    }
+                } elseif ($status == 'rejected') {
+                    if ($order->driver != (string)$driver_id) {
+                        $response = [
+                            'message' => 'Order '.$order->order_id.' does not belong to this driver',
+                            'delivery_confirmation_code' => $delivery_confirmation_code,
+                            'error' => 1
+                        ];
+                        return response()->json($response,403);
+                    }
+                }
             }
-            $order->save();
-            $timestamps->save();
-            Redis::publish('doorder-channel', json_encode([
-                'event' => 'update-order-status' . '-' . env('APP_ENV', 'dev'),
-                'data' => [
-                    'id' => $order->id,
-                    'status' => $order->status,
-                    'driver' => $order->orderDriver ? $order->orderDriver->name : null,
-                ]
-            ]));
-            $response = [
-                'message' => 'The order\'s status has been updated successfully',
-                'error' => 0
-            ];
-            return response()->json($response)->setStatusCode(200);
         }
+        foreach ($order_ids as $order_id) {
+            $order = Order::find($order_id);
+            $timestamps = KPITimestamp::where('model', '=', 'order')
+                ->where('model_id', '=', $order->id)->first();
+            if (!$timestamps) {
+                $timestamps = new KPITimestamp();
+                $timestamps->model = 'order';
+                $timestamps->model_id = $order->id;
+            }
+            if ($status != 'accepted' && $status != 'rejected') {
+                $order->driver_status = $status;
+                if ($status == 'on_route_pickup') {
+                    $order->status = $status;
+                    $timestamps->on_the_way_first = $current_timestamp;
+                } elseif ($status == 'picked_up') {
+                    $order->status = $status;
+                    $timestamps->arrived_first = $current_timestamp;
+                } elseif ($status == 'on_route') {
+                    $order->status = $status;
+                    $timestamps->on_the_way_second = $current_timestamp;
+                    //Send the customer order url for tracking & qr code
+                    $order->customer_confirmation_code = ($order->customer_confirmation_code == null) ? Str::random(8) : $order->customer_confirmation_code;
+                    $order->delivery_confirmation_code = ($order->delivery_confirmation_code == null) ? Str::random(32) : $order->delivery_confirmation_code;
+                    $retailer_name = $order->retailer_name;
+                    try {
+                        $sid = env('TWILIO_SID', '');
+                        $token = env('TWILIO_AUTH', '');
+                        $twilio = new Client($sid, $token);
+                        //url('customer/delivery_confirmation/' . $order->customer_confirmation_code)
+                        $sender_name = "DoOrder";
+                        foreach ($this->unallowed_sms_alpha_codes as $country_code) {
+                            if (strpos($order->customer_phone, $country_code) !== false) {
+                                $sender_name = env('TWILIO_NUMBER', 'DoOrder');
+                            }
+                        }
+                        $twilio->messages->create(
+                            $order->customer_phone,
+                            [
+                                "from" => $sender_name,
+                                "body" => "Hi $order->customer_name, Your $retailer_name order is on the way. You can track your order here: " . url('customer/order/' . $order->customer_confirmation_code)
+                            ]
+                        );
+                    } catch (\Exception $exception) {
+                        \Log::error($exception->getMessage());
+                    }
+                } elseif ($status == 'delivery_arrived') {
+                    $order->status = $status;
+                    $timestamps->arrived_second = $current_timestamp;
+                    CustomNotificationHelper::send('order_completed', $order->id);
+                }
+                $order->save();
+                $timestamps->save();
+                Redis::publish('doorder-channel', json_encode([
+                    'event' => 'update-order-status' . '-' . env('APP_ENV', 'dev'),
+                    'data' => [
+                        'id' => $order->id,
+                        'status' => $order->status,
+                        'driver' => $order->orderDriver ? $order->orderDriver->name : null,
+                    ]
+                ]));
+                $delivery_confirmation_code = $status == 'delivery_arrived' ? $order->delivery_confirmation_code : null;
+            } else {
+                if ($status == 'accepted') {
+                    if ($order->driver != null && $order->driver != $driver_id) {
+                        $response = [
+                            'message' => 'This order has already been accepted by another driver',
+                            'error' => 1
+                        ];
+                        return response()->json($response)->setStatusCode(403);
+                    }
+                    $order->status = 'matched';
+                    $order->driver = $driver_id;
+                    $order->driver_status = $status;
+                    $timestamps->accepted = $current_timestamp;
+                    if ($timestamps->assigned == null) {
+                        $timestamps->assigned = $current_timestamp;
+                    }
+                } elseif ($status == 'rejected') {
+                    if ($order->driver != (string)$driver_id) {
+                        $response = [
+                            'message' => 'This order does not belong to this driver',
+                            'error' => 1
+                        ];
+                        return response()->json($response)->setStatusCode(403);
+                    }
+                    $order->status = 'ready';
+                    $order->driver = null;
+                    $order->driver_status = null;
+                }
+                $order->save();
+                $timestamps->save();
+                Redis::publish('doorder-channel', json_encode([
+                    'event' => 'update-order-status' . '-' . env('APP_ENV', 'dev'),
+                    'data' => [
+                        'id' => $order->id,
+                        'status' => $order->status,
+                        'driver' => $order->orderDriver ? $order->orderDriver->name : null,
+                    ]
+                ]));
+            }
+        }
+        $response = [
+            'message' => 'The status has been updated successfully',
+            'delivery_confirmation_code' => $delivery_confirmation_code,
+            'error' => 0
+        ];
+        return response()->json($response);
     }
     public function AddDriverRating(Request $request)
     {
@@ -1349,6 +1377,7 @@ class DriversController extends Controller
         foreach ($optimized_route_arr as $route_item) {
             $the_order = $orders->firstWhere('id', $route_item->order_id);
             $route_item->status = ($the_order->driver_status != null) ? $the_order->driver_status : $the_order->status;
+            $route_item->retailer_id = $the_order->retailer_id;
         }
         return response()->json([
             'errors' => 0,

@@ -357,6 +357,9 @@ Route::group(
         Route::group([
             'middleware' => "auth:doorder"
         ], function () {
+            Route::get('filter_country', 'doorder\CountryFilterController@setCountry')->name('doorder_setCountryFilter');
+            Route::get('get_all_country_city', 'doorder\CountryFilterController@getCountryList')->name('doorder_getCountryListFilter');
+
             Route::get('dashboard', 'doorder\DashboardController@index')->name('doorder_dashboard');
             Route::get('search_map', 'doorder\DashboardController@searchOrderMap')->name('doorder_searchMapOrder');
             Route::get('metrics_dashboard', 'doorder\DashboardController@metricsDashboard')->name('doorder_metrics_dashboard');

@@ -46,7 +46,7 @@
 
 							<div id="component_notification_type">
 								<template>
-									<treeselect class="form-control"
+									<treeselect class="form-control treeselect-settings"
 										v-model="notification.notification_type"
 										:name="'notification_type' + (index)"
 										:id="'notification_type' + (index)" placeholder="Select type"
@@ -85,7 +85,7 @@
 						<div class="form-group bmd-form-group">
 
 							<label for="notification_channel">Notification channel </label>
-							<treeselect2 class="form-control"
+							<treeselect2 class="form-control treeselect-settings"
 								:name="'notification_channel' + (index)"
 								:id="'notification_channel' + (index)"
 								v-model="notification.notification_channel"
@@ -134,7 +134,7 @@
 						<div class="form-group bmd-form-group"
 							v-if="notification.notification_channel=='platform'">
 							<label>User type</label>
-							<treeselectuser class="form-control"
+							<treeselectuser class="form-control treeselect-settings"
 								:name="'user_type'+(index)" :id="'user_type' + (index)"
 								v-model="notification.user_type"
 								placeholder="Select user type" :multiple="false"
@@ -169,7 +169,7 @@
 					<div class="col-sm-6">
 						<div class="form-group bmd-form-group">
 							<label for="retailer">Retailer </label>
-							<treeselectretailer class="form-control h-auto"
+							<treeselectretailer class="form-control h-auto  treeselect-settings"
 								:name="'retailer' + (index)+'[]'"
 								:id="'retailer' + (index)"
 								v-model="notification.retailer"

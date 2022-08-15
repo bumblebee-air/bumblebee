@@ -1,8 +1,5 @@
 @extends('templates.doorder_dashboard') @section('title', 'DoOrder |
 Settings') @section('page-styles')
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/@riophae/vue-treeselect@^0.4.0/dist/vue-treeselect.min.css">
-<link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
 <style>
 
 .togglebutton {
@@ -76,12 +73,12 @@ Settings') @section('page-styles')
 	background: #e8ca49;
 }
 
-.vue-treeselect__control {
+.treeselect-settings .vue-treeselect__control {
 	border: none !important;
 	margin-top: -6px;
 }
 
-.vue-treeselect__menu {
+.treeselect-settings .vue-treeselect__menu {
 	font-family: Montserrat;
 	font-size: 13px !important;
 	font-weight: normal;
@@ -93,16 +90,16 @@ Settings') @section('page-styles')
 	color: #717579
 }
 
-.vue-treeselect__menu li:hover {
+.treeselect-settings .vue-treeselect__menu li:hover {
 	background: #faf4db;
 	font-weight: bold;
 	color: #4d4d4d;
 	box-shadow: none !important;
 }
 
-.vue-treeselect__menu li:hover .vue-treeselect__label,
-	.vue-treeselect__option--highlight .vue-treeselect__label,
-	.vue-treeselect--single .vue-treeselect__option--selected .vue-treeselect__label
+.treeselect-settings .vue-treeselect__menu li:hover .vue-treeselect__label,
+.treeselect-settings 	.vue-treeselect__option--highlight .vue-treeselect__label,
+	.treeselect-settings .vue-treeselect--single .vue-treeselect__option--selected .vue-treeselect__label
 	{
 	background: #faf4db !important;
 	font-weight: bold !important;
@@ -110,7 +107,8 @@ Settings') @section('page-styles')
 	box-shadow: none !important;
 }
 
-.vue-treeselect__option--highlight, .vue-treeselect--single .vue-treeselect__option--selected
+.treeselect-settings .vue-treeselect__option--highlight, 
+.treeselect-settings .vue-treeselect--single .vue-treeselect__option--selected
 	{
 	background: #faf4db !important;
 	font-weight: bold !important;
@@ -120,11 +118,11 @@ Settings') @section('page-styles')
 	color: #4d4d4d !important;
 }
 
-.vue-treeselect__indent-level-0 .vue-treeselect__option {
+.treeselect-settings .vue-treeselect__indent-level-0 .vue-treeselect__option {
 	padding: 5px
 }
 
-.vue-treeselect__placeholder, .vue-treeselect__single-value {
+.treeselect-settings .vue-treeselect__placeholder,.treeselect-settings  .vue-treeselect__single-value {
 	font-family: Montserrat;
 	font-size: 16px;
 	font-weight: 500;
@@ -136,27 +134,27 @@ Settings') @section('page-styles')
 	padding: 11px 14px 11px 14px;
 }
 
-.vue-treeselect:not(.vue-treeselect--disabled) .vue-treeselect__multi-value-item:not(.vue-treeselect__multi-value-item-disabled):hover .vue-treeselect__multi-value-item:not(.vue-treeselect__multi-value-item-new) .vue-treeselect__multi-value-item:not(.vue-treeselect__multi-value-item-new):hover,
-	.vue-treeselect__multi-value-item {
+.treeselect-settings .vue-treeselect:not(.vue-treeselect--disabled) .vue-treeselect__multi-value-item:not(.vue-treeselect__multi-value-item-disabled):hover .vue-treeselect__multi-value-item:not(.vue-treeselect__multi-value-item-new) .vue-treeselect__multi-value-item:not(.vue-treeselect__multi-value-item-new):hover,
+.treeselect-settings 	.vue-treeselect__multi-value-item {
 	background: #E9C21866 !important;
 	font-weight: 600 !important;
 	color: #4d4d4d !important;
 }
 
-.vue-treeselect__value-remove {
+.treeselect-settings .vue-treeselect__value-remove {
 	color: #4d4d4d !important;
 }
 
-.vue-treeselect__checkbox--checked,
-	.vue-treeselect__checkbox--indeterminate,
-	.vue-treeselect__label-container:hover .vue-treeselect__checkbox--checked,
-	.vue-treeselect__label-container:hover .vue-treeselect__checkbox--indeterminate
+.treeselect-settings .vue-treeselect__checkbox--checked,
+.treeselect-settings 	.vue-treeselect__checkbox--indeterminate,
+.treeselect-settings 	.vue-treeselect__label-container:hover .vue-treeselect__checkbox--checked,
+.treeselect-settings 	.vue-treeselect__label-container:hover .vue-treeselect__checkbox--indeterminate
 	{
 	border-color: #E9C218;
 	background: #E9C218;
 }
 
-.vue-treeselect__multi-value-item {
+.treeselect-settings .vue-treeselect__multi-value-item {
 	font-family: Montserrat;
 	font-size: 16px;
 	font-weight: 500;
@@ -351,12 +349,6 @@ label.toggle-on, label.toggle-off {
 @endsection @section('page-scripts')
 
 <script src="{{asset('js/bootstrap-selectpicker.js')}}"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/@riophae/vue-treeselect@^0.4.0/dist/vue-treeselect.umd.min.js"></script>
-
-<script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>
 
 <!-- <script src="https://cdn.jsdelivr.net/npm/v-click-outside"></script> -->
 <!-- <script type="module" -->

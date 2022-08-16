@@ -23,7 +23,7 @@ class CountryFilterController extends Controller
         ]);
     }
 
-    public function getCountryList(Request $request)
+    public function getCountryCityList(Request $request)
     {
         $countryList = [[
             'id' => 'All',
@@ -65,6 +65,37 @@ class CountryFilterController extends Controller
         ]];
         return response()->json([
             "country_list" =>   json_encode($countryList),
+        ]);
+    }
+    public function getCountryList(Request $request)
+    {
+        $countryList = [[
+            'value' => 'Ireland',
+            'label' => "Ireland",
+        ],
+            [
+                'value' => 'UK',
+                'label' => "UK",
+            ]];
+        return response()->json([
+            "country_list" =>   json_encode($countryList),
+        ]);
+    }
+    public function getCityOfCountryList(Request $request)
+    {
+        $country = $request->get('country');
+        $cityList = [
+            [
+                'value' => 'city 1',
+                'label' => "city 1 ".$country,
+            ],
+            [
+                'value' => 'city 2',
+                'label' => "city 2 " . $country,
+            ],
+        ];
+        return response()->json([
+            "city_list" =>   json_encode($cityList),
         ]);
     }
 }

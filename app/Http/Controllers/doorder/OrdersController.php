@@ -29,14 +29,21 @@ class OrdersController extends Controller
     {
         if (auth()->user()->user_role == 'retailer') {
             $orders = Order::where('retailer_id', auth()->user()->retailer_profile->id)->where('is_archived', false)
-                ->where('status', '!=', 'delivered')
-                ->orderBy('id', 'desc')
-                ->paginate(20);
+                ->where('status', '!=', 'delivered');
         } else {
-            $orders = Order::where('is_archived', false)->where('status', '!=', 'delivered')
-                ->orderBy('id', 'desc')
-                ->paginate(20);
+            $orders = Order::where('is_archived', false)->where('status', '!=', 'delivered');
         }
+        if(session()->get('country') !== null  ){
+            $orders = $orders->where(function ($q){
+                $q->where('pickup_address','like','%'.session()->get('country').'%')->orWhere('customer_address','like','%'.session()->get('country').'%');
+            });
+        }
+        if(session()->get('city') !== null  ){
+            $orders = $orders->where(function ($q){
+                $q->where('pickup_address','like','%'.session()->get('city').'%')->orWhere('customer_address','like','%'.session()->get('city').'%');
+            });
+        }
+        $orders = $orders->orderBy('id', 'desc')->paginate(20);
 
         // $events=[];
         // foreach ($orders as $order){

@@ -13,6 +13,10 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::get('cities/{id}',function ($country_id){
+    $countries=  \App\Models\City::where('country_id',$country_id)->get();
+    return response()->json($countries, 200);
+});
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

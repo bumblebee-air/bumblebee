@@ -1026,8 +1026,17 @@ class DriversController extends Controller
         $drivers = DriverProfile::with('user')
             ->where('is_confirmed', true)
             ->orderBy('last_assigned','desc')
-            ->orderBy('created_at', 'desc')->get();
+            ->orderBy('created_at', 'desc');
         //            ->whereNull('rejection_reason')->paginate(20)
+
+        if(session()->get('country') !== null  ){
+            $drivers = $drivers->where('country',session()->get('country'));
+        }
+        if( session()->get('city')!== null ){
+            $drivers = $drivers->where('address','LIKE','%'.session()->get('city').'%');
+
+        }
+        $drivers = $drivers->get();
         if ($request->export_type == 'exel') {
             return Excel::download(new DriversExport(['items' => $drivers]), 'drivers-report.xlsx');
         }

@@ -9,6 +9,11 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class Controller extends BaseController
 {
+    public function __construct()
+    {
+        /*$countries = Country::all();
+        View::share('countries', $countries);*/
+    }
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     public $unallowed_sms_alpha_codes = ['+91'];

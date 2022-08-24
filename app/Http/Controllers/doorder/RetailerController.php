@@ -187,7 +187,18 @@ class RetailerController extends Controller
 
     public function getRetailers(Request $request, $param)
     {
+
         $retailers = Retailer::with('user')->where('status', 'completed')->get();
+        if(session()->get('country') !== null && session()->get('city')!== null ){
+            $retailers = $retailers->map(function($item){
+                foreach (json_decode($item->locations_details) as $address){
+                    if($address->country == session()->get('country') && str_contains($address->address, session()->get('city'))){
+                        return $item;
+                    }
+                }
+            });
+
+        }
         if ($request->export_type == 'exel') {
             return Excel::download(new RetailersExport(['items' => $retailers]), 'retailers-report.xlsx');
         }

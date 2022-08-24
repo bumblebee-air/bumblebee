@@ -2,21 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Country;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Facades\View;
 
 class Controller extends BaseController
 {
     public function __construct()
     {
-        $countries = Country::all();
-
-        // Sharing is caring
-        View::share('countries', $countries);
+        /*$countries = Country::all();
+        View::share('countries', $countries);*/
     }
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 

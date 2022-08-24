@@ -14,9 +14,8 @@ class AddParentIdToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            //
             $table->unsignedInteger('parent_id')->nullable();
-            $table->foreign('parent_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            //$table->foreign('parent_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
@@ -28,8 +27,7 @@ class AddParentIdToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            //
-            $table->dropForeign('users_parent_id_foreign');
+            //$table->dropForeign('users_parent_id_foreign');
             $table->dropColumn('parent_id');
         });
     }

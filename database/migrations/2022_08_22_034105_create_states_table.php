@@ -17,14 +17,14 @@ class CreateStatesTable extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedInteger('country_id')->index();
-            $table->string('country_code');
-            $table->string('fips_code')->nullable();
-            $table->string('iso2');
+            $table->string('country_code')->nullable();
+            $table->string('iso2')->nullable();
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
-            $table->timestamps();
+            $table->string('fips_code')->nullable();
             $table->boolean('flag')->default(0);
             $table->text('wikiDataId')->nullable();
+            $table->timestamps();
         });
     }
 

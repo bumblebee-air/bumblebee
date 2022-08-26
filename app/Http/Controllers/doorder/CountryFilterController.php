@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\doorder;
 
 use App\DriverProfile;
+use App\Models\City;
+use App\Models\Country;
 use App\Order;
 use App\Retailer;
 use App\User;
@@ -15,20 +17,37 @@ class CountryFilterController extends Controller
 {
     public function setCountry(Request $request)
     {
-        // dd("change country " . $request->get('country'));
-        Session::put('current_country_filter', $request->get('country'));
+        //dd("change country " . $request->get('country'));
+        Session::put('country', $request->get('country'));
 
         return response()->json([
-            "message" => "Sussess " . $request->get('country'),
+            "message" => "Success, set the current country to " . $request->get('country'),
         ]);
     }
 
     public function getCountryCityList(Request $request)
     {
-        $countryList = [[
+        $countries = Country::with('cities')->get();
+        $view_all = new Country(['id'=>0, 'name'=>'View all']);
+        $countries->prepend($view_all);
+        $countryList = $countries->map(function ($item) {
+            $country_data = [
+                'id' => ($item->name=='View all')? 'All' : $item->name,
+                'label' => $item->name,
+            ];
+            if($item->name!='View all') {
+                $country_data['children'] = $item->cities->map(function ($city) {
+                    return [
+                        'id' => $city->name,
+                        'label' => $city->name,
+                    ];
+                });
+            }
+            return $country_data;
+        });
+        /*$countryList = [[
             'id' => 'All',
             'label' => "View all",
-
         ], [
             'id' => 'ireland',
             'label' => "Ireland",
@@ -62,29 +81,45 @@ class CountryFilterController extends Controller
                     'label' => "Manchester"
                 ],
             ]
-        ]];
+        ]];*/
         return response()->json([
-            "country_list" =>   json_encode($countryList),
+            "country_list" => json_encode($countryList),
         ]);
     }
     public function getCountryList(Request $request)
     {
-        $countryList = [[
+        $countries = Country::all();
+        $countryList = $countries->map(function ($item) {
+            return [
+                'value' => $item->name,
+                'label' => $item->name
+            ];
+        });
+        /*$countryList = [[
             'value' => 'Ireland',
             'label' => "Ireland",
         ],
-            [
-                'value' => 'UK',
-                'label' => "UK",
-            ]];
+        [
+            'value' => 'UK',
+            'label' => "UK",
+        ]];*/
         return response()->json([
-            "country_list" =>   json_encode($countryList),
+            "country_list" => json_encode($countryList),
         ]);
     }
     public function getCityOfCountryList(Request $request)
     {
         $country = $request->get('country');
-        $cityList = [
+        $the_country_entry = Country::where('name','=',$country)->first();
+        $the_country_id = $the_country_entry!=null? $the_country_entry->id : 0;
+        $the_cities = City::where('country_id','=',$the_country_id)->get();
+        $cityList = $the_cities->map(function($item) use($country) {
+            return [
+                'value' => $item->name,
+                'label' => $item->name
+            ];
+        });
+        /*$cityList = [
             [
                 'value' => 'city 1',
                 'label' => "city 1 ".$country,
@@ -93,9 +128,9 @@ class CountryFilterController extends Controller
                 'value' => 'city 2',
                 'label' => "city 2 " . $country,
             ],
-        ];
+        ];*/
         return response()->json([
-            "city_list" =>   json_encode($cityList),
+            "city_list" => json_encode($cityList),
         ]);
     }
 }

@@ -6,11 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Country extends Model
 {
-
     protected $guarded = ['id'];
 
     /**
-     * Get all cities that belongs to this country
+     * Get all cities that belong to this country
      *
      * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
@@ -20,12 +19,12 @@ class Country extends Model
     }
 
     /**
-     * Get all of the stats for the Country
+     * Get all states of the country
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function states()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(State::class);
     }
 }

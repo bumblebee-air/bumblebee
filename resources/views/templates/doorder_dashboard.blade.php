@@ -291,7 +291,7 @@
 		Vue.use('vue-cascader-select');
 		Vue.component('treeselectfilter', VueTreeselect.Treeselect);
 
-		let selectedCountry = '{{ Session::get('current_country_filter') }}';
+		let selectedCountry = '{{ Session::get('country') }}';
 		console.log(selectedCountry)
 
 		var filternavbar = new Vue({

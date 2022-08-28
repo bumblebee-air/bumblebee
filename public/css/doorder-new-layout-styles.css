@@ -20,7 +20,7 @@ html {
 
 .sidebar .sidebar-wrapper {
 	width: 250px;
-	height: calc(100vh - 190px) !important;
+	height: calc(100vh - 210px) !important;
 	margin-bottom: 10px;
 	z-index: -10;
 }
@@ -29,29 +29,32 @@ html {
 	position: fixed;
 	bottom: 0;
 	left: 0;
-	height: 70px;
+	height: 100px;
 	width: 250px;
-	text-align: center;
+	/* text-align: center; */
 }
 
-.sidebar #country_filter {
+.sidebar #countryFilterFormGroup {
 	width: 80%;
 	margin: 15px auto;
+	transition-property: display;
+	transition-duration: 5s;
+	transition-delay: 3s;
 }
 
-.sidebar #country_filter .vue-treeselect__control {
+.sidebar #countryFilterFormGroup .vue-treeselect__control {
 	background-color: #FFFFFF !important;
 	border: 2px solid #EEEEEE;
 	border-radius: 49px;
 }
 
-.sidebar #country_filter .vue-treeselect__placeholder,
-.sidebar #country_filter .vue-treeselect__single-value {
+.sidebar #countryFilterFormGroup .vue-treeselect__placeholder,
+.sidebar #countryFilterFormGroup .vue-treeselect__single-value {
 	padding: 0px 16px;
 }
 
-.sidebar #country_filter .vue-treeselect__input,
-.sidebar #country_filter .vue-treeselect__single-value {
+.sidebar #countryFilterFormGroup .vue-treeselect__input,
+.sidebar #countryFilterFormGroup .vue-treeselect__single-value {
 	font-family: 'Montserrat';
 	font-style: normal;
 	font-weight: 500;
@@ -60,7 +63,7 @@ html {
 	color: #717579;
 }
 
-.sidebar #country_filter .vue-treeselect__menu {
+.sidebar #countryFilterFormGroup .vue-treeselect__menu {
 	background: #FFFFFF;
 	box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.10);
 	border-radius: 8px;
@@ -68,7 +71,7 @@ html {
 
 }
 
-.sidebar #country_filter .vue-treeselect__menu .vue-treeselect__label {
+.sidebar #countryFilterFormGroup .vue-treeselect__menu .vue-treeselect__label {
 	font-family: 'Montserrat';
 	font-style: normal;
 	font-weight: 400;
@@ -78,20 +81,26 @@ html {
 
 }
 
-.sidebar #country_filter .vue-treeselect__option--highlight,
+.sidebar #countryFilterFormGroup .vue-treeselect__option--highlight,
 .sidebar .vue-treeselect__list .vue-treeselect__option--selected {
 	background: #F3f2f7 !important;
 }
 
-.sidebar #country_filter .vue-treeselect__menu li:hover .vue-treeselect__label,
-.sidebar #country_filter .vue-treeselect__option--highlight .vue-treeselect__label,
-.sidebar #country_filter .vue-treeselect--single .vue-treeselect__option--selected .vue-treeselect__label {
+.sidebar #countryFilterFormGroup .vue-treeselect__menu li:hover .vue-treeselect__label,
+.sidebar #countryFilterFormGroup .vue-treeselect__option--highlight .vue-treeselect__label,
+.sidebar #countryFilterFormGroup .vue-treeselect--single .vue-treeselect__option--selected .vue-treeselect__label {
 
 	background: #F3F2F7;
 }
 
-.sidebar-mini .sidebar #country_filter {
+.sidebar-mini .sidebar #countryFilterFormGroup {
 	display: none;
+}
+
+#countryFilterFormGroup label {
+	margin-bottom: 4px;
+	text-align: left !important;
+
 }
 
 .sidebar-mini .sidebar .user {
@@ -101,6 +110,15 @@ html {
 .sidebar-mini .sidebar .sidebar-wrapper {
 	height: calc(100vh - 70px) !important;
 
+}
+
+.sidebar-mini .sidebar:hover .sidebar-wrapper {
+	height: calc(100vh - 190px) !important;
+
+}
+
+.sidebar-mini .sidebar:hover #filternavbar #countryFilterFormGroup {
+	display: block;
 }
 
 .off-canvas-sidebar nav .navbar-collapse:before, .sidebar:before {

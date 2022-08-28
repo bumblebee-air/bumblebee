@@ -247,12 +247,15 @@
 	</div>
 	<div class="filter-navbar" id="filternavbar">
 
-		<treeselectfilter v-model="country_filter" name="country_filter" id="country_filter" placeholder="Select country"
-			:multiple="false" :options="options_country" :clearable="true" :searchable="true"
-			:openOnClick="true" :disable-branch-nodes="true" :closeOnSelect="true" :flat="true"
-			:open-on-focus="true" :always-open="false"
-			@input="changeCountryFilterSidebar()">
-		</treeselectfilter>
+		<div class="form-group bmd-form-group" id="countryFilterFormGroup">
+
+			<label for="country_filter">City </label>
+			<treeselectfilter v-model="country_filter" name="country_filter" id="country_filter" placeholder="Select country"
+				:multiple="false" :options="options_country" :clearable="true" :searchable="true"
+				:openOnClick="true" :disable-branch-nodes="true" :closeOnSelect="true" :flat="true"
+				:open-on-focus="true" :always-open="false" @input="changeCountryFilterSidebar()">
+			</treeselectfilter>
+		</div>
 	</div>
 	<!-- 	@if ($admin_nav_background_image != null)
 -->

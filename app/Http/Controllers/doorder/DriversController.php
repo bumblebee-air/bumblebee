@@ -1024,19 +1024,17 @@ class DriversController extends Controller
     public function getDrivers(Request $request)
     {
         $drivers = DriverProfile::with('user')
-            ->where('is_confirmed', true)
-            ->orderBy('last_assigned','desc')
-            ->orderBy('created_at', 'desc');
+            ->where('is_confirmed', true);
         //            ->whereNull('rejection_reason')->paginate(20)
-
-        if(session()->get('country') !== null  ){
-            $drivers = $drivers->where('country',session()->get('country'));
+        $country_filter = session()->get('country');
+        $city_filter = session()->get('city');
+        if($country_filter!==null || $city_filter!==null) {
+            $selected_filter = $city_filter != null ?? $country_filter;
+            $drivers = $drivers->where('country', $selected_filter)
+                ->orWhere('address', 'LIKE', '%' . $selected_filter . '%');
         }
-        if( session()->get('city')!== null ){
-            $drivers = $drivers->where('address','LIKE','%'.session()->get('city').'%');
-
-        }
-        $drivers = $drivers->get();
+        $drivers = $drivers->orderBy('last_assigned','desc')
+            ->orderBy('created_at', 'desc')->get();
         if ($request->export_type == 'exel') {
             return Excel::download(new DriversExport(['items' => $drivers]), 'drivers-report.xlsx');
         }

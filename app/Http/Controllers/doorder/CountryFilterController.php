@@ -17,8 +17,12 @@ class CountryFilterController extends Controller
 {
     public function setCountry(Request $request)
     {
-        //dd("change country " . $request->get('country'));
-        Session::put('country', $request->get('country'));
+        $selected_country = $request->get('country');
+        //dd("change country " . $selected_country);
+        if($selected_country == 'All'){
+            Session::forget('country');
+        }
+        Session::put('country', $selected_country);
 
         return response()->json([
             "message" => "Success, set the current country to " . $request->get('country'),

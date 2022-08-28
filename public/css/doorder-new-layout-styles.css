@@ -34,6 +34,10 @@ html {
 	/* text-align: center; */
 }
 
+.sidebar-mini .sidebar .filter-navbar {
+	display: none;
+}
+
 .sidebar #countryFilterFormGroup {
 	width: 80%;
 	margin: 15px auto;
@@ -117,7 +121,8 @@ html {
 
 }
 
-.sidebar-mini .sidebar:hover #filternavbar #countryFilterFormGroup {
+.sidebar-mini .sidebar:hover #filternavbar #countryFilterFormGroup,
+.sidebar-mini .sidebar:hover .filter-navbar {
 	display: block;
 }
 

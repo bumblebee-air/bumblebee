@@ -21,11 +21,14 @@ class CountryFilterController extends Controller
         //dd("change country " . $selected_country);
         if($selected_country == 'All'){
             Session::forget('country');
+            $success_msg = "Reset the current country/city";
+        } else {
+            Session::put('country', $selected_country);
+            $success_msg = "Set the current country/city to " . $selected_country;
         }
-        Session::put('country', $selected_country);
 
         return response()->json([
-            "message" => "Success, set the current country to " . $request->get('country'),
+            "message" => "Success, ".$success_msg,
         ]);
     }
 

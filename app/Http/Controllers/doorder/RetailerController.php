@@ -194,7 +194,8 @@ class RetailerController extends Controller
             $selected_filter = $city_filter?? $country_filter;
             $retailers = $retailers->map(function($item) use($selected_filter){
                 foreach (json_decode($item->locations_details) as $address){
-                    if($address->country==$selected_filter || str_contains($address->address, $selected_filter)){
+                    if((property_exists($address,'country') && $address->country==$selected_filter)
+                        || str_contains($address->address, $selected_filter)){
                         return $item;
                     }
                 }

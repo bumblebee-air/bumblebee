@@ -192,13 +192,14 @@ class RetailerController extends Controller
         $city_filter = session()->get('city');
         if($country_filter!==null || $city_filter!==null){
             $selected_filter = $city_filter?? $country_filter;
-            $retailers = $retailers->map(function($item) use($selected_filter){
+            $retailers = $retailers->filter(function($item) use($selected_filter){
                 foreach (json_decode($item->locations_details) as $address){
                     if((property_exists($address,'country') && $address->country==$selected_filter)
                         || str_contains($address->address, $selected_filter)){
-                        return $item;
+                        return true;
                     }
                 }
+                return false;
             });
         }
         if ($request->export_type == 'exel') {

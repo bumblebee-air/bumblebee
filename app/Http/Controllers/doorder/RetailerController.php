@@ -200,7 +200,7 @@ class RetailerController extends Controller
                     }
                 }
                 return false;
-            });
+            })->values();
         }
         if ($request->export_type == 'exel') {
             return Excel::download(new RetailersExport(['items' => $retailers]), 'retailers-report.xlsx');

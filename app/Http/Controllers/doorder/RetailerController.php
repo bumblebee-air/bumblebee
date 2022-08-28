@@ -191,7 +191,7 @@ class RetailerController extends Controller
         $country_filter = session()->get('country');
         $city_filter = session()->get('city');
         if($country_filter!==null || $city_filter!==null){
-            $selected_filter = $city_filter!=null?? $country_filter;
+            $selected_filter = $city_filter?? $country_filter;
             $retailers = $retailers->map(function($item) use($selected_filter){
                 foreach (json_decode($item->locations_details) as $address){
                     if($address->country==$selected_filter || str_contains($address->address, $selected_filter)){

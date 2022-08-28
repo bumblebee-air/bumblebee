@@ -1029,7 +1029,7 @@ class DriversController extends Controller
         $country_filter = session()->get('country');
         $city_filter = session()->get('city');
         if($country_filter!==null || $city_filter!==null) {
-            $selected_filter = $city_filter != null ?? $country_filter;
+            $selected_filter = $city_filter?? $country_filter;
             $drivers = $drivers->where('country', $selected_filter)
                 ->orWhere('address', 'LIKE', '%' . $selected_filter . '%');
         }

@@ -17,6 +17,11 @@ Route::get('cities/{id}',function ($country_id){
     $countries=  \App\Models\City::where('country_id',$country_id)->get();
     return response()->json($countries, 200);
 });
+
+Route::get('cms-page/{slug}',function ($slug){
+    $page=  \App\Models\Cms::where('slug',$slug)->first();
+    return response()->json($page, 200);
+});
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

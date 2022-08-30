@@ -210,11 +210,13 @@ Route::get('test-soap', 'LookUpController@testSoap');
 Route::get('socket-test', function () {
     return view('socket_test');
 });
+//Tests
 Route::get('test-call', 'TestController@getTestCall');
 Route::post('test-call', 'TestController@postTestCall');
 Route::get('test-crash-call', 'TestController@getTestCrashDetectionCall');
 Route::post('test-crash-call', 'TestController@postTestCrashDetectionCall');
-
+Route::get('videoask-proto', 'TestController@getVideoAskPrototype');
+Route::get('videoask-widget-proto', 'TestController@getVideoAskWidgetPrototype');
 // Stripe
 Route::get('stripe-account-create-test', 'StripeController@getAccountCreationTest');
 Route::post('stripe-account-create-test', 'StripeController@postAccountCreationTest');

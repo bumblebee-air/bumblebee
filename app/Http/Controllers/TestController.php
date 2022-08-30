@@ -59,4 +59,12 @@ class TestController extends Controller
         }
         return redirect()->back();
     }
+
+    public function getVideoAskPrototype(){
+        return view('videoask_prototype');
+    }
+
+    public function getVideoAskWidgetPrototype(){
+        return view('videoask_widget_prototype');
+    }
 }

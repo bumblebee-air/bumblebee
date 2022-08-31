@@ -297,7 +297,7 @@
 		var filternavbar = new Vue({
 			el: '#filternavbar',
 			data: {
-				country_filter: selectedCountry == '' || selectedCountry == null ? 'All' : selectedCountry, //'All',
+				country_filter: selectedCountry == null || selectedCountry == '' ? 'All' : selectedCountry, //'All',
 				options_country: [],
 				// options_country: [{
 				// 	id: 'all',
@@ -350,7 +350,13 @@
 			methods: {
 				changeCountryFilterSidebar(node, instanceId) {
 					//console.log(node)
+					console.log(node)
+					console.log(instanceId)
 					console.log(this.country_filter)
+					
+					if (this.country_filter == null) {
+						this.country_filter = 'All'
+					}
 					// alert("changed " + this.country_filter)
 					var country = this.country_filter
 
@@ -363,7 +369,7 @@
 						}
 					})
 
-				}
+				},
 				// normalizer(node) {
 				// 	return {
 				// 		id: node.id,

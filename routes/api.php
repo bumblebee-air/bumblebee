@@ -18,9 +18,8 @@ Route::get('cities/{id}',function ($country_id){
     return response()->json($countries, 200);
 });
 
-Route::get('cms-page',function ($slug){
+Route::post('cms-page','CMSController@getPages');
 
-});
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

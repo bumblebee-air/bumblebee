@@ -19,8 +19,7 @@ Route::get('cities/{id}',function ($country_id){
 });
 
 Route::get('cms-page',function ($slug){
-    $pages=  \App\Models\Cms::all();
-    return response()->json($pages, 200);
+
 });
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

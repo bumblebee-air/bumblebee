@@ -15,7 +15,7 @@ class CMSPagesSeeder extends Seeder
         \App\Models\Cms::create([
             'name' => 'Privacy Policy',
             'slug' => 'privacy_policy',
-            'text' => `DoOrder Ltd ("we", "our", “us” or "DoOrder") is committed to protecting the privacy of drivers
+            'text' => 'DoOrder Ltd ("we", "our", “us” or "DoOrder") is committed to protecting the privacy of drivers
 who apply to drive with us (“driver applicants”), our drivers and their substitutes, including all
 users of our driver mobile device application ("DoOrder App"), our website
 (www.DoOrder.eu) and related services. We’ll be the “controller” of the information we hold
@@ -268,7 +268,7 @@ information does not comply with data protection law, you can make a complaint t
 Protection Commission (DPC) using the following details:
 
 Address: Data Protection Commission, 21 Fitzwilliam Square South, Dublin 2, D02 RD28
-Website: www.dataprotection.ie`
+Website: www.dataprotection.ie'
         ]);
     }
 }

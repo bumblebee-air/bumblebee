@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\DriverProfile;
+use App\Order;
+use App\Retailer;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -11,8 +14,18 @@ class Controller extends BaseController
 {
     public function __construct()
     {
-        /*$countries = Country::all();
-        View::share('countries', $countries);*/
+        $countries = [];
+        $drivers_country = DriverProfile::all()->pluck('country')->toArray();
+        $retailers = Retailer::all()->pluck('locations_details')->toArray();
+        $retailer_country = Retailer::all()->map(function($item) {
+            foreach (json_decode($item->locations_details) as $address){
+                if(property_exists($address,'country')){
+                   return $address->country;
+                }
+            }
+        });
+        $countries = collect($drivers_country)->merge($retailer_country)->flatten()->unique()->filter();
+        View::share('countries', $countries);
     }
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 

@@ -441,6 +441,7 @@
 @section('scripts')
     <script src="{{asset('js/intlTelInput/intlTelInput.js')}}"></script>
     <script>
+        let autocomp_countries = JSON.parse('{!! $google_auto_comp_countries !!}');
         var app = new Vue({
             el: '#app',
             data() {
@@ -569,7 +570,9 @@
                 attributeFilter: ['autocomplete']
             });
             let autocomplete_driver_address = new google.maps.places.Autocomplete(driver_address_input);
-            autocomplete_driver_address.setComponentRestrictions({'country': ['ie']});
+            autocomplete_driver_address.setComponentRestrictions({
+                'country': autocomp_countries
+            });
             autocomplete_driver_address.addListener('place_changed', () => {
                 let place = autocomplete_driver_address.getPlace();
                 if (!place.geometry) {

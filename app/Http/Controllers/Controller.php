@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\DriverProfile;
-use App\Order;
-use App\Retailer;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Facades\View;
+/*use App\DriverProfile;
+use App\Order;
+use App\Retailer;
+use Illuminate\Support\Facades\View;*/
+
 class Controller extends BaseController
 {
     public function __construct()
     {
-        $countries = [];
+        /*$countries = [];
         $drivers_country = DriverProfile::all()->pluck('country')->toArray();
         $retailers = Retailer::all()->pluck('locations_details')->toArray();
         $retailer_country = Retailer::all()->map(function($item) {
@@ -25,7 +26,7 @@ class Controller extends BaseController
             }
         });
         $countries = collect($drivers_country)->merge($retailer_country)->flatten()->unique()->filter();
-        View::share('countries', $countries);
+        View::share('countries', $countries);*/
     }
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 

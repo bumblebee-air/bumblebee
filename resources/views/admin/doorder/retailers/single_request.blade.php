@@ -148,9 +148,8 @@ $singleRequest->id) @section('page-content')
 
 											<div class="col-sm-6">
 												<div class="form-group bmd-form-group">
-
 													<label>County</label>
-													<span class="form-control">@{{ JSON.parse(location.county).name }} </span>
+													<span class="form-control">@{{ checkIfJsonString(location.county)===true ? JSON.parse(location.county).name : location.county }} </span>
 <!-- 													 <input type="text" -->
 <!-- 														class="form-control" -->
 <!-- 														:value="JSON.parse(location.county).name" -->
@@ -373,14 +372,22 @@ $singleRequest->id) @section('page-content')
 </div>
 @endsection @section('page-scripts')
 <script>
-        var app = new Vue({
-            el: '#app',
-            data: {
-               
-                    locations: JSON.parse({!! json_encode($singleRequest->locations_details) !!}),
-                    contacts: JSON.parse({!! json_encode($singleRequest->contacts_details) !!}),
-                
-            },
-        });
-    </script>
+	var app = new Vue({
+		el: '#app',
+		data: {
+			locations: JSON.parse({!! json_encode($singleRequest->locations_details) !!}),
+			contacts: JSON.parse({!! json_encode($singleRequest->contacts_details) !!}),
+		},
+		methods: {
+			checkIfJsonString(json_string) {
+				try {
+					let json = JSON.parse(json_string);
+					return (typeof json === 'object' && typeof json_string === 'string');
+				} catch (e) {
+					return false;
+				}
+			}
+		}
+	});
+</script>
 @endsection

@@ -557,6 +557,7 @@
 	<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 
 	<script>
+		let autocomp_countries = JSON.parse('{!! $google_auto_comp_countries !!}');
 		let business_hours_initial_array = [{
 				"isActive": true,
 				"timeFrom": null,
@@ -641,7 +642,7 @@
 				});
 				let autocomplete_driver_address = new google.maps.places.Autocomplete(retailer_eircode_input);
 				autocomplete_driver_address.setComponentRestrictions({
-					'country': ['ie']
+					'country': autocomp_countries
 				});
 				autocomplete_driver_address.addListener('place_changed', function() {
 					let place = autocomplete_driver_address.getPlace();
@@ -752,7 +753,7 @@
 					});
 					let autocomplete_driver_address = new google.maps.places.Autocomplete(retailer_eircode_input);
 					autocomplete_driver_address.setComponentRestrictions({
-						'country': ['ie']
+						'country': autocomp_countries
 					});
 					autocomplete_driver_address.addListener('place_changed', function() {
 						let place = autocomplete_driver_address.getPlace();

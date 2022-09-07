@@ -493,22 +493,22 @@
 
 <script src="{{asset('js/jquery.businessHours.min.js')}}"></script>
 <script>
- let business_hours_initial_array = [
-            {"isActive":true,"timeFrom":null,"timeTill":null},
-            {"isActive":true,"timeFrom":null,"timeTill":null},
-            {"isActive":true,"timeFrom":null,"timeTill":null},
-            {"isActive":true,"timeFrom":null,"timeTill":null},
-            {"isActive":true,"timeFrom":null,"timeTill":null},
-            {"isActive":true,"timeFrom":null,"timeTill":null},
-            {"isActive":true,"timeFrom":null,"timeTill":null}
-        ];
+	let autocomp_countries = JSON.parse('{!! $google_auto_comp_countries !!}');
+	let business_hours_initial_array = [
+		{"isActive":true,"timeFrom":null,"timeTill":null},
+		{"isActive":true,"timeFrom":null,"timeTill":null},
+		{"isActive":true,"timeFrom":null,"timeTill":null},
+		{"isActive":true,"timeFrom":null,"timeTill":null},
+		{"isActive":true,"timeFrom":null,"timeTill":null},
+		{"isActive":true,"timeFrom":null,"timeTill":null},
+		{"isActive":true,"timeFrom":null,"timeTill":null}
+	];
  
-let map;
-let home_address_circle;
-let bounds;
-       
-$( document ).ready(function() {
+	let map;
+	let home_address_circle;
+	let bounds;
 
+$( document ).ready(function() {
     var readonly = {!! $readOnly !!};
     if(readonly==1){
         $("input").prop('disabled', true);
@@ -657,7 +657,9 @@ function  changeRadiusValue() {
                 attributeFilter: ['autocomplete']
             });
             let autocomplete_driver_address = new google.maps.places.Autocomplete(driver_postcode_input);
-            autocomplete_driver_address.setComponentRestrictions({'country': ['ie']});
+            autocomplete_driver_address.setComponentRestrictions({
+				'country': autocomp_countries
+			});
             autocomplete_driver_address.addListener('place_changed', () => {
                 let place = autocomplete_driver_address.getPlace();
                 if (!place.geometry) {

@@ -1013,8 +1013,6 @@
 	    });
 	   },
 	   addIntelInput() {
-
-
 	    for (let contact of this.contacts) {
 	     let index = this.contacts.indexOf(contact) + 1;
 	     let driver_phone_input = document.querySelector("#contact_number" + index);
@@ -1099,7 +1097,6 @@
 	    }
 	   },
 	   initStripeIBANElements() {
-
 	    // Custom styling can be passed to the options when creating an Element.
 	    let elementStyles = {
 	     iconStyle: "solid",
@@ -1158,7 +1155,6 @@
 		  form_submit_button.prop('disabled', false);
 	     }
 	    });
-
 	   },
 	   confirmSEPADebitSetup() {
 	    form_submit_button.prop('disabled', true);
@@ -1212,7 +1208,6 @@
 	     }
 	    })
 	   },
-
 	   checkPaymentCard(e) {
 	    e.preventDefault();
 	    if (this.require_card === true) {
@@ -1246,6 +1241,14 @@
 			   //this.validateEmailAndPhone();
 		   }
 	   },
+		  checkIfJsonString(json_string) {
+			  try {
+				  let json = JSON.parse(json_string);
+				  return (typeof json === 'object' && typeof json_string === 'string');
+			  } catch (e) {
+				  return false;
+			  }
+		  }
 	  }
 	 });
 	 Vue.config.devtools = true

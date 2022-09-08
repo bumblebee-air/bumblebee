@@ -113,8 +113,8 @@ class RetailerController extends Controller
         try {
             $locations_details = json_decode($request->locations_details);
             foreach($locations_details as $location_detail){
-                $city = $location_detail['address_city'];
-                $country = $location_detail['address_country'];
+                $city = $location_detail->address_city;
+                $country = $location_detail->address_country;
                 if($country!=null && $city!=null) {
                     $country_entry = Country::where('name', '=', $country)->first();
                     if ($country_entry == null) {
@@ -351,8 +351,8 @@ class RetailerController extends Controller
         try {
             $locations_details = json_decode($request->locations_details);
             foreach($locations_details as $location_detail){
-                $city = $location_detail['address_city'];
-                $country = $location_detail['address_country'];
+                $city = $location_detail->address_city;
+                $country = $location_detail->address_country;
                 if($country!=null && $city!=null) {
                     $country_entry = Country::where('name', '=', $country)->first();
                     if ($country_entry == null) {

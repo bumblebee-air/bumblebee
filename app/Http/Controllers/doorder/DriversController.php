@@ -11,6 +11,8 @@ use App\Helpers\SecurityHelper;
 use App\Helpers\TwilioHelper;
 use App\KPITimestamp;
 use App\Managers\StripeManager;
+use App\Models\City;
+use App\Models\Country;
 use App\Order;
 use App\Retailer;
 use App\StripeAccount;
@@ -715,7 +717,30 @@ class DriversController extends Controller
         $profile->address_proof = $request->proof_address ? $request->file('proof_address')->store('uploads/doorder_drivers_registration') : null;
         $profile->insurance_proof = $request->proof_insurance ? $request->file('proof_address')->store('uploads/doorder_drivers_registration') : null;
         $profile->save();
-
+        //Adding the country or city to the database if not present
+        $address_city = $request->address_city;
+        $address_country = $request->address_country;
+        if($address_country!=null && $address_city!=null) {
+            try {
+                $country_entry = Country::where('name', '=', $address_country)->first();
+                if ($country_entry == null) {
+                    $country_entry = new Country();
+                    $country_entry->name = $address_country;
+                    $country_entry->save();
+                }
+                $city_entry = City::where('name', '=', $address_city)
+                    ->where('country_id', '=', $country_entry->id)->first();
+                if ($city_entry == null) {
+                    $city_entry = new City();
+                    $city_entry->country_id = $country_entry->id;
+                    $city_entry->name = $address_city;
+                    $city_entry->save();
+                }
+            } catch (\Exception $exception) {
+                \Log::error('Extracting country/city from driver registration failed ' .
+                    'with reason: ' . $exception->getMessage());
+            }
+        }
         $stripe_manager = new StripeManager();
         $stripe_account = $stripe_manager->createCustomAccount($user);
         CustomNotificationHelper::send('new_deliverer', $profile->id);
@@ -1201,10 +1226,31 @@ class DriversController extends Controller
         $profile->address_proof = $request->proof_address ? $request->file('proof_address')->store('uploads/doorder_drivers_registration') : null;
         $profile->insurance_proof = $request->proof_insurance ? $request->file('proof_address')->store('uploads/doorder_drivers_registration') : null;*/
         $profile->save();
-
+        //Adding the country or city to the database if not present
+        $address_city = $request->address_city;
+        $address_country = $request->address_country;
+        if($address_country!=null && $address_city!=null) {
+            try {
+                $country_entry = Country::where('name', '=', $address_country)->first();
+                if ($country_entry == null) {
+                    $country_entry = new Country();
+                    $country_entry->name = $address_country;
+                    $country_entry->save();
+                }
+                $city_entry = City::where('name', '=', $address_city)
+                    ->where('country_id', '=', $country_entry->id)->first();
+                if ($city_entry == null) {
+                    $city_entry = new City();
+                    $city_entry->country_id = $country_entry->id;
+                    $city_entry->name = $address_city;
+                    $city_entry->save();
+                }
+            } catch (\Exception $exception) {
+                \Log::error('Extracting country/city from driver edit failed ' .
+                    'with reason: ' . $exception->getMessage());
+            }
+        }
         alert()->success('Deliverer updated successfully');
-        //alert()->success('Work in progress');
-
         return redirect()->route('doorder_drivers', 'doorder');
     }
 

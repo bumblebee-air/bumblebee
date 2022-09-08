@@ -241,6 +241,8 @@
                                     <label class="bmd-form-group">Address</label> <span style="color: red">*</span>
                                     <input type="text" class="form-control" name="address" id="driver_address" value="{{old('address')}}" required>
                                     <input type="hidden" class="form-control" name="address_coordinates" id="driver_address_coordinates" value="{{old('address_coordinates')}}">
+                                    <input type="hidden" name="address_country" id="driver_address_country" />
+                                    <input type="hidden" name="address_city" id="driver_address_city" />
                                 </div>
                             </div>
                         </div>
@@ -592,6 +594,29 @@
                     let bounds = new google.maps.LatLngBounds();
                     bounds.extend({lat: place_lat, lng: place_lon})
                     window.googleMaps.fitBounds(bounds);
+                    //Extract city and country from address
+                    let address_components = place.address_components;
+                    let city=null, country=null;
+                    address_components.forEach(function(component) {
+                        let types = component.types;
+                        if(types.indexOf('city') > -1) {
+                            city = component.long_name;
+                        }
+                        if(types.indexOf('locality') > -1 && city==null) {
+                            city = component.long_name;
+                        }
+                        if(types.indexOf('administrative_area_level_1') > -1 && city==null) {
+                            city = component.long_name;
+                        }
+                        if(types.indexOf('postal_town') > -1 && city==null) {
+                            city = component.long_name;
+                        }
+                        if(types.indexOf('country') > -1) {
+                            country = component.long_name;
+                        }
+                    });
+                    $('#driver_address_city').val(city);
+                    $('#driver_address_country').val(country);
                 }
             });
         }

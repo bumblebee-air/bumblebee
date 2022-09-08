@@ -359,6 +359,10 @@
 										 placeholder="Address" required>{{ old('address') }}</textarea>
 										<input :id="'location_' + (index + 1) + '_coordinates'" :name="'address_coordinates_' + (index + 1)"
 											type="hidden">
+										<input :id="'location_' + (index + 1) + '_address_city'" :name="'address_city_' + (index + 1)"
+											   type="hidden">
+										<input :id="'location_' + (index + 1) + '_address_country'" :name="'address_country_' + (index + 1)"
+											   type="hidden">
 									</div>
 								</div>
 
@@ -651,7 +655,6 @@
 						// pressed the Enter key, or the Place Details request failed.
 						window.alert("No details available for input: '" + place.name + "'");
 					} else {
-
 						//check if place has eircode
 						let eircode_value = place.address_components.find((x) => {
 							if (x.types.includes("postal_code")) {
@@ -668,8 +671,33 @@
 							// if (retailer_address_input.value != '') {
 							retailer_address_input.value = place.formatted_address;
 							// }
+							//Extract city and country from address
+							let address_components = place.address_components;
+							let city=null, country=null;
+							address_components.forEach(function(component) {
+								let types = component.types;
+								if(types.indexOf('city') > -1) {
+									city = component.long_name;
+								}
+								if(types.indexOf('locality') > -1 && city==null) {
+									city = component.long_name;
+								}
+								if(types.indexOf('administrative_area_level_1') > -1 && city==null) {
+									city = component.long_name;
+								}
+								if(types.indexOf('postal_town') > -1 && city==null) {
+									city = component.long_name;
+								}
+								if(types.indexOf('country') > -1) {
+									country = component.long_name;
+								}
+							});
+							$('#location_1_address_city').val(city);
+							$('#location_1_address_country').val(country);
 						} else {
 							document.getElementById("location_1_coordinates").value = '';
+							$('#location_1_address_city').val('');
+							$('#location_1_address_country').val('');
 							retailer_eircode_input.value = '';
 							retailer_address_input.value = '';
 							swal({
@@ -778,8 +806,33 @@
 								// if (retailer_address_input.value != '') {
 								retailer_address_input.value = place.formatted_address;
 								// }
+								//Extract city and country from address
+								let address_components = place.address_components;
+								let city=null, country=null;
+								address_components.forEach(function(component) {
+									let types = component.types;
+									if(types.indexOf('city') > -1) {
+										city = component.long_name;
+									}
+									if(types.indexOf('locality') > -1 && city==null) {
+										city = component.long_name;
+									}
+									if(types.indexOf('administrative_area_level_1') > -1 && city==null) {
+										city = component.long_name;
+									}
+									if(types.indexOf('postal_town') > -1 && city==null) {
+										city = component.long_name;
+									}
+									if(types.indexOf('country') > -1) {
+										country = component.long_name;
+									}
+								});
+								$("#location_" + latest_key + "_address_city").val(city);
+								$("#location_" + latest_key + "_address_country").val(country);
 							} else {
 								document.getElementById("location_" + latest_key + "_coordinates").value = '';
+								$("#location_" + latest_key + "_address_city").val('');
+								$("#location_" + latest_key + "_address_country").val('');
 								retailer_eircode_input.value = '';
 								retailer_address_input.value = '';
 								swal({
@@ -914,6 +967,8 @@
 							address: $('#location' + (this.locations.indexOf(item) + 1)).val(),
 							coordinates: $('#location_' + (this.locations.indexOf(item) + 1) + '_coordinates')
 								.val(),
+							address_city: $('#location_' + (this.locations.indexOf(item) + 1) + '_address_city').val(),
+							address_country: $('#location_' + (this.locations.indexOf(item) + 1) + '_address_country').val(),
 							eircode: $('#eircode' + (this.locations.indexOf(item) + 1)).val(),
 							country: $('#country' + (this.locations.indexOf(item) + 1)).val(),
 							business_hours: $('#business_hours' + (this.locations.indexOf(item) + 1)).val(),

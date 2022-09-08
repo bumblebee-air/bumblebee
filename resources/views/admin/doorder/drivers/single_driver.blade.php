@@ -125,11 +125,11 @@
 											<div class="form-group bmd-form-group">
 												<label>Address</label>
 												<textarea class="form-control" name="address" id="driver_address"
-													rows="5"
-													placeholder="Address" required>{{$driver->address}}</textarea>
-												    <input type="hidden" class="form-control" name="address_coordinates"
-												     id="driver_address_coordinates" value="{{$driver->address_coordinates}}">
-													
+											  		rows="5" placeholder="Address" required>{{$driver->address}}</textarea>
+												<input type="hidden" class="form-control" name="address_coordinates"
+											   		id="driver_address_coordinates" value="{{$driver->address_coordinates}}">
+												<input type="hidden" name="address_country" id="driver_address_country" />
+												<input type="hidden" name="address_city" id="driver_address_city" />
 											</div>
 										</div>
 										<div class="col-sm-6">
@@ -668,29 +668,52 @@ function  changeRadiusValue() {
                     window.alert("No details available for input: '" + place.name + "'");
                 } else {
                 	let eircode_value = place.address_components.find((x) => {
-								if (x.types.includes("postal_code")) {
-									return x;
-								}
-								return undefined;
-							});
-					 console.log(eircode_value)		
-					 //if (eircode_value != undefined) {		
-                        let place_lat = place.geometry.location.lat();
-                        let place_lon = place.geometry.location.lng();
-                        document.getElementById("driver_address_coordinates").value = '{"lat": ' + place_lat.toFixed(5) + ', "lon": ' + place_lon.toFixed(5) +'}';
-                        driver_postcode_input.value = eircode_value.long_name;
-                        driver_address_input.value = place.formatted_address;
-                        
-                        homeAddressMarker.setPosition({lat: place_lat, lng: place_lon});
-                        homeAddressMarker.setVisible(true)
-                        home_address_circle.setCenter({lat: place_lat, lng: place_lon});
-                        if ($('input#work_radius').val() != '' && $('input#work_radius').val() != null) {
-                            home_address_circle.setRadius(parseInt($('input#work_radius').val()) * 1000);
-                        }
-                        bounds = new google.maps.LatLngBounds();
-                        bounds.extend({lat: place_lat, lng: place_lon})
-                        map.fitBounds(bounds);
-                     //}   
+						if (x.types.includes("postal_code")) {
+							return x;
+						}
+						return undefined;
+					});
+					 console.log(eircode_value)
+					 //if (eircode_value != undefined) {
+						let place_lat = place.geometry.location.lat();
+						let place_lon = place.geometry.location.lng();
+						document.getElementById("driver_address_coordinates").value = '{"lat": ' + place_lat.toFixed(5) + ', "lon": ' + place_lon.toFixed(5) +'}';
+						driver_postcode_input.value = eircode_value.long_name;
+						driver_address_input.value = place.formatted_address;
+
+						homeAddressMarker.setPosition({lat: place_lat, lng: place_lon});
+						homeAddressMarker.setVisible(true)
+						home_address_circle.setCenter({lat: place_lat, lng: place_lon});
+						if ($('input#work_radius').val() != '' && $('input#work_radius').val() != null) {
+							home_address_circle.setRadius(parseInt($('input#work_radius').val()) * 1000);
+						}
+						bounds = new google.maps.LatLngBounds();
+						bounds.extend({lat: place_lat, lng: place_lon})
+						map.fitBounds(bounds);
+					 //}
+					//Extract city and country from address
+					let address_components = place.address_components;
+					let city=null, country=null;
+					address_components.forEach(function(component) {
+						let types = component.types;
+						if(types.indexOf('city') > -1) {
+							city = component.long_name;
+						}
+						if(types.indexOf('locality') > -1 && city==null) {
+							city = component.long_name;
+						}
+						if(types.indexOf('administrative_area_level_1') > -1 && city==null) {
+							city = component.long_name;
+						}
+						if(types.indexOf('postal_town') > -1 && city==null) {
+							city = component.long_name;
+						}
+						if(types.indexOf('country') > -1) {
+							country = component.long_name;
+						}
+					});
+					$('#driver_address_city').val(city);
+					$('#driver_address_country').val(country);
                 }
             });
         }

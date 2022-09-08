@@ -6,6 +6,8 @@ use App\ClientSetting;
 use App\Exports\RetailersExport;
 use App\Helpers\CustomNotificationHelper;
 use App\Http\Controllers\Controller;
+use App\Models\City;
+use App\Models\Country;
 use App\Retailer;
 use App\User;
 use App\UserClient;
@@ -71,8 +73,8 @@ class RetailerController extends Controller
         $retailer->nom_business_locations = $request->number_business_locations;
         $retailer->locations_details = $request->locations_details;
         $retailer->contacts_details = $request->contacts_details;
-        //        $retailer->stripe_token = $stripeToken;
-        //        $retailer->customer_id = $customer;
+        //$retailer->stripe_token = $stripeToken;
+        //$retailer->customer_id = $customer;
         $retailer->stripe_customer_id = $customer_id;
         $retailer->save();
 
@@ -106,6 +108,33 @@ class RetailerController extends Controller
             } catch (\Exception $exception) {
                 \Log::error($exception->getMessage(), $exception->getTrace());
             }
+        }
+        //Adding the country or city to the database if not present
+        try {
+            $locations_details = json_decode($request->locations_details);
+            foreach($locations_details as $location_detail){
+                $city = $location_detail['address_city'];
+                $country = $location_detail['address_country'];
+                if($country!=null && $city!=null) {
+                    $country_entry = Country::where('name', '=', $country)->first();
+                    if ($country_entry == null) {
+                        $country_entry = new Country();
+                        $country_entry->name = $country;
+                        $country_entry->save();
+                    }
+                    $city_entry = City::where('name', '=', $city)
+                        ->where('country_id', '=', $country_entry->id)->first();
+                    if ($city_entry == null) {
+                        $city_entry = new City();
+                        $city_entry->country_id = $country_entry->id;
+                        $city_entry->name = $city;
+                        $city_entry->save();
+                    }
+                }
+            }
+        } catch (\Exception $exception) {
+            \Log::error('Extracting country/city from retailer registration failed '.
+                'with reason: '.$exception->getMessage());
         }
         alert()->success('You are registered successfully');
         return redirect()->back();
@@ -318,7 +347,33 @@ class RetailerController extends Controller
         $retailer->charging_day = $request->get('charging_day');
         $retailer->save();
         alert()->success('Retailer updated successfully');
-        //alert()->success('Work in progress');
+        //Adding the country or city to the database if not present
+        try {
+            $locations_details = json_decode($request->locations_details);
+            foreach($locations_details as $location_detail){
+                $city = $location_detail['address_city'];
+                $country = $location_detail['address_country'];
+                if($country!=null && $city!=null) {
+                    $country_entry = Country::where('name', '=', $country)->first();
+                    if ($country_entry == null) {
+                        $country_entry = new Country();
+                        $country_entry->name = $country;
+                        $country_entry->save();
+                    }
+                    $city_entry = City::where('name', '=', $city)
+                        ->where('country_id', '=', $country_entry->id)->first();
+                    if ($city_entry == null) {
+                        $city_entry = new City();
+                        $city_entry->country_id = $country_entry->id;
+                        $city_entry->name = $city;
+                        $city_entry->save();
+                    }
+                }
+            }
+        } catch (\Exception $exception) {
+            \Log::error('Extracting country/city from retailer edit failed '.
+                'with reason: '.$exception->getMessage());
+        }
         if (auth()->user()->user_role == "retailer") {
             return redirect()->back();
         } else {

@@ -348,6 +348,10 @@
                    placeholder="Address" v-model="location.address" required></textarea>
 																		<input :id="'location_'+ (index+1) +'_coordinates'" :name="'address_coordinates_' + (index + 1)"
 																			v-model="location.coordinates" type="hidden">
+																		<input :id="'location_' + (index + 1) + '_address_city'" :name="'address_city_' + (index + 1)"
+																	   		v-model="location.address_city" type="hidden">
+																		<input :id="'location_' + (index + 1) + '_address_country'" :name="'address_country_' + (index + 1)"
+																	   		v-model="location.address_country" type="hidden">
 																	</div>
 																</div>
 
@@ -922,17 +926,17 @@
 	      return false;
 	     }
 	     location_details.push({
-	      address: $('#location' + (this.locations.indexOf(item) + 1)).val(),
-	      coordinates: $('#location_' + (this.locations.indexOf(item) + 1) +
-	       '_coordinates').val(),
-	      eircode: $('#eircode' + (this.locations.indexOf(item) + 1)).val(),
-	      country: this.locations[this.locations.indexOf(item)].country,
-	      business_hours: $('#business_hours' + (this.locations.indexOf(item) + 1)).val(),
-	      //this.locations[this.locations.indexOf(item)].business_hours,
-	      business_hours_json: $('#business_hours_json' + (this.locations.indexOf(item) +
-	       1)).val(),
-	      //this.locations[this.locations.indexOf(item)].business_hours_json,
-	      county: this.locations[this.locations.indexOf(item)].county
+			 address: $('#location' + (this.locations.indexOf(item) + 1)).val(),
+			 coordinates: $('#location_' + (this.locations.indexOf(item) + 1) + '_coordinates').val(),
+			 address_city: $('#location_' + (this.locations.indexOf(item) + 1) + '_address_city').val(),
+			 address_country: $('#location_' + (this.locations.indexOf(item) + 1) + '_address_country').val(),
+			 eircode: $('#eircode' + (this.locations.indexOf(item) + 1)).val(),
+			 country: this.locations[this.locations.indexOf(item)].country,
+			 business_hours: $('#business_hours' + (this.locations.indexOf(item) + 1)).val(),
+			 //this.locations[this.locations.indexOf(item)].business_hours,
+			 business_hours_json: $('#business_hours_json' + (this.locations.indexOf(item) + 1)).val(),
+			 //this.locations[this.locations.indexOf(item)].business_hours_json,
+			 county: this.locations[this.locations.indexOf(item)].county
 	     });
 	     console.log(this.locations.indexOf(item) + 1);
 	    }
@@ -1000,6 +1004,29 @@
 	       app.locations[latest_key - 1].coordinates = '{lat: ' + place_lat.toFixed(
 	        5) + ', lon: ' + place_lon.toFixed(5) + '}';
 	       app.locations[latest_key - 1].address = place.formatted_address;
+			  //Extract city and country from address
+			  let address_components = place.address_components;
+			  let city=null, country=null;
+			  address_components.forEach(function(component) {
+				  let types = component.types;
+				  if(types.indexOf('city') > -1) {
+					  city = component.long_name;
+				  }
+				  if(types.indexOf('locality') > -1 && city==null) {
+					  city = component.long_name;
+				  }
+				  if(types.indexOf('administrative_area_level_1') > -1 && city==null) {
+					  city = component.long_name;
+				  }
+				  if(types.indexOf('postal_town') > -1 && city==null) {
+					  city = component.long_name;
+				  }
+				  if(types.indexOf('country') > -1) {
+					  country = component.long_name;
+				  }
+			  });
+			  app.locations[latest_key - 1].address_city = city;
+			  app.locations[latest_key - 1].address_country = country;
 	      } else {
 	       //document.getElementById("location_"+latest_key+"_coordinates").value = '';
 	       retailer_eircode_input.value = '';

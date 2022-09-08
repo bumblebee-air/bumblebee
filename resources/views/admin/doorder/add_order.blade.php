@@ -142,9 +142,11 @@
 													class="form-control" value="{{old('customer_address')}}"
 													name="customer_address" required> <input type="hidden"
 													name="customer_lat" id="customer_lat"
-													value="{{old('customer_lat')}}"> <input type="hidden"
-													name="customer_lon" id="customer_lon"
+													value="{{old('customer_lat')}}">
+												<input type="hidden" name="customer_lon" id="customer_lon"
 													value="{{old('customer_lon')}}">
+												<input type="hidden" name="customer_country" id="customer_country" />
+												<input type="hidden" name="customer_city" id="customer_city" />
 											</div>
 										</div>
 
@@ -176,7 +178,8 @@
 											<div class="form-group">
 												<label for="pick_address" class="control-label">Pickup
 													address<span style="color: red">*</span>
-												</label> <select id="pick_address" name="pickup_address"
+												</label>
+												<select id="pick_address" name="pickup_address"
 													data-style="select-with-transition"
 													class="form-control form-control-select selectpicker"
 													required>
@@ -186,12 +189,15 @@
 														@if(count($pickup_addresses)==1) selected @endif>{{$address['address']}}</option>
 													@endforeach {{--
 													<option value="Other">Other</option>--}}
-												</select> <input type="hidden" name="pickup_lat"
-													id="pickup_lat"> <input type="hidden" name="pickup_lon"
-													id="pickup_lon"> <input id="pickup_address_alt" type="text"
+												</select>
+												<input type="hidden" name="pickup_lat" id="pickup_lat" />
+												<input type="hidden" name="pickup_lon" id="pickup_lon" />
+												<input id="pickup_address_alt" type="text"
 													class="form-control" value="{{old('pickup_address_alt')}}"
 													name="pickup_address_alt" placeholder="Enter address"
-													style="display: none; margin-top: 10px;">
+													style="display: none; margin-top: 10px;" />
+												<input type="hidden" name="pickup_city" id="pickup_city" />
+												<input type="hidden" name="pickup_country" id="pickup_country" />
 											</div>
 										</div>
 										<div class="col-sm-6">
@@ -454,6 +460,29 @@
 							text: 'This address doesn\'t include an Eircode, please add it manually to the field'
 						});
 					}
+					//Extract city and country from address
+					let address_components = place.address_components;
+					let city=null, country=null;
+					address_components.forEach(function(component) {
+						let types = component.types;
+						if(types.indexOf('city') > -1) {
+							city = component.long_name;
+						}
+						if(types.indexOf('locality') > -1 && city==null) {
+							city = component.long_name;
+						}
+						if(types.indexOf('administrative_area_level_1') > -1 && city==null) {
+							city = component.long_name;
+						}
+						if(types.indexOf('postal_town') > -1 && city==null) {
+							city = component.long_name;
+						}
+						if(types.indexOf('country') > -1) {
+							country = component.long_name;
+						}
+					});
+					$('#customer_city').val(city);
+					$('#customer_country').val(country);
                 }
             });
 
@@ -481,22 +510,46 @@
                     let place_lon = place.geometry.location.lng();
                     document.getElementById("pickup_lat").value = place_lat.toFixed(5);
                     document.getElementById("pickup_lon").value = place_lon.toFixed(5);
+					//Extract city and country from address
+					let address_components = place.address_components;
+					let city=null, country=null;
+					address_components.forEach(function(component) {
+						let types = component.types;
+						if(types.indexOf('city') > -1) {
+							city = component.long_name;
+						}
+						if(types.indexOf('locality') > -1 && city==null) {
+							city = component.long_name;
+						}
+						if(types.indexOf('administrative_area_level_1') > -1 && city==null) {
+							city = component.long_name;
+						}
+						if(types.indexOf('postal_town') > -1 && city==null) {
+							city = component.long_name;
+						}
+						if(types.indexOf('country') > -1) {
+							country = component.long_name;
+						}
+					});
+					$('#pickup_city').val(city);
+					$('#pickup_country').val(country);
                 }
             });
         }
 
         $(document).ready(function(){
         	$("#fulfilment").datetimepicker({
-                     icons: { time: "fa fa-clock",
-								date: "fa fa-calendar",
-								up: "fa fa-chevron-up",
-								down: "fa fa-chevron-down",
-								previous: 'fa fa-chevron-left',
-								next: 'fa fa-chevron-right',
-								today: 'fa fa-screenshot',
-								clear: 'fa fa-trash',
-								close: 'fa fa-remove'
-							},
+				icons: {
+					time: "fa fa-clock",
+					date: "fa fa-calendar",
+					up: "fa fa-chevron-up",
+					down: "fa fa-chevron-down",
+					previous: 'fa fa-chevron-left',
+					next: 'fa fa-chevron-right',
+					today: 'fa fa-screenshot',
+					clear: 'fa fa-trash',
+					close: 'fa fa-remove'
+				},
             });
 
 			let pickup_address_field = $('#pick_address')

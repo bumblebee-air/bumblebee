@@ -6,6 +6,8 @@ use App\Helpers\CustomNotificationHelper;
 use App\Helpers\TwilioHelper;
 use App\Imports\OrdersImport;
 use App\JobComment;
+use App\Models\City;
+use App\Models\Country;
 use App\Order;
 use App\QrCode;
 use App\Retailer;
@@ -213,6 +215,30 @@ class OrdersController extends Controller
                 $label_qr_file_path = 'uploads/pdfs/' . $code->code . '.pdf';
                 \Storage::put($label_qr_file_path,
                     $pdf->setPaper('a5')->output());
+            }
+        }
+        //Adding the country or city to the database if not present
+        $address_city = $request->customer_city;
+        $address_country = $request->customer_country;
+        if($address_country!=null && $address_city!=null) {
+            try {
+                $country_entry = Country::where('name', '=', $address_country)->first();
+                if ($country_entry == null) {
+                    $country_entry = new Country();
+                    $country_entry->name = $address_country;
+                    $country_entry->save();
+                }
+                $city_entry = City::where('name', '=', $address_city)
+                    ->where('country_id', '=', $country_entry->id)->first();
+                if ($city_entry == null) {
+                    $city_entry = new City();
+                    $city_entry->country_id = $country_entry->id;
+                    $city_entry->name = $address_city;
+                    $city_entry->save();
+                }
+            } catch (\Exception $exception) {
+                \Log::error('Extracting country/city from add order form failed ' .
+                    'with reason: ' . $exception->getMessage());
             }
         }
         alert()->success('Your order saved successfully');

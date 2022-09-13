@@ -167,6 +167,19 @@ class DriversController extends Controller
     public function updateOrderDriverStatus(Request $request)
     {
         $order_ids = $request->get('order_ids');
+        /* Fallback for legacy api parameter - To be removed in the near future */
+        if(!$order_ids){
+            $order_ids = $request->get('order_id');
+            if(!$order_ids){
+                $response = [
+                    'message' => 'Order IDs parameter is missing!',
+                    'delivery_confirmation_code' => '',
+                    'error' => 1
+                ];
+                return response()->json($response,403);
+            }
+        }
+        /* Fallback for legacy api parameter end */
         $order_ids = explode(',',$order_ids);
         $status = $request->get('status');
         $current_timestamp = Carbon::now();

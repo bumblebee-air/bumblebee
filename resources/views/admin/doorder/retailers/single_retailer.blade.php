@@ -798,48 +798,52 @@
 	     'country': autocomp_countries
 	    });
 	    autocomplete_retailer_address.addListener('place_changed', function() {
-	     let place = autocomplete_retailer_address.getPlace();
-	     if (!place.geometry) {
-	      // User entered the name of a Place that was not suggested and
-	      // pressed the Enter key, or the Place Details request failed.
-	      window.alert("No details available for this address: '" + place.name + "'");
-	     } else {
-	      //check if place has eircode
-	      let eircode_value = place.address_components.find((x) => {
-	       if (x.types.includes("postal_code")) {
-	        return x;
-	       }
-	       return undefined;
-	      });
-	      let place_lat = place.geometry.location.lat();
-	      let place_lon = place.geometry.location.lng();
-	      // document.getElementById("location_"+index+"_coordinates").value = '{lat: ' + place_lat.toFixed(5) + ', lon: ' + place_lon.toFixed(5) +'}';
-	      app.locations[index - 1].coordinates = '{lat: ' + place_lat.toFixed(5) +
-	       ', lon: ' + place_lon.toFixed(5) + '}';
-	      app.locations[index - 1].address = place.formatted_address;
-	      // if (retailer_address_input.value != '') {
-	      // retailer_address_input.value = place.formatted_address;
-	      // }
-	      if (eircode_value != undefined) {
-	       retailer_eircode_input.value = eircode_value.long_name;
-	      } else {
-	       //document.getElementById("location_"+index+"_coordinates").value = '';
-	       retailer_eircode_input.value = '';
-	       //retailer_address_input.value = '';
-	       swal({
-	        icon: 'info',
-	        text: 'This address doesn\'t include an Eircode, please add it manually to the field'
-	       });
-	      }
-	     }
-	    });
-
-
-
+			let place = autocomplete_retailer_address.getPlace();
+			if (!place.geometry) {
+				// User entered the name of a Place that was not suggested and
+				// pressed the Enter key, or the Place Details request failed.
+				window.alert("No details available for this address: '" + place.name + "'");
+			} else {
+				//check if place has eircode
+				let eircode_value = place.address_components.find((x) => {
+					if (x.types.includes("postal_code")) {
+						return x;
+					}
+					return undefined;
+				});
+				let place_lat = place.geometry.location.lat();
+				let place_lon = place.geometry.location.lng();
+				// document.getElementById("location_"+index+"_coordinates").value = '{lat: ' + place_lat.toFixed(5) + ', lon: ' + place_lon.toFixed(5) +'}';
+				app.locations[index - 1].coordinates = '{lat: ' + place_lat.toFixed(5) +
+						', lon: ' + place_lon.toFixed(5) + '}';
+				app.locations[index - 1].address = place.formatted_address;
+				// if (retailer_address_input.value != '') {
+				// retailer_address_input.value = place.formatted_address;
+				// }
+				if (eircode_value != undefined) {
+					//retailer_eircode_input.value = eircode_value.long_name;
+					app.locations[index - 1].eircode = eircode_value.long_name;
+				} else {
+					//document.getElementById("location_"+index+"_coordinates").value = '';
+					//retailer_address_input.value = '';
+					//retailer_eircode_input.value = '';
+					app.locations[index - 1].eircode = '';
+					swal({
+						icon: 'info',
+						text: 'This address doesn\'t include an Eircode, please add it manually to the field'
+					});
+				}
+			}
+		});
+		let business_hours_parsed = business_hours_initial_array;
+		let the_business_hours = this.locations[index - 1].business_hours_json;
+		if(the_business_hours!=null && the_business_hours!=""){
+			business_hours_parsed = Object.values(JSON.parse(this.locations[index - 1]
+					.business_hours_json));
+		}
 	    window['business_hours_container' + index] = $('#business_hours_container' + index)
 	     .businessHours({
-	      operationTime: Object.values(JSON.parse(this.locations[index - 1]
-	       .business_hours_json)),
+	      operationTime: business_hours_parsed,
 	      dayTmpl: '<div class="dayContainer col-md-3 col-4 mt-1" style="">' +
 	       '<div data-original-title="" class="colorBox"><input type="checkbox" class="invisible operationState"></div>' +
 	       '<div class="weekday text-center"></div>' +
@@ -992,50 +996,50 @@
 	      });
 	      let place_lat = place.geometry.location.lat();
 	      let place_lon = place.geometry.location.lng();
-	      document.getElementById("location_" + latest_key + "_coordinates").value =
-	       '{lat: ' + place_lat.toFixed(5) + ', lon: ' + place_lon.toFixed(5) + '}';
-	      // if (retailer_address_input.value != '') {
-	      retailer_address_input.value = place.formatted_address;
-	      // }
+	      //document.getElementById("location_" + latest_key + "_coordinates").value ='{lat: ' + place_lat.toFixed(5) + ', lon: ' + place_lon.toFixed(5) + '}';
+		  // if (retailer_address_input.value != '') {
+			 // retailer_address_input.value = place.formatted_address;
+		  // }
+			 app.locations[latest_key - 1].coordinates = '{lat: ' + place_lat.toFixed(
+					 5) + ', lon: ' + place_lon.toFixed(5) + '}';
+			 app.locations[latest_key - 1].address = place.formatted_address;
+			 //Extract city and country from address
+			 let address_components = place.address_components;
+			 let city = null, country = null;
+			 address_components.forEach(function (component) {
+				 let types = component.types;
+				 if (types.indexOf('city') > -1) {
+					 city = component.long_name;
+				 }
+				 if (types.indexOf('locality') > -1 && city == null) {
+					 city = component.long_name;
+				 }
+				 if (types.indexOf('administrative_area_level_1') > -1 && city == null) {
+					 city = component.long_name;
+				 }
+				 if (types.indexOf('postal_town') > -1 && city == null) {
+					 city = component.long_name;
+				 }
+				 if (types.indexOf('country') > -1) {
+					 country = component.long_name;
+				 }
+			 });
+			 app.locations[latest_key - 1].address_city = city;
+			 app.locations[latest_key - 1].address_country = country;
 	      if (eircode_value != undefined) {
-	       retailer_eircode_input.value = eircode_value.long_name;
-	       // locations[latest_key-1].eircode = eircode_value.long_name;
-	       app.locations[latest_key - 1].eircode = eircode_value.long_name;
-	       app.locations[latest_key - 1].coordinates = '{lat: ' + place_lat.toFixed(
-	        5) + ', lon: ' + place_lon.toFixed(5) + '}';
-	       app.locations[latest_key - 1].address = place.formatted_address;
-			  //Extract city and country from address
-			  let address_components = place.address_components;
-			  let city=null, country=null;
-			  address_components.forEach(function(component) {
-				  let types = component.types;
-				  if(types.indexOf('city') > -1) {
-					  city = component.long_name;
-				  }
-				  if(types.indexOf('locality') > -1 && city==null) {
-					  city = component.long_name;
-				  }
-				  if(types.indexOf('administrative_area_level_1') > -1 && city==null) {
-					  city = component.long_name;
-				  }
-				  if(types.indexOf('postal_town') > -1 && city==null) {
-					  city = component.long_name;
-				  }
-				  if(types.indexOf('country') > -1) {
-					  country = component.long_name;
-				  }
+			  //retailer_eircode_input.value = eircode_value.long_name;
+			  // locations[latest_key-1].eircode = eircode_value.long_name;
+			  app.locations[latest_key - 1].eircode = eircode_value.long_name;
+		  } else {
+			  //document.getElementById("location_"+latest_key+"_coordinates").value = '';
+			  // retailer_address_input.value = '';
+			  //retailer_eircode_input.value = '';
+			  app.locations[latest_key - 1].eircode = '';
+			  swal({
+				  icon: 'info',
+				  text: 'This address doesn\'t include an Eircode, please add it manually to the field'
 			  });
-			  app.locations[latest_key - 1].address_city = city;
-			  app.locations[latest_key - 1].address_country = country;
-	      } else {
-	       //document.getElementById("location_"+latest_key+"_coordinates").value = '';
-	       retailer_eircode_input.value = '';
-	       //retailer_address_input.value = '';
-	       swal({
-	        icon: 'info',
-	        text: 'This address doesn\'t include an Eircode, please add it manually to the field'
-	       });
-	      }
+		  }
 	     }
 	    });
 	   },
@@ -1084,8 +1088,10 @@
 	     //businessHours[key] = item;
 	     businessHours.push(item);
 	    }
-	    $('#business_hours' + index).val(businessHoursText)
-	    $('#business_hours_json' + index).val(JSON.stringify(businessHours))
+	    //$('#business_hours' + index).val(businessHoursText)
+	    //$('#business_hours_json' + index).val(JSON.stringify(businessHours))
+		   app.locations[index-1].business_hours = businessHoursText;
+		   app.locations[index-1].business_hours_json = JSON.stringify(businessHours);
 	   },
 	   addBusinessHoursContainer() {
 	    let latest_key = this.locations.length;

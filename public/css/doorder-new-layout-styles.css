@@ -1535,6 +1535,17 @@ button.dropdown-toggle.select-with-transition {
 	margin-bottom: 15px;
 }
 
+.errorMessage {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 20px;
+	color: #f34242;
+	margin-bottom: 0;
+	text-align: center;
+}
+
 @media (min-width :768px) {
 	.invoiceDoorderBottomRow {
 		position: absolute;

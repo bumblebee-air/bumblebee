@@ -7,9 +7,11 @@ use App\DriverProfile;
 use App\Helpers\TwilioHelper;
 use App\Http\Controllers\Controller;
 use App\Order;
+use App\Retailer;
 use App\UserFirebaseToken;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Http;
+use Carbon\Carbon;
 
 class MapRoutesConroller extends Controller
 {
@@ -191,11 +193,12 @@ class MapRoutesConroller extends Controller
                 return $item;
             });
             Session::put('selectedDrivers', $request->selectedDrivers);
+            Session::put("selectedOrders", explode(',', $request->selectedOrders));
             Session::put('mapRoutes', $response);
 
             return response()->json(array(
                 "msg" => "Done",
-                "selectedOrders" => $request->selectedOrders,
+                "selectedOrders" => explode(',', $request->selectedOrders),
                 "selectedDrivers" => $request->selectedDrivers,
                 "mapRoutes" => json_encode($response)
             ));
@@ -206,41 +209,53 @@ class MapRoutesConroller extends Controller
 
     public function getMapRoutes(Request $request)
     {
+        // dd(Session::get('selectedOrders'));
         $accepted_deliverers = DriverProfile::where('is_confirmed', '=', 1)->get();
+
         return view('admin.doorder.map_routes', [
-            'drivers' => $accepted_deliverers,
+            'available_drivers' => $accepted_deliverers,
             'map_routes' => Session::get('mapRoutes'),
             "selectedOrders" => Session::get('selectedOrders'),
-            "selectedDrivers" => Session::get('selectedDrivers'),
+            "selectedDrivers" => Session::get('selectedDrivers')
         ]);
     }
 
     public function SendOrdersToDrivers(Request $request)
     {
         try {
-            $map_routes = Session::get('mapRoutes');
+            // $map_routes = Session::get('mapRoutes');
+            $map_routes = $request->mapRoutes;
             foreach ($map_routes as $route) {
-                $driver = DriverProfile::find($route[0]->deliverer_id);
+                // dd($route);
+                $driver = DriverProfile::find($route[0]["deliverer_id"]);
                 if (empty($driver)) {
                     throw new \Exception("Driver Not Found !", 400);
                 }
                 $orders = array_filter($route, function ($item) {
-                    return isset($item->type) &&  $item->type == 'pickup';
+                    return isset($item["type"]) &&  $item["type"] == 'pickup';
                 });
                 foreach ($orders as $key => $order) {
-                    $order = Order::find($order->order_id);
+                    $order = Order::find($order["order_id"]);
                     $order->driver = $driver->user_id;
                     $order->status = 'assigned';
                     $order->driver_status = 'assigned';
                     $order->save();
-                    $this->SendNotification($order->order_id, $driver->user);
+                    $this->SendNotification($order["order_id"], $driver->user);
                 }
             }
-            alert()->success("The orders has been successfully assigned to the drivers");
-            return redirect()->to('doorder/orders');
+            // alert()->success("The orders has been successfully assigned to the drivers");
+            // return redirect()->to('doorder/orders');
+            return response()->json(array(
+                "msg" => "Done",
+                "message" => "The orders has been successfully assigned to the drivers"
+            ));
         } catch (\Throwable $th) {
-            alert()->error($th->getMessage());
-            return back();
+            // alert()->error($th->getMessage());
+            // return back();
+            return response()->json(array(
+                "msg" => "Fail",
+                "message" => $th->getMessage()
+            ));
         }
     }
 
@@ -260,5 +275,71 @@ class MapRoutesConroller extends Controller
         }
         //SMS Assignment Notificatio
         TwilioHelper::sendSMS('DoOrder', $user->phone, $sms_message);
+    }
+
+    public function getOrdersRouteOptimization(Request $request){
+//
+        if (auth()->user()->user_role == 'retailer') {
+            $orders = Order::where('retailer_id', auth()->user()->retailer_profile->id)->where('is_archived', false)
+                ->where('status', '!=', 'delivered')->whereNotIn('id', Session::get('selectedOrders'));
+        } else {
+            $orders = Order::where('is_archived', false)->where('status', '!=', 'delivered')->whereNotIn('id', Session::get('selectedOrders'));
+        }
+        if (session()->get('country') !== null) {
+            $orders = $orders->where(function ($q) {
+                $q->where('pickup_address', 'like', '%' . session()->get('country') . '%')->orWhere('customer_address', 'like', '%' . session()->get('country') . '%');
+            });
+        }
+        if (session()->get('city') !== null) {
+            $orders = $orders->where(function ($q) {
+                $q->where('pickup_address', 'like', '%' . session()->get('city') . '%')->orWhere('customer_address', 'like', '%' . session()->get('city') . '%');
+            });
+        }
+        $orders = $orders->orderBy('id', 'desc')->get();
+
+        // $events=[];
+        // foreach ($orders as $order){
+        // $events[] = [
+        // 'id' => $order->id,
+        // 'start' => $order->created_at,
+        // 'className' => 'orderStatusCalendar '. $order->status .'Status',
+        // 'title' => $order->retailer_name,
+        // 'status'=> $order->status,
+        // 'retailer_id'=>$order->retailer_id
+        // ];
+        // }
+
+        foreach ($orders as $order) {
+            $order->time = $order->created_at->format('d M y H:i A');
+            $order->driver = $order->orderDriver ? $order->orderDriver->name : null;
+            $order->fulfilment_date = $order->fulfilment_date ? Carbon::createFromFormat('Y-m-d H:i:s', $order->fulfilment_date)->format('d-m-Y H:i A') : Null;
+        }
+
+        // return $orders;
+        return response()->json(array(
+            "msg" => "Done",
+            "orders" => $orders
+        ));
+    }
+
+    public function getOrderDataRouteOptimization(Request $request){
+        $id = $request->order_id;
+       
+            $order = Order::find($id);
+
+        if (!$order) {
+            alert()->error('No order was found!');
+            return redirect()->back();
+        }
+        $customer_name = explode(' ', $order->customer_name);
+        $first_name = $customer_name[0];
+        $last_name = $customer_name[1] ?? '';
+        $order->first_name = $first_name;
+        $order->last_name = $last_name;        
+
+        return response()->json(array(
+            "msg" => "Done",
+            "order" => $order
+        ));
     }
 }

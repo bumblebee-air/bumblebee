@@ -386,7 +386,9 @@ Route::group(
             Route::get('driver-page', 'doorder\DriversController@driverPage')->name('doorder_driverPage');
             Route::post('assign_orders_drivers', 'doorder\MapRoutesConroller@assignDriverEnableRouteOptimization')->name('doorder_assignOrdersDrivers');
             Route::get('view_route_optimization_map', 'doorder\MapRoutesConroller@getMapRoutes')->name('doorder_postMapRoutesView');
-            Route::get('confirm_route_optimization_map', 'doorder\MapRoutesConroller@SendOrdersToDrivers')->name('doorder_ConfirmRouteOptimization');
+            Route::post('confirm_route_optimization_map', 'doorder\MapRoutesConroller@SendOrdersToDrivers')->name('doorder_ConfirmRouteOptimization');
+            Route::post('get_orders_route_optimization', 'doorder\MapRoutesConroller@getOrdersRouteOptimization')->name('doorder_getOrdersRouteOptimization');
+            Route::post('get_order_data_route_optimization', 'doorder\MapRoutesConroller@getOrderDataRouteOptimization')->name('doorder_getOrderDataRouteOptimization');
 
             Route::post('stripe/customer-setup-intent','StripeController@setCustomerSetupIntent');
 

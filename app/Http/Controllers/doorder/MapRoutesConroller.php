@@ -140,9 +140,9 @@ class MapRoutesConroller extends Controller
             $deliverers_coordinates = $deliverers->map(function ($item) {
                 $driver_coordinates_lat = null;
                 $driver_coordinates_lon = null;
-                $driver_latest_coordinates = ($item->latest_coordinates!=null)? json_decode($item->latest_coordinates) : null;
-                if($driver_latest_coordinates==null){
-                    if($item->address_coordinates!=null){
+                $driver_latest_coordinates = ($item->latest_coordinates != null) ? json_decode($item->latest_coordinates) : null;
+                if ($driver_latest_coordinates == null) {
+                    if ($item->address_coordinates != null) {
                         $driver_latest_coordinates = json_decode($item->address_coordinates);
                         $driver_coordinates_lat = $driver_latest_coordinates->lat;
                         $driver_coordinates_lon = $driver_latest_coordinates->lon;
@@ -151,9 +151,9 @@ class MapRoutesConroller extends Controller
                     $driver_coordinates_lat = $driver_latest_coordinates->lat;
                     $driver_coordinates_lon = $driver_latest_coordinates->lng;
                 }
-                $coordinates_error = ($driver_latest_coordinates!=null)? 0 : 1;
-//                 dd($coordinates_error);
-//                 if($coordinates_error) {return $item->id;}
+                $coordinates_error = ($driver_latest_coordinates != null) ? 0 : 1;
+                //                 dd($coordinates_error);
+                //                 if($coordinates_error) {return $item->id;}
                 return [
                     'deliverer_id' => (string)$item->id,
                     'deliverer_coordinates' => $driver_coordinates_lat . ',' . $driver_coordinates_lon,
@@ -169,8 +169,8 @@ class MapRoutesConroller extends Controller
             });
             $deliverers_coordinates_enc = json_encode($deliverers_coordinates);
             $orders_address_enc = json_encode($orders_address);
-            \Log::info('Multi-driver route optimize request for driver with coordinates: '.$deliverers_coordinates_enc.
-                '. Orders data: '.$orders_address_enc);
+            \Log::info('Multi-driver route optimize request for driver with coordinates: ' . $deliverers_coordinates_enc .
+                '. Orders data: ' . $orders_address_enc);
             $route_opt_url = env('ROUTE_OPTIMIZE_URL', 'https://afternoon-lake-03061.herokuapp.com') . '/routing_table';
             $route_request = Http::post($route_opt_url, [
                 'deliverers_coordinates' => $deliverers_coordinates_enc,
@@ -178,17 +178,17 @@ class MapRoutesConroller extends Controller
             ]);
 
             $response = $route_request->getBody();
-            \Log::info('Multi-driver route optimize request succeeded with data: '.$response);
+            \Log::info('Multi-driver route optimize request succeeded with data: ' . $response);
             $response = json_decode($response);
-          //  dd($response);
+            //  dd($response);
             $response = collect($response)->map(function ($item) {
                 $driver = DriverProfile::find($item[0]->deliverer_id);
                 $item[0]->deliverer_name = $driver->user->name;
-               // $words = preg_split("/\s+/", $driver->user->name);
+                // $words = preg_split("/\s+/", $driver->user->name);
                 $letters = strtoupper($driver->first_name[0]) . strtoupper($driver->last_name[0]);
-//                 foreach ($words as $w) {
-//                     $letters .= strtoupper($w[0]);
-//                 }
+                //                 foreach ($words as $w) {
+                //                     $letters .= strtoupper($w[0]);
+                //                 }
                 $item[0]->deliverer_first_letter = $letters;
                 return $item;
             });
@@ -277,13 +277,14 @@ class MapRoutesConroller extends Controller
         TwilioHelper::sendSMS('DoOrder', $user->phone, $sms_message);
     }
 
-    public function getOrdersRouteOptimization(Request $request){
-//
+    public function getOrdersRouteOptimization(Request $request)
+    {
+        //
         if (auth()->user()->user_role == 'retailer') {
             $orders = Order::where('retailer_id', auth()->user()->retailer_profile->id)->where('is_archived', false)
                 ->where('status', '!=', 'delivered')->whereNotIn('id', Session::get('selectedOrders'));
         } else {
-            $orders = Order::where('is_archived', false)->where('status', '!=', 'delivered')->whereNotIn('id', Session::get('selectedOrders'));
+            $orders = Order::where('is_archived', false)->where('status', '!=', 'delivered')->where('driver', null)->whereNotIn('id', Session::get('selectedOrders'));
         }
         if (session()->get('country') !== null) {
             $orders = $orders->where(function ($q) {
@@ -322,10 +323,11 @@ class MapRoutesConroller extends Controller
         ));
     }
 
-    public function getOrderDataRouteOptimization(Request $request){
+    public function getOrderDataRouteOptimization(Request $request)
+    {
         $id = $request->order_id;
-       
-            $order = Order::find($id);
+
+        $order = Order::find($id);
 
         if (!$order) {
             alert()->error('No order was found!');
@@ -335,7 +337,7 @@ class MapRoutesConroller extends Controller
         $first_name = $customer_name[0];
         $last_name = $customer_name[1] ?? '';
         $order->first_name = $first_name;
-        $order->last_name = $last_name;        
+        $order->last_name = $last_name;
 
         return response()->json(array(
             "msg" => "Done",

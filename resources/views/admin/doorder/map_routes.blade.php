@@ -564,7 +564,7 @@
 										<td class="text-left orderDateTimeTd">@{{ order.time }}</td>
 										<td class="text-left">@{{ order.order_id.includes('#') ? order.order_id : '#' + order.order_id }}</td>
 										<td class="text-left">@{{ order.fulfilment_date }}</td>
-										<td class="text-left">@{{ order.retailer_name }} -- @{{ order.id }}</td>
+										<td class="text-left">@{{ order.retailer_name }} </td>
 										<td class="text-left"><span v-if="order.status == 'pending'" class="orderStatusSpan pendingStatus">Pending
 												fullfilment</span>
 											<span v-if="order.status == 'ready'" class="orderStatusSpan readyStatus">Ready to Collect</span>
@@ -585,8 +585,7 @@
 
 										</td>
 
-										<td class="text-left">@{{ order.driver != null ?
-    order.driver : 'N/A' }}</td>
+										<td class="text-left">@{{ order.driver != null ? order.driver : 'N/A' }}</td>
 										<td class="text-left">
 											<p style="" class="tablePinSpan tooltipC mb-0">
 												<span> <i class="fas fa-map-marker-alt" style="color: #747474"></i> <span
@@ -687,7 +686,7 @@
 												<i class="fas fa-circle"></i>
 											</p>
 											<p class="recommendDriverDataKmP" :id="'km-away-' + driver.id">
-												<span></span> away
+												<span>@{{driver.km_away}}</span> KM away
 											</p>
 										</td>
 
@@ -819,7 +818,7 @@
 				selected_order_status: '',
 				selected_order_status_class: "",
 				is_order_assigned_to_other: false,
-				confirm_routes_message:""
+				confirm_routes_message: ""
 			},
 			mounted() {
 				// init orders table
@@ -1180,7 +1179,12 @@
 
 						if (this.driversIds.indexOf(driverId) == -1) { // if driver not in optimized list
 							this.driversIds.push(driverId)
-							let address = JSON.parse(driverObject.address_coordinates)
+							let address = null;
+							if (driverObject.latest_coordinates != null) {
+								address = JSON.parse(driverObject.latest_coordinates)
+							} else {
+								address = JSON.parse(driverObject.address_coordinates)
+							}
 							console.log(address)
 							let driver_route = {
 								"coordinates": address.lat + "," + address.lon,
@@ -1263,6 +1267,8 @@
 							app.selected_order_number = '#' + data.order.order_id
 							app.selected_order_status = data.order.status
 							app.getOrderStatusClass(data.order.status)
+
+							app.getDriversAwayKM(data.order.pickup_lat, data.order.pickup_lon)
 						}
 					});
 				},
@@ -1302,6 +1308,26 @@
 					} else if (status == 'not_delivered') {
 						app.selected_order_status = 'Not delivered';
 						app.selected_order_status_class = 'notDeliveredStatus';
+					}
+				},
+				getDriversAwayKM(pickup_address_lat, pickup_address_lon) {
+					console.log("in get drivers away km", pickup_address_lat, pickup_address_lon)
+					for (let i = 0; i < app.available_drivers.length; i++) {
+						if (app.available_drivers[i].latest_coordinates != null) {
+							let driver_coordinates = JSON.parse(app.available_drivers[i].latest_coordinates);
+							var distance = google.maps.geometry.spherical.computeDistanceBetween(new google.maps
+								.LatLng(parseFloat(pickup_address_lat), parseFloat(pickup_address_lon)),
+								new google.maps.LatLng(parseFloat(driver_coordinates.lat), parseFloat(
+									driver_coordinates.lng)));
+							distance = parseFloat(distance / 1000).toFixed(2)		
+							console.log(app.available_drivers[i].id, distance)
+							app.available_drivers[i].km_away = distance
+
+						} else {
+							let distance = 'N/A'
+							app.available_drivers[i].km_away = distance
+						}
+
 					}
 				},
 				startRouteOptimization() {

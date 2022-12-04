@@ -18,6 +18,29 @@
 	</style>
 	@endsection @section('title', 'DoOrder | Deliverers')
 @section('page-content')
+	<script type="text/javascript">
+		let isSafari = navigator.vendor && navigator.vendor.indexOf('Apple') > -1 &&
+			navigator.userAgent &&
+			navigator.userAgent.indexOf('CriOS') == -1 &&
+			navigator.userAgent.indexOf('FxiOS') == -1;
+
+		if (isSafari) {
+			window.addEventListener("pageshow", function(event) {
+				let historyTraversal = event.persisted ||
+					(typeof window.performance != "undefined" &&
+						window.performance.navigation.type === 2);
+				if (historyTraversal) {
+					// Handle page restore.
+					window.location.reload();
+				}
+			});
+		} else {
+			let perfEntries = performance.getEntriesByType("navigation")
+			if (perfEntries[0].type === "back_forward") {
+				window.location.reload(true);
+			}
+		}
+	</script>
 	<div class="content">
 		<div class="container-fluid">
 			<div class="container-fluid">
@@ -82,6 +105,7 @@
 													@click="openViewDriver(event,driver.id)">
 
 													<td class="p-3" v-if="selectedOrders.length > 0">
+														{{-- <input type="checkbox" name="selectedDrivers[]" v-bind:value="driver.id"> --}}
 														<input type="checkbox" name="selectedDrivers[]" v-bind:value="driver.id"
 															v-if="driver.in_duty && driver.last_active_web != '' ">
 														<input type="checkbox" name="selectedDrivers[]" disabled="disabled" v-bind:value="driver.id" v-else>
@@ -130,6 +154,9 @@
 												<button class="btnDoorder btn-doorder-primary disabled mb-1" id="enableRouteOptimizationBtn"
 													@click="submitForm">Enable
 													route optimization</button>
+
+												{{-- <button type="button" @click="clickTest">Test </button> --}}
+
 											</div>
 										</div>
 
@@ -228,302 +255,328 @@
 	<script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
 
 	<script type="text/javascript">
-	 var token = '{{ csrf_token() }}';
-	 var table;
-	 var mapViewFlag = false
+		var token = '{{ csrf_token() }}';
+		var table;
+		var mapViewFlag = false
 
-	 $(document).ready(function() {
-
-
-	  if (app.selectedOrders.length > 0) {
-	   table = $('#driversTable').DataTable({
-	    "ordering": false,
-	    "pagingType": "full_numbers",
-	    "lengthMenu": [
-	     [-1, 10, 25, 50, 100],
-	     ["All", 10, 25, 50, 100]
-	    ],
-	    responsive: true,
-	    "language": {
-	     search: '',
-	     "searchPlaceholder": "Search ",
-
-	     "paginate": {
-	      "previous": "<i class='fas fa-angle-left'></i>",
-	      "next": "<i class='fas fa-angle-right'></i>",
-	      "first": "<i class='fas fa-angle-double-left'></i>",
-	      "last": "<i class='fas fa-angle-double-right'></i>"
-	     }
-	    },
-	    "columnDefs": [{
-	      "targets": [0, -1],
-	      "orderable": false
-	     },
-	     {
-	      orderable: false,
-	      className: 'select-checkbox',
-	      selector: 'td:first-child',
-	      targets: 0,
-	     }
-	    ],
-	    select: {
-	     style: 'multi',
-	    },
-	    order: [
-	     [1, 'asc']
-	    ],
-
-	    initComplete: function(settings, json) {
-	     $('.dataTables_scrollBody thead tr').css({
-	      visibility: 'collapse'
-	     });
-
-	     var column1 = this.api().column(2);
-	     drawFilter(column1, 'locationP', 'location');
-	     var column2 = this.api().column(3);
-	     drawFilter(column2, 'vehicleP', 'vehicle');
-	     var column3 = this.api().column(4);
-	     drawFilter(column3, 'workTypeP', 'work type');
-
-	    },
-
-	    scrollX: true,
-	    scrollCollapse: true,
-	    fixedColumns: {
-	     leftColumns: 0,
-	    },
-	   });
-
-	   table.on('selectItems', function(e, dt, items) {
-	    console.log('Items to be selected are now: ', items);
-	   });
-	   table.on('user-select', function(e, dt, type, cell, originalEvent) {
-	    //console.log($(originalEvent.target).children()[0])
-	    //console.log($(originalEvent.target).children()[0].disabled)
-
-	    if ($(originalEvent.target).children()[0].disabled == false) {
-	     if ($(originalEvent.target).children().is(':checked')) {
-	      $(originalEvent.target).children().attr('checked', false)
-	     } else {
-	      $(originalEvent.target).children().attr('checked', 'checked')
-	     }
-	    } else {
-	     e.preventDefault();
-	    }
+		$(document).ready(function() {
 
 
+			if (app.selectedOrders.length > 0) {
+				table = $('#driversTable').DataTable({
+					"ordering": false,
+					"pagingType": "full_numbers",
+					"lengthMenu": [
+						[-1, 10, 25, 50, 100],
+						["All", 10, 25, 50, 100]
+					],
+					responsive: true,
+					"language": {
+						search: '',
+						"searchPlaceholder": "Search ",
 
-	    var selectedDriversIds = $('input[name="selectedDrivers[]"]:checked');
-	    if (selectedDriversIds.length >= 1) {
-	     $("#enableRouteOptimizationBtn").removeClass('disabled');
-	    } else {
-	     $("#enableRouteOptimizationBtn").addClass('disabled');
-	    }
-	   });
+						"paginate": {
+							"previous": "<i class='fas fa-angle-left'></i>",
+							"next": "<i class='fas fa-angle-right'></i>",
+							"first": "<i class='fas fa-angle-double-left'></i>",
+							"last": "<i class='fas fa-angle-double-right'></i>"
+						}
+					},
+					"columnDefs": [{
+							"targets": [0, -1],
+							"orderable": false
+						},
+						{
+							orderable: false,
+							className: 'select-checkbox',
+							selector: 'td:first-child',
+							targets: 0,
+						}
+					],
+					select: {
+						style: 'multi',
+					},
+					order: [
+						[1, 'asc']
+					],
 
-	  } else {
-	   table = $('#driversTable').DataTable({
-	    "pagingType": "full_numbers",
-	    "ordering": false,
-	    "lengthMenu": [
-	     [-1, 10, 25, 50, 100],
-	     ["All", 10, 25, 50, 100]
-	    ],
-	    responsive: true,
-	    "language": {
-	     search: '',
-	     "searchPlaceholder": "Search ",
+					initComplete: function(settings, json) {
+						$('.dataTables_scrollBody thead tr').css({
+							visibility: 'collapse'
+						});
 
-	     "paginate": {
-	      "previous": "<i class='fas fa-angle-left'></i>",
-	      "next": "<i class='fas fa-angle-right'></i>",
-	      "first": "<i class='fas fa-angle-double-left'></i>",
-	      "last": "<i class='fas fa-angle-double-right'></i>"
-	     }
-	    },
-	    "columnDefs": [{
-	     "targets": [-1],
-	     "orderable": false
-	    }, ],
-	    initComplete: function(settings, json) {
-	     $('.dataTables_scrollBody thead tr').css({
-	      visibility: 'collapse'
-	     });
+						var column1 = this.api().column(2);
+						drawFilter(column1, 'locationP', 'location');
+						var column2 = this.api().column(3);
+						drawFilter(column2, 'vehicleP', 'vehicle');
+						var column3 = this.api().column(4);
+						drawFilter(column3, 'workTypeP', 'work type');
 
-	     var column1 = this.api().column(1);
-	     drawFilter(column1, 'locationP', 'location');
-	     var column2 = this.api().column(2);
-	     drawFilter(column2, 'vehicleP', 'vehicle');
-	     var column3 = this.api().column(3);
-	     drawFilter(column3, 'workTypeP', 'work type');
+					},
 
-	    },
+					scrollX: true,
+					scrollCollapse: true,
+					fixedColumns: {
+						leftColumns: 0,
+					},
+				});
 
-	    scrollX: true,
-	    scrollCollapse: true,
-	    fixedColumns: {
-	     leftColumns: 0,
-	    },
-	   });
+				table.on('selectItems', function(e, dt, items) {
+					console.log('Items to be selected are now: ', items);
+				});
+				table.on('user-select', function(e, dt, type, cell, originalEvent) {
+					//console.log($(originalEvent.target).children()[0])
+					//console.log($(originalEvent.target).children()[0].disabled)
 
-	  }
-
-	  $('.overallRating').raty({
-	   readOnly: true,
-	   starHalf: '{{ asset('images/doorder_icons/star-half.png') }}',
-	   starOff: '{{ asset('images/doorder_icons/star.png') }}',
-	   starOn: '{{ asset('images/doorder_icons/star-selected.png') }}',
-	   hints: null
-	  });
+					if ($(originalEvent.target).children()[0].disabled == false) {
+						if ($(originalEvent.target).children().is(':checked')) {
+							$(originalEvent.target).children().attr('checked', false)
+						} else {
+							$(originalEvent.target).children().attr('checked', 'checked')
+						}
+					} else {
+						e.preventDefault();
+					}
 
 
-	 });
 
-	 function drawFilter(column, divId, name) {
+					var selectedDriversIds = $('input[name="selectedDrivers[]"]:checked');
+					if (selectedDriversIds.length >= 1) {
+						$("#enableRouteOptimizationBtn").removeClass('disabled');
+					} else {
+						$("#enableRouteOptimizationBtn").addClass('disabled');
+					}
+				});
 
-	  var select = $('<select id="" data-style="select-with-transition" class="form-control selectpicker" >' +
-	    '<option value="">Filter ' + name + ' </option></select>')
-	   .appendTo($('#' + divId).empty().text(''))
-	   .on('change', function() {
-	    var val = $.fn.dataTable.util.escapeRegex(
-	     $(this).val()
-	    );
-	    column
-	     .search(val ? '^' + val + '$' : '', true, false)
-	     .draw();
+			} else {
+				table = $('#driversTable').DataTable({
+					"pagingType": "full_numbers",
+					"ordering": false,
+					"lengthMenu": [
+						[-1, 10, 25, 50, 100],
+						["All", 10, 25, 50, 100]
+					],
+					responsive: true,
+					"language": {
+						search: '',
+						"searchPlaceholder": "Search ",
 
-	   });
-	  column.data().unique().sort().each(function(d, j) {
-	   select.append('<option value="' + d + '">' + d + '</option>');
-	  });
-	 }
+						"paginate": {
+							"previous": "<i class='fas fa-angle-left'></i>",
+							"next": "<i class='fas fa-angle-right'></i>",
+							"first": "<i class='fas fa-angle-double-left'></i>",
+							"last": "<i class='fas fa-angle-double-right'></i>"
+						}
+					},
+					"columnDefs": [{
+						"targets": [-1],
+						"orderable": false
+					}, ],
+					initComplete: function(settings, json) {
+						$('.dataTables_scrollBody thead tr').css({
+							visibility: 'collapse'
+						});
 
-	 function clickDeleteDriver(driverId) {
-	  $('#delete-driver-modal').modal('show')
-	  $('#delete-driver-modal #driverId').val(driverId);
+						var column1 = this.api().column(1);
+						drawFilter(column1, 'locationP', 'location');
+						var column2 = this.api().column(2);
+						drawFilter(column2, 'vehicleP', 'vehicle');
+						var column3 = this.api().column(3);
+						drawFilter(column3, 'workTypeP', 'work type');
 
-	 }
+					},
+
+					scrollX: true,
+					scrollCollapse: true,
+					fixedColumns: {
+						leftColumns: 0,
+					},
+				});
+
+			}
+
+			$('.overallRating').raty({
+				readOnly: true,
+				starHalf: '{{ asset('images/doorder_icons/star-half.png') }}',
+				starOff: '{{ asset('images/doorder_icons/star.png') }}',
+				starOn: '{{ asset('images/doorder_icons/star-selected.png') }}',
+				hints: null
+			});
+
+
+		});
+
+		function drawFilter(column, divId, name) {
+
+			var select = $('<select id="" data-style="select-with-transition" class="form-control selectpicker" >' +
+					'<option value="">Filter ' + name + ' </option></select>')
+				.appendTo($('#' + divId).empty().text(''))
+				.on('change', function() {
+					var val = $.fn.dataTable.util.escapeRegex(
+						$(this).val()
+					);
+					column
+						.search(val ? '^' + val + '$' : '', true, false)
+						.draw();
+
+				});
+			column.data().unique().sort().each(function(d, j) {
+				select.append('<option value="' + d + '">' + d + '</option>');
+			});
+		}
+
+		function clickDeleteDriver(driverId) {
+			$('#delete-driver-modal').modal('show')
+			$('#delete-driver-modal #driverId').val(driverId);
+
+		}
 	</script>
 	<script>
-	 var app = new Vue({
-	  el: '#app',
-	  data: {
-	   drivers: {!! json_encode($drivers) !!},
-	   selectedOrders: {!! isset($selectedOrders) ? json_encode($selectedOrders) : json_encode([]) !!},
-	  },
-	  mounted() {
-	   // socket.on('doorder-channel:new-order', (data) => {
-	   //     let decodedData = JSON.parse(data)
-	   //     this.orders.data.unshift(decodedData.data);
-	   // });
-	   //
-	   // socket.on('doorder-channel:update-order-status', (data) => {
-	   //     let decodedData = JSON.parse(data);
-	   //     console.log(decodedData);
-	   //     // this.orders.data.filter(x => x.id === decodedData.data.id).map(x => x.foo);
-	   //     let orderIndex = this.orders.data.map(function(x) {return x.id; }).indexOf(decodedData.data.id)
-	   //     if (orderIndex != -1) {
-	   //         this.orders.data[orderIndex].status = decodedData.data.status;
-	   //         this.orders.data[orderIndex].driver = decodedData.data.driver;
-	   //         updateAudio.play();
-	   //     }
-	   // });
-	  },
-	  methods: {
-	   openDriver(driver_id) {
-	    window.location.href = "{{ url('doorder/drivers/') }}/" + driver_id;
-	   },
-	   openViewDriver(e, driver_id) {
-	    e.preventDefault();
-	    if (e.target.cellIndex == undefined || e.target.cellIndex == 0) {
+		var app = new Vue({
+			el: '#app',
+			data: {
+				drivers: {!! json_encode($drivers) !!},
+				selectedOrders: {!! isset($selectedOrders) ? json_encode($selectedOrders) : json_encode([]) !!},
+			},
+			mounted() {
+				// socket.on('doorder-channel:new-order', (data) => {
+				//     let decodedData = JSON.parse(data)
+				//     this.orders.data.unshift(decodedData.data);
+				// });
+				//
+				// socket.on('doorder-channel:update-order-status', (data) => {
+				//     let decodedData = JSON.parse(data);
+				//     console.log(decodedData);
+				//     // this.orders.data.filter(x => x.id === decodedData.data.id).map(x => x.foo);
+				//     let orderIndex = this.orders.data.map(function(x) {return x.id; }).indexOf(decodedData.data.id)
+				//     if (orderIndex != -1) {
+				//         this.orders.data[orderIndex].status = decodedData.data.status;
+				//         this.orders.data[orderIndex].driver = decodedData.data.driver;
+				//         updateAudio.play();
+				//     }
+				// });
+			},
+			methods: {
 
-	    } else {
-	     //window.location.href = "{{ url('doorder/drivers/view/') }}/"+driver_id;
-	     window.location.href = "{{ url('doorder/drivers/view_orders/') }}/" + driver_id;
-	    }
-	   },
-	   toggleCheckbox(e) {},
-	   parseDateTime(date) {
-	    let dateTime = '';
-	    //let parseDate = new Date(date);
-	    let date_moment = new moment(date);
-	    /*dateTime += parseDate.getDate() + '/';
-	    dateTime += parseDate.getMonth()+1 + '/';
-	    dateTime += parseDate.getFullYear() + ' ';
-	    dateTime += parseDate.getHours() + ':';
-	    dateTime += parseDate.getMinutes();*/
-	    dateTime = date_moment.format('DD-MM-YYYY HH:mm');
-	    return dateTime;
-	   },
-	   submitForm(e) {
-	    if (mapViewFlag) {
-	     e.preventDefault();
-	     $('#goToMapViewForm').submit();
-	    } else {
-	     e.preventDefault();
-	     // disable button
-	     $("#enableRouteOptimizationBtn").removeAttr('onclick');
-	     $("#enableRouteOptimizationBtn").prop("disabled", true);
-	     $("#enableRouteOptimizationBtn").removeClass("btn-doorder-primary");
-	     $("#enableRouteOptimizationBtn").addClass("btn-doorder-grey");
-	     //   add spinner to button
-	     $("#enableRouteOptimizationBtn").html(
-	      ' Wait for a few minutes  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'
-	     );
-
-	     var selectedOrders = $("#selectedOrders").val();
-	     var selectedDrivers = [];
-	     $("input[name='selectedDrivers[]']:checked").each(function() {
-	      selectedDrivers.push($(this).val());
-	     });
-	     let token = document.getElementsByName("_token")[0].value
-	     console.log('token', token)
-	     $.ajax({
-	      type: 'POST',
-	      url: '{{ url('doorder/assign_orders_drivers') }}',
-	      data: {
-	       _token: token,
-	       selectedOrders: selectedOrders,
-	       selectedDrivers: selectedDrivers
-	      },
-	      success: function(data) {
-	       console.log(data);
-	       console.log(JSON.parse(data.mapRoutes))
-	       console.log(JSON.parse(data.mapRoutes).length)
-	       if (JSON.parse(data.mapRoutes).length > 0) {
-	        $("#map_routes").val(data.mapRoutes);
-	        $("#selectedOrdersMap").val(data.selectedOrders)
-	        $("#selectedDriversMap").val(data.selectedDrivers)
+				clickTest() {
+					console.log("in click test")
+					var selectedDrivers = $('input[name="selectedDrivers[]"]:checked');
+					console.log(selectedDrivers)
+					console.log(selectedDrivers.length)
+					$("input[name='selectedDrivers[]']:checked").each(function() {
+						console.log($(this).val());
+					});
+					console.log(table.rows({
+						selected: true
+					}).count())
+					console.log(table.rows({
+						selected: true
+					})[0])
+					table.rows().nodes().to$().find('input[type="checkbox"]').each(function() {
+						console.log($(this), $(this).attr("checked"))
+					})
+					table.rows().nodes().to$().find('input[type="checkbox"]:checked').each(function() {
+						console.log("  ", $(this), $(this).attr("checked"), $(this).val())
+					})
+					console.log("-------------------")
 
 
-	        $("#enableRouteOptimizationBtn").prop("disabled", false);
-	        $("#enableRouteOptimizationBtn").html('Go to map view');
-	        $("#enableRouteOptimizationBtn").removeClass("btn-doorder-grey");
-	        $("#enableRouteOptimizationBtn").addClass("btn-doorder-green");
+				},
+				openDriver(driver_id) {
+					window.location.href = "{{ url('doorder/drivers/') }}/" + driver_id;
+				},
+				openViewDriver(e, driver_id) {
+					e.preventDefault();
+					if (e.target.cellIndex == undefined || e.target.cellIndex == 0) {
 
-	        mapViewFlag = true;
-	       } else {
+					} else {
+						//window.location.href = "{{ url('doorder/drivers/view/') }}/"+driver_id;
+						window.location.href = "{{ url('doorder/drivers/view_orders/') }}/" + driver_id;
+					}
+				},
+				toggleCheckbox(e) {},
+				parseDateTime(date) {
+					let dateTime = '';
+					//let parseDate = new Date(date);
+					let date_moment = new moment(date);
+					/*dateTime += parseDate.getDate() + '/';
+					dateTime += parseDate.getMonth()+1 + '/';
+					dateTime += parseDate.getFullYear() + ' ';
+					dateTime += parseDate.getHours() + ':';
+					dateTime += parseDate.getMinutes();*/
+					dateTime = date_moment.format('DD-MM-YYYY HH:mm');
+					return dateTime;
+				},
+				submitForm(e) {
+					if (mapViewFlag) {
+						e.preventDefault();
+						$('#goToMapViewForm').submit();
+					} else {
+						e.preventDefault();
+						// disable button
+						$("#enableRouteOptimizationBtn").removeAttr('onclick');
+						$("#enableRouteOptimizationBtn").prop("disabled", true);
+						$("#enableRouteOptimizationBtn").removeClass("btn-doorder-primary");
+						$("#enableRouteOptimizationBtn").addClass("btn-doorder-grey");
+						//   add spinner to button
+						$("#enableRouteOptimizationBtn").html(
+							' Wait for a few minutes  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'
+						);
 
-	        $("#enableRouteOptimizationBtn").prop("disabled", false);
-	        $("#enableRouteOptimizationBtn").html('Enable route optimization');
-	        $("#enableRouteOptimizationBtn").removeClass("btn-doorder-grey");
-	        $("#enableRouteOptimizationBtn").addClass("btn-doorder-primary");
+						var selectedOrders = $("#selectedOrders").val();
+						var selectedDrivers = [];
+						// $("input[name='selectedDrivers[]']:checked").each(function() {
+						table.rows().nodes().to$().find('input[type="checkbox"]:checked').each(function() {
+							selectedDrivers.push($(this).val());
+						});
+						let token = document.getElementsByName("_token")[0].value
+						console.log('token', token)
+						$.ajax({
+							type: 'POST',
+							url: '{{ url('doorder/assign_orders_drivers') }}',
+							data: {
+								_token: token,
+								selectedOrders: selectedOrders,
+								selectedDrivers: selectedDrivers
+							},
+							success: function(data) {
+								console.log(data);
+								console.log(JSON.parse(data.mapRoutes))
+								console.log(JSON.parse(data.mapRoutes).length)
+								if (JSON.parse(data.mapRoutes).length > 0) {
+									$("#map_routes").val(data.mapRoutes);
+									$("#selectedOrdersMap").val(data.selectedOrders)
+									$("#selectedDriversMap").val(data.selectedDrivers)
 
 
-	        $('#warning-route-modal').modal('show');
-	        $('#warning-route-modal #routeErrorMessage').html(
-	         'The route optimization algorithm was unable to find optimal routes for the selected orders and deliverers'
-	         );
-	       }
+									$("#enableRouteOptimizationBtn").prop("disabled", false);
+									$("#enableRouteOptimizationBtn").html('Go to map view');
+									$("#enableRouteOptimizationBtn").removeClass("btn-doorder-grey");
+									$("#enableRouteOptimizationBtn").addClass("btn-doorder-green");
 
-	      }
-	     });
+									mapViewFlag = true;
+								} else {
 
-	     //{{ url('doorder/assign_orders_drivers') }}
-	     //$("#assignOrdersDrivers").submit();
-	    }
-	   }
-	  }
-	 });
+									$("#enableRouteOptimizationBtn").prop("disabled", false);
+									$("#enableRouteOptimizationBtn").html('Enable route optimization');
+									$("#enableRouteOptimizationBtn").removeClass("btn-doorder-grey");
+									$("#enableRouteOptimizationBtn").addClass("btn-doorder-primary");
+
+
+									$('#warning-route-modal').modal('show');
+									$('#warning-route-modal #routeErrorMessage').html(
+										'The route optimization algorithm was unable to find optimal routes for the selected orders and deliverers'
+									);
+								}
+
+							}
+						});
+
+						//{{ url('doorder/assign_orders_drivers') }}
+						//$("#assignOrdersDrivers").submit();
+					}
+				}
+			}
+		});
 	</script>
 @endsection

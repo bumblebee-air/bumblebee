@@ -299,11 +299,22 @@ class DashboardController extends Controller
         }
         $drivers_arr = json_encode($drivers_arr);
 
-        //
-        $thisWeekPercentage = -20;
+        // Week & Month percentages
+        /*$thisWeekPercentage = -20;
         $lastWeekPercentage = 18;
         $thisMonthPercentage = 25;
-        $lastMonthPercentage = 15;
+        $lastMonthPercentage = 15;*/
+        $thisWeekPercentage = Order::whereBetween('created_at', [Carbon::now()->startOfWeek()->toDateTimeString(), Carbon::now()->endOfWeek()->toDateTimeString()])->where('status', 'delivered')->count();
+        $lastWeekPercentage = Order::whereBetween('created_at', [Carbon::now()->subWeek()->startOfWeek()->toDateTimeString(), Carbon::now()->subWeek()->endOfWeek()->toDateTimeString()])->where('status', 'delivered')->count() ?: 1;
+        $lastlastWeekPercentage = Order::whereBetween('created_at', [Carbon::now()->subWeeks(2)->startOfWeek()->toDateTimeString(), Carbon::now()->subWeeks(2)->endOfWeek()->toDateTimeString()])->where('status', 'delivered')->count() ?: 1;
+        $thisWeekPercentage = (($thisWeekPercentage - $lastWeekPercentage) / $lastWeekPercentage) * 100;
+        $lastWeekPercentage = (($lastWeekPercentage - $lastlastWeekPercentage) / $lastlastWeekPercentage) * 100;
+
+        $thisMonthPercentage = Order::whereBetween('created_at', [Carbon::now()->startOfMonth()->toDateTimeString(), Carbon::now()->endOfMonth()->toDateTimeString()])->where('status', 'delivered')->count();
+        $lastMonthPercentage = Order::whereBetween('created_at', [Carbon::now()->subMonth()->startOfMonth()->toDateTimeString(), Carbon::now()->subMonth()->endOfMonth()->toDateTimeString()])->where('status', 'delivered')->count() ?: 1;
+        $lastlastMonthPercentage = Order::whereBetween('created_at', [Carbon::now()->subMonths(2)->startOfMonth()->toDateTimeString(), Carbon::now()->subMonths(2)->endOfMonth()->toDateTimeString()])->where('status', 'delivered')->count() ?: 1;
+        $thisMonthPercentage = (($thisMonthPercentage - $lastMonthPercentage) / $lastMonthPercentage) * 100;
+        $lastMonthPercentage = (($lastMonthPercentage - $lastlastMonthPercentage) / $lastlastMonthPercentage) * 100;
 
         // $week_chart_labels = array('Mon','Tue','Wed','Thu','Fri','Sat','Sun');
         // $last_week_chart_values = array(10,12,8,11,20,5,6);
@@ -314,14 +325,14 @@ class DashboardController extends Controller
         $orders = Order::get();
         foreach ($orders as $order) {
             $pickup_arr[] = [
-                'pickup_address' => $order->pickup_address,
+                'pickup_address' => preg_replace('/[^A-Za-z0-9\-]/', ' ',$order->pickup_address),
                 'pickup_lat' => $order->pickup_lat,
                 'pickup_lon' => $order->pickup_lon,
                 'retailer_name' => $order->retailer_name,
                 'order_id' => $order->order_id
             ];
             $dropoff_arr[] = [
-                'customer_address' => $order->customer_address,
+                'customer_address' => preg_replace('/[^A-Za-z0-9\-]/',' ',$order->customer_address),
                 'customer_address_lat' => $order->customer_address_lat,
                 'customer_address_lon' => $order->customer_address_lon,
                 'customer_name' => $order->customer_name,

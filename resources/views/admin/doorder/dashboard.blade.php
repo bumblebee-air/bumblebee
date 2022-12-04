@@ -514,8 +514,7 @@ function changeShowPinsSelect(){
 }
 function clickSearch(){
 	var searchVal = $("#search_map").val();
-	console.log(searchVal)
-	
+	//console.log(searchVal)
 	
    	customer_markers.forEach(function(marker,index){
        		marker.marker.setMap(null);
@@ -537,10 +536,8 @@ function clickSearch(){
         type:'GET',
         url: '{{url("doorder/search_map")}}'+'?search_val='+searchVal,
         success:function(data) {
-              console.log(data);
-              
-            
-              
+              //console.log(data);
+
               let pickup_position = {lat: parseFloat(data.pickup_pin.pickup_lat), lng: parseFloat(data.pickup_pin.pickup_lon)};
                     let pickupMarker = new google.maps.Marker({
                         map: map, 
@@ -678,9 +675,8 @@ function clickSearch(){
                    type:'GET',
                    url: '{{url("doorder/dashboard")}}'+'?from_date='+startDate+'&to_date='+endDate,
                    success:function(data) {
-                      console.log(data);
-                      
-                      console.log(data.all_orders_count);
+                      //console.log(data);
+					  //console.log(data.all_orders_count);
                      
                       $("#ordersValueH3").html(data.all_orders_count);
                       $("#ordersStatsTime").html("");
@@ -949,7 +945,7 @@ new Chartist.Line('.ct-chart', data, options, responsiveOptions);
             }
         }
         function drawPickupMarkers(pickup_arr){
-        	console.log(pickup_arr)
+        	//console.log(pickup_arr)
         	if(pickup_arr.length>0){
             	var i=0;
             	 pickup_arr.forEach(function(order,index){

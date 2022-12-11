@@ -374,6 +374,20 @@ class RetailerController extends Controller
             \Log::error('Extracting country/city from retailer edit failed '.
                 'with reason: '.$exception->getMessage());
         }
+        //Update the user account email with the email of first contact
+        try {
+            $contact_details = json_decode($request->contacts_details);
+            $main_contact = $contact_details[0];
+            $contact_email = $main_contact->contact_email;
+            $retailer_user = $retailer->user;
+            if($retailer_user->email != $contact_email){
+                $retailer_user->email = $contact_email;
+                $retailer_user->save();
+            }
+        } catch (\Exception $exception) {
+            \Log::error('Updating the retailer account email failed '.
+                'with reason: '.$exception->getMessage());
+        }
         if (auth()->user()->user_role == "retailer") {
             return redirect()->back();
         } else {

@@ -192,19 +192,38 @@ class MapRoutesConroller extends Controller
                 $item[0]->deliverer_first_letter = $letters;
                 return $item;
             });
-            Session::put('selectedDrivers', $request->selectedDrivers);
-            Session::put("selectedOrders", explode(',', $request->selectedOrders));
-            Session::put('mapRoutes', $response);
-
-            return response()->json(array(
-                "msg" => "Done",
-                "selectedOrders" => explode(',', $request->selectedOrders),
-                "selectedDrivers" => $request->selectedDrivers,
-                "mapRoutes" => json_encode($response)
-            ));
         } catch (\Throwable $th) {
             return $th->getMessage();
         }
+        try {
+            //Add ETAs to the orders
+            $cumulative_eta = Carbon::now();
+            foreach ($response as $key => $route_point) {
+                //skip driver's point
+                if ($key == 0) continue;
+                $order_id = $route_point->order_id;
+                $the_eta = $route_point->ETA;
+                $cumulative_eta->addMinutes(intval($the_eta));
+                $the_order = Order::find($order_id);
+                if ($the_order) {
+                    $the_order->the_eta = $cumulative_eta->toTimeString();
+                    $the_order->save();
+                }
+            }
+        } catch (\Exception $exception){
+            \Log::error('Extracting ETA from optimized route failed with reason: '.
+                $exception->getMessage());
+        }
+        Session::put('selectedDrivers', $request->selectedDrivers);
+        Session::put("selectedOrders", explode(',', $request->selectedOrders));
+        Session::put('mapRoutes', $response);
+
+        return response()->json(array(
+            "msg" => "Done",
+            "selectedOrders" => explode(',', $request->selectedOrders),
+            "selectedDrivers" => $request->selectedDrivers,
+            "mapRoutes" => json_encode($response)
+        ));
     }
 
     public function getMapRoutes(Request $request)
@@ -261,7 +280,7 @@ class MapRoutesConroller extends Controller
 
     private function SendNotification($order_id, $user)
     {
-        $notification_message = "Order #$order_id) has been assigned to you";
+        $notification_message = "Order #$order_id has been assigned to you";
         $sms_message = "Hi $user->name, there is an order assigned to you, please open your app. " .
             url('driver_app#/order-details/' . $order_id);
         //Send Assignment Notification

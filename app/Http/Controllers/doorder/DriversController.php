@@ -240,40 +240,34 @@ class DriversController extends Controller
             }
             if ($status != 'accepted' && $status != 'rejected') {
                 $order->driver_status = $status;
+                $retailer_name = $order->retailer_name;
+                $order_no = $order->order_id;
                 if ($status == 'on_route_pickup') {
                     $order->status = $status;
                     $timestamps->on_the_way_first = $current_timestamp;
                 } elseif ($status == 'picked_up') {
                     $order->status = $status;
                     $timestamps->arrived_first = $current_timestamp;
+                    //Send ETA SMS to the customer if available
+                    if($order->the_eta!=null){
+                        $eta_c = new Carbon($order->the_eta);
+                        $customer_eta_from = $eta_c->roundMinute(30)->format("H:i");
+                        $customer_eta_to = $eta_c->addHour()->format("H:i");
+                        $body = "Dear $order->customer_name your $retailer_name order no. $order_no will be delivered to you between ".
+                            "$customer_eta_from - $customer_eta_to today. ".
+                            "You can also track your delivery at this link ".
+                            url('customer/order/' . $order->customer_confirmation_code);
+                        $this->sendCustomerSMS($order,$body);
+                    }
                 } elseif ($status == 'on_route') {
                     $order->status = $status;
                     $timestamps->on_the_way_second = $current_timestamp;
                     //Send the customer order url for tracking & qr code
                     $order->customer_confirmation_code = ($order->customer_confirmation_code == null) ? Str::random(8) : $order->customer_confirmation_code;
                     $order->delivery_confirmation_code = ($order->delivery_confirmation_code == null) ? Str::random(32) : $order->delivery_confirmation_code;
-                    $retailer_name = $order->retailer_name;
-                    try {
-                        $sid = env('TWILIO_SID', '');
-                        $token = env('TWILIO_AUTH', '');
-                        $twilio = new Client($sid, $token);
-                        //url('customer/delivery_confirmation/' . $order->customer_confirmation_code)
-                        $sender_name = "DoOrder";
-                        foreach ($this->unallowed_sms_alpha_codes as $country_code) {
-                            if (strpos($order->customer_phone, $country_code) !== false) {
-                                $sender_name = env('TWILIO_NUMBER', 'DoOrder');
-                            }
-                        }
-                        $twilio->messages->create(
-                            $order->customer_phone,
-                            [
-                                "from" => $sender_name,
-                                "body" => "Hi $order->customer_name, Your $retailer_name order is on the way. You can track your order here: " . url('customer/order/' . $order->customer_confirmation_code)
-                            ]
-                        );
-                    } catch (\Exception $exception) {
-                        \Log::error($exception->getMessage());
-                    }
+                    //url('customer/delivery_confirmation/' . $order->customer_confirmation_code)
+                    $body = "Hi $order->customer_name, Your $retailer_name order is on the way. You can track your order here: " . url('customer/order/' . $order->customer_confirmation_code);
+                    $this->sendCustomerSMS($order,$body);
                 } elseif ($status == 'delivery_arrived') {
                     $order->status = $status;
                     $timestamps->arrived_second = $current_timestamp;
@@ -1440,10 +1434,21 @@ class DriversController extends Controller
         $optimized_route_arr = $optimized_route_resp[0];
         //Remove the first item (driver's current coordinates)
         array_shift($optimized_route_arr);
+        $cumulative_eta = Carbon::now();
         foreach ($optimized_route_arr as $route_item) {
             $the_order = $orders->firstWhere('id', $route_item->order_id);
             $route_item->status = ($the_order->driver_status != null) ? $the_order->driver_status : $the_order->status;
             $route_item->retailer_id = $the_order->retailer_id;
+            try {
+                //Add ETA to the order
+                $the_eta = $route_item->ETA;
+                $cumulative_eta->addMinutes(intval($the_eta));
+                $the_order->the_eta = $cumulative_eta->toTimeString();
+                $the_order->save();
+            } catch (\Exception $exception){
+                \Log::error('Extracting ETA from optimized route failed with reason: '.
+                    $exception->getMessage());
+            }
         }
         return response()->json([
             'errors' => 0,
@@ -1470,5 +1475,28 @@ class DriversController extends Controller
             $driver->overall_rating = 4;
         }
         return view('admin.doorder.drivers.accepted_drivers', ['drivers' => $drivers, 'selectedOrders' => $selectedOrders]);
+    }
+
+    private function sendCustomerSMS($order_details,$body){
+        try {
+            $sid = env('TWILIO_SID', '');
+            $token = env('TWILIO_AUTH', '');
+            $twilio = new Client($sid, $token);
+            $sender_name = "DoOrder";
+            foreach ($this->unallowed_sms_alpha_codes as $country_code) {
+                if (strpos($order_details->customer_phone, $country_code) !== false) {
+                    $sender_name = env('TWILIO_NUMBER', 'DoOrder');
+                }
+            }
+            $twilio->messages->create(
+                $order_details->customer_phone,
+                [
+                    "from" => $sender_name,
+                    "body" => $body
+                ]
+            );
+        } catch (\Exception $exception) {
+            \Log::error($exception->getMessage());
+        }
     }
 }

@@ -1483,8 +1483,10 @@ class DriversController extends Controller
             $token = env('TWILIO_AUTH', '');
             $twilio = new Client($sid, $token);
             $sender_name = "DoOrder";
+            $trial_mode = env('TWILIO_TRIAL');
             foreach ($this->unallowed_sms_alpha_codes as $country_code) {
-                if (strpos($order_details->customer_phone, $country_code) !== false) {
+                if (strpos($order_details->customer_phone, $country_code) !== false
+                    || $trial_mode!=null) {
                     $sender_name = env('TWILIO_NUMBER', 'DoOrder');
                 }
             }

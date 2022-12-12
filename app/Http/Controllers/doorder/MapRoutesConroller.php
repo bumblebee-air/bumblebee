@@ -182,14 +182,16 @@ class MapRoutesConroller extends Controller
             $response = json_decode($response);
             //  dd($response);
             $response = collect($response)->map(function ($item) {
+                //Add driver's name initials to the route
                 $driver = DriverProfile::find($item[0]->deliverer_id);
                 $item[0]->deliverer_name = $driver->user->name;
-                // $words = preg_split("/\s+/", $driver->user->name);
                 $letters = strtoupper($driver->first_name[0]) . strtoupper($driver->last_name[0]);
-                //                 foreach ($words as $w) {
-                //                     $letters .= strtoupper($w[0]);
-                //                 }
+                // $words = preg_split("/\s+/", $driver->user->name);
+                // foreach ($words as $w) {
+                //  $letters .= strtoupper($w[0]);
+                // }
                 $item[0]->deliverer_first_letter = $letters;
+
                 return $item;
             });
         } catch (\Throwable $th) {
@@ -197,17 +199,19 @@ class MapRoutesConroller extends Controller
         }
         try {
             //Add ETAs to the orders
-            $cumulative_eta = Carbon::now();
-            foreach ($response as $key => $route_point) {
-                //skip driver's point
-                if ($key == 0) continue;
-                $order_id = $route_point->order_id;
-                $the_eta = $route_point->ETA;
-                $cumulative_eta->addMinutes(intval($the_eta));
-                $the_order = Order::find($order_id);
-                if ($the_order) {
-                    $the_order->the_eta = $cumulative_eta->toTimeString();
-                    $the_order->save();
+            foreach ($response as $driver_route) {
+                $cumulative_eta = Carbon::now();
+                foreach ($driver_route as $key => $route_point) {
+                    //skip driver's point
+                    if ($key == 0) continue;
+                    $order_id = $route_point->order_id;
+                    $the_eta = $route_point->ETA;
+                    $cumulative_eta->addMinutes(intval($the_eta));
+                    $the_order = Order::find($order_id);
+                    if ($the_order) {
+                        $the_order->the_eta = $cumulative_eta->toTimeString();
+                        $the_order->save();
+                    }
                 }
             }
         } catch (\Exception $exception){

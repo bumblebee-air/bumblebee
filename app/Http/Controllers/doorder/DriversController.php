@@ -113,6 +113,14 @@ class DriversController extends Controller
             $scanned_order_qr_codes = $driver_order->qr_codes()->where('model','=','order')
                 ->where('model_sub','=','label')->where('scanned','=',1)->count();
             $driver_order->scanned_items_count = $scanned_order_qr_codes;
+            //calculate order remaining time from 24hr window
+            $now = new Carbon('now');
+            $plus24H = new Carbon($driver_order->created_at);
+            $plus24H->addHours(24);
+            $remaining_hours = $now->diffInHours($plus24H,false);
+            //If negative then the time has passed
+            $remaining_hours = ($remaining_hours < 0)? 0 : $remaining_hours;
+            $driver_order->remaining_hours = $remaining_hours;
         }
         $driver_orders = $driver_orders->toArray();
         $response = [
@@ -249,7 +257,7 @@ class DriversController extends Controller
                     $order->status = $status;
                     $timestamps->arrived_first = $current_timestamp;
                     //Send ETA SMS to the customer if available
-                    if($order->the_eta!=null){
+                    if($order->the_eta!=null && $order->customer_confirmation_code!=null){
                         $eta_c = new Carbon($order->the_eta);
                         $customer_eta_from = $eta_c->roundMinute(30)->format("H:i");
                         $customer_eta_to = $eta_c->addHour()->format("H:i");

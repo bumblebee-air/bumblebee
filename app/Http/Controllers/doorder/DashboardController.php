@@ -320,9 +320,12 @@ class DashboardController extends Controller
         // $last_week_chart_values = array(10,12,8,11,20,5,6);
         // $this_week_chart_values = array(12,15,10,10,14,6,7);
 
+        //Pickup & Dropoff points for map pins
         $pickup_arr = [];
         $dropoff_arr = [];
-        $orders = Order::get();
+        //Get only non completed orders
+        $orders = Order::where('is_archived', false)
+            ->where('status', '!=', 'delivered')->get();
         foreach ($orders as $order) {
             $pickup_arr[] = [
                 'pickup_address' => preg_replace('/[^A-Za-z0-9\-]/', ' ',$order->pickup_address),

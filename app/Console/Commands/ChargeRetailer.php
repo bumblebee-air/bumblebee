@@ -56,6 +56,10 @@ class ChargeRetailer extends Command
             return false;
         } else {
             $day_of_charge = $day_of_retailer_charging->the_value ?? 1;
+            //TEMPORARILY DISABLED RETAILER AUTO CHARGING
+            $this->info('Retailer auto charging is currently temporarily disabled!');
+            return false;
+            //REMOVE ABOVE TO RESUME AUTO CHARGING
         }
         $this->info('Currently set day of charging: '.$day_of_charge);
         $current_day_time = Carbon::now();
@@ -89,10 +93,12 @@ class ChargeRetailer extends Command
             $this->info($log_text.', exiting!');
             \Log::info($log_text);
             return false;
-        }
-        foreach($retailers as $retailer) {
-            if ($retailer->stripe_customer_id) {
-                $this->chargeRetailer($retailer,$startOfMonth,$endOfMonth,$prev_month);
+        } else {
+            foreach($retailers as $retailer) {
+                $retailer_charging_day = $retailer->charging_day;
+                if ($retailer->stripe_customer_id && $retailer_charging_day==null) {
+                    $this->chargeRetailer($retailer,$startOfMonth,$endOfMonth,$prev_month);
+                }
             }
         }
         $this->info('Finished automatic charge retailer function');

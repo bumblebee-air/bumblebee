@@ -26,17 +26,17 @@ class InvoiceOrderExport implements FromArray, WithHeadings
     public function array():array
     {
         $exportable_array = [];
-        $exportable_array[] = ['Order no.','Retailer','Status','Pickup address','Delivery address',
-            'Deliverer','Skip QR code reason','Charge'];
+        /*$exportable_array[] = ['Order no.','Retailer','Status','Pickup address','Delivery address',
+            'Deliverer','Skip QR code reason','Charge'];*/
         $invoices = Order::where('status','=','delivered');
         if ($this->retailer_id != null){
             $invoices = $invoices->where('retailer_id','=',$this->retailer_id);
         }
         if ($this->from) {
-            $invoices = $invoices->where('created_at', '>=', Carbon::parse($this->from)->toDateTimeString());
+            $invoices = $invoices->where('created_at', '>=', Carbon::parse($this->from)->startOfDay()->toDateTimeString());
         }
         if ($this->to) {
-            $invoices = $invoices->where('created_at', '<=', Carbon::parse($this->to)->toDateTimeString());
+            $invoices = $invoices->where('created_at', '<=', Carbon::parse($this->to)->endOfDay()->toDateTimeString());
         }
         $invoices = $invoices->where('is_archived', false)->get();
 
@@ -63,9 +63,10 @@ class InvoiceOrderExport implements FromArray, WithHeadings
             'Order Number',
             'Retailer Name',
             'Status',
-            'Deliverer',
             'Pickup Address',
             'Delivery Address',
+            'Deliverer',
+            'Skip QR code reason',
             'Charge',
         ];
     }

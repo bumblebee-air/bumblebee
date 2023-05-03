@@ -68,8 +68,8 @@ class ChargeRetailer extends Command
         $current_day = $current_day_time->day;
         $retailers = Retailer::all();
         $prev_month = $current_day_time->subMonth()->startOfMonth();
-        $startOfMonth = Carbon::now()->startOfMonth()->subMonth()->startOfMonth()->toDateTimeString();
-        $endOfMonth = Carbon::now()->startOfMonth()->subMonth()->endOfMonth()->toDateTimeString();
+        $startOfMonth = Carbon::now()->startOfMonth()->subMonth()->startOfMonth()->startOfDay()->toDateTimeString();
+        $endOfMonth = Carbon::now()->startOfMonth()->subMonth()->endOfMonth()->endOfDay()->toDateTimeString();
         Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
         if($current_day != $day_of_charge){
             $retailers_override_count = 0;

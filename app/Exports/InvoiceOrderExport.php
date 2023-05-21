@@ -28,7 +28,7 @@ class InvoiceOrderExport implements FromArray, WithHeadings
         $exportable_array = [];
         /*$exportable_array[] = ['Order no.','Retailer','Status','Pickup address','Delivery address',
             'Deliverer','Skip QR code reason','Charge'];*/
-        $invoices = Order::where('status','=','delivered');
+        $invoices = Order::with('orderTimestamps')->where('status','=','delivered');
         if ($this->retailer_id != null){
             $invoices = $invoices->where('retailer_id','=',$this->retailer_id);
         }
@@ -41,6 +41,7 @@ class InvoiceOrderExport implements FromArray, WithHeadings
         $invoices = $invoices->where('is_archived', false)->get();
 
         foreach ($invoices as $invoice) {
+            $order_timestamps = $invoice->orderTimestamps;
             $exportable_array[] = [
                 Carbon::parse($invoice->created_at)->toDateTimeString(),
                 $invoice->order_id,
@@ -50,6 +51,8 @@ class InvoiceOrderExport implements FromArray, WithHeadings
                 $invoice->customer_address,
                 $invoice->orderDriver ? $invoice->orderDriver->name: 'N/A',
                 $invoice->delivery_confirmation_skip_reason ?: '',
+                $order_timestamps!=null ? $order_timestamps->arrived_second: 'N/A',
+                $order_timestamps!=null ? $order_timestamps->completed: 'N/A',
                 '€10',
             ];
         }
@@ -67,6 +70,8 @@ class InvoiceOrderExport implements FromArray, WithHeadings
             'Delivery Address',
             'Deliverer',
             'Skip QR code reason',
+            'Driver Arrived at',
+            'Delivered at',
             'Charge',
         ];
     }

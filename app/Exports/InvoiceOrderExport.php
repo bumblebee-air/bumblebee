@@ -51,7 +51,7 @@ class InvoiceOrderExport implements FromArray, WithHeadings
                 $invoice->customer_address,
                 $invoice->orderDriver ? $invoice->orderDriver->name: 'N/A',
                 $invoice->delivery_confirmation_skip_reason ?: '',
-                $order_timestamps!=null ? $order_timestamps->arrived_second: 'N/A',
+                $order_timestamps!=null ? $order_timestamps->arrived_first: 'N/A',
                 $order_timestamps!=null ? $order_timestamps->completed: 'N/A',
                 '€10',
             ];

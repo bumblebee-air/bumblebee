@@ -72,10 +72,10 @@
 									id="dashboardFilterRowDiv">
 
 									<div class="col-xl-5 col-sm-6 px-md-1">
-										<a id="importButton"
+										<!--<a id="importButton"
 											class=" btn-doorder-filter btn-doorder-filter-grey w-100"
 											href="{{url('doorder/orders/upload_orders')}}">Upload mass
-											order</a>
+											order</a>-->
 									</div>
 								</div>
 							</div>

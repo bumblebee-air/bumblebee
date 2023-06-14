@@ -433,7 +433,8 @@ Route::group(
             ], function () {
                 Route::get('orders/add', 'doorder\OrdersController@addNewOrder')->name('doorder_addNewOrder');
                 Route::post('orders/save', 'doorder\OrdersController@saveNewOrder')->name('doorder_saveNewOrder');
-                Route::get('orders/upload_orders', 'doorder\OrdersController@importOrders')->name('doorder_uploadOrders');
+                //Disabled mass orders upload based on client request
+                //Route::get('orders/upload_orders', 'doorder\OrdersController@importOrders')->name('doorder_uploadOrders');
                 Route::get('orders/print_label/{id}', 'doorder\OrdersController@printLabel')->name('doorder_printLabel');
             });
 
